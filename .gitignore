@@ -1,0 +1,19 @@
+/node_modules
+/public/hot
+/public/storage
+/public/arquivo
+/storage/*.key
+/vendor
+/documentacao
+/.idea
+/.vscode
+/.vagrant
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.env
+>>>leia-me<<<
+pacotes.txt
+lista permissoes.txt
+includes.php

@@ -1,0 +1,102 @@
+{
+    "name": "laravel/laravel",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": "^7.1.3",
+        "big-shark/sql-to-builder": "^1.0@dev",
+        "consoletvs/charts": "^6.2",
+        "fideloper/proxy": "^4.0",
+        "grimthorr/laravel-toast": "^1.1",
+        "jeroennoten/laravel-adminlte": "^1.23",
+        "laravel/framework": "5.5.*",
+        "laravel/tinker": "^1.0",
+        "laravelcollective/html": "^5.2.0",
+        "maddhatter/laravel-fullcalendar": "^1.3",
+        "predis/predis": "0.8.4",
+        "reliese/laravel": "^0.0.13",
+        "spatie/laravel-activitylog": "^2.5",
+        "spatie/laravel-permission": "^2.11",
+        "swiftmailer/swiftmailer": "^6.0"
+    },
+    "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.1",
+        "filp/whoops": "^2.0",
+        "fx3costa/laravelchartjs": "^2.5",
+        "fzaninotto/faker": "^1.4",
+        "laralabs/toaster": "~2.0.1",
+        "mockery/mockery": "^1.0",
+        "nunomaduro/collision": "^2.0",
+        "phpunit/phpunit": "^7.0",
+        "squizlabs/php_codesniffer": "^3.3",
+        "xethron/migrations-generator": "^2.0"
+    },
+    "autoload": {
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ],
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "app/Helpers/arquivo/file_save.php",
+            "app/Helpers/arquivo/arquivo.php",
+            "app/Helpers/dados/sistema.php",
+            "app/Helpers/dados/pm.php",
+            "app/Helpers/dados/proc_id.php",
+            "app/Helpers/date/dif_dias.php",
+            "app/Helpers/date/idade.php",
+            "app/Helpers/date/tempo_svc.php",
+            "app/Helpers/date/data_bd.php",
+            "app/Helpers/date/data_br.php",
+            "app/Helpers/date/dias_feriados.php",
+            "app/Helpers/formatacao/special_ucwords.php",
+            "app/Helpers/formatacao/mask.php",
+            "app/Helpers/formatacao/tira_acentos.php",
+            "app/Helpers/formatacao/limpa_formatacao.php",
+            "app/Helpers/opm/corta_zeros.php",
+            "app/Helpers/opm/completa_zeros.php",
+            "app/Helpers/opm/opm.php",
+            "app/Helpers/validacao/hasPermission.php",
+            "app/Helpers/validacao/hasRole.php",
+            "app/Helpers/validacao/ver_superior.php",
+            "app/Helpers/validacao/ver_unidade.php",
+            "app/Helpers/subformulario/ligacao.php",
+            "app/Helpers/subformulario/envolvido.php",
+            "app/Helpers/subformulario/ofendido.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+            ]
+        }
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
