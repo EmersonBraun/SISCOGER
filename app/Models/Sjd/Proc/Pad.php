@@ -74,7 +74,12 @@ class Pad extends Eloquent
 		'fato_data',
 		'portaria_data',
 		'abertura_data'
-	];
+    ];
+    
+    public static $files = [
+        'relatorio_file',
+		'solucao_file',
+    ];
 
 	protected $fillable = [
 		'id_andamento',

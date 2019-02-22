@@ -10,8 +10,13 @@ if (! function_exists('ver_superior'))
         //verifica se o procedimento é de superior
         if(isset($envolvido))
         {
-            foreach ($envolvido as $e) {
-                if(sistema('posto',session()->get('cargo')) > sistema('posto',$e['cargo'])) $ehsuperior = 1;
+            foreach ($envolvido as $e) 
+            {
+                if(sistema('posto',session()->get('cargo')) > sistema('posto',$e['cargo'])) 
+                {
+                    $ehsuperior = 1;
+                    break;
+                }
             }
         }
 

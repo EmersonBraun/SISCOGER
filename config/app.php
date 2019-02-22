@@ -225,6 +225,48 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Toast' => Grimthorr\LaravelToast\Facade::class,
 
+        /*
+         * Aliase for API
+         */
+        // PSWD
+        'ApiTransferencias' => App\Http\Controllers\_Api\PSWD\TransferenciasApiController::class,
+        // RHPR
+        'ApiOPM' => App\Http\Controllers\_Api\RHPR\OPMApiController::class,
+        'ApiPM' => App\Http\Controllers\_Api\RHPR\PolicialApiController::class,
+        // SJD PM
+        'ApiComportamento' => App\Http\Controllers\_Api\SJD\PM\ComportamentoApiController::class,
+        'ApiDenunciados' => App\Http\Controllers\_Api\SJD\PM\DenunciadosApiController::class,
+        'ApiElogios' => App\Http\Controllers\_Api\SJD\PM\ElogiosApiController::class,
+        'ApiExcluidos' => App\Http\Controllers\_Api\SJD\PM\ExcluidosApiController::class,
+        'ApiMedalhas' => App\Http\Controllers\_Api\SJD\PM\MedalhasApiController::class,
+        'ApiMortosFeridos' => App\Http\Controllers\_Api\SJD\PM\MortosFeridosApiController::class,
+        'ApiObitosLesoes' => App\Http\Controllers\_Api\SJD\PM\ObitosLesoesApiController::class,
+        'ApiPresos' => App\Http\Controllers\_Api\SJD\PM\PresosApiController::class,
+        'ApiProcedimento' => App\Http\Controllers\_Api\SJD\PM\ProcedimentoApiController::class,
+        'ApiPunidos' => App\Http\Controllers\_Api\SJD\PM\PunidosApiController::class,
+        'ApiReintegrados' => App\Http\Controllers\_Api\SJD\PM\ReintegradosApiController::class,
+        'ApiRespondendo' => App\Http\Controllers\_Api\SJD\PM\RespondendoApiController::class,
+        'ApiRestricoes' => App\Http\Controllers\_Api\SJD\PM\ComportamentoApiController::class,
+        'ApiSai' => App\Http\Controllers\_Api\SJD\PM\SaiApiController::class,
+        'ApiSuspensos' => App\Http\Controllers\_Api\SJD\PM\SuspensosApiController::class,
+        // SJD Proc
+        'ApiAdl' => App\Http\Controllers\_Api\SJD\Proc\AdlApiController::class,
+        'ApiApfd' => App\Http\Controllers\_Api\SJD\Proc\ApfdApiController::class,
+        'ApiCd' => App\Http\Controllers\_Api\SJD\Proc\CdApiController::class,
+        'ApiCj' => App\Http\Controllers\_Api\SJD\Proc\CjApiController::class,
+        'ApiDesercao' => App\Http\Controllers\_Api\SJD\Proc\DesercaoApiController::class,
+        'ApiExclusao' => App\Http\Controllers\_Api\SJD\Proc\ExclusaoApiController::class,
+        'ApiFatd' => App\Http\Controllers\_Api\SJD\Proc\FatdApiController::class,
+        'ApiIpm' => App\Http\Controllers\_Api\SJD\Proc\IpmApiController::class,
+        'ApiIso' => App\Http\Controllers\_Api\SJD\Proc\IsoApiController::class,
+        'ApiIt' => App\Http\Controllers\_Api\SJD\Proc\ItApiController::class,
+        'ApiMovimento' => App\Http\Controllers\_Api\SJD\Proc\MovimentoApiController::class,
+        'ApiPad' => App\Http\Controllers\_Api\SJD\Proc\PadApiController::class,
+        'ApiProcOutros' => App\Http\Controllers\_Api\SJD\Proc\ProcOutrosApiController::class,
+        'ApiRecurso' => App\Http\Controllers\_Api\SJD\Proc\RecursoApiController::class,
+        'ApiSindicancia' => App\Http\Controllers\_Api\SJD\Proc\SindicanciaApiController::class,
+        'ApiSobrestamento' => App\Http\Controllers\_Api\SJD\Proc\SobrestamentoApiController::class,
+
     ],
 
 ];

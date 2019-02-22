@@ -65,13 +65,10 @@ class Cd extends Eloquent
 		'fato_data',
 		'abertura_data',
 		'sintese_txt',
-		'libelo_file',
 		'doc_tipo',
 		'doc_numero',
 		'portaria_numero',
 		'portaria_data',
-		'parecer_file',
-		'decisao_file',
 		'doc_prorrogacao',
 		'sjd_ref',
 		'sjd_ref_ano',
@@ -79,15 +76,18 @@ class Cd extends Eloquent
 		'parecer_comissao',
 		'parecer_cmtgeral',
 		'exclusao_txt',
-		'rec_ato_file',
-		'rec_gov_file',
 		'cdopm',
 		'ac_desempenho_bl',
 		'ac_conduta_bl',
 		'ac_honra_bl',
+		'prioridade'
+		'libelo_file',
+		'parecer_file',
+		'decisao_file',
+		'rec_ato_file',
+		'rec_gov_file',
 		'tjpr_file',
 		'stj_file',
-		'prioridade'
 	];
 	
 	protected $table = 'cd';
@@ -110,7 +110,17 @@ class Cd extends Eloquent
 		'abertura_data',
 		'portaria_data',
 		'prescricao_data'
-	];
+    ];
+    
+    public static $files = [
+        'libelo_file',
+		'parecer_file',
+		'decisao_file',
+		'rec_ato_file',
+		'rec_gov_file',
+		'tjpr_file',
+		'stj_file',
+    ];
 
 	protected $fillable = [
 		'id_andamento',

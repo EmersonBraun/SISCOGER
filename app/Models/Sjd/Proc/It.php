@@ -79,7 +79,13 @@ class It extends Eloquent
 		'relatorio_data',
 		'solucao_unidade_data',
 		'solucao_complementar_data'
-	];
+    ];
+    
+    public static $files = [
+        'relatorio_file',
+		'solucao_unidade_file',
+		'solucao_complementar_file',
+    ];
 
 	protected $fillable = [
 		'id_andamento',
@@ -115,12 +121,12 @@ class It extends Eloquent
 		'identificacao_municao',
 		'identificacao_semovente',
 		'outros',
-		'relatorio_file',
 		'relatorio_data',
-		'solucao_unidade_file',
 		'solucao_unidade_data',
-		'solucao_complementar_file',
 		'solucao_complementar_data',
+		'relatorio_file',
+		'solucao_unidade_file',
+		'solucao_complementar_file',
 		'prioridade'
 	];
 

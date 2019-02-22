@@ -23,7 +23,7 @@ class ProcOutrosController extends Controller
 {
     public function index()
     {
-        return redirect()->route('proc_outros.lista');
+        return redirect()->route('procoutros.lista');
     }
 
     public function lista()
@@ -122,7 +122,7 @@ class ProcOutrosController extends Controller
         $envolvido = Envolvido::acusado()->where('id_proc_outros','=',$proc->id_proc_outros)->first();
 
         //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
+        ver_superior($envolvido, Auth::user());
 
         //----ofendido no procedimento
         $ofendidos = Ofendido::ofendido('id_proc_outros',$proc->id_proc_outros)->first();
@@ -149,13 +149,13 @@ class ProcOutrosController extends Controller
         $proc = ProcOutro::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
+        ver_unidade($proc);
 
         //----envolvido do procedimento
         $envolvido = Envolvido::acusado()->where('id_proc_outros','=',$proc->id_proc_outros)->first();
 
         //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
+        ver_superior($envolvido, Auth::user());
 
         //----ofendido no procedimento
         $ofendido = Ofendido::ofendido('id_proc_outros',$proc->id_proc_outros)->first();
@@ -220,7 +220,7 @@ class ProcOutrosController extends Controller
         //----levantar procedimento
         $proc = ProcOutro::ref_ano($ref, $ano)->first();
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
+        ver_unidade($proc);
 
         $movimentos = Movimento::where('id_proc_outros','=',$proc->id_proc_outros)->get();
         $sobrestamentos = Sobrestamento::where('id_proc_outros','=',$proc->id_proc_outros)->get();
@@ -234,7 +234,7 @@ class ProcOutrosController extends Controller
         $proc = ProcOutro::ref_ano($ref, $ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
+        ver_unidade($proc);
 
         $movimentos = Movimento::where('id_proc_outros','=',$proc->id_proc_outros)->get();
         $sobrestamentos = Sobrestamento::where('id_proc_outros','=',$proc->id_proc_outros)->get();

@@ -98,7 +98,19 @@ class Fatd extends Eloquent
 		'fato_data',
 		'abertura_data',
 		'portaria_data'
-	];
+    ];
+    
+    public static $files = [
+        'fato_file',
+		'relatorio_file',
+		'sol_cmt_file',
+		'sol_cg_file',
+		'rec_ato_file',
+		'rec_cmt_file',
+		'rec_crpm_file',
+		'rec_cg_file',
+		'notapunicao_file',
+    ];
 
 	protected $fillable = [
 		'id_andamento',
@@ -114,6 +126,12 @@ class Fatd extends Eloquent
 		'doc_origem_txt',
 		'despacho_numero',
 		'portaria_data',
+		'opm_meta4',
+		'publicacaonp',
+		'prioridade',
+		'situacao_fatd',
+		'motivo_fatd',
+		'motivo_outros',
 		'fato_file',
 		'relatorio_file',
 		'sol_cmt_file',
@@ -122,13 +140,7 @@ class Fatd extends Eloquent
 		'rec_cmt_file',
 		'rec_crpm_file',
 		'rec_cg_file',
-		'opm_meta4',
 		'notapunicao_file',
-		'publicacaonp',
-		'prioridade',
-		'situacao_fatd',
-		'motivo_fatd',
-		'motivo_outros'
 	];
 
 	//query scope - para auxir a montagem da query

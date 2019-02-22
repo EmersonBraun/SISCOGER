@@ -110,7 +110,13 @@ class ProcOutro extends Eloquent
 		'relatorio2_data',
 		'relatorio3_data',
 		'limite_data'
-	];
+    ];
+    
+    public static $files = [
+        'relatorio1_file',
+        'relatorio2_file',
+        'relatorio3_file',
+    ];
 
 	protected $fillable = [
 		'sjd_ref',

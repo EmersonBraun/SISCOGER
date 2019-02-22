@@ -1,7 +1,6 @@
 @extends('adminlte::master')
 
 @section('adminlte_css')
-    <!--<link rel="stylesheet" href="{{ asset('public/vendor/adminlte/plugins/iCheck/square/blue.css') }}">-->
     <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/css/auth.css') }}">
     @yield('css')
 @stop
@@ -22,7 +21,7 @@
 
                 <div class="form-group has-feedback {{ $errors->has('rg') ? 'has-error' : '' }}">
                     <input type="text" name="rg" id="rg" class="form-control" value="{{ old('rg') }}"
-                           placeholder="RG">
+                           placeholder="RG" >
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     @if ($errors->has('rg'))
                         <span class="help-block">

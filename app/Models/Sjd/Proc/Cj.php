@@ -85,9 +85,9 @@ class Cj extends Eloquent
 		'ac_desempenho_bl',
 		'ac_conduta_bl',
 		'ac_honra_bl',
+		'prioridade'
 		'tjpr_file',
 		'stj_file',
-		'prioridade'
 	];
 	
 	protected $table = 'cj';
@@ -110,7 +110,17 @@ class Cj extends Eloquent
 		'abertura_data',
 		'portaria_data',
 		'prescricao_data'
-	];
+    ];
+    
+    public static $files = [
+        'libelo_file',
+		'parecer_file',
+		'decisao_file',
+		'rec_ato_file',
+		'rec_gov_file',
+		'tjpr_file',
+		'stj_file',
+    ];
 
 	protected $fillable = [
 		'id_andamento',
@@ -125,23 +135,23 @@ class Cj extends Eloquent
 		'fato_data',
 		'abertura_data',
 		'sintese_txt',
-		'libelo_file',
 		'doc_tipo',
 		'doc_numero',
 		'portaria_numero',
 		'portaria_data',
-		'parecer_file',
-		'decisao_file',
 		'doc_prorrogacao',
 		'numero_tj',
 		'prescricao_data',
 		'exclusao_txt',
-		'rec_ato_file',
-		'rec_gov_file',
 		'opm_meta4',
 		'ac_desempenho_bl',
 		'ac_conduta_bl',
 		'ac_honra_bl',
+		'libelo_file',
+		'parecer_file',
+		'decisao_file',
+		'rec_ato_file',
+		'rec_gov_file',
 		'tjpr_file',
 		'stj_file',
 		'prioridade'

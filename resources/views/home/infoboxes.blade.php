@@ -1,6 +1,8 @@
 <div class="row"><!-- ***********Info box FATD*********** -->
 
     <div class="col-lg-3 col-md-3 col-xs-6">
+        {{-- <br-infobox title="FATD" bg="aqua" icon="balance-scale" value="{{$fatd_total}}" route="#" text="Mais Informações">
+        </br-infobox> --}}
         @component('components.infobox',
         [
             'title' => 'FATD',

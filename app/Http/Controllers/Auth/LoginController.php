@@ -156,23 +156,15 @@ class LoginController extends Controller
                    
     }
 
-    public function logout(User $user, LogAcesso $logacesso)
+    public function logout(User $user)
     {
-        //$ip = $_SERVER["REMOTE_ADDR"];
-         //salva dados de log
-        /*$logacesso->rg = session()->get('rg');
-        $logacesso->nome = session()->get('nome');
-        $logacesso->tipo = 'logout';
-        $logacesso->created_at = \Carbon\Carbon::now();
-        $logacesso->ip = $ip;
-        $logacesso->save();*/
         Auth::logout();
         return redirect()->intended('login');
     }
 
-    public function home()
-    {
-        return view('vendor.adminlte.page'); 
-    }
+    // public function home()
+    // {
+    //     return view('vendor.adminlte.page'); 
+    // }
 
 }

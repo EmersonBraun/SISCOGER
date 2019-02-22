@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('acess/rhpr/{name?}', ['as' =>'api.opm','uses'=>'_Api\RHPR\OPMApiController@omsjd']);
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

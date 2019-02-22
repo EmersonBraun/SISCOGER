@@ -1,4 +1,5 @@
 @php
+    $base = 'http://10.22.9.210/sjd/arquivo/';
     $arquivo = (!isset($arquivo)) ? NULL : $arquivo;
 @endphp
 

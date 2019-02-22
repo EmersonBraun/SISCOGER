@@ -165,8 +165,6 @@ class AdlController extends Controller
 
     public function edit($ref, $ano)
     {
-       
-        
         //----levantar procedimento
         $proc = Adl::ref_ano($ref,$ano)->first();
 
@@ -197,17 +195,11 @@ class AdlController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd(\Request::all());
+        // dd(\Request::all());
         $dados = $request->all();
 
-        //datas
-        foreach (config('sistema2.dates.adl') as $d) 
-        {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
-        }
-
         //arquivos
-        foreach (config('sistema2.files.adl') as $a) 
+        foreach (Adl::$files as $a) 
         {
             if ($request->hasFile($a)) $dados[$a] = arquivo($request,$a,'adl',$id);
 

@@ -10,7 +10,7 @@
 (config('adminlte.collapse_sidebar') ? ' sidebar-collapse ' : '')); ?>
 
 <?php $__env->startSection('body'); ?>
-    <div class="wrapper">
+    <div class="wrapper" id="app">
 
         <!-- Main Header -->
         <header class="main-header">
@@ -73,8 +73,8 @@
 
             <!-- Main content -->
             <section class="content litlepadding">
+                
                 <?php echo $__env->yieldContent('content'); ?>
-
             </section>
             <!-- /.content -->
             <!-- parte 4  top-nav-->

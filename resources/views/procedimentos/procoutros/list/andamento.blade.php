@@ -12,12 +12,12 @@
   <br>
   <div class='form-group col-md-12 col-xs-12' style='padding-left: 0px'>
     <div class='btn-group col-md-8 col-xs-12 ' style='padding-left: 0px'>
-      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('proc_outros.lista')}}">Lista</a>
-      <a class="btn btn-success col-md-2 col-xs-4 "  href="{{route('proc_outros.andamento')}}">Andamento</a>
-      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('proc_outros.prazos')}}">Prazos</a>  
+      <a class="btn btn-default col-md-4 col-xs-4 "  href="{{route('procoutros.lista')}}">Lista</a>
+      <a class="btn btn-success col-md-4 col-xs-4 "  href="{{route('procoutros.andamento')}}">Andamento</a>
+      <a class="btn btn-default col-md-4 col-xs-4 "  href="{{route('procoutros.prazos')}}">Prazos</a>  
     </div>
     <div class='col-md-4 col-xs-6 '>
-        <a class="btn btn-block btn-primary"  href="{{route('proc_outros.create')}}">
+        <a class="btn btn-block btn-primary"  href="{{route('procoutros.create')}}">
         <i class="fa fa-plus "></i> Adicionar PROC. OUTROS</a>
     </div>
   <div>
@@ -39,7 +39,7 @@
   
             <div class="box">
               <div class="box-header">
-                <h3 class="box-title">Listagem de Formulários de Transgração Disciplinar</h3>
+                <h3 class="box-title">Listagem de Procedimentos Outros</h3>
               </div>
               <!-- /.box-header -->
               <div class="box-body">
@@ -68,13 +68,13 @@
                     <td>{{opm($registro['cdopm_apuracao'])}}</td>
                     <td>{{data_br($registro['data'])}}</td>
                     <td>{{data_br($registro['abertura_data'])}}</td>
-                    <td>{{sistema('andamento',$registro['id_andamento'])}}</td>
-                    <td>{{sistema('andamentocoger',$registro['id_andamentocoger'])}}</td>
+                    <td>{{$registro['andamento']}}</td>
+                    <td>{{$registro['andamentocoger']}}</td>
                     <td>
                          <span>
-                        <a class="btn btn-default" href="{{route('proc_outros.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-eye "></i></a>
-                        <a class="btn btn-info" href="{{route('proc_outros.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-edit "></i></a>
-                        <a class="btn btn-danger"  href="{{route('proc_outros.destroy',$registro['id_proc_outros'])}}"><i class="fa fa-fw fa-trash-o "></i></a>
+                        <a class="btn btn-default" href="{{route('procoutros.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-eye "></i></a>
+                        <a class="btn btn-info" href="{{route('procoutros.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-edit "></i></a>
+                        <a class="btn btn-danger"  href="{{route('procoutros.destroy',$registro['id_proc_outros'])}}"><i class="fa fa-fw fa-trash-o "></i></a>
                         </span>
                     </td>   
                   </tr>

@@ -29,7 +29,12 @@
               <!-- /.box-header -->
 
                 <div class='col-md-12 col-xs-12'>
-                {!! Form::label('cdopm', 'OPM')!!} <br>
+                        <h1>Vue Select - Ajax</h1>
+                        <v-select2 label="name" :filterable="false" :options="options" @search="onSearch">
+                        </v-select2>
+ 
+                {{-- {!! Form::label('cdopm', 'OPM')!!} 
+                {!! Form::select() !!}<br>
                 <select class="select2" name="opm">
                 <option value=''>Todas as OPM</option>
                 @foreach($opms as $opm)
@@ -54,12 +59,12 @@
 
                         @else {{$selected=""}}
 
-                            <option {{$selected}} value='{{corta_zeros($opm['CODIGO'])}}' onclick="javascript:location.href='{{route('home.opm',corta_zeros($opm['CODIGO']))}}'">{{$opm['ABREVIATURA']}}</option>
+                            <option {{$selected}} value='{{corta_zeros($opm['CODIGO'])}}' >{{$opm['ABREVIATURA']}}</option>
 
                         @endif
 
                 @endforeach  
-                </select>
+                </select> --}}
                 </div>
 
               
@@ -81,34 +86,16 @@
 @stop
 
 @section('js')
-  
+  {{-- route('home.opm',corta_zeros($opm['CODIGO'])) --}}
 <script>
-;(function($)
-{
-    'use strict';
-    $(document).ready(function()
-    {
-    var $fileupload     = $('#fileupload'),
-        $upload_success = $('#upload-success');
-    $fileupload.fileupload({
-        url: '/upload',
-        formData: {_token: $fileupload.data('token'), userId: $fileupload.data('userId')},
-        progressall: function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('#progress .progress-bar').css(
-                'width',
-                progress + '%'
-            );
-        },
-        done: function (e, data) {
-            $upload_success.removeClass('hide').hide().slideDown('fast');
-            setTimeout(function(){
-                location.reload();
-            }, 2000);
-        }
+$(document).ready( function() {
+    $('opm').on('click',function () {
+        var codigo = $(this).val();
+        console.log(codigo);
+        
+        //$(location).attr("href", url);
     });
-    });
-})(window.jQuery);
+});
 </script>
 @stop
 

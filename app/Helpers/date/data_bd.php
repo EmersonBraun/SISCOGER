@@ -5,11 +5,19 @@ if (! function_exists('data_bd'))
     function data_bd($date){
         if($date != '' || $date != NULL )
         {
-            $ano= substr($date, 6);
-            $mes= substr($date, 3,-5);
-            $dia= substr($date, 0,-8);
+            // só executa caso já não esteja no formato do banco de dados
+            if(substr($date, 2, 1) == '/')
+            {
+                $ano= substr($date, 6);
+                $mes= substr($date, 3,-5);
+                $dia= substr($date, 0,-8);
 
-            $data = $ano."-".$mes."-".$dia;
+                $data = $ano."-".$mes."-".$dia;
+            }
+            else
+            {
+                $data = $date;
+            }
             
         }
         else
@@ -17,7 +25,6 @@ if (! function_exists('data_bd'))
             $data = '0000-00-00';
         }
         
-
         return $data; 
     }
 

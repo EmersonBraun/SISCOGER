@@ -9,7 +9,14 @@ if (! function_exists('ver_unidade'))
         $verTodasUnidades = (User::permission('todas-unidades')->count() != NULL) ? 1 : 0;
 
         //verificar se a opm de login é diferente da unidade do procedimento
-        $opm = ($proc->cdopm != session()->get('cdopmbase')) ? 1 : 0;
+        if($proc instanceof Illuminate\Database\Eloquent\Collection) 
+        {
+            $opm = ($proc->cdopm != session()->get('cdopmbase')) ? 1 : 0;
+        } 
+        else 
+        {
+            $opm = ($proc['cdopm'] != session()->get('cdopmbase')) ? 1 : 0;
+        }
 
         /*não pode ver todas unidades e a unidade do procedimento diferente da opm do login
         *redireciona o erro de acesso não permitido */

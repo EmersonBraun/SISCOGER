@@ -1,6 +1,7 @@
 <div class="row"><!-- ***********Info box FATD*********** -->
 
     <div class="col-lg-3 col-md-3 col-xs-6">
+        
         <?php $__env->startComponent('components.infobox',
         [
             'title' => 'FATD',

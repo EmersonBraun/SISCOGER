@@ -11,11 +11,11 @@
 */
 //Route::get('teste', ['as'=>'teste','uses'=>'Testes\testeBD@opm']);
 //Route::get('fds', ['as'=>'fds','uses'=>'Testes\testeBD@fds']);
-Route::get('tabelas/{conn}/{colunas?}', ['as'=>'teste','uses'=>'Testes\testeBD@tabelas']);
-Route::get('colunas/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas']);
-Route::get('colunas2/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas2']);
-Route::get('bd/{conn}/{nome}/{limite}/{c1?}/{c2?}', ['as'=>'bd','uses'=>'Testes\testeBD@bd']);
-Route::get('bd/bdgeral', ['as'=>'bdgeral','uses'=>'Testes\testeBD@bdgeral']);
+// Route::get('tabelas/{conn}/{colunas?}', ['as'=>'teste','uses'=>'Testes\testeBD@tabelas']);
+// Route::get('colunas/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas']);
+// Route::get('colunas2/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas2']);
+// Route::get('bd/{conn}/{nome}/{limite}/{c1?}/{c2?}', ['as'=>'bd','uses'=>'Testes\testeBD@bd']);
+// Route::get('bd/bdgeral', ['as'=>'bdgeral','uses'=>'Testes\testeBD@bdgeral']);
 
 
 Auth::routes();
@@ -25,8 +25,7 @@ Auth::routes();
 |ROTAS HOME/DASHBOARD
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------
 */
-Route::get('/home', 'Relatorios\PendenciasController@index')->name('home');
-Route::get('/', 'Relatorios\PendenciasController@index');
+// Route::get('/home', ['as' =>'home','uses'=>'Relatorios\PendenciasController@index']);
 Route::get('home/{opm}', ['as' =>'home.opm','uses'=>'Relatorios\PendenciasController@index', 'middleware' => ['permission:todas-unidades']]);
 Route::get('trocaropm', ['as' =>'trocaropm','uses'=>'Relatorios\PendenciasController@trocaropm', 'middleware' => ['permission:todas-unidades']]);
 Route::get('logout', 'HomeController@logout')->middleware('auth.unique.user');
@@ -412,3 +411,7 @@ Route::group(['as'=>'XX.','prefix' =>'XX','middleware' => ['permission:']],funct
 });
 */
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

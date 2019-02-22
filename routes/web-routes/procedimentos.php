@@ -11,8 +11,8 @@ Route::group(['as'=>'apfd.','prefix' =>'apfd'],function(){
 	Route::get('ver/{ref}/{ano}',['as' =>'show','uses'=>'Proc\ApfdController@show','middleware' => ['permission:ver-apfd']]);
 	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Proc\ApfdController@edit','middleware' => ['permission:editar-apfd']]);
 	Route::put('atualizar/{ref}/{ano}',['as' =>'update','uses'=>'Proc\ApfdController@update','middleware' => ['permission:editar-apfd']]);
-	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\ApfdController@movimentos','middleware' => ['permission:ver-apfd']]);
-	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\ApfdController@sobrestamentos','middleware' => ['permission:ver-apfd']]);
+	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\MovimentoController@movimentos','middleware' => ['permission:ver-apfd']]);
+	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\SobrestamentoController@sobrestamentos','middleware' => ['permission:ver-apfd']]);
 	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\ApfdController@destroy','middleware' => ['permission:apagar-apfd']]);
 });
 
@@ -28,8 +28,8 @@ Route::group(['as'=>'desercao.','prefix' =>'desercao'],function(){
 	Route::get('ver/{ref}/{ano}',['as' =>'show','uses'=>'Proc\DesercaoController@show','middleware' => ['permission:ver-desercao']]);
 	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Proc\DesercaoController@edit','middleware' => ['permission:editar-desercao']]);
 	Route::put('atualizar/{ref}/{ano}',['as' =>'update','uses'=>'Proc\DesercaoController@update','middleware' => ['permission:editar-desercao']]);
-	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\DesercaoController@movimentos','middleware' => ['permission:ver-desercao']]);
-	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\DesercaoController@sobrestamentos','middleware' => ['permission:ver-desercao']]);
+	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\MovimentoController@movimentos','middleware' => ['permission:ver-desercao']]);
+	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\SobrestamentoController@sobrestamentos','middleware' => ['permission:ver-desercao']]);
 	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\DesercaoController@destroy','middleware' => ['permission:apagar-desercao']]);
 });
 
@@ -44,8 +44,8 @@ Route::group(['as'=>'exclusao.','prefix' =>'exclusao'],function(){
 	Route::get('ver/{ref}/{ano}',['as' =>'show','uses'=>'Proc\ExclusaoController@show','middleware' => ['permission:ver-exclusao']]);
 	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Proc\ExclusaoController@edit','middleware' => ['permission:editar-exclusao']]);
 	Route::put('atualizar/{ref}/{ano}',['as' =>'update','uses'=>'Proc\ExclusaoController@update','middleware' => ['permission:editar-exclusao']]);
-	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\ExclusaoController@movimentos','middleware' => ['permission:ver-exclusao']]);
-	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\ExclusaoController@sobrestamentos','middleware' => ['permission:ver-exclusao']]);
+	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\MovimentoController@movimentos','middleware' => ['permission:ver-exclusao']]);
+	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\SobrestamentoController@sobrestamentos','middleware' => ['permission:ver-exclusao']]);
 	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\ExclusaoController@destroy','middleware' => ['permission:apagar-exclusao']]);
 });
 
@@ -64,8 +64,8 @@ Route::group(['as'=>'ipm.','prefix' =>'ipm'],function(){
 	Route::get('ver/{ref}/{ano}',['as' =>'show','uses'=>'Proc\IpmController@show','middleware' => ['permission:ver-ipm']]);
 	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Proc\IpmController@edit','middleware' => ['permission:editar-ipm']]);
 	Route::put('atualizar/{ref}/{ano}',['as' =>'update','uses'=>'Proc\IpmController@update','middleware' => ['permission:editar-ipm']]);
-	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\IpmController@movimentos','middleware' => ['permission:ver-ipm']]);
-	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\IpmController@sobrestamentos','middleware' => ['permission:ver-ipm']]);
+	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\MovimentoController@movimentos','middleware' => ['permission:ver-ipm']]);
+	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\SobrestamentoController@sobrestamentos','middleware' => ['permission:ver-ipm']]);
 	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\IpmController@destroy','middleware' => ['permission:apagar-ipm']]);
 });
 
@@ -82,8 +82,8 @@ Route::group(['as'=>'iso.','prefix' =>'iso'],function(){
 	Route::get('ver/{ref}/{ano}',['as' =>'show','uses'=>'Proc\IsoController@show','middleware' => ['permission:ver-iso']]);
 	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Proc\IsoController@edit','middleware' => ['permission:editar-iso']]);
 	Route::put('atualizar/{ref}/{ano}',['as' =>'update','uses'=>'Proc\IsoController@update','middleware' => ['permission:editar-iso']]);
-	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\IsoController@movimentos','middleware' => ['permission:ver-iso']]);
-	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\IsoController@sobrestamentos','middleware' => ['permission:ver-iso']]);
+	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\MovimentoController@movimentos','middleware' => ['permission:ver-iso']]);
+	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\SobrestamentoController@sobrestamentos','middleware' => ['permission:ver-iso']]);
 	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\IsoController@destroy','middleware' => ['permission:apagar-iso']]);
 });
 
@@ -103,13 +103,13 @@ Route::group(['as'=>'it.','prefix' =>'it'],function(){
 	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Proc\ItController@edit','middleware' => ['permission:editar-it']]);
 	Route::put('atualizar/{ref}/{ano}',['as' =>'update','uses'=>'Proc\ItController@update','middleware' => ['permission:editar-it']]);
 	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\ItController@destroy','middleware' => ['permission:apagar-it']]);
-	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\ItController@movimentos','middleware' => ['permission:ver-it']]);
-	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\ItController@sobrestamentos','middleware' => ['permission:ver-it']]);
+	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\MovimentoController@movimentos','middleware' => ['permission:ver-it']]);
+	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\SobrestamentoController@sobrestamentos','middleware' => ['permission:ver-it']]);
 	Route::get('documentacao',['as' =>'documentacao','uses'=>'Proc\ItController@documentacao']);
 });
 
 //Rotas do módulo ProcOutros
-Route::group(['as'=>'proc_outros.','prefix' =>'proc_outros'],function(){
+Route::group(['as'=>'procoutros.','prefix' =>'procoutros'],function(){
 	Route::get('',['as' =>'index','uses'=>'Proc\ProcOutrosController@index','middleware' => ['permission:listar-proc-outros']]);
 	//listagem
 	Route::get('lista',['as' =>'lista','uses'=>'Proc\ProcOutrosController@lista','middleware' => ['permission:listar-proc-outros']]);
@@ -123,8 +123,8 @@ Route::group(['as'=>'proc_outros.','prefix' =>'proc_outros'],function(){
 	Route::get('ver/{ref}/{ano}',['as' =>'show','uses'=>'Proc\ProcOutrosController@show','middleware' => ['permission:ver-proc-outros']]);
 	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Proc\ProcOutrosController@edit','middleware' => ['permission:editar-proc-outros']]);
 	Route::put('atualizar/{ref}/{ano}',['as' =>'update','uses'=>'Proc\ProcOutrosController@update','middleware' => ['permission:editar-proc-outros']]);
-	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\ProcOutrosController@movimentos','middleware' => ['permission:ver-proc-outros']]);
-	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\ProcOutrosController@sobrestamentos','middleware' => ['permission:ver-proc-outros']]);
+	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\MovimentoController@movimentos','middleware' => ['permission:ver-proc-outros']]);
+	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\SobrestamentoController@sobrestamentos','middleware' => ['permission:ver-proc-outros']]);
 	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\ProcOutrosController@destroy','middleware' => ['permission:apagar-proc-outros']]);
 });
 
@@ -137,8 +137,8 @@ Route::group(['as'=>'recurso.','prefix' =>'recurso'],function(){
 	Route::get('ver/{ref}/{ano}',['as' =>'show','uses'=>'Proc\RecursoController@show','middleware' => ['permission:ver-recursos']]);
 	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Proc\RecursoController@edit','middleware' => ['permission:editar-recursos']]);
 	Route::put('atualizar/{ref}/{ano}',['as' =>'update','uses'=>'Proc\RecursoController@update','middleware' => ['permission:editar-recursos']]);
-	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\RecursosController@movimentos','middleware' => ['permission:ver-recursos']]);
-	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\RecursosController@sobrestamentos','middleware' => ['permission:ver-recursos']]);
+	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\MovimentoController@movimentos','middleware' => ['permission:ver-recursos']]);
+	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\SobrestamentoController@sobrestamentos','middleware' => ['permission:ver-recursos']]);
 	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\RecursoController@destroy','middleware' => ['permission:apagar-recursos']]);
 });
 
@@ -157,7 +157,7 @@ Route::group(['as'=>'sindicancia.','prefix' =>'sindicancia'],function(){
 	Route::get('ver/{ref}/{ano}',['as' =>'show','uses'=>'Proc\SindicanciaController@show','middleware' => ['permission:ver-sindicancia']]);
 	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Proc\SindicanciaController@edit','middleware' => ['permission:editar-sindicancia']]);
 	Route::put('atualizar/{ref}/{ano}',['as' =>'update','uses'=>'Proc\SindicanciaController@update','middleware' => ['permission:editar-sindicancia']]);
-	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\SindicanciaController@movimentos','middleware' => ['permission:ver-sindicancia']]);
-	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\SindicanciaController@sobrestamentos','middleware' => ['permission:ver-sindicancia']]);
+	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\MovimentoController@movimentos','middleware' => ['permission:ver-sindicancia']]);
+	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\SobrestamentoController@sobrestamentos','middleware' => ['permission:ver-sindicancia']]);
 	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\SindicanciaController@destroy','middleware' => ['permission:apagar-sindicancia']]);
 });

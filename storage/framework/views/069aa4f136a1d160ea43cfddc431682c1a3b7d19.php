@@ -1,5 +1,4 @@
 <?php $__env->startSection('adminlte_css'); ?>
-    <!--<link rel="stylesheet" href="<?php echo e(asset('public/vendor/adminlte/plugins/iCheck/square/blue.css')); ?>">-->
     <link rel="stylesheet" href="<?php echo e(asset('public/vendor/adminlte/css/auth.css')); ?>">
     <?php echo $__env->yieldContent('css'); ?>
 <?php $__env->stopSection(); ?>
@@ -21,7 +20,7 @@
 
                 <div class="form-group has-feedback <?php echo e($errors->has('rg') ? 'has-error' : ''); ?>">
                     <input type="text" name="rg" id="rg" class="form-control" value="<?php echo e(old('rg')); ?>"
-                           placeholder="RG">
+                           placeholder="RG" >
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     <?php if($errors->has('rg')): ?>
                         <span class="help-block">

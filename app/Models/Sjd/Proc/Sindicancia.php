@@ -58,7 +58,13 @@ class Sindicancia extends Eloquent
 		'sol_cmt_data',
 		'sol_cmtgeral_data',
 		'relatorio_data'
-	];
+    ];
+    
+    public static $files = [
+        'sol_cmt_file',
+        'sol_cmtgeral_file',
+        'relatorio_file',
+    ];
 
 	protected $fillable = [
 		'id_andamentocoger',

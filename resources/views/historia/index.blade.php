@@ -16,8 +16,8 @@
 @stop
 
 @section('content')
-
 <section class="">
+    
     <ul class="timeline">
         <li class="time-label">
             <span class="bg-red">

@@ -1,14 +1,4 @@
 <!-- =========== GERAIS ========== -->
-<!-- Bootstrap 3.3.7 -->
-<link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
-{{-- jquery ui --}}
-<link rel="stylesheet" href="{{ asset('node_modules/jquery-ui-dist/jquery-ui.css') }}">
-<!-- Font Awesome -->
-<link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/font-awesome/css/font-awesome.min.css') }}">
-<!-- Ionicons -->
-<link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
-<!-- Theme style -->
-<link rel="stylesheet" href="{{ asset('public/vendor/adminlte/dist/css/AdminLTE.min.css') }}">
 
 <!-- Date Picker (calendário em iput) -->
 <link rel="stylesheet" href="{{ asset('public/vendor/plugins/datepicker/datepicker3.css') }}">
@@ -18,14 +8,11 @@
 <link rel="stylesheet" href="{{ asset('public/vendor/plugins/colorpicker/bootstrap-colorpicker.min.css') }}">
 <!-- Bootstrap time Picker -->
 <link rel="stylesheet" href="{{ asset('public/vendor/plugins/timepicker/bootstrap-timepicker.min.css') }}">
-
+<!-- file upload -->
+<link rel="stylesheet" href="{{ asset('public/vendor/plugins/File-Upload/css/jquery.fileupload.css') }}">
 <!-- Easy Autocomplete -->
 <link rel="stylesheet" href="{{ asset('public/vendor/plugins/EasyAutocomplete/easy-autocomplete.min.css') }}">
 <link rel="stylesheet" href="{{ asset('public/vendor/plugins/EasyAutocomplete/easy-autocomplete.themes.min.css') }}">
-
 {{-- confirm --}}
-<link rel="stylesheet" href="{{ asset('node_modules/jquery-confirm/dist/jquery-confirm.min.css') }}">
-<!-- Select2 -->
-<link rel="stylesheet" href="{{ asset('public/vendor/plugins/select2/select2.min.css') }}">
-<link rel="stylesheet" href="{{ asset('bower_components/select2-adminlte.css') }}">
-<link rel="stylesheet" href="{{ asset('public/css/estilo.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+

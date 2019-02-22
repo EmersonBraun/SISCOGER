@@ -60,8 +60,8 @@ class Iso extends Eloquent
 		'exclusao_txt',
 		'opm_meta4',
 		'relatoriomedico_file',
-		'relatoriomedico_data',
 		'solucaoautoridade_file',
+		'relatoriomedico_data',
 		'solucaoautoridade_data',
 		'prioridade'
 	];
@@ -84,7 +84,12 @@ class Iso extends Eloquent
 		'portaria_data',
 		'relatoriomedico_data',
 		'solucaoautoridade_data'
-	];
+    ];
+    
+    public static $files = [
+        'relatoriomedico_file',
+		'solucaoautoridade_file',
+    ];
 
 	protected $fillable = [
 		'id_andamento',
@@ -103,11 +108,12 @@ class Iso extends Eloquent
 		'exclusao_txt',
 		'opm_meta4',
 		'relatoriomedico_file',
-		'relatoriomedico_data',
 		'solucaoautoridade_file',
+		'relatoriomedico_data',
 		'solucaoautoridade_data',
 		'prioridade'
-	];
+    ];
+    
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

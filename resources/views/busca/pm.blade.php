@@ -19,7 +19,7 @@
     <div class="col-md-12 form-group">
         <div class="col-md-6 form-group @if ($errors->has('rg')) has-error @endif">
             {!! Form::label('rg', 'RG') !!}
-            {!! Form::text('rg', '', array('class' => 'form-control','placeholder' => 'Busca por rg' , 'onblur' => 'completaCampos($(this).val(),array(nome),array(NOME)' )) !!}
+            {!! Form::text('rg', '', array('class' => 'form-control numero','placeholder' => 'Busca por rg' , 'onblur' => 'completaCampos($(this).val(),array(nome),array(NOME)' )) !!}
             @if ($errors->has('rg'))
                 <span class="help-block">
                     <strong>{{ $errors->first('rg') }}</strong>

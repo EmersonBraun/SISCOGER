@@ -159,10 +159,10 @@
 
     {{-- linha --}}
     <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        {!! Form::sfile('libelo','Libelo:','adl',$proc['libelo'], ['class' => 'form-control']) !!}
-        @if ($errors->has('libelo'))
-            <span class='help-block'>
-                <strong>{{$errors->first('libelo')}}</strong>
+        {!! Form::sfile('libelo_file','Libelo:','adl',$proc['libelo_file'], ['class' => 'form-control']) !!}
+        @if ($errors->has('libelo_file'))
+            <span class="help-block">
+                <strong>{{ $errors->first('libelo_file') }}</strong>
             </span>
         @endif
     </div>

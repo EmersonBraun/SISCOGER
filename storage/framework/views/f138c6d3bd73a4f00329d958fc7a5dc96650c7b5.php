@@ -19,7 +19,7 @@
         <div class="col-md-6 form-group <?php if($errors->has('rg')): ?> has-error <?php endif; ?>">
             <?php echo Form::label('rg', 'RG'); ?>
 
-            <?php echo Form::text('rg', '', array('class' => 'form-control','placeholder' => 'Busca por rg' , 'onblur' => 'completaCampos($(this).val(),array(nome),array(NOME)' )); ?>
+            <?php echo Form::text('rg', '', array('class' => 'form-control numero','placeholder' => 'Busca por rg' , 'onblur' => 'completaCampos($(this).val(),array(nome),array(NOME)' )); ?>
 
             <?php if($errors->has('rg')): ?>
                 <span class="help-block">

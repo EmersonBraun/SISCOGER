@@ -1,7 +1,5 @@
 var aguardando=false;
 
-
-
 try{
     xmlhttp = new XMLHttpRequest();
 }
@@ -24,6 +22,17 @@ var _token = $('input[name="_token"]').val();
 var indice=0;
 
 function addObjectForm (tabela, modulo, unico) {
+    /* compatibilidade com já existentes
+	* como o campo é montado dinamicamente, fica complicado pegar qual é o número atual para 
+	* continuar a atualização, então a solução é saber se o campo obrigatório de inserção está
+	* preenchido para saber que se trata de atualização
+	*/
+
+	var atualizacao = $("input[name*='sjd_ref']").val();
+	console.log(atualizacao);
+	if (atualizacao > 0) {
+		indice = Math.floor(Math.random() * 65536) - 32768;
+	}
     indice++;
 
     var divAlvo=tabela+"Form";

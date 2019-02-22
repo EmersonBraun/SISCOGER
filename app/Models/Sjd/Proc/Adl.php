@@ -110,7 +110,17 @@ class Adl extends Eloquent
 		'abertura_data',
 		'portaria_data',
 		'prescricao_data'
-	];
+    ];
+    
+    public static $files = [
+        'libelo_file',
+		'parecer_file',
+		'decisao_file',
+		'rec_ato_file',
+		'rec_gov_file',
+		'tjpr_file',
+		'stj_file',
+    ];
 
 	protected $fillable = [
 		'id_andamento',
@@ -123,13 +133,10 @@ class Adl extends Eloquent
 		'fato_data',
 		'abertura_data',
 		'sintese_txt',
-		'libelo_file',
 		'doc_tipo',
 		'doc_numero',
 		'portaria_numero',
 		'portaria_data',
-		'parecer_file',
-		'decisao_file',
 		'doc_prorrogacao',
 		'sjd_ref',
 		'sjd_ref_ano',
@@ -137,17 +144,20 @@ class Adl extends Eloquent
 		'parecer_comissao',
 		'parecer_cmtgeral',
 		'exclusao_txt',
-		'rec_ato_file',
-		'rec_gov_file',
 		'ac_desempenho_bl',
 		'ac_conduta_bl',
 		'ac_honra_bl',
+		'libelo_file',
+		'parecer_file',
+		'decisao_file',
+		'rec_ato_file',
+		'rec_gov_file',
 		'tjpr_file',
 		'stj_file',
 		'prioridade'
-	];
+    ];
 
-
+    // query scope
 	public function scopeRef_ano($query, $ref, $ano)
 	{
 		return $query->where('sjd_ref','=',$ref)
@@ -237,7 +247,7 @@ class Adl extends Eloquent
 
     public function setPresecricaoDataAttribute($value)
     {
-        $this->attributes['Presecricao_data'] = data_bd($value);
+        $this->attributes['Prescricao_data'] = data_bd($value);
     }
 
 }

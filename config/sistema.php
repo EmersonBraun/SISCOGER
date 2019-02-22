@@ -256,7 +256,8 @@ return [
         "FATD" => "Formulário de Apuração de Transgressão Disciplinar",
         "ISO" => "Inquérito Sanitário de Origem",
         "DESERCAO" => "Deserção",
-        "SAI" => "Investigação Policial"
+        "SAI" => "Investigação Policial",
+        "PROCOUTROS" => "Procedimento Outros"
     ],
 
     'pocedimentosOpcoes' =>
@@ -294,6 +295,21 @@ return [
         'sai' => 'Denunciado',
         'proc_outros' => 'Envolvido'
     ],
+
+    'procTiposAcusados' =>
+    [
+        'Acusado',
+        'Condutor',
+        'Denunciado',
+        'Desertor',
+        'Envolvido',
+        'Indiciado',
+        'Justificante',
+        'Paciente',
+        'Sindicado'
+    ],
+    
+
 
     // ---- ANDAMENTO COGER -------
 
@@ -939,6 +955,18 @@ return [
         'Vítima',
         'Testemunha',
         'Denunciante'
+    ],
+
+    // sobrestamento
+    'motivoSobrestamento' => [
+        '' => '',
+        'Férias Acusado' => 'Férias Acusado',
+        'Férias Comissão' => 'Férias Comissão',
+        'Incidente de Insanidade' => 'Incidente de Insanidade',
+        'Substituição' => 'Substituição',
+        'Laudos/Perícia' => 'Laudos/Perícia',
+        'Deslinde Criminal' => 'Deslinde Criminal',
+        'Outros' => 'Outros'
     ],
 
     //nome das tabelas que tinham no sistema antigo e 

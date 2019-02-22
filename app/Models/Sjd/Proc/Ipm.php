@@ -137,7 +137,14 @@ class Ipm extends Eloquent
 		'relato_cmtopm_data',
 		'relato_cmtgeral_data',
 		'relcomplementar_data'
-	];
+    ];
+    
+    public static $files = [
+        'relato_enc_file',
+		'relato_cmtopm_file',
+		'relato_cmtgeral_file',
+		'relcomplementar_file',
+    ];
 
 	protected $fillable = [
 		'id_andamento',
@@ -174,9 +181,9 @@ class Ipm extends Eloquent
 		'relato_enc_file',
 		'relato_cmtopm_file',
 		'relato_cmtgeral_file',
+		'relcomplementar_file',
 		'defensor_oab',
 		'defensor_nome',
-		'relcomplementar_file',
 		'relcomplementar_data',
 		'opm_meta4',
 		'bou_ano',

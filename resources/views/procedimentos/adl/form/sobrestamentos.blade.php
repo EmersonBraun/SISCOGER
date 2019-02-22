@@ -1,22 +1,22 @@
 @extends('adminlte::page')
 
-@section('title', 'fatd - Sobrestamentos')
+@section('title', 'ADL - Sobrestamentos')
 
 @section('content_header')
 <section class="content-header">   
-  <h1>FATD - Sobrestamentos</h1>
+  <h1>{{ strtoupper('adl') }} - Sobrestamentos</h1>
   <ol class="breadcrumb">
   <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li><a href="{{route('fatd.lista',['ano' => date('Y')])}}">Fatd - Lista</a></li>
-  <li><a href="{{route('fatd.edit',['ref' => $proc['sjd_ref'],'ano' => $proc['sjd_ref_ano']])}}">Fatd - Editar</a></li>
-  <li class="active">FATD - Sobrestamentos</li>
+  <li><a href="{{route('adl.lista',['ano' => date('Y')])}}">{{ sistema('procedimentosTipos',strtoupper('adl')) }} - Lista</a></li>
+  <li><a href="{{route('adl.edit',['ref' => $proc['sjd_ref'],'ano' => $proc['sjd_ref_ano']])}}">{{ sistema('procedimentosTipos',strtoupper('adl')) }} - Editar</a></li>
+  <li class="active">{{ sistema('procedimentosTipos',strtoupper('adl')) }} - Sobrestamentos</li>
   </ol>
   <br>
   <div class='form-group col-md-12 col-xs-12' style='padding-left: 0px'>
     <div class='btn-group col-md-8 col-xs-12 ' style='padding-left: 0px'>
-        <a class="btn btn-default col-md-3 col-xs-4 "  href="#">Editar</a>
-        <a class="btn btn-default col-md-3 col-xs-4 "  href="{{route('fatd.movimentos',['ref' => $proc['sjd_ref'],'ano' => $proc['sjd_ref_ano']])}}">Movimentos</a>
-        <a class="btn btn-success col-md-3 col-xs-4 "  href="{{route('fatd.sobrestamentos',['ref' => $proc['sjd_ref'],'ano' => $proc['sjd_ref_ano']])}}">Sobrestamentos</a>   
+        <a class="btn btn-default col-md-4 col-xs-4 "  href="#">Editar</a>
+        <a class="btn btn-default col-md-4 col-xs-4 "  href="{{route('adl.movimentos',['ref' => $proc['sjd_ref'],'ano' => $proc['sjd_ref_ano']])}}">Movimentos</a>
+        <a class="btn btn-success col-md-4 col-xs-4 "  href="{{route('adl.sobrestamentos',['ref' => $proc['sjd_ref'],'ano' => $proc['sjd_ref_ano']])}}">Sobrestamentos</a>   
     </div>
     <div class="form-group col-md-4"> 
         <a class="btn btn-default col-md-6 col-xs-6"  href="#" onclick="expandirTudo()">Expandir tudo</a>
@@ -31,7 +31,7 @@
 <div class="">
 <section class="">
         <div class="col-md-8">
-        <h3>Formulário de Transgressão Disciplinar - Nº {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }}</h3>
+        <h3>{{ sistema('procedimentosTipos',strtoupper('adl')) }} - Nº {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }}</h3>
         </div>
         
         
@@ -49,38 +49,22 @@
                 </div>             
             </div>
 
-        <div class="box-body">               
-            <div class="col-md-6 col-xs-12">
-                <p><strong>Andamento:</strong></p><p> {{ sistema('andamentoFATD',$proc['id_andamento']) }}</p>
-            </div>
-            <div class="col-md-6 col-xs-12">
-                <p><strong>Andamento COGER:</strong></p><p> {{ sistema('andamentocogerFATD',$proc['id_andamentocoger']) }}</p>
-            </div>
-
-            <div class="col-md-12 col-xs-12">
-                <p><strong>Documentos de origem:</strong></p><p> {{ $proc['doc_origem_txt'] }}</p>
-            </div>
-
-            <div class="col-md-6 col-xs-12">
-                <p><strong>Data do fato:</strong></p><p> {{ date('d/m/Y',strtotime($proc['fato_data'])) }}</p>
-            </div>
-            <div class="col-md-6 col-xs-12">
+        <div class="box-body"> 
+            <div class="col-md-4 col-xs-12">
                 <p><strong>OPM/OBM:</strong></p><p> {{ opm($proc['cdopm']) }}</p>
+            </div>              
+            <div class="col-md-4 col-xs-12">
+                <p><strong>Andamento:</strong></p><p> {{ sistema('andamento',$proc['id_andamento']) }}</p>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <p><strong>Andamento COGER:</strong></p><p> {{ sistema('andamentocoger',$proc['id_andamentocoger']) }}</p>
             </div>
 
-            <div class="col-md-4 col-xs-12">
-                <p><strong>Motivo:</strong></p><p> {{ sistema('motivoFATD',$proc['motivo_fatd']) }}</p>
+            <div class="col-md-6 col-xs-12">
+                <p><strong>Data do fato:</strong></p><p> {{ $proc['fato_data'] }}</p>
             </div>
-            <div class="col-md-4 col-xs-12">
-                <p><strong>Outros Motivos:</strong></p>
-                @if($proc['motivo_outros'] != '')
-                    <p> {{ $proc['motivo_outros'] }}</p>
-                @else
-                    <p>Não há</p>
-                @endif
-            </div>
-            <div class="col-md-4 col-xs-12">
-                <p><strong>Situação:</strong></p><p> {{ sistema('situacaoOCOR',$proc['situacao_fatd']) }}</p>
+            <div class="col-md-6 col-xs-12">
+                <p><strong>Data de abertura:</strong></p><p> {{ $proc['abertura_data'] }}</p>
             </div>
 
             <div class="col-md-12 col-xs-12">
@@ -111,17 +95,19 @@
                                 <div class="col-md-4 col-xs-4"><strong>Motivo</strong></div>
                                 
                                 @forelse ($sobrestamentos as $sobrestamento)
-                                    <div class="col-md-2 col-xs-2">{{data_br($sobrestamento->inicio_data)}}</div> 
-                                    <div class="col-md-2 col-xs-2">({{$sobrestamento->publicacao_inicio}})</div>
-                                    <div class="col-md-2 col-xs-2">{{data_br($sobrestamento->termino_data)}}</div>
-                                    <div class="col-md-2 col-xs-2">({{$sobrestamento->publicacao_termino}})</div>
-                                    @if($sobrestamento->motivo == '' || $sobrestamento->motivo == 'Outros')
-                                        <div class="col-md-2 col-xs-2">{{$sobrestamento->motivo_outros}}</div>
-                                    @else
-                                        <div class="col-md-2 col-xs-2">{{$sobrestamento->motivo}}</div>
-                                    @endif
+                                    <div class="col-md-2 col-xs-2">{{ $sobrestamento->inicio_data }}</div> 
+                                    <div class="col-md-2 col-xs-2">({{ $sobrestamento->publicacao_inicio }})</div>
+                                    <div class="col-md-2 col-xs-2">{{ $sobrestamento->termino_data }}</div>
+                                    <div class="col-md-2 col-xs-2">({{ $sobrestamento->publicacao_termino }})</div>
+                                    <div class="col-md-4 col-xs-4">
+                                        @if($sobrestamento->motivo == '' || $sobrestamento->motivo == 'Outros')
+                                            {{ $sobrestamento->motivo_outros }}
+                                        @else
+                                            {{ $sobrestamento->motivo }}
+                                        @endif
+                                    </div>
                                 @empty
-                                    <p class="col-md-12">Não Há Sobrestamentos</p>
+                                    <div class="col-md-12">Não Há Sobrestamentos</div>
                                 @endforelse
                         </div>
     
@@ -130,79 +116,11 @@
             </div>     
         </div>{{-- /Sobrestamentos --}}
 
-        <div class="row">{{-- Formulário --}}
-            <div class="col-xs-12">
-                <div class="box">
-        
-                    <div class="box-body">
-    
-                        <div class="col-md-12 col-xs-12">
-                        {!! Form::open(['url' => route('sobrestamento.inserir',['id' => $proc['id_fatd']])]) !!}
-                        
-                        <div class='col-md-4 col-xs-12'>
-                        <i class="fa fa-calendar"></i> {!! Form::label('inicio_data', 'Data de início: ')!!} <br>
-                        {!! Form::text('inicio_data','' ,['class' => 'datepicker']) !!}
-                        @if ($errors->has('inicio_data'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('inicio_data') }}</strong>
-                            </span>
-                        @endif 
-                        <br>             
-                        </div>
-
-                        <div class='col-md-4 col-xs-12'>
-                        {!! Form::label('publicacao_inicio', 'Publicação de início: ')!!} <br>
-                        {!! Form::text('publicacao_inicio','' ) !!}
-                        <br>             
-                        </div>
-
-                        <div class='col-md-4 col-xs-12'>
-                        {!! Form::label('doc_controle_inicio', 'N° Documento: ')!!} <br>
-                        {!! Form::text('doc_controle_inicio','' ) !!}
-                        <br>             
-                        </div>
-
-                        <div class='col-md-4 col-xs-12'>
-                        <i class="fa fa-calendar"></i> {!! Form::label('termino_data', 'Data de término: ')!!} <br>
-                        {!! Form::text('termino_data','' ,['class' => 'datepicker']) !!}
-                        @if ($errors->has('termino_data'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('termino_data') }}</strong>
-                            </span>
-                        @endif 
-                        <br>             
-                        </div>
-
-                        <div class='col-md-4 col-xs-12'>
-                        {!! Form::label('publicacao_termino', 'Publicação de término: ')!!} <br>
-                        {!! Form::text('publicacao_termino','' ) !!}
-                        <br>             
-                        </div>
-
-                        <div class='col-md-4 col-xs-12'>
-                        {!! Form::label('doc_controle_termino', 'N° Documento: ')!!} <br>
-                        {!! Form::text('doc_controle_termino','' ) !!}
-                        <br>             
-                        </div>
-
-                        <div class='col-md-12 col-xs-12'>
-                        {!! Form::textarea('motivo','',['placeholder' => 'Motivo','class' => 'form-control ', 'rows' => '5']) !!}
-                        <input type="hidden" name="proc" value="fatd">
-                        @if ($errors->has('motivo'))
-                            <span class="help-block">
-                                <strong><i class="fa fa-times-circle-o"></i> {{ $errors->first('motivo') }}</strong>
-                            </span>
-                        @endif
-                        </div>
-
-                
-                        {!! Form::submit('Inserir Sobrestamento',['class' => 'btn btn-primary btn-block']) !!}
-                        {!! Form::close() !!}
-                        </div>
-    
-                    </div>   
-                </div>
-            </div>     
+        @component('components.sobrestamento',['proc' => $proc, 'name' => 'adl'])
+        @endcomponent
+            
+        {{-- @component('components.listaenvolvidos',['envolvidos' => $envolvidos])
+        @endcomponent --}}
         </div>{{-- /Formulário --}}
 
         
@@ -227,6 +145,21 @@
         $( ".box-body" ).hide();
         $( ".fa-minus" ).removeClass( "fa-minus" ).addClass( "fa-plus" );
     }
+
+    function outrosMotivos(){
+        var motivo = $('.inputmotivo option:selected').text();
+        if(motivo == 'Outros'){
+            $( ".divmotivo" ).removeClass( "col-md-12" ).addClass( "col-md-6" );
+            $( ".divoutros" ).show();
+            $( ".divoutros" ).attr('required');
+        }else{
+            $( ".divmotivo" ).removeClass( "col-md-6" ).addClass( "col-md-12" );
+            $( ".divoutros" ).hide();
+            $( ".divoutros" ).removeAttr('required');
+        }
+
+    }
+
 </script>
 @stop
 

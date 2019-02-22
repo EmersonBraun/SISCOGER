@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e5920a1b0f4c6d0ded0890d5c1cbbc9",
+    "content-hash": "dc79582f1078258c8c4f694747ea88cf",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -1113,20 +1113,20 @@
         },
         {
             "name": "jeroennoten/laravel-adminlte",
-            "version": "v1.23.1",
+            "version": "v1.24.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeroennoten/Laravel-AdminLTE.git",
-                "reference": "ff13c6d0c750d2d5667db01e617d8b21bcaab5b8"
+                "reference": "ec38b6ac3cc845347f604dc387adf60b063d0b7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeroennoten/Laravel-AdminLTE/zipball/ff13c6d0c750d2d5667db01e617d8b21bcaab5b8",
-                "reference": "ff13c6d0c750d2d5667db01e617d8b21bcaab5b8",
+                "url": "https://api.github.com/repos/jeroennoten/Laravel-AdminLTE/zipball/ec38b6ac3cc845347f604dc387adf60b063d0b7e",
+                "reference": "ec38b6ac3cc845347f604dc387adf60b063d0b7e",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "~5.1.12|~5.2.0|~5.3.0|~5.4.0|~5.5.0|~5.6.0",
+                "laravel/framework": "~5.1.12|~5.2.0|~5.3.0|~5.4.0|~5.5.0|~5.6.0|~5.7.0",
                 "php": ">=5.5.9"
             },
             "require-dev": {
@@ -1162,7 +1162,53 @@
                 "administrator",
                 "laravel"
             ],
-            "time": "2018-02-07T22:22:38+00:00"
+            "time": "2018-09-20T20:51:42+00:00"
+        },
+        {
+            "name": "laracasts/presenter",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laracasts/Presenter.git",
+                "reference": "b284f3137f990efd6e95df49d254f1ccc4541e92"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laracasts/Presenter/zipball/b284f3137f990efd6e95df49d254f1ccc4541e92",
+                "reference": "b284f3137f990efd6e95df49d254f1ccc4541e92",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Laracasts\\Presenter": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeffrey Way",
+                    "email": "jeffrey@laracasts.com"
+                }
+            ],
+            "description": "Simple view presenters",
+            "keywords": [
+                "laravel",
+                "presenter",
+                "view"
+            ],
+            "time": "2014-09-13T13:18:07+00:00"
         },
         {
             "name": "laravel/framework",
@@ -4765,6 +4811,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2018-04-11T04:50:36+00:00"
         },
         {

@@ -10,6 +10,7 @@ class MacroServiceProvider extends HtmlServiceProvider
     {
         Form::macro('sfile', function($name, $label, $proc='', $arquivo='')
         {
+            // dd($arquivo);
             if ($arquivo == '' || $arquivo == NULL) 
             {
                 $file = "          

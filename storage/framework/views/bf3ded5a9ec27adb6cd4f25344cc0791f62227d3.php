@@ -44,7 +44,7 @@
             </a>
         </li>
         <li class="">
-            <a href="<?php echo e(route('proc_outros.index')); ?>">
+            <a href="<?php echo e(route('procoutros.index')); ?>">
                 <i class="fa fa-fw fa-circle-o "></i>
                 <span>Proced. Outros</span>
             </a>

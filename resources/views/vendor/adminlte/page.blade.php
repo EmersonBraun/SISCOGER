@@ -12,7 +12,7 @@
 (config('adminlte.collapse_sidebar') ? ' sidebar-collapse ' : ''))
 
 @section('body')
-    <div class="wrapper">
+    <div class="wrapper" id="app">
 
         <!-- Main Header -->
         <header class="main-header">
@@ -75,8 +75,8 @@
 
             <!-- Main content -->
             <section class="content litlepadding">
+                
                 @yield('content')
-
             </section>
             <!-- /.content -->
             <!-- parte 4  top-nav-->
