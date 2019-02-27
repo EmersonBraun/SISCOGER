@@ -29,42 +29,16 @@
               <!-- /.box-header -->
 
                 <div class='col-md-12 col-xs-12'>
-                        <h1>Vue Select - Ajax</h1>
-                        <v-select2 label="name" :filterable="false" :options="options" @search="onSearch">
-                        </v-select2>
- 
-                {{-- {!! Form::label('cdopm', 'OPM')!!} 
-                {!! Form::select() !!}<br>
-                <select class="select2" name="opm">
-                <option value=''>Todas as OPM</option>
-                @foreach($opms as $opm)
-
-                    @if (trim($opm['CODIGOBASE'])=="") {{$opm['CODIGOBASE']="0"}} @endif
-
-                    @if ($opm['TITULO']=="COMANDO" || $opm['TITULO']=="COMANDO GERAL") 
-
-                        @if ($firstGroup == "false")
-
-                            {{"</optgroup>"}}
-
-                    @endif
-
-                            {{$firstGroup = "true"}}
-                            <optgroup LABEL='{{$opm['ABREVIATURA']}}'>
-                            <option value='{{$opm['CODIGOBASE']}}' >{{$opm['ABREVIATURA']}} (sede)</option>
-                    
-                    @endif
-
-                        @if ((isset($cdopm_selected)) && ($opm['CODIGOBASE']==$cdopm_selected)) {{$selected="selected"}}
-
-                        @else {{$selected=""}}
-
-                            <option {{$selected}} value='{{corta_zeros($opm['CODIGO'])}}' >{{$opm['ABREVIATURA']}}</option>
-
+                    <div class="col-lg-12 col-md-12 col-xs-12 form-group @if ($errors->has('opm')) has-error @endif">
+                        {!! Form::label('opm', 'OPM') !!}
+                        {{ Form::select('opm', $opms, session('cdopm'), ['class'=>'form-control select2 ', 'id' => 'opm']) }}
+                        
+                        @if ($errors->has('opm'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('opm') }}</strong>
+                            </span>
                         @endif
-
-                @endforeach  
-                </select> --}}
+                    </div>
                 </div>
 
               

@@ -27,7 +27,8 @@ Auth::routes();
 */
 // Route::get('/home', ['as' =>'home','uses'=>'Relatorios\PendenciasController@index']);
 Route::get('home/{opm}', ['as' =>'home.opm','uses'=>'Relatorios\PendenciasController@index', 'middleware' => ['permission:todas-unidades']]);
-Route::get('trocaropm', ['as' =>'trocaropm','uses'=>'Relatorios\PendenciasController@trocaropm', 'middleware' => ['permission:todas-unidades']]);
+
+Route::match(['get'],'trocaropm', ['as' =>'trocaropm','uses'=>'Relatorios\PendenciasController@trocaropm', 'middleware' => ['permission:todas-unidades']]);
 Route::get('logout', 'HomeController@logout')->middleware('auth.unique.user');
 
 /*

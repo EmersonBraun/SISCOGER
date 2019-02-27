@@ -14,11 +14,8 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('AgoraVai', require('./components/ExampleComponent.vue'));
-Vue.component('BrInfobox', require('./components/InfoboxLg.vue'));
-Vue.component('BrTeste', require('./components/Teste.vue'));
-Vue.component('VSelect2', require('./components/Form/VSelect2.vue'));
-
+Vue.component('VSelect', require('./components/Form/Select.vue'));
+Vue.component('VDatepicker', require('./components/Form/Datepicker.vue'));
 
 const app = new Vue({
     el: '#app'

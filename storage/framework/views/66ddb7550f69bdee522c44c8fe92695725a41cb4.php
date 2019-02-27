@@ -27,9 +27,34 @@
               <!-- /.box-header -->
 
                 <div class='col-md-12 col-xs-12'>
-                        <h1>Vue Select - Ajax</h1>
-                        <v-select2 label="name" :filterable="false" :options="options" @search="onSearch">
-                        </v-select2>
+                    <div class="col-lg-12 col-md-12 col-xs-12 form-group <?php if($errors->has('opm')): ?> has-error <?php endif; ?>">
+                        <?php echo Form::label('opm', 'OPM'); ?>
+
+                        <?php echo e(Form::select('opm', $opms, session('cdopm'), ['class'=>'form-control select2 ', 'id' => 'opm'])); ?>
+
+                        
+                        <?php if($errors->has('opm')): ?>
+                            <span class="help-block">
+                                <strong><?php echo e($errors->first('opm')); ?></strong>
+                            </span>
+                        <?php endif; ?>
+                    </div>
+
+                    <v-select options="[
+                        [val: 0, label: 'Cat'],
+                        [val: 1, label: 'Cow'],
+                        [val: 2, label: 'Dog'],
+                        [val: 3, label: 'Elephant'],
+                        [val: 4, label: 'Fish'],
+                        [val: 5, label: 'Lion'],
+                        [val: 6, label: 'Tiger'],
+                        [val: 7, label: 'Turtle']
+                      ]" options-value="val"
+                        multiple name="select[]" limit="3"
+                        placeholder="Using placeholder"
+                        search justified required
+                        clear-button close-on-select
+                    ></v-select>
  
                 
                 </div>

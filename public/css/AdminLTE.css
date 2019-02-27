@@ -12,13 +12,15 @@
 html,
 body {
   height: 100%;
+  font-size: 0.9rem;
 }
 .layout-boxed html,
 .layout-boxed body {
   height: 100%;
 }
 body {
-  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+  font-size: 0.9rem;
   font-weight: 400;
   overflow-x: hidden;
   overflow-y: auto;

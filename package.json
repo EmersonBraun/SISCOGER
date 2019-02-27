@@ -41,7 +41,9 @@
         "select2": "^4.0.6-rc.1",
         "timepicker": "^1.11.14",
         "toastr": "^2.1.4",
+        "utils": "^0.3.1",
         "vue-select": "^2.5.1",
+        "vue-strap": "github:wffranco/vue-strap",
         "vuetify": "^1.5.2"
     }
 }

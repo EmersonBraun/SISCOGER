@@ -30,7 +30,7 @@ let mix = require('laravel-mix');
 // jquery
 mix.copy('node_modules/jquery/dist/jquery.min.js', 'public/js/jquery.min.js');
 // bootstrap
-mix.copy('node_modules/bootstrap3/dist/js/bootstrap.js', 'public/js/bootstrap.js');
+// mix.copy('node_modules/bootstrap3/dist/js/bootstrap.js', 'public/js/bootstrap.js');
 // font-awessome 3
 mix.copyDirectory('node_modules/font-awesome/css', 'public/fonts/font-awesome/css/');
 
@@ -44,18 +44,24 @@ mix.js('resources/assets/js/app.js', 'public/js')
    });
 
 mix.styles([
-    'node_modules/easy-autocomplete/dist/easy-autocomplete.min.css',
-    'node_modules/easy-autocomplete/dist/easy-autocomplete.themes.min.css',
-    'node_modules/jquery-confirm/css/jquery-confirm.min.css',
-    'node_modules/select2/dist/css/select2.css', 
-    'node_modules/datatables.net-dt/css/jquery.dataTables.css',
-    'public/plugins/datepicker/datepicker3.css',
-    'node_modules/timepicker/dist/jquery.timepicker.css',
-    'node_modules/fullcalendar/dist/fullcalendar.css',
+    'node_modules/bootstrap3/dist/css/bootstrap.css',
+    'public/css/AdminLTE.css',
     'public/css/auth.css',
     'public/css/estilo.css'
-    ], 'public/css/styles.css');
+    ], 'public/css/app.css');
 
+    // mix.styles([
+    //     'node_modules/easy-autocomplete/dist/easy-autocomplete.min.css',
+    //     'node_modules/easy-autocomplete/dist/easy-autocomplete.themes.min.css',
+    //     'node_modules/jquery-confirm/css/jquery-confirm.min.css',
+    //     'node_modules/select2/dist/css/select2.css', 
+    //     'node_modules/datatables.net-dt/css/jquery.dataTables.css',
+    //     'public/plugins/datepicker/datepicker3.css',
+    //     'node_modules/timepicker/dist/jquery.timepicker.css',
+    //     'node_modules/fullcalendar/dist/fullcalendar.css',
+    //     'public/css/auth.css',
+    //     'public/css/estilo.css'
+    //     ], 'public/css/app.css');
 // mix.scripts([
 //     'public/js/admin.js',
 //     'public/js/dashboard.js'
