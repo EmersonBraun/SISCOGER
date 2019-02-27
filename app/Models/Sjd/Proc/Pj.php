@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Pj
  * 
@@ -23,19 +25,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @package App\Models
  */
 class Pj extends Eloquent
-{
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'pj';
-    protected static $logAttributes = [
-		'id_pad',
-		'cnpj',
-		'razaosocial',
-		'contato',
-		'telefone'
-	];
-	
+{	
 	protected $table = 'pj';
 	protected $primaryKey = 'id_pj';
 	public $timestamps = false;
@@ -50,7 +40,22 @@ class Pj extends Eloquent
 		'razaosocial',
 		'contato',
 		'telefone'
+    ];
+
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'pj';
+    protected static $logAttributes = [
+		'id_pad',
+		'cnpj',
+		'razaosocial',
+		'contato',
+		'telefone'
 	];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\PjPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

@@ -8,7 +8,10 @@
 namespace App\Models\Sjd\Proc;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-
+//para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
+use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class It
  * 
@@ -128,7 +131,57 @@ class It extends Eloquent
 		'solucao_unidade_file',
 		'solucao_complementar_file',
 		'prioridade'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'iso';
+    protected static $logAttributes = [
+		'id_andamento',
+		'id_andamentocoger',
+		'cdopm',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'fato_data',
+		'abertura_data',
+		'vtr_placa',
+		'vtr_prefixo',
+		'vtr_propriedade',
+		'portaria_numero',
+		'boletiminterno_numero',
+		'boletiminterno_data',
+		'tipo_acidente',
+		'avarias',
+		'situacao_objeto',
+		'sintese_txt',
+		'br_numero',
+		'situacaoviatura',
+		'acordoamigavel',
+		'id_causa_acidente',
+		'id_resp_civil',
+		'arquivo_numero',
+		'protocolo_numero',
+		'acaojudicial',
+		'danoestimado_rs',
+		'danoreal_rs',
+		'opm_meta4',
+		'objetoprocedimento',
+		'identificacao_arma',
+		'identificacao_municao',
+		'identificacao_semovente',
+		'outros',
+		'relatorio_data',
+		'solucao_unidade_data',
+		'solucao_complementar_data',
+		'relatorio_file',
+		'solucao_unidade_file',
+		'solucao_complementar_file',
+		'prioridade'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\ItPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

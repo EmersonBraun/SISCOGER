@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Desercao
  * 
@@ -38,32 +40,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Desercao extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'desercao';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'cdopm',
-		'fato_data',
-		'doc_tipo',
-		'doc_numero',
-		'termo_exclusao',
-		'termo_exclusao_pub',
-		'termo_captura',
-		'termo_captura_pub',
-		'pericia',
-		'pericia_pub',
-		'termo_inclusao',
-		'termo_inclusao_pub',
-		'opm_meta4',
-		'referenciavajme',
-		'prioridade'
-	];
-	
 	protected $table = 'desercao';
 	protected $primaryKey = 'id_desercao';
 	public $timestamps = false;
@@ -102,6 +78,35 @@ class Desercao extends Eloquent
 		'prioridade'
 	];
 
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'desercao';
+    protected static $logAttributes = [
+		'id_andamento',
+		'id_andamentocoger',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'cdopm',
+		'fato_data',
+		'doc_tipo',
+		'doc_numero',
+		'termo_exclusao',
+		'termo_exclusao_pub',
+		'termo_captura',
+		'termo_captura_pub',
+		'pericia',
+		'pericia_pub',
+		'termo_inclusao',
+		'termo_inclusao_pub',
+		'opm_meta4',
+		'referenciavajme',
+		'prioridade'
+	];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\DesercaoPresenter';
+    
 	public function scopeRef_ano($query, $ref, $ano)
 	{
 		return $query->where('sjd_ref','=',$ref)

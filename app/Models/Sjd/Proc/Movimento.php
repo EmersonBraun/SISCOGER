@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Movimento
  * 
@@ -36,30 +38,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Movimento extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'movimento';
-    protected static $logAttributes = [
-		'id_ipm',
-		'id_cj',
-		'id_cd',
-		'data',
-		'descricao',
-		'rg',
-		'opm',
-		'id_adl',
-		'id_sindicancia',
-		'id_fatd',
-		'id_desercao',
-		'id_iso',
-		'id_apfd',
-		'id_it',
-		'id_pad',
-		'id_sai',
-		'id_proc_outros'
-	];
-	
 	protected $table = 'movimento';
 	protected $primaryKey = 'id_movimento';
 	public $timestamps = false;
@@ -102,7 +80,34 @@ class Movimento extends Eloquent
 		'id_pad',
 		'id_sai',
 		'id_proc_outros'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'movimento';
+    protected static $logAttributes = [
+		'id_ipm',
+		'id_cj',
+		'id_cd',
+		'data',
+		'descricao',
+		'rg',
+		'opm',
+		'id_adl',
+		'id_sindicancia',
+		'id_fatd',
+		'id_desercao',
+		'id_iso',
+		'id_apfd',
+		'id_it',
+		'id_pad',
+		'id_sai',
+		'id_proc_outros'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\MovimentoPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

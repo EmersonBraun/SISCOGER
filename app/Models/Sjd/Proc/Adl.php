@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Adl
  * 
@@ -51,45 +53,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Adl extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'adl';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'id_motivoconselho',
-		'id_decorrenciaconselho',
-		'id_situacaoconselho',
-		'outromotivo',
-		'cdopm',
-		'fato_data',
-		'abertura_data',
-		'sintese_txt',
-		'libelo_file',
-		'doc_tipo',
-		'doc_numero',
-		'portaria_numero',
-		'portaria_data',
-		'parecer_file',
-		'decisao_file',
-		'doc_prorrogacao',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'prescricao_data',
-		'parecer_comissao',
-		'parecer_cmtgeral',
-		'exclusao_txt',
-		'rec_ato_file',
-		'rec_gov_file',
-		'ac_desempenho_bl',
-		'ac_conduta_bl',
-		'ac_honra_bl',
-		'tjpr_file',
-		'stj_file',
-		'prioridade'
-	];
-	
 	protected $table = 'adl';
 	protected $primaryKey = 'id_adl';
 	public $timestamps = false;
@@ -156,6 +119,48 @@ class Adl extends Eloquent
 		'stj_file',
 		'prioridade'
     ];
+
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'adl';
+    protected static $logAttributes = [
+		'id_andamento',
+		'id_andamentocoger',
+		'id_motivoconselho',
+		'id_decorrenciaconselho',
+		'id_situacaoconselho',
+		'outromotivo',
+		'cdopm',
+		'fato_data',
+		'abertura_data',
+		'sintese_txt',
+		'libelo_file',
+		'doc_tipo',
+		'doc_numero',
+		'portaria_numero',
+		'portaria_data',
+		'parecer_file',
+		'decisao_file',
+		'doc_prorrogacao',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'prescricao_data',
+		'parecer_comissao',
+		'parecer_cmtgeral',
+		'exclusao_txt',
+		'rec_ato_file',
+		'rec_gov_file',
+		'ac_desempenho_bl',
+		'ac_conduta_bl',
+		'ac_honra_bl',
+		'tjpr_file',
+		'stj_file',
+		'prioridade'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\AdlPresenter';
 
     // query scope
 	public function scopeRef_ano($query, $ref, $ano)

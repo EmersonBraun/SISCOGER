@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Reintegrado
  * 
@@ -29,23 +31,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Reintegrado extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'reintegrado';
-    protected static $logAttributes = [
-		'rg',
-		'cargo',
-		'nome',
-		'motivo',
-		'procedimento',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'retorno_data',
-		'bg_numero',
-		'bg_ano'
-	];
-	
 	protected $table = 'reintegrado';
 	protected $primaryKey = 'id_reintegrado';
 	public $timestamps = false;
@@ -72,7 +57,27 @@ class Reintegrado extends Eloquent
 		'retorno_data',
 		'bg_numero',
 		'bg_ano'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'reintegrado';
+    protected static $logAttributes = [
+		'rg',
+		'cargo',
+		'nome',
+		'motivo',
+		'procedimento',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'retorno_data',
+		'bg_numero',
+		'bg_ano'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\ReintegradoPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

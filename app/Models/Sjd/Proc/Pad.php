@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Pad
  * 
@@ -35,29 +37,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Pad extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'pad';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'doc_origem_txt',
-		'fato_data',
-		'cdopm',
-		'sintese_txt',
-		'portaria_numero',
-		'portaria_data',
-		'doc_tipo',
-		'doc_numero',
-		'abertura_data',
-		'relatorio_file',
-		'solucao_file',
-		'prioridade'
-	];
-	
 	protected $table = 'pad';
 	protected $primaryKey = 'id_pad';
 	public $timestamps = false;
@@ -98,7 +77,33 @@ class Pad extends Eloquent
 		'relatorio_file',
 		'solucao_file',
 		'prioridade'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'pad';
+    protected static $logAttributes = [
+		'id_andamento',
+		'id_andamentocoger',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'doc_origem_txt',
+		'fato_data',
+		'cdopm',
+		'sintese_txt',
+		'portaria_numero',
+		'portaria_data',
+		'doc_tipo',
+		'doc_numero',
+		'abertura_data',
+		'relatorio_file',
+		'solucao_file',
+		'prioridade'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\PadPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

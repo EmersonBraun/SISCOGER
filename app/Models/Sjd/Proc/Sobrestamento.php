@@ -8,6 +8,10 @@
 namespace App\Models\Sjd\Proc;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+//para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
+use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Class Sobrestamento
@@ -35,7 +39,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @package App\Models
  */
 class Sobrestamento extends Eloquent
-{
+{    
 	protected $table = 'sobrestamento';
 	protected $primaryKey = 'id_sobrestamento';
 	public $timestamps = false;
@@ -77,7 +81,35 @@ class Sobrestamento extends Eloquent
 		'id_proc_outros',
 		'doc_controle_inicio',
 		'doc_controle_termino'
-	];
+    ];
+    
+    //Activitylog
+    use LogsActivity;
+    
+    protected static $logName = 'sobrestamento';
+    protected static $logAttributes = [
+		'rg',
+		'inicio_data',
+		'publicacao_inicio',
+		'termino_data',
+		'publicacao_termino',
+		'motivo',
+		'id_cj',
+		'id_cd',
+		'id_sindicancia',
+		'id_fatd',
+		'id_iso',
+		'id_it',
+		'id_adl',
+		'id_pad',
+		'id_sai',
+		'id_proc_outros',
+		'doc_controle_inicio',
+		'doc_controle_termino'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\SobrestamentoPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

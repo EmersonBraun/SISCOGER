@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Iso
  * 
@@ -38,34 +40,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @package App\Models
  */
 class Iso extends Eloquent
-{
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'iso';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'cdopm',
-		'fato_data',
-		'abertura_data',
-		'sintese_txt',
-		'tipo_penal',
-		'doc_tipo',
-		'doc_numero',
-		'portaria_numero',
-		'portaria_data',
-		'exclusao_txt',
-		'opm_meta4',
-		'relatoriomedico_file',
-		'solucaoautoridade_file',
-		'relatoriomedico_data',
-		'solucaoautoridade_data',
-		'prioridade'
-	];
-	
+{	
 	protected $table = 'iso';
 	protected $primaryKey = 'id_iso';
 	public $timestamps = false;
@@ -113,8 +88,37 @@ class Iso extends Eloquent
 		'solucaoautoridade_data',
 		'prioridade'
     ];
-    
 
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'iso';
+    protected static $logAttributes = [
+		'id_andamento',
+		'id_andamentocoger',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'cdopm',
+		'fato_data',
+		'abertura_data',
+		'sintese_txt',
+		'tipo_penal',
+		'doc_tipo',
+		'doc_numero',
+		'portaria_numero',
+		'portaria_data',
+		'exclusao_txt',
+		'opm_meta4',
+		'relatoriomedico_file',
+		'solucaoautoridade_file',
+		'relatoriomedico_data',
+		'solucaoautoridade_data',
+		'prioridade'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\IsoPresenter';
+    
 	public function scopeRef_ano($query, $ref, $ano)
 	{
 		return $query->where('sjd_ref','=',$ref)

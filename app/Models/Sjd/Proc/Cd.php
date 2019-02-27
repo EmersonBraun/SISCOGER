@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Cd
  * 
@@ -51,45 +53,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Cd extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'cd';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'id_motivoconselho',
-		'id_decorrenciaconselho',
-		'id_situacaoconselho',
-		'outromotivo',
-		'fato_data',
-		'abertura_data',
-		'sintese_txt',
-		'doc_tipo',
-		'doc_numero',
-		'portaria_numero',
-		'portaria_data',
-		'doc_prorrogacao',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'prescricao_data',
-		'parecer_comissao',
-		'parecer_cmtgeral',
-		'exclusao_txt',
-		'cdopm',
-		'ac_desempenho_bl',
-		'ac_conduta_bl',
-		'ac_honra_bl',
-		'prioridade'
-		'libelo_file',
-		'parecer_file',
-		'decisao_file',
-		'rec_ato_file',
-		'rec_gov_file',
-		'tjpr_file',
-		'stj_file',
-	];
-	
 	protected $table = 'cd';
 	protected $primaryKey = 'id_cd';
 	public $timestamps = false;
@@ -155,7 +118,49 @@ class Cd extends Eloquent
 		'tjpr_file',
 		'stj_file',
 		'prioridade'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'cd';
+    protected static $logAttributes = [
+		'id_andamento',
+		'id_andamentocoger',
+		'id_motivoconselho',
+		'id_decorrenciaconselho',
+		'id_situacaoconselho',
+		'outromotivo',
+		'fato_data',
+		'abertura_data',
+		'sintese_txt',
+		'doc_tipo',
+		'doc_numero',
+		'portaria_numero',
+		'portaria_data',
+		'doc_prorrogacao',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'prescricao_data',
+		'parecer_comissao',
+		'parecer_cmtgeral',
+		'exclusao_txt',
+		'cdopm',
+		'ac_desempenho_bl',
+		'ac_conduta_bl',
+		'ac_honra_bl',
+		'prioridade'
+		'libelo_file',
+		'parecer_file',
+		'decisao_file',
+		'rec_ato_file',
+		'rec_gov_file',
+		'tjpr_file',
+		'stj_file',
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\CdPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

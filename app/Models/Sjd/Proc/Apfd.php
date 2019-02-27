@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Apfd
  * 
@@ -36,30 +38,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Apfd extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'apfd';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'tipo',
-		'cdopm',
-		'fato_data',
-		'sintese_txt',
-		'tipo_penal',
-		'tipo_penal_novo',
-		'especificar',
-		'doc_tipo',
-		'doc_numero',
-		'exclusao_txt',
-		'opm_meta4',
-		'referenciavajme',
-		'prioridade'
-	];
-	
 	protected $table = 'apfd';
 	protected $primaryKey = 'id_apfd';
 	public $timestamps = false;
@@ -94,7 +72,34 @@ class Apfd extends Eloquent
 		'opm_meta4',
 		'referenciavajme',
 		'prioridade'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'apfd';
+    protected static $logAttributes = [
+		'id_andamento',
+		'id_andamentocoger',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'tipo',
+		'cdopm',
+		'fato_data',
+		'sintese_txt',
+		'tipo_penal',
+		'tipo_penal_novo',
+		'especificar',
+		'doc_tipo',
+		'doc_numero',
+		'exclusao_txt',
+		'opm_meta4',
+		'referenciavajme',
+		'prioridade'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\ApfdPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

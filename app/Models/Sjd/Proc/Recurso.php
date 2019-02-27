@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Recurso
  * 
@@ -28,22 +30,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Recurso extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'recurso';
-    protected static $logAttributes = [
-		'cdopm',
-		'opm',
-		'rg',
-		'nome',
-		'procedimento',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'datahora',
-		'id_movimento'
-	];
-	
 	protected $table = 'recurso';
 	protected $primaryKey = 'id_recurso';
 	public $timestamps = false;
@@ -68,7 +54,26 @@ class Recurso extends Eloquent
 		'sjd_ref_ano',
 		'datahora',
 		'id_movimento'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'recurso';
+    protected static $logAttributes = [
+		'cdopm',
+		'opm',
+		'rg',
+		'nome',
+		'procedimento',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'datahora',
+		'id_movimento'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\RecursoPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

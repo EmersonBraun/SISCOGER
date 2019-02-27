@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class ProcOutro
  * 
@@ -53,47 +55,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class ProcOutro extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'procoutro';
-    protected static $logAttributes = [
-		'sjd_ref',
-		'sjd_ref_ano',
-		'rg_cadastro',
-		'cdopm',
-		'opm_abreviatura',
-		'cdopm_apuracao',
-		'abertura_data',
-		'data',
-		'bou_ano',
-		'bou_numero',
-		'id_municipio',
-		'doc_origem',
-		'num_doc_origem',
-		'motivo_abertura',
-		'sintese_txt',
-		'relatorio1',
-		'relatorio1_file',
-		'relatorio1_data',
-		'relatorio2',
-		'relatorio2_file',
-		'relatorio2_data',
-		'relatorio3',
-		'relatorio3_file',
-		'relatorio3_data',
-		'desc_outros',
-		'andamento',
-		'andamentocoger',
-		'vtr1_placa',
-		'vtr1_prefixo',
-		'vtr2_placa',
-		'vtr2_prefixo',
-		'digitador',
-		'num_pid',
-		'limite_data'
-	];
-
 	protected $primaryKey = 'id_proc_outros';
 	public $timestamps = false;
 
@@ -153,7 +114,51 @@ class ProcOutro extends Eloquent
 		'digitador',
 		'num_pid',
 		'limite_data'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'procoutro';
+    protected static $logAttributes = [
+		'sjd_ref',
+		'sjd_ref_ano',
+		'rg_cadastro',
+		'cdopm',
+		'opm_abreviatura',
+		'cdopm_apuracao',
+		'abertura_data',
+		'data',
+		'bou_ano',
+		'bou_numero',
+		'id_municipio',
+		'doc_origem',
+		'num_doc_origem',
+		'motivo_abertura',
+		'sintese_txt',
+		'relatorio1',
+		'relatorio1_file',
+		'relatorio1_data',
+		'relatorio2',
+		'relatorio2_file',
+		'relatorio2_data',
+		'relatorio3',
+		'relatorio3_file',
+		'relatorio3_data',
+		'desc_outros',
+		'andamento',
+		'andamentocoger',
+		'vtr1_placa',
+		'vtr1_prefixo',
+		'vtr2_placa',
+		'vtr2_prefixo',
+		'digitador',
+		'num_pid',
+		'limite_data'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\ProcOutroPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

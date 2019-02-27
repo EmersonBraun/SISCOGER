@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Fatd
  * 
@@ -47,41 +49,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Fatd extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'fatd';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'fato_data',
-		'abertura_data',
-		'sintese_txt',
-		'cdopm',
-		'doc_tipo',
-		'doc_numero',
-		'doc_origem_txt',
-		'despacho_numero',
-		'portaria_data',
-		'fato_file',
-		'relatorio_file',
-		'sol_cmt_file',
-		'sol_cg_file',
-		'rec_ato_file',
-		'rec_cmt_file',
-		'rec_crpm_file',
-		'rec_cg_file',
-		'opm_meta4',
-		'notapunicao_file',
-		'publicacaonp',
-		'prioridade',
-		'situacao_fatd',
-		'motivo_fatd',
-		'motivo_outros'
-	];
-	
 	protected $table = 'fatd';
 	protected $primaryKey = 'id_fatd';
 	public $timestamps = false;
@@ -141,7 +108,45 @@ class Fatd extends Eloquent
 		'rec_crpm_file',
 		'rec_cg_file',
 		'notapunicao_file',
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'fatd';
+    protected static $logAttributes = [
+		'id_andamento',
+		'id_andamentocoger',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'fato_data',
+		'abertura_data',
+		'sintese_txt',
+		'cdopm',
+		'doc_tipo',
+		'doc_numero',
+		'doc_origem_txt',
+		'despacho_numero',
+		'portaria_data',
+		'fato_file',
+		'relatorio_file',
+		'sol_cmt_file',
+		'sol_cg_file',
+		'rec_ato_file',
+		'rec_cmt_file',
+		'rec_crpm_file',
+		'rec_cg_file',
+		'opm_meta4',
+		'notapunicao_file',
+		'publicacaonp',
+		'prioridade',
+		'situacao_fatd',
+		'motivo_fatd',
+		'motivo_outros'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\FatdPresenter';
 
 	//query scope - para auxir a montagem da query
 	public function scopeRef_ano($query, $ref, $ano)

@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Cj
  * 
@@ -51,45 +53,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Cj extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'cj';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'id_motivoconselho',
-		'id_decorrenciaconselho',
-		'id_situacaoconselho',
-		'outromotivo',
-		'cdopm',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'fato_data',
-		'abertura_data',
-		'sintese_txt',
-		'libelo_file',
-		'doc_tipo',
-		'doc_numero',
-		'portaria_numero',
-		'portaria_data',
-		'parecer_file',
-		'decisao_file',
-		'doc_prorrogacao',
-		'numero_tj',
-		'prescricao_data',
-		'exclusao_txt',
-		'rec_ato_file',
-		'rec_gov_file',
-		'opm_meta4',
-		'ac_desempenho_bl',
-		'ac_conduta_bl',
-		'ac_honra_bl',
-		'prioridade'
-		'tjpr_file',
-		'stj_file',
-	];
-	
 	protected $table = 'cj';
 	protected $primaryKey = 'id_cj';
 	public $timestamps = false;
@@ -155,7 +118,49 @@ class Cj extends Eloquent
 		'tjpr_file',
 		'stj_file',
 		'prioridade'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'cj';
+    protected static $logAttributes = [
+		'id_andamento',
+		'id_andamentocoger',
+		'id_motivoconselho',
+		'id_decorrenciaconselho',
+		'id_situacaoconselho',
+		'outromotivo',
+		'cdopm',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'fato_data',
+		'abertura_data',
+		'sintese_txt',
+		'libelo_file',
+		'doc_tipo',
+		'doc_numero',
+		'portaria_numero',
+		'portaria_data',
+		'parecer_file',
+		'decisao_file',
+		'doc_prorrogacao',
+		'numero_tj',
+		'prescricao_data',
+		'exclusao_txt',
+		'rec_ato_file',
+		'rec_gov_file',
+		'opm_meta4',
+		'ac_desempenho_bl',
+		'ac_conduta_bl',
+		'ac_honra_bl',
+		'prioridade'
+		'tjpr_file',
+		'stj_file',
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\CjPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

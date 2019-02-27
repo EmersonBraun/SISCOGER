@@ -8,6 +8,10 @@
 namespace App\Models\Sjd\Proc;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+//para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
+use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 
 /**
  * Class Sindicancium
@@ -38,7 +42,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @package App\Models
  */
 class Sindicancia extends Eloquent
-{
+{    
 	protected $primaryKey = 'id_sindicancia';
 	protected $table = 'sindicancia';
 	public $timestamps = false;
@@ -88,7 +92,38 @@ class Sindicancia extends Eloquent
 		'relatorio_file',
 		'relatorio_data',
 		'prioridade'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'sindicancia';
+    protected static $logAttributes = [
+		'id_andamentocoger',
+		'id_andamento',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'fato_data',
+		'abertura_data',
+		'sintese_txt',
+		'cdopm',
+		'doc_tipo',
+		'doc_numero',
+		'doc_origem_txt',
+		'portaria_numero',
+		'portaria_data',
+		'sol_cmt_file',
+		'sol_cmt_data',
+		'sol_cmtgeral_file',
+		'sol_cmtgeral_data',
+		'opm_meta4',
+		'relatorio_file',
+		'relatorio_data',
+		'prioridade'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\SindicanciaPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

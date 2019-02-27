@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Exclusaojudicial
  * 
@@ -37,33 +39,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @package App\Models
  */
 class Exclusaojudicial extends Eloquent
-{
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'exclusaojudicial';
-    protected static $logAttributes = [
-		'rg',
-		'cargo',
-		'nome',
-		'cdopm_quandoexcluido',
-		'origem_proc',
-		'origem_sjd_ref',
-		'origem_sjd_ref_ano',
-		'origem_opm',
-		'processo',
-		'complemento',
-		'vara',
-		'numerounico',
-		'data',
-		'exclusao_data',
-		'obs_txt',
-		'portaria_numero',
-		'bg_numero',
-		'bg_ano',
-		'prioridade'
-	];
-	
+{	
 	protected $table = 'exclusaojudicial';
 	protected $primaryKey = 'id_exclusaojudicial';
 	public $timestamps = false;
@@ -102,7 +78,36 @@ class Exclusaojudicial extends Eloquent
 		'bg_numero',
 		'bg_ano',
 		'prioridade'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+
+    protected static $logName = 'exclusaojudicial';
+    protected static $logAttributes = [
+		'rg',
+		'cargo',
+		'nome',
+		'cdopm_quandoexcluido',
+		'origem_proc',
+		'origem_sjd_ref',
+		'origem_sjd_ref_ano',
+		'origem_opm',
+		'processo',
+		'complemento',
+		'vara',
+		'numerounico',
+		'data',
+		'exclusao_data',
+		'obs_txt',
+		'portaria_numero',
+		'bg_numero',
+		'bg_ano',
+		'prioridade'
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\ExclusaojudicialPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{
