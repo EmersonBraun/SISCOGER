@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'fatd - Criar')
+@section('title', 'Mudar OPM')
 
 @section('content_header')
 <section class="content-header">   
@@ -31,8 +31,7 @@
                 <div class='col-md-12 col-xs-12'>
                     <div class="col-lg-12 col-md-12 col-xs-12 form-group @if ($errors->has('opm')) has-error @endif">
                         {!! Form::label('opm', 'OPM') !!}
-                        {{ Form::select('opm', $opms, session('cdopm'), ['class'=>'form-control select2 ', 'id' => 'opm']) }}
-                        
+                        {{ Form::select('opm', $opms, session('cdopm'), ['class'=>'form-control select2 ', 'id' => 'opm']) }}                
                         @if ($errors->has('opm'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('opm') }}</strong>
@@ -60,14 +59,14 @@
 @stop
 
 @section('js')
-  {{-- route('home.opm',corta_zeros($opm['CODIGO'])) --}}
+@include('vendor.adminlte.includes.select2')
+  {{-- 'onclick' => 'javascript:location.href={{route('home',['opm' => 'opm'])}}'   --}}
 <script>
 $(document).ready( function() {
-    $('opm').on('click',function () {
+    $('#opm').on('change',function () {
         var codigo = $(this).val();
-        console.log(codigo);
-        
-        //$(location).attr("href", url);
+        // console.log(corta_zeros(codigo));
+        $(location).attr("href", '/siscoger/home/' + codigo);
     });
 });
 </script>

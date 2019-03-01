@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', 'adl'); ?>
 
 <?php $__env->startSection('content_header'); ?>
@@ -59,21 +57,21 @@
                   </thead>
   
                   <tbody>
-                  <?php $__currentLoopData = $registros; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $registro): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                  <?php $__currentLoopData = json_decode($registros); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $registro): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                   <tr>
-                      <td style="display: none"><?php echo e($registro['id_adl']); ?></td>
-                    <?php if($registro['sjd_ref'] != ''): ?>
-                    <td><?php echo e($registro['sjd_ref']); ?>/<?php echo e($registro['sjd_ref_ano']); ?></td>
+                    <td style="display: none"><?php echo e($registro->id_adl); ?></td>
+                    <?php if($registro->sjd_ref != ''): ?>
+                    <td><?php echo e($registro->sjd_ref); ?>/<?php echo e($registro->sjd_ref_ano); ?></td>
                     <?php else: ?>
-                    <td><?php echo e($registro['id_adl']); ?></td>
+                    <td><?php echo e($registro->id_adl); ?></td>
                     <?php endif; ?>
-                    <td><?php echo e(opm($registro['cdopm'])); ?></td>
-                    <td><?php echo e($registro['sintese_txt']); ?></td>
+                    <td><?php echo e($registro->presenter()->opm); ?></td>
+                    <td><?php echo e($registro->sintese_txt); ?></td>
                     <td>
                         <span>
-                        <a class="btn btn-default" href="<?php echo e(route('adl.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])); ?>"><i class="fa fa-fw fa-eye "></i></a>
-                        <a class="btn btn-info" href="<?php echo e(route('adl.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])); ?>"><i class="fa fa-fw fa-edit "></i></a>
-                        <a class="btn btn-danger"  href="<?php echo e(route('adl.destroy',$registro['id_adl'])); ?>" onclick="confirmApagar('adl',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i class="fa fa-fw fa-trash-o "></i></a>
+                        <a class="btn btn-default" href="<?php echo e(route('adl.show',['ref' => $registro['sjd_ref'], 'ano' => $registro->sjd_ref])); ?>"><i class="fa fa-fw fa-eye "></i></a>
+                        <a class="btn btn-info" href="<?php echo e(route('adl.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro->sjd_ref])); ?>"><i class="fa fa-fw fa-edit "></i></a>
+                        <a class="btn btn-danger"  href="<?php echo e(route('adl.destroy',$registro['id_adl'])); ?>" onclick="confirmApagar('adl',$registro['sjd_ref'],$registro->sjd_ref)"><i class="fa fa-fw fa-trash-o "></i></a>
                         </span>
                     </td>   
                   </tr>

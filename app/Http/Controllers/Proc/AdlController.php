@@ -29,6 +29,7 @@ class AdlController extends Controller
     public function lista()
     {
         $registros = Proc::lista('adl');
+
         return view('procedimentos.adl.list.index',compact('registros'));
     }
 

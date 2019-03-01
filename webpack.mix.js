@@ -28,27 +28,28 @@ let mix = require('laravel-mix');
  |
  */
 // jquery
-mix.copy('node_modules/jquery/dist/jquery.min.js', 'public/js/jquery.min.js');
+//mix.copy('node_modules/jquery/dist/jquery.min.js', 'public/js/jquery.min.js');
 // bootstrap
 // mix.copy('node_modules/bootstrap3/dist/js/bootstrap.js', 'public/js/bootstrap.js');
 // font-awessome 3
-mix.copyDirectory('node_modules/font-awesome/css', 'public/fonts/font-awesome/css/');
+//mix.copyDirectory('node_modules/font-awesome/css', 'public/fonts/font-awesome/css/');
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sourceMaps()
-   .webpackConfig({
-       devtool: 'source-map'
-   })
-   .options({
-       processCssUrls: false
-   });
+mix.js('resources/assets/js/app.js', 'public/js/app.js')
+.sourceMaps();
 
-mix.styles([
+/*mix.styles([
     'node_modules/bootstrap3/dist/css/bootstrap.css',
     'public/css/AdminLTE.css',
     'public/css/auth.css',
     'public/css/estilo.css'
-    ], 'public/css/app.css');
+    ], 'public/css/app.css')
+    .sourceMaps()
+    .webpackConfig({
+        devtool: 'source-map'
+    })
+    .options({
+        processCssUrls: false
+    });;*/
 
     // mix.styles([
     //     'node_modules/easy-autocomplete/dist/easy-autocomplete.min.css',

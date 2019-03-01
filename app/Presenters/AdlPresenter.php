@@ -2,25 +2,55 @@
 namespace App\Presenters;
 
 use Laracasts\Presenter\Presenter;
-
+use ApiOPM;
 class AdlPresenter extends Presenter {
-	
-    public function createdAt()
+    
+    public function andamento()
     {
-        return $this->created_at->format('d/m/Y');
+        return array_get(config('sistema.andamento','Não Há'), $this->id_andamento);
     }
 
-    public function statusPriorityColor()
+    public function andamentocoger()
     {
-            $labels = [
-                '4'  => 'primary',
-                '3'  => 'success',
-                '2'  => 'warning',
-                '1'  => 'danger'
-            ];
-
-            return $labels[$this->prioridade];
+        return array_get(config('sistema.andamento','Não Há'), $this->id_andamentocoger);
     }
+
+    public function motivoconselho()
+    {
+        return array_get(config('sistema.motivoconselho','Não Há'), $this->id_motivoconselho);
+    }
+
+    public function decorrenciaconselho()
+    {
+        return array_get(config('sistema.decorrenciaconselho','Não Há'), $this->id_decorrenciaconselho);
+    }
+
+    public function situacaoconselho()
+    {
+        return array_get(config('sistema.situacaoconselho','Não Há'), $this->id_situacaoconselho);
+    }
+
+    public function opm()
+    {
+        return ApiOPM::codigo($this->cdopm);
+    }
+    
+    // public function createdAt()
+    // {
+    //     return $this->created_at->format('d/m/Y');
+    // }
+
+    // public function statusPriorityColor()
+    // {
+    //         $labels = [
+    //             '4'  => 'primary',
+    //             '3'  => 'success',
+    //             '2'  => 'warning',
+    //             '1'  => 'danger'
+    //         ];
+
+    //         return $labels[$this->prioridade];
+    // }
 
 }
 /*

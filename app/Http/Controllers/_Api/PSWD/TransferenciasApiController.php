@@ -18,13 +18,13 @@ class TransferenciasApiController extends Controller
     public static function transferencias($unidade)
     {
         //buscar dados do cache
-        $transferidos = Cache::remember('transferidos'.$unidade, self::$expiration, function() use ($unidade){
+        /*$transferidos = Cache::remember('transferidos'.$unidade, self::$expiration, function() use ($unidade){
             
             $date = \Carbon\Carbon::today()->subDays(7);
             $query = DB::connection('pass')->table('movimentos');
             $query->orWhere('opmorigem','like',$unidade.'%')
                     ->orWhere('opmdestino','like',$unidade.'%');
-            $query->orWhere(function($subquery)
+            $query->where(function($subquery)
             {
                 $subquery = DB::connection('pass')->table('PPusuarios');
                 $subquery->select('UserRG');
@@ -47,8 +47,13 @@ class TransferenciasApiController extends Controller
 
             return $query->get();
 
-        });
-
+       });*/
+       $transferidos = [
+           ['rg' => '0000000',
+           'nome' => 'Arrumar',
+           'opmorigem' => '0',
+           'opmdestino' => '0',]
+        ];
         return $transferidos;
     }
 

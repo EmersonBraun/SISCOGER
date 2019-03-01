@@ -124,6 +124,16 @@ class OPMApiController extends Controller
         return $opms;
     }
 
+    public static function codigo($codigo)
+    {
+        $expiration = 60 * 24; //uma vez por dia
+        $opms = Cache::remember('opm', $expiration, function(){
+            return Opmpmpr::all();
+        });
+        dd()
+        //return array_get($opms, $codigo)
+    }
+
     public function omsjd($name)
     {
         $omsjd = Opmpmpr::where('ABREVIATURA','like',$name.'%')

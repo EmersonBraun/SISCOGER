@@ -149,6 +149,34 @@ function confirmar(mensagem){
     });   
 }
 
+function corta_zeros(codigo){
+	console.log(codigo);
+    var opmRetorno = 0;
+    if(codigo == "0000000000") {
+        return "0";
+    }else{
+        var i = codigo.length;
+        while (i--) {
+            if(codigo.charAt(i) != 0){
+                opmRetorno += codigo.charAt(i);
+            }else{
+                break;
+            }
+        console.log(opmRetorno);
+        }
+        // $.each(Zopm, function(key, value)){
+        //     if (item != '0'){
+        //         object.splice(index, 1);
+        //     }else{
+        //         break;
+        //     }
+        //     console.log(Zopm);
+        // });
+        //if (opmRetorno=="") return "0";
+        
+    }
+}
+
 
 
 

@@ -27,23 +27,13 @@ class PendenciasController extends Controller
     //tempo de cahe em minutos
     private static $expiration = 60; 
 
-    public function index()
+    public function index($unidade)
     {
-        //caso não tenha argumentos a função pega a unidade do login
-        $unidade = (func_num_args() <= 0 ) ? $unidade = session()->get('cdopmbase') : func_get_args();
-
-        //os argumentos vem em array assim faz o cast para string
-        $unidade = (is_array($unidade)) ? head($unidade) : $unidade;
+        $unidade = corta_zeros($unidade);
 
         //nome da unidade caso não seja a logada
-        $nome_unidade = ($unidade != session()->get('cdopmbase')) ? opm($unidade) : '';
+        $nome_unidade = ($unidade != session('cdopmbase')) ? opm($unidade) : '';
 
-        //caso não tenha unidade desloga
-        if($unidade == NULL || $unidade == '')
-        {
-            Auth::logout();
-            return redirect()->intended('login');
-        }
 
         // pendências
         //PENDENCIA #0: TRANSFERIDOS obs: arrumar a pesquisa
@@ -107,15 +97,17 @@ class PendenciasController extends Controller
 
         //ATUALIZAR PENDÊNCIAS GERAIS
         //aproveita que já tem as somas de pendências para inserir na tabela de pendências gerais
-        $pendencia = Pendencia::where('cdopm','=',$unidade)->first();
-        $pendencia->fatd_punicao = $tfatd_punidos; 
-        $pendencia->fatd_prazo = $tfatd_prazos;
-        $pendencia->fatd_abertura = $tfatd_aberturas;
-        $pendencia->ipm_prazo = $tipm_prazos;
-        $pendencia->ipm_abertura = $tipm_aberturas;
-        $pendencia->sindicancia_prazo = $tsindicancia_prazos; 
-        $pendencia->sindicancia_abertura = $tsindicancia_aberturas; 
-        $pendencia->save();
+        $pendencia = [
+            'fatd_punicao' => $tfatd_punidos, 
+            'fatd_prazo' => $tfatd_prazos,
+            'fatd_abertura' => $tfatd_aberturas,
+            'ipm_prazo' => $tipm_prazos,
+            'ipm_abertura' => $tipm_aberturas,
+            'sindicancia_prazo' => $tsindicancia_prazos, 
+            'sindicancia_abertura' => $tsindicancia_aberturas
+        ];
+
+        Pendencia::where('cdopm','=',$unidade)->update($pendencia);
 
         return view('home',compact(
             'transferidos', 

@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="<?php echo e(asset('public/vendor/adminlte/vendor/Ionicons/css/ionicons.min.css')); ?>">
     
     <link href="<?php echo e(asset('public/css/app.css')); ?>" rel="stylesheet">
+   
     <style>
         
     .navbar-static-top {
@@ -43,9 +44,28 @@
 <?php echo $__env->yieldContent('body'); ?>
 
 <?php echo $__env->make('vendor.adminlte.js', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-<?php echo $__env->make('toast::messages-jquery', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-<script src="<?php echo e(asset('public/js/app.js')); ?>"></script>
+<?php if(Session::has('toasts')): ?>
+	<!-- Messenger http://github.hubspot.com/messenger/ -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+	<script type="text/javascript">
+		toastr.options = {
+			"closeButton": true,
+			"newestOnTop": true,
+			"progressBar": true,
+			"positionClass": "toast-top-right"
+		};
+
+		<?php $__currentLoopData = Session::get('toasts'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $toast): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+			toastr["<?php echo e($toast['level']); ?>"]("<?php echo e($toast['message']); ?>","<?php echo e($toast['title']); ?>");
+		<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+	</script>
+<?php endif; ?>
 <?php echo $__env->yieldContent('adminlte_js'); ?>
+ <script src="<?php echo e(asset('public/js/app.js')); ?>"></script>
+
 
 </body>
 </html>

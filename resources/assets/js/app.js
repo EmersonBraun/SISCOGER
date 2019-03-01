@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import './bootstrap';
 
 window.Vue = require('vue');
 
@@ -16,6 +16,8 @@ window.Vue = require('vue');
 
 Vue.component('VSelect', require('./components/Form/Select.vue'));
 Vue.component('VDatepicker', require('./components/Form/Datepicker.vue'));
+Vue.component('VBoxColapse', require('./components/Box/ColapseBox.vue'));
+Vue.component('VTeste', require('./components/Teste.vue'));
 
 const app = new Vue({
     el: '#app'

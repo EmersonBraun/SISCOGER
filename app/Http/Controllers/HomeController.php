@@ -54,8 +54,8 @@ class HomeController extends Controller
         // pendências
         //PENDENCIA #0: TRANSFERIDOS obs: arrumar a pesquisa
 
-        //$transferidos = TransferenciasApi::transferencias($unidade);
-        $transferidos = [];
+        $transferidos = ApiTransferencias::transferencias($unidade);
+        //$transferidos = [];
 
         //PENDENCIA #1: COMPORTAMENTO
         $comportamentos = ApiComportamento::comportamentos($unidade);

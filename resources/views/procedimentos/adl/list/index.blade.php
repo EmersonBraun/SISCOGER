@@ -59,21 +59,21 @@
                   </thead>
   
                   <tbody>
-                  @foreach($registros as $registro)
+                  @foreach(json_decode($registros) as $registro)
                   <tr>
-                      <td style="display: none">{{$registro['id_adl']}}</td>
-                    @if ($registro['sjd_ref'] != '')
-                    <td>{{$registro['sjd_ref']}}/{{$registro['sjd_ref_ano']}}</td>
+                    <td style="display: none">{{$registro->id_adl}}</td>
+                    @if ($registro->sjd_ref != '')
+                    <td>{{$registro->sjd_ref}}/{{$registro->sjd_ref_ano}}</td>
                     @else
-                    <td>{{$registro['id_adl']}}</td>
+                    <td>{{$registro->id_adl}}</td>
                     @endif
-                    <td>{{opm($registro['cdopm'])}}</td>
-                    <td>{{$registro['sintese_txt']}}</td>
+                    <td>{{$registro->presenter()->opm}}</td>
+                    <td>{{$registro->sintese_txt}}</td>
                     <td>
                         <span>
-                        <a class="btn btn-default" href="{{route('adl.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-eye "></i></a>
-                        <a class="btn btn-info" href="{{route('adl.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-edit "></i></a>
-                        <a class="btn btn-danger"  href="{{route('adl.destroy',$registro['id_adl'])}}" onclick="confirmApagar('adl',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i class="fa fa-fw fa-trash-o "></i></a>
+                        <a class="btn btn-default" href="{{route('adl.show',['ref' => $registro['sjd_ref'], 'ano' => $registro->sjd_ref])}}"><i class="fa fa-fw fa-eye "></i></a>
+                        <a class="btn btn-info" href="{{route('adl.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro->sjd_ref])}}"><i class="fa fa-fw fa-edit "></i></a>
+                        <a class="btn btn-danger"  href="{{route('adl.destroy',$registro['id_adl'])}}" onclick="confirmApagar('adl',$registro['sjd_ref'],$registro->sjd_ref)"><i class="fa fa-fw fa-trash-o "></i></a>
                         </span>
                     </td>   
                   </tr>

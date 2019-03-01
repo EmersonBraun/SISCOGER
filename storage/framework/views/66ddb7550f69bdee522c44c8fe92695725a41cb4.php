@@ -1,4 +1,4 @@
-<?php $__env->startSection('title', 'fatd - Criar'); ?>
+<?php $__env->startSection('title', 'Mudar OPM'); ?>
 
 <?php $__env->startSection('content_header'); ?>
 <section class="content-header">   
@@ -30,33 +30,13 @@
                     <div class="col-lg-12 col-md-12 col-xs-12 form-group <?php if($errors->has('opm')): ?> has-error <?php endif; ?>">
                         <?php echo Form::label('opm', 'OPM'); ?>
 
-                        <?php echo e(Form::select('opm', $opms, session('cdopm'), ['class'=>'form-control select2 ', 'id' => 'opm'])); ?>
-
-                        
+                        <?php echo e(Form::select('opm', $opms, session('cdopm'), ['class'=>'form-control select2 ', 'id' => 'opm'])); ?>                
                         <?php if($errors->has('opm')): ?>
                             <span class="help-block">
                                 <strong><?php echo e($errors->first('opm')); ?></strong>
                             </span>
                         <?php endif; ?>
                     </div>
-
-                    <v-select options="[
-                        [val: 0, label: 'Cat'],
-                        [val: 1, label: 'Cow'],
-                        [val: 2, label: 'Dog'],
-                        [val: 3, label: 'Elephant'],
-                        [val: 4, label: 'Fish'],
-                        [val: 5, label: 'Lion'],
-                        [val: 6, label: 'Tiger'],
-                        [val: 7, label: 'Turtle']
-                      ]" options-value="val"
-                        multiple name="select[]" limit="3"
-                        placeholder="Using placeholder"
-                        search justified required
-                        clear-button close-on-select
-                    ></v-select>
- 
-                
                 </div>
 
               
@@ -78,14 +58,14 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>
+<?php echo $__env->make('vendor.adminlte.includes.select2', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
   
 <script>
 $(document).ready( function() {
-    $('opm').on('click',function () {
+    $('#opm').on('change',function () {
         var codigo = $(this).val();
-        console.log(codigo);
-        
-        //$(location).attr("href", url);
+        // console.log(corta_zeros(codigo));
+        $(location).attr("href", '/siscoger/home/' + codigo);
     });
 });
 </script>
