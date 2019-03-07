@@ -63,17 +63,13 @@
                   <tbody>
                   @foreach($registros as $registro)
                   <tr>
-                    <td style="display: none">{{$registro['id_adl']}}</td>
-                    @if ($registro['sjd_ref'] != '')
-                    <td>{{$registro['sjd_ref']}}/{{$registro['sjd_ref_ano']}}</td>
-                    @else
-                    <td>{{$registro['id_adl']}}</td>
-                    @endif
-                    <td>{{$registro['cargo']}} {{$registro['nome']}}</td>
-                    <td>{{sistema('andamento',$registro['id_andamento'])}}</td>
-                    <td>{{$registro['parecer_comissao']}}</td>
-                    <td>{{$registro['parecer_cmtgeral']}}</td>
-                    <td>{{$registro['resultado']}}</td>
+                    <td style="display: none">{{$registro->id_adl }}</td>
+                    <td>{{ $registro->present()->refAno}}</td>
+                    <td>{{$registro-present()->cargoENome}}</td>
+                    <td>{{ $registro->present()->andamento }}</td>
+                    <td>{{$registro->parecer_comissao }}</td>
+                    <td>{{$registro->parecer_cmtgeral }}</td>
+                    <td>{{$registro->resultado }}</td>
                   </tr>
                   @endforeach
                   </tbody>

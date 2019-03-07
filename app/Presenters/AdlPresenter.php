@@ -35,23 +35,136 @@ class AdlPresenter extends Presenter {
     {
         return OPMRepository::abreviatura($this->cdopm);
     }
-    
-    // public function createdAt()
-    // {
-    //     return $this->created_at->format('d/m/Y');
-    // }
 
-    // public function statusPriorityColor()
-    // {
-    //         $labels = [
-    //             '4'  => 'primary',
-    //             '3'  => 'success',
-    //             '2'  => 'warning',
-    //             '1'  => 'danger'
-    //         ];
+    public function refAno()
+    {
+        if($this->sjd_ref == null || $this->sjd_ref == '')
+        {
+            return $this->id_adl;
+        }
+        else 
+        {
+            return $this->sjd_ref.'/'.$this->sjd_ref_ano;
+        }
+    }
 
-    //         return $labels[$this->prioridade];
-    // }
+    public function fatoData()
+    {
+        return $this->fato_data->format('d/m/Y');
+    }
+
+    public function prescricaoData()
+    {
+        return $this->prescricao_data->format('d/m/Y');
+    }
+
+    public function portariaData()
+    {
+        return $this->portaria_data->format('d/m/Y');
+    }
+
+    public function cargoENome()
+    {
+        return $this->cargo.' '.special_ucwords($this->nome);
+    }
+
+    public function libeloIcon()
+    {
+        if($this->libelo_file)
+        {
+            return 'fa fa-check';
+        }
+        if($this->libelo_file)
+        {
+            return 'fa fa-times';
+        }
+    }
+
+    public function libeloColor()
+    {
+        if($this->libelo_file)
+        {
+            return 'green';
+        }
+        if($this->libelo_file)
+        {
+            return 'green';
+        }
+    }
+
+    public function parecerIcon()
+    {
+        if($this->parecer_file)
+        {
+            return 'fa fa-check';
+        }
+        if($this->parecer_file)
+        {
+            return 'fa fa-times';
+        }
+    }
+
+    public function parecerColor()
+    {
+        if($this->parecer_file)
+        {
+            return 'green';
+        }
+        if($this->parecer_file)
+        {
+            return 'green';
+        }
+    }
+
+    public function decisaoIcon()
+    {
+        if($this->decisao_file)
+        {
+            return 'fa fa-check';
+        }
+        if($this->decisao_file)
+        {
+            return 'fa fa-times';
+        }
+    }
+
+    public function decisaoColor()
+    {
+        if($this->decisao_file)
+        {
+            return 'green';
+        }
+        if($this->decisao_file)
+        {
+            return 'green';
+        }
+    }
+
+    public function recAtoIcon()
+    {
+        if($this->rec_ato_file)
+        {
+            return 'fa fa-check';
+        }
+        if($this->rec_ato_file)
+        {
+            return 'fa fa-times';
+        }
+    }
+
+    public function recAtoColor()
+    {
+        if($this->rec_ato_file)
+        {
+            return 'green';
+        }
+        if($this->rec_ato_file)
+        {
+            return 'green';
+        }
+    }
+
+    rec_ato_file
 
 }
 /*

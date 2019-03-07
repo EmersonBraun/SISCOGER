@@ -66,16 +66,12 @@
                      @foreach($registros as $registro)
                   <tr>
                     <td style="display: none">{{$registro['id_adl']}}</td>
-                    @if ($registro['sjd_ref'] != '')
-                    <td>{{$registro['sjd_ref']}}/{{$registro['sjd_ref_ano']}}</td>
-                    @else
-                    <td>{{$registro['id_adl']}}</td>
-                    @endif
-                    <td>{{data_br($registro['fato_data'])}}</td>
-                    <td>{{data_br($registro['prescricao_data'])}}</td>
-                    <td>{{$registro['cargo']}} {{special_ucwords($registro['nome'])}}</td>
-                    <td>{{sistema('andamento',$registro['id_andamento'])}}</td>
-                    <td>{{sistema('andamentocoger',$registro['id_andamentocoger'])}}</td>
+                    <td>{{$registro->present()->refAno}}</td>
+                    <td>{{ $registro->present()->fatoData}}</td>
+                    <td>{{ $registro->present()->prescricaodata}}</td>
+                    <td>{{ $registro->present()->cargoeENome}}</td>
+                    <td>{{ $registro->present()->andamento }}</td>
+                    <td>{{ $registro->present()->andamentocoger }}</td>
                     <td>
                         <span>
                         <a class="btn btn-default" href="{{route('adl.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-eye "></i></a>

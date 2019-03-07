@@ -10,8 +10,9 @@ use Auth;
 use Cache;
 use App\User;
 use App\Models\Sjd\Proc\Adl;
+use App\Repositories\BaseRepository;
 
-class AdlRepository
+class AdlRepository extends BaseRepository
 {
     private $model;
     private static $expiration = 60; 
@@ -21,80 +22,6 @@ class AdlRepository
 		$this->model = $model;
     }
     
-    public function find($id)
-	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        $proc = $this->model->findOrFail($id);
-
-        //verificar se a opm de login é diferente da unidade do procedimento
-        if($proc instanceof Illuminate\Database\Eloquent\Collection) 
-        {
-            $opm = ($proc->cdopm != session()->get('cdopmbase')) ? 1 : 0;
-        } 
-        else 
-        {
-            $opm = ($proc['cdopm'] != session()->get('cdopmbase')) ? 1 : 0;
-        }
-
-        /*não pode ver todas unidades e a unidade do procedimento diferente da opm do login
-        *redireciona o erro de acesso não permitido */
-        if ($verTodasUnidades == 0 && $opm == 1) 
-        {
-            return abort(403);
-        }
-        else
-        {
-            return $proc;
-        }
-
-    }
-
-    public function refAno($ref, $ano)
-	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        $proc = $this->model->where('sjd_ref','=',$ref)->where('sjd_ref_ano','=',$ano)->first();
-
-        //verificar se a opm de login é diferente da unidade do procedimento
-        if($proc instanceof Illuminate\Database\Eloquent\Collection) 
-        {
-            $opm = ($proc->cdopm != session()->get('cdopmbase')) ? 1 : 0;
-        } 
-        else 
-        {
-            $opm = ($proc['cdopm'] != session()->get('cdopmbase')) ? 1 : 0;
-        }
-
-        /*não pode ver todas unidades e a unidade do procedimento diferente da opm do login
-        *redireciona o erro de acesso não permitido */
-        if ($verTodasUnidades == 0 && $opm == 1) 
-        {
-            return abort(403);
-        }
-        else
-        {
-            return $proc;
-        }
-
-    }
-
-    public function proxId()
-    {
-        //ano atual
-        $ano = (int) date('Y');
-
-        //última referência de adl inserida
-        $ref = $this->model->where('sjd_ref_ano','=',$ano)->max('sjd_ref');
-        $ref = $ref+1;
-
-        return $ref;
-    }
-
     public function all()
 	{
         $unidade = session('cdopmbase');

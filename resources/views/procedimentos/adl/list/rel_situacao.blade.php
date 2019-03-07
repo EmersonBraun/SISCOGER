@@ -62,44 +62,20 @@
                      @foreach($registros as $registro)
                   <tr>
                     <td style="display: none">{{$registro['id_adl']}}</td>
-                    @if ($registro['sjd_ref'] != '')
-                    <td>{{$registro['sjd_ref']}}/{{$registro['sjd_ref_ano']}}</td>
-                    @else
-                    <td>{{$registro['id_adl']}}</td>
-                    @endif
-                    <td>{{data_br($registro['fato_data']) }}</td> 
-                    <td>
-                        {{data_br($registro['portaria_data'])}}
-                    </td> 
-                    <td>
-                        {{data_br($registro['prescricao_data'])}}
-                    </td> 
+                    <td>{{ $registro->present()->refAno}}</td>
+                    <td>{{ $registro->present()->fatoData}}</td> 
+                    <td>{{ $registro->present()->portariaData}}</td>
+                    <td>{{ $registro->present()->prescricaoData}}</td> 
                     <td>
                         <span>
-                        @if ($registro['libelo_file'])
-                            <i class="fa fa-check" style='color: green'></i>
-                        @else
-                            <i class="fa fa-times" style='color: red'></i>
-                        @endif
-                            Libelo</br>
-                        @if ($registro['parecer_file'])
-                            <i class="fa fa-check" style='color: green'></i>
-                        @else
-                            <i class="fa fa-times" style='color: red'></i>
-                        @endif
-                            Parecer</br>
-                        @if ($registro['decisao_file'])
-                            <i class="fa fa-check" style='color: green'></i>
-                        @else
-                            <i class="fa fa-times" style='color: red'></i>
-                        @endif
-                            Decisão</br>
-                        @if ($registro['rec_ato_file'])
-                            <i class="fa fa-check" style='color: green'></i>
-                        @else
-                            <i class="fa fa-times" style='color: red'></i>
-                        @endif
-                            Rec. Ato</br>
+                            <i class="fa {{ $registro->present()->libeloIcon }}" style='color: {{ $registro->present()->libeloColor }}'></i>
+                            Libelo<br>
+                            <i class="fa {{ $registro->present()->parecerIcon }}" style='color: {{ $registro->present()->parecerColor }}'></i>
+                            Parecer<br>
+                            <i class="fa {{ $registro->present()->decisaoIcon }}" style='color: {{ $registro->present()->decisaoColor }}'></i>
+                            Decisão<br>
+                            <i class="fa {{ $registro->present()->recAtoIcon }}" style='color: {{ $registro->present()->recAtoColor }}'></i>
+                            Rec. Ato<br>
                     </td> 
                   </tr>
                   @endforeach
