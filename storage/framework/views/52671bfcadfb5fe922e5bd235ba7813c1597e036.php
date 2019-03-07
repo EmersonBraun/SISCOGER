@@ -57,7 +57,7 @@
                   </thead>
   
                   <tbody>
-                  <?php $__currentLoopData = json_decode($registros); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $registro): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                  <?php $__currentLoopData = $registros; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $registro): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                   <tr>
                     <td style="display: none"><?php echo e($registro->id_adl); ?></td>
                     <?php if($registro->sjd_ref != ''): ?>
@@ -65,7 +65,7 @@
                     <?php else: ?>
                     <td><?php echo e($registro->id_adl); ?></td>
                     <?php endif; ?>
-                    <td><?php echo e($registro->presenter()->opm); ?></td>
+                    <td><?php echo e($registro->present()->opm); ?></td>
                     <td><?php echo e($registro->sintese_txt); ?></td>
                     <td>
                         <span>

@@ -2,7 +2,8 @@
 namespace App\Presenters;
 
 use Laracasts\Presenter\Presenter;
-use ApiOPM;
+use App\Repositories\OPMRepository;
+
 class AdlPresenter extends Presenter {
     
     public function andamento()
@@ -32,7 +33,7 @@ class AdlPresenter extends Presenter {
 
     public function opm()
     {
-        return ApiOPM::codigo($this->cdopm);
+        return OPMRepository::abreviatura($this->cdopm);
     }
     
     // public function createdAt()

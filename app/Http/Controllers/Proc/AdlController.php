@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\AdlRepository;
 use App\Models\Sjd\Proc\Adl;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -26,34 +26,34 @@ class AdlController extends Controller
         return redirect()->route('adl.lista');
     }
 
-    public function lista()
+    public function lista(AdlRepository $repository)
     {
-        $registros = Proc::lista('adl');
-
+        $registros = $repository->all();
         return view('procedimentos.adl.list.index',compact('registros'));
     }
 
-    public function andamento()
+    public function andamento(AdlRepository $repository)
     {
-        $registros = Proc::andamento('adl');
+        $registros = $repository->andamento();
         return view('procedimentos.adl.list.andamento',compact('registros'));
     }
 
-    public function prazos()
+    public function prazos(AdlRepository $repository)
     {
-        $registros = Proc::prazos('adl');
+       
+        $registros = $repository->prazos();
         return view('procedimentos.adl.list.prazos',compact('registros'));
     }
 
-    public function rel_situacao()
+    public function rel_situacao(AdlRepository $repository)
     {
-        $registros = Proc::lista('adl');
+        $registros = $repository->all();
         return view('procedimentos.adl.list.rel_situacao',compact('registros'));
     }
 
-    public function julgamento()
+    public function julgamento(AdlRepository $repository)
     {
-        $registros = Proc::julgamento('adl');
+        $registros = $repository->julgamento();
         return view('procedimentos.adl.list.julgamento',compact('registros'));
     }
 

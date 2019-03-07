@@ -59,7 +59,7 @@
                   </thead>
   
                   <tbody>
-                  @foreach(json_decode($registros) as $registro)
+                  @foreach($registros as $registro)
                   <tr>
                     <td style="display: none">{{$registro->id_adl}}</td>
                     @if ($registro->sjd_ref != '')
@@ -67,7 +67,7 @@
                     @else
                     <td>{{$registro->id_adl}}</td>
                     @endif
-                    <td>{{$registro->presenter()->opm}}</td>
+                    <td>{{$registro->present()->opm}}</td>
                     <td>{{$registro->sintese_txt}}</td>
                     <td>
                         <span>
