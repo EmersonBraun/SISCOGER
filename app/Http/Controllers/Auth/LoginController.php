@@ -43,7 +43,7 @@ class LoginController extends Controller
         return 'rg';
     }
 
-    public function login(Request $request, LogAcesso $logacesso)
+    public function login(Request $request)
     {
         //verificar se os campos foram preenchidos
         $this->validate($request, [
@@ -62,20 +62,7 @@ class LoginController extends Controller
         if (!$user) return abort(403);
 
         //salva dados usuário na sessão
-        $request->session()->put('rg',$user->rg);
-        $request->session()->put('nome', $user->nome);
-        $request->session()->put('email', $user->email);
-        $request->session()->put('cargo', $user->cargo);
-        $request->session()->put('quadro', $user->quadro);
-        $request->session()->put('subquadro', $user->subquadro);
-        $request->session()->put('opm_descricao', $user->opm_descricao);
-        $request->session()->put('cdopm', $user->cdopm);    
-        $request->session()->put('cdopmbase', corta_zeros($user->cdopm));
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = User::permission('todas-unidades')->count();
-        //cast para booleano
-        $verTodasUnidades = (boolean) $verTodasUnidades;
-        $request->session()->put('ver_todas_unidades', $verTodasUnidades);
+        LoginController::dadosSessao($user);
 
         if (Auth::attempt($credentials)) 
         {
@@ -87,12 +74,7 @@ class LoginController extends Controller
             $user->save();
             
             //salva dados de log
-            $logacesso->rg = $user->rg;
-            $logacesso->nome = $user->nome;
-            $logacesso->tipo = 'acesso';
-            $logacesso->created_at = \Carbon\Carbon::now();
-            $logacesso->ip = $ip;
-            $logacesso->save();
+            LoginController::logAcesso($user);
             //verifica se o usuário concordou com os termos de uso
             if ($user->termos == 0) 
             {
@@ -116,8 +98,16 @@ class LoginController extends Controller
             
             $user->tentativas = ($user->sessao == session()->get('_token')) ? $user->tentativas + 1 : 1;
             $user->save();
+            LoginController::tentativas($user);
             
-            switch ($user->tentativas) 
+            
+        }
+                   
+    }
+
+    public static function tentativas($user)
+    {
+        switch ($user->tentativas) 
             {
                 case '1':
                     //salva o token no usuário para verificar as tentativas
@@ -126,7 +116,7 @@ class LoginController extends Controller
                    //mensagens
                     toast()->warning('Tentativas Restantes!', 2);
                     toast()->error('Dados inválidos!', 'ERRO!');
-                    return view('vendor.adminlte.login');
+                    return redirect()->route('login');
                 break;
 
                 case '2':
@@ -134,7 +124,7 @@ class LoginController extends Controller
                     toast()->warning('Se acabarem as tentativas, o usuário será bloquado!');
                     toast()->warning('Tentativas Restantes!', 1);
                     toast()->error('Dados inválidos!', 'ERRO!');
-                    return view('vendor.adminlte.login');
+                    return redirect()->route('login');
                 break;
 
                 case '3':
@@ -148,12 +138,41 @@ class LoginController extends Controller
                     toast()->warning('Tentativas Restantes!', 0);
                     toast()->error('Dados inválidos!', 'ERRO!');
 
-                    return view('vendor.adminlte.login');
+                    return redirect()->route('login');
                 break;
             }
-            
-        }
-                   
+    }
+
+    public static function dadosSessao($user)
+    {
+        $request->session()->put('rg',$user->rg);
+        $request->session()->put('nome', $user->nome);
+        $request->session()->put('email', $user->email);
+        $request->session()->put('cargo', $user->cargo);
+        $request->session()->put('quadro', $user->quadro);
+        $request->session()->put('subquadro', $user->subquadro);
+        $request->session()->put('opm_descricao', $user->opm_descricao);
+        $request->session()->put('cdopm', $user->cdopm);    
+        $request->session()->put('cdopmbase', corta_zeros($user->cdopm));
+        //verifica se o usuário tem permissão para ver todas unidades
+        $verTodasUnidades = User::permission('todas-unidades')->count();
+        //cast para booleano
+        $verTodasUnidades = (boolean) $verTodasUnidades;
+        $request->session()->put('ver_todas_unidades', $verTodasUnidades);
+
+        return true;
+    }
+
+    public static function logAcesso($user, LogAcesso $logacesso)
+    {
+        $logacesso->rg = $user->rg;
+        $logacesso->nome = $user->nome;
+        $logacesso->tipo = 'acesso';
+        $logacesso->created_at = \Carbon\Carbon::now();
+        $logacesso->ip = $ip;
+        $logacesso->save();
+
+        return true;
     }
 
     public function logout(User $user)
