@@ -4,59 +4,70 @@ namespace App\Http\Controllers\_Api\SJD\Proc;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Sjd\Proc\Movimento;
-use App\Models\Sjd\Busca\Envolvido;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
+
+use Auth;
+use App\User;
+use App\Repositories\MovimentoRepository;
 
 class MovimentoApiController extends Controller
 {
-    public function movimentos($ref, $ano)
+    public function find($id, MovimentoRepository $repository)
     {
-        $rota = Route::currentRouteName(); //proc.movimentos
-        $rota = explode ('.', $rota); //divide em [0] -> proc e [1]-> movimentos
-        $rota = $rota[0];
-
-        //----levantar procedimento
-        $proc = DB::table($rota)->where('sjd_ref','=',$ref)->where('sjd_ref_ano','=',$ano)->first();
-        //
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        $movimentos = Movimento::where('id_'.$rota,'=',$proc['id_'.$rota])->get();
-        $envolvidos = Envolvido::where('id_'.$rota,'=',$proc['id_'.$rota])->get();
-        //dd($envolvidos);
-
-        $view = str_replace('_','',$rota);
-        //dd($proc);
-        return view('procedimentos.'.$view.'.form.movimentos',compact('proc','movimentos','sobrestamentos','envolvidos'));
+        return $repository->find($id);
     }
-    
-   public function inserir($id, Request $request)
-   {
-    //dd(\Request::all());
-    $this->validate($request, [
-        'descricao' => 'required',
-    ]);
-    
-    $dados = $request->all();
-    //cria array com dados do movimento
-    $dados = [
-        'data' => date("Y-m-d"),
-        'descricao' => $request->descricao,
-        'id_'.strtolower(tira_acentos($request->proc)) => $id,
-        'rg' => session()->get('rg'),
-        'opm' => session()->get('opm_descricao')
-    ];
-    dd($dados);
-    
-    //cria o novo movimento
-    Movimento::create($dados);
 
-    toast()->success('inserido','Movimento');
+    public function refAno($ref, $ano, MovimentoRepository $repository)
+    {
+        return $repository->refAno($ref, $ano);
+    }
 
-    return redirect()->back();
+    public function all(MovimentoRepository $repository)
+    {
+        return $repository->all();
+    }
 
-   }
+    public function ano($ano, MovimentoRepository $repository)
+    {
+        return $repository->ano($ano);
+    }
 
+    public function andamento(MovimentoRepository $repository)
+    {
+        return $repository->andamento();
+    }
+
+    public function andamentoAno($ano, MovimentoRepository $repository)
+    {
+        return $repository->andamentoAno($ano);
+    }
+
+    public function prazos(MovimentoRepository $repository)
+    {
+        return $repository->prazos();
+    }
+
+    public function prazosAno($ano)
+    {
+        return $repository->prazosAno($ano);
+    }
+
+    public function relSituacao(MovimentoRepository $repository)
+    {
+        return $repository->relSituacao($ano);
+    }
+
+    public function relSituacaoAno($ano, MovimentoRepository $repository)
+    {
+        return $repository->relSituacaoAno($ano);
+    }
+
+    public function julgamento(MovimentoRepository $repository)
+    {
+        return $repository->julgamento();
+    }
+
+    public function julgamentoAno($ano, MovimentoRepository $repository)
+    {
+        return $repository->julgamentoAno($ano);
+    }
 }

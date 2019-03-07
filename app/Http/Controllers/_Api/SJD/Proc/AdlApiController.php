@@ -41,7 +41,7 @@ class AdlApiController extends Controller
         return $repository->andamentoAno($ano);
     }
 
-    public function prazos()
+    public function prazos(AdlRepository $repository)
     {
         return $repository->prazos();
     }
@@ -51,25 +51,23 @@ class AdlApiController extends Controller
         return $repository->prazosAno($ano);
     }
 
-    public function relSituacao()
+    public function relSituacao(AdlRepository $repository)
     {
-        return $repository->relSituacao();
+        return $repository->relSituacao($ano);
     }
 
-    public function relSituacaoAno()
+    public function relSituacaoAno($ano, AdlRepository $repository)
     {
         return $repository->relSituacaoAno($ano);
     }
 
-    public function julgamento()
+    public function julgamento(AdlRepository $repository)
     {
         return $repository->julgamento();
     }
 
-    public function julgamentoAno()
+    public function julgamentoAno($ano, AdlRepository $repository)
     {
         return $repository->julgamentoAno($ano);
     }
-
-
 }

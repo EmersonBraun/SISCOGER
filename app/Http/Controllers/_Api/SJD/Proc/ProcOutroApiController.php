@@ -7,41 +7,41 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\DesercaoRepository;
+use App\Repositories\ProcOutroRepository;
 
-class DesercaoApiController extends Controller
+class ProcOutroApiController extends Controller
 {
-    public function find($id, DesercaoRepository $repository)
+    public function find($id, ProcOutroRepository $repository)
     {
         return $repository->find($id);
     }
 
-    public function refAno($ref, $ano, DesercaoRepository $repository)
+    public function refAno($ref, $ano, ProcOutroRepository $repository)
     {
         return $repository->refAno($ref, $ano);
     }
 
-    public function all(DesercaoRepository $repository)
+    public function all(ProcOutroRepository $repository)
     {
         return $repository->all();
     }
 
-    public function ano($ano, DesercaoRepository $repository)
+    public function ano($ano, ProcOutroRepository $repository)
     {
         return $repository->ano($ano);
     }
 
-    public function andamento(DesercaoRepository $repository)
+    public function andamento(ProcOutroRepository $repository)
     {
         return $repository->andamento();
     }
 
-    public function andamentoAno($ano, DesercaoRepository $repository)
+    public function andamentoAno($ano, ProcOutroRepository $repository)
     {
         return $repository->andamentoAno($ano);
     }
 
-    public function prazos(DesercaoRepository $repository)
+    public function prazos(ProcOutroRepository $repository)
     {
         return $repository->prazos();
     }
@@ -51,22 +51,22 @@ class DesercaoApiController extends Controller
         return $repository->prazosAno($ano);
     }
 
-    public function relSituacao(DesercaoRepository $repository)
+    public function relSituacao(ProcOutroRepository $repository)
     {
         return $repository->relSituacao($ano);
     }
 
-    public function relSituacaoAno($ano, DesercaoRepository $repository)
+    public function relSituacaoAno($ano, ProcOutroRepository $repository)
     {
         return $repository->relSituacaoAno($ano);
     }
 
-    public function julgamento(DesercaoRepository $repository)
+    public function julgamento(ProcOutroRepository $repository)
     {
         return $repository->julgamento();
     }
 
-    public function julgamentoAno($ano, DesercaoRepository $repository)
+    public function julgamentoAno($ano, ProcOutroRepository $repository)
     {
         return $repository->julgamentoAno($ano);
     }
