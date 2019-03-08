@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use App\User;
 use App\Models\Sjd\Proc\Recurso;
+use App\Repositories\RecursoRepository;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
 use App\Models\Sjd\Busca\Ligacao;
@@ -25,28 +26,9 @@ class RecursoController extends Controller
         return redirect()->route('recurso.lista');
     }
 
-    public function lista()
+    public function lista(RecursoRepository $repository)
     {
-        //tempo de cahe
-        $expiration = 60;
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = User::permission('todas-unidades')->count();
-
-        if($verTodasUnidades)
-        {
-            $registros = Cache::remember('todos_recurso', $expiration, function() {
-                return Recurso::get();
-            });
-        }
-        else 
-        {
-            $registros = Cache::remember('recurso'.$unidade, $expiration, function() use ($unidade){
-                return Recurso::where('cdopm','=',$unidade)
-                ->get(); 
-            }); 
-        }
-        //dd($registros);
+        $registros = $repository->all();
         return view('procedimentos.recurso.list.index',compact('registros'));
     }
 

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\ItRepository;
 use App\Models\Sjd\Proc\It;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -26,36 +26,33 @@ class ItController extends Controller
         return redirect()->route('it.lista');
     }
 
-    public function lista()
+    public function lista(ItRepository $repository)
     {
-        $registros = Proc::lista('it');
-
+        $registros = $repository->all();
         return view('procedimentos.it.list.index',compact('registros'));
     }
 
-    public function andamento()
+    public function andamento(ItRepository $repository)
     {
-        $registros = Proc::andamento('it');
+        $registros = $repository->andamento();
         return view('procedimentos.it.list.andamento',compact('registros'));
     }
 
-    public function prazos()
+    public function prazos(ItRepository $repository)
     {
-        $registros = Proc::prazos('it');
+        $registros = $repository->prazos();
         return view('procedimentos.it.list.prazos',compact('registros'));
     }
 
-    public function rel_valores()
+    public function rel_valores(ItRepository $repository)
     {
-        $registros = Proc::lista('it', NULL, ['objetoprocedimento','=','viatura']);
+        $registros = $repository->relValores();
         return view('procedimentos.it.list.rel_valores',compact('registros'));
     }
 
-    public function julgamento()
+    public function julgamento(ItRepository $repository)
     {
-
         $registros = Proc::julgamento('it');
-
         return view('procedimentos.it.list.julgamento',compact('registros'));
     }
 

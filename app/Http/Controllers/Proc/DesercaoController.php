@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\DesercaoRepository;
 use App\Models\Sjd\Proc\Desercao;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -26,16 +26,16 @@ class DesercaoController extends Controller
         return redirect()->route('desercao.lista');
     }
 
-    public function lista()
+    public function lista(DesercaoRepository $repository)
     {
-        $registros = Proc::lista('desercao');
+        $registros = $repository->all();
         return view('procedimentos.desercao.list.index',compact('registros'));
     }
 
 
-    public function rel_situacao()
+    public function rel_situacao(DesercaoRepository $repository)
     {
-        $registros = Proc::lista('desercao');
+        $registros = $repository->all();
         return view('procedimentos.desercao.list.rel_situacao',compact('registros'));
     }
 

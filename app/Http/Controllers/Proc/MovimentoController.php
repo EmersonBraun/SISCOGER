@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Proc;
 
 use Illuminate\Http\Request;
+use App\Repositories\MovimentoRepository;
 use App\Http\Controllers\Controller;
 use App\Models\Sjd\Proc\Movimento;
 use App\Models\Sjd\Busca\Envolvido;

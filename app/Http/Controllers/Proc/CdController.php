@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\CdRepository;
 use App\Models\Sjd\Proc\Cd;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -26,36 +26,33 @@ class CdController extends Controller
         return redirect()->route('cd.lista');
     }
 
-    public function lista()
+    public function lista(CdRepository $repository)
     {
-        $registros = Proc::lista('cd');
-        //dd($registros);
+        $registros = $repository->all();
         return view('procedimentos.cd.list.index',compact('registros'));
     }
 
-    public function andamento( )
+    public function andamento(CdRepository $repository )
     {
-        $registros = Proc::andamento('cd');
+        $registros = $repository->andamento();
         return view('procedimentos.cd.list.andamento',compact('registros'));
     }
 
-    public function prazos()
+    public function prazos(CdRepository $repository)
     {
-        $registros = Proc::prazos('cd');
-        //dd($registros);
+        $registros = $repository->prazos();
         return view('procedimentos.cd.list.prazos',compact('registros'));
     }
 
-    public function rel_situacao()
+    public function rel_situacao(CdRepository $repository)
     {
-        $registros = Proc::lista('cd');
+        $registros = $repository->all();
         return view('procedimentos.cd.list.rel_situacao',compact('registros'));
     }
 
-    public function julgamento()
+    public function julgamento(CdRepository $repository)
     {
-        $registros = Proc::julgamento('cd');
-
+        $registros = $repository->julgamento();
         return view('procedimentos.cd.list.julgamento',compact('registros'));
     }
 

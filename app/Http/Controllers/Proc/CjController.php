@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\CjRepository;
 use App\Models\Sjd\Proc\Cj;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -26,37 +26,33 @@ class CjController extends Controller
         return redirect()->route('cj.lista');
     }
 
-    public function lista()
+    public function lista(CjRepository $repository)
     {
-        //tempo de cahe
-        $expiration = 60;
-
-        $registros = Proc::lista('cj');
-
+        $registros = $repository->all();
         return view('procedimentos.cj.list.index',compact('registros'));
     }
 
-    public function andamento( )
+    public function andamento(CjRepository $repository )
     {
-        $registros = Proc::andamento('cj');
+        $registros = $repository->andamento();
         return view('procedimentos.cj.list.andamento',compact('registros'));
     }
 
-    public function prazos()
+    public function prazos(CjRepository $repository)
     {
-        $registros = Proc::prazos('cj');
+        $registros = $repository->prazos();
         return view('procedimentos.cj.list.prazos',compact('registros'));
     }
 
-    public function rel_situacao()
+    public function rel_situacao(CjRepository $repository)
     {
-        $registros = Proc::lista('cj');
+        $registros = $repository->all();
         return view('procedimentos.cj.list.rel_situacao',compact('registros'));
     }
 
-    public function julgamento()
+    public function julgamento(CjRepository $repository)
     {
-        $registros = Proc::julgamento('cj');
+        $registros = $repository->julgamento();
         return view('procedimentos.cj.list.julgamento',compact('registros'));
     }
 

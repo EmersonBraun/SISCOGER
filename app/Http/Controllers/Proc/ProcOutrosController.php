@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\ProcOutroRepository;
 use App\Models\Sjd\Proc\ProcOutro;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -26,21 +26,21 @@ class ProcOutrosController extends Controller
         return redirect()->route('procoutros.lista');
     }
 
-    public function lista()
+    public function lista(ProcOutroRepository $repository)
     {
-        $registros = Proc::lista('proc_outros');
+        $registros = $repository->all();
         return view('procedimentos.procoutros.list.index',compact('registros'));
     }
 
-    public function andamento()
+    public function andamento(ProcOutroRepository $repository)
     {
-        $registros = Proc::lista('proc_outros');
+        $registros = $repository->all();
         return view('procedimentos.procoutros.list.andamento',compact('registros'));
     }
 
-    public function prazos()
+    public function prazos(ProcOutroRepository $repository)
     {
-        $registros = Proc::prazos('proc_outros');
+        $registros = $repository->prazos();
         return view('procedimentos.procoutros.list.prazos',compact('registros'));
     }
 

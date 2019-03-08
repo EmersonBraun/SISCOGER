@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\ApfdRepository;
 use App\Models\Sjd\Proc\Apfd;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -27,17 +27,15 @@ class ApfdController extends Controller
         return redirect()->route('apfd.lista');
     }
 
-    public function lista()
+    public function lista(ApfdRepository $repository)
     {
-        $registros = Proc::lista('apfd');
-        //dd($registros);
+        $registros = $repository->all();
         return view('procedimentos.apfd.list.index',compact('registros'));
     }
 
-
-    public function rel_situacao()
+    public function rel_situacao(ApfdRepository $repository)
     {
-        $registros = Proc::lista('apfd');
+        $registros = $repository->all();
         return view('procedimentos.apfd.list.rel_situacao',compact('registros'));
     }
 

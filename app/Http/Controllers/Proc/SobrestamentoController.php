@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Proc;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Sjd\Proc\Sobrestamento;
+use App\Repositories\SobrestamentoRepository;
 use App\Models\Sjd\Busca\Envolvido;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;

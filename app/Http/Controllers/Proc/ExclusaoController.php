@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\EsclusaoRepository;
 use App\Models\Sjd\Proc\Exclusaojudicial;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -26,9 +26,9 @@ class ExclusaoController extends Controller
         return redirect()->route('exclusao.lista');
     }
 
-    public function lista()
+    public function lista(EsclusaoRepository $repository)
     {
-        $registros = Proc::lista('exclusao');
+        $registros = $repository->all();
         return view('procedimentos.exclusao.list.index',compact('registros'));
     }
 

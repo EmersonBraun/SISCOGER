@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\IsoRepository;
 use App\Models\Sjd\Proc\Iso;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -26,21 +26,21 @@ class IsoController extends Controller
         return redirect()->route('iso.lista');
     }
 
-    public function lista()
+    public function lista(IsoRepository $repository)
     {
-        $registros = Proc::lista('iso');
+        $registros = $repository->all();
         return view('procedimentos.iso.list.index',compact('registros'));
     }
 
-    public function andamento()
+    public function andamento(IsoRepository $repository)
     {
-        $registros = Proc::andamento('iso');
+        $registros = $repository->andamento();
         return view('procedimentos.iso.list.andamento',compact('registros'));
     }
 
-    public function prazos()
+    public function prazos(IsoRepository $repository)
     {
-        $registros = Proc::prazos('iso');
+        $registros = $repository->prazos();
         return view('procedimentos.iso.list.prazos',compact('registros'));
     }
 

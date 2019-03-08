@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\Fatdrepository;
 use App\Models\Sjd\Proc\Fatd;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -26,38 +26,33 @@ class FatdController extends Controller
         return redirect()->route('fatd.lista',['ano' => date('Y')]);
     }
 
-    public function lista($ano)
+    public function lista($ano, FatdRepository $repository)
     {
-        $registros = Proc::lista('fatd', $ano);
-
+        $registros = $repository->ano($ano);
         return view('procedimentos.fatd.list.index',compact('registros','ano'));
     }
 
-    public function andamento( $ano)
+    public function andamento($ano, FatdRepository $repository)
     {
-        $registros = Proc::lista('fatd', $ano);
-
+        $registros = $repository->andamentoAno($ano);
         return view('procedimentos.fatd.list.andamento',compact('registros','ano'));
     }
 
-    public function prazos($ano)
+    public function prazos($ano, FatdRepository $repository)
     {
-
-        $registros = Proc::prazos('fatd', $ano);
-
+        $registros = $repository->prazosAno($ano);
         return view('procedimentos.fatd.list.prazos',compact('registros','ano'));
     }
 
-    public function rel_situacao( $ano)
+    public function rel_situacao($ano, FatdRepository $repository)
     {
-        $registros = Proc::lista('fatd', $ano);
+        $registros = $repository->ano($ano);
         return view('procedimentos.fatd.list.rel_situacao',compact('registros','ano'));
     }
 
-    public function julgamento( $ano)
+    public function julgamento($ano, FatdRepository $repository)
     {
-        $registros = Proc::julgamento('fatd', $ano);
-
+        $registros = $repository->julgamentoAno($ano);
         return view('procedimentos.fatd.list.julgamento',compact('registros','ano'));
     }
 

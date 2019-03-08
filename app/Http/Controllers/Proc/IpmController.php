@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\IpmRepository;
 use App\Models\Sjd\Proc\Ipm;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -26,34 +26,33 @@ class IpmController extends Controller
         return redirect()->route('ipm.lista');
     }
 
-    public function lista()
+    public function lista(IpmRepository $repository)
     {
-        $registros = Proc::lista('ipm');
+        $registros = $repository->all();
         return view('procedimentos.ipm.list.index',compact('registros'));
     }
 
-    public function andamento( )
+    public function andamento(IpmRepository $repository )
     {
-        $registros = Proc::andamento('ipm');
+        $registros = $repository->andamento();
         return view('procedimentos.ipm.list.andamento',compact('registros'));
     }
 
-    public function prazos()
+    public function prazos(IpmRepository $repository)
     {
-        $registros = Proc::prazos('ipm');;
+        $registros = $repository->prazos();
         return view('procedimentos.ipm.list.prazos',compact('registros'));
     }
 
-    public function rel_situacao()
+    public function rel_situacao(IpmRepository $repository)
     {
-        $registros = Proc::lista('ipm');
+        $registros = $repository->all();
         return view('procedimentos.ipm.list.rel_situacao',compact('registros'));
     }
 
-    public function resultado()
+    public function resultado(IpmRepository $repository)
     {
-        $registros = Proc::julgamento('ipm');
-
+        $registros = $repository->julgamento();
         return view('procedimentos.ipm.list.resultado',compact('registros'));
     }
 

@@ -65,6 +65,29 @@ class ItRepository extends BaseRepository
         return $registros;
     } 
 
+    public function relValores()
+	{
+        $unidade = session('cdopmbase');
+        //verifica se o usuário tem permissão para ver todas unidades
+        $verTodasUnidades = session('ver_todas_unidades');
+
+        if($verTodasUnidades)
+        {
+            $registros = Cache::remember('todos_it', self::$expiration, function() {
+                return $this->model->where('objetoprocedimento','=','viatura')->get();
+            });
+        }
+        else 
+        {
+            $registros = Cache::remember('todos_it_'.$unidade, self::$expiration, function() use ($unidade) {
+                return $this->model->where('objetoprocedimento','=','viatura')
+                ->where('cdopm','like',$unidade.'%')->get();
+            });
+        }
+
+        return $registros;
+    } 
+
     public function andamento()
 	{
         $unidade = session('cdopmbase');

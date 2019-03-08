@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\SindicanciaRepository;
 use App\Models\Sjd\Proc\Sindicancia;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -26,33 +26,33 @@ class SindicanciaController extends Controller
         return redirect()->route('sindicancia.lista');
     }
 
-    public function lista()
+    public function lista(SindicanciaRepository $repository)
     {
-        $registros = Proc::lista('sindicancia');
+        $registros = $repository->all();
         return view('procedimentos.sindicancia.list.index',compact('registros'));
     }
 
-    public function andamento()
+    public function andamento(SindicanciaRepository $repository)
     {
-        $registros = Proc::lista('sindicancia');
+        $registros = $repository->all();
         return view('procedimentos.sindicancia.list.andamento',compact('registros'));
     }
 
-    public function prazos()
+    public function prazos(SindicanciaRepository $repository)
     {
-        $registros = Proc::prazos('sindicancia');
+        $registros = $repository->prazos();
         return view('procedimentos.sindicancia.list.prazos',compact('registros'));
     }
 
-    public function rel_situacao()
+    public function rel_situacao(SindicanciaRepository $repository)
     {
-        $registros = Proc::lista('sindicancia');
+        $registros = $repository->all();
         return view('procedimentos.sindicancia.list.rel_situacao',compact('registros'));
     }
 
-    public function resultado()
+    public function resultado(SindicanciaRepository $repository)
     {
-        $registros = Proc::julgamento('sindicancia');
+        $registros = $repository->julgamento();
 
         return view('procedimentos.sindicancia.list.resultado',compact('registros'));
     }

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\Proc;
+use App\Repositories\PadRepository;
 use App\Models\Sjd\Proc\Pad;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Models\Sjd\Busca\Ofendido;
@@ -26,9 +26,9 @@ class PadController extends Controller
         return redirect()->route('pad.lista');
     }
 
-    public function lista()
+    public function lista(PadRepository $repository)
     {
-        $registros = Proc::lista('pad');
+        $registros = $repository->all();
         return view('procedimentos.pad.list.index',compact('registros'));
     }
 
