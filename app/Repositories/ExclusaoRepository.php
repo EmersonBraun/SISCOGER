@@ -14,8 +14,8 @@ use App\Repositories\BaseRepository;
 
 class ExclusaoRepository extends BaseRepository
 {
-    private $model;
-    private static $expiration = 60; 
+    protected $model;
+    protected static $expiration = 60; 
 
 	public function __construct(Exclusao $model)
 	{

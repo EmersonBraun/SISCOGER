@@ -14,8 +14,8 @@ use App\Repositories\BaseRepository;
 
 class ReintegradoRepository extends BaseRepository
 {
-    private $model;
-    private static $expiration = 60; 
+    protected $model;
+    protected static $expiration = 60; 
 
 	public function __construct(Reintegrado $model)
 	{

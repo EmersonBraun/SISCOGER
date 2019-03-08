@@ -14,8 +14,8 @@ use App\Repositories\BaseRepository;
 
 class IsoRepository extends BaseRepository
 {
-    private $model;
-    private static $expiration = 60; 
+    protected $model;
+    protected static $expiration = 60; 
 
 	public function __construct(Iso $model)
 	{

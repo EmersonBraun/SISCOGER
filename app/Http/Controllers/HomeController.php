@@ -1,9 +1,6 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use App\Models\Sjd\Relatorios\Pendencia as Pendencia;
 // dados via API
 use ApiTransferencias;
@@ -15,7 +12,6 @@ use ApiCd;
 use ApiEfetivo;
 use ApiPM;
 use ApiOPM;
-
 class HomeController extends Controller
 {
     /**
@@ -27,7 +23,6 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
-
     /**
      * Show the application dashboard.
      *
@@ -37,29 +32,22 @@ class HomeController extends Controller
     {
         //caso não tenha argumentos a função pega a unidade do login
         $unidade = (func_num_args() <= 0 ) ? $unidade = session()->get('cdopmbase') : func_get_args();
-
         //os argumentos vem em array assim faz o cast para string
         $unidade = (is_array($unidade)) ? head($unidade) : $unidade;
-
         //nome da unidade caso não seja a logada
         $nome_unidade = ($unidade != session()->get('cdopmbase')) ? opm($unidade) : '';
-
         //caso não tenha unidade desloga
         if($unidade == NULL || $unidade == '')
         {
             Auth::logout();
             return redirect()->intended('login');
         }
-
         // pendências
         //PENDENCIA #0: TRANSFERIDOS obs: arrumar a pesquisa
-
         $transferidos = ApiTransferencias::transferencias($unidade);
         //$transferidos = [];
-
         //PENDENCIA #1: COMPORTAMENTO
         $comportamentos = ApiComportamento::comportamentos($unidade);
-
         //PENDENCIA #2: CADASTRO DE PUNICAO NO FATD MARCADO COMO PUNIDO
         $fatd_punidos = ApiFatd::punidos($unidade);
         
@@ -68,25 +56,19 @@ class HomeController extends Controller
         
         //PENDENCIA #2.2: FATD SEM DATA DE ABERTURA
         $fatd_aberturas = ApiFatd::aberturas($unidade);
-
         //PENDENCIA #3: PERDA DE PRAZO EM IPM
         $ipm_prazos = ApiIpm::prazos($unidade);
         
         //PENDENCIA #3.1: ipm SEM DATA DE ABERTURA
         $ipm_aberturas = ApiIpm::aberturas($unidade);
-
         //PENDENCIA #4: PRAZO DAS SINDICANCIAS
         $sindicancia_prazos = ApiSindicancia::prazos($unidade);
-
         //PENDENCIA #4.1: SINDICANCIA SEM DATA DE ABERTURA
         $sindicancia_aberturas = ApiSindicancia::aberturas($unidade);
-
         //PENDENCIA #5: CONSELHOS DE DISCIPLINA SEM DATA DE ABERTURA
         $cd_aberturas = ApiCd::aberturas($unidade);
-
         //PENDENCIA #5.1: CONSELHOS DE DISCIPLINA - PRAZO
         $cd_prazos = ApiCd::prazos($unidade);
-
         //contagens
         $ttransferidos = count($transferidos);
         $tfatd_punidos = count($fatd_punidos);
@@ -98,19 +80,16 @@ class HomeController extends Controller
         $tsindicancia_aberturas = count($sindicancia_aberturas);
         $tcd_aberturas = count($cd_aberturas);
         $tcd_prazos = count($cd_prazos);
-
         // totais para as infobox
         $fatd_total = $tfatd_punidos + $tfatd_prazos + $tfatd_aberturas;
         $ipm_total = $tipm_prazos + $tipm_aberturas;
         $sindicancia_total = $tsindicancia_prazos + $tsindicancia_aberturas;
         $cd_total = $tcd_aberturas + $tcd_prazos;
-
         $total_efetivo =  ApiPM::totalEfetivoOPM($unidade);
         
         // gráficos
         $efetivo_chartjs = HomeController::graficoEfetivo($unidade);
         $chartjs = HomeController::graficoProcAnos($unidade);
-
         //ATUALIZAR PENDÊNCIAS GERAIS
         //aproveita que já tem as somas de pendências para inserir na tabela de pendências gerais
         $pendencia = Pendencia::where('cdopm','=',$unidade)->first();
@@ -122,7 +101,6 @@ class HomeController extends Controller
         $pendencia->sindicancia_prazo = $tsindicancia_prazos; 
         $pendencia->sindicancia_abertura = $tsindicancia_aberturas; 
         $pendencia->save();
-
         return view('home',compact(
             'transferidos', 
             'comportamentos',
@@ -161,15 +139,12 @@ class HomeController extends Controller
             'unidade' 
             ));
     }
-
     public function graficoEfetivo($unidade)
     {
         $efetivo = ApiPM::efetivoOPM($unidade);
-
         //formatar array para o gráfico
         $qtd = array_pluck($efetivo, 'qtd');
         $cargo = array_pluck($efetivo, 'cargo');
-
         //criar dados do gráfico
         $efetivo_chartjs = app()->chartjs
             ->name('efetivo')
@@ -192,21 +167,18 @@ class HomeController extends Controller
             ]);
         return $efetivo_chartjs;
     }
-
     public function graficoProcAnos($unidade)
     {
         $fatd_ano = ApiFatd::QtdOMAnos($unidade);
         $ipm_ano = ApiIpm::QtdOMAnos($unidade);
         $sindicancia_ano = ApiSindicancia::QtdOMAnos($unidade);
         $cd_ano = ApiCd::QtdOMAnos($unidade);
-
         //divide o array para usar no gráfico
         [$anos, $fatd_ano] = array_divide($fatd_ano);
         [$anos, $ipm_ano] = array_divide($ipm_ano);
         [$anos, $sindicancia_ano] = array_divide($sindicancia_ano);
         [$anos, $cd_ano] = array_divide($cd_ano);
             
-
             $chartjs = app()->chartjs
             ->name('lineChartTest')
             ->type('line')
@@ -255,7 +227,6 @@ class HomeController extends Controller
                 ]
             ])
             ->options([]);
-
             return $chartjs;
     }
 }

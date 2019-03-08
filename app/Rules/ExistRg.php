@@ -5,7 +5,7 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use App\User;
 
-class Block implements Rule
+class ExistRg implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,10 +26,8 @@ class Block implements Rule
      */
     public function passes($attribute, $value)
     {
-        $user = User::where('rg', '=', $value)->first();
-        $value = (is_object($user)) ? $user->block : 0;
-        
-        return $value !== 1;    
+        $value = User::where('rg', '=', $value)->count();
+        return $value > 0;
     }
 
     /**
@@ -39,6 +37,6 @@ class Block implements Rule
      */
     public function message()
     {
-        return 'Usuário Bloqueado! Entre em contato com sua SJD!';
+        return 'RG não cadastrado!';
     }
 }

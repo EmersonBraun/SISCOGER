@@ -149,14 +149,14 @@ class Cd extends Eloquent
 		'ac_desempenho_bl',
 		'ac_conduta_bl',
 		'ac_honra_bl',
-		'prioridade'
+		'prioridade',
 		'libelo_file',
 		'parecer_file',
 		'decisao_file',
 		'rec_ato_file',
 		'rec_gov_file',
 		'tjpr_file',
-		'stj_file',
+		'stj_file'
     ];
     
     use PresentableTrait;

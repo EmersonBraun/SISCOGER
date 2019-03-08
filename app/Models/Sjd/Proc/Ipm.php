@@ -315,44 +315,6 @@ class Ipm extends Eloquent
     }
 
     //mutators (para alterar na hora da exibição)
-    public function getRelatoCmtopmDataAttribute($value)
-    {
-        if($value == '0000-00-00')
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
-    }
-
-    //mutators (para alterar na hora de salvar no banco)
-    public function setRelatoCmtopmDataAttribute($value)
-    {
-        $this->attributes['relato_cmtopm_data'] = data_bd($value);
-    }
-
-    //mutators (para alterar na hora da exibição)
-    public function getRelatoCmtgeralDataAttribute($value)
-    {
-        if($value == '0000-00-00')
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
-    }
-
-    //mutators (para alterar na hora de salvar no banco)
-    public function setRelatoCmtgeralDataAttribute($value)
-    {
-        $this->attributes['relato_cmtgeral_data'] = data_bd($value);
-    }
-
-    //mutators (para alterar na hora da exibição)
     public function getRelcomplementarDataAttribute($value)
     {
         if($value == '0000-00-00')

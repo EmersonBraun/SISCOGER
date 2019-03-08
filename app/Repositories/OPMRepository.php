@@ -11,7 +11,7 @@ use App\Models\rhparana\Opmpmpr;
 
 class OPMRepository
 {
-    private $model;
+    protected $model;
  
 	public function __construct(Opmpmpr $model)
 	{

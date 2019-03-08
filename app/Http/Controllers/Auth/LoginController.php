@@ -5,16 +5,17 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-//para verificar se está bloqueado
-use App\Rules\Block;
-//para verificar se está com muito tempo de inatividade
-use App\Rules\IntervaloDias;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 use App\User;
 use App\Models\Sjd\Administracao\LogAcesso;
+//para verificar se está bloqueado
+use App\Rules\Block;
+//para verificar se está com muito tempo de inatividade
+use App\Rules\IntervaloDias;
+//para verificar se tem o RG cadastrado
+use App\Rules\ExistRg;
 
 class LoginController extends Controller
 {
@@ -43,11 +44,11 @@ class LoginController extends Controller
         return 'rg';
     }
 
-    public function login(Request $request)
+    public function login(Request $request, LogAcesso $logacesso)
     {
         //verificar se os campos foram preenchidos
         $this->validate($request, [
-            'rg' => ['required', 'numeric', 'exists:users', new Block, new IntervaloDias],
+            'rg' => ['required', 'numeric', new ExistRg, new Block, new IntervaloDias],
             'password'=>'required',
         ]);
 
@@ -62,7 +63,7 @@ class LoginController extends Controller
         if (!$user) return abort(403);
 
         //salva dados usuário na sessão
-        LoginController::dadosSessao($user);
+        LoginController::dadosSessao($user, $request);
 
         if (Auth::attempt($credentials)) 
         {
@@ -74,7 +75,12 @@ class LoginController extends Controller
             $user->save();
             
             //salva dados de log
-            LoginController::logAcesso($user);
+            $logacesso->rg = $user->rg;
+            $logacesso->nome = $user->nome;
+            $logacesso->tipo = 'acesso';
+            $logacesso->created_at = \Carbon\Carbon::now();
+            $logacesso->ip = $ip;
+            $logacesso->save();
             //verifica se o usuário concordou com os termos de uso
             if ($user->termos == 0) 
             {
@@ -98,16 +104,7 @@ class LoginController extends Controller
             
             $user->tentativas = ($user->sessao == session()->get('_token')) ? $user->tentativas + 1 : 1;
             $user->save();
-            LoginController::tentativas($user);
-            
-            
-        }
-                   
-    }
-
-    public static function tentativas($user)
-    {
-        switch ($user->tentativas) 
+            switch ($user->tentativas) 
             {
                 case '1':
                     //salva o token no usuário para verificar as tentativas
@@ -116,7 +113,7 @@ class LoginController extends Controller
                    //mensagens
                     toast()->warning('Tentativas Restantes!', 2);
                     toast()->error('Dados inválidos!', 'ERRO!');
-                    return redirect()->route('login');
+                    return redirect()->back();
                 break;
 
                 case '2':
@@ -124,7 +121,7 @@ class LoginController extends Controller
                     toast()->warning('Se acabarem as tentativas, o usuário será bloquado!');
                     toast()->warning('Tentativas Restantes!', 1);
                     toast()->error('Dados inválidos!', 'ERRO!');
-                    return redirect()->route('login');
+                    return redirect()->back();
                 break;
 
                 case '3':
@@ -138,12 +135,16 @@ class LoginController extends Controller
                     toast()->warning('Tentativas Restantes!', 0);
                     toast()->error('Dados inválidos!', 'ERRO!');
 
-                    return redirect()->route('login');
+                    return redirect()->back();
                 break;
             }
+            
+            
+        }
+                   
     }
 
-    public static function dadosSessao($user)
+    public static function dadosSessao($user, $request)
     {
         $request->session()->put('rg',$user->rg);
         $request->session()->put('nome', $user->nome);
@@ -159,18 +160,6 @@ class LoginController extends Controller
         //cast para booleano
         $verTodasUnidades = (boolean) $verTodasUnidades;
         $request->session()->put('ver_todas_unidades', $verTodasUnidades);
-
-        return true;
-    }
-
-    public static function logAcesso($user, LogAcesso $logacesso)
-    {
-        $logacesso->rg = $user->rg;
-        $logacesso->nome = $user->nome;
-        $logacesso->tipo = 'acesso';
-        $logacesso->created_at = \Carbon\Carbon::now();
-        $logacesso->ip = $ip;
-        $logacesso->save();
 
         return true;
     }
