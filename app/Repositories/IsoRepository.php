@@ -199,7 +199,7 @@ class IsoRepository extends BaseRepository
         return $registros;
     }
 
-    public static function prazos()
+    public function prazos()
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -211,36 +211,38 @@ class IsoRepository extends BaseRepository
         {
 
             $registros = Cache::remember('iso_prazo_opm', self::$expiration, function() {
-                return $this->model->select('SELECT iso.*, envolvido.cargo, envolvido.nome, 
-                    (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis FROM iso
-                    LEFT JOIN envolvido ON envolvido.id_iso=iso.id_iso AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto', 
-                        [
-                            'situacao' => 'Encarregado',
-                            'rg_substituto' => ''
-                        ]); 
-                    });
+                return $this->model
+                    ->selectRaw('iso.*, envolvido.cargo, envolvido.nome, 
+                    (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_iso', '=', 'iso.id_iso')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->get();
+            });
                     
         }
         else 
         {
-                $registros = Cache::remember('iso'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return $this->model->select('SELECT iso.*, envolvido.cargo, envolvido.nome, 
-                            (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis FROM iso
-                            LEFT JOIN envolvido ON
-                                envolvido.id_iso=iso.id_iso AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto
-                            WHERE ipm.cdopm like :unidade%', 
-                                [
-                                    'situacao' => 'Encarregado',
-                                    'rg_substituto' => '',
-                                    'unidade' => $unidade
-                                ]); 
-    
-                });   
+            $registros = Cache::remember('iso'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
+                return $this->model
+                    ->selectRaw('iso.*, envolvido.cargo, envolvido.nome, 
+                    (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_iso', '=', 'iso.id_iso')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('iso.cdopm','=',$unidade)
+                    ->get();
+
+            });   
         }
         return $registros;
     }
 
-    public static function prazosAno($ano)
+    public function prazosAno($ano)
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -252,32 +254,33 @@ class IsoRepository extends BaseRepository
         {
 
             $registros = Cache::remember('iso_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return $this->model->select('SELECT iso.*, envolvido.cargo, envolvido.nome, 
-                    (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis FROM iso
-                    LEFT JOIN envolvido ON envolvido.id_iso=iso.id_iso AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto 
-                    WHERE iso.sjd_ref_ano = :ano', 
-                        [
-                            'situacao' => 'Encarregado',
-                            'rg_substituto' => '',
-                            'ano' => $ano
-                        ]); 
-                });
+                return $this->model
+                    ->selectRaw('iso.*, envolvido.cargo, envolvido.nome, 
+                    (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_iso', '=', 'iso.id_iso')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('iso.sjd_ref_ano','=',$ano)
+                    ->get();
+            });
                     
         }
         else 
         {
             $registros = Cache::remember('iso'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return $this->model->select('SELECT iso.*, envolvido.cargo, envolvido.nome, 
-                    (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis FROM iso
-                    LEFT JOIN envolvido ON
-                        envolvido.id_iso=iso.id_iso AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto
-                    WHERE ipm.cdopm like :unidade% AND sjd_ref_ano = :ano', 
-                        [
-                            'situacao' => 'Encarregado',
-                            'rg_substituto' => '',
-                            'unidade' => $unidade,
-                            'ano' => $ano
-                        ]); 
+                return $this->model
+                    ->selectRaw('iso.*, envolvido.cargo, envolvido.nome, 
+                    (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_iso', '=', 'iso.id_iso')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('iso.sjd_ref_ano','=',$ano)
+                    ->where('iso.cdopm','=',$unidade)
+                    ->get();
 
             });   
         }

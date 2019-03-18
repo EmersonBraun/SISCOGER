@@ -201,7 +201,7 @@ class DesercaoRepository extends BaseRepository
         return $registros;
     }
 
-    public static function prazos()
+    public function prazos()
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -213,73 +213,50 @@ class DesercaoRepository extends BaseRepository
         {
 
             $registros = Cache::remember('desercao_prazo_opm', self::$expiration, function() {
-                return $this->model->select('SELECT desercao.*, 
+                return $this->model
+                    ->selectRaw('desercao.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM desercao
-                    LEFT JOIN
-                    (SELECT id_desercao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                    WHERE termino_data !=:termino_data AND id_desercao!=:id_desercao GROUP BY id_desercao ORDER BY id_desercao ASC LIMIT 1) b
-                    ON b.id_desercao = desercao.id_desercao
-                    LEFT JOIN envolvido ON
-                        envolvido.id_desercao=desercao.id_desercao AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto', 
-                        [
-                            'termino_data' => '0000-00-00',
-                            'id_desercao' => '',
-                            'situacao' => 'Presidente',
-                            'rg_substituto' => ''
-                        ]); 
-                    });
-                    
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_desercao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_desercao != '' GROUP BY id_desercao ORDER BY sobrestamento.id_desercao ASC LIMIT 1) b"),
+                        'b.id_desercao', '=', 'desercao.id_desercao')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_desercao', '=', 'desercao.id_desercao')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->get();              
         }
         else 
         {
-                $registros = Cache::remember('desercao'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return $this->model->select('SELECT desercao.id_desercao, desercao.id_andamento, desercao.id_andamentocoger, 
-                        (
-                            SELECT  motivo
-                            FROM    sobrestamento
-                            WHERE   sobrestamento.id_desercao=desercao.id_desercao 
-                            ORDER BY sobrestamento.id_sobrestamento DESC
-                            LIMIT 1
-                        ) AS motivo,  
-                        (
-                            SELECT  motivo_outros
-                            FROM    sobrestamento
-                            WHERE   sobrestamento.id_desercao=desercao.id_desercao 
-                            ORDER BY sobrestamento.id_sobrestamento DESC
-                            LIMIT 1
-                        ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                        b.dusobrestado, 
-                        (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM desercao
-                        LEFT JOIN
-                        (SELECT id_desercao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                            WHERE termino_data !=:termino_data AND id_desercao!=:id_desercao 
-                            GROUP BY id_desercao
-                            ORDER BY id_desercao ASC
-                            LIMIT 1) b
-                            ON b.id_desercao = desercao.id_desercao 
-                            AND desercao.cdopm like :unidade%
-                        LEFT JOIN envolvido ON
-                            envolvido.id_desercao=desercao.id_desercao 
-                            AND envolvido.situacao=:situacao 
-                            AND rg_substituto=:rg_substituto
-                            ', 
-                            [
-                                'termino_data' => '0000-00-00',
-                                'id_desercao' => '',
-                                'situacao' => 'Presidente',
-                                'rg_substituto' => '',
-                                'unidade' => $unidade
-                            ]); 
-    
-                });   
+            $registros = Cache::remember('desercao'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
+                return $this->model
+                ->selectRaw('desercao.*, 
+                (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                ->leftJoin(
+                    DB::raw("(SELECT id_desercao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                    WHERE termino_data != '0000-00-00' AND id_desercao != '' GROUP BY id_desercao ORDER BY sobrestamento.id_desercao ASC LIMIT 1) b"),
+                    'b.id_desercao', '=', 'desercao.id_desercao')
+                ->leftJoin('envolvido', function ($join){
+                    $join->on('envolvido.id_desercao', '=', 'desercao.id_desercao')
+                        ->where('envolvido.situacao', '=', 'Presidente')
+                        ->where('envolvido.rg_substituto', '=', '');
+                })
+                ->where('adl.cdopm','=',$unidade)
+                ->get();
+
+            });   
         }
         return $registros;
     }
 
-    public static function prazosAno($ano)
+    public function prazosAno($ano)
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -290,68 +267,45 @@ class DesercaoRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('desercao_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return $this->model->select('SELECT desercao.id_desercao, desercao.id_andamento, desercao.id_andamentocoger, 
-                (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                (SELECT  motivo_outros FROM sobrestamento WHERE sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1
-                ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM desercao
-                LEFT JOIN
-                (SELECT id_desercao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento WHERE termino_data !=:termino_data AND id_desercao!=:id_desercao GROUP BY id_desercao ORDER BY id_desercao ASC LIMIT 1) b ON b.id_desercao = desercao.id_desercao
-                LEFT JOIN envolvido ON envolvido.id_desercao=desercao.id_desercao AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto
-                WHERE desercao.sjd_ref_ano = :ano', 
-                    [
-                        'termino_data' => '0000-00-00',
-                        'id_desercao' => '',
-                        'situacao' => 'Presidente',
-                        'rg_substituto' => '',
-                        'ano' => $ano
-                    ]); 
-                });
-                    
+            return $this->model
+                ->selectRaw('desercao.*, 
+                (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                ->leftJoin(
+                    DB::raw("(SELECT id_desercao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                    WHERE termino_data != '0000-00-00' AND id_desercao != '' GROUP BY id_desercao ORDER BY sobrestamento.id_desercao ASC LIMIT 1) b"),
+                    'b.id_desercao', '=', 'desercao.id_desercao')
+                ->leftJoin('envolvido', function ($join){
+                    $join->on('envolvido.id_desercao', '=', 'desercao.id_desercao')
+                        ->where('envolvido.situacao', '=', 'Presidente')
+                        ->where('envolvido.rg_substituto', '=', '');
+                })
+                ->where('adl.sjd_ref_ano','=',$ano)
+                ->get();         
         }
         else 
         {
             $registros = Cache::remember('desercao'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return $this->model->select('SELECT desercao.id_desercao, desercao.id_andamento, desercao.id_andamentocoger, 
-                (
-                    SELECT  motivo
-                    FROM    sobrestamento
-                    WHERE   sobrestamento.id_desercao=desercao.id_desercao 
-                    ORDER BY sobrestamento.id_sobrestamento DESC
-                    LIMIT 1
-                ) AS motivo,  
-                (
-                    SELECT  motivo_outros
-                    FROM    sobrestamento
-                    WHERE   sobrestamento.id_desercao=desercao.id_desercao 
-                    ORDER BY sobrestamento.id_sobrestamento DESC
-                    LIMIT 1
-                ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                b.dusobrestado, 
-                (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM desercao
-                LEFT JOIN
-                (SELECT id_desercao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                    WHERE termino_data !=:termino_data AND id_desercao!=:id_desercao 
-                    GROUP BY id_desercao
-                    ORDER BY id_desercao ASC
-                    LIMIT 1) b
-                    ON b.id_desercao = desercao.id_desercao 
-                    AND desercao.cdopm like :unidade%
-                LEFT JOIN envolvido ON
-                    envolvido.id_desercao=desercao.id_desercao 
-                    AND envolvido.situacao=:situacao 
-                    AND rg_substituto=:rg_substituto
-                    WHERE desercao.sjd_ref_ano = :ano
-                    ', 
-                    [
-                        'termino_data' => '0000-00-00',
-                        'id_desercao' => '',
-                        'situacao' => 'Presidente',
-                        'rg_substituto' => '',
-                        'unidade' => $unidade,
-                        'ano' => $ano
-                    ]); 
+                return $this->model
+                    ->selectRaw('desercao.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_desercao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_desercao != '' GROUP BY id_desercao ORDER BY sobrestamento.id_desercao ASC LIMIT 1) b"),
+                        'b.id_desercao', '=', 'desercao.id_desercao')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_desercao', '=', 'desercao.id_desercao')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('adl.sjd_ref_ano','=',$ano)
+                    ->where('adl.cdopm','=',$unidade)
+                    ->get(); 
 
             });   
         }

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 use Cache;
 use App\User;
-use App\Models\Sjd\Proc\Exclusao;
+use App\Models\Sjd\Proc\Exclusaojudicial;
 use App\Repositories\BaseRepository;
 
 class ExclusaoRepository extends BaseRepository
@@ -17,7 +17,7 @@ class ExclusaoRepository extends BaseRepository
     protected $model;
     protected static $expiration = 60; 
 
-	public function __construct(Exclusao $model)
+	public function __construct(Exclusaojudicial $model)
 	{
 		$this->model = $model;
     }
@@ -199,7 +199,7 @@ class ExclusaoRepository extends BaseRepository
         return $registros;
     }
 
-    public static function prazos()
+   public function prazos()
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -211,73 +211,52 @@ class ExclusaoRepository extends BaseRepository
         {
 
             $registros = Cache::remember('exclusao_prazo_opm', self::$expiration, function() {
-                return $this->model->select('SELECT exclusao.*, 
+                return $this->model
+                    ->selectRaw('exclusao.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM exclusao
-                    LEFT JOIN
-                    (SELECT id_exclusao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                    WHERE termino_data !=:termino_data AND id_exclusao!=:id_exclusao GROUP BY id_exclusao ORDER BY id_exclusao ASC LIMIT 1) b
-                    ON b.id_exclusao = exclusao.id_exclusao
-                    LEFT JOIN envolvido ON
-                        envolvido.id_exclusao=exclusao.id_exclusao AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto', 
-                        [
-                            'termino_data' => '0000-00-00',
-                            'id_exclusao' => '',
-                            'situacao' => 'Presidente',
-                            'rg_substituto' => ''
-                        ]); 
-                    });
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_exclusao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_exclusao != '' GROUP BY id_exclusao ORDER BY sobrestamento.id_exclusao ASC LIMIT 1) b"),
+                        'b.id_exclusao', '=', 'exclusao.id_exclusao')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->get(); 
+            });
                     
         }
         else 
         {
-                $registros = Cache::remember('exclusao'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return $this->model->select('SELECT exclusao.id_exclusao, exclusao.id_andamento, exclusao.id_andamentocoger, 
-                        (
-                            SELECT  motivo
-                            FROM    sobrestamento
-                            WHERE   sobrestamento.id_exclusao=exclusao.id_exclusao 
-                            ORDER BY sobrestamento.id_sobrestamento DESC
-                            LIMIT 1
-                        ) AS motivo,  
-                        (
-                            SELECT  motivo_outros
-                            FROM    sobrestamento
-                            WHERE   sobrestamento.id_exclusao=exclusao.id_exclusao 
-                            ORDER BY sobrestamento.id_sobrestamento DESC
-                            LIMIT 1
-                        ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                        b.dusobrestado, 
-                        (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM exclusao
-                        LEFT JOIN
-                        (SELECT id_exclusao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                            WHERE termino_data !=:termino_data AND id_exclusao!=:id_exclusao 
-                            GROUP BY id_exclusao
-                            ORDER BY id_exclusao ASC
-                            LIMIT 1) b
-                            ON b.id_exclusao = exclusao.id_exclusao 
-                            AND exclusao.cdopm like :unidade%
-                        LEFT JOIN envolvido ON
-                            envolvido.id_exclusao=exclusao.id_exclusao 
-                            AND envolvido.situacao=:situacao 
-                            AND rg_substituto=:rg_substituto
-                            ', 
-                            [
-                                'termino_data' => '0000-00-00',
-                                'id_exclusao' => '',
-                                'situacao' => 'Presidente',
-                                'rg_substituto' => '',
-                                'unidade' => $unidade
-                            ]); 
-    
-                });   
+            $registros = Cache::remember('exclusao'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
+                return $this->model
+                    ->selectRaw('exclusao.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_exclusao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_exclusao != '' GROUP BY id_exclusao ORDER BY sobrestamento.id_exclusao ASC LIMIT 1) b"),
+                        'b.id_exclusao', '=', 'exclusao.id_exclusao')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('adl.cdopm','=',$unidade)
+                    ->get(); 
+
+            });   
         }
         return $registros;
     }
 
-    public static function prazosAno($ano)
+    public function prazosAno($ano)
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -289,67 +268,47 @@ class ExclusaoRepository extends BaseRepository
         {
 
             $registros = Cache::remember('exclusao_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return $this->model->select('SELECT exclusao.id_exclusao, exclusao.id_andamento, exclusao.id_andamentocoger, 
-                (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                (SELECT  motivo_outros FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1
-                ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM exclusao
-                LEFT JOIN
-                (SELECT id_exclusao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento WHERE termino_data !=:termino_data AND id_exclusao!=:id_exclusao GROUP BY id_exclusao ORDER BY id_exclusao ASC LIMIT 1) b ON b.id_exclusao = exclusao.id_exclusao
-                LEFT JOIN envolvido ON envolvido.id_exclusao=exclusao.id_exclusao AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto
-                WHERE exclusao.sjd_ref_ano = :ano', 
-                    [
-                        'termino_data' => '0000-00-00',
-                        'id_exclusao' => '',
-                        'situacao' => 'Presidente',
-                        'rg_substituto' => '',
-                        'ano' => $ano
-                    ]); 
-                });
+                return $this->model
+                    ->selectRaw('exclusao.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_exclusao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_exclusao != '' GROUP BY id_exclusao ORDER BY sobrestamento.id_exclusao ASC LIMIT 1) b"),
+                        'b.id_exclusao', '=', 'exclusao.id_exclusao')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('adl.sjd_ref_ano','=',$ano)
+                    ->get();
+            });
                     
         }
         else 
         {
             $registros = Cache::remember('exclusao'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return $this->model->select('SELECT exclusao.id_exclusao, exclusao.id_andamento, exclusao.id_andamentocoger, 
-                (
-                    SELECT  motivo
-                    FROM    sobrestamento
-                    WHERE   sobrestamento.id_exclusao=exclusao.id_exclusao 
-                    ORDER BY sobrestamento.id_sobrestamento DESC
-                    LIMIT 1
-                ) AS motivo,  
-                (
-                    SELECT  motivo_outros
-                    FROM    sobrestamento
-                    WHERE   sobrestamento.id_exclusao=exclusao.id_exclusao 
-                    ORDER BY sobrestamento.id_sobrestamento DESC
-                    LIMIT 1
-                ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                b.dusobrestado, 
-                (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM exclusao
-                LEFT JOIN
-                (SELECT id_exclusao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                    WHERE termino_data !=:termino_data AND id_exclusao!=:id_exclusao 
-                    GROUP BY id_exclusao
-                    ORDER BY id_exclusao ASC
-                    LIMIT 1) b
-                    ON b.id_exclusao = exclusao.id_exclusao 
-                    AND exclusao.cdopm like :unidade%
-                LEFT JOIN envolvido ON
-                    envolvido.id_exclusao=exclusao.id_exclusao 
-                    AND envolvido.situacao=:situacao 
-                    AND rg_substituto=:rg_substituto
-                    WHERE exclusao.sjd_ref_ano = :ano
-                    ', 
-                    [
-                        'termino_data' => '0000-00-00',
-                        'id_exclusao' => '',
-                        'situacao' => 'Presidente',
-                        'rg_substituto' => '',
-                        'unidade' => $unidade,
-                        'ano' => $ano
-                    ]); 
+                return $this->model
+                    ->selectRaw('exclusao.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_exclusao, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_exclusao != '' GROUP BY id_exclusao ORDER BY sobrestamento.id_exclusao ASC LIMIT 1) b"),
+                        'b.id_exclusao', '=', 'exclusao.id_exclusao')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('adl.cdopm','=',$unidade)
+                    ->where('adl.sjd_ref_ano','=',$ano)
+                    ->get();
 
             });   
         }

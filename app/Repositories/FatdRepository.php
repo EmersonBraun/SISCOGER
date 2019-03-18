@@ -199,7 +199,7 @@ class FatdRepository extends BaseRepository
         return $registros;
     }
 
-    public static function prazos()
+    public function prazos()
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -211,64 +211,54 @@ class FatdRepository extends BaseRepository
         {
 
             $registros = Cache::remember('fatd_prazo_opm', self::$expiration, function() {
-                return $this->model->select('SELECT DISTINCT fatd.*,
-                (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
-                envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
-                b.dusobrestado, 
-                (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis FROM fatd
-                LEFT JOIN
-                (SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                    WHERE termino_data != :termino_data AND id_fatd!= :id_fatd GROUP BY id_fatd) b ON b.id_fatd = fatd.id_fatd
-                LEFT JOIN envolvido ON
-                    envolvido.id_fatd=fatd.id_fatd AND envolvido.situacao = :situacao AND rg_substituto = :rg_substituto ORDER BY id_fatd DESC', 
-                    [
-                        'termino_data' => '0000-00-00',
-                        'id_fatd' => '',
-                        'situacao' => 'Encarregado',
-                        'rg_substituto' => '',
-                        'id_andamento' => '1'
-                    ]); 
-                });
+                return $this->model
+                    ->selectRaw('DISTINCT fatd.*,
+                    (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
+                    b.dusobrestado, 
+                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_fatd!= '' GROUP BY id_fatd) b"),
+                        'b.id_fatd', '=', 'fatd.id_fatd')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->get();
+            });
                     
         }
         else 
         {
             $registros = Cache::remember('fatd'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                    return $this->model->select('SELECT * FROM
-                    (SELECT fatd.*, envolvido.cargo, envolvido.nome, 
-                        dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal,b.dusobrestado,
-                        (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis 
-                        FROM fatd
-                        LEFT JOIN
-                        (SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado 
-                        FROM sobrestamento
-                            WHERE termino_data != :termino_data AND id_fatd != :id_fatd
-                            GROUP BY id_fatd) b
-                            ON b.id_fatd = fatd.id_fatd
-                        LEFT JOIN envolvido ON
-                            envolvido.id_fatd = fatd.id_fatd 
-                            AND envolvido.situacao = :situacao 
-                            AND rg_substituto = :rg_substituto
-                        WHERE fatd.id_andamento = :id_andamento
-                        AND fatd.cdopm like :unidade%) 
-                        AS dt WHERE dt.diasuteis > :diasuteis', 
-                        [
-                            'termino_data' => '0000-00-00',
-                            'id_fatd' => '',
-                            'situacao' => 'Encarregado',
-                            'rg_substituto' => '',
-                            'id_andamento' => '1',
-                            'diasuteis' => '30',
-                            'unidade' => $unidade
-                        ]); 
+                return $this->model
+                    ->selectRaw('DISTINCT fatd.*,
+                    (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
+                    b.dusobrestado, 
+                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_fatd!= '' GROUP BY id_fatd) b"),
+                        'b.id_fatd', '=', 'fatd.id_fatd')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('fatd.cdopm','=',$unidade)
+                    ->get();
 
             });   
         }
         return $registros;
     }
 
-    public static function prazosAno($ano)
+    public function prazosAno($ano)
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -280,61 +270,51 @@ class FatdRepository extends BaseRepository
         {
 
             $registros = Cache::remember('fatd_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return $this->model->select('SELECT DISTINCT fatd.*,
-                (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
-                envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
-                b.dusobrestado, 
-                (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis FROM fatd
-                LEFT JOIN
-                (SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                    WHERE termino_data != :termino_data AND id_fatd!= :id_fatd GROUP BY id_fatd) b ON b.id_fatd = fatd.id_fatd
-                LEFT JOIN envolvido ON
-                    envolvido.id_fatd=fatd.id_fatd AND envolvido.situacao = :situacao AND rg_substituto = :rg_substituto
-                WHERE  sjd_ref_ano  = :ano  ORDER BY id_fatd DESC', 
-                    [
-                        'termino_data' => '0000-00-00',
-                        'id_fatd' => '',
-                        'situacao' => 'Encarregado',
-                        'rg_substituto' => '',
-                        'id_andamento' => '1',
-                        'ano' => $ano
-                    ]); 
+                return $this->model
+                    ->selectRaw('DISTINCT fatd.*,
+                    (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
+                    b.dusobrestado, 
+                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_fatd!= '' GROUP BY id_fatd) b"),
+                        'b.id_fatd', '=', 'fatd.id_fatd')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('fatd.sjd_ref_ano','=',$ano)
+                    ->get();
+
+                
                 });
                     
         }
         else 
         {
             $registros = Cache::remember('fatd'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return $this->model->select('SELECT * FROM
-                (SELECT fatd.*, envolvido.cargo, envolvido.nome, 
-                    dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal,b.dusobrestado,
-                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis 
-                    FROM fatd
-                    LEFT JOIN
-                    (SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado 
-                    FROM sobrestamento
-                        WHERE termino_data != :termino_data AND id_fatd != :id_fatd
-                        GROUP BY id_fatd) b
-                        ON b.id_fatd = fatd.id_fatd
-                    LEFT JOIN envolvido ON
-                        envolvido.id_fatd = fatd.id_fatd 
-                        AND envolvido.situacao = :situacao 
-                        AND rg_substituto = :rg_substituto
-                    WHERE fatd.id_andamento = :id_andamento
-                    AND fatd.sjd_ref_ano = :ano 
-                    AND fatd.cdopm like :unidade%) 
-                    AS dt WHERE dt.diasuteis > :diasuteis', 
-                    [
-                        'termino_data' => '0000-00-00',
-                        'id_fatd' => '',
-                        'situacao' => 'Encarregado',
-                        'rg_substituto' => '',
-                        'id_andamento' => '1',
-                        'ano' => $ano,
-                        'diasuteis' => '30',
-                        'unidade' => $unidade
-                    ]); 
+                return $this->model
+                    ->selectRaw('DISTINCT fatd.*,
+                    (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
+                    b.dusobrestado, 
+                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_fatd!= '' GROUP BY id_fatd) b"),
+                        'b.id_fatd', '=', 'fatd.id_fatd')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('fatd.sjd_ref_ano','=',$ano)
+                    ->where('fatd.cdopm','=',$unidade)
+                    ->get();
 
             });   
         }

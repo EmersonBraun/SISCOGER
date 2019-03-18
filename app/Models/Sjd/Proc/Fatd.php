@@ -10,8 +10,6 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
-// para fazer subquerys mais avançadas
-use MaksimM\SubqueryMagic\SubqueryMagic;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
 /**
@@ -150,8 +148,6 @@ class Fatd extends Eloquent
     use PresentableTrait;
     protected $presenter = 'App\Presenters\FatdPresenter';
 
-    use SubqueryMagic;
-    
 	//query scope - para auxir a montagem da query
 	public function scopeRef_ano($query, $ref, $ano)
 	{

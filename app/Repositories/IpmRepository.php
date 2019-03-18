@@ -199,7 +199,7 @@ class IpmRepository extends BaseRepository
         return $registros;
     }
 
-    public static function prazos()
+    public function prazos()
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -211,36 +211,39 @@ class IpmRepository extends BaseRepository
         {
 
             $registros = Cache::remember('ipm_prazo_opm', 60, function() {
-                return $this->model->select('SELECT ipm.*, envolvido.cargo, envolvido.nome, 
-                    (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis FROM ipm
-                    LEFT JOIN envolvido ON envolvido.id_ipm=ipm.id_ipm AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto', 
-                        [
-                            'situacao' => 'Encarregado',
-                            'rg_substituto' => ''
-                        ]); 
-                    });
+                return $this->model
+                    ->selectRaw('ipm.*, envolvido.cargo, envolvido.nome, 
+                    (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->get();
+
+            });
                     
         }
         else 
         {
-                $registros = Cache::remember('ipm'.$unidade.'_prazo_topm', 60, function() use ($unidade){
-                        return $this->model->select('SELECT ipm.*, envolvido.cargo, envolvido.nome, 
-                            (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis FROM ipm
-                            LEFT JOIN envolvido ON
-                                envolvido.id_ipm=ipm.id_ipm AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto
-                            WHERE ipm.cdopm like :unidade%', 
-                                [
-                                    'situacao' => 'Encarregado',
-                                    'rg_substituto' => '',
-                                    'unidade' => $unidade
-                                ]); 
-    
-                });   
+            $registros = Cache::remember('ipm'.$unidade.'_prazo_topm', 60, function() use ($unidade){
+                return $this->model
+                    ->selectRaw('ipm.*, envolvido.cargo, envolvido.nome, 
+                    (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('ipm.cdopm','=',$unidade)
+                    ->get();
+
+            });   
         }
         return $registros;
     }
 
-    public static function prazosAno($ano)
+    public function prazosAno($ano)
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -252,32 +255,33 @@ class IpmRepository extends BaseRepository
         {
 
             $registros = Cache::remember('ipm_prazo_opm'.$ano, 60, function() use ($ano) {
-                return $this->model->select('SELECT ipm.*, envolvido.cargo, envolvido.nome, 
-                    (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis FROM ipm
-                    LEFT JOIN envolvido ON envolvido.id_ipm=ipm.id_ipm AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto
-                    WHERE ipm.sjd_ref_ano = :ano', 
-                        [
-                            'situacao' => 'Encarregado',
-                            'rg_substituto' => '',
-                            'ano' => $ano
-                        ]); 
+                return $this->model
+                    ->selectRaw('ipm.*, envolvido.cargo, envolvido.nome, 
+                    (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('ipm.sjd_ref_ano','=',$ano)
+                    ->get();
                 });
                     
         }
         else 
         {
             $registros = Cache::remember('ipm'.$unidade.'_prazo_topm', 60, function() use ($unidade, $ano){
-                return $this->model->select('SELECT ipm.*, envolvido.cargo, envolvido.nome, 
-                    (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis FROM ipm
-                    LEFT JOIN envolvido ON
-                        envolvido.id_ipm=ipm.id_ipm AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto
-                    WHERE ipm.cdopm like :unidade% AND sjd_ref_ano = :ano', 
-                        [
-                            'situacao' => 'Encarregado',
-                            'rg_substituto' => '',
-                            'unidade' => $unidade,
-                            'ano' => $ano
-                        ]); 
+                return $this->model
+                    ->selectRaw('ipm.*, envolvido.cargo, envolvido.nome, 
+                    (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('ipm.sjd_ref_ano','=',$ano)
+                    ->where('ipm.cdopm','=',$unidade)
+                    ->get();
 
             });   
         }
