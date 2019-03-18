@@ -211,7 +211,7 @@ class MovimentoRepository extends BaseRepository
         {
 
             $registros = Cache::remember('movimento_prazo_opm', self::$expiration, function() {
-                return DB::connection('sjd')->select('SELECT movimento.*, 
+                return $this->model->select('SELECT movimento.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_movimento=movimento.id_movimento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_movimento=movimento.id_movimento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
@@ -234,7 +234,7 @@ class MovimentoRepository extends BaseRepository
         else 
         {
                 $registros = Cache::remember('movimento'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return DB::connection('sjd')->select('SELECT movimento.id_movimento, movimento.id_andamento, movimento.id_andamentocoger, 
+                        return $this->model->select('SELECT movimento.id_movimento, movimento.id_andamento, movimento.id_andamentocoger, 
                         (
                             SELECT  motivo
                             FROM    sobrestamento
@@ -289,7 +289,7 @@ class MovimentoRepository extends BaseRepository
         {
 
             $registros = Cache::remember('movimento_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return DB::connection('sjd')->select('SELECT movimento.id_movimento, movimento.id_andamento, movimento.id_andamentocoger, 
+                return $this->model->select('SELECT movimento.id_movimento, movimento.id_andamento, movimento.id_andamentocoger, 
                 (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_movimento=movimento.id_movimento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                 (SELECT  motivo_outros FROM sobrestamento WHERE sobrestamento.id_movimento=movimento.id_movimento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1
                 ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
@@ -311,7 +311,7 @@ class MovimentoRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('movimento'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return DB::connection('sjd')->select('SELECT movimento.id_movimento, movimento.id_andamento, movimento.id_andamentocoger, 
+                return $this->model->select('SELECT movimento.id_movimento, movimento.id_andamento, movimento.id_andamentocoger, 
                 (
                     SELECT  motivo
                     FROM    sobrestamento

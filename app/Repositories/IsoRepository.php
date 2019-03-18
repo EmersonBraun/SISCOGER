@@ -211,7 +211,7 @@ class IsoRepository extends BaseRepository
         {
 
             $registros = Cache::remember('iso_prazo_opm', self::$expiration, function() {
-                return DB::connection('sjd')->select('SELECT iso.*, envolvido.cargo, envolvido.nome, 
+                return $this->model->select('SELECT iso.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis FROM iso
                     LEFT JOIN envolvido ON envolvido.id_iso=iso.id_iso AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto', 
                         [
@@ -224,7 +224,7 @@ class IsoRepository extends BaseRepository
         else 
         {
                 $registros = Cache::remember('iso'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return DB::connection('sjd')->select('SELECT iso.*, envolvido.cargo, envolvido.nome, 
+                        return $this->model->select('SELECT iso.*, envolvido.cargo, envolvido.nome, 
                             (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis FROM iso
                             LEFT JOIN envolvido ON
                                 envolvido.id_iso=iso.id_iso AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto
@@ -252,7 +252,7 @@ class IsoRepository extends BaseRepository
         {
 
             $registros = Cache::remember('iso_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return DB::connection('sjd')->select('SELECT iso.*, envolvido.cargo, envolvido.nome, 
+                return $this->model->select('SELECT iso.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis FROM iso
                     LEFT JOIN envolvido ON envolvido.id_iso=iso.id_iso AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto 
                     WHERE iso.sjd_ref_ano = :ano', 
@@ -267,7 +267,7 @@ class IsoRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('iso'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return DB::connection('sjd')->select('SELECT iso.*, envolvido.cargo, envolvido.nome, 
+                return $this->model->select('SELECT iso.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis FROM iso
                     LEFT JOIN envolvido ON
                         envolvido.id_iso=iso.id_iso AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto

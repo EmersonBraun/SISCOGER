@@ -211,7 +211,7 @@ class ProcOutroRepository extends BaseRepository
         {
 
             $registros = Cache::remember('proc_outro_prazo_opm', self::$expiration, function() {
-                return DB::connection('sjd')->select('SELECT DISTINCT proc_outros.*,
+                return $this->model->select('SELECT DISTINCT proc_outros.*,
                     dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
                     dias_uteis(abertura_data,limite_data) AS dutotal,
@@ -225,7 +225,7 @@ class ProcOutroRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('proc_outro'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                    return DB::connection('sjd')->select('SELECT DISTINCT proc_outros.*,
+                    return $this->model->select('SELECT DISTINCT proc_outros.*,
                     dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
                     dias_uteis(abertura_data,limite_data) AS dutotal,
@@ -254,7 +254,7 @@ class ProcOutroRepository extends BaseRepository
         {
 
             $registros = Cache::remember('proc_outro_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return DB::connection('sjd')->select('SELECT DISTINCT proc_outros.*,
+                return $this->model->select('SELECT DISTINCT proc_outros.*,
                     dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
                     dias_uteis(abertura_data,limite_data) AS dutotal,
@@ -270,7 +270,7 @@ class ProcOutroRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('proc_outro'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return DB::connection('sjd')->select('SELECT DISTINCT proc_outros.*,
+                return $this->model->select('SELECT DISTINCT proc_outros.*,
                 dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                 DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
                 dias_uteis(abertura_data,limite_data) AS dutotal,

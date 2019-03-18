@@ -211,7 +211,7 @@ class CjRepository extends BaseRepository
         {
 
             $registros = Cache::remember('cj_prazo_opm', self::$expiration, function() {
-                return DB::connection('sjd')->select('SELECT cj.*, 
+                return $this->model->select('SELECT cj.*, 
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM    sobrestamento WHERE   sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
@@ -232,7 +232,7 @@ class CjRepository extends BaseRepository
         else 
         {
                 $registros = Cache::remember('cj'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return DB::connection('sjd')->select('SELECT cj.id_cj, cj.id_andamento, cj.id_andamentocoger, 
+                        return $this->model->select('SELECT cj.id_cj, cj.id_andamento, cj.id_andamentocoger, 
                             (
                                 SELECT  motivo
                                 FROM    sobrestamento
@@ -287,7 +287,7 @@ class CjRepository extends BaseRepository
         {
 
             $registros = Cache::remember('cj_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return DB::connection('sjd')->select('SELECT cj.*, 
+                return $this->model->select('SELECT cj.*, 
                     (SELECT  motivo FROM sobrestamento WHERE   sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1
                     ) AS motivo_outros, envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
@@ -311,7 +311,7 @@ class CjRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('cj'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return DB::connection('sjd')->select('SELECT cj.id_cj, cj.id_andamento, cj.id_andamentocoger, 
+                return $this->model->select('SELECT cj.id_cj, cj.id_andamento, cj.id_andamentocoger, 
                     (
                         SELECT  motivo
                         FROM    sobrestamento

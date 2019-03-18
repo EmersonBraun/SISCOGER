@@ -164,7 +164,6 @@ class AdlPresenter extends Presenter {
         }
     }
 
-    rec_ato_file
 
 }
 /*

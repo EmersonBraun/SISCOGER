@@ -211,7 +211,7 @@ class IpmRepository extends BaseRepository
         {
 
             $registros = Cache::remember('ipm_prazo_opm', 60, function() {
-                return DB::connection('sjd')->select('SELECT ipm.*, envolvido.cargo, envolvido.nome, 
+                return $this->model->select('SELECT ipm.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis FROM ipm
                     LEFT JOIN envolvido ON envolvido.id_ipm=ipm.id_ipm AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto', 
                         [
@@ -224,7 +224,7 @@ class IpmRepository extends BaseRepository
         else 
         {
                 $registros = Cache::remember('ipm'.$unidade.'_prazo_topm', 60, function() use ($unidade){
-                        return DB::connection('sjd')->select('SELECT ipm.*, envolvido.cargo, envolvido.nome, 
+                        return $this->model->select('SELECT ipm.*, envolvido.cargo, envolvido.nome, 
                             (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis FROM ipm
                             LEFT JOIN envolvido ON
                                 envolvido.id_ipm=ipm.id_ipm AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto
@@ -252,7 +252,7 @@ class IpmRepository extends BaseRepository
         {
 
             $registros = Cache::remember('ipm_prazo_opm'.$ano, 60, function() use ($ano) {
-                return DB::connection('sjd')->select('SELECT ipm.*, envolvido.cargo, envolvido.nome, 
+                return $this->model->select('SELECT ipm.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis FROM ipm
                     LEFT JOIN envolvido ON envolvido.id_ipm=ipm.id_ipm AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto
                     WHERE ipm.sjd_ref_ano = :ano', 
@@ -267,7 +267,7 @@ class IpmRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('ipm'.$unidade.'_prazo_topm', 60, function() use ($unidade, $ano){
-                return DB::connection('sjd')->select('SELECT ipm.*, envolvido.cargo, envolvido.nome, 
+                return $this->model->select('SELECT ipm.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis FROM ipm
                     LEFT JOIN envolvido ON
                         envolvido.id_ipm=ipm.id_ipm AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto

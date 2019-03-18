@@ -211,7 +211,7 @@ class SindicanciaRepository extends BaseRepository
         {
 
             $registros = Cache::remember('sindicancia_prazo_opm', self::$expiration, function() {
-                return DB::connection('sjd')->select('SELECT sindicancia.id_sindicancia, sindicancia.id_andamento, sindicancia.id_andamentocoger, 
+                return $this->model->select('SELECT sindicancia.id_sindicancia, sindicancia.id_andamento, sindicancia.id_andamentocoger, 
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
@@ -233,7 +233,7 @@ class SindicanciaRepository extends BaseRepository
         else 
         {
                 $registros = Cache::remember('sindicancia'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return DB::connection('sjd')->select('SELECT sindicancia.id_sindicancia, sindicancia.id_andamento, sindicancia.id_andamentocoger, 
+                        return $this->model->select('SELECT sindicancia.id_sindicancia, sindicancia.id_andamento, sindicancia.id_andamentocoger, 
                         (
                             SELECT  motivo
                             FROM    sobrestamento
@@ -288,7 +288,7 @@ class SindicanciaRepository extends BaseRepository
         {
 
             $registros = Cache::remember('sindicancia_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return DB::connection('sjd')->select('SELECT sindicancia.id_sindicancia, sindicancia.id_andamento, sindicancia.id_andamentocoger, 
+                return $this->model->select('SELECT sindicancia.id_sindicancia, sindicancia.id_andamento, sindicancia.id_andamentocoger, 
                     (
                         SELECT  motivo
                         FROM    sobrestamento
@@ -331,7 +331,7 @@ class SindicanciaRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('sindicancia'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return DB::connection('sjd')->select('SELECT sindicancia.id_sindicancia, sindicancia.id_andamento, sindicancia.id_andamentocoger, 
+                return $this->model->select('SELECT sindicancia.id_sindicancia, sindicancia.id_andamento, sindicancia.id_andamentocoger, 
                 (
                     SELECT  motivo
                     FROM    sobrestamento

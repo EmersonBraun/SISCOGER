@@ -211,7 +211,7 @@ class CdRepository extends BaseRepository
         {
 
             $registros = Cache::remember('cd_prazo_opm', self::$expiration, function() {
-                return DB::connection('sjd')->select('SELECT cd.*, 
+                return $this->model->select('SELECT cd.*, 
                     (SELECT  motivo FROM    sobrestamento WHERE  sobrestamento.id_cd=cd.id_cd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM  sobrestamento WHERE   sobrestamento.id_cd=cd.id_cd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
@@ -232,7 +232,7 @@ class CdRepository extends BaseRepository
         else 
         {
                 $registros = Cache::remember('cd'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return DB::connection('sjd')->select('SELECT cd.*, 
+                        return $this->model->select('SELECT cd.*, 
                         (
                             SELECT  motivo
                             FROM    sobrestamento
@@ -282,7 +282,7 @@ class CdRepository extends BaseRepository
         {
 
             $registros = Cache::remember('cd_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return DB::connection('sjd')->select('SELECT cd.*, 
+                return $this->model->select('SELECT cd.*, 
                     (SELECT  motivo FROM sobrestamento WHERE   sobrestamento.id_cd=cd.id_cd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_cd=cd.id_cd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1
                     ) AS motivo_outros, envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
@@ -305,7 +305,7 @@ class CdRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('cd'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return DB::connection('sjd')->select('SELECT cd.*, 
+                return $this->model->select('SELECT cd.*, 
                 (
                     SELECT  motivo
                     FROM    sobrestamento

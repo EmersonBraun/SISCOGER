@@ -25,12 +25,14 @@ class TransferidosRepository extends BaseRepository
     public static function semana($unidade)
     {
         //buscar dados do cache
-        /*$transferidos = Cache::remember('transferidos'.$unidade, self::$expiration, function() use ($unidade){
+        $transferidos = Cache::remember('transferidos'.$unidade, self::$expiration, function() use ($unidade){
             
             $date = \Carbon\Carbon::today()->subDays(7);
             $query = DB::connection('pass')->table('movimentos');
-            $query->orWhere('opmorigem','like',$unidade.'%')
+            $query->where(function($subquery1) use ($unidade){
+                $subquery1->orWhere('opmorigem','like',$unidade.'%')
                     ->orWhere('opmdestino','like',$unidade.'%');
+            });
             $query->where(function($subquery)
             {
                 $subquery = DB::connection('pass')->table('PPusuarios');
@@ -54,7 +56,7 @@ class TransferidosRepository extends BaseRepository
 
             return $query->get();
 
-       });*/
+       });
        $transferidos = [
            ['rg' => '0000000',
            'nome' => 'Arrumar',

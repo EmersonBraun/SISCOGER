@@ -199,7 +199,7 @@ class AdlRepository extends BaseRepository
         return $registros;
     }
 
-    public static function prazos()
+    public function prazos()
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -211,15 +211,18 @@ class AdlRepository extends BaseRepository
         {
 
             $registros = Cache::remember('adl_prazo_opm', self::$expiration, function() {
-                return DB::connection('sjd')->select('SELECT adl.*, 
+                
+                return $this->model->select('SELECT adl.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_adl=adl.id_adl ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_adl=adl.id_adl ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
                     b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM adl
+                    
                     LEFT JOIN
                     (SELECT id_adl, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
                     WHERE termino_data !=:termino_data AND id_adl!=:id_adl GROUP BY id_adl ORDER BY id_adl ASC LIMIT 1) b
                     ON b.id_adl = adl.id_adl
+                    
                     LEFT JOIN envolvido ON
                         envolvido.id_adl=adl.id_adl AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto', 
                         [
@@ -228,13 +231,13 @@ class AdlRepository extends BaseRepository
                             'situacao' => 'Presidente',
                             'rg_substituto' => ''
                         ]); 
-                    });
+            });
                     
         }
         else 
         {
                 $registros = Cache::remember('adl'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return DB::connection('sjd')->select('SELECT adl.id_adl, adl.id_andamento, adl.id_andamentocoger, 
+                        return $this->model->select('SELECT adl.id_adl, adl.id_andamento, adl.id_andamentocoger, 
                         (
                             SELECT  motivo
                             FROM    sobrestamento
@@ -289,7 +292,7 @@ class AdlRepository extends BaseRepository
         {
 
             $registros = Cache::remember('adl_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return DB::connection('sjd')->select('SELECT adl.id_adl, adl.id_andamento, adl.id_andamentocoger, 
+                return $this->model->select('SELECT adl.id_adl, adl.id_andamento, adl.id_andamentocoger, 
                 (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_adl=adl.id_adl ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                 (SELECT  motivo_outros FROM sobrestamento WHERE sobrestamento.id_adl=adl.id_adl ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1
                 ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
@@ -311,7 +314,7 @@ class AdlRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('adl'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return DB::connection('sjd')->select('SELECT adl.id_adl, adl.id_andamento, adl.id_andamentocoger, 
+                return $this->model->select('SELECT adl.id_adl, adl.id_andamento, adl.id_andamentocoger, 
                 (
                     SELECT  motivo
                     FROM    sobrestamento

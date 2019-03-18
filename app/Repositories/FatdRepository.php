@@ -211,7 +211,7 @@ class FatdRepository extends BaseRepository
         {
 
             $registros = Cache::remember('fatd_prazo_opm', self::$expiration, function() {
-                return DB::connection('sjd')->select('SELECT DISTINCT fatd.*,
+                return $this->model->select('SELECT DISTINCT fatd.*,
                 (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                 (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
                 envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
@@ -235,7 +235,7 @@ class FatdRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('fatd'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                    return DB::connection('sjd')->select('SELECT * FROM
+                    return $this->model->select('SELECT * FROM
                     (SELECT fatd.*, envolvido.cargo, envolvido.nome, 
                         dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal,b.dusobrestado,
                         (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis 
@@ -280,7 +280,7 @@ class FatdRepository extends BaseRepository
         {
 
             $registros = Cache::remember('fatd_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return DB::connection('sjd')->select('SELECT DISTINCT fatd.*,
+                return $this->model->select('SELECT DISTINCT fatd.*,
                 (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                 (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
                 envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
@@ -306,7 +306,7 @@ class FatdRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('fatd'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return DB::connection('sjd')->select('SELECT * FROM
+                return $this->model->select('SELECT * FROM
                 (SELECT fatd.*, envolvido.cargo, envolvido.nome, 
                     dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal,b.dusobrestado,
                     (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis 

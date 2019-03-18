@@ -234,7 +234,7 @@ class ItRepository extends BaseRepository
         {
 
             $registros = Cache::remember('it_prazo_opm', self::$expiration, function() {
-                return DB::connection('sjd')->select('SELECT DISTINCT it.*, 
+                return $this->model->select('SELECT DISTINCT it.*, 
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_it=it.id_it ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM    sobrestamento WHERE   sobrestamento.id_it=it.id_it ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
@@ -256,7 +256,7 @@ class ItRepository extends BaseRepository
         else 
         {
                 $registros = Cache::remember('it'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return DB::connection('sjd')->select('SELECT DISTINCT it.*, 
+                        return $this->model->select('SELECT DISTINCT it.*, 
                             (
                                 SELECT  motivo
                                 FROM    sobrestamento
@@ -309,7 +309,7 @@ class ItRepository extends BaseRepository
         {
 
             $registros = Cache::remember('it_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return DB::connection('sjd')->select('SELECT DISTINCT it.*, 
+                return $this->model->select('SELECT DISTINCT it.*, 
                     (SELECT  motivo
                         FROM    sobrestamento
                         WHERE   sobrestamento.id_it=it.id_it 
@@ -349,7 +349,7 @@ class ItRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('it'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return DB::connection('sjd')->select('SELECT DISTINCT it.*, 
+                return $this->model->select('SELECT DISTINCT it.*, 
                     (
                         SELECT  motivo
                         FROM    sobrestamento

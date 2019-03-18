@@ -211,7 +211,7 @@ class ExclusaoRepository extends BaseRepository
         {
 
             $registros = Cache::remember('exclusao_prazo_opm', self::$expiration, function() {
-                return DB::connection('sjd')->select('SELECT exclusao.*, 
+                return $this->model->select('SELECT exclusao.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
@@ -234,7 +234,7 @@ class ExclusaoRepository extends BaseRepository
         else 
         {
                 $registros = Cache::remember('exclusao'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return DB::connection('sjd')->select('SELECT exclusao.id_exclusao, exclusao.id_andamento, exclusao.id_andamentocoger, 
+                        return $this->model->select('SELECT exclusao.id_exclusao, exclusao.id_andamento, exclusao.id_andamentocoger, 
                         (
                             SELECT  motivo
                             FROM    sobrestamento
@@ -289,7 +289,7 @@ class ExclusaoRepository extends BaseRepository
         {
 
             $registros = Cache::remember('exclusao_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return DB::connection('sjd')->select('SELECT exclusao.id_exclusao, exclusao.id_andamento, exclusao.id_andamentocoger, 
+                return $this->model->select('SELECT exclusao.id_exclusao, exclusao.id_andamento, exclusao.id_andamentocoger, 
                 (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                 (SELECT  motivo_outros FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1
                 ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
@@ -311,7 +311,7 @@ class ExclusaoRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('exclusao'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return DB::connection('sjd')->select('SELECT exclusao.id_exclusao, exclusao.id_andamento, exclusao.id_andamentocoger, 
+                return $this->model->select('SELECT exclusao.id_exclusao, exclusao.id_andamento, exclusao.id_andamentocoger, 
                 (
                     SELECT  motivo
                     FROM    sobrestamento
