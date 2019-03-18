@@ -100,7 +100,7 @@ class Apfd extends Eloquent
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\ApfdPresenter';
-
+ 
 	public function scopeRef_ano($query, $ref, $ano)
 	{
 		return $query->where('sjd_ref','=',$ref)

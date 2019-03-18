@@ -12,6 +12,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
+
 /**
  * Class Adl
  * 

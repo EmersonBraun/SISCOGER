@@ -211,66 +211,46 @@ class ApfdRepository extends BaseRepository
         {
 
             $registros = Cache::remember('apfd_prazo_opm', self::$expiration, function() {
-                return $this->model->select('SELECT apfd.*, 
+                return $this->model
+                    ->selectRaw('apfd.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM apfd
-                    LEFT JOIN
-                    (SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                    WHERE termino_data !=:termino_data AND id_apfd!=:id_apfd GROUP BY id_apfd ORDER BY id_apfd ASC LIMIT 1) b
-                    ON b.id_apfd = apfd.id_apfd
-                    LEFT JOIN envolvido ON
-                        envolvido.id_apfd=apfd.id_apfd AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto', 
-                        [
-                            'termino_data' => '0000-00-00',
-                            'id_apfd' => '',
-                            'situacao' => 'Presidente',
-                            'rg_substituto' => ''
-                        ]); 
-                    });
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_apfd != '' GROUP BY id_apfd ORDER BY sobrestamento.id_apfd ASC LIMIT 1) b"),
+                        'b.id_apfd', '=', 'apfd.id_apfd')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->get();
+
+            });
                     
         }
         else 
         {
                 $registros = Cache::remember('apfd'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return $this->model->select('SELECT apfd.id_apfd, apfd.id_andamento, apfd.id_andamentocoger, 
-                        (
-                            SELECT  motivo
-                            FROM    sobrestamento
-                            WHERE   sobrestamento.id_apfd=apfd.id_apfd 
-                            ORDER BY sobrestamento.id_sobrestamento DESC
-                            LIMIT 1
-                        ) AS motivo,  
-                        (
-                            SELECT  motivo_outros
-                            FROM    sobrestamento
-                            WHERE   sobrestamento.id_apfd=apfd.id_apfd 
-                            ORDER BY sobrestamento.id_sobrestamento DESC
-                            LIMIT 1
-                        ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                        b.dusobrestado, 
-                        (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM apfd
-                        LEFT JOIN
-                        (SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                            WHERE termino_data !=:termino_data AND id_apfd!=:id_apfd 
-                            GROUP BY id_apfd
-                            ORDER BY id_apfd ASC
-                            LIMIT 1) b
-                            ON b.id_apfd = apfd.id_apfd 
-                            AND apfd.cdopm like :unidade%
-                        LEFT JOIN envolvido ON
-                            envolvido.id_apfd=apfd.id_apfd 
-                            AND envolvido.situacao=:situacao 
-                            AND rg_substituto=:rg_substituto
-                            ', 
-                            [
-                                'termino_data' => '0000-00-00',
-                                'id_apfd' => '',
-                                'situacao' => 'Presidente',
-                                'rg_substituto' => '',
-                                'unidade' => $unidade
-                            ]); 
+                    return $this->model
+                    ->selectRaw('apfd.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_apfd != '' GROUP BY id_apfd ORDER BY sobrestamento.id_apfd ASC LIMIT 1) b"),
+                        'b.id_apfd', '=', 'apfd.id_apfd')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('apfd.cdopm','=',$unidade)
+                    ->get();
     
                 });   
         }
@@ -289,67 +269,46 @@ class ApfdRepository extends BaseRepository
         {
 
             $registros = Cache::remember('apfd_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return $this->model->select('SELECT apfd.id_apfd, apfd.id_andamento, apfd.id_andamentocoger, 
-                (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                (SELECT  motivo_outros FROM sobrestamento WHERE sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1
-                ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM apfd
-                LEFT JOIN
-                (SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento WHERE termino_data !=:termino_data AND id_apfd!=:id_apfd GROUP BY id_apfd ORDER BY id_apfd ASC LIMIT 1) b ON b.id_apfd = apfd.id_apfd
-                LEFT JOIN envolvido ON envolvido.id_apfd=apfd.id_apfd AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto
-                WHERE apfd.sjd_ref_ano = :ano', 
-                    [
-                        'termino_data' => '0000-00-00',
-                        'id_apfd' => '',
-                        'situacao' => 'Presidente',
-                        'rg_substituto' => '',
-                        'ano' => $ano
-                    ]); 
-                });
+                return $this->model
+                    ->selectRaw('apfd.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_apfd != '' GROUP BY id_apfd ORDER BY sobrestamento.id_apfd ASC LIMIT 1) b"),
+                        'b.id_apfd', '=', 'apfd.id_apfd')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('apfd.sjd_ref_ano','=',$ano)
+                    ->get();
                     
         }
         else 
         {
             $registros = Cache::remember('apfd'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return $this->model->select('SELECT apfd.id_apfd, apfd.id_andamento, apfd.id_andamentocoger, 
-                (
-                    SELECT  motivo
-                    FROM    sobrestamento
-                    WHERE   sobrestamento.id_apfd=apfd.id_apfd 
-                    ORDER BY sobrestamento.id_sobrestamento DESC
-                    LIMIT 1
-                ) AS motivo,  
-                (
-                    SELECT  motivo_outros
-                    FROM    sobrestamento
-                    WHERE   sobrestamento.id_apfd=apfd.id_apfd 
-                    ORDER BY sobrestamento.id_sobrestamento DESC
-                    LIMIT 1
-                ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                b.dusobrestado, 
-                (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM apfd
-                LEFT JOIN
-                (SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                    WHERE termino_data !=:termino_data AND id_apfd!=:id_apfd 
-                    GROUP BY id_apfd
-                    ORDER BY id_apfd ASC
-                    LIMIT 1) b
-                    ON b.id_apfd = apfd.id_apfd 
-                    AND apfd.cdopm like :unidade%
-                LEFT JOIN envolvido ON
-                    envolvido.id_apfd=apfd.id_apfd 
-                    AND envolvido.situacao=:situacao 
-                    AND rg_substituto=:rg_substituto
-                    WHERE apfd.sjd_ref_ano = :ano
-                    ', 
-                    [
-                        'termino_data' => '0000-00-00',
-                        'id_apfd' => '',
-                        'situacao' => 'Presidente',
-                        'rg_substituto' => '',
-                        'unidade' => $unidade,
-                        'ano' => $ano
-                    ]); 
+                return $this->model
+                    ->selectRaw('apfd.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_apfd != '' GROUP BY id_apfd ORDER BY sobrestamento.id_apfd ASC LIMIT 1) b"),
+                        'b.id_apfd', '=', 'apfd.id_apfd')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('apfd.sjd_ref_ano','=',$ano)
+                    ->where('apfd.cdopm','=',$unidade)
+                    ->get();
 
             });   
         }

@@ -64,16 +64,12 @@
                      <?php $__currentLoopData = $registros; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $registro): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                   <tr>
                     <td style="display: none"><?php echo e($registro['id_adl']); ?></td>
-                    <?php if($registro['sjd_ref'] != ''): ?>
-                    <td><?php echo e($registro['sjd_ref']); ?>/<?php echo e($registro['sjd_ref_ano']); ?></td>
-                    <?php else: ?>
-                    <td><?php echo e($registro['id_adl']); ?></td>
-                    <?php endif; ?>
-                    <td><?php echo e(data_br($registro['fato_data'])); ?></td>
-                    <td><?php echo e(data_br($registro['prescricao_data'])); ?></td>
-                    <td><?php echo e($registro['cargo']); ?> <?php echo e(special_ucwords($registro['nome'])); ?></td>
-                    <td><?php echo e(sistema('andamento',$registro['id_andamento'])); ?></td>
-                    <td><?php echo e(sistema('andamentocoger',$registro['id_andamentocoger'])); ?></td>
+                    <td><?php echo e($registro->present()->refAno); ?></td>
+                    <td><?php echo e($registro->present()->fatoData); ?></td>
+                    <td><?php echo e($registro->present()->prescricaodata); ?></td>
+                    <td><?php echo e($registro->present()->cargoeENome); ?></td>
+                    <td><?php echo e($registro->present()->andamento); ?></td>
+                    <td><?php echo e($registro->present()->andamentocoger); ?></td>
                     <td>
                         <span>
                         <a class="btn btn-default" href="<?php echo e(route('adl.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])); ?>"><i class="fa fa-fw fa-eye "></i></a>

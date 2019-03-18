@@ -60,46 +60,20 @@
                      <?php $__currentLoopData = $registros; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $registro): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                   <tr>
                     <td style="display: none"><?php echo e($registro['id_adl']); ?></td>
-                    <?php if($registro['sjd_ref'] != ''): ?>
-                    <td><?php echo e($registro['sjd_ref']); ?>/<?php echo e($registro['sjd_ref_ano']); ?></td>
-                    <?php else: ?>
-                    <td><?php echo e($registro['id_adl']); ?></td>
-                    <?php endif; ?>
-                    <td><?php echo e(data_br($registro['fato_data'])); ?></td> 
-                    <td>
-                        <?php echo e(data_br($registro['portaria_data'])); ?>
-
-                    </td> 
-                    <td>
-                        <?php echo e(data_br($registro['prescricao_data'])); ?>
-
-                    </td> 
+                    <td><?php echo e($registro->present()->refAno); ?></td>
+                    <td><?php echo e($registro->present()->fatoData); ?></td> 
+                    <td><?php echo e($registro->present()->portariaData); ?></td>
+                    <td><?php echo e($registro->present()->prescricaoData); ?></td> 
                     <td>
                         <span>
-                        <?php if($registro['libelo_file']): ?>
-                            <i class="fa fa-check" style='color: green'></i>
-                        <?php else: ?>
-                            <i class="fa fa-times" style='color: red'></i>
-                        <?php endif; ?>
-                            Libelo</br>
-                        <?php if($registro['parecer_file']): ?>
-                            <i class="fa fa-check" style='color: green'></i>
-                        <?php else: ?>
-                            <i class="fa fa-times" style='color: red'></i>
-                        <?php endif; ?>
-                            Parecer</br>
-                        <?php if($registro['decisao_file']): ?>
-                            <i class="fa fa-check" style='color: green'></i>
-                        <?php else: ?>
-                            <i class="fa fa-times" style='color: red'></i>
-                        <?php endif; ?>
-                            Decisão</br>
-                        <?php if($registro['rec_ato_file']): ?>
-                            <i class="fa fa-check" style='color: green'></i>
-                        <?php else: ?>
-                            <i class="fa fa-times" style='color: red'></i>
-                        <?php endif; ?>
-                            Rec. Ato</br>
+                            <i class="fa <?php echo e($registro->present()->libeloIcon); ?>" style='color: <?php echo e($registro->present()->libeloColor); ?>'></i>
+                            Libelo<br>
+                            <i class="fa <?php echo e($registro->present()->parecerIcon); ?>" style='color: <?php echo e($registro->present()->parecerColor); ?>'></i>
+                            Parecer<br>
+                            <i class="fa <?php echo e($registro->present()->decisaoIcon); ?>" style='color: <?php echo e($registro->present()->decisaoColor); ?>'></i>
+                            Decisão<br>
+                            <i class="fa <?php echo e($registro->present()->recAtoIcon); ?>" style='color: <?php echo e($registro->present()->recAtoColor); ?>'></i>
+                            Rec. Ato<br>
                     </td> 
                   </tr>
                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
