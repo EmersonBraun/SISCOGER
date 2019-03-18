@@ -228,7 +228,8 @@ class DesercaoRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->get();              
+                    ->get();   
+                });           
         }
         else 
         {
@@ -248,7 +249,7 @@ class DesercaoRepository extends BaseRepository
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', '');
                 })
-                ->where('adl.cdopm','=',$unidade)
+                ->where('adl.cdopm','like',$unidade.'%')
                 ->get();
 
             });   
@@ -304,7 +305,7 @@ class DesercaoRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('adl.sjd_ref_ano','=',$ano)
-                    ->where('adl.cdopm','=',$unidade)
+                    ->where('adl.cdopm','like',$unidade.'%')
                     ->get(); 
 
             });   

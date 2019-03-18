@@ -199,7 +199,7 @@ class ApfdRepository extends BaseRepository
         return $registros;
     }
 
-    public static function prazos()
+    public function prazos()
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -249,7 +249,7 @@ class ApfdRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('apfd.cdopm','=',$unidade)
+                    ->where('apfd.cdopm','like',$unidade.'%')
                     ->get();
     
                 });   
@@ -257,7 +257,7 @@ class ApfdRepository extends BaseRepository
         return $registros;
     }
 
-    public static function prazosAno($ano)
+    public function prazosAno($ano)
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -286,7 +286,7 @@ class ApfdRepository extends BaseRepository
                     })
                     ->where('apfd.sjd_ref_ano','=',$ano)
                     ->get();
-                    
+            });
         }
         else 
         {
@@ -307,7 +307,7 @@ class ApfdRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('apfd.sjd_ref_ano','=',$ano)
-                    ->where('apfd.cdopm','=',$unidade)
+                    ->where('apfd.cdopm','like',$unidade.'%')
                     ->get();
 
             });   

@@ -250,7 +250,7 @@ class ItRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->get();
-                    
+                });   
         }
         else 
         {
@@ -270,7 +270,7 @@ class ItRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Encarregado')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('it.cdopm','=',$unidade)
+                    ->where('it.cdopm','like',$unidade.'%')
                     ->get();
             });   
         }
@@ -327,7 +327,7 @@ class ItRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Encarregado')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('it.cdopm','=',$unidade)
+                    ->where('it.cdopm','like',$unidade.'%')
                     ->where('it.sjd_ref_ano','=',$ano)
                     ->get();
 

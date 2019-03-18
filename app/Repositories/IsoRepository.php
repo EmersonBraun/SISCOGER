@@ -234,7 +234,7 @@ class IsoRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Encarregado')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('iso.cdopm','=',$unidade)
+                    ->where('iso.cdopm','like',$unidade.'%')
                     ->get();
 
             });   
@@ -279,7 +279,7 @@ class IsoRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('iso.sjd_ref_ano','=',$ano)
-                    ->where('iso.cdopm','=',$unidade)
+                    ->where('iso.cdopm','like',$unidade.'%')
                     ->get();
 
             });   

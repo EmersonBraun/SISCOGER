@@ -250,7 +250,7 @@ class FatdRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Encarregado')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('fatd.cdopm','=',$unidade)
+                    ->where('fatd.cdopm','like',$unidade.'%')
                     ->get();
 
             });   
@@ -313,7 +313,7 @@ class FatdRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('fatd.sjd_ref_ano','=',$ano)
-                    ->where('fatd.cdopm','=',$unidade)
+                    ->where('fatd.cdopm','like',$unidade.'%')
                     ->get();
 
             });   

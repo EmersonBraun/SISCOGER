@@ -235,7 +235,7 @@ class IpmRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Encarregado')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('ipm.cdopm','=',$unidade)
+                    ->where('ipm.cdopm','like',$unidade.'%')
                     ->get();
 
             });   
@@ -280,7 +280,7 @@ class IpmRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('ipm.sjd_ref_ano','=',$ano)
-                    ->where('ipm.cdopm','=',$unidade)
+                    ->where('ipm.cdopm','like',$unidade.'%')
                     ->get();
 
             });   

@@ -199,7 +199,7 @@ class ProcOutroRepository extends BaseRepository
         return $registros;
     }
 
-    public static function prazos()
+    public function prazos()
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -211,38 +211,35 @@ class ProcOutroRepository extends BaseRepository
         {
 
             $registros = Cache::remember('proc_outro_prazo_opm', self::$expiration, function() {
-                return $this->model->select('SELECT DISTINCT proc_outros.*,
+                return $this->model->selectRaw('SELECT DISTINCT proc_outros.*,
                     dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
                     dias_uteis(abertura_data,limite_data) AS dutotal,
                     DATEDIFF(limite_data,abertura_data) AS dttotal ,
                     dias_uteis(DATE(NOW()),limite_data) AS dufaltando,
-                    DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando
-                    FROM proc_outros'); 
+                    DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando')
+                    ->get(); 
                 });
                     
         }
         else 
         {
             $registros = Cache::remember('proc_outro'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                    return $this->model->select('SELECT DISTINCT proc_outros.*,
+                return $this->model->selectRaw('SELECT DISTINCT proc_outros.*,
                     dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
                     dias_uteis(abertura_data,limite_data) AS dutotal,
                     DATEDIFF(limite_data,abertura_data) AS dttotal ,
                     dias_uteis(DATE(NOW()),limite_data) AS dufaltando,
-                    DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando
-                    FROM proc_outros WHERE proc_outros.cdopm like :unidade%',
-                    [
-                        'unidade' => $unidade
-                    ]); 
-
+                    DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando')
+                    ->where('proc_outros.cdopm','like',$unidade.'%')
+                    ->get(); 
             });   
         }
         return $registros;
     }
 
-    public static function prazosAno($ano)
+    public function prazosAno($ano)
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -254,34 +251,31 @@ class ProcOutroRepository extends BaseRepository
         {
 
             $registros = Cache::remember('proc_outro_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return $this->model->select('SELECT DISTINCT proc_outros.*,
+                return $this->model->selectRaw('SELECT DISTINCT proc_outros.*,
                     dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
                     dias_uteis(abertura_data,limite_data) AS dutotal,
                     DATEDIFF(limite_data,abertura_data) AS dttotal ,
                     dias_uteis(DATE(NOW()),limite_data) AS dufaltando,
-                    DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando
-                    FROM proc_outros WHERE proc_outros.sjd_ref_ano = :ano',[
-                        'ano' => $ano
-                    ]); 
-                });
+                    DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando')
+                    ->where('proc_outros.sjd_ref_ano','=',$ano)
+                    ->get();
+            });
                     
         }
         else 
         {
             $registros = Cache::remember('proc_outro'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return $this->model->select('SELECT DISTINCT proc_outros.*,
-                dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
-                DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
-                dias_uteis(abertura_data,limite_data) AS dutotal,
-                DATEDIFF(limite_data,abertura_data) AS dttotal ,
-                dias_uteis(DATE(NOW()),limite_data) AS dufaltando,
-                DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando
-                FROM proc_outros WHERE proc_outros.cdopm like :unidade% AND sjd_ref_ano = :ano',
-                [
-                    'unidade' => $unidade,
-                    'ano' => $ano
-                ]); 
+                return $this->model->selectRaw('SELECT DISTINCT proc_outros.*,
+                    dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
+                    DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
+                    dias_uteis(abertura_data,limite_data) AS dutotal,
+                    DATEDIFF(limite_data,abertura_data) AS dttotal ,
+                    dias_uteis(DATE(NOW()),limite_data) AS dufaltando,
+                    DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando')
+                    ->where('proc_outros.cdopm','like',$unidade.'%')
+                    ->where('proc_outros.sjd_ref_ano','=',$ano)
+                    ->get();
 
             });   
         }

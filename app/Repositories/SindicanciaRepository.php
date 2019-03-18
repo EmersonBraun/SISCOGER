@@ -199,7 +199,7 @@ class SindicanciaRepository extends BaseRepository
         return $registros;
     }
 
-    public static function prazos()
+    public function prazos()
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -211,72 +211,52 @@ class SindicanciaRepository extends BaseRepository
         {
 
             $registros = Cache::remember('sindicancia_prazo_opm', self::$expiration, function() {
-                return $this->model->select('SELECT sindicancia.id_sindicancia, sindicancia.id_andamento, sindicancia.id_andamentocoger, 
-                    (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
-                    envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM sindicancia
-                    LEFT JOIN
-                    (SELECT id_sindicancia, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data !=:termino_data AND id_sindicancia!=:id_sindicancia GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b
-                        ON b.id_sindicancia = sindicancia.id_sindicancia
-                    LEFT JOIN envolvido ON envolvido.id_sindicancia=sindicancia.id_sindicancia AND envolvido.situacao=:situacao AND rg_substituto=:rg_substituto', 
-                        [
-                            'termino_data' => '0000-00-00',
-                            'id_sindicancia' => '',
-                            'situacao' => 'Presidente',
-                            'rg_substituto' => ''
-                        ]); 
-                    });
+                return $this->model
+                    ->selectRaw('sindicancia.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_sindicancia, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data !=:termino_data AND id_sindicancia!=:id_sindicancia GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b"),
+                        'b.id_sindicancia', '=', 'sindicancia.id_sindicancia')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->get();
+            });
                     
         }
         else 
         {
-                $registros = Cache::remember('sindicancia'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
-                        return $this->model->select('SELECT sindicancia.id_sindicancia, sindicancia.id_andamento, sindicancia.id_andamentocoger, 
-                        (
-                            SELECT  motivo
-                            FROM    sobrestamento
-                            WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia 
-                            ORDER BY sobrestamento.id_sobrestamento DESC
-                            LIMIT 1
-                        ) AS motivo,  
-                        (
-                            SELECT  motivo_outros
-                            FROM    sobrestamento
-                            WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia 
-                            ORDER BY sobrestamento.id_sobrestamento DESC
-                            LIMIT 1
-                        ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                        b.dusobrestado, 
-                        (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM sindicancia
-                        LEFT JOIN
-                        (SELECT id_sindicancia, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                            WHERE termino_data !=:termino_data AND id_sindicancia!=:id_sindicancia 
-                            GROUP BY id_sindicancia
-                            ORDER BY id_sindicancia ASC
-                            LIMIT 1) b
-                            ON b.id_sindicancia = sindicancia.id_sindicancia 
-                            AND sindicancia.cdopm like :unidade%
-                        LEFT JOIN envolvido ON
-                            envolvido.id_sindicancia=sindicancia.id_sindicancia 
-                            AND envolvido.situacao=:situacao 
-                            AND rg_substituto=:rg_substituto
-                            ', 
-                            [
-                                'termino_data' => '0000-00-00',
-                                'id_sindicancia' => '',
-                                'situacao' => 'Presidente',
-                                'rg_substituto' => '',
-                                'unidade' => $unidade
-                            ]); 
-    
-                });   
+            $registros = Cache::remember('sindicancia'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
+                return $this->model
+                ->selectRaw('sindicancia.*, 
+                (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                ->leftJoin(
+                    DB::raw("(SELECT id_sindicancia, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                    WHERE termino_data !=:termino_data AND id_sindicancia!=:id_sindicancia GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b"),
+                    'b.id_sindicancia', '=', 'sindicancia.id_sindicancia')
+                ->leftJoin('envolvido', function ($join){
+                    $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
+                        ->where('envolvido.situacao', '=', 'Presidente')
+                        ->where('envolvido.rg_substituto', '=', '');
+                })
+                ->where('sindicancia.cdopm','like',$unidade.'%')
+                ->get();
+
+            });   
         }
         return $registros;
     }
 
-    public static function prazosAno($ano)
+    public function prazosAno($ano)
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -288,87 +268,47 @@ class SindicanciaRepository extends BaseRepository
         {
 
             $registros = Cache::remember('sindicancia_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
-                return $this->model->select('SELECT sindicancia.id_sindicancia, sindicancia.id_andamento, sindicancia.id_andamentocoger, 
-                    (
-                        SELECT  motivo
-                        FROM    sobrestamento
-                        WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia 
-                        ORDER BY sobrestamento.id_sobrestamento DESC
-                        LIMIT 1
-                    ) AS motivo,  
-                    (
-                        SELECT  motivo_outros
-                        FROM    sobrestamento
-                        WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia 
-                        ORDER BY sobrestamento.id_sobrestamento DESC
-                        LIMIT 1
-                    ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                    b.dusobrestado, 
-                    (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM sindicancia
-                    LEFT JOIN
-                    (SELECT id_sindicancia, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data !=:termino_data AND id_sindicancia!=:id_sindicancia 
-                        GROUP BY id_sindicancia
-                        ORDER BY id_sindicancia ASC
-                        LIMIT 1) b
-                        ON b.id_sindicancia = sindicancia.id_sindicancia
-                    LEFT JOIN envolvido ON
-                        envolvido.id_sindicancia=sindicancia.id_sindicancia 
-                        AND envolvido.situacao=:situacao 
-                        AND rg_substituto=:rg_substituto
-                    WHERE sindicancia.sjd_ref_ano = :ano
-                        ', 
-                        [
-                            'termino_data' => '0000-00-00',
-                            'id_sindicancia' => '',
-                            'situacao' => 'Presidente',
-                            'rg_substituto' => '',
-                            'ano' => $ano
-                        ]); 
+                return $this->model
+                    ->selectRaw('sindicancia.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_sindicancia, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data !=:termino_data AND id_sindicancia!=:id_sindicancia GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b"),
+                        'b.id_sindicancia', '=', 'sindicancia.id_sindicancia')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('sindicancia.sjd_ref_ano','=',$ano)
+                    ->get(); 
                 });
                     
         }
         else 
         {
             $registros = Cache::remember('sindicancia'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
-                return $this->model->select('SELECT sindicancia.id_sindicancia, sindicancia.id_andamento, sindicancia.id_andamentocoger, 
-                (
-                    SELECT  motivo
-                    FROM    sobrestamento
-                    WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia 
-                    ORDER BY sobrestamento.id_sobrestamento DESC
-                    LIMIT 1
-                ) AS motivo,  
-                (
-                    SELECT  motivo_outros
-                    FROM    sobrestamento
-                    WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia 
-                    ORDER BY sobrestamento.id_sobrestamento DESC
-                    LIMIT 1
-                ) AS motivo_outros, envolvido.cargo, envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                b.dusobrestado, 
-                (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis FROM sindicancia
-                LEFT JOIN
-                (SELECT id_sindicancia, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                    WHERE termino_data !=:termino_data AND id_sindicancia!=:id_sindicancia 
-                    GROUP BY id_sindicancia
-                    ORDER BY id_sindicancia ASC
-                    LIMIT 1) b
-                    ON b.id_sindicancia = sindicancia.id_sindicancia 
-                    AND sindicancia.cdopm like :unidade%
-                LEFT JOIN envolvido ON
-                    envolvido.id_sindicancia=sindicancia.id_sindicancia 
-                    AND envolvido.situacao=:situacao 
-                    AND rg_substituto=:rg_substituto
-                    AND sjd_ref_ano = :ano', 
-                    [
-                        'termino_data' => '0000-00-00',
-                        'id_sindicancia' => '',
-                        'situacao' => 'Presidente',
-                        'rg_substituto' => '',
-                        'unidade' => $unidade,
-                        'ano' => $ano
-                    ]); 
+                return $this->model
+                    ->selectRaw('sindicancia.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_sindicancia, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data !=:termino_data AND id_sindicancia!=:id_sindicancia GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b"),
+                        'b.id_sindicancia', '=', 'sindicancia.id_sindicancia')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
+                            ->where('envolvido.situacao', '=', 'Presidente')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('sindicancia.sjd_ref_ano','=',$ano)
+                    ->where('sindicancia.cdopm','like',$unidade.'%')
+                    ->get(); 
 
             });   
         }

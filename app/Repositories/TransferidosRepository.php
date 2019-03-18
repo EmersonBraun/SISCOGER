@@ -57,12 +57,12 @@ class TransferidosRepository extends BaseRepository
             return $query->get();
 
        });
-       $transferidos = [
+       /*$transferidos = [
            ['rg' => '0000000',
            'nome' => 'Arrumar',
            'opmorigem' => '0',
            'opmdestino' => '0',]
-        ];
+        ];*/
         return $transferidos;
     } 
 

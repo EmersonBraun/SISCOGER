@@ -208,19 +208,6 @@ class AdlRepository extends BaseRepository
 
         //verifica se o usuário tem permissão para ver todas unidades
         $verTodasUnidades = session('ver_todas_unidades');
-        /*
-        User::selectRaw('user_id,comments_by_user.total_count')->leftJoinSubquery(
-        //subquery
-        Comment::selectRaw('user_id,count(*) total_count')
-            ->groupBy('user_id'),
-        //alias
-        'comments_by_user', 
-        //closure for "on" statement
-        function ($join) {
-            $join->on('users.id', '=', 'comments_by_user.user_id');
-        }
-        )->get();
-        */
 
         if($verTodasUnidades)
         {
@@ -263,7 +250,7 @@ class AdlRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('adl.cdopm','=',$unidade)
+                    ->where('adl.cdopm','like',$unidade.'%')
                     ->get();
     
                 });   
@@ -271,7 +258,7 @@ class AdlRepository extends BaseRepository
         return $registros;
     }
 
-    public static function prazosAno($ano)
+    public function prazosAno($ano)
     {
         //traz os dados do usuário
         $unidade = session()->get('cdopmbase');
@@ -322,7 +309,7 @@ class AdlRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('adl.sjd_ref_ano','=',$ano)
-                    ->where('adl.cdopm','=',$unidade)
+                    ->where('adl.cdopm','like',$unidade.'%')
                     ->get();
 
             });   

@@ -249,7 +249,7 @@ class CjRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('adl.cdopm','=',$unidade)
+                    ->where('adl.cdopm','like',$unidade.'%')
                     ->get();
 
             });   
@@ -307,7 +307,7 @@ class CjRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('adl.cdopm','=',$unidade)
+                    ->where('adl.cdopm','like',$unidade.'%')
                     ->where('adl.sjd_ref_ano','=',$ano)
                     ->get();
 

@@ -249,7 +249,7 @@ class MovimentoRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('it.cdopm','=',$unidade)
+                    ->where('it.cdopm','like',$unidade.'%')
                     ->get();
 
             });   
@@ -307,7 +307,7 @@ class MovimentoRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('it.cdopm','=',$unidade)
+                    ->where('it.cdopm','like',$unidade.'%')
                     ->where('it.sjd_ref_ano','=',$ano)
                     ->get();
 
