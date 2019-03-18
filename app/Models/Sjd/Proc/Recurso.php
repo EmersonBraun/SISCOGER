@@ -100,13 +100,13 @@ class Recurso extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getDatahoraAttribute($value)
     {
-        if($value == '0000-00-00')
+        if($value == '0000-00-00' || $value == null)
         {
             return '';
         }
         else
         {
-            return date( 'd/m/Y' , strtotime($value));
+            return $value->format('d/m/Y');
         }
     }
 
