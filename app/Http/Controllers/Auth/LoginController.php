@@ -63,7 +63,20 @@ class LoginController extends Controller
         if (!$user) return abort(403);
 
         //salva dados usuário na sessão
-        LoginController::dadosSessao($user, $request);
+        session()->put('rg',$user->rg);
+        session()->put('nome', $user->nome);
+        session()->put('email', $user->email);
+        session()->put('cargo', $user->cargo);
+        session()->put('quadro', $user->quadro);
+        session()->put('subquadro', $user->subquadro);
+        session()->put('opm_descricao', $user->opm_descricao);
+        session()->put('cdopm', $user->cdopm);    
+        session()->put('cdopmbase', corta_zeros($user->cdopm));
+        //verifica se o usuário tem permissão para ver todas unidades
+        $verTodasUnidades = User::permission('todas-unidades')->count();
+        //cast para booleano
+        $verTodasUnidades = (boolean) $verTodasUnidades;
+        session()->put('ver_todas_unidades', $verTodasUnidades);
 
         if (Auth::attempt($credentials)) 
         {
@@ -142,26 +155,6 @@ class LoginController extends Controller
             
         }
                    
-    }
-
-    public static function dadosSessao($user, $request)
-    {
-        $request->session()->put('rg',$user->rg);
-        $request->session()->put('nome', $user->nome);
-        $request->session()->put('email', $user->email);
-        $request->session()->put('cargo', $user->cargo);
-        $request->session()->put('quadro', $user->quadro);
-        $request->session()->put('subquadro', $user->subquadro);
-        $request->session()->put('opm_descricao', $user->opm_descricao);
-        $request->session()->put('cdopm', $user->cdopm);    
-        $request->session()->put('cdopmbase', corta_zeros($user->cdopm));
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = User::permission('todas-unidades')->count();
-        //cast para booleano
-        $verTodasUnidades = (boolean) $verTodasUnidades;
-        $request->session()->put('ver_todas_unidades', $verTodasUnidades);
-
-        return true;
     }
 
     public function logout(User $user)

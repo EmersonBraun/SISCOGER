@@ -15,11 +15,24 @@ use App\Repositories\BaseRepository;
 class TransferidosRepository extends BaseRepository
 {
     protected $model;
+    protected $unidade;
+    protected $verTodasUnidades;
     protected static $expiration = 60; 
 
 	public function __construct(Adl $model)
 	{
 		$this->model = $model;
+        
+        // ver se vem da api (não logada)
+        $proc = Route::currentRouteName(); //listar.algo
+        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
+        $proc = $proc[0];
+
+        $isapi = ($proc == 'api') ? 1 : 0;
+        $verTodasUnidades = session('ver_todas_unidades');
+
+        $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
+        $this->unidade = ($isapi) ? '0' : sessiona('cdopmbase');
     }
     
     public static function semana($unidade)

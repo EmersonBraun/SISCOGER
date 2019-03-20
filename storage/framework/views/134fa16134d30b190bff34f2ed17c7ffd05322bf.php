@@ -61,9 +61,9 @@
                   <tr>
                     <td style="display: none"><?php echo e($registro['id_adl']); ?></td>
                     <td><?php echo e($registro->present()->refAno); ?></td>
-                    <td><?php echo e($registro->present()->fatoData); ?></td> 
-                    <td><?php echo e($registro->present()->portariaData); ?></td>
-                    <td><?php echo e($registro->present()->prescricaoData); ?></td> 
+                    <td><?php echo e($registro->fato_data); ?></td> 
+                    <td><?php echo e($registro->portaria_data); ?></td>
+                    <td><?php echo e($registro->prescricao_data); ?></td> 
                     <td>
                         <span>
                             <i class="fa <?php echo e($registro->present()->libeloIcon); ?>" style='color: <?php echo e($registro->present()->libeloColor); ?>'></i>

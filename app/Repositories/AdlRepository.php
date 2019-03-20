@@ -13,22 +13,35 @@ use App\Models\Sjd\Proc\Adl;
 use App\Models\Sjd\Proc\Sobrestamento;
 use App\Models\Sjd\Busca\Envolvido;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Route;
 
 class AdlRepository extends BaseRepository
 {
     protected $model;
+    protected $unidade;
+    protected $verTodasUnidades;
     protected static $expiration = 60; 
 
 	public function __construct(Adl $model)
 	{
-		$this->model = $model;
+        $this->model = $model;
+        
+        // ver se vem da api (não logada)
+        $proc = Route::currentRouteName(); //listar.algo
+        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
+        $proc = $proc[0];
+
+        $isapi = ($proc == 'api') ? 1 : 0;
+        $verTodasUnidades = session('ver_todas_unidades');
+
+        $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
+        $this->unidade = ($isapi) ? '0' : sessiona('cdopmbase');
     }
     
     public function all()
 	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
 
         if($verTodasUnidades)
         {
@@ -48,9 +61,9 @@ class AdlRepository extends BaseRepository
 
     public function ano($ano)
 	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
+        
 
         if($verTodasUnidades)
         {
@@ -69,9 +82,8 @@ class AdlRepository extends BaseRepository
 
     public function andamento()
 	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
 
         if($verTodasUnidades)
         {
@@ -100,9 +112,9 @@ class AdlRepository extends BaseRepository
 
     public function andamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
+        
 
         if($verTodasUnidades)
         {
@@ -132,9 +144,9 @@ class AdlRepository extends BaseRepository
 
     public function julgamento()
 	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
+        
 
         if($verTodasUnidades)
         {
@@ -152,13 +164,14 @@ class AdlRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('julgamento_adl_'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+                return $this->model
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_adl', '=', 'adl.id_adl')
                                 ->where('envolvido.id_adl', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','adl'))
+                    ->where('cdopm','like',$unidade.'%')
                     ->get();
             });
         }
@@ -167,34 +180,36 @@ class AdlRepository extends BaseRepository
 
     public function julgamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
+        
 
         if($verTodasUnidades)
         {
             $registros = Cache::remember('julgamento_adl', self::$expiration, function() use ($ano){
-                return $this->model->where('sjd_ref_ano', '=' ,$ano)
+                return $this->model
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_adl', '=', 'adl.id_adl')
                                 ->where('envolvido.id_adl', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','adl'))
+                    ->where('sjd_ref_ano', '=' ,$ano)
                     ->get();
             });
         }
         else 
         {
             $registros = Cache::remember('julgamento_adl_'.$unidade, self::$expiration, function() use ($unidade,$ano) {
-                return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                return $this->model
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_adl', '=', 'adl.id_adl')
                                 ->where('envolvido.id_adl', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','adl'))
+                    ->where('sjd_ref_ano', '=' ,$ano)
+                    ->where('cdopm','like',$unidade.'%')
                     ->get();
             });
         }
@@ -208,6 +223,7 @@ class AdlRepository extends BaseRepository
 
         //verifica se o usuário tem permissão para ver todas unidades
         $verTodasUnidades = session('ver_todas_unidades');
+        
 
         if($verTodasUnidades)
         {
@@ -265,6 +281,7 @@ class AdlRepository extends BaseRepository
 
         //verifica se o usuário tem permissão para ver todas unidades
         $verTodasUnidades = session('ver_todas_unidades');
+        
 
         if($verTodasUnidades)
         {

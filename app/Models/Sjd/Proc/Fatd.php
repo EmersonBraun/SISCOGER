@@ -180,7 +180,7 @@ class Fatd extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 
@@ -199,7 +199,7 @@ class Fatd extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 
@@ -218,7 +218,7 @@ class Fatd extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 

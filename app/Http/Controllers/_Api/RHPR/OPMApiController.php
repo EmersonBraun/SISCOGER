@@ -130,7 +130,6 @@ class OPMApiController extends Controller
         $opms = Cache::remember('opm', $expiration, function(){
             return Opmpmpr::all();
         });
-        dd()
         //return array_get($opms, $codigo)
     }
 

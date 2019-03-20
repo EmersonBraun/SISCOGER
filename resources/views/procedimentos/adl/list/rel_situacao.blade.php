@@ -45,6 +45,15 @@
               </div>
               <!-- /.box-header -->
               <div class="box-body">
+
+                <v-table ref="vuetable"
+                    api-url="https://vuetable.ratiw.net/api/users"
+                    :fields="['name', 'nickname', 'email', 'gender']"
+                    data-path=""
+                    pagination-path=""
+                  >
+                </v-table>
+                
                 <table id="datable" class="table table-bordered table-striped">
   
                   <thead>
@@ -63,9 +72,9 @@
                   <tr>
                     <td style="display: none">{{$registro['id_adl']}}</td>
                     <td>{{ $registro->present()->refAno}}</td>
-                    <td>{{ $registro->present()->fatoData}}</td> 
-                    <td>{{ $registro->present()->portariaData}}</td>
-                    <td>{{ $registro->present()->prescricaoData}}</td> 
+                    <td>{{ $registro->fato_data}}</td> 
+                    <td>{{ $registro->portaria_data}}</td>
+                    <td>{{ $registro->prescricao_data}}</td> 
                     <td>
                         <span>
                             <i class="fa {{ $registro->present()->libeloIcon }}" style='color: {{ $registro->present()->libeloColor }}'></i>

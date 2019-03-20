@@ -15,18 +15,30 @@ use App\Repositories\BaseRepository;
 class DesercaoRepository extends BaseRepository
 {
     protected $model;
+    protected $unidade;
+    protected $verTodasUnidades;
     protected static $expiration = 60; 
 
 	public function __construct(Desercao $model)
 	{
 		$this->model = $model;
+        
+        // ver se vem da api (não logada)
+        $proc = Route::currentRouteName(); //listar.algo
+        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
+        $proc = $proc[0];
+
+        $isapi = ($proc == 'api') ? 1 : 0;
+        $verTodasUnidades = session('ver_todas_unidades');
+
+        $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
+        $this->unidade = ($isapi) ? '0' : sessiona('cdopmbase');
     }
     
     public function all()
 	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
 
         if($verTodasUnidades)
         {
@@ -46,9 +58,8 @@ class DesercaoRepository extends BaseRepository
 
     public function ano($ano)
 	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
 
         if($verTodasUnidades)
         {
@@ -69,9 +80,8 @@ class DesercaoRepository extends BaseRepository
 
     public function andamento()
 	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
 
         if($verTodasUnidades)
         {
@@ -100,9 +110,8 @@ class DesercaoRepository extends BaseRepository
 
     public function andamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
 
         if($verTodasUnidades)
         {
@@ -132,9 +141,8 @@ class DesercaoRepository extends BaseRepository
 
     public function julgamento()
 	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
 
         if($verTodasUnidades)
         {
@@ -167,9 +175,8 @@ class DesercaoRepository extends BaseRepository
 
     public function julgamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
 
         if($verTodasUnidades)
         {

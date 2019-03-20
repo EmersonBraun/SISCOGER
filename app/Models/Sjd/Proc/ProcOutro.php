@@ -191,7 +191,7 @@ class ProcOutro extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 
@@ -210,7 +210,7 @@ class ProcOutro extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 
@@ -229,7 +229,7 @@ class ProcOutro extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 
@@ -248,7 +248,7 @@ class ProcOutro extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 
@@ -267,7 +267,7 @@ class ProcOutro extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 
@@ -286,7 +286,7 @@ class ProcOutro extends Eloquent
          }
          else
          {
-             return $value->format('d/m/Y');
+             return date( 'd/m/Y' , strtotime($value));
          }
      }
  

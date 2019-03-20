@@ -2,13 +2,14 @@
 
 @section('adminlte_css')
     <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/css/auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/font-awesome/css/font-awesome.min.css') }}">
     @yield('css')
 @stop
 
 @section('body_class', 'login-page')
 
 @section('body')
-    <div class="login-box">
+    <div class="login-box" id="app">
         <div class="login-logo">
             <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', 'SISCOGER') !!}</a><br>
             <h4>Controle Processual da PMPR</h4>
@@ -70,6 +71,7 @@
             <p class="texto-branco">Email: coger-adm@pm.pr.gov.br</p>
             <br>
         </div>
+
     </div><!-- /.login-box -->
 
      

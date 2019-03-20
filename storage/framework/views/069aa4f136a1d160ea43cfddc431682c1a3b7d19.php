@@ -1,12 +1,13 @@
 <?php $__env->startSection('adminlte_css'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('public/vendor/adminlte/css/auth.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('public/vendor/adminlte/vendor/font-awesome/css/font-awesome.min.css')); ?>">
     <?php echo $__env->yieldContent('css'); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('body_class', 'login-page'); ?>
 
 <?php $__env->startSection('body'); ?>
-    <div class="login-box">
+    <div class="login-box" id="app">
         <div class="login-logo">
             <a href="<?php echo e(url(config('adminlte.dashboard_url', 'home'))); ?>"><?php echo config('adminlte.logo', 'SISCOGER'); ?></a><br>
             <h4>Controle Processual da PMPR</h4>
@@ -70,6 +71,7 @@
             <p class="texto-branco">Email: coger-adm@pm.pr.gov.br</p>
             <br>
         </div>
+
     </div><!-- /.login-box -->
 
      

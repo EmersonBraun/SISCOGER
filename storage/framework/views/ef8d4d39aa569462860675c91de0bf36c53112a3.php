@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +16,7 @@
     
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="<?php echo e(asset('public/vendor/adminlte/vendor/font-awesome/css/font-awesome.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('public/vendor/adminlte/vendor/font-awesome/css/font-awesome.css')); ?>">
     <!-- Ionicons -->
     <link rel="stylesheet" href="<?php echo e(asset('public/vendor/adminlte/vendor/Ionicons/css/ionicons.min.css')); ?>">
     

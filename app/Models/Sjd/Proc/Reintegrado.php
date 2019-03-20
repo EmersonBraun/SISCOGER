@@ -110,7 +110,7 @@ class Reintegrado extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 

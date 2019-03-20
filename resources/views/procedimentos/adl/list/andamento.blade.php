@@ -67,8 +67,8 @@
                   <tr>
                     <td style="display: none">{{$registro['id_adl']}}</td>
                     <td>{{$registro->present()->refAno}}</td>
-                    <td>{{ $registro->present()->fatoData}}</td>
-                    <td>{{ $registro->present()->prescricaodata}}</td>
+                    <td>{{ $registro->fato_data}}</td>
+                    <td>{{ $registro->prescricao_data}}</td>
                     <td>{{ $registro->present()->cargoeENome}}</td>
                     <td>{{ $registro->present()->andamento }}</td>
                     <td>{{ $registro->present()->andamentocoger }}</td>

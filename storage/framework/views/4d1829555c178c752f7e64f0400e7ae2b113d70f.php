@@ -65,8 +65,8 @@
                   <tr>
                     <td style="display: none"><?php echo e($registro['id_adl']); ?></td>
                     <td><?php echo e($registro->present()->refAno); ?></td>
-                    <td><?php echo e($registro->present()->fatoData); ?></td>
-                    <td><?php echo e($registro->present()->prescricaodata); ?></td>
+                    <td><?php echo e($registro->fato_data); ?></td>
+                    <td><?php echo e($registro->prescricao_data); ?></td>
                     <td><?php echo e($registro->present()->cargoeENome); ?></td>
                     <td><?php echo e($registro->present()->andamento); ?></td>
                     <td><?php echo e($registro->present()->andamentocoger); ?></td>

@@ -193,7 +193,7 @@ class Cj extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 
@@ -212,7 +212,7 @@ class Cj extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 
@@ -231,7 +231,7 @@ class Cj extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 
@@ -250,7 +250,7 @@ class Cj extends Eloquent
         }
         else
         {
-            return $value->format('d/m/Y');
+            return date( 'd/m/Y' , strtotime($value));
         }
     }
 
