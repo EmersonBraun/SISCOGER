@@ -14,10 +14,6 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-import Vuetable from 'vuetable-2';
-Vue.component('v-table', Vuetable);
-
 Vue.component('v-accordion', require('vue-strap').accordion);
 Vue.component('v-affix', require('vue-strap').affix);
 Vue.component('v-alert', require('vue-strap').alert);
@@ -37,7 +33,9 @@ Vue.component('v-panel', require('vue-strap').panel);
 Vue.component('v-popover', require('vue-strap').popover);
 Vue.component('v-progressbar', require('vue-strap').progressbar);
 Vue.component('v-radio', require('vue-strap').radio);
-Vue.component('v-select', require('vue-strap').select);
+
+Vue.component('v-select', require('./components/Vuestrap/Select.vue'));
+
 Vue.component('v-slider', require('vue-strap').slider);
 Vue.component('v-spinner', require('vue-strap').spinner);
 Vue.component('v-tab', require('vue-strap').tab);

@@ -9,7 +9,8 @@
   <li class="active">ADL - Criar</li>
   </ol>
 </section>
-  
+
+</v-select>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -43,6 +44,8 @@
 
             </div>
 
+            
+
             <?php $__env->startComponent('components.form.select',
             ['titulo' => 'Andamento','campo' => 'id_andamento', 'opt' => config('sistema.andamentoADL')]); ?>
             <?php echo $__env->renderComponent(); ?>
@@ -51,8 +54,6 @@
             ['titulo' => 'Andamento COGER','campo' => 'andamentocoger', 'opt' => config('sistema.andamentocogerADL'), 'class' => 'select2']); ?>
             <?php echo $__env->renderComponent(); ?>
 
-            <?php $__env->startComponent('components.form.text',['titulo' => 'Modelo','campo' => 'modelo']); ?>
-            <?php echo $__env->renderComponent(); ?>
 
             
             <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
@@ -147,7 +148,11 @@
     </div>
 
     </div>
-  
+    <v-select
+    :options="<?php echo e(pvue('motivoConselho')); ?>"
+    selected="2"
+    title="Teste"
+    name="id_motivoconselho">
 </section>
 <?php $__env->stopSection(); ?>
 
@@ -156,27 +161,10 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>
-  <?php echo $__env->make('vendor.adminlte.includes.pickers', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-  <?php echo $__env->make('vendor.adminlte.includes.select2', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-<script>
-    $(document).ready(function(){
-        addObjectForm('envolvido','adl');
-    });
+  
+  
 
-    $("#descricao").on('load, change',function ()
-    {
-        var campo = $("#descricao").val();
-        console.log(campo);
-        if (campo == 'Outro') 
-        {
-            $(".descricao_outros").show();
-        }
-        else
-        {
-            $(".descricao_outros").hide();
-        }
-    });
-</script>
+<?php echo $__env->make('vendor.adminlte.includes.vue', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 

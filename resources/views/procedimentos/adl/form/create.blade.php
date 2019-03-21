@@ -11,7 +11,8 @@
   <li class="active">ADL - Criar</li>
   </ol>
 </section>
-  
+
+</v-select>
 @stop
 
 @section('content')
@@ -42,6 +43,8 @@
             {!! Form::checkbox('prioridade', '1') !!}
             </div>
 
+            
+
             @component('components.form.select',
             ['titulo' => 'Andamento','campo' => 'id_andamento', 'opt' => config('sistema.andamentoADL')])
             @endcomponent
@@ -50,8 +53,6 @@
             ['titulo' => 'Andamento COGER','campo' => 'andamentocoger', 'opt' => config('sistema.andamentocogerADL'), 'class' => 'select2'])
             @endcomponent
 
-            @component('components.form.text',['titulo' => 'Modelo','campo' => 'modelo'])
-            @endcomponent
 
             {{-- linha --}}
             <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
@@ -143,7 +144,11 @@
     </div>
 
     </div>{{-- procedimento principal --}}
-  
+    <v-select
+    :options="{{ pvue('motivoConselho') }}"
+    selected="2"
+    title="Teste"
+    name="id_motivoconselho">
 </section>
 @stop
 
@@ -152,9 +157,9 @@
 @stop
 
 @section('js')
-  @include('vendor.adminlte.includes.pickers')
-  @include('vendor.adminlte.includes.select2')
-<script>
+  {{-- @include('vendor.adminlte.includes.pickers') --}}
+  {{-- @include('vendor.adminlte.includes.select2') --}}
+{{-- <script>
     $(document).ready(function(){
         addObjectForm('envolvido','adl');
     });
@@ -172,6 +177,7 @@
             $(".descricao_outros").hide();
         }
     });
-</script>
+</script> --}}
+@include('vendor.adminlte.includes.vue')
 @stop
 

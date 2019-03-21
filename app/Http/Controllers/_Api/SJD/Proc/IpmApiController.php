@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\_Api\SJD\Proc;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,62 +14,173 @@ class IpmApiController extends Controller
 {
     public function find($id, IpmRepository $repository)
     {
-        return $repository->find($id);
+
+        $data = $repository->find($id);
+        
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
+        
     }
 
     public function refAno($ref, $ano, IpmRepository $repository)
     {
-        return $repository->refAno($ref, $ano);
+        $data = $repository->refAno($ref, $ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function all(IpmRepository $repository)
     {
-        return $repository->all();
+        $data = $repository->all();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function ano($ano, IpmRepository $repository)
     {
-        return $repository->ano($ano);
+        $data = $repository->ano($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function andamento(IpmRepository $repository)
     {
-        return $repository->andamento();
+        $data = $repository->andamento();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function andamentoAno($ano, IpmRepository $repository)
     {
-        return $repository->andamentoAno($ano);
+        $data = $repository->andamentoAno($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
-    // public function prazos(IpmRepository $repository)
-    // {
-    //     return $repository->prazos();
-    // }
+    /*public function prazos(IpmRepository $repository)
+    {
+        $data = $repository->prazos();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
+    }*/
 
     public function prazosAno($ano)
     {
-        return $repository->prazosAno($ano);
+        $data = $repository->prazosAno($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function relSituacao(IpmRepository $repository)
     {
-        return $repository->relSituacao($ano);
+        $data = $repository->all();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function relSituacaoAno($ano, IpmRepository $repository)
     {
-        return $repository->relSituacaoAno($ano);
+        $data = $repository->ano($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function julgamento(IpmRepository $repository)
     {
-        return $repository->julgamento();
+        $data = $repository->julgamento();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function julgamentoAno($ano, IpmRepository $repository)
     {
-        return $repository->julgamentoAno($ano);
+        $data = $repository->julgamentoAno($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public static function prazos($unidade)

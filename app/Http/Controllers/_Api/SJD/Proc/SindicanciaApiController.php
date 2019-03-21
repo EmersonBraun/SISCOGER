@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\_Api\SJD\Proc;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use DB;
 use Cache;
+use DB;
 use App\User;
 use App\Repositories\SindicanciaRepository;
 
@@ -15,64 +14,175 @@ class SindicanciaApiController extends Controller
 {
     public function find($id, SindicanciaRepository $repository)
     {
-        return $repository->find($id);
+
+        $data = $repository->find($id);
+        
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
+        
     }
 
     public function refAno($ref, $ano, SindicanciaRepository $repository)
     {
-        return $repository->refAno($ref, $ano);
+        $data = $repository->refAno($ref, $ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function all(SindicanciaRepository $repository)
     {
-        return $repository->all();
+        $data = $repository->all();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function ano($ano, SindicanciaRepository $repository)
     {
-        return $repository->ano($ano);
+        $data = $repository->ano($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function andamento(SindicanciaRepository $repository)
     {
-        return $repository->andamento();
+        $data = $repository->andamento();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function andamentoAno($ano, SindicanciaRepository $repository)
     {
-        return $repository->andamentoAno($ano);
+        $data = $repository->andamentoAno($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
-    // public function prazos(SindicanciaRepository $repository)
-    // {
-    //     return $repository->prazos();
-    // }
+    /*public function prazos(SindicanciaRepository $repository)
+    {
+        $data = $repository->prazos();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
+    }*/
 
     public function prazosAno($ano)
     {
-        return $repository->prazosAno($ano);
+        $data = $repository->prazosAno($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function relSituacao(SindicanciaRepository $repository)
     {
-        return $repository->relSituacao($ano);
+        $data = $repository->all();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function relSituacaoAno($ano, SindicanciaRepository $repository)
     {
-        return $repository->relSituacaoAno($ano);
+        $data = $repository->ano($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function julgamento(SindicanciaRepository $repository)
     {
-        return $repository->julgamento();
+        $data = $repository->julgamento();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function julgamentoAno($ano, SindicanciaRepository $repository)
     {
-        return $repository->julgamentoAno($ano);
+        $data = $repository->julgamentoAno($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
-
+    
     public function resultado()
     {
         $registros = Proc::julgamento('sindicancia');

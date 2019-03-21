@@ -19,8 +19,8 @@
         ['md'=> 2, 'xs'=> 4, 'route'=>'adl.lista','name'=>'lista'],
         ['md'=> 2, 'xs'=> 4, 'route'=>'adl.andamento','name'=>'Andamento'],
         ['md'=> 2, 'xs'=> 4, 'route'=>'adl.prazos','name'=>'Prazos','type'=>'success'],
-        ['md'=> 2, 'xs'=> 4, 'route'=>'adl.rel_situacao','name'=>'Rel. Situação'],
-        ['md'=> 2, 'xs'=> 4, 'route'=>'adl.julgamento','name'=>'Julgamento']
+        ['md'=> 3, 'xs'=> 4, 'route'=>'adl.rel_situacao','name'=>'Rel. Situação'],
+        ['md'=> 3, 'xs'=> 4, 'route'=>'adl.julgamento','name'=>'Julgamento']
       ]
     ])   
     @endcomponent
@@ -64,17 +64,12 @@
                   <tbody>
                   @foreach($registros as $registro)
                   <tr>
-                      <td style="display: none">{{$registro['id_adl']}}</td>
-
-                      @if ($registro['sjd_ref'] != '')
-                      <td>{{$registro['sjd_ref']}}/{{$registro['sjd_ref_ano']}}</td>
-                      @else
-                      <td>{{$registro['id_adl']}}</td>
-                      @endif
-                    <td>{{ data_br($registro['abertura_data']) }}</td>
-                    <td>{{$registro['cargo']}} {{special_ucwords($registro['nome'])}}</td>
-                    <td>{{sistema('andamento',$registro['id_andamento'])}}</td>
-                    <td>{{sistema('andamentocoger',$registro['id_andamentocoger'])}}</td>
+                    <td style="display: none">{{$registro['id_adl']}}</td>
+                    <td>{{$registro->present()->refAno}}</td>
+                    <td>{{ $registro->abertura_data }}</td>
+                    <td>{{$registro->present()->cargoENome}}</td>
+                    <td>{{$registro->present()->andamento}}</td>
+                    <td>{{$registro->present()->andamentocoger}}</td>
                     
                     <td>
                       @if($registro['dusobrestado'] == '' || $registro['dusobrestado'] == NULL)

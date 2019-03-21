@@ -17,8 +17,8 @@
         ['md'=> 2, 'xs'=> 4, 'route'=>'adl.lista','name'=>'lista'],
         ['md'=> 2, 'xs'=> 4, 'route'=>'adl.andamento','name'=>'Andamento'],
         ['md'=> 2, 'xs'=> 4, 'route'=>'adl.prazos','name'=>'Prazos','type'=>'success'],
-        ['md'=> 2, 'xs'=> 4, 'route'=>'adl.rel_situacao','name'=>'Rel. Situação'],
-        ['md'=> 2, 'xs'=> 4, 'route'=>'adl.julgamento','name'=>'Julgamento']
+        ['md'=> 3, 'xs'=> 4, 'route'=>'adl.rel_situacao','name'=>'Rel. Situação'],
+        ['md'=> 3, 'xs'=> 4, 'route'=>'adl.julgamento','name'=>'Julgamento']
       ]
     ]); ?>   
     <?php echo $__env->renderComponent(); ?>
@@ -62,17 +62,12 @@
                   <tbody>
                   <?php $__currentLoopData = $registros; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $registro): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                   <tr>
-                      <td style="display: none"><?php echo e($registro['id_adl']); ?></td>
-
-                      <?php if($registro['sjd_ref'] != ''): ?>
-                      <td><?php echo e($registro['sjd_ref']); ?>/<?php echo e($registro['sjd_ref_ano']); ?></td>
-                      <?php else: ?>
-                      <td><?php echo e($registro['id_adl']); ?></td>
-                      <?php endif; ?>
-                    <td><?php echo e(data_br($registro['abertura_data'])); ?></td>
-                    <td><?php echo e($registro['cargo']); ?> <?php echo e(special_ucwords($registro['nome'])); ?></td>
-                    <td><?php echo e(sistema('andamento',$registro['id_andamento'])); ?></td>
-                    <td><?php echo e(sistema('andamentocoger',$registro['id_andamentocoger'])); ?></td>
+                    <td style="display: none"><?php echo e($registro['id_adl']); ?></td>
+                    <td><?php echo e($registro->present()->refAno); ?></td>
+                    <td><?php echo e($registro->abertura_data); ?></td>
+                    <td><?php echo e($registro->present()->cargoENome); ?></td>
+                    <td><?php echo e($registro->present()->andamento); ?></td>
+                    <td><?php echo e($registro->present()->andamentocoger); ?></td>
                     
                     <td>
                       <?php if($registro['dusobrestado'] == '' || $registro['dusobrestado'] == NULL): ?>

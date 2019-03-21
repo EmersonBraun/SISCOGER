@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\_Api\SJD\Proc;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,62 +14,173 @@ class CdApiController extends Controller
 {
     public function find($id, CdRepository $repository)
     {
-        return $repository->find($id);
+
+        $data = $repository->find($id);
+        
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
+        
     }
 
     public function refAno($ref, $ano, CdRepository $repository)
     {
-        return $repository->refAno($ref, $ano);
+        $data = $repository->refAno($ref, $ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function all(CdRepository $repository)
     {
-        return $repository->all();
+        $data = $repository->all();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function ano($ano, CdRepository $repository)
     {
-        return $repository->ano($ano);
+        $data = $repository->ano($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function andamento(CdRepository $repository)
     {
-        return $repository->andamento();
+        $data = $repository->andamento();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function andamentoAno($ano, CdRepository $repository)
     {
-        return $repository->andamentoAno($ano);
+        $data = $repository->andamentoAno($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
-    // public function prazos(CdRepository $repository)
-    // {
-    //     return $repository->prazos();
-    // }
+    /*public function prazos(CdRepository $repository)
+    {
+        $data = $repository->prazos();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
+    }*/
 
     public function prazosAno($ano)
     {
-        return $repository->prazosAno($ano);
+        $data = $repository->prazosAno($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function relSituacao(CdRepository $repository)
     {
-        return $repository->relSituacao($ano);
+        $data = $repository->all();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function relSituacaoAno($ano, CdRepository $repository)
     {
-        return $repository->relSituacaoAno($ano);
+        $data = $repository->ano($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function julgamento(CdRepository $repository)
     {
-        return $repository->julgamento();
+        $data = $repository->julgamento();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function julgamentoAno($ano, CdRepository $repository)
     {
-        return $repository->julgamentoAno($ano);
+        $data = $repository->julgamentoAno($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public static function aberturas($unidade)
@@ -83,7 +193,7 @@ class CdApiController extends Controller
         });
         return $cd_aberturas;
     }
-
+    
     public static function prazos($unidade)
     {
         $cd_prazos = Cache::remember('cd_prazos'.$unidade, 60, function() use ($unidade){
@@ -152,3 +262,4 @@ class CdApiController extends Controller
         return $cd_ano;
     }
 }
+

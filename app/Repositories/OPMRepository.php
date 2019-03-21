@@ -29,7 +29,7 @@ class OPMRepository
         $verTodasUnidades = session('ver_todas_unidades');
 
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
-        $this->unidade = ($isapi) ? '0' : sessiona('cdopmbase');
+        $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
 
     //dados para formulários

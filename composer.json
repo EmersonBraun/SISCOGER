@@ -48,6 +48,7 @@
             "app/Helpers/arquivo/arquivo.php",
             "app/Helpers/dados/sistema.php",
             "app/Helpers/dados/pm.php",
+            "app/Helpers/dados/pvue.php",
             "app/Helpers/dados/proc_id.php",
             "app/Helpers/dados/nome_por_id.php",
             "app/Helpers/date/dif_dias.php",

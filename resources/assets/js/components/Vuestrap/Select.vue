@@ -1,42 +1,46 @@
 <template>
-  <div ref="select" :class="classes" v-click-outside="close">
-    <div ref="btn" class="form-control dropdown-toggle" tabindex="1" :disabled="disabled || !hasParent" :readonly="readonly"
-      @blur="canSearch ? null : close()"
-      @click="toggle()"
-      @keydown.esc.stop.prevent="close"
-      @keydown.space.stop.prevent="toggle"
-      @keydown.enter.stop.prevent="toggle"
-    >
-      <span class="btn-content" v-html="loading ? text.loading : showPlaceholder || (multiple && showCount ? selectedText : selected)"></span>
-      <span v-if="clearButton&&values.length" class="close" @click="clear()">&times;</span>
+    <div class="col-lg-4 col-md-6 col-xs-12 form-group" :class="">
+        <label v-if="title" for="name">{{title}}</label><br>
+        <div ref="select"  class="form-control" :class="classes" v-click-outside="close">
+            <div ref="btn" class="" tabindex="1" :disabled="disabled || !hasParent" :readonly="readonly"
+            @blur="canSearch ? null : close()"
+            @click="toggle()"
+            @keydown.esc.stop.prevent="close"
+            @keydown.space.stop.prevent="toggle"
+            @keydown.enter.stop.prevent="toggle"
+            >
+            <span class="btn-content" v-html="loading ? text.loading : showPlaceholder || (multiple && showCount ? selectedText : selected)"></span>
+            <span v-if="clearButton&&values.length" class="close" @click="clear()">&times;</span>
+            <span v-else class="close"><i class="fa fa-angle-double-down"></i></span>
+            </div>
+            <select ref="sel" v-model="val" :name="name" class="secret" :multiple="multiple" :required="required" :readonly="readonly" :disabled="disabled">
+            <option v-if="required" value=""></option>
+            <option v-for="option in list" :value="option[optionsValue]">{{ option[optionsLabel] }}</option>
+            </select>
+            <ul class="dropdown-menu">
+            <template v-if="list.length">
+                <li v-if="canSearch" class="bs-searchbox">
+                <input type="text" placeholder="Buscar" class="form-control" autocomplete="off" ref="search"
+                    v-model="searchValue"
+                    @keyup.esc="close"
+                />
+                <span v-show="searchValue" class="close" @click="clearSearch">&times;</span>
+                </li>
+                <li v-if="required&&!clearButton"><a @mousedown.prevent="clear() && close()">{{ placeholder || text.notSelected }}</a></li>
+                <li v-for="option in filteredOptions" :id="option[optionsValue]">
+                <a @mousedown.prevent="select(option[optionsValue])">
+                    <span v-html="option[optionsLabel]"></span>
+                    <span class="glyphicon glyphicon-ok check-mark" v-show="isSelected(option[optionsValue])"></span>
+                </a>
+                </li>
+            </template>
+            <slot></slot>
+            <transition v-if="notify && !closeOnSelect" name="fadein"><div class="notify in">{{limitText}}</div></transition>
+            </ul>
+            <transition v-if="notify && closeOnSelect" name="fadein"><div class="notify out"><div>{{limitText}}</div></div></transition>
+            <pre v-if="pre">Options: {{list}}</pre>
+        </div>
     </div>
-    <select ref="sel" v-model="val" :name="name" class="secret" :multiple="multiple" :required="required" :readonly="readonly" :disabled="disabled">
-      <option v-if="required" value=""></option>
-      <option v-for="option in list" :value="option[optionsValue]">{{ option[optionsLabel] }}</option>
-    </select>
-    <ul class="dropdown-menu">
-      <template v-if="list.length">
-        <li v-if="canSearch" class="bs-searchbox">
-          <input type="text" :placeholder="searchText||text.search" class="form-control" autocomplete="off" ref="search"
-            v-model="searchValue"
-            @keyup.esc="close"
-          />
-          <span v-show="searchValue" class="close" @click="clearSearch">&times;</span>
-        </li>
-        <li v-if="required&&!clearButton"><a @mousedown.prevent="clear() && close()">{{ placeholder || text.notSelected }}</a></li>
-        <li v-for="option in filteredOptions" :id="option[optionsValue]">
-          <a @mousedown.prevent="select(option[optionsValue])">
-            <span v-html="option[optionsLabel]"></span>
-            <span class="glyphicon glyphicon-ok check-mark" v-show="isSelected(option[optionsValue])"></span>
-          </a>
-        </li>
-      </template>
-      <slot></slot>
-      <transition v-if="notify && !closeOnSelect" name="fadein"><div class="notify in">{{limitText}}</div></transition>
-    </ul>
-    <transition v-if="notify && closeOnSelect" name="fadein"><div class="notify out"><div>{{limitText}}</div></div></transition>
-    <!-- <pre>Options: {{list}}</pre> -->
-  </div>
 </template>
 
 <script>
@@ -45,31 +49,37 @@ import ClickOutside from 'vue-strap/src/directives/ClickOutside.js'
 
 var timeout = {}
 export default {
-  directives: {
-    ClickOutside
-  },
-  props: {
-    clearButton: {type: Boolean, default: false},
-    closeOnSelect: {type: Boolean, default: false},
-    disabled: {type: Boolean, default: false},
-    lang: {type: String, default: navigator.language},
-    limit: {type: Number, default: 1024},
-    minSearch: {type: Number, default: 0},
-    multiple: {type: Boolean, default: false},
-    name: {type: String, default: null},
-    options: {type: Array, default () { return [] }},
-    optionsLabel: {type: String, default: 'label'},
-    optionsValue: {type: String, default: 'value'},
-    parent: {default: true},
-    placeholder: {type: String, default: null},
-    readonly: {type: Boolean, default: null},
-    required: {type: Boolean, default: null},
-    search: {type: Boolean, default: false},
-    searchText: {type: String, default: null},
-    countText: {type: String, default: null},
-    showCount: {type: Boolean, default: false},
-    url: {type: String, default: null},
-    value: null
+    directives: {
+        ClickOutside
+    },
+    props: {
+        title: {type: String, default: null},
+        pre: {type: Boolean, default: false},
+        //clearButton: {type: Boolean, default: false},
+        clearButton: {type: Boolean, default: true},
+        //closeOnSelect: {type: Boolean, default: false},
+        closeOnSelect: {type: Boolean, default: true},
+        disabled: {type: Boolean, default: false},
+        lang: 'pt-br',
+        limit: {type: Number, default: 1024},
+        minSearch: {type: Number, default: 0},
+        multiple: {type: Boolean, default: false},
+        name: {type: String, default: null},
+        options: {type: Array, default () { return [] }},
+        optionsLabel: {type: String, default: 'label'},
+        optionsValue: {type: String, default: 'val'},
+        parent: {default: true},
+        //placeholder: {type: String, default: null},
+        placeholder: {type: String, default: 'Selecione'},
+        readonly: {type: Boolean, default: null},
+        required: {type: Boolean, default: null},
+        //search: {type: Boolean, default: false},
+        search: {type: Boolean, default: true},
+        searchText: 'Buscar',
+        countText: {type: String, default: null},
+        showCount: {type: Boolean, default: false},
+        url: {type: String, default: null},
+        value: null
   },
   data () {
     return {

@@ -72,23 +72,11 @@ class AdlPresenter extends Presenter {
     {
         if($this->libelo_file)
         {
-            return 'fa fa-check';
+            return "<i class='fa fa fa-check' style='color: green'></i>";
         }
-        if($this->libelo_file)
+        else
         {
-            return 'fa fa-times';
-        }
-    }
-
-    public function libeloColor()
-    {
-        if($this->libelo_file)
-        {
-            return 'green';
-        }
-        if($this->libelo_file)
-        {
-            return 'green';
+            return "<i class='fa fa fa-times' style='color: red'></i>"; 
         }
     }
 
@@ -96,71 +84,56 @@ class AdlPresenter extends Presenter {
     {
         if($this->parecer_file)
         {
-            return 'fa fa-check';
+            return "<i class='fa fa fa-check' style='color: green'></i>";
         }
-        if($this->parecer_file)
+        else
         {
-            return 'fa fa-times';
+            return "<i class='fa fa fa-times' style='color: red'></i>";
         }
     }
 
-    public function parecerColor()
-    {
-        if($this->parecer_file)
-        {
-            return 'green';
-        }
-        if($this->parecer_file)
-        {
-            return 'green';
-        }
-    }
 
     public function decisaoIcon()
     {
         if($this->decisao_file)
         {
-            return 'fa fa-check';
+            return "<i class='fa fa fa-check' style='color: green'></i>";
         }
-        if($this->decisao_file)
+        else
         {
-            return 'fa fa-times';
+            return "<i class='fa fa fa-times' style='color: red'></i>";
         }
     }
 
-    public function decisaoColor()
-    {
-        if($this->decisao_file)
-        {
-            return 'green';
-        }
-        if($this->decisao_file)
-        {
-            return 'green';
-        }
-    }
 
     public function recAtoIcon()
     {
         if($this->rec_ato_file)
         {
-            return 'fa fa-check';
+            return "<i class='fa fa fa-check' style='color: green'></i>";
         }
-        if($this->rec_ato_file)
+        else
         {
-            return 'fa fa-times';
+            return "<i class='fa fa fa-times' style='color: red'></i>";
         }
     }
 
-    public function recAtoColor()
+    public function motivo()
     {
-        if($this->rec_ato_file)
+        if(sistema('andamento',$this->id_andamento) == 'SOBRESTADO')
         {
-            return 'green';
+            if($this->motivo =='' || $this->motivo =='outros')
+            {
+                return $this->motivo_outros; 
+            }
+            else 
+            {
+                return $this->motivo; 
+            }
         }
-        if($this->rec_ato_file)
+        else
         {
-            return 'green';
+            return "<span class='label label-success'>Não Sobrest.</span>";
         }
     }
 

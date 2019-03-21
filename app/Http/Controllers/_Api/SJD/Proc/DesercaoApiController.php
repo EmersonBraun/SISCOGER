@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\_Api\SJD\Proc;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,61 +12,172 @@ class DesercaoApiController extends Controller
 {
     public function find($id, DesercaoRepository $repository)
     {
-        return $repository->find($id);
+
+        $data = $repository->find($id);
+        
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
+        
     }
 
     public function refAno($ref, $ano, DesercaoRepository $repository)
     {
-        return $repository->refAno($ref, $ano);
+        $data = $repository->refAno($ref, $ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function all(DesercaoRepository $repository)
     {
-        return $repository->all();
+        $data = $repository->all();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function ano($ano, DesercaoRepository $repository)
     {
-        return $repository->ano($ano);
+        $data = $repository->ano($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function andamento(DesercaoRepository $repository)
     {
-        return $repository->andamento();
+        $data = $repository->andamento();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function andamentoAno($ano, DesercaoRepository $repository)
     {
-        return $repository->andamentoAno($ano);
+        $data = $repository->andamentoAno($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function prazos(DesercaoRepository $repository)
     {
-        return $repository->prazos();
+        $data = $repository->prazos();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function prazosAno($ano)
     {
-        return $repository->prazosAno($ano);
+        $data = $repository->prazosAno($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function relSituacao(DesercaoRepository $repository)
     {
-        return $repository->relSituacao($ano);
+        $data = $repository->all();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function relSituacaoAno($ano, DesercaoRepository $repository)
     {
-        return $repository->relSituacaoAno($ano);
+        $data = $repository->ano($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function julgamento(DesercaoRepository $repository)
     {
-        return $repository->julgamento();
+        $data = $repository->julgamento();
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 
     public function julgamentoAno($ano, DesercaoRepository $repository)
     {
-        return $repository->julgamentoAno($ano);
+        $data = $repository->julgamentoAno($ano);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 }

@@ -32,7 +32,7 @@ class FatdRepository extends BaseRepository
         $verTodasUnidades = session('ver_todas_unidades');
 
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
-        $this->unidade = ($isapi) ? '0' : sessiona('cdopmbase');
+        $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
     
     public function all()
@@ -208,11 +208,8 @@ class FatdRepository extends BaseRepository
 
     public function prazos()
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
 
         if($verTodasUnidades)
         {
@@ -267,11 +264,8 @@ class FatdRepository extends BaseRepository
 
     public function prazosAno($ano)
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
 
         if($verTodasUnidades)
         {
@@ -325,6 +319,119 @@ class FatdRepository extends BaseRepository
 
             });   
         }
+        return $registros;
+    }
+
+    public function foraDoPrazo($unidade)
+    {
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
+
+        if($verTodasUnidades)
+        {
+
+            $registros = Cache::remember('fatd_prazo_opm', self::$expiration, function() {
+                return $this->model
+                    ->selectRaw('DISTINCT fatd.*,
+                    (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
+                    b.dusobrestado, 
+                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_fatd!= '' GROUP BY id_fatd) b"),
+                        'b.id_fatd', '=', 'fatd.id_fatd')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('diasuteis', '>', 30)
+                    ->get();
+            });
+                    
+        }
+        else 
+        {
+            $registros = Cache::remember('fatd'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
+                return $this->model
+                    ->selectRaw('DISTINCT fatd.*,
+                    (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
+                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
+                    b.dusobrestado, 
+                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    ->leftJoin(
+                        DB::raw("(SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_fatd!= '' GROUP BY id_fatd) b"),
+                        'b.id_fatd', '=', 'fatd.id_fatd')
+                    ->leftJoin('envolvido', function ($join){
+                        $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
+                            ->where('envolvido.situacao', '=', 'Encarregado')
+                            ->where('envolvido.rg_substituto', '=', '');
+                    })
+                    ->where('fatd.cdopm','like',$unidade.'%')
+                    ->where('diasuteis', '>', 30)
+                    ->get();
+
+            });   
+        }
+        return $registros;
+    }
+
+    public static function punidos($unidade)
+    {
+        $registros = Cache::remember('fatd_punidos'.$unidade, 60, function() use ($unidade){
+            return DB::connection('sjd')
+            ->table('view_fatd_punicao')
+            ->where('cdopm', 'LIKE', $unidade.'%') 
+            ->where('id_punicao','=','0')
+            ->get();
+        });  
+        
+        return $registros;
+    }
+ 
+    public function aberturas($unidade){    
+        $registros = Cache::remember('fatd_aberturas'.$unidade, 60, function() use ($unidade){
+            return $this->model
+            ->where('cdopm', 'LIKE', $unidade.'%') 
+            ->where('abertura_data','=','0000-00-00')
+            ->get(); 
+        });
+        return $registros;
+    }
+
+    public static function QtdOMAnos($unidade, $ano='')
+    {
+        //inicializar a variável
+        $registros = [];
+        if($ano != '')
+        {
+            $registros = $this->model
+            ->select(DB::raw('count(sjd_ref) AS qtd'))
+            ->where('sjd_ref_ano','=',$ano)
+            ->where('cdopm','like',$unidade.'%')
+            ->groupBy('sjd_ref_ano')
+            ->first();
+        }
+        else
+        {
+            for($i = 2008; $i <= date('Y'); $i++)
+            {
+                //Quantidade de por ano
+                $qtd_ano = $this->model
+                ->select(DB::raw('count(sjd_ref) AS qtd'))
+                ->where('sjd_ref_ano','=',$i)
+                ->where('cdopm','like',$unidade.'%')
+                ->groupBy('sjd_ref_ano')
+                ->first();
+                //insere no array para ficar 'ano' => 'qtd'
+                $registros = array_add($registros,$i, $qtd_ano['qtd']);
+            }
+        }
+        
         return $registros;
     }
 
