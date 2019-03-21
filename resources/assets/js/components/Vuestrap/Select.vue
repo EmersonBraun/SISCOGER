@@ -1,6 +1,6 @@
 <template>
-    <div class="col-lg-4 col-md-6 col-xs-12 form-group" :class="">
-        <label v-if="title" for="name">{{title}}</label><br>
+    <div class="col-lg-4 col-md-6 col-xs-12 form-group">
+        <label v-if="title" :for="name">{{ title }}</label><br>
         <div ref="select"  class="form-control" :class="classes" v-click-outside="close">
             <div ref="btn" class="" tabindex="1" :disabled="disabled || !hasParent" :readonly="readonly"
             @blur="canSearch ? null : close()"

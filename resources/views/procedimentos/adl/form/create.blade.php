@@ -85,6 +85,8 @@
             @component('components.form.text',['titulo' => 'N° Boletim','campo' => 'doc_numero'])
             @endcomponent
 
+            <v-datepicker title="Dato do fato" name="fato_data"></v-datepicker>
+
             @component('components.form.date',['titulo' => 'Data da fato','campo' => 'fato_data'])
             @endcomponent
 
@@ -144,11 +146,6 @@
     </div>
 
     </div>{{-- procedimento principal --}}
-    <v-select
-    :options="{{ pvue('motivoConselho') }}"
-    selected="2"
-    title="Teste"
-    name="id_motivoconselho">
 </section>
 @stop
 

@@ -87,6 +87,8 @@
             <?php $__env->startComponent('components.form.text',['titulo' => 'N° Boletim','campo' => 'doc_numero']); ?>
             <?php echo $__env->renderComponent(); ?>
 
+            <v-datepicker title="Dato do fato" name="fato_data"></v-datepicker>
+
             <?php $__env->startComponent('components.form.date',['titulo' => 'Data da fato','campo' => 'fato_data']); ?>
             <?php echo $__env->renderComponent(); ?>
 
@@ -148,11 +150,6 @@
     </div>
 
     </div>
-    <v-select
-    :options="<?php echo e(pvue('motivoConselho')); ?>"
-    selected="2"
-    title="Teste"
-    name="id_motivoconselho">
 </section>
 <?php $__env->stopSection(); ?>
 

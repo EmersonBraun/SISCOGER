@@ -21,7 +21,9 @@ Vue.component('v-aside', require('vue-strap').aside);
 Vue.component('v-button-group', require('vue-strap').buttonGroup);
 Vue.component('v-carousel', require('vue-strap').carousel);
 Vue.component('v-checkbox', require('vue-strap').checkbox);
-Vue.component('v-datepicker', require('vue-strap').datepicker);
+
+Vue.component('v-datepicker', require('./components/Vuestrap/Datepicker.vue'));
+
 Vue.component('v-dropdown', require('vue-strap').dropdown);
 Vue.component('v-form-group', require('vue-strap').formGroup);
 Vue.component('v-form-validator', require('vue-strap').formValidator);
