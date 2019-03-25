@@ -100,10 +100,10 @@
             @endcomponent
 
             {{-- linha --}}
-            
+            <v-proced-origem dproc="adl" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem>
             <br>
             
-            @component('components.subform',
+            {{-- @component('components.subform',
             [
                 'title' => 'Procedimento(s) de Origem (apenas se houver)',
                 'btn' => 'Adicionar documento de origem',
@@ -135,7 +135,7 @@
                 'proc' => 'adl',
                 'unico' => false
             ])    
-            @endcomponent
+            @endcomponent --}}
             
 
             </div>
@@ -206,7 +206,7 @@
         @endif
     </div>
 
-    <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
+    {{-- <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
         <h5>Arquivos excluídos</h5>
         @forelse ($arquivos_apagados as $aa)
             <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
@@ -217,7 +217,7 @@
         @empty
         <h6>Nenhum arquivo</h6>
         @endforelse
-    </div>
+    </div> --}}
 
     </div>
 </div>
@@ -342,8 +342,7 @@
 @stop
 
 @section('js')
-  @include('vendor.adminlte.includes.pickers')
-  @include('vendor.adminlte.includes.select2')
+@include('vendor.adminlte.includes.vue')
 <script>
 
     $("#descricao").on('load, change',function ()

@@ -14,7 +14,8 @@
 // Route::get('tabelas/{conn}/{colunas?}', ['as'=>'teste','uses'=>'Testes\testeBD@tabelas']);
 // Route::get('colunas/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas']);
 // Route::get('colunas2/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas2']);
-// Route::get('bd/{conn}/{nome}/{limite}/{c1?}/{c2?}', ['as'=>'bd','uses'=>'Testes\testeBD@bd']);
+// Route::get('bd/{conn}/{nome}/{limite}/{c1?}/{oper?}{c2?}', ['as'=>'bd','uses'=>'Testes\testeBD@bd']);
+Route::get('bd/28', ['as'=>'bd','uses'=>'Testes\testeBD@a28']);
 // Route::get('bd/bdgeral', ['as'=>'bdgeral','uses'=>'Testes\testeBD@bdgeral']);
 
 
@@ -373,9 +374,15 @@ Route::group(['as'=>'historia.','prefix' =>'historia'],function(){
 */
 //Rotas do módulo ajax
 Route::group(['as'=>'ajax.','prefix' =>'ajax'],function(){
+
+    Route::get('proc/opm/{proc}/{ref}/{ano}',['as' =>'proc','uses'=>'Ajax\ProcController@index']);
+    Route::post('proc/ligacao',['as' =>'ligacao.store','uses'=>'Ajax\ProcController@store']);
+    Route::get('proc/ligacao/list/{proc}/{ref}/{ano}',['as' =>'ligacao.index','uses'=>'Ajax\ProcController@list']);
+    Route::delete('proc/ligacao/remover/{id}',['as' =>'ligacao.destroy','uses'=>'Ajax\ProcController@destroy']);
+
 	Route::post('add/form',['as' =>'add','uses'=>'Ajax\ViewController@add']);
 	Route::get('remove/{table}/{id}',['as' =>'remove','uses'=>'Ajax\ViewController@remove']);
-	Route::post('ligacao',['as' =>'ligacao','uses'=>'Ajax\AjaxController@ligacao']);
+	//Route::post('ligacao',['as' =>'ligacao','uses'=>'Ajax\AjaxController@ligacao']);
 });
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ajax;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\OPMRepository;
 
 class AjaxController extends Controller
 {
@@ -26,7 +27,11 @@ class AjaxController extends Controller
                 ->where('sjd_ref_ano','=',$ano)
                 ->first();
 
-            return opm(completa_zeros($result['cdopm']));
+            return OPMRepository::uabreviatura(completa_zeros($result['cdopm']));
+
+                
+
+            //return opm(completa_zeros($result['cdopm']));
         }
     }
 }

@@ -77,8 +77,7 @@
             <?php $__env->startComponent('components.form.text',['titulo' => 'N° Portaria','campo' => 'portaria_numero']); ?>
             <?php echo $__env->renderComponent(); ?>
             
-            <?php $__env->startComponent('components.form.date',['titulo' => 'Data da portaria','campo' => 'portaria_data']); ?>
-            <?php echo $__env->renderComponent(); ?>
+            <v-datepicker title="Data da portaria" name="portaria_data"></v-datepicker>
 
             <?php $__env->startComponent('components.form.select',
             ['titulo' => 'Tipo de boletim','campo' => 'doc_tipo', 'opt' => config('sistema.tipoBoletim')]); ?>
@@ -89,20 +88,17 @@
 
             <v-datepicker title="Dato do fato" name="fato_data"></v-datepicker>
 
-            <?php $__env->startComponent('components.form.date',['titulo' => 'Data da fato','campo' => 'fato_data']); ?>
-            <?php echo $__env->renderComponent(); ?>
+            <v-datepicker title="Data da abertura" name="abertura_data"></v-datepicker>
 
-            <?php $__env->startComponent('components.form.date',['titulo' => 'Data da abertura','campo' => 'abertura_data']); ?>
-            <?php echo $__env->renderComponent(); ?>
+            <v-datepicker title="Data da prescricao" name="prescricao_data"></v-datepicker>
 
-            <?php $__env->startComponent('components.form.date',['titulo' => 'Data da prescricao','campo' => 'prescricao_data']); ?>
-            <?php echo $__env->renderComponent(); ?>
 
             <?php $__env->startComponent('components.form.sintese_txt'); ?>
             <?php echo $__env->renderComponent(); ?>
 
             
             
+            <v-proced-origem></v-proced-origem>
             <br>
             
             <?php $__env->startComponent('components.subform',

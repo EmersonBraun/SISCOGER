@@ -163,13 +163,13 @@ class FatdController extends Controller
         $proc = Fatd::where('sjd_ref','=',$ref)->where('sjd_ref_ano','=',$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
+        ver_unidade($proc);
         
         //----envolvido do procedimento
         $envolvido = Envolvido::acusado()->where('id_fatd','=',$proc->id_fatd)->first();
 
         //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
+        ver_superior($envolvido, Auth::user());
 
         //----ofendido no procedimento
         $ofendidos = Ofendido::ofendido('id_fatd',$proc->id_fatd)->first();
@@ -196,13 +196,13 @@ class FatdController extends Controller
         $proc = Fatd::ref_ano($ref, $ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
+        ver_unidade($proc);
 
         //----envolvido do procedimento
         $envolvido = Envolvido::acusado()->where('id_fatd','=',$proc->id_fatd)->first();
 
         //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
+        ver_superior($envolvido, Auth::user());
 
         //----ofendido no procedimento
         $ofendido = Ofendido::ofendido('id_fatd',$proc->id_fatd)->first();

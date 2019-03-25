@@ -14,6 +14,9 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+Vue.component('v-proced-origem', require('./components/SubForm/ProcedOrigem.vue'));
+
 Vue.component('v-accordion', require('vue-strap').accordion);
 Vue.component('v-affix', require('vue-strap').affix);
 Vue.component('v-alert', require('vue-strap').alert);

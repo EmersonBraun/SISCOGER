@@ -149,11 +149,11 @@ class testeBD extends Controller
 
 		if($c1 != '' || $c2 != '')
 		{
-			$res = DB::connection($conn)
-					->table($tabela)
-					->where($c1,'=',$c2)
-					->limit($limite)
-					->get();
+			 $query = DB::connection($conn)
+                    ->table($tabela);
+                    $query->where($c1,'=',$c2);
+					$query->limit($limite);
+                    $res =	$query->get();
 		}
 		else
 		{
@@ -170,6 +170,13 @@ class testeBD extends Controller
 		return view('ajuda.bd',compact('res','colunas','meta4','rhparana','pass'));
 	}
 
+    public function a28(){
+        $query = DB::connection('rhparana')
+        ->table('opmPMPR')
+        ->where('ABREVIATURA','like','%8BPM')
+        ->get();
+        dd($query);
+    }
 	public function bdgeral()
 	{
 		$meta4 = testeBD::tabelas2('meta4');

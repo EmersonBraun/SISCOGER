@@ -157,6 +157,16 @@ class OPMRepository
         return $abreviatura->ABREVIATURA;
     }
 
+    public static function uabreviatura($cdopm)
+    {
+        $abreviatura = Opmpmpr::where('CODIGO','=',$cdopm)->first();
+        if(!$abreviatura){
+            return 'Não encontrada';
+        }else { 
+            return $abreviatura->ABREVIATURA;
+        }
+    }
+
     public static function descricao($cdopm)
     {
         $descricao = OPMRepository::codigo($cdopm);

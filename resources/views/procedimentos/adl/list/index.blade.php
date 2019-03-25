@@ -73,7 +73,7 @@
                         <span>
                         <a class="btn btn-default" href="{{route('adl.show',['ref' => $registro['sjd_ref'], 'ano' => $registro->sjd_ref])}}"><i class="fa fa-fw fa-eye "></i></a>
                         <a class="btn btn-info" href="{{route('adl.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro->sjd_ref])}}"><i class="fa fa-fw fa-edit "></i></a>
-                        <a class="btn btn-danger"  href="{{route('adl.destroy',$registro['id_adl'])}}" onclick="confirmApagar('adl',$registro['sjd_ref'],$registro->sjd_ref)"><i class="fa fa-fw fa-trash-o "></i></a>
+                        <a class="btn btn-danger"  href="{{route('adl.destroy',$registro['id_adl'])}}" onclick="confirmApagar('adl',$registro->sjd_ref,$registro->sjd_ref_ano)"><i class="fa fa-fw fa-trash-o "></i></a>
                         </span>
                     </td>   
                   </tr>

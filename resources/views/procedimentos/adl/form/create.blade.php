@@ -75,8 +75,7 @@
             @component('components.form.text',['titulo' => 'N° Portaria','campo' => 'portaria_numero'])
             @endcomponent
             
-            @component('components.form.date',['titulo' => 'Data da portaria','campo' => 'portaria_data'])
-            @endcomponent
+            <v-datepicker title="Data da portaria" name="portaria_data"></v-datepicker>
 
             @component('components.form.select',
             ['titulo' => 'Tipo de boletim','campo' => 'doc_tipo', 'opt' => config('sistema.tipoBoletim')])
@@ -87,61 +86,14 @@
 
             <v-datepicker title="Dato do fato" name="fato_data"></v-datepicker>
 
-            @component('components.form.date',['titulo' => 'Data da fato','campo' => 'fato_data'])
-            @endcomponent
+            <v-datepicker title="Data da abertura" name="abertura_data"></v-datepicker>
 
-            @component('components.form.date',['titulo' => 'Data da abertura','campo' => 'abertura_data'])
-            @endcomponent
+            <v-datepicker title="Data da prescricao" name="prescricao_data"></v-datepicker>
 
-            @component('components.form.date',['titulo' => 'Data da prescricao','campo' => 'prescricao_data'])
-            @endcomponent
 
             @component('components.form.sintese_txt')
             @endcomponent
 
-            {{-- linha --}}
-            
-            <br>
-            
-            @component('components.subform',
-            [
-                'title' => 'Procedimento(s) de Origem (apenas se houver)',
-                'btn' => 'Adicionar documento de origem',
-                'arquivo' => 'ligacao',
-                'relacao' => NULL,
-                'proc' => 'adl',
-                'unico' => false
-            ])    
-            @endcomponent
-            
-
-            @component('components.subform',
-            [
-                'title' => 'Acusado',
-                'btn' => 'Adicionar acusado',
-                'arquivo' => 'envolvido',
-                'relacao' => NULL,
-                'proc' => 'adl',
-                'unico' => false
-            ])    
-            @endcomponent
-
-            @component('components.subform',
-            [
-                'title' => 'Vítima (apenas se houver)',
-                'btn' => 'Adicionar vítima',
-                'arquivo' => 'ofendido',
-                'relacao' => NULL,
-                'proc' => 'adl',
-                'unico' => false
-            ])    
-            @endcomponent
-
-            <div class='col-md-12 col-xs-12'>
-            <br>
-            {!! Form::submit('Inserir adl',['class' => 'btn btn-primary btn-block']) !!}
-            {!! Form::close() !!}
-            </div>
         </div>
     </div>
 
@@ -154,27 +106,6 @@
 @stop
 
 @section('js')
-  {{-- @include('vendor.adminlte.includes.pickers') --}}
-  {{-- @include('vendor.adminlte.includes.select2') --}}
-{{-- <script>
-    $(document).ready(function(){
-        addObjectForm('envolvido','adl');
-    });
-
-    $("#descricao").on('load, change',function ()
-    {
-        var campo = $("#descricao").val();
-        console.log(campo);
-        if (campo == 'Outro') 
-        {
-            $(".descricao_outros").show();
-        }
-        else
-        {
-            $(".descricao_outros").hide();
-        }
-    });
-</script> --}}
 @include('vendor.adminlte.includes.vue')
 @stop
 

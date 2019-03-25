@@ -272,7 +272,7 @@
     <div class="box-body">
 
     {{--  presidente --}}
-    <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
+    {{-- <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
         {!! Form::label('presidente-rg', 'RG do presidente')!!} <br>
         {!! Form::text('presidente-rg',$presidente['rg'],
         ['onblur' => "completaDados($(this).val(),'presidente-nome','presidente-posto')",'class' => 'form-control']) !!}
@@ -288,7 +288,7 @@
         {!! Form::text('presidente-posto',$presidente['cargo'],['readonly','class' => 'form-control']) !!}
     </div>
 
-    {{--  escrivao --}}
+    {{--  escrivao 
     <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
         {!! Form::label('escrivao-rg', 'RG do escrivao')!!} <br>
         {!! Form::text('escrivao-rg',$escrivao['rg'],
@@ -305,7 +305,7 @@
         {!! Form::text('escrivao-posto',$escrivao['cargo'],['readonly','class' => 'form-control']) !!}
     </div>
 
-    {{--  defensor --}}
+    {{--  defensor 
     <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
         {!! Form::label('defensor-rg', 'RG do defensor')!!} <br>
         {!! Form::text('defensor-rg',$defensor['rg'],
@@ -320,7 +320,7 @@
     <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
         {!! Form::label('defensor-posto', 'Posto/Graduação')!!} <br>
         {!! Form::text('defensor-posto',$defensor['cargo'],['readonly','class' => 'form-control']) !!}
-    </div>
+    </div> --}}
 
     </div>
 </div>
