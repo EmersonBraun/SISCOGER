@@ -175,7 +175,7 @@ class AdlController extends Controller
         ver_unidade($proc);
 
         //----envolvido do procedimento
-        /*$envolvido = Envolvido::acusado()->where('id_adl','=',$proc->id_adl)->get();
+        $envolvido = Envolvido::acusado()->where('id_adl','=',$proc->id_adl)->get();
 
         //teste para verificar se pode ver superior, caso não possa aborta
         ver_superior($envolvido, Auth::user());
@@ -184,17 +184,17 @@ class AdlController extends Controller
         $ofendido = Ofendido::ofendido('id_adl',$proc->id_adl)->get();
         //----ligação do procedimento
         $ligacao = Ligacao::ref_ano($proc->sjd_ref,$proc->sjd_ref_ano)->where('destino_proc','=','adl')->get();
-         */
+         
         $presidente = Envolvido::presidente()->where('id_adl','=',$proc['id_adl'])->first();
         $escrivao = Envolvido::escrivao()->where('id_adl','=',$proc['id_adl'])->first();
         $defensor = Envolvido::defensor()->where('id_adl','=',$proc['id_adl'])->first();
-        /*
+        
         //-- arquivos apagados
         $arquivos_apagados = ArquivosApagado::proc_id('adl',$proc->id_adl)->get();
-        //dd($proc);*/
-        //return view('procedimentos.adl.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos','arquivos_apagados'));
+        //dd($proc);
+        return view('procedimentos.adl.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos','arquivos_apagados'));
 
-        return view('procedimentos.adl.form.edit', compact('proc','presidente','escrivao','defensor'));
+        //return view('procedimentos.adl.form.edit', compact('proc','presidente','escrivao','defensor'));
     }
 
 

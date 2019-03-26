@@ -9,8 +9,7 @@
   <li class="active">ADL - Criar</li>
   </ol>
 </section>
-
-</v-select>
+  
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -38,13 +37,11 @@
             <?php echo Form::open(['url' => route('adl.store')]); ?>
 
             <div class='col-md-12 col-xs-12'>
-            <?php echo Form::label('prioridade', 'Processo prioritário'); ?>
+            <?php echo Form::label('prioritario', 'Processo prioritário'); ?>
 
-            <?php echo Form::checkbox('prioridade', '1'); ?>
+            <?php echo Form::checkbox('prioritario', '1'); ?>
 
             </div>
-
-            
 
             <?php $__env->startComponent('components.form.select',
             ['titulo' => 'Andamento','campo' => 'id_andamento', 'opt' => config('sistema.andamentoADL')]); ?>
@@ -54,6 +51,8 @@
             ['titulo' => 'Andamento COGER','campo' => 'andamentocoger', 'opt' => config('sistema.andamentocogerADL'), 'class' => 'select2']); ?>
             <?php echo $__env->renderComponent(); ?>
 
+            <?php $__env->startComponent('components.form.text',['titulo' => 'Modelo','campo' => 'modelo']); ?>
+            <?php echo $__env->renderComponent(); ?>
 
             
             <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
@@ -77,7 +76,8 @@
             <?php $__env->startComponent('components.form.text',['titulo' => 'N° Portaria','campo' => 'portaria_numero']); ?>
             <?php echo $__env->renderComponent(); ?>
             
-            <v-datepicker title="Data da portaria" name="portaria_data"></v-datepicker>
+            <?php $__env->startComponent('components.form.date',['titulo' => 'Data da portaria','campo' => 'portaria_data']); ?>
+            <?php echo $__env->renderComponent(); ?>
 
             <?php $__env->startComponent('components.form.select',
             ['titulo' => 'Tipo de boletim','campo' => 'doc_tipo', 'opt' => config('sistema.tipoBoletim')]); ?>
@@ -86,20 +86,68 @@
             <?php $__env->startComponent('components.form.text',['titulo' => 'N° Boletim','campo' => 'doc_numero']); ?>
             <?php echo $__env->renderComponent(); ?>
 
-            <v-datepicker title="Dato do fato" name="fato_data"></v-datepicker>
+            <?php $__env->startComponent('components.form.date',['titulo' => 'Data da fato','campo' => 'fato_data']); ?>
+            <?php echo $__env->renderComponent(); ?>
 
-            <v-datepicker title="Data da abertura" name="abertura_data"></v-datepicker>
+            <?php $__env->startComponent('components.form.date',['titulo' => 'Data da abertura','campo' => 'abertura_data']); ?>
+            <?php echo $__env->renderComponent(); ?>
 
-            <v-datepicker title="Data da prescricao" name="prescricao_data"></v-datepicker>
-
+            <?php $__env->startComponent('components.form.date',['titulo' => 'Data da prescricao','campo' => 'prescricao_data']); ?>
+            <?php echo $__env->renderComponent(); ?>
 
             <?php $__env->startComponent('components.form.sintese_txt'); ?>
             <?php echo $__env->renderComponent(); ?>
 
+            
+            
+            <br>
+            
+            <?php $__env->startComponent('components.subform',
+            [
+                'title' => 'Procedimento(s) de Origem (apenas se houver)',
+                'btn' => 'Adicionar documento de origem',
+                'arquivo' => 'ligacao',
+                'relacao' => NULL,
+                'proc' => 'adl',
+                'unico' => false
+            ]); ?>    
+            <?php echo $__env->renderComponent(); ?>
+            
+
+            <?php $__env->startComponent('components.subform',
+            [
+                'title' => 'Acusado',
+                'btn' => 'Adicionar acusado',
+                'arquivo' => 'envolvido',
+                'relacao' => NULL,
+                'proc' => 'adl',
+                'unico' => false
+            ]); ?>    
+            <?php echo $__env->renderComponent(); ?>
+
+            <?php $__env->startComponent('components.subform',
+            [
+                'title' => 'Vítima (apenas se houver)',
+                'btn' => 'Adicionar vítima',
+                'arquivo' => 'ofendido',
+                'relacao' => NULL,
+                'proc' => 'adl',
+                'unico' => false
+            ]); ?>    
+            <?php echo $__env->renderComponent(); ?>
+
+            <div class='col-md-12 col-xs-12'>
+            <br>
+            <?php echo Form::submit('Inserir adl',['class' => 'btn btn-primary btn-block']); ?>
+
+            <?php echo Form::close(); ?>
+
+            </div>
         </div>
     </div>
 
     </div>
+  
 </section>
 <?php $__env->stopSection(); ?>
 
@@ -108,7 +156,27 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>
-<?php echo $__env->make('vendor.adminlte.includes.vue', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+  <?php echo $__env->make('vendor.adminlte.includes.pickers', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+  <?php echo $__env->make('vendor.adminlte.includes.select2', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<script>
+    $(document).ready(function(){
+        addObjectForm('envolvido','adl');
+    });
+
+    $("#descricao").on('load, change',function ()
+    {
+        var campo = $("#descricao").val();
+        console.log(campo);
+        if (campo == 'Outro') 
+        {
+            $(".descricao_outros").show();
+        }
+        else
+        {
+            $(".descricao_outros").hide();
+        }
+    });
+</script>
 <?php $__env->stopSection(); ?>
 
 

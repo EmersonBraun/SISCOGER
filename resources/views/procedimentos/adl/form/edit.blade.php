@@ -100,22 +100,12 @@
             @endcomponent
 
             {{-- linha --}}
-            <v-proced-origem dproc="adl" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem>
+            <v-proced-origem></v-proced-origem>
             <br>
-            
-            {{-- @component('components.subform',
-            [
-                'title' => 'Procedimento(s) de Origem (apenas se houver)',
-                'btn' => 'Adicionar documento de origem',
-                'arquivo' => 'ligacao',
-                'relacao' => $ligacao,
-                'proc' => 'adl',
-                'unico' => false
-            ])    
-            @endcomponent
-            
-
-            @component('components.subform',
+                        
+            <v-acusado></v-acusado>
+            <br>
+           @component('components.subform',
             [
                 'title' => 'Acusado',
                 'btn' => 'Adicionar acusado',
@@ -126,7 +116,7 @@
             ])    
             @endcomponent
 
-            @component('components.subform',
+            {{-- @component('components.subform',
             [
                 'title' => 'Vítima (apenas se houver)',
                 'btn' => 'Adicionar vítima',
@@ -135,7 +125,7 @@
                 'proc' => 'adl',
                 'unico' => false
             ])    
-            @endcomponent --}}
+            @endcomponent  --}}
             
 
             </div>

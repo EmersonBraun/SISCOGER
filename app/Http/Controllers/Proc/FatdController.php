@@ -58,8 +58,7 @@ class FatdController extends Controller
 
     public function create(Request $request)
     {
-        include 'app/includes/opms.php';
-        return view('procedimentos.fatd.form.create', compact('opms','selected','firstGroup'));
+        return view('procedimentos.fatd.form.create');
     }
 
 

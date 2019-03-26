@@ -100,9 +100,22 @@
             <?php echo $__env->renderComponent(); ?>
 
             
-            <v-proced-origem dproc="adl" dref="<?php echo e($proc['sjd_ref']); ?>" dano="<?php echo e($proc['sjd_ref_ano']); ?>"></v-proced-origem>
+            <v-proced-origem></v-proced-origem>
             <br>
-            
+                        
+            <v-acusado></v-acusado>
+            <br>
+           <?php $__env->startComponent('components.subform',
+            [
+                'title' => 'Acusado',
+                'btn' => 'Adicionar acusado',
+                'arquivo' => 'envolvido',
+                'relacao' => $envolvido,
+                'proc' => 'adl',
+                'unico' => false
+            ]); ?>    
+            <?php echo $__env->renderComponent(); ?>
+
             
             
 

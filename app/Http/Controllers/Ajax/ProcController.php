@@ -10,7 +10,7 @@ use App\Models\Sjd\Busca\Ligacao;
 
 class ProcController extends Controller
 {
-    public function index($proc, $ref, $ano)
+    public function dados($proc, $ref, $ano)
     {
         // validações
         if(!in_array($proc,config('sistema.pocedimentosOpcoes'))) 
@@ -37,7 +37,7 @@ class ProcController extends Controller
             ->where('sjd_ref_ano','=',$ano)
             ->first();
 
-        if(!$result['cdopm'])
+        if(!$result)
         {
             return response()->json([
                 'opm' => 'Referência inválida',
@@ -45,75 +45,15 @@ class ProcController extends Controller
             ], 200);
         }
 
-        $opm = OPMRepository::uabreviatura(completa_zeros($result['cdopm']));
-
-        if(!$opm) 
-        {
-            return response()->json([
-                'opm' => 'OPM Não encontrada',
-                'success' => false,
-            ], 200);
-        } 
-
         return response()->json([
-            'opm' => $opm,
+            'proc' => $result,
             'id' => $result['id_'.$proc],
+            'situacao' => sistema('procSituacao',$proc),
+            'opm' => OPMRepository::uabreviatura(completa_zeros($result['cdopm'])),
             'success' => true,
         ], 200);
     }
 
 
-    public function store(Request $request)
-    {
-        $dados = $request->all();
-        
-        $proc = $dados['origem_proc'];
-        if($dados['id_'.$proc] == 0 || $dados['id_'.$proc] == null)
-        {
-            return response()->json([
-                'opm' => 'Sem ID',
-                'success' => false,
-            ], 500);
-        }
-
-        $create = Ligacao::create($dados);
-
-        if($create)
-        {
-            return response()->json([
-                'opm' => 'Criado',
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'opm' => 'Não salvo',
-            'success' => true,
-        ], 500);
-    }
-
-    public function list($proc, $ref, $ano)
-    {
-        $result = Ligacao::where('destino_proc','=',$proc)
-            ->where('destino_sjd_ref','=',$ref)
-            ->where('destino_sjd_ref_ano','=',$ano)
-            ->get();
-
-        return response()->json(
-            $result, 200);
-    }
-
-
-    public function destroy($id)
-    {
-        $destroy = Ligacao::findOrFail($id)->delete();
-        if($destroy)
-        {
-            return response()->json([
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => true,
-        ], 500);
-    }
+    
 }
