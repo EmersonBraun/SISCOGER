@@ -103,20 +103,15 @@
             <v-proced-origem></v-proced-origem>
             <br>
                         
-            <v-acusado></v-acusado>
+            <v-acusado idp="{{$proc['id_adl']}}" situacao="{{sistema('procSituacao','adl')}}"></v-acusado>
             <br>
-           @component('components.subform',
-            [
-                'title' => 'Acusado',
-                'btn' => 'Adicionar acusado',
-                'arquivo' => 'envolvido',
-                'relacao' => $envolvido,
-                'proc' => 'adl',
-                'unico' => false
-            ])    
-            @endcomponent
 
-            {{-- @component('components.subform',
+            <v-vitima></v-vitima>
+            <br>
+   
+ 
+
+            @component('components.subform',
             [
                 'title' => 'Vítima (apenas se houver)',
                 'btn' => 'Adicionar vítima',
@@ -125,7 +120,7 @@
                 'proc' => 'adl',
                 'unico' => false
             ])    
-            @endcomponent  --}}
+            @endcomponent 
             
 
             </div>

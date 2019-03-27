@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Ajax;
+namespace App\Http\Controllers\_Api\SJD\PM;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,6 +12,8 @@ class EnvolvidoController extends Controller
 {
     public function list($proc, $id, $situacao="")
     {
+        if($situacao) $situacao = strtolower($situacao);
+        
         $query = Envolvido::where('id_'.$proc,'=',$id);
             if($situacao != '') $query->where('situacao','=',$situacao);
             $result = $query->get();

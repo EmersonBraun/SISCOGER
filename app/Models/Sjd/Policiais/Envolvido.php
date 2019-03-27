@@ -5,7 +5,7 @@
  * Date: Fri, 27 Apr 2018 00:27:02 +0000.
  */
 
-namespace App\Models\Sjd\Busca;
+namespace App\Models\Sjd\Policiais;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 

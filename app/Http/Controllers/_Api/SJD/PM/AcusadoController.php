@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Ajax;
+namespace App\Http\Controllers\_Api\SJD\PM;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -24,11 +24,10 @@ class AcusadoController extends Controller
     {
         $dados = $request->all();
         
-        $proc = $dados['origem_proc'];
-        if($dados['id_'.$proc] == 0 || $dados['id_'.$proc] == null)
+        if($dados['rg'] == 0 || $dados['rg'] == null)
         {
             return response()->json([
-                'opm' => 'Sem ID',
+                'opm' => 'Sem RG',
                 'success' => false,
             ], 500);
         }
@@ -38,13 +37,11 @@ class AcusadoController extends Controller
         if($create)
         {
             return response()->json([
-                'opm' => 'Criado',
                 'success' => true,
             ], 200);
         }
         return response()->json([
-            'opm' => 'Não salvo',
-            'success' => true,
+            'success' => false,
         ], 500);
     }
 
@@ -58,7 +55,7 @@ class AcusadoController extends Controller
             ], 200);
         }
         return response()->json([
-            'success' => true,
+            'success' => false,
         ], 500);
     }
 }

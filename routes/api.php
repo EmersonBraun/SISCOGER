@@ -28,6 +28,31 @@ Route::get('sjd/proc/adl/relsituacaoano/{ano}', ['as' =>'api.adlrelsituano','use
 Route::get('sjd/proc/adl/julgamento', ['as' =>'api.adljulg','uses'=>'_Api\SJD\Proc\AdlApiController@julgamento']);
 Route::get('sjd/proc/adl/julgamentoano/{ano}', ['as' =>'api.adljulgano','uses'=>'_Api\SJD\Proc\AdlApiController@julgamentoAno']);
 
+// rotas componente SubForm/ProcedOrigem.vue
+Route::group(['as'=>'ligacao.','prefix' =>'ligacao'],function(){
+    Route::get('list/{proc}/{ref}/{ano}',['as' =>'index','uses'=>'_Api\SJD\Proc\LigacaoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\Proc\LigacaoController@store']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\Proc\LigacaoController@destroy']);
+});
+// rotas componente SubForm/Acusado.vue
+Route::group(['as'=>'acusado.','prefix' =>'acusado'],function(){
+    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\AcusadoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\AcusadoController@store']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\AcusadoController@destroy']);
+});
+Route::group(['as'=>'membros.','prefix' =>'membros'],function(){
+    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\MembrosController@list']);
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\MembrosController@store']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\MembrosController@destroy']);
+});
+Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
+    // pegar dados do PM pelo RG
+    Route::get('pm/{rg}',['as' =>'pm','uses'=>'_Api\SJD\PM\PMController@dados']);
+    // pegar dados do Procedimento pelo Nome/ref/ano
+    Route::get('proc/{proc}/{ref}/{ano}',['as' =>'proc','uses'=>'_Api\SJD\Proc\ProcController@dados']);
+    // pegar lista dos Envolvido pelo Proc/id/situacao
+    Route::get('envolvido/{proc}/{id}/{situacao?}',['as' =>'envolvido','uses'=>'_Api\SJD\PM\EnvolvidoController@list']);
+});
 
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

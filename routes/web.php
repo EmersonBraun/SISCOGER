@@ -374,31 +374,7 @@ Route::group(['as'=>'historia.','prefix' =>'historia'],function(){
 */
 //Rotas do módulo ajax
 Route::group(['as'=>'ajax.','prefix' =>'ajax'],function(){
-    // rotas componente SubForm/ProcedOrigem.vue
-    Route::group(['as'=>'ligacao.','prefix' =>'ligacao'],function(){
-        Route::get('list/{proc}/{ref}/{ano}',['as' =>'index','uses'=>'Ajax\LigacaoController@list']);
-        Route::post('store',['as' =>'store','uses'=>'Ajax\LigacaoController@store']);
-        Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Ajax\LigacaoController@destroy']);
-    });
-    // rotas componente SubForm/Acusado.vue
-    Route::group(['as'=>'acusado.','prefix' =>'acusado'],function(){
-        Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'Ajax\AcusadoController@list']);
-        Route::post('store',['as' =>'store','uses'=>'Ajax\AcusadoController@store']);
-        Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Ajax\AcusadoController@destroy']);
-    });
-    Route::group(['as'=>'membros.','prefix' =>'membros'],function(){
-        Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'Ajax\MembrosController@list']);
-        Route::post('store',['as' =>'store','uses'=>'Ajax\MembrosController@store']);
-        Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Ajax\MembrosController@destroy']);
-    });
-    Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
-        // pegar dados do PM pelo RG
-        Route::get('pm/{rg}',['as' =>'pm','uses'=>'Ajax\PMController@dados']);
-        // pegar dados do Procedimento pelo Nome/ref/ano
-        Route::get('proc/{proc}/{ref}/{ano}',['as' =>'proc','uses'=>'Ajax\ProcController@dados']);
-        // pegar dados do Envolvido pelo Proc/id/situacao
-        Route::get('envolvido/{proc}/{id}/{situacao?}',['as' =>'envolvido','uses'=>'Ajax\EnvolvidoController@dados']);
-    });
+    
     // Route::post('acusado/ligacao',['as' =>'ligacao.store','uses'=>'Ajax\ProcController@store']);
     // Route::get('proc/ligacao/list/{proc}/{ref}/{ano}',['as' =>'ligacao.index','uses'=>'Ajax\ProcController@list']);
     // Route::delete('proc/ligacao/remover/{id}',['as' =>'ligacao.destroy','uses'=>'Ajax\ProcController@destroy']);

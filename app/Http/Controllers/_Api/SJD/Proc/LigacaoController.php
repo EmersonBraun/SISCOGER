@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Ajax;
+namespace App\Http\Controllers\_Api\SJD\Proc;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,7 +16,7 @@ class LigacaoController extends Controller
             ->where('destino_sjd_ref','=',$ref)
             ->where('destino_sjd_ref_ano','=',$ano)
             ->get();
-
+        
         return response()->json(
             $result, 200);
     }

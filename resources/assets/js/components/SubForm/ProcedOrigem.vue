@@ -157,7 +157,7 @@
         methods: {
             searchProc(){
                 this.opm = ''
-                let searchUrl = this.getBaseUrl() + 'ajax/dados/proc/' + this.proc + '/' + this.ref + '/' + this.ano;
+                let searchUrl = this.getBaseUrl() + 'api/dados/proc/' + this.proc + '/' + this.ref + '/' + this.ano;
                 if(this.proc && this.ref && this.ano){
                     axios
                     .get(searchUrl)
@@ -170,7 +170,7 @@
                 }
             },
             createProc(){
-                let urlCreate = this.getBaseUrl() + 'ajax/ligacao/store';
+                let urlCreate = this.getBaseUrl() + 'api/ligacao/store';
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -184,7 +184,7 @@
             },
             // listagem dos arquivos existentes
             listProc(){
-                let urlIndex = this.getBaseUrl() + 'ajax/ligacao/list/' + this.dproc + '/' + this.dref + '/' + this.dano;
+                let urlIndex = this.getBaseUrl() + 'api/ligacao/list/' + this.dproc + '/' + this.dref + '/' + this.dano;
                 axios
                 .get(urlIndex)
                 .then((response) => {
@@ -200,7 +200,7 @@
             },
             // apagar arquivo
             removeProc(id){
-                let urlDelete = this.getBaseUrl() + 'ajax/ligacao/destroy/' + id;
+                let urlDelete = this.getBaseUrl() + 'api/ligacao/destroy/' + id;
                 axios
                 .delete(urlDelete)
                 .then(this.listProc)//chama list para atualizar

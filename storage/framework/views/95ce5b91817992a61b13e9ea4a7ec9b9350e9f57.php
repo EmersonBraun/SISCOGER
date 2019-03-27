@@ -103,20 +103,24 @@
             <v-proced-origem></v-proced-origem>
             <br>
                         
-            <v-acusado></v-acusado>
+            <v-acusado idp="<?php echo e($proc['id_adl']); ?>" situacao="<?php echo e(sistema('procSituacao','adl')); ?>"></v-acusado>
             <br>
-           <?php $__env->startComponent('components.subform',
+
+            <v-vitima></v-vitima>
+            <br>
+   
+ 
+
+            <?php $__env->startComponent('components.subform',
             [
-                'title' => 'Acusado',
-                'btn' => 'Adicionar acusado',
-                'arquivo' => 'envolvido',
-                'relacao' => $envolvido,
+                'title' => 'Vítima (apenas se houver)',
+                'btn' => 'Adicionar vítima',
+                'arquivo' => 'ofendido',
+                'relacao' => $ofendido,
                 'proc' => 'adl',
                 'unico' => false
             ]); ?>    
-            <?php echo $__env->renderComponent(); ?>
-
-            
+            <?php echo $__env->renderComponent(); ?> 
             
 
             </div>
