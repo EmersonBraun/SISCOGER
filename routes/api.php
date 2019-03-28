@@ -48,6 +48,8 @@ Route::group(['as'=>'membros.','prefix' =>'membros'],function(){
 Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
     // pegar dados do PM pelo RG
     Route::get('pm/{rg}',['as' =>'pm','uses'=>'_Api\SJD\PM\PMController@dados']);
+    // pegar cautelas do PM pelo RG
+    Route::get('cautelas/{rg}',['as' =>'cautelas','uses'=>'_Api\SJD\PM\PMController@cautelas']);
     // pegar dados do Procedimento pelo Nome/ref/ano
     Route::get('proc/{proc}/{ref}/{ano}',['as' =>'proc','uses'=>'_Api\SJD\Proc\ProcController@dados']);
     // pegar lista dos Envolvido pelo Proc/id/situacao

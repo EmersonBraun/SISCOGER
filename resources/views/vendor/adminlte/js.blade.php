@@ -22,8 +22,6 @@ $.widget.bridge('uibutton', $.ui.button)
 <!-- file upload 
 <script src="{{ asset('public/vendor/plugins/File-Upload/js/vendor/jquery.ui.widget.js') }}"></script>
 <script src="{{ asset('public/vendor/plugins/File-Upload/js/jquery.fileupload.js') }}"></script>-->
-{{-- confirm --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 <!-- =========== /FORM ========== -->
 <!-- =========== INDEX ========== -->
 

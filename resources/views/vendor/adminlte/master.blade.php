@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
     {{-- Compilados --}}
     <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
-   
+
     <style>
         
     .navbar-static-top {
@@ -45,7 +45,6 @@
 @include('vendor.adminlte.js')
 @if(Session::has('toasts'))
 <!-- Messenger http://github.hubspot.com/messenger/ -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 

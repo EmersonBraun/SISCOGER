@@ -9,6 +9,8 @@
     <li class="a membro"><a href="#membro" data-toggle="tab" aria-expanded="false" onclick="mudaTab('membro')">Membro <?php if(count($membros) > 0): ?> <span class="badge bg-red"><?php echo e(count($membros)); ?></span> <?php endif; ?></a></li>
     <li class="a apresentacoes"><a href="#apresentacoes" data-toggle="tab" aria-expanded="false" onclick="mudaTab('apresentacoes')">Apresentacões <?php if(count($apresentacoes) > 0): ?> <span class="badge bg-red"><?php echo e(count($apresentacoes)); ?></span> <?php endif; ?></a></li>
     <li class="a proc_outros"><a href="#proc_outros" data-toggle="tab" aria-expanded="false" onclick="mudaTab('proc_outros')">Proc. Outros <?php if(count($proc_outros) > 0): ?> <span class="badge bg-red"><?php echo e(count($proc_outros)); ?></span> <?php endif; ?></a></li>
+    <li class="a cautelas"><a href="#cautelas" data-toggle="tab" aria-expanded="false" onclick="mudaTab('cautelas')">Cautelas</a></li>
+
     
     <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-info-circle text-info" data-toggle="tooltip" data-placement="bottom" title="Os campos poderão ser suprimidos nos casos de certidão da Ficha Disciplinar Individual do militar estadual."></i></a></li>
 </ul>

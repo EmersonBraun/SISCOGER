@@ -50,6 +50,9 @@
 @stop
 
 @section('css')
+<!-- Easy Autocomplete -->
+<link rel="stylesheet" href="{{ asset('public/vendor/plugins/EasyAutocomplete/easy-autocomplete.min.css') }}">
+<link rel="stylesheet" href="{{ asset('public/vendor/plugins/EasyAutocomplete/easy-autocomplete.themes.min.css') }}">
 @stop
 
 @section('js')

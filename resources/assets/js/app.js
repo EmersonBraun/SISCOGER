@@ -19,6 +19,8 @@ Vue.component('v-proced-origem', require('./components/SubForm/ProcedOrigem.vue'
 Vue.component('v-acusado', require('./components/SubForm/Acusado.vue'));
 Vue.component('v-vitima', require('./components/SubForm/Vitima.vue'));
 
+Vue.component('v-cautelas', require('./components/FDI/Cautelas.vue'));
+
 Vue.component('v-accordion', require('vue-strap').accordion);
 Vue.component('v-affix', require('vue-strap').affix);
 Vue.component('v-alert', require('vue-strap').alert);

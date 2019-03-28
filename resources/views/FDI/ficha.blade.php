@@ -35,6 +35,9 @@
                 @include('FDI.membro')
                 @include('FDI.apresentacoes')
                 @include('FDI.proc_outros')
+                <div class="tab-pane" id="cautelas">
+                    <v-cautelas rg="{{$pm->RG}}"></v-cautelas>
+                </div>
             </div>
             <!-- /.tab-content -->
           </div>
@@ -50,7 +53,6 @@
 @stop
 
 @section('css')
-<link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
 @section('js')
@@ -66,4 +68,5 @@ function mudaTab(id)
     $('#'+id).addClass('show');
 }
 </script>
+@include('vendor.adminlte.includes.vue')
 @stop

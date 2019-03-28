@@ -55,6 +55,9 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('css'); ?>
+<!-- Easy Autocomplete -->
+<link rel="stylesheet" href="<?php echo e(asset('public/vendor/plugins/EasyAutocomplete/easy-autocomplete.min.css')); ?>">
+<link rel="stylesheet" href="<?php echo e(asset('public/vendor/plugins/EasyAutocomplete/easy-autocomplete.themes.min.css')); ?>">
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>

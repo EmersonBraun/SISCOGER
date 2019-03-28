@@ -33,6 +33,9 @@
                 <?php echo $__env->make('FDI.membro', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php echo $__env->make('FDI.apresentacoes', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                 <?php echo $__env->make('FDI.proc_outros', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <div class="tab-pane" id="cautelas">
+                    <v-cautelas rg="<?php echo e($pm->RG); ?>"></v-cautelas>
+                </div>
             </div>
             <!-- /.tab-content -->
           </div>
@@ -48,7 +51,6 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('css'); ?>
-<link rel="stylesheet" href="/css/admin_custom.css">
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>
@@ -64,5 +66,6 @@ function mudaTab(id)
     $('#'+id).addClass('show');
 }
 </script>
+<?php echo $__env->make('vendor.adminlte.includes.vue', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('adminlte::page', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
