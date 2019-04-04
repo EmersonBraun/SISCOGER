@@ -14,6 +14,7 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+Vue.component('file-upload', require('./components/Arquivos/FileUpload.vue'));
 
 Vue.component('v-proced-origem', require('./components/SubForm/ProcedOrigem.vue'));
 Vue.component('v-acusado', require('./components/SubForm/Acusado.vue'));

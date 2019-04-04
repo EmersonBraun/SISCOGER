@@ -106,23 +106,9 @@
             <v-acusado idp="<?php echo e($proc['id_adl']); ?>" situacao="<?php echo e(sistema('procSituacao','adl')); ?>"></v-acusado>
             <br>
 
-            <v-vitima idp="<?php echo e($proc['id_adl']); ?>" situacao="<?php echo e(sistema('procSituacao','adl')); ?>"></v-vitima>
+            <v-vitima idp="<?php echo e($proc['id_adl']); ?>"></v-vitima>
             <br>
-   
- 
-
-            <?php $__env->startComponent('components.subform',
-            [
-                'title' => 'Vítima (apenas se houver)',
-                'btn' => 'Adicionar vítima',
-                'arquivo' => 'ofendido',
-                'relacao' => $ofendido,
-                'proc' => 'adl',
-                'unico' => false
-            ]); ?>    
-            <?php echo $__env->renderComponent(); ?> 
             
-
             </div>
         </div>
     </div>
@@ -141,6 +127,15 @@
     </div>
 
     <div class="box-body">
+
+        <file-upload 
+            title="Libelo"
+            name="libelo_file"
+            proc="adl"
+            idp="<?php echo e($proc['id_adl']); ?>"
+            :ext="['pdf']" 
+            >
+        </file-upload>
 
     
     <div class='col-lg-6 col-md-6 col-xs-12 form-group'>

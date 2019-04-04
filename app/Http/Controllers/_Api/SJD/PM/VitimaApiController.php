@@ -8,22 +8,25 @@ use App\Models\Sjd\Policiais\Ofendido;
 
 class VitimaApiController extends Controller
 {
-    public function list($proc, $id, $situacao)
+    public function list($proc, $id)
     {
-        $result = Ofendido::where('id_'.$proc,'=',$id)
-            ->where('situacao','=',$situacao)
-            ->get();
+        $result = Ofendido::where('id_'.$proc,'=',$id)->get();
+        if($result)
+        {
+            return response()->json(
+                $result, 200);
+        }
 
-        return response()->json(
-            $result, 200);
+        return response()->json([
+            'success' => false,
+        ], 500);
     }
     
     public function store(Request $request)
     {
         $dados = $request->all();
         $create = Ofendido::create($dados);
-
-        if($create)
+        if($create->exists)
         {
             return response()->json([
                 'success' => true,

@@ -14,7 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'SISCOGER'),
-
+    'uploads' => '/arquivos',
     /*
     |--------------------------------------------------------------------------
     | Application Environment

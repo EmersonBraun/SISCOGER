@@ -46,7 +46,7 @@ Route::group(['as'=>'membros.','prefix' =>'membros'],function(){
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\MembrosApiController@destroy']);
 });
 Route::group(['as'=>'vitima.','prefix' =>'vitima'],function(){
-    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\VitimaApiController@list']);
+    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'_Api\SJD\PM\VitimaApiController@list']);
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\VitimaApiController@store']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\VitimaApiController@destroy']);
 });
@@ -60,6 +60,7 @@ Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
     // pegar lista dos Envolvido pelo Proc/id/situacao
     Route::get('envolvido/{proc}/{id}/{situacao?}',['as' =>'envolvido','uses'=>'_Api\SJD\PM\EnvolvidoApiController@list']);
 });
+
 
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

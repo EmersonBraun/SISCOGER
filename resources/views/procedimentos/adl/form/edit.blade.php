@@ -106,23 +106,9 @@
             <v-acusado idp="{{$proc['id_adl']}}" situacao="{{sistema('procSituacao','adl')}}"></v-acusado>
             <br>
 
-            <v-vitima idp="{{$proc['id_adl']}}" situacao="{{sistema('procSituacao','adl')}}"></v-vitima>
+            <v-vitima idp="{{$proc['id_adl']}}"></v-vitima>
             <br>
-   
- 
-
-            @component('components.subform',
-            [
-                'title' => 'Vítima (apenas se houver)',
-                'btn' => 'Adicionar vítima',
-                'arquivo' => 'ofendido',
-                'relacao' => $ofendido,
-                'proc' => 'adl',
-                'unico' => false
-            ])    
-            @endcomponent 
             
-
             </div>
         </div>
     </div>{{-- procedimento principal --}}
@@ -141,6 +127,15 @@
     </div>
 
     <div class="box-body">
+
+        <file-upload 
+            title="Libelo"
+            name="libelo_file"
+            proc="adl"
+            idp="{{$proc['id_adl']}}"
+            :ext="['pdf']" 
+            >
+        </file-upload>
 
     {{-- linha --}}
     <div class='col-lg-6 col-md-6 col-xs-12 form-group'>

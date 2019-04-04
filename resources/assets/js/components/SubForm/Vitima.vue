@@ -34,7 +34,7 @@
 
                         <div class="col-lg-2 col-md-2 col-xs 2">
                             <label for="sexo">Sexo</label><br>
-                            <select name="resultado" class="form-control" v-model="sexo">
+                            <select name="sexo" class="form-control" v-model="sexo">
                                 <option value="">Selecione</option>
                                 <option value="M">Masculino</option>
                                 <option value="F">Feminino</option>
@@ -121,7 +121,7 @@
                                 <td>{{ vitima.rg }}</td>
                                 <td>{{ vitima.nome }}</td>
                                 <td v-if="dproc == 'ipm'">{{ vitima.resultado }}</td>
-                                <td>{{ vitima.sexo }}</td>
+                                <td>{{ vitima.sexo | tipoSexo}}</td>
                                 <td v-if="dproc !== 'ipm'">{{ vitima.fone }}</td>
                                 <td v-if="dproc !== 'ipm'">{{ vitima.email }}</td>
                                 <td>{{ vitima.idade }}</td>
@@ -129,7 +129,7 @@
                                 <td v-if="dproc == 'sai' || dproc == 'proc_outros'">{{ vitima.envolvimento }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="First group">
-                                        <a type="button"  @click="removeVitima(vitima.id_vitima)" class="btn btn-danger" style="color: white">
+                                        <a type="button"  @click="removeVitima(vitima.id_ofendido)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
                                         </a>
                                     </div>
@@ -155,7 +155,6 @@
         components: {TheMask},
         props: {
             unique: {type: Boolean, default: false},
-            situacao: {type: String},
             idp: {type: String},
         },
         data() {
@@ -179,6 +178,11 @@
                 resultado: false,
                 counter: 0,
                 only: false,
+            }
+        },
+        filters:{
+            tipoSexo: function(val){
+                if(val !== null) return val == 'M' ? 'Masculino' : 'Feminino'
             }
         },
         mounted(){
@@ -211,8 +215,8 @@
         methods: {
              listVitima(){
                 this.clear()
-                let urlIndex = this.getBaseUrl + 'api/dados/vitima/' + this.dproc + '/' +this.idp + '/' + this.situacao ;
-                if(this.dproc && this.idp && this.situacao){
+                let urlIndex = this.getBaseUrl + 'api/vitima/list/' + this.dproc + '/' +this.idp;
+                if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)
                     .then((response) => {
@@ -230,7 +234,7 @@
                 let data = new FormData(formData);
 
                 axios.post( urlCreate,data)
-                .then(this.listVitima())
+                .then(this.listVitima)
                 .catch((error) => console.log(error));
             },
             // apagar arquivo
@@ -238,8 +242,8 @@
                 let urlDelete = this.getBaseUrl + 'api/vitima/destroy/' + id;
                 axios
                 .delete(urlDelete)
+                .then(this.listVitima)
                 .catch(error => console.log(error));
-                this.listVitima()
             },
             cancel(){
                 this.add = false

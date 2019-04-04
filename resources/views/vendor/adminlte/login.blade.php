@@ -2,7 +2,6 @@
 
 @section('adminlte_css')
     <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/css/auth.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/font-awesome/css/font-awesome.min.css') }}">
     @yield('css')
 @stop
 
@@ -14,16 +13,13 @@
             <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', 'SISCOGER') !!}</a><br>
             <h4>Controle Processual da PMPR</h4>
         </div>
-        <!-- /.login-logo -->
         <div class="login-box-body">
             <p class="login-box-msg">{{ config('adminlte.login_message') }}</p>
-            <form action="{{ url(config('adminlte.login_url', 'login')) }}" method="post">
-                {!! csrf_field() !!}
+            {!! Form::open(['url' => url(config('adminlte.login_url', 'login'))]) !!}
 
                 <div class="form-group has-feedback {{ $errors->has('rg') ? 'has-error' : '' }}">
-                    <input type="text" name="rg" id="rg" class="form-control" value="{{ old('rg') }}"
-                           placeholder="RG" >
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    {{ Form::text('rg', null, ['class' => 'form-control ','id' => 'rg', 'placegolder' => 'RG']) }}
+                    <span class="fa fa-user form-control-feedback"></span>
                     @if ($errors->has('rg'))
                         <span class="help-block">
                             <strong>{{ $errors->first('rg') }}</strong>
@@ -31,9 +27,8 @@
                     @endif
                 </div>
                 <div class="form-group has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
-                    <input type="password" name="password" class="form-control"
-                           placeholder="{{ config('adminlte.password') }}">
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <input type="password" name="password" class="form-control" placeholder="{{ config('adminlte.password') }}">
+                    <span class="fa fa-lock form-control-feedback"></span>
                     @if ($errors->has('password'))
                         <span class="help-block">
                             <strong>{{ $errors->first('password') }}</strong>
@@ -41,29 +36,26 @@
                     @endif
                 </div>
                 <div class="row">
-                    <!-- /.col -->
-                    <div class="col-xs-6">
-                       <a href="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}"
-                        class="btn btn-default btn-block btn-flat">
+                    <div class="col-xs-7">
+                       <a href="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}" class="btn btn-default btn-block btn-flat">
                         {{ config('adminlte.i_forgot_my_password') }}
                         </a>
                     </div>
-                    <div class="col-xs-6">
-                        <button type="submit"
-                                class="btn btn-primary btn-block btn-flat">{{ config('adminlte.sign_in') }}</button>
+                    <div class="col-xs-5">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">
+                            {{ config('adminlte.sign_in') }}
+                        </button>
                     </div>
-                    <!-- /.col -->
                 </div>
-            </form>         
-                 <!-- 
-                @if (config('adminlte.register_url', 'register'))
+                {!! Form::close() !!}
+                 
+                {{-- @if (config('adminlte.register_url', 'register'))
                     <a href="{{ url(config('adminlte.register_url', 'register')) }}"
                        class="text-center"
                     >{{ config('adminlte.register_a_new_membership') }}</a>
-                @endif /.login-box-body -->
+                @endif  --}}
             </div>
 
-        <!-- /.login-box-body -->
         <div >
             <br><br>
             <p class="text-uppercase texto-branco">Não tem acesso ao sistema?</p>
@@ -72,11 +64,8 @@
             <br>
         </div>
 
-    </div><!-- /.login-box -->
-
-     
+    </div>
     
-     
 @stop
 
 @section('adminlte_js')

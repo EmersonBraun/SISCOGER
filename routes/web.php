@@ -33,15 +33,31 @@ Route::match(['get'],'trocaropm', ['as' =>'trocaropm','uses'=>'Relatorios\Penden
 Route::get('logout', 'HomeController@logout')->middleware('auth.unique.user');
 
 /*
+|--------------------------------------------------------------------------
+| FILE UPLOAD
+|--------------------------------------------------------------------------
+*/
+Route::group(['as'=>'fileupload.','prefix' =>'fileupload'],function(){
+    Route::post('store',['as' =>'store','uses'=>'Arquivo\FileUploadController@store']);
+    Route::get('show/{proc}/{procid}/{arquivo}/{id}',['as' =>'show','uses'=>'Arquivo\FileUploadController@show']);
+    Route::delete('delete/{id}',['as' =>'delete','uses'=>'Arquivo\FileUploadController@delete']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Arquivo\FileUploadController@destroy']);
+    Route::get('list/{proc}/{id}/{arquivo}',['as' =>'index','uses'=>'Arquivo\FileUploadController@index']);
+	//Route::post('remover',['as' =>'remover','uses'=>'UploadController@remover']);
+});
+// Route::resource('{proc}/{id}/{arquivo}/fileupload', 'Arquivo\FileUploadController');
+// Route::resource('{proc}/{id}/{arquivo}/fileupload', 'Arquivo\FileUploadController');
+
+/*
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------
 |ROTAS UPLOAD
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------
 */
 
-Route::group(['as'=>'upload.','prefix' =>'upload'],function(){
-	Route::post('upload',['as' =>'upload','uses'=>'UploadController@upload']);
-	Route::post('remover',['as' =>'remover','uses'=>'UploadController@remover']);
-});
+// Route::group(['as'=>'upload.','prefix' =>'upload'],function(){
+// 	Route::post('upload',['as' =>'upload','uses'=>'UploadController@upload']);
+// 	Route::post('remover',['as' =>'remover','uses'=>'UploadController@remover']);
+// });
 
 /*
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------
