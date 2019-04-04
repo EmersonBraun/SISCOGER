@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\_Api\SJD\Proc;
+namespace App\Http\Controllers\_Api\SJD\PM;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\OPMRepository;
-use App\Models\Sjd\Busca\Ligacao;
+use App\Models\Sjd\Policiais\Envolvido;
 
-class LigacaoController extends Controller
+class AcusadoApiController extends Controller
 {
-    public function list($proc, $ref, $ano)
+    public function list($proc, $id, $situacao)
     {
-        $result = Ligacao::where('destino_proc','=',$proc)
-            ->where('destino_sjd_ref','=',$ref)
-            ->where('destino_sjd_ref_ano','=',$ano)
+        $result = Envolvido::where('id_'.$proc,'=',$id)
+            ->where('situacao','=',$situacao)
             ->get();
-        
+
         return response()->json(
             $result, 200);
     }
@@ -25,33 +24,30 @@ class LigacaoController extends Controller
     {
         $dados = $request->all();
         
-        $proc = $dados['origem_proc'];
-        if($dados['id_'.$proc] == 0 || $dados['id_'.$proc] == null)
+        if($dados['rg'] == 0 || $dados['rg'] == null)
         {
             return response()->json([
-                'opm' => 'Sem ID',
+                'opm' => 'Sem RG',
                 'success' => false,
             ], 500);
         }
 
-        $create = Ligacao::create($dados);
+        $create = Envolvido::create($dados);
 
         if($create)
         {
             return response()->json([
-                'opm' => 'Criado',
                 'success' => true,
             ], 200);
         }
         return response()->json([
-            'opm' => 'Não salvo',
-            'success' => true,
+            'success' => false,
         ], 500);
     }
 
     public function destroy($id)
     {
-        $destroy = Ligacao::findOrFail($id)->delete();
+        $destroy = Envolvido::findOrFail($id)->delete();
         if($destroy)
         {
             return response()->json([
@@ -59,7 +55,7 @@ class LigacaoController extends Controller
             ], 200);
         }
         return response()->json([
-            'success' => true,
+            'success' => false,
         ], 500);
     }
 }

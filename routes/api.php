@@ -30,30 +30,35 @@ Route::get('sjd/proc/adl/julgamentoano/{ano}', ['as' =>'api.adljulgano','uses'=>
 
 // rotas componente SubForm/ProcedOrigem.vue
 Route::group(['as'=>'ligacao.','prefix' =>'ligacao'],function(){
-    Route::get('list/{proc}/{ref}/{ano}',['as' =>'index','uses'=>'_Api\SJD\Proc\LigacaoController@list']);
-    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\Proc\LigacaoController@store']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\Proc\LigacaoController@destroy']);
+    Route::get('list/{proc}/{ref}/{ano}',['as' =>'index','uses'=>'_Api\SJD\Proc\LigacaoApiController@list']);
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\Proc\LigacaoApiController@store']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\Proc\LigacaoApiController@destroy']);
 });
 // rotas componente SubForm/Acusado.vue
 Route::group(['as'=>'acusado.','prefix' =>'acusado'],function(){
-    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\AcusadoController@list']);
-    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\AcusadoController@store']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\AcusadoController@destroy']);
+    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\AcusadoApiController@list']);
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\AcusadoApiController@store']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\AcusadoApiController@destroy']);
 });
 Route::group(['as'=>'membros.','prefix' =>'membros'],function(){
-    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\MembrosController@list']);
-    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\MembrosController@store']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\MembrosController@destroy']);
+    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\MembrosApiController@list']);
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\MembrosApiController@store']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\MembrosApiController@destroy']);
+});
+Route::group(['as'=>'vitima.','prefix' =>'vitima'],function(){
+    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\VitimaApiController@list']);
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\VitimaApiController@store']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\VitimaApiController@destroy']);
 });
 Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
     // pegar dados do PM pelo RG
-    Route::get('pm/{rg}',['as' =>'pm','uses'=>'_Api\SJD\PM\PMController@dados']);
+    Route::get('pm/{rg}',['as' =>'pm','uses'=>'_Api\SJD\PM\PMApiController@dados']);
     // pegar cautelas do PM pelo RG
-    Route::get('cautelas/{rg}',['as' =>'cautelas','uses'=>'_Api\SJD\PM\PMController@cautelas']);
+    Route::get('cautelas/{rg}',['as' =>'cautelas','uses'=>'_Api\SJD\PM\PMApiController@cautelas']);
     // pegar dados do Procedimento pelo Nome/ref/ano
-    Route::get('proc/{proc}/{ref}/{ano}',['as' =>'proc','uses'=>'_Api\SJD\Proc\ProcController@dados']);
+    Route::get('proc/{proc}/{ref}/{ano}',['as' =>'proc','uses'=>'_Api\SJD\Proc\ProcApiController@dados']);
     // pegar lista dos Envolvido pelo Proc/id/situacao
-    Route::get('envolvido/{proc}/{id}/{situacao?}',['as' =>'envolvido','uses'=>'_Api\SJD\PM\EnvolvidoController@list']);
+    Route::get('envolvido/{proc}/{id}/{situacao?}',['as' =>'envolvido','uses'=>'_Api\SJD\PM\EnvolvidoApiController@list']);
 });
 
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {

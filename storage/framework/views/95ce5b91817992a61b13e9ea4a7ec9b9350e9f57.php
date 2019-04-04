@@ -106,7 +106,7 @@
             <v-acusado idp="<?php echo e($proc['id_adl']); ?>" situacao="<?php echo e(sistema('procSituacao','adl')); ?>"></v-acusado>
             <br>
 
-            <v-vitima></v-vitima>
+            <v-vitima idp="<?php echo e($proc['id_adl']); ?>" situacao="<?php echo e(sistema('procSituacao','adl')); ?>"></v-vitima>
             <br>
    
  

@@ -10,7 +10,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Ixudra\Curl\Facades\Curl;
 
-class PMController extends Controller
+class PMApiController extends Controller
 {
     public function dados($rg)
     {

@@ -4,15 +4,13 @@ namespace App\Http\Controllers\_Api\SJD\PM;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use App\Repositories\OPMRepository;
-use App\Models\Sjd\Policiais\Envolvido;
+use App\Models\Sjd\Policiais\Ofendido;
 
-class AcusadoController extends Controller
+class VitimaApiController extends Controller
 {
     public function list($proc, $id, $situacao)
     {
-        $result = Envolvido::where('id_'.$proc,'=',$id)
+        $result = Ofendido::where('id_'.$proc,'=',$id)
             ->where('situacao','=',$situacao)
             ->get();
 
@@ -23,16 +21,7 @@ class AcusadoController extends Controller
     public function store(Request $request)
     {
         $dados = $request->all();
-        
-        if($dados['rg'] == 0 || $dados['rg'] == null)
-        {
-            return response()->json([
-                'opm' => 'Sem RG',
-                'success' => false,
-            ], 500);
-        }
-
-        $create = Envolvido::create($dados);
+        $create = Ofendido::create($dados);
 
         if($create)
         {
@@ -47,7 +36,7 @@ class AcusadoController extends Controller
 
     public function destroy($id)
     {
-        $destroy = Envolvido::findOrFail($id)->delete();
+        $destroy = Ofendido::findOrFail($id)->delete();
         if($destroy)
         {
             return response()->json([

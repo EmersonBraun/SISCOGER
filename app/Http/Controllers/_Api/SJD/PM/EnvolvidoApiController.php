@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Repositories\OPMRepository;
 use App\Models\Sjd\Policiais\Envolvido;
 
-class EnvolvidoController extends Controller
+class EnvolvidoApiController extends Controller
 {
     public function list($proc, $id, $situacao="")
     {

@@ -82,10 +82,14 @@ class Handler extends ExceptionHandler
                     break;
             }
         }
-        else
-        {
-            return parent::render($request, $e);
-        }
+
+        // if ($e instanceof \PDOException) {
+        //     toast()->error('Meta4 fora do ar!', 'ERRO!');
+        //     Auth::logout();
+        //     return redirect()->intended('login');
+        // }
+
+        return parent::render($request, $e);
     }
     //return parent::render($request, $exception); antigo
 

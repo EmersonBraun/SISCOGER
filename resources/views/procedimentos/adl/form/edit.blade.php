@@ -106,7 +106,7 @@
             <v-acusado idp="{{$proc['id_adl']}}" situacao="{{sistema('procSituacao','adl')}}"></v-acusado>
             <br>
 
-            <v-vitima></v-vitima>
+            <v-vitima idp="{{$proc['id_adl']}}" situacao="{{sistema('procSituacao','adl')}}"></v-vitima>
             <br>
    
  

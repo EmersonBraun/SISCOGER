@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Repositories\OPMRepository;
 use App\Models\Sjd\Busca\Ligacao;
 
-class ProcController extends Controller
+class ProcApiController extends Controller
 {
     public function dados($proc, $ref, $ano)
     {
