@@ -169,13 +169,16 @@ class testeBD extends Controller
 
 		return view('ajuda.bd',compact('res','colunas','meta4','rhparana','pass'));
 	}
-
+    //SELECT * FROM RHPARANA.opmPMPR where CODIGO like '723%' or CODIGO like '439%';
     public function a28(){
-        $query = DB::connection('rhparana')
+        $dados = DB::connection('rhparana')
         ->table('opmPMPR')
-        ->where('ABREVIATURA','like','%8BPM')
+        ->where('CODIGO','like','723%')
+        ->orWhere('CODIGO','like','439%')
         ->get();
-        dd($query);
+
+        return view('ajuda.a28',compact('dados'));
+        
     }
 	public function bdgeral()
 	{

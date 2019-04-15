@@ -32,9 +32,9 @@ class UserController extends Controller
         //chave
         $key = 'user';
         //buscar dados do cache
-        $users = Cache::remember($key, $expiration, function(){
-            return User::all();
-        });
+        //$users = Cache::remember($key, $expiration, function(){
+            $users =  User::all();
+        //});
         
         return view('administracao.usuarios.index',compact('users'));
     }
@@ -77,7 +77,7 @@ class UserController extends Controller
             $user->subquadro = $pm->SUBQUADRO;
             $user->opm_descricao = $pm->OPM_DESCRICAO; //nome unidade
             $user->cdopm = $pm->CDOPM; //código da unidade
-            $user->password = $request->rg;//atribuir senha provisória
+            $user->password = bcrypt($request->rg);//atribuir senha provisória
 
             $user->save();
 
@@ -179,7 +179,7 @@ class UserController extends Controller
         ]);
 
         $user = User::findOrFail($id);  
-        $user->password = $request['password']; //Recuperar o campo senha
+        $user->password = bcrypt($request['password']); //Recuperar o campo senha
         $user->save();
 
         //limpa o cache

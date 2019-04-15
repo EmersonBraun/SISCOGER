@@ -180,7 +180,7 @@ class FatdRepository extends BaseRepository
         if($verTodasUnidades)
         {
             $registros = Cache::remember('julgamento_fatd', self::$expiration, function() use ($ano){
-                return $this->model->where('sjd_ref_ano', '=' ,$ano)
+                return $this->model->where('fatd.sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
                                 ->where('envolvido.id_fatd', '<>', 0);
@@ -193,7 +193,7 @@ class FatdRepository extends BaseRepository
         else 
         {
             $registros = Cache::remember('julgamento_fatd_'.$unidade, self::$expiration, function() use ($unidade,$ano) {
-                return $this->model->where('sjd_ref_ano', '=' ,$ano)
+                return $this->model->where('fatd.sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')

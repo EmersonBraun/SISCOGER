@@ -59249,6 +59249,77 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -59257,13 +59328,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         proc: { type: String },
         idp: { type: String },
         ext: { type: Array, default: ['pdf'] },
-        canDelete: { type: Boolean, default: true },
-        unique: { type: Boolean, default: false }
+        candelete: { type: Boolean, default: true },
+        unique: { type: Boolean, default: true }
     },
     data: function data() {
         return {
             file: '',
             uploaded: [],
+            apagados: [],
             forUpload: false,
             error: [],
             progressBar: false,
@@ -59272,17 +59344,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            counter: 0,
+            countup: 0,
+            countap: 0,
             filetype: '',
-            action: 'fileupload'
+            action: 'fileupload',
+            del: false
         };
     },
     beforeMount: function beforeMount() {
         this.listFile();
+        console.log(apagados.length);
     },
 
     watch: {
-        counter: function counter() {
+        countup: function countup() {
             this.verifyOnly;
         }
     },
@@ -59307,7 +59382,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         // verificar se é upload unico
         verifyOnly: function verifyOnly() {
-            if (this.unique == true && this.counter > 0) {
+            if (this.unique == true && this.countup > 0) {
                 this.only = true;
             } else {
                 this.only = false;
@@ -59365,8 +59440,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var urlIndex = this.getBaseUrl + this.action + '/list/' + this.proc + '/' + this.idp + '/' + this.name;
             axios.get(urlIndex).then(function (response) {
-                _this2.uploaded = response.data;
-                _this2.counter = response.data.length;
+                _this2.uploaded = response.data.list;
+                _this2.apagados = response.data.apagados;
+                _this2.countup = response.data.list.length;
+                console.log('countup:' + _this2.countup);
+                _this2.countap = response.data.list.length;
+                console.log('countap:' + _this2.countap);
             }).catch(function (error) {
                 return console.log(error);
             });
@@ -59401,6 +59480,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.file = '';
             this.forUpload = false;
         },
+        showUploaded: function showUploaded() {
+            this.del = false;
+        },
+        showDeleted: function showDeleted() {
+            this.del = true;
+        },
         progress: function progress() {
             var _this5 = this;
 
@@ -59429,256 +59514,442 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-sm-12" }, [
-    _c("div", { staticClass: "card bordaform" }, [
-      _vm.title
-        ? _c("div", { staticClass: "card-header" }, [
-            _c("h4", [_vm._v(_vm._s(_vm.title))])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.only
-        ? _c("div", { staticClass: "card-body" }, [
-            !_vm.forUpload
-              ? _c(
-                  "label",
-                  {
-                    staticClass: "btn btn-primary bgicon",
-                    attrs: { for: "file" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                Selecionar arquivo\n                "
-                    ),
-                    _c("input", {
-                      ref: "file",
-                      staticStyle: { display: "none" },
-                      attrs: { id: "file", type: "file" },
-                      on: { change: _vm.verifyFile }
-                    })
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.forUpload
-              ? _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-danger bgicon",
-                    staticStyle: { color: "white" },
-                    on: {
-                      click: function($event) {
-                        return _vm.cancelFile()
-                      }
-                    }
-                  },
-                  [
-                    _c("i", { staticClass: "fa fa-undo" }),
-                    _vm._v(" Cancelar\n            ")
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.forUpload
-              ? _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-primary bgicon",
-                    staticStyle: { color: "white" },
-                    on: {
-                      click: function($event) {
-                        return _vm.createFile()
-                      }
-                    }
-                  },
-                  [
-                    _c("i", { staticClass: "fa fa-cloud-upload" }),
-                    _vm._v(" Upload\n            ")
-                  ]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.file.name
-              ? _c("span", [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.file.name) +
-                      "\n            "
-                  )
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.error.length
-              ? _c(
-                  "div",
-                  { staticStyle: { color: "red" } },
-                  _vm._l(_vm.error, function(e, index) {
-                    return _c("p", { key: index }, [_vm._v(_vm._s(e))])
-                  }),
-                  0
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.progressBar
-              ? _c(
-                  "div",
-                  {
-                    staticClass: "progress",
-                    staticStyle: { "padding-top": "3px" }
-                  },
-                  [
-                    _c("div", {
-                      staticClass: "progress-bar",
-                      style: { width: _vm.width + "%" },
-                      attrs: {
-                        role: "progressbar",
-                        "aria-valuenow": _vm.width,
-                        "aria-valuemin": "0",
-                        "aria-valuemax": "100"
-                      }
-                    })
-                  ]
-                )
-              : _vm._e()
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.uploaded.length
-        ? _c("div", { staticClass: "card-footer" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-sm-12" }, [
-                _c("table", { staticClass: "table table-hover" }, [
-                  _c("thead", [
-                    _c("tr", [
-                      !_vm.only
-                        ? _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "col-sm-2" }, [_vm._v("Aquivo")]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "col-sm-1" }, [_vm._v("Ref.")]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "col-sm-1" }, [_vm._v("Ano")]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "col-sm-2" }, [
-                        _vm._v("Tamanho")
-                      ]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ext.")]),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ações")])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(_vm.uploaded, function(u, index) {
-                      return _c("tr", { key: index }, [
-                        !_vm.only
-                          ? _c("td", [_vm._v(_vm._s((_vm.counter = u.id)))])
-                          : _vm._e(),
+    _c(
+      "div",
+      { staticClass: "card bordaform" },
+      [
+        _vm.title
+          ? _c("div", { staticClass: "card-header" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-4" }, [
+                  _c("h4", [_vm._v(_vm._s(_vm.title))])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-5" }),
+                _vm._v(" "),
+                _vm.candelete
+                  ? _c("div", { staticClass: "col-md-3 btn-group" }, [
+                      _c("div", { staticClass: "btn-group" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn",
+                            class: !_vm.del ? "btn-info" : "btn-default",
+                            attrs: { type: "button", target: "_black" },
+                            on: { click: _vm.showUploaded }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Ativos\n                        "
+                            )
+                          ]
+                        ),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(u.name))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(u.sjd_ref))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(u.sjd_ref_ano))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(_vm._f("toMB")(u.size)) + " MB")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(u.mime))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "btn-group",
-                              attrs: {
-                                role: "group",
-                                "aria-label": "First group"
-                              }
-                            },
-                            [
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "btn btn-primary",
-                                  staticStyle: { color: "white" },
-                                  attrs: { type: "button", target: "_black" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.showFile(u.id)
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("i", { staticClass: "fa fa-eye" }),
-                                  _vm._v(
-                                    " Ver\n                                        "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              u.deleted_at == null
-                                ? _c(
-                                    "a",
-                                    {
-                                      staticClass: "btn btn-danger",
-                                      staticStyle: { color: "white" },
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.deleteFile(u.id)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("i", { staticClass: "fa fa-trash" }),
-                                      _vm._v(
-                                        " Apagar\n                                        "
-                                      )
-                                    ]
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              u.deleted_at !== null && _vm.canDelete
-                                ? _c(
-                                    "a",
-                                    {
-                                      staticClass: "btn btn-danger",
-                                      staticStyle: { color: "white" },
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.removeFile(u.id)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("i", { staticClass: "fa fa-trash" }),
-                                      _vm._v(
-                                        " Destruir\n                                        "
-                                      )
-                                    ]
-                                  )
-                                : _vm._e()
-                            ]
-                          )
-                        ])
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn",
+                            class: _vm.del ? "btn-info" : "btn-default",
+                            attrs: { type: "button" },
+                            on: { click: _vm.showDeleted }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Apagados\n                        "
+                            )
+                          ]
+                        )
                       ])
+                    ])
+                  : _vm._e()
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.only
+          ? _c("div", { staticClass: "card-body" }, [
+              !_vm.forUpload
+                ? _c(
+                    "label",
+                    {
+                      staticClass: "btn btn-primary bgicon",
+                      attrs: { for: _vm.name }
+                    },
+                    [
+                      _vm._v(
+                        "\n                Selecionar arquivo\n                "
+                      ),
+                      _c("input", {
+                        ref: "file",
+                        staticStyle: { display: "none" },
+                        attrs: { id: _vm.name, name: _vm.name, type: "file" },
+                        on: { change: _vm.verifyFile }
+                      })
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.forUpload
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-danger bgicon",
+                      staticStyle: { color: "white" },
+                      on: {
+                        click: function($event) {
+                          return _vm.cancelFile()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-undo" }),
+                      _vm._v(" Cancelar\n            ")
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.forUpload
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary bgicon",
+                      staticStyle: { color: "white" },
+                      on: {
+                        click: function($event) {
+                          return _vm.createFile()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-cloud-upload" }),
+                      _vm._v(" Upload\n            ")
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.file.name
+                ? _c("span", [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.file.name) +
+                        "\n            "
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.error.length
+                ? _c(
+                    "div",
+                    { staticStyle: { color: "red" } },
+                    _vm._l(_vm.error, function(e, index) {
+                      return _c("p", { key: index }, [_vm._v(_vm._s(e))])
                     }),
                     0
                   )
-                ])
-              ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.progressBar
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "progress",
+                      staticStyle: { "padding-top": "3px" }
+                    },
+                    [
+                      _c("div", {
+                        staticClass: "progress-bar",
+                        style: { width: _vm.width + "%" },
+                        attrs: {
+                          role: "progressbar",
+                          "aria-valuenow": _vm.width,
+                          "aria-valuemin": "0",
+                          "aria-valuemax": "100"
+                        }
+                      })
+                    ]
+                  )
+                : _vm._e()
             ])
-          ])
-        : _vm._e()
-    ])
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.del
+          ? [
+              _c("div", { staticClass: "card-footer" }, [
+                _vm.uploaded.length
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-sm-12" }, [
+                        _c("table", { staticClass: "table table-hover" }, [
+                          _c("thead", [
+                            _c("tr", [
+                              !_vm.only
+                                ? _c("th", { staticClass: "col-sm-2" }, [
+                                    _vm._v("#")
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c("th", { staticClass: "col-sm-2" }, [
+                                _vm._v("Aquivo")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", { staticClass: "col-sm-1" }, [
+                                _vm._v("Ref.")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", { staticClass: "col-sm-1" }, [
+                                _vm._v("Ano")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", { staticClass: "col-sm-2" }, [
+                                _vm._v("Tamanho")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", { staticClass: "col-sm-2" }, [
+                                _vm._v("Ext.")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", { staticClass: "col-sm-2" }, [
+                                _vm._v("Ações")
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "tbody",
+                            _vm._l(_vm.uploaded, function(u, index) {
+                              return _c("tr", { key: index }, [
+                                !_vm.only
+                                  ? _c("td", [_vm._v(_vm._s(u.id))])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(u.name))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(u.sjd_ref))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(u.sjd_ref_ano))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(_vm._f("toMB")(u.size)) + " MB")
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(u.mime))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "btn-group",
+                                      attrs: {
+                                        role: "group",
+                                        "aria-label": "First group"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "btn btn-primary",
+                                          staticStyle: { color: "white" },
+                                          attrs: {
+                                            type: "button",
+                                            target: "_black"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.showFile(u.id)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", { staticClass: "fa fa-eye" }),
+                                          _vm._v(
+                                            " Ver\n                                            "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      u.deleted_at == null
+                                        ? _c(
+                                            "a",
+                                            {
+                                              staticClass: "btn btn-danger",
+                                              staticStyle: { color: "white" },
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.deleteFile(u.id)
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fa fa-trash"
+                                              }),
+                                              _vm._v(
+                                                " Apagar\n                                            "
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ])
+                              ])
+                            }),
+                            0
+                          )
+                        ])
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.uploaded.length && _vm.only
+                  ? _c("div", { staticClass: "row" }, [_vm._m(0)])
+                  : _vm._e()
+              ])
+            ]
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.del
+          ? [
+              _c("div", { staticClass: "card-footer" }, [
+                _vm.apagados.length
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-sm-12" }, [
+                        _c("table", { staticClass: "table table-hover" }, [
+                          _vm._m(1),
+                          _vm._v(" "),
+                          _c(
+                            "tbody",
+                            _vm._l(_vm.apagados, function(a, i) {
+                              return _c("tr", { key: i }, [
+                                _c("td", [_vm._v(_vm._s(a.id))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(a.name))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(a.sjd_ref))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(a.sjd_ref_ano))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(_vm._f("toMB")(a.size)) + " MB")
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(a.mime))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "btn-group",
+                                      attrs: {
+                                        role: "group",
+                                        "aria-label": "First group"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "btn btn-primary",
+                                          staticStyle: { color: "white" },
+                                          attrs: {
+                                            type: "button",
+                                            target: "_black"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.showFile(a.id)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", { staticClass: "fa fa-eye" }),
+                                          _vm._v(
+                                            " Ver\n                                            "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "btn btn-danger",
+                                          staticStyle: { color: "white" },
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.removeFile(a.id)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fa fa-trash"
+                                          }),
+                                          _vm._v(
+                                            " Destruir\n                                            "
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ])
+                            }),
+                            0
+                          )
+                        ])
+                      ])
+                    ])
+                  : _c("div", { staticClass: "row" }, [_vm._m(2)])
+              ])
+            ]
+          : _vm._e()
+      ],
+      2
+    )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm-12" }, [
+      _c("p", [_vm._v("Não há arquivo")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Aquivo")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-1" }, [_vm._v("Ref.")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-1" }, [_vm._v("Ano")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Tamanho")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ext.")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ações")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm-12" }, [
+      _c("p", [_vm._v("Não há arquivo")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

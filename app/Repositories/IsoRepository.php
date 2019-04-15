@@ -11,6 +11,7 @@ use Cache;
 use App\User;
 use App\Models\Sjd\Proc\Iso;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Route;
 
 class IsoRepository extends BaseRepository
 {

@@ -61,7 +61,7 @@ class LoginController extends Controller
         $user = User::where('rg', '=', $rg)->first();
         // aborta caso não tenha o usuário
         if (!$user) return abort(403);
-
+        
         //salva dados usuário na sessão
         session()->put('rg',$user->rg);
         session()->put('nome', $user->nome);
@@ -73,10 +73,12 @@ class LoginController extends Controller
         session()->put('cdopm', $user->cdopm);    
         session()->put('cdopmbase', corta_zeros($user->cdopm));
         //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = User::permission('todas-unidades')->count();
-        //cast para booleano
-        $verTodasUnidades = (boolean) $verTodasUnidades;
+        $verTodasUnidades = (boolean) User::permission('todas-unidades')->count();
         session()->put('ver_todas_unidades', $verTodasUnidades);
+        //verifica se o usuário é administrador
+        $isAdmin = User::role('admin')->count();
+        $isAdmin = ($isAdmin > 0) ? true : false;
+        session()->put('is_admin', $isAdmin);
 
         if (Auth::attempt($credentials)) 
         {

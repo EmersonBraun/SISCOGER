@@ -129,48 +129,48 @@
     <div class="box-body">
 
         <file-upload 
-            title="Libelo"
+            title="Libelo:"
             name="libelo_file"
             proc="adl"
             idp="<?php echo e($proc['id_adl']); ?>"
             :ext="['pdf']" 
+            :candelete="<?php echo e(session('is_admin')); ?>"
             >
         </file-upload>
 
-    
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        <?php echo Form::sfile('libelo_file','Libelo:','adl',$proc['libelo_file'], ['class' => 'form-control']); ?>
+        <file-upload 
+            title="Parecer:"
+            name="parecer_file"
+            proc="adl"
+            idp="<?php echo e($proc['id_adl']); ?>"
+            :ext="['pdf']" 
+            :candelete="<?php echo e(session('is_admin')); ?>"
+            >
+        </file-upload>
 
-        <?php if($errors->has('libelo_file')): ?>
-            <span class="help-block">
-                <strong><?php echo e($errors->first('libelo_file')); ?></strong>
-            </span>
-        <?php endif; ?>
-    </div>
+        <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
+            <?php echo Form::label('parecer_comissao', 'Parecer comissão'); ?> <br>
+            <?php echo Form::text('parecer_comissao', $proc['parecer_comissao'], ['class' => 'form-control']); ?>
 
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-    <?php echo Form::label('parecer_comissao', 'Parecer comissão'); ?> <br>
-    <?php echo Form::text('parecer_comissao', $proc['parecer_comissao'], ['class' => 'form-control']); ?>
+            <?php if($errors->has('parecer_comissao')): ?>
+                <span class="help-block">
+                    <strong><?php echo e($errors->first('parecer_comissao')); ?></strong>
+                </span>
+            <?php endif; ?>
+        </div>
 
-    <?php if($errors->has('parecer_comissao')): ?>
-        <span class="help-block">
-            <strong><?php echo e($errors->first('parecer_comissao')); ?></strong>
-        </span>
-    <?php endif; ?>
-    </div>
+        <file-upload 
+            title="Parecer CMT Geral:"
+            name="decisao_file"
+            proc="adl"
+            idp="<?php echo e($proc['id_adl']); ?>"
+            :ext="['pdf']" 
+            :candelete="<?php echo e(session('is_admin')); ?>"
+            >
+        </file-upload>
 
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        <?php echo Form::sfile('parecer_file','Parecer:','adl',$proc['parecer_file'], ['class' => 'form-control']); ?>
 
-        <?php if($errors->has('parecer_file')): ?>
-            <span class='help-block'>
-                <strong><?php echo e($errors->first('parecer_file')); ?></strong>
-            </span>
-        <?php endif; ?>
-    </div>
-    
-
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
+    <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
     <?php echo Form::label('parecer_cmtgeral', 'Parecer CMT Geral'); ?> <br>
     <?php echo Form::text('parecer_cmtgeral', $proc['parecer_cmtgeral'], ['class' => 'form-control']); ?>
 
@@ -180,18 +180,6 @@
         </span>
     <?php endif; ?>
     </div>
-
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        <?php echo Form::sfile('decisao_file','Parecer CMT Geral:','adl',$proc['decisao_file'], ['class' => 'form-control']); ?>
-
-        <?php if($errors->has('decisao_file')): ?>
-            <span class='help-block'>
-                <strong><?php echo e($errors->first('decisao_file')); ?></strong>
-            </span>
-        <?php endif; ?>
-    </div>
-
-    
 
     </div>
 </div>
@@ -211,26 +199,45 @@
     <div class="box-body">
 
     
-    <div class='col-md-6 col-xs-12'>
-        <?php echo Form::sfile('rec_ato_file','Reconsideração de ato (solução): ','fatd',$proc['rec_ato_file']); ?>
+    <file-upload 
+        title="Reconsideração de ato (solução):"
+        name="rec_ato_file"
+        proc="adl"
+        idp="<?php echo e($proc['id_adl']); ?>"
+        :ext="['pdf']" 
+        :candelete="<?php echo e(session('is_admin')); ?>"
+        >
+    </file-upload>
 
-    </div>
+    <file-upload 
+        title="Recurso CMT OPM:"
+        name="rec_cmt_file"
+        proc="adl"
+        idp="<?php echo e($proc['id_adl']); ?>"
+        :ext="['pdf']" 
+        :candelete="<?php echo e(session('is_admin')); ?>"
+        >
+    </file-upload>
 
-    <div class='col-md-6 col-xs-12'>
-        <?php echo Form::sfile('rec_cmt_file','Recurso CMT OPM','fatd',$proc['rec_cmt_file']); ?>
+    <file-upload 
+        title="Recurso CMT CRPM:"
+        name="rec_crpm_file"
+        proc="adl"
+        idp="<?php echo e($proc['id_adl']); ?>"
+        :ext="['pdf']" 
+        :candelete="<?php echo e(session('is_admin')); ?>"
+        >
+    </file-upload>
 
-    </div>
-
-    
-    <div class='col-md-6 col-xs-12'>
-        <?php echo Form::sfile('rec_crpm_file','Recurso CMT CRPM:','fatd',$proc['rec_crpm_file']); ?>
-
-    </div>
-
-    <div class='col-md-6 col-xs-12'>
-        <?php echo Form::sfile('rec_cg_file','Recurso CMT Geral:','fatd',$proc['rec_cg_file']); ?>
-
-    </div>
+    <file-upload 
+        title="Recurso CMT Geral:"
+        name="rec_cg_file"
+        proc="adl"
+        idp="<?php echo e($proc['id_adl']); ?>"
+        :ext="['pdf']" 
+        :candelete="<?php echo e(session('is_admin')); ?>"
+        >
+    </file-upload>
 
     </div>
 </div>

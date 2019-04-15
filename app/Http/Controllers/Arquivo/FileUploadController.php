@@ -16,13 +16,23 @@ class FileUploadController extends Controller
 {
     public function index($proc, $id, $arquivo)
     {
-        $list = FileUpload::withTrashed()
+        $list = FileUpload::where('id_proc','=',$id)
+            ->where('proc','=',$proc)
+            ->where('campo','=',$arquivo)
+            ->get();
+
+        $apagados = FileUpload::onlyTrashed()
             ->where('id_proc','=',$id)
             ->where('proc','=',$proc)
+            ->where('campo','=',$arquivo)
             ->get();
 
         if($list){
-            return response()->json($list);
+            return response()->json([
+                'list' => $list,
+                'apagados' => $apagados,
+                'success' => true
+            ]);
         }
         
         return response()->json([

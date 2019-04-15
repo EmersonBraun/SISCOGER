@@ -11,6 +11,7 @@ use Cache;
 use App\User;
 use App\Models\Sjd\Proc\Recurso;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Route;
 
 class RecursoRepository extends BaseRepository
 {

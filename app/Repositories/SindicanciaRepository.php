@@ -11,6 +11,7 @@ use Cache;
 use App\User;
 use App\Models\Sjd\Proc\Sindicancia;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Route;
 
 class SindicanciaRepository extends BaseRepository
 {
@@ -226,7 +227,7 @@ class SindicanciaRepository extends BaseRepository
                     b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
                         DB::raw("(SELECT id_sindicancia, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data !=:termino_data AND id_sindicancia!=:id_sindicancia GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b"),
+                        WHERE termino_data !='0000-00-00' AND id_sindicancia!='' GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b"),
                         'b.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
@@ -234,8 +235,7 @@ class SindicanciaRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->get();
-            });
-                    
+            });                    
         }
         else 
         {
@@ -248,7 +248,7 @@ class SindicanciaRepository extends BaseRepository
                 b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                 ->leftJoin(
                     DB::raw("(SELECT id_sindicancia, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                    WHERE termino_data !=:termino_data AND id_sindicancia!=:id_sindicancia GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b"),
+                    WHERE termino_data !='0000-00-00' AND id_sindicancia!='' GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b"),
                     'b.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                 ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')

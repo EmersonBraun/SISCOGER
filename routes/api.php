@@ -40,11 +40,11 @@ Route::group(['as'=>'acusado.','prefix' =>'acusado'],function(){
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\AcusadoApiController@store']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\AcusadoApiController@destroy']);
 });
-Route::group(['as'=>'membros.','prefix' =>'membros'],function(){
-    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\MembrosApiController@list']);
-    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\MembrosApiController@store']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\MembrosApiController@destroy']);
-});
+// Route::group(['as'=>'membros.','prefix' =>'membros'],function(){
+//     Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\MembrosApiController@list']);
+//     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\MembrosApiController@store']);
+//     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\MembrosApiController@destroy']);
+// });
 Route::group(['as'=>'vitima.','prefix' =>'vitima'],function(){
     Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'_Api\SJD\PM\VitimaApiController@list']);
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\VitimaApiController@store']);

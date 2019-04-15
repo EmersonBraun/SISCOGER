@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Sjd\Relatorios\Pendencia as Pendencia;
 // dados via API
+use Auth;
 use ApiTransferencias;
 use ApiComportamento;
 use ApiFatd;

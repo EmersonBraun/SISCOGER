@@ -11,6 +11,7 @@ use Cache;
 use App\User;
 use App\Models\Sjd\Proc\Cd;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Route;
 
 class CdRepository extends BaseRepository
 {

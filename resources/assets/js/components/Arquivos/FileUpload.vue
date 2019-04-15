@@ -1,78 +1,149 @@
 <template>
     <div class="col-sm-12">
         <div class="card bordaform">
+            <!-- titulo -->
             <div v-if="title" class="card-header">
-                <h4>{{ title }}</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>{{ title }}</h4>
+                    </div>
+                    <div class="col-md-5"></div>
+                    <div v-if="candelete" class="col-md-3 btn-group">
+                        <div class="btn-group">
+                            <a type="button" @click="showUploaded" target="_black" class="btn" :class="!del ? 'btn-info' : 'btn-default'">
+                                Ativos
+                            </a>
+                            <a type="button" @click="showDeleted" class="btn" :class="del ? 'btn-info' : 'btn-default'">
+                                Apagados
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- form -->
             <div v-if="!only" class="card-body">
-
-                <label v-if="!forUpload" class="btn btn-primary bgicon" for='file'>
+                <!-- botão arquivo -->
+                <label v-if="!forUpload" class="btn btn-primary bgicon" :for="name">
                     Selecionar arquivo
-                    <input @change="verifyFile" id="file" ref="file" type='file' style="display:none">
+                    <input @change="verifyFile" :id="name" :name="name" ref="file" type='file' style="display:none">
                 </label>
-                
+                <!-- ações -->
                 <a v-if="forUpload" @click="cancelFile()" class="btn btn-danger bgicon" style="color: white">
                     <i class="fa fa-undo"></i> Cancelar
                 </a>
                 <a v-if="forUpload" @click="createFile()" class="btn btn-primary bgicon" style="color: white">
                     <i class="fa fa-cloud-upload"></i> Upload
                 </a>
-
+                <!-- nome do arquivo -->
                 <span v-if="file.name">
                     {{ file.name }}
                 </span>
+                <!-- erros -->
                 <div v-if="error.length" style="color: red">
                     <p v-for="(e, index) in error" :key="index">{{e}}</p>
                 </div>
-
+                <!-- barra de progresso -->
                 <div  v-if="progressBar" class="progress" style="padding-top: 3px">
                     <div class="progress-bar" role="progressbar" :style="{'width' : width + '%'}" :aria-valuenow="width" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 
             </div>
-
-            <div v-if="uploaded.length" class="card-footer"> 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th v-if="!only" class="col-sm-2">#</th>
-                                    <th class="col-sm-2">Aquivo</th>
-                                    <th class="col-sm-1">Ref.</th>
-                                    <th class="col-sm-1">Ano</th>
-                                    <th class="col-sm-2">Tamanho</th>
-                                    <th class="col-sm-2">Ext.</th>
-                                    <th class="col-sm-2">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(u, index) in uploaded" :key="index">
-                                    <td v-if="!only">{{ counter = u.id }}</td>
-                                    <td>{{ u.name}}</td>
-                                    <td>{{ u.sjd_ref}}</td>
-                                    <td>{{ u.sjd_ref_ano}}</td>
-                                    <td>{{ u.size | toMB}} MB</td>
-                                    <td>{{ u.mime}}</td>
-                                    <td>
-                                        <div class="btn-group" role="group" aria-label="First group">
-                                            <a type="button" @click="showFile(u.id)" target="_black" class="btn btn-primary" style="color: white">
-                                                <i class="fa fa-eye"></i> Ver
-                                            </a>
-                                            <a  v-if="u.deleted_at == null" type="button" @click="deleteFile(u.id)" class="btn btn-danger" style="color: white">
-                                                <i class="fa fa-trash"></i> Apagar
-                                            </a>
-                                            <a v-if="u.deleted_at !== null && canDelete" type="button" @click="removeFile(u.id)" class="btn btn-danger" style="color: white">
-                                                <i class="fa fa-trash"></i> Destruir
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <!-- uploaded -->
+            <template v-if="!del">
+                <div class="card-footer"> 
+                    <div v-if="uploaded.length" class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th v-if="!only" class="col-sm-2">#</th>
+                                        <th class="col-sm-2">Aquivo</th>
+                                        <th class="col-sm-1">Ref.</th>
+                                        <th class="col-sm-1">Ano</th>
+                                        <th class="col-sm-2">Tamanho</th>
+                                        <th class="col-sm-2">Ext.</th>
+                                        <th class="col-sm-2">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(u, index) in uploaded" :key="index">
+                                        <td v-if="!only">{{ u.id }}</td>
+                                        <td>{{ u.name}}</td>
+                                        <td>{{ u.sjd_ref}}</td>
+                                        <td>{{ u.sjd_ref_ano}}</td>
+                                        <td>{{ u.size | toMB}} MB</td>
+                                        <td>{{ u.mime}}</td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="First group">
+                                                <a type="button" @click="showFile(u.id)" target="_black" class="btn btn-primary" style="color: white">
+                                                    <i class="fa fa-eye"></i> Ver
+                                                </a>
+                                                <a  v-if="u.deleted_at == null" type="button" @click="deleteFile(u.id)" class="btn btn-danger" style="color: white">
+                                                    <i class="fa fa-trash"></i> Apagar
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> 
+                    <!-- Sem arquivos -->
+                    <div v-if="!uploaded.length && only" class="row">
+                        <div class="col-sm-12">
+                            <p>Não há arquivo</p>
+                        </div>
                     </div>
-                </div>    
-            </div>
+                </div>
+            </template>
+            <!-- Apagados -->
+            <template v-if="del">
+                <div class="card-footer"> 
+                    <div v-if="apagados.length" class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="col-sm-2">#</th>
+                                        <th class="col-sm-2">Aquivo</th>
+                                        <th class="col-sm-1">Ref.</th>
+                                        <th class="col-sm-1">Ano</th>
+                                        <th class="col-sm-2">Tamanho</th>
+                                        <th class="col-sm-2">Ext.</th>
+                                        <th class="col-sm-2">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(a, i) in apagados" :key="i">
+                                        <td>{{ a.id }}</td>
+                                        <td>{{ a.name}}</td>
+                                        <td>{{ a.sjd_ref}}</td>
+                                        <td>{{ a.sjd_ref_ano}}</td>
+                                        <td>{{ a.size | toMB}} MB</td>
+                                        <td>{{ a.mime}}</td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="First group">
+                                                <a type="button" @click="showFile(a.id)" target="_black" class="btn btn-primary" style="color: white">
+                                                    <i class="fa fa-eye"></i> Ver
+                                                </a>
+                                                <a type="button" @click="removeFile(a.id)" class="btn btn-danger" style="color: white">
+                                                    <i class="fa fa-trash"></i> Destruir
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> 
+                    <!-- Sem arquivos -->
+                    <div v-else class="row">
+                        <div class="col-sm-12">
+                            <p>Não há arquivo</p>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </div>
     </div>
 
@@ -86,31 +157,36 @@
         proc: {type: String},
         idp: {type: String},
         ext: {type: Array, default: ['pdf']},
-        canDelete: {type: Boolean, default: true},
-        unique: {type: Boolean, default: false},
+        candelete: {type: Boolean, default: true},
+        unique: {type: Boolean, default: true},
     },
     data() {
         return {
-        file: '',
-        uploaded: [],
-        forUpload: false,
-        error: [],
-        progressBar: false,
-        width: 0,
-        only: false,
-        headers: {
-            'Content-Type': 'multipart/form-data'
-            },
-        counter: 0,
-        filetype: '',
-        action: 'fileupload',
+            file: '',
+            uploaded: [],
+            apagados: [],
+            forUpload: false,
+            error: [],
+            progressBar: false,
+            width: 0,
+            only: false,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+                },
+            countup: 0,
+            countap: 0,
+            filetype: '',
+            action: 'fileupload',
+            del: false,
         }
+        
     },
     beforeMount(){
         this.listFile(); 
+        console.log(apagados.length)
     },
     watch: {
-        counter() {
+        countup() {
             this.verifyOnly;
         },
     },
@@ -134,7 +210,7 @@
         },
         // verificar se é upload unico
         verifyOnly(){         
-            if(this.unique == true && this.counter > 0){
+            if(this.unique == true && this.countup > 0){
                 this.only = true;
             }else{
                 this.only = false;
@@ -194,8 +270,12 @@
             axios
             .get(urlIndex)
             .then((response) => {
-                this.uploaded = response.data
-                this.counter = response.data.length
+                this.uploaded = response.data.list
+                this.apagados = response.data.apagados
+                this.countup = response.data.list.length
+                console.log('countup:'+this.countup)
+                this.countap = response.data.list.length
+                console.log('countap:'+this.countap)
             })
             .catch(error => console.log(error));
         },
@@ -220,6 +300,12 @@
         cancelFile(){
             this.file ='';
             this.forUpload = false;
+        },
+        showUploaded(){
+            this.del = false
+        },
+        showDeleted(){
+            this.del = true
         },
         progress(){
             this.progressBar = true;

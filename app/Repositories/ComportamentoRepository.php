@@ -11,6 +11,7 @@ use Cache;
 use App\User;
 use App\Models\Sjd\Policiais\Comportamento;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Route;
 
 class ComportamentoRepository extends BaseRepository
 {

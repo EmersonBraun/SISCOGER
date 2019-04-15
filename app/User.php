@@ -13,6 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Notifications\ResetPassword;
 /**
  * Class User
  * 
@@ -45,7 +46,8 @@ class User extends Authenticatable
     use Notifiable;
     use HasRoles;
      //Activitylog
-	use LogsActivity;
+    use LogsActivity;
+    
 
     protected static $logName = 'user';
     protected static $logAttributes = [
@@ -90,10 +92,14 @@ class User extends Authenticatable
 		'sessao',
 		'id_sessao'
 
-	];
+    ];
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token));
+    }
 
-	public function setPasswordAttribute($password)
-	{   
-	    $this->attributes['password'] = bcrypt($password);
-	}
+	// public function setPasswordAttribute($password)
+	// {   
+	//     $this->attributes['password'] = bcrypt($password);
+	// }
 }

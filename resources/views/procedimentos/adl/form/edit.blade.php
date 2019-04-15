@@ -129,45 +129,47 @@
     <div class="box-body">
 
         <file-upload 
-            title="Libelo"
+            title="Libelo:"
             name="libelo_file"
             proc="adl"
             idp="{{$proc['id_adl']}}"
             :ext="['pdf']" 
+            :candelete="{{session('is_admin')}}"
             >
         </file-upload>
 
-    {{-- linha --}}
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        {!! Form::sfile('libelo_file','Libelo:','adl',$proc['libelo_file'], ['class' => 'form-control']) !!}
-        @if ($errors->has('libelo_file'))
-            <span class="help-block">
-                <strong>{{ $errors->first('libelo_file') }}</strong>
-            </span>
-        @endif
-    </div>
+        <file-upload 
+            title="Parecer:"
+            name="parecer_file"
+            proc="adl"
+            idp="{{$proc['id_adl']}}"
+            :ext="['pdf']" 
+            :candelete="{{session('is_admin')}}"
+            >
+        </file-upload>
 
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-    {!! Form::label('parecer_comissao', 'Parecer comissão')!!} <br>
-    {!! Form::text('parecer_comissao', $proc['parecer_comissao'], ['class' => 'form-control']) !!}
-    @if ($errors->has('parecer_comissao'))
-        <span class="help-block">
-            <strong>{{ $errors->first('parecer_comissao') }}</strong>
-        </span>
-    @endif
-    </div>
+        <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
+            {!! Form::label('parecer_comissao', 'Parecer comissão')!!} <br>
+            {!! Form::text('parecer_comissao', $proc['parecer_comissao'], ['class' => 'form-control']) !!}
+            @if ($errors->has('parecer_comissao'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('parecer_comissao') }}</strong>
+                </span>
+            @endif
+        </div>
 
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        {!! Form::sfile('parecer_file','Parecer:','adl',$proc['parecer_file'], ['class' => 'form-control']) !!}
-        @if ($errors->has('parecer_file'))
-            <span class='help-block'>
-                <strong>{{$errors->first('parecer_file')}}</strong>
-            </span>
-        @endif
-    </div>
-    {{-- linha --}}
+        <file-upload 
+            title="Parecer CMT Geral:"
+            name="decisao_file"
+            proc="adl"
+            idp="{{$proc['id_adl']}}"
+            :ext="['pdf']" 
+            :candelete="{{session('is_admin')}}"
+            >
+        </file-upload>
 
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
+
+    <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
     {!! Form::label('parecer_cmtgeral', 'Parecer CMT Geral')!!} <br>
     {!! Form::text('parecer_cmtgeral', $proc['parecer_cmtgeral'], ['class' => 'form-control']) !!}
     @if ($errors->has('parecer_cmtgeral'))
@@ -176,28 +178,6 @@
         </span>
     @endif
     </div>
-
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        {!! Form::sfile('decisao_file','Parecer CMT Geral:','adl',$proc['decisao_file'], ['class' => 'form-control']) !!}
-        @if ($errors->has('decisao_file'))
-            <span class='help-block'>
-                <strong>{{$errors->first('decisao_file')}}</strong>
-            </span>
-        @endif
-    </div>
-
-    {{-- <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
-        <h5>Arquivos excluídos</h5>
-        @forelse ($arquivos_apagados as $aa)
-            <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
-                <a href="{{asset('public/storage/arquivo/adl/'.$proc['id_adl'].'/'.$aa->objeto.'')}}" target='_blank'>
-                    <i class='fa fa-file-pdf-o'></i>{{$aa->objeto}}
-                </a>&emsp;Excluído por {{special_ucwords($aa->nome)}}, RG:{{$aa->rg}}, em: {{$aa->created_at}}
-            </div>   
-        @empty
-        <h6>Nenhum arquivo</h6>
-        @endforelse
-    </div> --}}
 
     </div>
 </div>
@@ -217,22 +197,45 @@
     <div class="box-body">
 
     {{-- linha --}}
-    <div class='col-md-6 col-xs-12'>
-        {!! Form::sfile('rec_ato_file','Reconsideração de ato (solução): ','fatd',$proc['rec_ato_file']) !!}
-    </div>
+    <file-upload 
+        title="Reconsideração de ato (solução):"
+        name="rec_ato_file"
+        proc="adl"
+        idp="{{$proc['id_adl']}}"
+        :ext="['pdf']" 
+        :candelete="{{session('is_admin')}}"
+        >
+    </file-upload>
 
-    <div class='col-md-6 col-xs-12'>
-        {!! Form::sfile('rec_cmt_file','Recurso CMT OPM','fatd',$proc['rec_cmt_file']) !!}
-    </div>
+    <file-upload 
+        title="Recurso CMT OPM:"
+        name="rec_cmt_file"
+        proc="adl"
+        idp="{{$proc['id_adl']}}"
+        :ext="['pdf']" 
+        :candelete="{{session('is_admin')}}"
+        >
+    </file-upload>
 
-    {{-- linha --}}
-    <div class='col-md-6 col-xs-12'>
-        {!! Form::sfile('rec_crpm_file','Recurso CMT CRPM:','fatd',$proc['rec_crpm_file']) !!}
-    </div>
+    <file-upload 
+        title="Recurso CMT CRPM:"
+        name="rec_crpm_file"
+        proc="adl"
+        idp="{{$proc['id_adl']}}"
+        :ext="['pdf']" 
+        :candelete="{{session('is_admin')}}"
+        >
+    </file-upload>
 
-    <div class='col-md-6 col-xs-12'>
-        {!! Form::sfile('rec_cg_file','Recurso CMT Geral:','fatd',$proc['rec_cg_file']) !!}
-    </div>
+    <file-upload 
+        title="Recurso CMT Geral:"
+        name="rec_cg_file"
+        proc="adl"
+        idp="{{$proc['id_adl']}}"
+        :ext="['pdf']" 
+        :candelete="{{session('is_admin')}}"
+        >
+    </file-upload>
 
     </div>
 </div>
