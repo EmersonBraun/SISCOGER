@@ -11,5 +11,10 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js');
-   //.sass('resources/assets/sass/app.scss', 'public/css/app1.css');
+mix.js('resources/assets/js/app.js', 'public/js').version();;
+
+// Override mix internal webpack output configuration 
+mix.config.webpackConfig.output = {
+    chunkFilename: 'js/components/[name].bundle.js',
+    publicPath: '/siscoger/public/',
+};

@@ -189,10 +189,8 @@ class AdlController extends Controller
         $escrivao = Envolvido::escrivao()->where('id_adl','=',$proc['id_adl'])->first();
         $defensor = Envolvido::defensor()->where('id_adl','=',$proc['id_adl'])->first();
         
-        //-- arquivos apagados
-        $arquivos_apagados = ArquivosApagado::proc_id('adl',$proc->id_adl)->get();
         //dd($proc);
-        return view('procedimentos.adl.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos','arquivos_apagados'));
+        return view('procedimentos.adl.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos'));
 
         //return view('procedimentos.adl.form.edit', compact('proc','presidente','escrivao','defensor'));
     }
@@ -200,22 +198,34 @@ class AdlController extends Controller
 
     public function update(Request $request, $id)
     {
-        // dd(\Request::all());
-        $dados = $request->all();
-
-        //arquivos
-        foreach (Adl::$files as $a) 
+        //andamento (concluído) alguns campos ficam obrigatórios
+        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' )
         {
-            if ($request->hasFile($a)) $dados[$a] = arquivo($request,$a,'adl',$id);
-
+            $this->validate($request, [
+                'id_andamento' => 'required',
+                'sintese_txt' => 'required',
+                ]);
+        }
+        else
+        {
+            $this->validate($request, [
+                'sintese_txt' => 'required'
+            ]);
         }
 
+        // dd(\Request::all());
+        $dados = $request->all();
         //busca procedimento e atualiza
-    	Adl::find($id)->update($dados);
-        //mensagem
+        $update = Adl::find($id)->update($dados);
+        if(!$update)
+        {
+            toast()->error('adl NÃO atualizado!');
+            return redirect()->route('adl.lista');
+        }
         toast()->success('adl atualizado!');
-
         return redirect()->route('adl.lista');
+
+        
     }
 
 

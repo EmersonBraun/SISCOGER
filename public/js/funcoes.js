@@ -177,6 +177,16 @@ function corta_zeros(codigo){
     }
 }
 
+function mudaTab(id)
+{
+    $('.a').removeClass('active');
+    $('.'+id).addClass('active');
+    $('.tab-pane').removeClass('show');
+    $('.tab-pane').removeClass('active');
+    $('#'+id).addClass('active');
+    $('#'+id).addClass('show');
+}
+
 
 
 

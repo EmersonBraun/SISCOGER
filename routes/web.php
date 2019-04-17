@@ -11,12 +11,13 @@
 */
 //Route::get('teste', ['as'=>'teste','uses'=>'Testes\testeBD@opm']);
 //Route::get('fds', ['as'=>'fds','uses'=>'Testes\testeBD@fds']);
-// Route::get('tabelas/{conn}/{colunas?}', ['as'=>'teste','uses'=>'Testes\testeBD@tabelas']);
+//Route::get('tabelas/{conn}/{colunas?}', ['as'=>'teste','uses'=>'Testes\testeBD@tabelas']);
 // Route::get('colunas/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas']);
 // Route::get('colunas2/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas2']);
-// Route::get('bd/{conn}/{nome}/{limite}/{c1?}/{oper?}{c2?}', ['as'=>'bd','uses'=>'Testes\testeBD@bd']);
+Route::get('bd/{conn}/{nome}/{limite}/{c1?}/{oper?}{c2?}', ['as'=>'bd','uses'=>'Testes\testeBD@bd']);
 Route::get('bd/28', ['as'=>'bd','uses'=>'Testes\testeBD@a28']);
 // Route::get('bd/bdgeral', ['as'=>'bdgeral','uses'=>'Testes\testeBD@bdgeral']);
+
 
 
 Auth::routes();
@@ -27,6 +28,7 @@ Auth::routes();
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------
 */
 // Route::get('/home', ['as' =>'home','uses'=>'Relatorios\PendenciasController@index']);
+Route::get('/home', 'HomeController@index')->name('home');
 Route::get('home/{opm}', ['as' =>'home.opm','uses'=>'Relatorios\PendenciasController@index', 'middleware' => ['permission:todas-unidades']]);
 
 Route::match(['get'],'trocaropm', ['as' =>'trocaropm','uses'=>'Relatorios\PendenciasController@trocaropm', 'middleware' => ['permission:todas-unidades']]);
@@ -410,6 +412,7 @@ Route::group(['as'=>'ajax.','prefix' =>'ajax'],function(){
 
 //Rotas do módulo dev
 Route::group(['as'=>'dev.','prefix' =>'dev'],function(){
+    // artisan
 	Route::get('artisan/clearcache',['as' =>'clearcache','uses'=>'Dev\ArtisanController@clearCache']);
 	Route::get('artisan/optimize',['as' =>'optimize','uses'=>'Dev\ArtisanController@optimize']);
 	Route::get('artisan/routecache',['as' =>'routecache','uses'=>'Dev\ArtisanController@routeCache']);
@@ -436,6 +439,4 @@ Route::group(['as'=>'XX.','prefix' =>'XX','middleware' => ['permission:']],funct
 */
 
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');

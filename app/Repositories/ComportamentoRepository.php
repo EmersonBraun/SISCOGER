@@ -18,7 +18,7 @@ class ComportamentoRepository extends BaseRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60;  
+    protected static $expiration = 60 * 24 * 7;  //uma semana
 
 	public function __construct(Comportamento $model)
 	{
@@ -40,22 +40,31 @@ class ComportamentoRepository extends BaseRepository
     {
         $rgs = Cache::remember('rgs'.$unidade, self::$expiration, function() use ($unidade){
 
-            //rgs dos praças da unidade
-            return DB::connection('rhparana')
-            ->table('POLICIAL') 
-            ->select('rg')
-            ->where('cdopm', 'LIKE', $unidade.'%')
-            ->where([
-                ['cargo', '<>', 'CELAGREG'],
-                ['cargo', '<>', 'CEL'],
-                ['cargo', '<>', 'TENCEL'],
-                ['cargo', '<>', 'MAJ'],
-                ['cargo', '<>', 'CAP'],
-                ['cargo', '<>', '1TEN'],
-                ['cargo', '<>', '2TEN'],
-            ])->get();
+            try {
+                $rgs = DB::connection('rhparana')
+                ->table('POLICIAL') 
+                ->select('rg')
+                ->where('cdopm', 'LIKE', $unidade.'%')
+                ->where([
+                    ['cargo', '<>', 'CELAGREG'],
+                    ['cargo', '<>', 'CEL'],
+                    ['cargo', '<>', 'TENCEL'],
+                    ['cargo', '<>', 'MAJ'],
+                    ['cargo', '<>', 'CAP'],
+                    ['cargo', '<>', '1TEN'],
+                    ['cargo', '<>', '2TEN'],
+                ])->get();
+            } catch (\Exception $e) {
+                if ($e instanceof QueryException) {
+                    dd(intval($e->getStatusCode()));
+                }
+            }
+            
+            return $rgs;
 
         });
+
+        //dd($rgs);
 
         $comportamentos = Cache::remember('comportamentos'.$unidade, self::$expiration, function() use ($rgs){
            /*busca na VIEW comportamento_tempo que é a junção das tabelas 

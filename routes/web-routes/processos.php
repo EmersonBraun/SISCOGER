@@ -13,7 +13,7 @@ Route::group(['as'=>'adl.','prefix' =>'adl'],function(){
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\AdlController@store','middleware' => ['permission:criar-adl']]);
 	Route::get('ver/{ref}/{ano}',['as' =>'show','uses'=>'Proc\AdlController@show','middleware' => ['permission:ver-adl']]);
 	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Proc\AdlController@edit','middleware' => ['permission:editar-adl']]);
-	Route::put('atualizar/{ref}/{ano}',['as' =>'update','uses'=>'Proc\AdlController@update','middleware' => ['permission:editar-adl']]);
+	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Proc\AdlController@update','middleware' => ['permission:editar-adl']]);
 	Route::get('movimentos/{ref}/{ano}',['as' =>'movimentos','uses'=>'Proc\MovimentoController@movimentos','middleware' => ['permission:ver-adl']]);
 	Route::get('sobrestamentos/{ref}/{ano}',['as' =>'sobrestamentos','uses'=>'Proc\SobrestamentoController@sobrestamentos','middleware' => ['permission:ver-adl']]);
 	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\AdlController@destroy','middleware' => ['permission:apagar-adl']]);

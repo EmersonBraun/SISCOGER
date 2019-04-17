@@ -157,7 +157,7 @@
         proc: {type: String},
         idp: {type: String},
         ext: {type: Array, default: ['pdf']},
-        candelete: {type: Boolean, default: true},
+        candelete: {default: ''},
         unique: {type: Boolean, default: true},
     },
     data() {
@@ -183,7 +183,6 @@
     },
     beforeMount(){
         this.listFile(); 
-        console.log(apagados.length)
     },
     watch: {
         countup() {
@@ -273,9 +272,7 @@
                 this.uploaded = response.data.list
                 this.apagados = response.data.apagados
                 this.countup = response.data.list.length
-                console.log('countup:'+this.countup)
                 this.countap = response.data.list.length
-                console.log('countap:'+this.countap)
             })
             .catch(error => console.log(error));
         },

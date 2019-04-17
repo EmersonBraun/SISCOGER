@@ -108,9 +108,10 @@ class testeBD extends Controller
  				->select('COLUMN_NAME', 'ORDINAL_POSITION')
  				->where('TABLE_NAME', '=' ,$tabela)
  				->get();
- 				//dd($colunas);
+ 				// dd($colunas);
  				$i = 0;
 
+        $col = [];
 		foreach ($colunas as $c ) 
 		{
 			if(isset($c['COLUMN_NAME']))
