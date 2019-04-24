@@ -1,10 +1,11 @@
-webpackJsonp([7],{
+webpackJsonp([8],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Arquivos/FileUpload.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -555,7 +556,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-sm-12" }, [
+  return _c("div", [
     _c(
       "div",
       { staticClass: "card bordaform" },
@@ -949,7 +950,9 @@ var render = function() {
           : _vm._e()
       ],
       2
-    )
+    ),
+    _vm._v(" "),
+    _c("br")
   ])
 }
 var staticRenderFns = [

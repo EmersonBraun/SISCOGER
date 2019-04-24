@@ -30,7 +30,6 @@
                 let md = 'col-md-' + this.md + ' '
                 let xs = 'col-xs-' + this.xs + ' '
                 let error = this.error.length > 0 ? 'has-error' : ''
-                console.log('error: '+error)
                 return form+lg+md+xs+error
             }
         }

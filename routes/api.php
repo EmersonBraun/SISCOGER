@@ -15,19 +15,24 @@ use Illuminate\Http\Request;
 
 Route::get('acess/rhpr/{name?}', ['as' =>'api.opm','uses'=>'_Api\RHPR\OPMApiController@omsjd']);
 
-Route::get('sjd/proc/adl/search/{id}', ['as' =>'api.adl','uses'=>'_Api\SJD\Proc\AdlApiController@find']);
-Route::get('sjd/proc/adl/refano/{ref}/{ano}', ['as' =>'api.adlref','uses'=>'_Api\SJD\Proc\AdlApiController@refAno']);
-Route::get('sjd/proc/adl/all', ['as' =>'api.adlall','uses'=>'_Api\SJD\Proc\AdlApiController@all']);
-Route::get('sjd/proc/adl/ano/{ano}', ['as' =>'api.adlano','uses'=>'_Api\SJD\Proc\AdlApiController@ano']);
-Route::get('sjd/proc/adl/andamento', ['as' =>'api.adland','uses'=>'_Api\SJD\Proc\AdlApiController@andamento']);
-Route::get('sjd/proc/adl/andamentoano/{ano}', ['as' =>'api.adlandano','uses'=>'_Api\SJD\Proc\AdlApiController@andamentoAno']);
-Route::get('sjd/proc/adl/prazos', ['as' =>'api.adlprazo','uses'=>'_Api\SJD\Proc\AdlApiController@prazos']);
-Route::get('sjd/proc/adl/prazosano/{ano}', ['as' =>'api.adlprazoano','uses'=>'_Api\SJD\Proc\AdlApiController@prazosAno']);
-Route::get('sjd/proc/adl/relsituacao', ['as' =>'api.adlrelsit','uses'=>'_Api\SJD\Proc\AdlApiController@relSituacao']);
-Route::get('sjd/proc/adl/relsituacaoano/{ano}', ['as' =>'api.adlrelsituano','uses'=>'_Api\SJD\Proc\AdlApiController@relSituacaoAno']);
-Route::get('sjd/proc/adl/julgamento', ['as' =>'api.adljulg','uses'=>'_Api\SJD\Proc\AdlApiController@julgamento']);
-Route::get('sjd/proc/adl/julgamentoano/{ano}', ['as' =>'api.adljulgano','uses'=>'_Api\SJD\Proc\AdlApiController@julgamentoAno']);
-
+Route::group(['as'=>'sjd.','prefix' =>'sjd'],function(){
+    Route::group(['as'=>'proc.','prefix' =>'proc'],function(){
+        Route::group(['as'=>'adl.','prefix' =>'adl'],function(){
+            Route::get('search/{id}', ['as' =>'api.adl','uses'=>'_Api\SJD\Proc\AdlApiController@find']);
+            Route::get('refano/{ref}/{ano}', ['as' =>'api.adlref','uses'=>'_Api\SJD\Proc\AdlApiController@refAno']);
+            Route::get('all', ['as' =>'api.adlall','uses'=>'_Api\SJD\Proc\AdlApiController@all']);
+            Route::get('ano/{ano}', ['as' =>'api.adlano','uses'=>'_Api\SJD\Proc\AdlApiController@ano']);
+            Route::get('andamento', ['as' =>'api.adland','uses'=>'_Api\SJD\Proc\AdlApiController@andamento']);
+            Route::get('andamentoano/{ano}', ['as' =>'api.adlandano','uses'=>'_Api\SJD\Proc\AdlApiController@andamentoAno']);
+            Route::get('prazos', ['as' =>'api.adlprazo','uses'=>'_Api\SJD\Proc\AdlApiController@prazos']);
+            Route::get('prazosano/{ano}', ['as' =>'api.adlprazoano','uses'=>'_Api\SJD\Proc\AdlApiController@prazosAno']);
+            Route::get('relsituacao', ['as' =>'api.adlrelsit','uses'=>'_Api\SJD\Proc\AdlApiController@relSituacao']);
+            Route::get('relsituacaoano/{ano}', ['as' =>'api.adlrelsituano','uses'=>'_Api\SJD\Proc\AdlApiController@relSituacaoAno']);
+            Route::get('julgamento', ['as' =>'api.adljulg','uses'=>'_Api\SJD\Proc\AdlApiController@julgamento']);
+            Route::get('julgamentoano/{ano}', ['as' =>'api.adljulgano','uses'=>'_Api\SJD\Proc\AdlApiController@julgamentoAno']);
+        });
+    });
+});
 // rotas componente SubForm/ProcedOrigem.vue
 Route::group(['as'=>'ligacao.','prefix' =>'ligacao'],function(){
     Route::get('list/{proc}/{ref}/{ano}',['as' =>'index','uses'=>'_Api\SJD\Proc\LigacaoApiController@list']);
@@ -60,7 +65,11 @@ Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
     // pegar lista dos Envolvido pelo Proc/id/situacao
     Route::get('envolvido/{proc}/{id}/{situacao?}',['as' =>'envolvido','uses'=>'_Api\SJD\PM\EnvolvidoApiController@list']);
 });
-
+Route::group(['as'=>'proc.','prefix' =>'proc'],function(){
+    //para atualizar um campo de um procedimento
+    Route::post('update/{proc}/{id}/{campo}',['as' =>'update','uses'=>'_Api\SJD\Proc\ProcApiController@update']);
+    Route::get('dadocampo/{proc}/{id}/{campo}',['as' =>'dadocampo','uses'=>'_Api\SJD\Proc\ProcApiController@dadocampo']);
+});
 
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

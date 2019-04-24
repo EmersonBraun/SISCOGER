@@ -1,5 +1,5 @@
 <template>
-    <div class="col-sm-12">
+    <div>
         <div class="card bordaform">
             <!-- titulo -->
             <div v-if="title" class="card-header">
@@ -145,6 +145,7 @@
                 </div>
             </template>
         </div>
+        <br>
     </div>
 
 </template>
@@ -323,7 +324,7 @@
 </script>
 
 <style scope>
-.bgicon{
-    color: white;
-}
+    .bgicon{
+        color: white;
+    }
 </style>

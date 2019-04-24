@@ -54,6 +54,45 @@ class ProcApiController extends Controller
         ], 200);
     }
 
+    public function update(Request $request, $proc, $id, $campo)
+    {
+        $input = $request->input;
+        $update = DB::table($proc)
+            ->where('id_'.$proc,$id)
+            ->update([$campo => $input]);
+
+        if(!$update)
+        {
+            return response()->json([
+                'success' => false,
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => true,
+        ], 200);
+    }
+
+    public function dadocampo(Request $request, $proc, $id, $campo)
+    {
+        $index = DB::table($proc)
+            ->where('id_'.$proc,$id)
+            ->first();
+
+        if(!$index)
+        {
+            return response()->json([
+                'input' => '',
+                'success' => false,
+            ], 200);
+        }
+
+        return response()->json([
+            'input' => $index[$campo],
+            'success' => true,
+        ], 200);
+    }
+
 
     
 }
