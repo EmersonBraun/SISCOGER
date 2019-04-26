@@ -1,14 +1,16 @@
 {
-    "/js/components/v-select.bundle.js": "/js/components/v-select.bundle.js?id=d9b08b28a7a0316aca42",
+    "/js/components/v-select.bundle.js": "/js/components/v-select.bundle.js?id=b693b73c8a26bce28c61",
     "/js/components/v-vitima.bundle.js": "/js/components/v-vitima.bundle.js?id=e48db67afcf221989f7b",
-    "/js/components/v-acusado.bundle.js": "/js/components/v-acusado.bundle.js?id=c1e54ca642766f5e35ca",
+    "/js/components/v-acusado.bundle.js": "/js/components/v-acusado.bundle.js?id=73e4b7ef07b982ac0f46",
     "/js/components/v-datepicker.bundle.js": "/js/components/v-datepicker.bundle.js?id=ad96b54f76c8397e3bef",
     "/js/components/v-proced-origem.bundle.js": "/js/components/v-proced-origem.bundle.js?id=6f1a16b3a091530551c7",
     "/js/components/v-tab-item.bundle.js": "/js/components/v-tab-item.bundle.js?id=392a2e07a3714cf5ec1a",
     "/js/components/v-label.bundle.js": "/js/components/v-label.bundle.js?id=50a81120a3e196ae4204",
-    "/js/components/v-cautelas.bundle.js": "/js/components/v-cautelas.bundle.js?id=92f9c6d38a624a0ca5c3",
-    "/js/components/file-upload.bundle.js": "/js/components/file-upload.bundle.js?id=3ad00984fc2bf13a5d05",
-    "/js/components/v-tab-menu.bundle.js": "/js/components/v-tab-menu.bundle.js?id=f0a8bdbb3a578f928288",
-    "/js/components/v-item-unique.bundle.js": "/js/components/v-item-unique.bundle.js?id=1f1c1e808dae039d35f9",
-    "/js/app.js": "/js/app.js?id=e11bf4af69f5623afbbb"
+    "/js/components/v-item-unique.bundle.js": "/js/components/v-item-unique.bundle.js?id=6060a8f4edda5d87b47c",
+    "/js/components/v-cautelas.bundle.js": "/js/components/v-cautelas.bundle.js?id=0a4bc601c515f9f37ee4",
+    "/js/components/file-upload.bundle.js": "/js/components/file-upload.bundle.js?id=06cdb901cb05a5dad493",
+    "/js/components/v-tab-menu.bundle.js": "/js/components/v-tab-menu.bundle.js?id=00ffe131a4a739d52e17",
+    "/js/app.js": "/js/app.js?id=d5dc123ae98cc6ff6368",
+    "/js/components/v-membro.bundle.js": "/js/components/v-membro.bundle.js?id=bb720b2e23a0f255371e",
+    "/js/components/v-membros.bundle.js": "/js/components/v-membros.bundle.js?id=2f12ada9edbe9b759ff4"
 }

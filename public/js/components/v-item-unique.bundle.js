@@ -1,4 +1,4 @@
-webpackJsonp([10],{
+webpackJsonp([7],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Form/ItemUnique.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -89,7 +89,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var urlIndex = this.getBaseUrl + 'api/proc/dadocampo/' + this.proc + '/' + this.idp + '/' + this.name;
             axios.get(urlIndex).then(function (response) {
                 _this3.input = response.data.input;
-                console.log(_this3.input);
+                // console.log(this.input)
             }).catch(function (error) {
                 console.log(error);
                 _this3.erro = "Erro ao enviar";

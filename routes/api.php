@@ -45,11 +45,12 @@ Route::group(['as'=>'acusado.','prefix' =>'acusado'],function(){
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\AcusadoApiController@store']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\AcusadoApiController@destroy']);
 });
-// Route::group(['as'=>'membros.','prefix' =>'membros'],function(){
-//     Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\MembrosApiController@list']);
-//     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\MembrosApiController@store']);
-//     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\MembrosApiController@destroy']);
-// });
+// rotas componente SubForm/Acusado.vue
+Route::group(['as'=>'membros.','prefix' =>'membros'],function(){
+    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\MembroApiController@list']);
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\MembroApiController@store']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\MembroApiController@destroy']);
+});
 Route::group(['as'=>'vitima.','prefix' =>'vitima'],function(){
     Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'_Api\SJD\PM\VitimaApiController@list']);
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\VitimaApiController@store']);
@@ -64,6 +65,8 @@ Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
     Route::get('proc/{proc}/{ref}/{ano}',['as' =>'proc','uses'=>'_Api\SJD\Proc\ProcApiController@dados']);
     // pegar lista dos Envolvido pelo Proc/id/situacao
     Route::get('envolvido/{proc}/{id}/{situacao?}',['as' =>'envolvido','uses'=>'_Api\SJD\PM\EnvolvidoApiController@list']);
+    // pegar lista dos membros pelo Proc/id/
+    Route::get('membros/{proc}/{id}',['as' =>'membros','uses'=>'_Api\SJD\PM\EnvolvidoApiController@membros']);
 });
 Route::group(['as'=>'proc.','prefix' =>'proc'],function(){
     //para atualizar um campo de um procedimento

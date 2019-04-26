@@ -27,13 +27,7 @@
                         <div class="col-lg-2 col-md-2 col-xs 2">
                             <label for="situacao">Situação</label><br>
                             <select class="form-control" name="situacao" :disabled="!finded" required v-model="situacao">
-                                <option value="">Selecione</option>
-                                <option value="Acusador">Acusador</option>
-                                <option value="Defensor">Defensor</option>
-                                <option value="Encarregado">Encarregado</option>
-                                <option value="Escrivão">Escrivão</option>
-                                <option value="Membro">Membro</option>
-                                <option value="Presidente">Presidente</option>
+                                <option  v-for="(s, index) in situacoes" :key="index" :value="s">{{s}}</option>
                             </select>
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs 1">
@@ -74,7 +68,7 @@
                                         <a type="button" @click="showPM(pm.rg)" target="_blanck" class="btn btn-primary" style="color: white">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a type="button"  @click="removePM(pm.id_envolvido)" class="btn btn-danger" style="color: white">
+                                        <a type="button"  @click="removePM(pm.id_envolvido, pm.situacao, index)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
                                         </a>
                                     </div>
@@ -118,6 +112,8 @@
                 situacao: false,
                 counter: 0,
                 only: false,
+                situacoes: [],
+                usados: []
             }
         },
         mounted(){
@@ -126,8 +122,12 @@
         },
         watch: {
             rg() {
+                if(!this.rg.length){
+                    this.nome = ''
+                    this.cargo = ''
+                }
                 this.searchPM()
-            }
+            },
         },
         computed:{
             getBaseUrl(){
@@ -154,7 +154,7 @@
         },
         methods: {
             searchPM(){
-                this.clear
+                this.clear()//limpa a busca
                 
                 let searchUrl = this.getBaseUrl + 'api/dados/pm/' + this.rg ;
                 if(this.rg.length > 5){
@@ -175,42 +175,81 @@
                     .catch(error => console.log(error));
                 }
             },
-             listPM(){
-                this.clear()
+            listPM(){
+                this.clear()//limpa a busca
+
                 let urlIndex = this.getBaseUrl + 'api/dados/membros/' + this.dproc + '/' +this.idp;
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)
                     .then((response) => {
-                        this.pms = response.data
-                        // console.log(response.data)
+                        this.pms = response.data.membros
+                        this.usados = response.data.usados
                     })
-                    .then(this.clear)//limpa a busca
+                    .then((usados = this.usados) =>{
+                        let situacoes = ['Acusador','Encarregado','Escrivão','Membro','Presidente']
+                        this.situacoes = situacoes.filter(a => !this.usados.includes(a))
+                        // console.log(this.situacoes)
+                    })// atualiza disponíveis
                     .catch(error => console.log(error));
-                }
+                } 
             },
             createPM(){
+                this.clear()//limpa a busca
                 let urlCreate = this.getBaseUrl + 'api/membros/store';
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
 
+                console.log(data.get('situacao'))
                 axios.post( urlCreate,data)
-                .then(this.listPM())
+                .then(this.updateSituacao(data.get('situacao'),'add'))
+                .then(this.addPM(data))
                 .catch((error) => console.log(error));
+            },
+            addPM(data){
+                this.pms.push({
+                    id_envolvido: data.get('id_envolvido'),
+                    rg: data.get('rg'),
+                    nome: data.get('nome'),
+                    cargo: data.get('cargo'),
+                    situacao: data.get('situacao'),
+                    rg: data.get('rg')
+                })
             },
             showPM(rg){
                 let urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';                
                 window.open(urlIndex, "_blank")
             },
-            // apagar arquivo
-            removePM(id){
+            removePM(id, situacao, index){
+                this.clear()//limpa a busca
+                
                 let urlDelete = this.getBaseUrl + 'api/membros/destroy/' + id;
                 axios
                 .delete(urlDelete)
+                // .then(this.listPM())
+                .then(this.updateSituacao(situacao,'remove'))
+                .then(this.pms.splice(index,1))
                 .catch(error => console.log(error));
-                this.listPM()
             },
+            updateSituacao(situacao, tipo){
+                if(tipo == 'add'){
+                    this.usados.push(situacao)
+                }else{
+                    let search = this.usados.indexOf(situacao)
+                    this.usados.splice(search,1)
+                }
+                let situacoes = ['Acusador','Encarregado','Escrivão','Membro','Presidente']
+                this.situacoes = situacoes.filter(a => !this.usados.includes(a))
+            },
+            // removeSituacao(situacao){
+            //     let search = this.situacoes.indexOf(situacao)
+            //     this.situacoes.slice(search,1)
+            //     this.clear()
+            // },
+            // addSituacao(situacao){
+            //     this.situacoes.push(situacao)
+            // },
             cancel(){
                 this.add = false
                 this.rg = ''

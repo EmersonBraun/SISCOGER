@@ -123,11 +123,24 @@
         },
         mounted(){
             this.verifyOnly
-            this.listPM()
+        },
+        created() {
+            let name = this.dproc+this.idp+'acusados'
+            const json = sessionStorage.getItem(name)
+            const array = JSON.parse(json)
+            this.pms = Array.isArray(array) ? array : []
+            if(this.pms == []) this.listPM()
         },
         watch: {
             rg() {
                 this.searchPM()
+            },
+            pms:{
+                deep: true,
+                handler(){
+                    let name = this.dproc+this.idp+'acusados'
+                    sessionStorage.setItem(name, JSON.stringify(this.pms))
+                }
             }
         },
         computed:{

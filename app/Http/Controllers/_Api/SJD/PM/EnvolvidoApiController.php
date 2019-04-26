@@ -21,5 +21,31 @@ class EnvolvidoApiController extends Controller
         return response()->json(
             $result, 200);
     }
+
+    public function membros($proc, $id)
+    {
+        // membros envolvidos
+        $result = Envolvido::where('id_'.$proc,'=',$id)
+                    ->whereIn('situacao', ['Acusador', 'Encarregado','Escrivão','Membro','Presidente'])
+                    ->get();
+        
+        if(!$result) return response()->json(null, 500);
+        // situações usadas
+        $usados = [];
+        foreach ($result as $r) 
+        {
+            if(!$r['rg_substituto']) 
+            {
+                array_push($usados,$r['situacao']);
+            }
+        }
+
+        return response()->json([
+            'membros' => $result,
+            'usados' => $usados
+            , 200
+        ]);
+    }
     
 }
+

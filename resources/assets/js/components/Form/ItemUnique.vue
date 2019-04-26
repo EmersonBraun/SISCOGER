@@ -46,10 +46,6 @@
                 
             return baseUrl;
             },
-            // classform(){
-            //     let error = this.error.length > 0 ? 'has-error' : ''
-            //     return error
-            // }
         },
         watch: {
             status() {
@@ -82,7 +78,7 @@
                 axios.get( urlIndex)
                 .then(response => {
                     this.input = response.data.input
-                    console.log(this.input)
+                    // console.log(this.input)
                 })
                 .catch((error) => {
                     console.log(error)

@@ -157,56 +157,7 @@
                 </file-upload>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                {{--  presidente --}}
-                <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-                    {!! Form::label('presidente-rg', 'RG do presidente')!!} <br>
-                    {!! Form::text('presidente-rg',$presidente['rg'],
-                    ['onblur' => "completaDados($(this).val(),'presidente-nome','presidente-posto')",'class' => 'form-control']) !!}
-                </div>
-
-                <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-                    {!! Form::label('presidente-nome', 'Nome do presidente')!!} <br>
-                    {!! Form::text('presidente-nome',$presidente['nome'],['readonly','class' => 'form-control']) !!}
-                </div>
-
-                <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-                    {!! Form::label('presidente-posto', 'Posto/Graduação')!!} <br>
-                    {!! Form::text('presidente-posto',$presidente['cargo'],['readonly','class' => 'form-control']) !!}
-                </div>
-
-                {{--  escrivao --}}
-                <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-                    {!! Form::label('escrivao-rg', 'RG do escrivao')!!} <br>
-                    {!! Form::text('escrivao-rg',$escrivao['rg'],
-                    ['onblur' => "completaDados($(this).val(),'escrivao-nome','escrivao-posto')",'class' => 'form-control']) !!}
-                </div>
-
-                <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-                    {!! Form::label('escrivao-nome', 'Nome do escrivao')!!} <br>
-                    {!! Form::text('escrivao-nome',$escrivao['nome'],['readonly','class' => 'form-control']) !!}
-                </div>
-
-                <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-                    {!! Form::label('escrivao-posto', 'Posto/Graduação')!!} <br>
-                    {!! Form::text('escrivao-posto',$escrivao['cargo'],['readonly','class' => 'form-control']) !!}
-                </div>
-
-                {{--  defensor --}}
-                <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-                    {!! Form::label('defensor-rg', 'RG do defensor')!!} <br>
-                    {!! Form::text('defensor-rg',$defensor['rg'],
-                    ['onblur' => "completaDados($(this).val(),'defensor-nome','defensor-posto')",'class' => 'form-control']) !!}
-                </div>
-
-                <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-                    {!! Form::label('defensor-nome', 'Nome do defensor')!!} <br>
-                    {!! Form::text('defensor-nome',$defensor['nome'],['readonly','class' => 'form-control']) !!}
-                </div>
-
-                <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-                    {!! Form::label('defensor-posto', 'Posto/Graduação')!!} <br>
-                    {!! Form::text('defensor-posto',$defensor['cargo'],['readonly','class' => 'form-control']) !!}
-                </div>
+                <v-membro idp="{{$proc['id_adl']}}"></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
                 asdasd

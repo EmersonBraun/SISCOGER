@@ -7,6 +7,8 @@ Vue.component('v-item-unique', () => import(/* webpackChunkName: "v-item-unique"
 Vue.component('v-proced-origem', () => import(/* webpackChunkName: "v-proced-origem" */'./components/SubForm/ProcedOrigem.vue'));
 Vue.component('v-acusado', () => import(/* webpackChunkName: "v-acusado" */'./components/SubForm/Acusado.vue'));
 Vue.component('v-vitima', () => import(/* webpackChunkName: "v-vitima" */'./components/SubForm/Vitima.vue'));
+Vue.component('v-membro', () => import(/* webpackChunkName: "v-membro" */'./components/SubForm/Membro.vue'));
+
 // FDI
 Vue.component('v-cautelas', () => import(/* webpackChunkName: "v-cautelas" */'./components/FDI/Cautelas.vue'));
 // Layout
