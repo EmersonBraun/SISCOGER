@@ -1,4 +1,4 @@
-webpackJsonp([13],{
+webpackJsonp([5],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Membro.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -9,6 +9,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_the_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_the_mask__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -124,7 +151,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             counter: 0,
             only: false,
             situacoes: [],
-            usados: []
+            usados: [],
+            // substituto
+            substituido: false,
+            idsubs: '',
+            rgsubs: '',
+            nomesubs: '',
+            situacaosubs: '',
+            substitute: false,
+            titleSubstitute: ''
         };
     },
     mounted: function mounted() {
@@ -168,29 +203,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         searchPM: function searchPM() {
             var _this = this;
 
-            this.clear;
-
             var searchUrl = this.getBaseUrl + 'api/dados/pm/' + this.rg;
             if (this.rg.length > 5) {
-                axios.get(searchUrl).then(function (response) {
-                    if (response.data.success) {
-                        _this.nome = response.data['pm'].NOME;
-                        _this.cargo = response.data['pm'].CARGO;
-                        _this.finded = true;
-                    } else {
-                        _this.nome = '';
-                        _this.cargo = '';
-                        _this.finded = false;
-                    }
-                }).catch(function (error) {
-                    return console.log(error);
-                });
+                if (this.substituido && this.rg == this.rgsubs) {
+                    this.nome = 'Inválido - Mesmo RG informado';
+                    this.cargo = 'Mesmo RG';
+                    this.finded = false;
+                } else {
+                    axios.get(searchUrl).then(function (response) {
+                        if (response.data.success) {
+                            _this.nome = response.data['pm'].NOME;
+                            _this.cargo = response.data['pm'].CARGO;
+                            _this.finded = true;
+                        } else {
+                            _this.nome = '';
+                            _this.cargo = '';
+                            _this.finded = false;
+                        }
+                    }).catch(function (error) {
+                        return console.log(error);
+                    });
+                }
             }
         },
         listPM: function listPM() {
             var _this2 = this;
 
-            this.clear();
+            this.clear(false); //limpa a busca
+
             var urlIndex = this.getBaseUrl + 'api/dados/membros/' + this.dproc + '/' + this.idp;
             if (this.dproc && this.idp) {
                 axios.get(urlIndex).then(function (response) {
@@ -205,20 +245,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     });
                     // console.log(this.situacoes)
                 }) // atualiza disponíveis
-                .then(this.clear) //limpa a busca
                 .catch(function (error) {
                     return console.log(error);
                 });
             }
         },
         createPM: function createPM() {
+            var _this3 = this;
+
             var urlCreate = this.getBaseUrl + 'api/membros/store';
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
 
             console.log(data.get('situacao'));
-            axios.post(urlCreate, data).then(this.updateSituacao(data.get('situacao'), 'add')).then(this.addPM(data)).catch(function (error) {
+            axios.post(urlCreate, data).then(function (response) {
+                if (response.data.substituto) {
+                    _this3.alteraPM(response.data.indexsub, response.data.substituto);
+                } else {
+                    _this3.updateSituacao(data.get('situacao'), 'add');
+                    _this3.addPM(data);
+                }
+            }).then(this.clear(false)) //limpa a busca
+            .catch(function (error) {
                 return console.log(error);
             });
         },
@@ -231,11 +280,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 situacao: data.get('situacao')
             }, 'rg', data.get('rg')));
         },
+        alteraPM: function alteraPM(id, data) {
+            this.pms[id].id_envolvido = data.id_envolvido;
+            this.pms[id].rg = data.rg;
+            this.pms[id].nome = data.nome;
+            this.pms[id].cargo = data.cargo;
+            this.pms[id].situacao = data.situacao;
+            this.pms[id].rg = data.rg;
+        },
         showPM: function showPM(rg) {
             var urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';
             window.open(urlIndex, "_blank");
         },
         removePM: function removePM(id, situacao, index) {
+            this.clear(false); //limpa a busca
+
             var urlDelete = this.getBaseUrl + 'api/membros/destroy/' + id;
             axios.delete(urlDelete)
             // .then(this.listPM())
@@ -244,7 +303,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
         },
         updateSituacao: function updateSituacao(situacao, tipo) {
-            var _this3 = this;
+            var _this4 = this;
 
             if (tipo == 'add') {
                 this.usados.push(situacao);
@@ -254,31 +313,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
             var situacoes = ['Acusador', 'Encarregado', 'Escrivão', 'Membro', 'Presidente'];
             this.situacoes = situacoes.filter(function (a) {
-                return !_this3.usados.includes(a);
+                return !_this4.usados.includes(a);
             });
         },
 
         // removeSituacao(situacao){
         //     let search = this.situacoes.indexOf(situacao)
         //     this.situacoes.slice(search,1)
-        //     this.clear()
-        // },
+        //     this.clear(false          // },
         // addSituacao(situacao){
         //     this.situacoes.push(situacao)
         // },
-        cancel: function cancel() {
-            this.add = false;
-            this.rg = '';
-            this.nome = '';
-            this.cargo = '';
-            this.situacao = '';
-            this.finded = false;
+        replacePM: function replacePM(pm, index) {
+            this.titleSubstitute = " - Substituição do " + pm.situacao + " " + pm.nome;
+            this.substituido = true;
+            this.rgsubs = pm.rg;
+            this.nomesubs = pm.nome;
+            this.situacaosubs = pm.situacao;
+            this.idsubs = pm.id_envolvido;
+            this.indexsubs = index;
+            this.add = true;
         },
-        clear: function clear() {
+        clear: function clear(add) {
+            this.add = add;
             this.rg = '';
             this.nome = '';
             this.cargo = '';
             this.situacao = '';
+            this.substituido = false;
+            this.rgsubs = '';
+            this.nomesubs = '', this.situacaosubs = '', this.substitute = false;
+            this.titleSubstitute = '';
             this.finded = false;
         }
     }
@@ -294,7 +359,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -502,7 +567,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-lg-12 col-md-12 col-xs-12 card" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "card-header" }, [
+      _c("h5", [
+        _c("b", [_vm._v("Membros " + _vm._s(_vm.titleSubstitute || ""))])
+      ])
+    ]),
     _vm._v(" "),
     !_vm.only
       ? _c(
@@ -542,18 +611,32 @@ var render = function() {
                           }),
                           _vm._v(" "),
                           _c("input", {
-                            attrs: { type: "hidden", name: "situacao" },
-                            domProps: { value: _vm.situacao }
+                            attrs: { type: "hidden", name: "indexsubs" },
+                            domProps: { value: _vm.indexsubs }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: { type: "hidden", name: "idsubs" },
+                            domProps: { value: _vm.idsubs }
                           }),
                           _vm._v(" "),
                           _c(
                             "div",
                             { staticClass: "col-lg-3 col-md-4 col-xs 4" },
                             [
-                              _c("label", { attrs: { for: "rg" } }, [
-                                _vm._v("RG")
-                              ]),
-                              _c("br"),
+                              !_vm.substituido
+                                ? [
+                                    _c("label", { attrs: { for: "rg" } }, [
+                                      _vm._v("RG")
+                                    ]),
+                                    _c("br")
+                                  ]
+                                : [
+                                    _c("label", { attrs: { for: "rg" } }, [
+                                      _vm._v("RG Substituto")
+                                    ]),
+                                    _c("br")
+                                  ],
                               _vm._v(" "),
                               _c("the-mask", {
                                 staticClass: "form-control",
@@ -573,7 +656,7 @@ var render = function() {
                                 }
                               })
                             ],
-                            1
+                            2
                           ),
                           _vm._v(" "),
                           _c(
@@ -627,51 +710,64 @@ var render = function() {
                               ]),
                               _c("br"),
                               _vm._v(" "),
-                              _c(
-                                "select",
-                                {
-                                  directives: [
+                              !_vm.substituido
+                                ? _c(
+                                    "select",
                                     {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.situacao,
-                                      expression: "situacao"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    name: "situacao",
-                                    disabled: !_vm.finded,
-                                    required: ""
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      var $$selectedVal = Array.prototype.filter
-                                        .call($event.target.options, function(
-                                          o
-                                        ) {
-                                          return o.selected
-                                        })
-                                        .map(function(o) {
-                                          var val =
-                                            "_value" in o ? o._value : o.value
-                                          return val
-                                        })
-                                      _vm.situacao = $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
-                                    }
-                                  }
-                                },
-                                _vm._l(_vm.situacoes, function(s, index) {
-                                  return _c(
-                                    "option",
-                                    { key: index, domProps: { value: s } },
-                                    [_vm._v(_vm._s(s))]
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.situacao,
+                                          expression: "situacao"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        name: "situacao",
+                                        disabled: !_vm.finded,
+                                        required: ""
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.situacao = $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        }
+                                      }
+                                    },
+                                    _vm._l(_vm.situacoes, function(s, index) {
+                                      return _c(
+                                        "option",
+                                        { key: index, domProps: { value: s } },
+                                        [_vm._v(_vm._s(s))]
+                                      )
+                                    }),
+                                    0
                                   )
-                                }),
-                                0
-                              )
+                                : _c("input", {
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      name: "situacao",
+                                      readonly: ""
+                                    },
+                                    domProps: { value: _vm.situacaosubs }
+                                  })
                             ]
                           ),
                           _vm._v(" "),
@@ -686,7 +782,11 @@ var render = function() {
                                 "a",
                                 {
                                   staticClass: "btn btn-danger btn-block",
-                                  on: { click: _vm.cancel }
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.clear(false)
+                                    }
+                                  }
                                 },
                                 [
                                   _c("i", {
@@ -702,24 +802,49 @@ var render = function() {
                             "div",
                             { staticClass: "col-lg-1 col-md-1 col-xs 1" },
                             [
-                              _c("label", [_vm._v("Adicionar")]),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "btn btn-success btn-block",
-                                  attrs: { disabled: !_vm.situacao },
-                                  on: { click: _vm.createPM }
-                                },
-                                [
-                                  _c("i", {
-                                    staticClass: "fa fa-plus",
-                                    staticStyle: { color: "white" }
-                                  })
-                                ]
-                              )
-                            ]
+                              !_vm.substituido
+                                ? [
+                                    _c("label", [_vm._v("Adicionar")]),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-block",
+                                        attrs: { disabled: !_vm.situacao },
+                                        on: { click: _vm.createPM }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: { color: "white" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                : [
+                                    _c("label", [_vm._v("Substituir")]),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-block",
+                                        attrs: { disabled: !_vm.finded },
+                                        on: { click: _vm.createPM }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: { color: "white" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                            ],
+                            2
                           )
                         ]
                       )
@@ -735,70 +860,106 @@ var render = function() {
         ? _c("div", { staticClass: "row bordaform" }, [
             _c("div", { staticClass: "col-sm-12" }, [
               _c("table", { staticClass: "table table-hover" }, [
-                _vm._m(1),
+                _vm._m(0),
                 _vm._v(" "),
                 _c(
                   "tbody",
                   _vm._l(_vm.pms, function(pm, index) {
-                    return _c("tr", { key: index }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(pm.rg))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(pm.nome))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(pm.cargo))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(pm.situacao))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "btn-group",
-                            attrs: {
-                              role: "group",
-                              "aria-label": "First group"
-                            }
-                          },
-                          [
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-primary",
-                                staticStyle: { color: "white" },
-                                attrs: { type: "button", target: "_blanck" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.showPM(pm.rg)
+                    return _c(
+                      "tr",
+                      { key: index },
+                      [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(pm.rg))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(pm.nome))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(pm.cargo))]),
+                        _vm._v(" "),
+                        !pm.rg_substituto
+                          ? [_c("td", [_vm._v(_vm._s(pm.situacao))])]
+                          : [
+                              _c("td", [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(pm.situacao) +
+                                    " - Substituído"
+                                ),
+                                _c("br"),
+                                _vm._v(
+                                  "\n                                    RG: " +
+                                    _vm._s(pm.rg_substituto) +
+                                    " - Substituto\n                                "
+                                )
+                              ])
+                            ],
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "btn-group",
+                              attrs: {
+                                role: "group",
+                                "aria-label": "First group"
+                              }
+                            },
+                            [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-primary",
+                                  staticStyle: { color: "white" },
+                                  attrs: { type: "button", target: "_blanck" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.showPM(pm.rg)
+                                    }
                                   }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-eye" })]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-danger",
-                                staticStyle: { color: "white" },
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.removePM(
-                                      pm.id_envolvido,
-                                      pm.situacao,
-                                      index
-                                    )
+                                },
+                                [_c("i", { staticClass: "fa fa-eye" })]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-success",
+                                  staticStyle: { color: "white" },
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.replacePM(pm, index)
+                                    }
                                   }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash" })]
-                            )
-                          ]
-                        )
-                      ])
-                    ])
+                                },
+                                [_c("i", { staticClass: "fa fa-retweet" })]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-danger",
+                                  staticStyle: { color: "white" },
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.removePM(
+                                        pm.id_envolvido,
+                                        pm.situacao,
+                                        index
+                                      )
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fa fa-trash" })]
+                              )
+                            ]
+                          )
+                        ])
+                      ],
+                      2
+                    )
                   }),
                   0
                 )
@@ -806,20 +967,12 @@ var render = function() {
             ])
           ])
         : !_vm.pms.length && _vm.only
-        ? _c("div", [_vm._m(2)])
+        ? _c("div", [_vm._m(1)])
         : _vm._e()
     ])
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h5", [_c("b", [_vm._v("Membros")])])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -836,7 +989,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "col-sm-2" }, [_vm._v("Situação")]),
         _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ver/Apagar Ligação")])
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ver/Substituir/Apagar")])
       ])
     ])
   },

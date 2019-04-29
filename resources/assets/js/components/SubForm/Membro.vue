@@ -1,7 +1,7 @@
 <template>
     <div class="col-lg-12 col-md-12 col-xs-12 card">
         <div class="card-header">
-            <h5><b>Membros</b></h5> 
+            <h5><b>Membros {{titleSubstitute || ''}}</b></h5> 
         </div>
         <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only">
             <div v-if="!add">
@@ -11,9 +11,18 @@
                 <div id="ligacaoForm1" class="row">
                     <form id="formData" name="formData">
                         <input type="hidden" :name="'id_'+dproc" :value="idp">
-                        <input type="hidden" name="situacao" :value="situacao">
+                        <!-- <input type="hidden" name="situacao" :value="situacao"> -->
+                        <!-- dados para substituição do membro -->
+                        <input type="hidden" name="indexsubs" :value="indexsubs">
+                        <input type="hidden" name="idsubs" :value="idsubs">
+                        <!-- dados para substituição do membro -->
                         <div class="col-lg-3 col-md-4 col-xs 4">
-                            <label for="rg">RG</label><br>
+                            <template v-if="!substituido">
+                                <label for="rg">RG</label><br>
+                            </template>
+                            <template v-else>
+                                <label for="rg">RG Substituto</label><br>
+                            </template>
                             <the-mask mask="############" class="form-control" v-model="rg" type="text" maxlength="12" name="rg" placeholder="Nº"/>
                         </div>
                         <div class="col-lg-3 col-md-2 col-xs 2">
@@ -26,17 +35,24 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-xs 2">
                             <label for="situacao">Situação</label><br>
-                            <select class="form-control" name="situacao" :disabled="!finded" required v-model="situacao">
+                            <select v-if="!substituido" class="form-control" name="situacao" :disabled="!finded" required v-model="situacao">
                                 <option  v-for="(s, index) in situacoes" :key="index" :value="s">{{s}}</option>
                             </select>
+                            <input  v-else class="form-control" :value="situacaosubs" type="text" name="situacao" readonly>
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs 1">
                             <label>Cancelar</label><br>
-                            <a class="btn btn-danger btn-block" @click="cancel"><i class="fa fa-times" style="color: white"></i></a>
+                            <a class="btn btn-danger btn-block" @click="clear(false)"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs 1">
-                            <label>Adicionar</label><br>
-                            <a class="btn btn-success btn-block" :disabled="!situacao" @click="createPM"><i class="fa fa-plus" style="color: white"></i></a>
+                            <template v-if="!substituido">
+                                <label>Adicionar</label><br>
+                                <a class="btn btn-success btn-block" :disabled="!situacao" @click="createPM"><i class="fa fa-plus" style="color: white"></i></a>
+                            </template>
+                            <template v-else>
+                                <label>Substituir</label><br>
+                                <a class="btn btn-success btn-block" :disabled="!finded" @click="createPM"><i class="fa fa-plus" style="color: white"></i></a>
+                            </template>
                         </div>
                     </form>
                 </div>
@@ -53,7 +69,7 @@
                                 <th class="col-sm-2">Nome</th>
                                 <th class="col-sm-2">Posto/Grad.</th>
                                 <th class="col-sm-2">Situação</th>
-                                <th class="col-sm-2">Ver/Apagar Ligação</th>
+                                <th class="col-sm-2">Ver/Substituir/Apagar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,11 +78,22 @@
                                 <td>{{ pm.rg }}</td>
                                 <td>{{ pm.nome }}</td>
                                 <td>{{ pm.cargo }}</td>
-                                <td>{{ pm.situacao }}</td>
+                                <template v-if="!pm.rg_substituto">
+                                    <td>{{ pm.situacao }}</td>
+                                </template>
+                                <template v-else>
+                                    <td>
+                                        {{ pm.situacao }} - Substituído</br>
+                                        RG: {{ pm.rg_substituto }} - Substituto
+                                    </td>
+                                </template>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="First group">
                                         <a type="button" @click="showPM(pm.rg)" target="_blanck" class="btn btn-primary" style="color: white">
                                             <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a type="button" @click="replacePM(pm, index)" class="btn btn-success" style="color: white">
+                                            <i class="fa fa-retweet"></i>
                                         </a>
                                         <a type="button"  @click="removePM(pm.id_envolvido, pm.situacao, index)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
@@ -113,7 +140,15 @@
                 counter: 0,
                 only: false,
                 situacoes: [],
-                usados: []
+                usados: [],
+                // substituto
+                substituido: false,
+                idsubs: '',
+                rgsubs: '',
+                nomesubs: '',
+                situacaosubs: '',
+                substitute: false,
+                titleSubstitute: '',
             }
         },
         mounted(){
@@ -154,29 +189,33 @@
         },
         methods: {
             searchPM(){
-                this.clear()//limpa a busca
-                
                 let searchUrl = this.getBaseUrl + 'api/dados/pm/' + this.rg ;
                 if(this.rg.length > 5){
-                    axios
-                    .get(searchUrl)
-                    .then((response) => {
-                        if(response.data.success){
-                            this.nome = response.data['pm'].NOME
-                            this.cargo = response.data['pm'].CARGO
-                            this.finded = true
-                        }
-                        else{
-                            this.nome = ''
-                            this.cargo = ''
-                            this.finded = false
-                        }
-                    })
-                    .catch(error => console.log(error));
+                    if(this.substituido && this.rg == this.rgsubs){
+                        this.nome = 'Inválido - Mesmo RG informado'
+                        this.cargo = 'Mesmo RG'
+                        this.finded = false
+                    }else{
+                        axios
+                        .get(searchUrl)
+                        .then((response) => {
+                            if(response.data.success){
+                                this.nome = response.data['pm'].NOME
+                                this.cargo = response.data['pm'].CARGO
+                                this.finded = true
+                            }
+                            else{
+                                this.nome = ''
+                                this.cargo = ''
+                                this.finded = false
+                            }
+                        })
+                        .catch(error => console.log(error));
+                    }
                 }
             },
             listPM(){
-                this.clear()//limpa a busca
+                this.clear(false)//limpa a busca
 
                 let urlIndex = this.getBaseUrl + 'api/dados/membros/' + this.dproc + '/' +this.idp;
                 if(this.dproc && this.idp){
@@ -194,8 +233,7 @@
                     .catch(error => console.log(error));
                 } 
             },
-            createPM(){
-                this.clear()//limpa a busca
+            createPM(){  
                 let urlCreate = this.getBaseUrl + 'api/membros/store';
 
                 let formData = document.getElementById('formData');
@@ -203,8 +241,15 @@
 
                 console.log(data.get('situacao'))
                 axios.post( urlCreate,data)
-                .then(this.updateSituacao(data.get('situacao'),'add'))
-                .then(this.addPM(data))
+                .then((response)=>{
+                    if(response.data.substituto){
+                        this.alteraPM(response.data.indexsub, response.data.substituto)
+                    }else{
+                        this.updateSituacao(data.get('situacao'),'add')
+                        this.addPM(data)
+                    }
+                })
+                .then(this.clear(false))//limpa a busca
                 .catch((error) => console.log(error));
             },
             addPM(data){
@@ -217,12 +262,20 @@
                     rg: data.get('rg')
                 })
             },
+            alteraPM(id, data){
+                this.pms[id].id_envolvido = data.id_envolvido
+                this.pms[id].rg = data.rg
+                this.pms[id].nome = data.nome
+                this.pms[id].cargo = data.cargo
+                this.pms[id].situacao = data.situacao
+                this.pms[id].rg = data.rg
+            },
             showPM(rg){
                 let urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';                
                 window.open(urlIndex, "_blank")
             },
             removePM(id, situacao, index){
-                this.clear()//limpa a busca
+                this.clear(false)//limpa a busca
                 
                 let urlDelete = this.getBaseUrl + 'api/membros/destroy/' + id;
                 axios
@@ -245,24 +298,32 @@
             // removeSituacao(situacao){
             //     let search = this.situacoes.indexOf(situacao)
             //     this.situacoes.slice(search,1)
-            //     this.clear()
-            // },
+            //     this.clear(false          // },
             // addSituacao(situacao){
             //     this.situacoes.push(situacao)
             // },
-            cancel(){
-                this.add = false
-                this.rg = ''
-                this.nome = ''
-                this.cargo = ''
-                this.situacao = ''
-                this.finded = false
+            replacePM(pm, index){
+                this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
+                this.substituido = true
+                this.rgsubs= pm.rg
+                this.nomesubs= pm.nome
+                this.situacaosubs= pm.situacao
+                this.idsubs= pm.id_envolvido
+                this.indexsubs= index
+                this.add = true
             },
-            clear(){
+            clear(add){
+                this.add = add
                 this.rg = ''
                 this.nome = ''
                 this.cargo = ''
                 this.situacao = ''
+                this.substituido = false
+                this.rgsubs= ''
+                this.nomesubs= '',
+                this.situacaosubs= '',
+                this.substitute= false
+                this.titleSubstitute= ''
                 this.finded = false
             },
         },

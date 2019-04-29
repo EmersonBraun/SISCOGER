@@ -29,7 +29,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		11: 0
+/******/ 		12: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"1":"v-vitima","2":"v-acusado","3":"v-datepicker","4":"v-proced-origem","5":"v-tab-item","6":"v-label","7":"v-item-unique","8":"v-cautelas","9":"file-upload","10":"v-tab-menu","12":"v-select","13":"v-membro"}[chunkId]||chunkId) + ".bundle.js";
+/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-select","1":"v-vitima","2":"v-acusado","3":"v-datepicker","4":"v-proced-origem","5":"v-membro","6":"v-tab-item","7":"v-label","8":"v-item-unique","9":"v-cautelas","10":"file-upload","11":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -48744,14 +48744,14 @@ if (token) {
 
 // upload de arquivos
 Vue.component('file-upload', function () {
-  return __webpack_require__.e/* import() */(9).then(__webpack_require__.bind(null, "./resources/assets/js/components/Arquivos/FileUpload.vue"));
+  return __webpack_require__.e/* import() */(10).then(__webpack_require__.bind(null, "./resources/assets/js/components/Arquivos/FileUpload.vue"));
 });
 // formularios
 Vue.component('v-label', function () {
-  return __webpack_require__.e/* import() */(6).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Label.vue"));
+  return __webpack_require__.e/* import() */(7).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Label.vue"));
 });
 Vue.component('v-item-unique', function () {
-  return __webpack_require__.e/* import() */(7).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/ItemUnique.vue"));
+  return __webpack_require__.e/* import() */(8).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/ItemUnique.vue"));
 });
 // subformulários
 Vue.component('v-proced-origem', function () {
@@ -48764,19 +48764,19 @@ Vue.component('v-vitima', function () {
   return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Vitima.vue"));
 });
 Vue.component('v-membro', function () {
-  return __webpack_require__.e/* import() */(13).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Membro.vue"));
+  return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Membro.vue"));
 });
 
 // FDI
 Vue.component('v-cautelas', function () {
-  return __webpack_require__.e/* import() */(8).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Cautelas.vue"));
+  return __webpack_require__.e/* import() */(9).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Cautelas.vue"));
 });
 // Layout
 Vue.component('v-tab-item', function () {
-  return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabItem.vue"));
+  return __webpack_require__.e/* import() */(6).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabItem.vue"));
 });
 Vue.component('v-tab-menu', function () {
-  return __webpack_require__.e/* import() */(10).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabMenu.vue"));
+  return __webpack_require__.e/* import() */(11).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabMenu.vue"));
 });
 //VUESTRAP
 // Revisados
@@ -48784,7 +48784,7 @@ Vue.component('v-datepicker', function () {
   return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Datepicker.vue"));
 });
 Vue.component('v-select', function () {
-  return __webpack_require__.e/* import() */(12).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Select.vue"));
+  return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Select.vue"));
 });
 // Não revisados
 /*Vue.component('v-accordion', function (resolve) {require(['vue-strap']).accordion});
