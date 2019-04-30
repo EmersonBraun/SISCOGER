@@ -158,7 +158,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -278,7 +277,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this2.situacoes = situacoes.filter(function (a) {
                         return !_this2.usados.includes(a);
                     });
-                    // console.log(this.situacoes)
                 }) // atualiza disponíveis
                 .catch(function (error) {
                     return console.log(error);
@@ -292,40 +290,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var data = new FormData(formData);
 
             console.log(data.get('situacao'));
-            axios.post(urlCreate, data)
-            // .then((response)=>{
-            //     if(response.data.substituto){
-            //         this.alteraPM(response.data.indexsub, response.data.substituto)
-            //     }else{
-            //         this.updateSituacao(data.get('situacao'),'add')
-            //         this.addPM(data)
-            //     }
-            // })
-            .then(this.clear(false)) //limpa a busca
+            axios.post(urlCreate, data).then(this.clear(false)) //limpa a busca
             .catch(function (error) {
                 return console.log(error);
             });
             this.listPM();
         },
-
-        // addPM(data){
-        //     this.pms.push({
-        //         id_envolvido: data.get('id_envolvido'),
-        //         rg: data.get('rg'),
-        //         nome: data.get('nome'),
-        //         cargo: data.get('cargo'),
-        //         situacao: data.get('situacao'),
-        //         rg: data.get('rg')
-        //     })
-        // },
-        // alteraPM(id, data){
-        //     this.pms[id].id_envolvido = data.id_envolvido
-        //     this.pms[id].rg = data.rg
-        //     this.pms[id].nome = data.nome
-        //     this.pms[id].cargo = data.cargo
-        //     this.pms[id].situacao = data.situacao
-        //     this.pms[id].rg = data.rg
-        // },
         showPM: function showPM(rg) {
             var urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';
             window.open(urlIndex, "_blank");
@@ -334,9 +304,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.clear(false); //limpa a busca
 
             var urlDelete = this.getBaseUrl + 'api/membros/destroy/' + id;
-            axios.delete(urlDelete)
-            // .then(this.listPM())
-            .then(this.updateSituacao(situacao, 'remove')).then(this.pms.splice(index, 1)).catch(function (error) {
+            axios.delete(urlDelete).then(this.updateSituacao(situacao, 'remove')).then(this.pms.splice(index, 1)).catch(function (error) {
                 return console.log(error);
             });
         },
@@ -354,14 +322,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return !_this3.usados.includes(a);
             });
         },
-
-        // removeSituacao(situacao){
-        //     let search = this.situacoes.indexOf(situacao)
-        //     this.situacoes.slice(search,1)
-        //     this.clear(false          // },
-        // addSituacao(situacao){
-        //     this.situacoes.push(situacao)
-        // },
         replacePM: function replacePM(pm, index) {
             this.titleSubstitute = " - Substituição do " + pm.situacao + " " + pm.nome;
             this.substituido = true;
@@ -397,7 +357,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

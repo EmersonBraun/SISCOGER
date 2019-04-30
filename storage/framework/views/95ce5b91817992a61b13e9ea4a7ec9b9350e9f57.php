@@ -61,9 +61,8 @@
                     <?php echo e(Form::text('portaria_numero', null, ['class' => 'form-control '])); ?>
 
                 </v-label>
-                <v-label label="portaria_data" title="Data da portaria" icon="fa fa-calendar">
-                    <?php echo e(Form::text('portaria_data', null, ['class' => 'form-control '])); ?>
-
+                <v-label label="portaria_data" title="Data da Portaria" icon="fa fa-calendar">
+                    <v-datepicker name="portaria_data" placeholder="dd/mm/aaaa" clear-button value="<?php echo e($proc['portaria_data'] ?? ''); ?>"></v-datepicker>
                 </v-label>
                 <v-label label="doc_tipo" title="Tipo de boletim">
                     <?php echo Form::select('doc_tipo',config('sistema.tipoBoletim'),null, ['class' => 'form-control ']); ?>
@@ -74,16 +73,13 @@
 
                 </v-label>
                 <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
-                    <?php echo e(Form::text('fato_data', null, ['class' => 'form-control '])); ?>
-
+                    <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="<?php echo e($proc['fato_data'] ?? ''); ?>"></v-datepicker>
                 </v-label>
                 <v-label label="abertura_data" title="Data da abertura" icon="fa fa-calendar">
-                    <?php echo e(Form::text('abertura_data', null, ['class' => 'form-control '])); ?>
-
+                    <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button value="<?php echo e($proc['abertura_data'] ?? ''); ?>"></v-datepicker>
                 </v-label>
                 <v-label label="prescricao_data" title="Data da prescricao" icon="fa fa-calendar">
-                    <?php echo e(Form::text('prescricao_data', null, ['class' => 'form-control '])); ?>
-
+                    <v-datepicker name="prescricao_data" placeholder="dd/mm/aaaa" clear-button value="<?php echo e($proc['prescricao_data'] ?? ''); ?>"></v-datepicker>
                 </v-label>
                 <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="<?php echo e($errors->first('sintese_txt')); ?>">
                     <?php echo Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']); ?>

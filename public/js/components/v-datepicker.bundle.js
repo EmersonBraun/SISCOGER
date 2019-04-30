@@ -77,11 +77,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 // import $ from './utils/NodeList.js'
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    title: { type: String, default: false },
     value: { type: String, default: '' },
     format: { default: 'dd/MM/yyyy' },
     disabledDaysOfWeek: { type: Array, default: function _default() {
@@ -101,7 +101,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       decadeRange: [],
       displayDayView: false,
       displayMonthView: false,
-      displayYearView: false
+      displayYearView: false,
+      val: this.value
     };
   },
 
@@ -146,6 +147,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         search: 'Busca'
       };
       return window.VueStrapLang ? window.VueStrapLang(lang) : text;
+    },
+    today: function today() {
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+
+      today = dd + '/' + mm + '/' + yyyy;
+      return today;
     },
     close: function close() {
       this.displayDayView = this.displayMonthView = this.displayYearView = false;
@@ -375,7 +385,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.datepicker {\n  position: relative;\n  display: inline-block;\n}\ninput.datepicker-input.with-reset-button {\n  padding-right: 25px;\n}\n.datepicker > button.close {\n  position: absolute;\n  top: 0;\n  right: 0;\n  outline: none;\n  z-index: 2;\n  display: block;\n  width: 34px;\n  height: 34px;\n  line-height: 34px;\n  text-align: center;\n}\n.datepicker > button.close:focus {\n  opacity: .2;\n}\n.datepicker-popup {\n  position: absolute;\n  border: 1px solid #ccc;\n  border-radius: 5px;\n  background: #fff;\n  margin-top: 2px;\n  z-index: 1000;\n  box-shadow: 0 6px 12px rgba(0,0,0,0.175);\n}\n.datepicker-inner {\n  width: 218px;\n}\n.datepicker-body {\n  padding: 10px 10px;\n}\n.datepicker-ctrl p,\n.datepicker-ctrl span,\n.datepicker-body span {\n  display: inline-block;\n  width: 28px;\n  line-height: 28px;\n  height: 28px;\n  border-radius: 4px;\n}\n.datepicker-ctrl p {\n  width: 65%;\n}\n.datepicker-ctrl span {\n  position: absolute;\n}\n.datepicker-body span {\n  text-align: center;\n}\n.datepicker-monthRange span {\n  width: 48px;\n  height: 50px;\n  line-height: 45px;\n}\n.datepicker-item-disable {\n  background-color: white!important;\n  cursor: not-allowed!important;\n}\n.decadeRange span:first-child,\n.decadeRange span:last-child,\n.datepicker-item-disable,\n.datepicker-item-gray {\n  color: #999;\n}\n.datepicker-dateRange-item-active:hover,\n.datepicker-dateRange-item-active {\n  background: rgb(50, 118, 177)!important;\n  color: white!important;\n}\n.datepicker-monthRange {\n  margin-top: 10px\n}\n.datepicker-monthRange span,\n.datepicker-ctrl span,\n.datepicker-ctrl p,\n.datepicker-dateRange span {\n  cursor: pointer;\n}\n.datepicker-monthRange span:hover,\n.datepicker-ctrl p:hover,\n.datepicker-ctrl i:hover,\n.datepicker-dateRange span:hover,\n.datepicker-dateRange-item-hover {\n  background-color : #eeeeee;\n}\n.datepicker-weekRange span {\n  font-weight: bold;\n}\n.datepicker-label {\n  background-color: #f8f8f8;\n  font-weight: 700;\n  padding: 7px 0;\n  text-align: center;\n}\n.datepicker-ctrl {\n  position: relative;\n  height: 30px;\n  line-height: 30px;\n  font-weight: bold;\n  text-align: center;\n}\n.month-btn {\n  font-weight: bold;\n  -webkit-user-select:none;\n  -moz-user-select:none;\n  -ms-user-select:none;\n  user-select:none;\n}\n.datepicker-preBtn {\n  left: 2px;\n}\n.datepicker-nextBtn {\n  right: 2px;\n}\n", ""]);
+exports.push([module.i, "\n.datepicker {\n  position: relative;\n  display: inline-block;\n}\ninput.datepicker-input.with-reset-button {\n  padding-right: 25px;\n}\n.datepicker > button.close {\n  position: absolute;\n  top: 0;\n  right: 0;\n  outline: none;\n  z-index: 2;\n  display: block;\n  width: 34px;\n  height: 34px;\n  line-height: 34px;\n  text-align: center;\n}\n.datepicker > button.close:focus {\n  opacity: .2;\n}\n.datepicker-popup {\n  position: absolute;\n  border: 1px solid #ccc;\n  border-radius: 5px;\n  background: #fff;\n  margin-top: 2px;\n  z-index: 1000;\n  box-shadow: 0 6px 12px rgba(0,0,0,0.175);\n}\n.datepicker-inner {\n  width: 218px;\n}\n.datepicker-body {\n  padding: 10px 10px;\n}\n.datepicker-ctrl p,\n.datepicker-ctrl span,\n.datepicker-body span {\n  display: inline-block;\n  width: 28px;\n  line-height: 28px;\n  height: 28px;\n  border-radius: 4px;\n}\n.datepicker-ctrl p {\n  width: 65%;\n}\n.datepicker-ctrl span {\n  position: absolute;\n}\n.datepicker-body span {\n  text-align: center;\n}\n.datepicker-monthRange span {\n  width: 48px;\n  height: 50px;\n  line-height: 45px;\n}\n.datepicker-item-disable {\n  background-color: white!important;\n  cursor: not-allowed!important;\n}\n.decadeRange span:first-child,\n.decadeRange span:last-child,\n.datepicker-item-disable,\n.datepicker-item-gray {\n  color: #999;\n}\n.datepicker-dateRange-item-active:hover,\n.datepicker-dateRange-item-active {\n  background: rgb(50, 118, 177)!important;\n  color: white!important;\n}\n.datepicker-monthRange {\n  margin-top: 10px\n}\n.datepicker-monthRange span,\n.datepicker-ctrl span,\n.datepicker-ctrl p,\n.datepicker-dateRange span {\n  cursor: pointer;\n}\n.datepicker-monthRange span:hover,\n.datepicker-ctrl p:hover,\n.datepicker-ctrl i:hover,\n.datepicker-dateRange span:hover,\n.datepicker-dateRange-item-hover {\n  background-color : #eeeeee;\n}\n.datepicker-weekRange span {\n  font-weight: bold;\n}\n.datepicker-label {\n  background-color: #f8f8f8;\n  font-weight: 700;\n  padding: 7px 0;\n  text-align: center;\n}\n.datepicker-ctrl {\n  position: relative;\n  height: 30px;\n  line-height: 30px;\n  font-weight: bold;\n  text-align: center;\n}\n.month-btn {\n  font-weight: bold;\n  -webkit-user-select:none;\n  -moz-user-select:none;\n  -ms-user-select:none;\n  user-select:none;\n}\n.datepicker-preBtn {\n  left: 2px;\n}\n.datepicker-nextBtn {\n  right: 2px;\n}\n.input-group-text {\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-align: center;\n    align-items: center;\n    padding: 0.3rem 0.75rem !important;\n    margin-bottom: 0;\n    font-size: 1rem;\n    font-weight: 400;\n    line-height: 1.5;\n    color: #495057;\n    text-align: center;\n    white-space: nowrap;\n    background-color: #e9ecef;\n    border: 1px solid #ced4da;\n    border-radius: .25rem;\n    border-top-right-radius: 0.25rem;\n    border-bottom-right-radius: 0.25rem;\n    border-top-right-radius: 0.25rem;\n    border-bottom-right-radius: 0.25rem;\n}\n", ""]);
 
 // exports
 
@@ -582,43 +592,51 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-lg-4 col-md-6 col-xs-12 form-group" }, [
-    _vm.title
-      ? _c("label", { attrs: { for: _vm.name } }, [
-          _c("i", { staticClass: "fa fa-calendar" }),
-          _vm._v(" " + _vm._s(_vm.title) + " ")
-        ])
-      : _vm._e(),
-    _c("br"),
-    _vm._v(" "),
-    _c("input", {
-      staticClass: " form-control datepicker-input",
-      class: { "with-reset-button": _vm.clearButton },
-      attrs: { type: "text", placeholder: _vm.placeholder, name: _vm.name },
-      domProps: { value: _vm.value },
-      on: {
-        click: _vm.inputClick,
-        input: function($event) {
-          return this.$emit("input", $event.target.value)
+  return _c("div", [
+    _c("div", { staticClass: " input-group" }, [
+      _c("input", {
+        staticClass: "form-control",
+        class: { "with-reset-button": _vm.clearButton },
+        attrs: { type: "text", placeholder: _vm.placeholder, name: _vm.name },
+        domProps: { value: _vm.val },
+        on: {
+          click: _vm.inputClick,
+          input: function($event) {
+            return this.$emit("input", $event.target.value)
+          }
         }
-      }
-    }),
-    _vm._v(" "),
-    _vm.clearButton && _vm.value
-      ? _c(
-          "button",
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group-append" }, [
+        _c(
+          "span",
           {
-            staticClass: "close",
-            attrs: { type: "button" },
+            staticClass: "btn input-group-text",
             on: {
               click: function($event) {
-                _vm.value = ""
+                _vm.val = _vm.today()
               }
             }
           },
-          [_c("span", [_vm._v("×")])]
-        )
-      : _vm._e(),
+          [_vm._v("Hoje")]
+        ),
+        _vm._v(" "),
+        _vm.clearButton && _vm.val
+          ? _c(
+              "span",
+              {
+                staticClass: "btn input-group-text",
+                on: {
+                  click: function($event) {
+                    _vm.val = ""
+                  }
+                }
+              },
+              [_vm._v("X")]
+            )
+          : _vm._e()
+      ])
+    ]),
     _vm._v(" "),
     _c(
       "div",

@@ -1,16 +1,17 @@
 <template>
-    <div class="col-lg-4 col-md-6 col-xs-12 form-group">
-        <label v-if="title" :for="name"><i class="fa fa-calendar"></i> {{title}} </label><br>
+    <div>
+            <div class=" input-group">
+                <input class="form-control" :class="{'with-reset-button': clearButton}" type="text" :placeholder="placeholder"
+                    :value="val"
+                    :name="name"
+                    @click="inputClick"
+                    @input="this.$emit('input',$event.target.value)" />
+                <div class="input-group-append">
+                    <span class="btn input-group-text" @click="val = today()">Hoje</span>
+                    <span v-if="clearButton && val" class="btn input-group-text" @click="val = ''">X</span>
+                </div>
+            </div>
 
-            <input class=" form-control datepicker-input" :class="{'with-reset-button': clearButton}" type="text" :placeholder="placeholder"
-                
-                :value="value"
-                :name="name"
-                @click="inputClick"
-                @input="this.$emit('input',$event.target.value)" />
-            <button v-if="clearButton && value" type="button" class="close" @click="value = ''">
-            <span>&times;</span>
-            </button>
             <div class="datepicker-popup" v-show="displayDayView">
             <div class="datepicker-inner">
                 <div class="datepicker-body">
@@ -74,7 +75,6 @@
 // import $ from './utils/NodeList.js'
 export default {
     props: {
-        title: {type: String, default: false},
         value: {type: String, default: ''},
         format: {default: 'dd/MM/yyyy'},
         disabledDaysOfWeek: {type: Array, default () { return [0,6] }},
@@ -91,7 +91,8 @@ export default {
       decadeRange: [],
       displayDayView: false,
       displayMonthView: false,
-      displayYearView: false
+      displayYearView: false,
+      val: this.value
     }
   },
   watch: {
@@ -133,6 +134,15 @@ export default {
         search: 'Busca'
         }
         return window.VueStrapLang ? window.VueStrapLang(lang) : text
+    },
+    today() {
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = today.getFullYear();
+
+        today = dd + '/' + mm + '/' + yyyy;
+        return today
     },
     close () {
       this.displayDayView = this.displayMonthView = this.displayYearView = false
@@ -470,5 +480,26 @@ input.datepicker-input.with-reset-button {
 }
 .datepicker-nextBtn {
   right: 2px;
+}
+.input-group-text {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0.3rem 0.75rem !important;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
 }
 </style>

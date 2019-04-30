@@ -11,7 +11,6 @@
                 <div id="ligacaoForm1" class="row">
                     <form id="formData" name="formData">
                         <input type="hidden" :name="'id_'+dproc" :value="idp">
-                        <!-- <input type="hidden" name="situacao" :value="situacao"> -->
                         <!-- dados para substituição do membro -->
                         <input type="hidden" name="indexsubs" :value="indexsubs">
                         <input type="hidden" name="idsubs" :value="idsubs">
@@ -265,7 +264,6 @@
                     .then((usados = this.usados) =>{
                         let situacoes = ['Acusador','Encarregado','Escrivão','Membro','Presidente']
                         this.situacoes = situacoes.filter(a => !this.usados.includes(a))
-                        // console.log(this.situacoes)
                     })// atualiza disponíveis
                     .catch(error => console.log(error));
                 } 
@@ -278,36 +276,10 @@
 
                 console.log(data.get('situacao'))
                 axios.post( urlCreate,data)
-                // .then((response)=>{
-                //     if(response.data.substituto){
-                //         this.alteraPM(response.data.indexsub, response.data.substituto)
-                //     }else{
-                //         this.updateSituacao(data.get('situacao'),'add')
-                //         this.addPM(data)
-                //     }
-                // })
                 .then(this.clear(false))//limpa a busca
                 .catch((error) => console.log(error));
                 this.listPM()
             },
-            // addPM(data){
-            //     this.pms.push({
-            //         id_envolvido: data.get('id_envolvido'),
-            //         rg: data.get('rg'),
-            //         nome: data.get('nome'),
-            //         cargo: data.get('cargo'),
-            //         situacao: data.get('situacao'),
-            //         rg: data.get('rg')
-            //     })
-            // },
-            // alteraPM(id, data){
-            //     this.pms[id].id_envolvido = data.id_envolvido
-            //     this.pms[id].rg = data.rg
-            //     this.pms[id].nome = data.nome
-            //     this.pms[id].cargo = data.cargo
-            //     this.pms[id].situacao = data.situacao
-            //     this.pms[id].rg = data.rg
-            // },
             showPM(rg){
                 let urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';                
                 window.open(urlIndex, "_blank")
@@ -318,7 +290,6 @@
                 let urlDelete = this.getBaseUrl + 'api/membros/destroy/' + id;
                 axios
                 .delete(urlDelete)
-                // .then(this.listPM())
                 .then(this.updateSituacao(situacao,'remove'))
                 .then(this.pms.splice(index,1))
                 .catch(error => console.log(error));
@@ -333,13 +304,6 @@
                 let situacoes = ['Acusador','Encarregado','Escrivão','Membro','Presidente']
                 this.situacoes = situacoes.filter(a => !this.usados.includes(a))
             },
-            // removeSituacao(situacao){
-            //     let search = this.situacoes.indexOf(situacao)
-            //     this.situacoes.slice(search,1)
-            //     this.clear(false          // },
-            // addSituacao(situacao){
-            //     this.situacoes.push(situacao)
-            // },
             replacePM(pm, index){
                 this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
                 this.substituido = true
