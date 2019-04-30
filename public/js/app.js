@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-select","1":"v-vitima","2":"v-membro","3":"v-acusado","4":"v-datepicker","5":"v-proced-origem","6":"v-tab-item","7":"v-label","8":"v-item-unique","9":"v-cautelas","10":"file-upload","11":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
+/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-select","1":"v-vitima","2":"v-membro","3":"v-acusado","4":"v-datepicker","5":"v-proced-origem","6":"v-tab-item","7":"v-label","8":"v-item-unique","9":"v-cautelas","10":"file-upload","11":"v-tab-menu","13":"v-defensor","14":"v-sobrestamento","15":"v-movimento"}[chunkId]||chunkId) + ".bundle.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -48765,6 +48765,15 @@ Vue.component('v-vitima', function () {
 });
 Vue.component('v-membro', function () {
   return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Membro.vue"));
+});
+Vue.component('v-defensor', function () {
+  return __webpack_require__.e/* import() */(13).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Defensor.vue"));
+});
+Vue.component('v-movimento', function () {
+  return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Movimento.vue"));
+});
+Vue.component('v-sobrestamento', function () {
+  return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Sobrestamento.vue"));
 });
 
 // FDI

@@ -15,7 +15,7 @@ class OPMRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60; 
+    protected static $expiration = 60 * 24; 
  
 	public function __construct(Opmpmpr $model)
 	{
@@ -143,7 +143,7 @@ class OPMRepository
     public static function codigo($cdopm)
     {
         //tempo de cahe
-        $expiration = 60 * 24 * 7 * 4; //um mês
+        $expiration = 60 * 24 * 7; //uma semana
 
         $opms = Cache::remember('opms_'.$cdopm, $expiration, function() use($cdopm){
             return Opmpmpr::where('CODIGO','like',$cdopm.'%')->first();

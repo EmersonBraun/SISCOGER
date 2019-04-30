@@ -11,5 +11,8 @@
     "/js/components/v-cautelas.bundle.js": "/js/components/v-cautelas.bundle.js?id=c5b9d638aff12c230180",
     "/js/components/file-upload.bundle.js": "/js/components/file-upload.bundle.js?id=5244a05d3938d5ed10e5",
     "/js/components/v-tab-menu.bundle.js": "/js/components/v-tab-menu.bundle.js?id=4a7611583d12a8f31ec7",
-    "/js/app.js": "/js/app.js?id=493153060c639c156964"
+    "/js/app.js": "/js/app.js?id=988d27ca053e764d0f22",
+    "/js/components/v-defensor.bundle.js": "/js/components/v-defensor.bundle.js?id=80ee4656c526c7b9f766",
+    "/js/components/v-sobrestamento.bundle.js": "/js/components/v-sobrestamento.bundle.js?id=37d71ac4bc18b34fd3f6",
+    "/js/components/v-movimento.bundle.js": "/js/components/v-movimento.bundle.js?id=fd0bbc3960cc21a77d3b"
 }

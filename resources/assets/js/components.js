@@ -8,6 +8,9 @@ Vue.component('v-proced-origem', () => import(/* webpackChunkName: "v-proced-ori
 Vue.component('v-acusado', () => import(/* webpackChunkName: "v-acusado" */'./components/SubForm/Acusado.vue'));
 Vue.component('v-vitima', () => import(/* webpackChunkName: "v-vitima" */'./components/SubForm/Vitima.vue'));
 Vue.component('v-membro', () => import(/* webpackChunkName: "v-membro" */'./components/SubForm/Membro.vue'));
+Vue.component('v-defensor', () => import(/* webpackChunkName: "v-defensor" */'./components/SubForm/Defensor.vue'));
+Vue.component('v-movimento', () => import(/* webpackChunkName: "v-movimento" */'./components/SubForm/Movimento.vue'));
+Vue.component('v-sobrestamento', () => import(/* webpackChunkName: "v-sobrestamento" */'./components/SubForm/Sobrestamento.vue'));
 
 // FDI
 Vue.component('v-cautelas', () => import(/* webpackChunkName: "v-cautelas" */'./components/FDI/Cautelas.vue'));

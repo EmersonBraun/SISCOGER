@@ -18,7 +18,7 @@ class PolicialRepository extends BaseRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60;  
+    protected static $expiration = 60 *24;  
 
 	public function __construct(Policial $model)
 	{
