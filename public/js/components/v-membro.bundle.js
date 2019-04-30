@@ -1,4 +1,4 @@
-webpackJsonp([5],{
+webpackJsonp([2],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Membro.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -7,8 +7,41 @@ webpackJsonp([5],{
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_the_mask__ = __webpack_require__("./node_modules/vue-the-mask/dist/vue-the-mask.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_the_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_the_mask__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -145,6 +178,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             dano: 0,
             action: '',
             pms: [],
+            subs: [],
             add: false,
             finded: false,
             situacao: false,
@@ -235,6 +269,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             if (this.dproc && this.idp) {
                 axios.get(urlIndex).then(function (response) {
                     _this2.pms = response.data.membros;
+                    _this2.subs = response.data.subs;
                     _this2.usados = response.data.usados;
                 }).then(function () {
                     var usados = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this2.usados;
@@ -251,43 +286,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
         },
         createPM: function createPM() {
-            var _this3 = this;
-
             var urlCreate = this.getBaseUrl + 'api/membros/store';
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
 
             console.log(data.get('situacao'));
-            axios.post(urlCreate, data).then(function (response) {
-                if (response.data.substituto) {
-                    _this3.alteraPM(response.data.indexsub, response.data.substituto);
-                } else {
-                    _this3.updateSituacao(data.get('situacao'), 'add');
-                    _this3.addPM(data);
-                }
-            }).then(this.clear(false)) //limpa a busca
+            axios.post(urlCreate, data)
+            // .then((response)=>{
+            //     if(response.data.substituto){
+            //         this.alteraPM(response.data.indexsub, response.data.substituto)
+            //     }else{
+            //         this.updateSituacao(data.get('situacao'),'add')
+            //         this.addPM(data)
+            //     }
+            // })
+            .then(this.clear(false)) //limpa a busca
             .catch(function (error) {
                 return console.log(error);
             });
+            this.listPM();
         },
-        addPM: function addPM(data) {
-            this.pms.push(_defineProperty({
-                id_envolvido: data.get('id_envolvido'),
-                rg: data.get('rg'),
-                nome: data.get('nome'),
-                cargo: data.get('cargo'),
-                situacao: data.get('situacao')
-            }, 'rg', data.get('rg')));
-        },
-        alteraPM: function alteraPM(id, data) {
-            this.pms[id].id_envolvido = data.id_envolvido;
-            this.pms[id].rg = data.rg;
-            this.pms[id].nome = data.nome;
-            this.pms[id].cargo = data.cargo;
-            this.pms[id].situacao = data.situacao;
-            this.pms[id].rg = data.rg;
-        },
+
+        // addPM(data){
+        //     this.pms.push({
+        //         id_envolvido: data.get('id_envolvido'),
+        //         rg: data.get('rg'),
+        //         nome: data.get('nome'),
+        //         cargo: data.get('cargo'),
+        //         situacao: data.get('situacao'),
+        //         rg: data.get('rg')
+        //     })
+        // },
+        // alteraPM(id, data){
+        //     this.pms[id].id_envolvido = data.id_envolvido
+        //     this.pms[id].rg = data.rg
+        //     this.pms[id].nome = data.nome
+        //     this.pms[id].cargo = data.cargo
+        //     this.pms[id].situacao = data.situacao
+        //     this.pms[id].rg = data.rg
+        // },
         showPM: function showPM(rg) {
             var urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';
             window.open(urlIndex, "_blank");
@@ -303,7 +341,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
         },
         updateSituacao: function updateSituacao(situacao, tipo) {
-            var _this4 = this;
+            var _this3 = this;
 
             if (tipo == 'add') {
                 this.usados.push(situacao);
@@ -313,7 +351,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
             var situacoes = ['Acusador', 'Encarregado', 'Escrivão', 'Membro', 'Presidente'];
             this.situacoes = situacoes.filter(function (a) {
-                return !_this4.usados.includes(a);
+                return !_this3.usados.includes(a);
             });
         },
 
@@ -359,7 +397,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -856,110 +894,91 @@ var render = function() {
       : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "card-footer" }, [
+      _vm._m(0),
+      _vm._v(" "),
       _vm.pms.length
         ? _c("div", { staticClass: "row bordaform" }, [
             _c("div", { staticClass: "col-sm-12" }, [
               _c("table", { staticClass: "table table-hover" }, [
-                _vm._m(0),
+                _vm._m(1),
                 _vm._v(" "),
                 _c(
                   "tbody",
                   _vm._l(_vm.pms, function(pm, index) {
-                    return _c(
-                      "tr",
-                      { key: index },
-                      [
-                        _c("td", [_vm._v(_vm._s(index + 1))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(pm.rg))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(pm.nome))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(pm.cargo))]),
-                        _vm._v(" "),
-                        !pm.rg_substituto
-                          ? [_c("td", [_vm._v(_vm._s(pm.situacao))])]
-                          : [
-                              _c("td", [
-                                _vm._v(
-                                  "\n                                    " +
-                                    _vm._s(pm.situacao) +
-                                    " - Substituído"
-                                ),
-                                _c("br"),
-                                _vm._v(
-                                  "\n                                    RG: " +
-                                    _vm._s(pm.rg_substituto) +
-                                    " - Substituto\n                                "
-                                )
-                              ])
-                            ],
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "btn-group",
-                              attrs: {
-                                role: "group",
-                                "aria-label": "First group"
-                              }
-                            },
-                            [
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "btn btn-primary",
-                                  staticStyle: { color: "white" },
-                                  attrs: { type: "button", target: "_blanck" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.showPM(pm.rg)
-                                    }
+                    return _c("tr", { key: index }, [
+                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(pm.rg))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(pm.nome))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(pm.cargo))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(pm.situacao))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "btn-group",
+                            attrs: {
+                              role: "group",
+                              "aria-label": "First group"
+                            }
+                          },
+                          [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-primary",
+                                staticStyle: { color: "white" },
+                                attrs: { type: "button", target: "_blanck" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.showPM(pm.rg)
                                   }
-                                },
-                                [_c("i", { staticClass: "fa fa-eye" })]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "btn btn-success",
-                                  staticStyle: { color: "white" },
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.replacePM(pm, index)
-                                    }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-eye" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-success",
+                                staticStyle: { color: "white" },
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.replacePM(pm, index)
                                   }
-                                },
-                                [_c("i", { staticClass: "fa fa-retweet" })]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "btn btn-danger",
-                                  staticStyle: { color: "white" },
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.removePM(
-                                        pm.id_envolvido,
-                                        pm.situacao,
-                                        index
-                                      )
-                                    }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-retweet" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-danger",
+                                staticStyle: { color: "white" },
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.removePM(
+                                      pm.id_envolvido,
+                                      pm.situacao,
+                                      index
+                                    )
                                   }
-                                },
-                                [_c("i", { staticClass: "fa fa-trash" })]
-                              )
-                            ]
-                          )
-                        ])
-                      ],
-                      2
-                    )
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-trash" })]
+                            )
+                          ]
+                        )
+                      ])
+                    ])
                   }),
                   0
                 )
@@ -967,12 +986,95 @@ var render = function() {
             ])
           ])
         : !_vm.pms.length && _vm.only
-        ? _c("div", [_vm._m(1)])
+        ? _c("div", [_vm._m(2)])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _vm.subs.length
+        ? _c("div", { staticClass: "row bordaform" }, [
+            _c("div", { staticClass: "col-sm-12" }, [
+              _c("table", { staticClass: "table table-hover" }, [
+                _vm._m(4),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.subs, function(s, index) {
+                    return _c("tr", { key: index }, [
+                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(s.rg))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(s.nome))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(s.cargo))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("i", {
+                          staticClass: "fa fa-sign-out",
+                          staticStyle: { color: "red" }
+                        }),
+                        _vm._v(_vm._s(s.situacao)),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("i", {
+                          staticClass: "fa fa-sign-in",
+                          staticStyle: { color: "green" }
+                        }),
+                        _vm._v(
+                          _vm._s(s.rg_substituto) +
+                            "\n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "btn-group",
+                            attrs: {
+                              role: "group",
+                              "aria-label": "First group"
+                            }
+                          },
+                          [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-primary",
+                                staticStyle: { color: "white" },
+                                attrs: { type: "button", target: "_blanck" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.showPM(s.rg)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-eye" })]
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              ])
+            ])
+          ])
+        : !_vm.subs.length && _vm.only
+        ? _c("div", [_vm._m(5)])
         : _vm._e()
     ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", [_c("b", [_vm._v("Atuais")])])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -997,7 +1099,39 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h5", [_c("b", [_vm._v("Não há registtros")])])
+    return _c("h5", [_c("b", [_vm._v("Não há registros")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", [_c("b", [_vm._v("Substituídos")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("RG")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Nome")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Posto/Grad.")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Situação")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ver")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", [_c("b", [_vm._v("Não há registros substituídos")])])
   }
 ]
 render._withStripped = true

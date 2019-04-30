@@ -59,6 +59,8 @@
             </div>
         </div>
         <div class="card-footer"> 
+            <!-- pms -->
+            <h5><b>Atuais</b></h5>
             <div class="row bordaform" v-if="pms.length">
                 <div class="col-sm-12">
                     <table class="table table-hover">
@@ -78,15 +80,7 @@
                                 <td>{{ pm.rg }}</td>
                                 <td>{{ pm.nome }}</td>
                                 <td>{{ pm.cargo }}</td>
-                                <template v-if="!pm.rg_substituto">
-                                    <td>{{ pm.situacao }}</td>
-                                </template>
-                                <template v-else>
-                                    <td>
-                                        {{ pm.situacao }} - Substituído</br>
-                                        RG: {{ pm.rg_substituto }} - Substituto
-                                    </td>
-                                </template>
+                                <td>{{ pm.situacao }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="First group">
                                         <a type="button" @click="showPM(pm.rg)" target="_blanck" class="btn btn-primary" style="color: white">
@@ -102,13 +96,54 @@
                                 </td>
                             </tr>
                         </tbody>
-                
                     </table>
                 </div>
             </div>  
              <div v-else-if="!pms.length && only">
                 <h5>
-                    <b>Não há registtros</b>
+                    <b>Não há registros</b>
+                </h5>
+            </div> 
+            <!-- substituiídos -->
+            <h5><b>Substituídos</b></h5>
+            <div class="row bordaform" v-if="subs.length">
+                <div class="col-sm-12">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-2">#</th>
+                                <th class="col-sm-2">RG</th>
+                                <th class="col-sm-2">Nome</th>
+                                <th class="col-sm-2">Posto/Grad.</th>
+                                <th class="col-sm-2">Situação</th>
+                                <th class="col-sm-2">Ver</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(s, index) in subs" :key="index">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ s.rg }}</td>
+                                <td>{{ s.nome }}</td>
+                                <td>{{ s.cargo }}</td>
+                                <td>
+                                    <i class="fa fa-sign-out" style="color: red"></i>{{ s.situacao }}</br>
+                                    <i class="fa fa-sign-in" style="color: green"></i>{{ s.rg_substituto }}
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="First group">
+                                        <a type="button" @click="showPM(s.rg)" target="_blanck" class="btn btn-primary" style="color: white">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>  
+             <div v-else-if="!subs.length && only">
+                <h5>
+                    <b>Não há registros substituídos</b>
                 </h5>
             </div> 
         </div>
@@ -134,6 +169,7 @@
                 dano: 0,
                 action: '',
                 pms: [],
+                subs: [],
                 add: false,
                 finded: false,
                 situacao: false,
@@ -223,6 +259,7 @@
                     .get(urlIndex)
                     .then((response) => {
                         this.pms = response.data.membros
+                        this.subs = response.data.subs
                         this.usados = response.data.usados
                     })
                     .then((usados = this.usados) =>{
@@ -241,35 +278,36 @@
 
                 console.log(data.get('situacao'))
                 axios.post( urlCreate,data)
-                .then((response)=>{
-                    if(response.data.substituto){
-                        this.alteraPM(response.data.indexsub, response.data.substituto)
-                    }else{
-                        this.updateSituacao(data.get('situacao'),'add')
-                        this.addPM(data)
-                    }
-                })
+                // .then((response)=>{
+                //     if(response.data.substituto){
+                //         this.alteraPM(response.data.indexsub, response.data.substituto)
+                //     }else{
+                //         this.updateSituacao(data.get('situacao'),'add')
+                //         this.addPM(data)
+                //     }
+                // })
                 .then(this.clear(false))//limpa a busca
                 .catch((error) => console.log(error));
+                this.listPM()
             },
-            addPM(data){
-                this.pms.push({
-                    id_envolvido: data.get('id_envolvido'),
-                    rg: data.get('rg'),
-                    nome: data.get('nome'),
-                    cargo: data.get('cargo'),
-                    situacao: data.get('situacao'),
-                    rg: data.get('rg')
-                })
-            },
-            alteraPM(id, data){
-                this.pms[id].id_envolvido = data.id_envolvido
-                this.pms[id].rg = data.rg
-                this.pms[id].nome = data.nome
-                this.pms[id].cargo = data.cargo
-                this.pms[id].situacao = data.situacao
-                this.pms[id].rg = data.rg
-            },
+            // addPM(data){
+            //     this.pms.push({
+            //         id_envolvido: data.get('id_envolvido'),
+            //         rg: data.get('rg'),
+            //         nome: data.get('nome'),
+            //         cargo: data.get('cargo'),
+            //         situacao: data.get('situacao'),
+            //         rg: data.get('rg')
+            //     })
+            // },
+            // alteraPM(id, data){
+            //     this.pms[id].id_envolvido = data.id_envolvido
+            //     this.pms[id].rg = data.rg
+            //     this.pms[id].nome = data.nome
+            //     this.pms[id].cargo = data.cargo
+            //     this.pms[id].situacao = data.situacao
+            //     this.pms[id].rg = data.rg
+            // },
             showPM(rg){
                 let urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';                
                 window.open(urlIndex, "_blank")

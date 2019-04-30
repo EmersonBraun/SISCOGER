@@ -13,7 +13,6 @@ class MembroApiController extends Controller
     
     public function store(Request $request)
     {
-        $substituto = false;
         $dados = $request->all();
         
         if($dados['rg'] == 0 || $dados['rg'] == null)
@@ -29,13 +28,9 @@ class MembroApiController extends Controller
         }
 
         $create = Envolvido::create($dados);
-        $subs = Envolvido::max('id_envolvido');
         if($create)
         {
             return response()->json([
-                'substituto' => $substituto,
-                'indexsub'=> $dados['indexsubs'],
-                'substituto'=> $subs,
                 'success' => true,
             ], 200);
         }

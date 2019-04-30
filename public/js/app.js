@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-select","1":"v-vitima","2":"v-acusado","3":"v-datepicker","4":"v-proced-origem","5":"v-membro","6":"v-tab-item","7":"v-label","8":"v-item-unique","9":"v-cautelas","10":"file-upload","11":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
+/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-select","1":"v-vitima","2":"v-membro","3":"v-acusado","4":"v-datepicker","5":"v-proced-origem","6":"v-tab-item","7":"v-label","8":"v-item-unique","9":"v-cautelas","10":"file-upload","11":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -48755,16 +48755,16 @@ Vue.component('v-item-unique', function () {
 });
 // subformulários
 Vue.component('v-proced-origem', function () {
-  return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/ProcedOrigem.vue"));
+  return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/ProcedOrigem.vue"));
 });
 Vue.component('v-acusado', function () {
-  return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Acusado.vue"));
+  return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Acusado.vue"));
 });
 Vue.component('v-vitima', function () {
   return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Vitima.vue"));
 });
 Vue.component('v-membro', function () {
-  return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Membro.vue"));
+  return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Membro.vue"));
 });
 
 // FDI
@@ -48781,7 +48781,7 @@ Vue.component('v-tab-menu', function () {
 //VUESTRAP
 // Revisados
 Vue.component('v-datepicker', function () {
-  return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Datepicker.vue"));
+  return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Datepicker.vue"));
 });
 Vue.component('v-select', function () {
   return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Select.vue"));
