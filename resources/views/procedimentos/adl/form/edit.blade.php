@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'adl - Editar')
+@section('title', 'ADL - Editar')
 
 @section('content_header')
 <section class="content-header">   
@@ -30,6 +30,9 @@
             {idp: 'membros',name: 'Membros'},
             {idp: 'movimentos',name: 'Movimentos'},
             {idp: 'sobrestamentos',name: 'Sobrestamentos'},
+            {idp: 'reus',name: 'Réus'},
+            {idp: 'encaminhamentos',name: 'Encaminhamentos'},
+            {idp: 'arquivo',name: 'Arquivo'},
 
         ]">
 
@@ -160,10 +163,19 @@
                 <v-membro idp="{{$proc['id_adl']}}"></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                asdasd
+                <v-movimento idp="{{$proc['id_adl']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
             </v-tab-item>
             <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
-                sobrest
+                <v-sobrestamento idp="{{$proc['id_adl']}}" ></v-sobrestamento>
+            </v-tab-item>
+            <v-tab-item title="Réus" idp="reus">
+                reus
+            </v-tab-item>
+            <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
+                Encaminhamentos
+            </v-tab-item>
+            <v-tab-item title="Arquivo" idp="arquivo">
+                arquivo
             </v-tab-item>
         </div>
     </div>

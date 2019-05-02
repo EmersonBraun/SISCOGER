@@ -6,11 +6,20 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\MovimentoRepository;
+use Session;
+use App\Models\Sjd\Proc\Movimento;
 
 class MovimentoApiController extends Controller
 {
-    public function find($id, MovimentoRepository $repository)
+    public function list($proc, $id)
+    {
+        $result = Movimento::where('id_'.$proc,'=',$id)->get();
+
+        return response()->json(
+            $result, 200);
+    }
+
+    public function find($id)
     {
 
         $data = $repository->find($id);
@@ -27,7 +36,7 @@ class MovimentoApiController extends Controller
         
     }
 
-    public function refAno($ref, $ano, MovimentoRepository $repository)
+    public function refAno($ref, $ano)
     {
         $data = $repository->refAno($ref, $ano);
         if($data){
@@ -41,7 +50,7 @@ class MovimentoApiController extends Controller
         ], 500);
     }
 
-    public function all(MovimentoRepository $repository)
+    public function all()
     {
         $data = $repository->all();
         if($data){
@@ -55,129 +64,35 @@ class MovimentoApiController extends Controller
         ], 500);
     }
 
-    public function ano($ano, MovimentoRepository $repository)
+    public function store(Request $request)
     {
-        $data = $repository->ano($ano);
-        if($data){
+        $dados = $request->all();
+        $dados['data'] = data_br($dados['data']);
+        $create = Movimento::create($dados);
+        if($create)
+        {
             return response()->json([
-                'data' => $data,
                 'success' => true,
             ], 200);
         }
         return response()->json([
-            'success' => false
+            'success' => false,
         ], 500);
     }
 
-    public function andamento(MovimentoRepository $repository)
+    public function destroy($id)
     {
-        $data = $repository->andamento();
-        if($data){
+        $destroy = Movimento::findOrFail($id)->delete();
+        if($destroy)
+        {
             return response()->json([
-                'data' => $data,
                 'success' => true,
             ], 200);
         }
         return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function andamentoAno($ano, MovimentoRepository $repository)
-    {
-        $data = $repository->andamentoAno($ano);
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function prazos(MovimentoRepository $repository)
-    {
-        $data = $repository->prazos();
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function prazosAno($ano)
-    {
-        $data = $repository->prazosAno($ano);
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function relSituacao(MovimentoRepository $repository)
-    {
-        $data = $repository->all();
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function relSituacaoAno($ano, MovimentoRepository $repository)
-    {
-        $data = $repository->ano($ano);
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function julgamento(MovimentoRepository $repository)
-    {
-        $data = $repository->julgamento();
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function julgamentoAno($ano, MovimentoRepository $repository)
-    {
-        $data = $repository->julgamentoAno($ano);
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
+            'success' => false,
         ], 500);
     }
 }
+
+

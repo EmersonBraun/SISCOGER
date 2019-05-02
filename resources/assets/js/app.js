@@ -20,6 +20,7 @@ window.Vue = require('vue');
 // Vue.use(Vuetify)
 
 require ('./components')
+require ('./filters')
 
 const app = new Vue({
     el: '#app'

@@ -51,6 +51,12 @@ Route::group(['as'=>'membros.','prefix' =>'membros'],function(){
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\MembroApiController@store']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\MembroApiController@destroy']);
 });
+// rotas componente SubForm/Movimento.vue
+Route::group(['as'=>'movimento.','prefix' =>'movimento'],function(){
+    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'_Api\SJD\Proc\MovimentoApiController@list']);
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\Proc\MovimentoApiController@store']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\Proc\MovimentoApiController@destroy']);
+});
 Route::group(['as'=>'vitima.','prefix' =>'vitima'],function(){
     Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'_Api\SJD\PM\VitimaApiController@list']);
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\VitimaApiController@store']);

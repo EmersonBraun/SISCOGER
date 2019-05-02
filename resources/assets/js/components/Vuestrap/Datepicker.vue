@@ -2,13 +2,13 @@
     <div>
             <div class=" input-group">
                 <input class="form-control" :class="{'with-reset-button': clearButton}" type="text" :placeholder="placeholder"
-                    :value="val"
+                    :value="value"
                     :name="name"
                     @click="inputClick"
                     @input="this.$emit('input',$event.target.value)" />
                 <div class="input-group-append">
-                    <span class="btn input-group-text" @click="val = today()">Hoje</span>
-                    <span v-if="clearButton && val" class="btn input-group-text" @click="val = ''">X</span>
+                    <span v-if="!value" class="btn input-group-text" @click="value = today()">Hoje</span>
+                    <span v-if="clearButton && value" class="btn input-group-text" @click="value = ''">X</span>
                 </div>
             </div>
 
@@ -92,12 +92,12 @@ export default {
       displayDayView: false,
       displayMonthView: false,
       displayYearView: false,
-      val: this.value
+      value: this.value
     }
   },
   watch: {
-    value (val) {
-      this.$emit('input', val)
+    value (value) {
+      this.$emit('input', value)
     },
     currDate () {
       this.getDateRange()

@@ -35,6 +35,16 @@ class MovimentoRepository extends BaseRepository
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
+
+    public function allProc($id, $proc)
+	{
+
+        $registros = Cache::remember('movimentos'.$proc.$id, 5, function() use($id, $proc) {
+            return $this->model->where('id_'.$proc,'=',$id)->get();
+        });
+
+        return $registros;
+    }
     
     public function all()
 	{

@@ -1,4 +1,4 @@
-webpackJsonp([4],{
+webpackJsonp([5],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Vuestrap/Datepicker.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -102,13 +102,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       displayDayView: false,
       displayMonthView: false,
       displayYearView: false,
-      val: this.value
+      value: this.value
     };
   },
 
   watch: {
-    value: function value(val) {
-      this.$emit('input', val);
+    value: function value(_value) {
+      this.$emit('input', _value);
     },
     currDate: function currDate() {
       this.getDateRange();
@@ -598,7 +598,7 @@ var render = function() {
         staticClass: "form-control",
         class: { "with-reset-button": _vm.clearButton },
         attrs: { type: "text", placeholder: _vm.placeholder, name: _vm.name },
-        domProps: { value: _vm.val },
+        domProps: { value: _vm.value },
         on: {
           click: _vm.inputClick,
           input: function($event) {
@@ -608,27 +608,29 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("div", { staticClass: "input-group-append" }, [
-        _c(
-          "span",
-          {
-            staticClass: "btn input-group-text",
-            on: {
-              click: function($event) {
-                _vm.val = _vm.today()
-              }
-            }
-          },
-          [_vm._v("Hoje")]
-        ),
-        _vm._v(" "),
-        _vm.clearButton && _vm.val
+        !_vm.value
           ? _c(
               "span",
               {
                 staticClass: "btn input-group-text",
                 on: {
                   click: function($event) {
-                    _vm.val = ""
+                    _vm.value = _vm.today()
+                  }
+                }
+              },
+              [_vm._v("Hoje")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.clearButton && _vm.value
+          ? _c(
+              "span",
+              {
+                staticClass: "btn input-group-text",
+                on: {
+                  click: function($event) {
+                    _vm.value = ""
                   }
                 }
               },

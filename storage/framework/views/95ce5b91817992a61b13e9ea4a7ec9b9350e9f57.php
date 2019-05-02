@@ -1,4 +1,4 @@
-<?php $__env->startSection('title', 'adl - Editar'); ?>
+<?php $__env->startSection('title', 'ADL - Editar'); ?>
 
 <?php $__env->startSection('content_header'); ?>
 <section class="content-header">   
@@ -28,6 +28,9 @@
             {idp: 'membros',name: 'Membros'},
             {idp: 'movimentos',name: 'Movimentos'},
             {idp: 'sobrestamentos',name: 'Sobrestamentos'},
+            {idp: 'reus',name: 'Réus'},
+            {idp: 'encaminhamentos',name: 'Encaminhamentos'},
+            {idp: 'arquivo',name: 'Arquivo'},
 
         ]">
 
@@ -170,10 +173,19 @@
                 <v-membro idp="<?php echo e($proc['id_adl']); ?>"></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                asdasd
+                <v-movimento idp="<?php echo e($proc['id_adl']); ?>" opm="<?php echo e(session('opm_descricao')); ?>" rg="<?php echo e(session('rg')); ?>" :admin="<?php echo e(session('is_admin')); ?>"></v-movimento>
             </v-tab-item>
             <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
-                sobrest
+                <v-sobrestamento idp="<?php echo e($proc['id_adl']); ?>" ></v-sobrestamento>
+            </v-tab-item>
+            <v-tab-item title="Réus" idp="reus">
+                reus
+            </v-tab-item>
+            <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
+                Encaminhamentos
+            </v-tab-item>
+            <v-tab-item title="Arquivo" idp="arquivo">
+                arquivo
             </v-tab-item>
         </div>
     </div>
