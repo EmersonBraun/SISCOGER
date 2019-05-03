@@ -129,7 +129,7 @@
                                 <td v-if="dproc == 'sai' || dproc == 'proc_outros'">{{ vitima.envolvimento }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="First group">
-                                        <a type="button"  @click="removeVitima(vitima.id_ofendido)" class="btn btn-danger" style="color: white">
+                                        <a type="button"  @click="removeVitima(vitima.id_ofendido, index)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
                                         </a>
                                     </div>
@@ -234,15 +234,15 @@
                 let data = new FormData(formData);
 
                 axios.post( urlCreate,data)
-                .then(this.listVitima)
+                .then(this.listVitima())
                 .catch((error) => console.log(error));
             },
             // apagar arquivo
-            removeVitima(id){
+            removeVitima(id, index){
                 let urlDelete = this.getBaseUrl + 'api/vitima/destroy/' + id;
                 axios
                 .delete(urlDelete)
-                .then(this.listVitima)
+                .then(this.vitimas.splice(index,1))
                 .catch(error => console.log(error));
             },
             cancel(){

@@ -143,7 +143,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     watch: {
         rg: function rg() {
-            this.searchPM();
+            if (this.rg.length > 5) {
+                this.searchPM();
+            } else {
+                this.clear(true);
+            }
         },
 
         pms: {
@@ -181,8 +185,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         searchPM: function searchPM() {
             var _this = this;
 
-            this.clear;
-
             var searchUrl = this.getBaseUrl + 'api/dados/pm/' + this.rg;
             if (this.rg.length > 5) {
                 axios.get(searchUrl).then(function (response) {
@@ -203,13 +205,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         listPM: function listPM() {
             var _this2 = this;
 
-            this.clear();
+            this.clear(false);
             var urlIndex = this.getBaseUrl + 'api/dados/envolvido/' + this.dproc + '/' + this.idp + '/' + this.situacao;
             if (this.dproc && this.idp && this.situacao) {
                 axios.get(urlIndex).then(function (response) {
                     _this2.pms = response.data;
                     // console.log(response.data)
-                }).then(this.clear) //limpa a busca
+                }).then(this.clear(false)) //limpa a busca
                 .catch(function (error) {
                     return console.log(error);
                 });
@@ -231,22 +233,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         // apagar arquivo
-        removePM: function removePM(id) {
+        removePM: function removePM(id, index) {
             var urlDelete = this.getBaseUrl + 'api/acusado/destroy/' + id;
-            axios.delete(urlDelete).catch(function (error) {
+            axios.delete(urlDelete).then(this.pms.splice(index, 1)).then(this.clear(false)).catch(function (error) {
                 return console.log(error);
             });
-            this.listPM();
         },
-        cancel: function cancel() {
-            this.add = false;
-            this.rg = '';
-            this.nome = '';
-            this.cargo = '';
-            this.resultado = '';
-            this.finded = false;
-        },
-        clear: function clear() {
+        clear: function clear(add) {
+            this.add = add;
             this.rg = '';
             this.nome = '';
             this.cargo = '';
@@ -266,7 +260,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -691,7 +685,11 @@ var render = function() {
                                 "a",
                                 {
                                   staticClass: "btn btn-danger btn-block",
-                                  on: { click: _vm.cancel }
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.clear(true)
+                                    }
+                                  }
                                 },
                                 [
                                   _c("i", {
@@ -790,7 +788,7 @@ var render = function() {
                                 attrs: { type: "button" },
                                 on: {
                                   click: function($event) {
-                                    return _vm.removePM(pm.id_envolvido)
+                                    return _vm.removePM(pm.id_envolvido, index)
                                   }
                                 }
                               },

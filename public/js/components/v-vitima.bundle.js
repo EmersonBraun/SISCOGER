@@ -246,15 +246,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
 
-            axios.post(urlCreate, data).then(this.listVitima).catch(function (error) {
+            axios.post(urlCreate, data).then(this.listVitima()).catch(function (error) {
                 return console.log(error);
             });
         },
 
         // apagar arquivo
-        removeVitima: function removeVitima(id) {
+        removeVitima: function removeVitima(id, index) {
             var urlDelete = this.getBaseUrl + 'api/vitima/destroy/' + id;
-            axios.delete(urlDelete).then(this.listVitima).catch(function (error) {
+            axios.delete(urlDelete).then(this.vitimas.splice(index, 1)).catch(function (error) {
                 return console.log(error);
             });
         },
@@ -1170,7 +1170,10 @@ var render = function() {
                                 attrs: { type: "button" },
                                 on: {
                                   click: function($event) {
-                                    return _vm.removeVitima(vitima.id_ofendido)
+                                    return _vm.removeVitima(
+                                      vitima.id_ofendido,
+                                      index
+                                    )
                                   }
                                 }
                               },

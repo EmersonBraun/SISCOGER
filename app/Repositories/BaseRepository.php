@@ -68,7 +68,7 @@ class BaseRepository
     public function findAndDelete($id)
 	{
         $this->model->findOrFail($id)->delete();
-        return true
+        return true;
     }
 
     public function refAno($ref, $ano)

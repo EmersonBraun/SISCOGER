@@ -21,10 +21,10 @@
                     <p @click="switchMonthView">{{stringifyDayHeader(currDate)}}</p>
                 </div>
                 <div class="datepicker-weekRange">
-                    <span v-for="w in text.daysOfWeek">{{w}}</span>
+                    <span v-for="w in text.daysOfWeek" :key="index">{{w}}</span>
                 </div>
                 <div class="datepicker-dateRange">
-                    <span v-for="d in dateRange" :class="d.sclass" @click="daySelect(d.date,this)">{{d.text}}</span>
+                    <span v-for="d in dateRange" :class="d.sclass" @click="daySelect(d.date,this)" :key="index">{{d.text}}</span>
                 </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     <p @click="switchDecadeView">{{stringifyYearHeader(currDate)}}</p>
                 </div>
                 <div class="datepicker-monthRange">
-                    <template v-for="(m, index) in text.months">
+                    <template v-for="m in text.months">
                     <span   :class="{'datepicker-dateRange-item-active':
                         (text.months[parse(value).getMonth()]  === m) &&
                         currDate.getFullYear() === parse(value).getFullYear()}"

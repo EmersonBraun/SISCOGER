@@ -21,7 +21,7 @@ class ProcApiController extends Controller
             ], 200);
         }
 
-        if($ano < 2018 || $ano > date('Y'))
+        if($ano < 2008 || $ano > date('Y'))
         {
             return response()->json([
                 'opm' => 'Ano inválido',
@@ -45,11 +45,21 @@ class ProcApiController extends Controller
             ], 200);
         }
 
+        $opm = OPMRepository::uabreviatura(completa_zeros($result['cdopm']));
+
+        if(!$opm)
+        {
+            return response()->json([
+                'opm' => 'OPM não encontrada',
+                'success' => false,
+            ], 200); 
+        }
+
         return response()->json([
             'proc' => $result,
             'id' => $result['id_'.$proc],
             'situacao' => sistema('procSituacao',$proc),
-            'opm' => OPMRepository::uabreviatura(completa_zeros($result['cdopm'])),
+            'opm' => $opm,
             'success' => true,
         ], 200);
     }

@@ -686,7 +686,7 @@ var render = function() {
               "div",
               { staticClass: "datepicker-weekRange" },
               _vm._l(_vm.text.daysOfWeek, function(w) {
-                return _c("span", [_vm._v(_vm._s(w))])
+                return _c("span", { key: _vm.index }, [_vm._v(_vm._s(w))])
               }),
               0
             ),
@@ -698,6 +698,7 @@ var render = function() {
                 return _c(
                   "span",
                   {
+                    key: _vm.index,
                     class: d.sclass,
                     on: {
                       click: function($event) {
@@ -761,7 +762,7 @@ var render = function() {
               "div",
               { staticClass: "datepicker-monthRange" },
               [
-                _vm._l(_vm.text.months, function(m, index) {
+                _vm._l(_vm.text.months, function(m) {
                   return [
                     _c(
                       "span",
@@ -775,7 +776,7 @@ var render = function() {
                         },
                         on: {
                           click: function($event) {
-                            return _vm.monthSelect(index)
+                            return _vm.monthSelect(_vm.index)
                           }
                         }
                       },

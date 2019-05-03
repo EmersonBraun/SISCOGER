@@ -19,7 +19,7 @@
                         </div>
                         <div class="col-lg-12 col-md-12 col-xs-12">
                             <label for="descricao">Descrição</label><br>
-                            <textarea rows="5" cols="50" name="descricao" v-model="descricao" class="form-control ">  
+                            <textarea rows="3" cols="50" name="descricao" v-model="descricao" class="form-control ">  
                             </textarea>
                         </div>
                         <!-- <div class="col-lg-2 col-md-2 col-xs 2">
@@ -92,7 +92,7 @@
         components: {Datepicker},
         props: {
             unique: {type: Boolean, default: false},
-            admin: {type: Boolean, default: false},
+            admin: {type: Number, default: 0},
             opm: {type: String, default: ''},
             rg: {type: String, default: ''},
             idp: {type: String, default: ''},
@@ -149,7 +149,6 @@
             listMovimento(){
                 this.clear(true)
                 let urlIndex = this.getBaseUrl + 'api/movimento/list/' + this.dproc + '/' +this.idp;
-                console.log(urlIndex)
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)

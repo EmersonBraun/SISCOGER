@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs 1">
                             <label>Cancelar</label><br>
-                            <a class="btn btn-danger btn-block" @click="cancel"><i class="fa fa-times" style="color: white"></i></a>
+                            <a class="btn btn-danger btn-block" @click="clear(true)"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs 1">
                             <label>Adicionar</label><br>
@@ -74,7 +74,7 @@
                                         <a type="button" @click="showPM(pm.rg)" target="_blanck" class="btn btn-primary" style="color: white">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a type="button"  @click="removePM(pm.id_envolvido)" class="btn btn-danger" style="color: white">
+                                        <a type="button"  @click="removePM(pm.id_envolvido, index)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
                                         </a>
                                     </div>
@@ -133,7 +133,11 @@
         },
         watch: {
             rg() {
-                this.searchPM()
+                if(this.rg.length > 5){
+                    this.searchPM()
+                }else{
+                    this.clear(true)
+                }
             },
             pms:{
                 deep: true,
@@ -167,9 +171,7 @@
             },
         },
         methods: {
-            searchPM(){
-                this.clear
-                
+            searchPM(){               
                 let searchUrl = this.getBaseUrl + 'api/dados/pm/' + this.rg ;
                 if(this.rg.length > 5){
                     axios
@@ -190,7 +192,7 @@
                 }
             },
              listPM(){
-                this.clear()
+                this.clear(false)
                 let urlIndex = this.getBaseUrl + 'api/dados/envolvido/' + this.dproc + '/' +this.idp + '/' + this.situacao ;
                 if(this.dproc && this.idp && this.situacao){
                     axios
@@ -199,7 +201,7 @@
                         this.pms = response.data
                         // console.log(response.data)
                     })
-                    .then(this.clear)//limpa a busca
+                    .then(this.clear(false))//limpa a busca
                     .catch(error => console.log(error));
                 }
             },
@@ -218,22 +220,16 @@
                 window.open(urlIndex, "_blank")
             },
             // apagar arquivo
-            removePM(id){
+            removePM(id, index){
                 let urlDelete = this.getBaseUrl + 'api/acusado/destroy/' + id;
                 axios
                 .delete(urlDelete)
+                .then(this.pms.splice(index,1))
+                .then(this.clear(false))
                 .catch(error => console.log(error));
-                this.listPM()
             },
-            cancel(){
-                this.add = false
-                this.rg = ''
-                this.nome = ''
-                this.cargo = ''
-                this.resultado = ''
-                this.finded = false
-            },
-            clear(){
+            clear(add){
+                this.add = add
                 this.rg = ''
                 this.nome = ''
                 this.cargo = ''

@@ -101,7 +101,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { Datepicker: __WEBPACK_IMPORTED_MODULE_0__Vuestrap_Datepicker__["Datepicker"] },
     props: {
         unique: { type: Boolean, default: false },
-        admin: { type: Boolean, default: false },
+        admin: { type: Number, default: 0 },
         opm: { type: String, default: '' },
         rg: { type: String, default: '' },
         idp: { type: String, default: '' }
@@ -161,7 +161,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.clear(true);
             var urlIndex = this.getBaseUrl + 'api/movimento/list/' + this.dproc + '/' + this.idp;
-            console.log(urlIndex);
             if (this.dproc && this.idp) {
                 axios.get(urlIndex).then(function (response) {
                     _this.movimentos = response.data;
@@ -593,7 +592,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -912,7 +911,7 @@ var render = function() {
                                 ],
                                 staticClass: "form-control ",
                                 attrs: {
-                                  rows: "5",
+                                  rows: "3",
                                   cols: "50",
                                   name: "descricao"
                                 },
@@ -1218,7 +1217,7 @@ var render = function() {
               "div",
               { staticClass: "datepicker-weekRange" },
               _vm._l(_vm.text.daysOfWeek, function(w) {
-                return _c("span", [_vm._v(_vm._s(w))])
+                return _c("span", { key: _vm.index }, [_vm._v(_vm._s(w))])
               }),
               0
             ),
@@ -1230,6 +1229,7 @@ var render = function() {
                 return _c(
                   "span",
                   {
+                    key: _vm.index,
                     class: d.sclass,
                     on: {
                       click: function($event) {
@@ -1293,7 +1293,7 @@ var render = function() {
               "div",
               { staticClass: "datepicker-monthRange" },
               [
-                _vm._l(_vm.text.months, function(m, index) {
+                _vm._l(_vm.text.months, function(m) {
                   return [
                     _c(
                       "span",
@@ -1307,7 +1307,7 @@ var render = function() {
                         },
                         on: {
                           click: function($event) {
-                            return _vm.monthSelect(index)
+                            return _vm.monthSelect(_vm.index)
                           }
                         }
                       },
