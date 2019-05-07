@@ -1,4 +1,4 @@
-webpackJsonp([6,5],{
+webpackJsonp([0,6],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Sobrestamento.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -119,14 +119,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: { Datepicker: __WEBPACK_IMPORTED_MODULE_0__Vuestrap_Datepicker__["Datepicker"] },
     props: {
         unique: { type: Boolean, default: false },
-        admin: { type: Number, default: 0 },
-        rg: { type: String, default: '' },
         idp: { type: String, default: '' }
     },
     data: function data() {
@@ -141,18 +147,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             publicacao_termino: '',
             sobrestamentos: [],
             motivos: ['Férias Acusado', 'Férias Comissão', 'Incidente de Insanidade', 'Substituição', 'Laudos/Perícia', 'Deslinde Criminal', 'outros'],
-            hasMotivo: false,
             action: '',
             dproc: '',
             dref: '',
             dano: '',
             add: false,
-            only: false
+            only: false,
+            edit: '',
+            admin: false,
+            rg: ''
         };
     },
     mounted: function mounted() {
         this.verifyOnly;
         this.listSobrestamento();
+        this.dadosSession();
     },
 
     computed: {
@@ -184,20 +193,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         listSobrestamento: function listSobrestamento() {
+            var _this = this;
+
             var urlIndex = this.getBaseUrl + 'api/sobrestamento/list/' + this.dproc + '/' + this.idp;
-            // if(this.dproc && this.idp){
-            //     axios
-            //     .get(urlIndex)
-            //     .then((response) => {
-            //         // this.sobrestamentos = response.data
-            //         console.log(response.data)
-            //     })
-            //     .then(this.clear(false))//limpa a busca
-            //     .catch(error => console.log(error));
-            // }
+            if (this.dproc && this.idp) {
+                axios.get(urlIndex).then(function (response) {
+                    _this.sobrestamentos = response.data;
+                    // console.log(response.data)
+                }).then(this.clear(false)) //limpa a busca
+                .catch(function (error) {
+                    return console.log(error);
+                });
+            }
         },
         createSobrestamento: function createSobrestamento() {
-            var _this = this;
+            var _this2 = this;
 
             var urlCreate = this.getBaseUrl + 'api/sobrestamento/store';
 
@@ -205,7 +215,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var data = new FormData(formData);
 
             axios.post(urlCreate, data).then(function () {
-                _this.sobrestamentos.push({
+                _this2.sobrestamentos.push({
                     motivo: data.get('motivo'),
                     motivo_outros: data.get('motivo_outros'),
                     inicio_data: data.get('inicio_data'),
@@ -214,28 +224,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     termino_data: data.get('termino_data'),
                     doc_controle_termino: data.get('doc_controle_termino'),
                     publicacao_termino: data.get('publicacao_termino'),
-                    rg: _this.rg
+                    rg: _this2.rg
                 });
-                _this.clear(false);
+                _this2.clear(false);
             }).catch(function (error) {
                 return console.log(error);
             });
         },
-        replaceSobrestamento: function replaceSobrestamento(sobrestamento, index) {
-            this.motivo = sobrestamento.motivo, this.motivo_outros = sobrestamento.motivo_outros, this.inicio_data = sobrestamento.inicio_data, this.doc_controle_inicio = sobrestamento.doc_controle_inicio, this.publicacao_inicio = sobrestamento.publicacao_inicio, this.termino_data = sobrestamento.termino_data, this.doc_controle_termino = sobrestamento.doc_controle_termino, this.publicacao_termino = sobrestamento.publicacao_termino,
+        replaceSobrestamento: function replaceSobrestamento(sobrestamento) {
+            this.motivo = sobrestamento.motivo, this.motivo_outros = sobrestamento.motivo_outros, this.inicio_data = sobrestamento.inicio_data, this.doc_controle_inicio = sobrestamento.doc_controle_inicio, this.publicacao_inicio = sobrestamento.publicacao_inicio, this.termino_data = sobrestamento.termino_data, this.doc_controle_termino = sobrestamento.doc_controle_termino, this.publicacao_termino = sobrestamento.publicacao_termino, this.edit = sobrestamento.id_sobrestamento;
 
             // this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
             this.add = true;
         },
+        editSobrestamento: function editSobrestamento() {
+            var _this3 = this;
+
+            var urledit = this.getBaseUrl + 'api/sobrestamento/edit/' + this.edit;
+
+            var formData = document.getElementById('formData');
+            var data = new FormData(formData);
+
+            axios.post(urledit, data).then(function () {
+                _this3.listSobrestamento();
+                _this3.clear(false);
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
         removeSobrestamento: function removeSobrestamento(id, index) {
             var urlDelete = this.getBaseUrl + 'api/sobrestamento/destroy/' + id;
-            axios.delete(urlDelete).then(this.sobrestamentos.splice(index, 1)).catch(function (error) {
+            axios.delete(urlDelete).then(this.sobrestamentos.splice(index, 1)).then(this.clear(false)).catch(function (error) {
                 return console.log(error);
             });
         },
         clear: function clear(add) {
             this.add = add;
-            this.data = [];
+            this.motivo = '', this.motivo_outros = '', this.inicio_data = '', this.doc_controle_inicio = '', this.publicacao_inicio = '', this.termino_data = '', this.doc_controle_termino = '', this.publicacao_termino = '', this.edit = '';
+        },
+        dadosSession: function dadosSession() {
+            var session = this.$root.getSessionData();
+            this.admin = session.is_admin;
+            this.rg = session.rg;
         }
     }
 });
@@ -344,13 +374,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       displayDayView: false,
       displayMonthView: false,
       displayYearView: false,
-      value: this.value
+      val: this.value
     };
   },
 
   watch: {
-    value: function value(_value) {
-      this.$emit('input', _value);
+    val: function val(_val) {
+      this.$emit('input', _val);
     },
     currDate: function currDate() {
       this.getDateRange();
@@ -403,7 +433,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.displayDayView = this.displayMonthView = this.displayYearView = false;
     },
     inputClick: function inputClick() {
-      this.currDate = this.parse(this.value) || this.parse(new Date());
+      this.currDate = this.parse(this.val) || this.parse(new Date());
       if (this.displayMonthView || this.displayYearView) {
         this.displayDayView = false;
       } else {
@@ -452,7 +482,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return false;
       } else {
         this.currDate = date;
-        this.value = this.stringify(this.currDate);
+        this.val = this.stringify(this.currDate);
         this.displayDayView = false;
       }
     },
@@ -506,7 +536,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return format.replace(/yyyy/g, year).replace(/MMMM/g, monthName).replace(/MMM/g, monthName.substring(0, 3)).replace(/MM/g, ('0' + month).slice(-2)).replace(/dd/g, ('0' + day).slice(-2)).replace(/yy/g, year).replace(/M(?!a)/g, month).replace(/d/g, day);
     },
     parse: function parse() {
-      var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.value;
+      var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.val;
 
       var date = void 0;
       if (str.length === 10 && (this.format === 'dd-MM-yyyy' || this.format === 'dd/MM/yyyy')) {
@@ -569,8 +599,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           if (week === parseInt(el, 10)) sclass = 'datepicker-item-disable';
         });
         if (_i2 === time.day) {
-          if (_this.value) {
-            var valueDate = _this.parse(_this.value);
+          if (_this.val) {
+            var valueDate = _this.parse(_this.val);
             if (valueDate) {
               if (valueDate.getFullYear() === time.year && valueDate.getMonth() === time.month) {
                 sclass = 'datepicker-dateRange-item-active';
@@ -609,7 +639,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (!el.contains(e.target)) _this2.close();
     };
     this.$emit('child-created', this);
-    this.currDate = this.parse(this.value) || this.parse(new Date());
+    this.currDate = this.parse(this.val) || this.parse(new Date());
     window.addEventListener('click', this._blur);
   },
   beforeDestroy: function beforeDestroy() {
@@ -627,7 +657,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -885,6 +915,11 @@ var render = function() {
                         { attrs: { id: "formData", name: "formData" } },
                         [
                           _c("input", {
+                            attrs: { type: "hidden", name: "procc" },
+                            domProps: { value: _vm.dproc }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
                             attrs: { type: "hidden", name: "id_" + _vm.dproc },
                             domProps: { value: _vm.idp }
                           }),
@@ -930,11 +965,17 @@ var render = function() {
                                   }
                                 }
                               },
-                              _vm._l(_vm.motivos, function(motivo, index) {
+                              _vm._l(_vm.motivos, function(m, index) {
                                 return _c(
                                   "option",
-                                  { domProps: { value: motivo } },
-                                  [_vm._v(_vm._s(motivo))]
+                                  {
+                                    key: index,
+                                    domProps: {
+                                      value: m,
+                                      selected: m == _vm.motivo
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(m))]
                                 )
                               }),
                               0
@@ -1087,7 +1128,7 @@ var render = function() {
                             { staticClass: "col-lg-4 col-md-4 col-xs-4" },
                             [
                               _c("label", { attrs: { for: "termino_data" } }, [
-                                _vm._v("Data de início")
+                                _vm._v("Data de Término")
                               ]),
                               _c("br"),
                               _vm._v(" "),
@@ -1156,7 +1197,7 @@ var render = function() {
                               _c(
                                 "label",
                                 { attrs: { for: "publicacao_termino" } },
-                                [_vm._v("Publicação início")]
+                                [_vm._v("Publicação Término")]
                               ),
                               _c("br"),
                               _vm._v(" "),
@@ -1219,29 +1260,59 @@ var render = function() {
                             "div",
                             { staticClass: "col-lg-6 col-md-6 col-xs-6" },
                             [
-                              _c("label", [_vm._v("Adicionar")]),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "btn btn-success btn-block",
-                                  attrs: {
-                                    disabled:
-                                      !_vm.motivo ||
-                                      (_vm.motivo == "outros" &&
-                                        !_vm.motivo_outros.length)
-                                  },
-                                  on: { click: _vm.createSobrestamento }
-                                },
-                                [
-                                  _c("i", {
-                                    staticClass: "fa fa-plus",
-                                    staticStyle: { color: "white" }
-                                  })
-                                ]
-                              )
-                            ]
+                              !_vm.edit
+                                ? [
+                                    _c("label", [_vm._v("Adicionar")]),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-block",
+                                        attrs: {
+                                          disabled:
+                                            !_vm.motivo ||
+                                            (_vm.motivo == "outros" &&
+                                              !_vm.motivo_outros.length)
+                                        },
+                                        on: { click: _vm.createSobrestamento }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: { color: "white" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                : [
+                                    _c("label", [_vm._v("Editar")]),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-block",
+                                        attrs: {
+                                          disabled:
+                                            !_vm.motivo ||
+                                            (_vm.motivo == "outros" &&
+                                              !_vm.motivo_outros.length)
+                                        },
+                                        on: { click: _vm.editSobrestamento }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: { color: "white" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                            ],
+                            2
                           )
                         ]
                       )
@@ -1257,7 +1328,33 @@ var render = function() {
         ? _c("div", { staticClass: "row bordaform" }, [
             _c("div", { staticClass: "col-sm-12" }, [
               _c("table", { staticClass: "table table-hover" }, [
-                _vm._m(1),
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-1" }, [_vm._v("Início")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-2" }, [
+                      _vm._v("Doc.Início")
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-1" }, [_vm._v("Término")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-2" }, [
+                      _vm._v("Doc.Término")
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-2" }, [_vm._v("Motivo")]),
+                    _vm._v(" "),
+                    _vm.admin
+                      ? _c("th", { staticClass: "col-sm-2" }, [
+                          _vm._v("Editar/Apagar")
+                        ])
+                      : _c("th", { staticClass: "col-sm-2" }, [
+                          _vm._v("Editar")
+                        ])
+                  ])
+                ]),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -1277,7 +1374,7 @@ var render = function() {
                         _vm._v(_vm._s(sobrestamento.doc_controle_termino))
                       ]),
                       _vm._v(" "),
-                      sobrestamento.motivo
+                      sobrestamento.motivo !== "outros"
                         ? _c("td", [_vm._v(_vm._s(sobrestamento.motivo))])
                         : _c("td", [
                             _vm._v(_vm._s(sobrestamento.motivo_outros))
@@ -1297,16 +1394,18 @@ var render = function() {
                             _c(
                               "a",
                               {
-                                staticClass: "btn btn-danger",
+                                staticClass: "btn btn-success",
                                 staticStyle: { color: "white" },
                                 attrs: { type: "button" },
                                 on: {
                                   click: function($event) {
-                                    return _vm.editSobrestamento(sobrestamento)
+                                    return _vm.replaceSobrestamento(
+                                      sobrestamento
+                                    )
                                   }
                                 }
                               },
-                              [_c("i", { staticClass: "fa fa-trash" })]
+                              [_c("i", { staticClass: "fa fa-edit" })]
                             ),
                             _vm._v(" "),
                             _vm.admin
@@ -1340,7 +1439,7 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      !_vm.sobrestamentos.length && _vm.only ? _c("div", [_vm._m(2)]) : _vm._e()
+      !_vm.sobrestamentos.length && _vm.only ? _c("div", [_vm._m(1)]) : _vm._e()
     ])
   ])
 }
@@ -1351,28 +1450,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h5", [_c("b", [_vm._v("Sobrestamento")])])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-1" }, [_vm._v("Início")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Doc.Início")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-1" }, [_vm._v("Término")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Doc.Término")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Motivo")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ações")])
-      ])
     ])
   },
   function() {
@@ -1406,24 +1483,24 @@ var render = function() {
         staticClass: "form-control",
         class: { "with-reset-button": _vm.clearButton },
         attrs: { type: "text", placeholder: _vm.placeholder, name: _vm.name },
-        domProps: { value: _vm.value },
+        domProps: { value: _vm.val },
         on: {
           click: _vm.inputClick,
           input: function($event) {
-            return this.$emit("input", $event.target.value)
+            return this.$emit("input", $event.target.val)
           }
         }
       }),
       _vm._v(" "),
       _c("div", { staticClass: "input-group-append" }, [
-        !_vm.value
+        !_vm.val
           ? _c(
               "span",
               {
                 staticClass: "btn input-group-text",
                 on: {
                   click: function($event) {
-                    _vm.value = _vm.today()
+                    _vm.val = _vm.today()
                   }
                 }
               },
@@ -1431,14 +1508,14 @@ var render = function() {
             )
           : _vm._e(),
         _vm._v(" "),
-        _vm.clearButton && _vm.value
+        _vm.clearButton && _vm.val
           ? _c(
               "span",
               {
                 staticClass: "btn input-group-text",
                 on: {
                   click: function($event) {
-                    _vm.value = ""
+                    _vm.val = ""
                   }
                 }
               },
@@ -1493,8 +1570,8 @@ var render = function() {
             _c(
               "div",
               { staticClass: "datepicker-weekRange" },
-              _vm._l(_vm.text.daysOfWeek, function(w) {
-                return _c("span", { key: _vm.index }, [_vm._v(_vm._s(w))])
+              _vm._l(_vm.text.daysOfWeek, function(w, index) {
+                return _c("span", { key: index }, [_vm._v(_vm._s(w))])
               }),
               0
             ),
@@ -1502,11 +1579,11 @@ var render = function() {
             _c(
               "div",
               { staticClass: "datepicker-dateRange" },
-              _vm._l(_vm.dateRange, function(d) {
+              _vm._l(_vm.dateRange, function(d, index) {
                 return _c(
                   "span",
                   {
-                    key: _vm.index,
+                    key: index,
                     class: d.sclass,
                     on: {
                       click: function($event) {
@@ -1577,10 +1654,10 @@ var render = function() {
                       {
                         class: {
                           "datepicker-dateRange-item-active":
-                            _vm.text.months[_vm.parse(_vm.value).getMonth()] ===
+                            _vm.text.months[_vm.parse(_vm.val).getMonth()] ===
                               m &&
                             _vm.currDate.getFullYear() ===
-                              _vm.parse(_vm.value).getFullYear()
+                              _vm.parse(_vm.val).getFullYear()
                         },
                         on: {
                           click: function($event) {
@@ -1651,7 +1728,7 @@ var render = function() {
                       {
                         class: {
                           "datepicker-dateRange-item-active":
-                            _vm.parse(this.value).getFullYear() === decade.text
+                            _vm.parse(this.val).getFullYear() === decade.text
                         },
                         on: {
                           click: function($event) {

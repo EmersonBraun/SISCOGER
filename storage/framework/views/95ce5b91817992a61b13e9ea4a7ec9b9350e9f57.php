@@ -28,7 +28,6 @@
             {idp: 'membros',name: 'Membros'},
             {idp: 'movimentos',name: 'Movimentos'},
             {idp: 'sobrestamentos',name: 'Sobrestamentos'},
-            {idp: 'reus',name: 'Réus'},
             {idp: 'encaminhamentos',name: 'Encaminhamentos'},
             {idp: 'arquivo',name: 'Arquivo'},
 
@@ -51,6 +50,11 @@
                 <v-label label="id_motivoconselho" title="Motivo ADL (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">
                     <?php echo Form::select('id_motivoconselho', config('sistema.motivoConselho'),null, ['class' => 'form-control select2', 'id' => 'descricao']); ?>
 
+                </v-label>
+                <v-label label="check" title="Selecione: " md="12" lg="12">
+                    <?php echo e(Form::checkbox("ac_desempenho_bl","On",true,["class" => "form-group"])); ?>Procedido incorretamente no desempenho do cargo ou função.<br>
+                    <?php echo e(Form::checkbox("ac_conduta_bl","On",true,["class" => "form-group"])); ?>Conduta irregular ou ato que venha a denegrir a imagem da Corporação.<br>
+                    <?php echo e(Form::checkbox("ac_honra_bl","On",true,["class" => "form-group"])); ?>Praticado ato que afete a honra pessoal, o pundonor militar ou o decoro da classe.<br>
                 </v-label>
                 <v-label label="outromotivo" title="Especificar (no caso de outros motivos)">
                     <?php echo e(Form::text('outromotivo', null, ['class' => 'form-control '])); ?>
@@ -177,9 +181,6 @@
             </v-tab-item>
             <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
                 <v-sobrestamento idp="<?php echo e($proc['id_adl']); ?>" ></v-sobrestamento>
-            </v-tab-item>
-            <v-tab-item title="Réus" idp="reus">
-                reus
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos

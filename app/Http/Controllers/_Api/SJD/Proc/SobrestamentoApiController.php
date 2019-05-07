@@ -6,178 +6,96 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\SobrestamentoRepository;
+use Session;
+use DB;
+use App\Models\Sjd\Proc\Sobrestamento;
 
 class SobrestamentoApiController extends Controller
 {
-    public function find($id, SobrestamentoRepository $repository)
+    public function list($proc, $id)
     {
+        $result = Sobrestamento::where('id_'.$proc,'=',$id)->get();
+        return response()->json(
+            $result, 200);
+    }
 
-        $data = $repository->find($id);
+    public function store(Request $request)
+    {
+        $dados = $request->all();
+        $create = Sobrestamento::create($dados);
+        if($create)
+        {
+            $proc = $dados['procc'];
+            $id = $dados['id_'.$proc];
+            $search = array_search('SOBRESTADO',config('sistema.andamento'.strtoupper($proc)),true);
+            $andamento = DB::table($proc)->where('id_'.$proc,$id)->update(['id_andamento' => $search]);
+
+            if($andamento)
+            {
+                return response()->json([
+                    'success' => true,
+                ], 200);
+            }
+
+            return response()->json([
+                'success' => false,
+            ], 500);
+        }
+        return response()->json([
+            'success' => false,
+        ], 500);
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $dados = $request->all();
+        //verificar se há data fim do sobrestamento
+        $fim_sobrestamento = ($dados['termino_data']) ? true : false;
         
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-        
-    }
+        $edit = Sobrestamento::findOrFail($id)->update($dados);
+        if($edit)
+        {
+            if($fim_sobrestamento)
+            {
+                $proc = $dados['procc'];
+                $idp = $dados['id_'.$proc];
+                $search = array_search('ANDAMENTO',config('sistema.andamento'.strtoupper($proc)),true);
+                $andamento = DB::table($proc)->where('id_'.$proc,$idp)->update(['id_andamento' => $search]);
 
-    public function refAno($ref, $ano, SobrestamentoRepository $repository)
-    {
-        $data = $repository->refAno($ref, $ano);
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
+                if($andamento)
+                {
+                    return response()->json([
+                        'success' => true,
+                    ], 200);
+                }
 
-    public function all(SobrestamentoRepository $repository)
-    {
-        $data = $repository->all();
-        if($data){
+                return response()->json([
+                    'success' => false,
+                ], 500);
+            }
+
             return response()->json([
-                'data' => $data,
                 'success' => true,
             ], 200);
         }
         return response()->json([
-            'success' => false
+            'success' => false,
         ], 500);
     }
 
-    public function ano($ano, SobrestamentoRepository $repository)
+    public function destroy($id)
     {
-        $data = $repository->ano($ano);
-        if($data){
+        $destroy = Sobrestamento::findOrFail($id)->delete();
+        if($destroy)
+        {
             return response()->json([
-                'data' => $data,
                 'success' => true,
             ], 200);
         }
         return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function andamento(SobrestamentoRepository $repository)
-    {
-        $data = $repository->andamento();
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function andamentoAno($ano, SobrestamentoRepository $repository)
-    {
-        $data = $repository->andamentoAno($ano);
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function prazos(SobrestamentoRepository $repository)
-    {
-        $data = $repository->prazos();
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function prazosAno($ano)
-    {
-        $data = $repository->prazosAno($ano);
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function relSituacao(SobrestamentoRepository $repository)
-    {
-        $data = $repository->all();
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function relSituacaoAno($ano, SobrestamentoRepository $repository)
-    {
-        $data = $repository->ano($ano);
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function julgamento(SobrestamentoRepository $repository)
-    {
-        $data = $repository->julgamento();
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
-
-    public function julgamentoAno($ano, SobrestamentoRepository $repository)
-    {
-        $data = $repository->julgamentoAno($ano);
-        if($data){
-            return response()->json([
-                'data' => $data,
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
+            'success' => false,
         ], 500);
     }
 }
+
+

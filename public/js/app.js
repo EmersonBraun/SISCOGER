@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-movimento","1":"v-select","2":"v-vitima","3":"v-membro","4":"v-acusado","5":"v-datepicker","6":"v-sobrestamento","7":"v-proced-origem","8":"v-defensor","9":"v-tab-item","10":"v-label","11":"v-item-unique","12":"v-cautelas","13":"file-upload","14":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
+/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-sobrestamento","1":"v-movimento","2":"v-select","3":"v-vitima","4":"v-membro","5":"v-acusado","6":"v-datepicker","7":"v-proced-origem","8":"v-defensor","9":"v-tab-item","10":"v-label","11":"v-item-unique","12":"v-cautelas","13":"file-upload","14":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -48673,7 +48673,35 @@ __webpack_require__("./resources/assets/js/components.js");
 __webpack_require__("./resources/assets/js/filters.js");
 
 var app = new Vue({
-  el: '#app'
+    el: '#app',
+    data: {
+        session: ''
+    },
+    mounted: function mounted() {
+        this.putSessionData();
+    },
+
+    methods: {
+        putSessionData: function putSessionData() {
+            var _this = this;
+
+            var hasSession = sessionStorage.getItem("session") !== null ? true : false;
+            if (!hasSession) {
+                var urlIndex = 'http://10.47.1.90/siscoger/session/dados';
+                console.log(urlIndex);
+                axios.get(urlIndex).then(function (response) {
+                    sessionStorage.setItem("session", JSON.stringify(response.data));
+                    _this.session = response.data;
+                    // console.log(response.data)
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        getSessionData: function getSessionData() {
+            return JSON.parse(sessionStorage.getItem("session"));
+        }
+    }
 });
 
 /***/ }),
@@ -48759,22 +48787,22 @@ Vue.component('v-proced-origem', function () {
   return __webpack_require__.e/* import() */(7).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/ProcedOrigem.vue"));
 });
 Vue.component('v-acusado', function () {
-  return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Acusado.vue"));
+  return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Acusado.vue"));
 });
 Vue.component('v-vitima', function () {
-  return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Vitima.vue"));
+  return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Vitima.vue"));
 });
 Vue.component('v-membro', function () {
-  return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Membro.vue"));
+  return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Membro.vue"));
 });
 Vue.component('v-defensor', function () {
   return __webpack_require__.e/* import() */(8).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Defensor.vue"));
 });
 Vue.component('v-movimento', function () {
-  return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Movimento.vue"));
+  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Movimento.vue"));
 });
 Vue.component('v-sobrestamento', function () {
-  return __webpack_require__.e/* import() */(6).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Sobrestamento.vue"));
+  return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Sobrestamento.vue"));
 });
 
 // FDI
@@ -48791,10 +48819,10 @@ Vue.component('v-tab-menu', function () {
 //VUESTRAP
 // Revisados
 Vue.component('v-datepicker', function () {
-  return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Datepicker.vue"));
+  return __webpack_require__.e/* import() */(6).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Datepicker.vue"));
 });
 Vue.component('v-select', function () {
-  return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Select.vue"));
+  return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Select.vue"));
 });
 // Não revisados
 /*Vue.component('v-accordion', function (resolve) {require(['vue-strap']).accordion});
@@ -48832,8 +48860,14 @@ Vue.component('v-typeahead', function (resolve) {require(['vue-strap']).typeahea
 Vue.filter('date_br', function (value) {
     //data vem yyyy-mm-dd
     if (!value) return '';
-    value = value.split('-');
-    return value[2] + '/' + value[1] + '/' + value[0]; //retornando dd/mm/yyyy
+    if (value.charAt(4) == '-' && value.charAt(7) == '-') {
+        //está realmente yyyy-mm-dd
+        value = value.split('-');
+        return value[2] + '/' + value[1] + '/' + value[0]; //retornando dd/mm/yyyy
+    } else {
+        // está dd/mm/yyyy
+        return value;
+    }
 });
 
 /***/ }),

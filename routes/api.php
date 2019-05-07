@@ -57,6 +57,13 @@ Route::group(['as'=>'movimento.','prefix' =>'movimento'],function(){
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\Proc\MovimentoApiController@store']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\Proc\MovimentoApiController@destroy']);
 });
+// rotas componente SubForm/Sobrestamento.vue
+Route::group(['as'=>'sobrestamento.','prefix' =>'sobrestamento'],function(){
+    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'_Api\SJD\Proc\SobrestamentoApiController@list']);
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\Proc\SobrestamentoApiController@store']);
+    Route::post('edit/{id}',['as' =>'edit','uses'=>'_Api\SJD\Proc\SobrestamentoApiController@edit']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\Proc\SobrestamentoApiController@destroy']);
+});
 Route::group(['as'=>'vitima.','prefix' =>'vitima'],function(){
     Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'_Api\SJD\PM\VitimaApiController@list']);
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\VitimaApiController@store']);

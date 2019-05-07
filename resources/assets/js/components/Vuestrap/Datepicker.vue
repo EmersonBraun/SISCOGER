@@ -2,13 +2,13 @@
     <div>
             <div class=" input-group">
                 <input class="form-control" :class="{'with-reset-button': clearButton}" type="text" :placeholder="placeholder"
-                    :value="value"
+                    :value="val"
                     :name="name"
                     @click="inputClick"
-                    @input="this.$emit('input',$event.target.value)" />
+                    @input="this.$emit('input',$event.target.val)" />
                 <div class="input-group-append">
-                    <span v-if="!value" class="btn input-group-text" @click="value = today()">Hoje</span>
-                    <span v-if="clearButton && value" class="btn input-group-text" @click="value = ''">X</span>
+                    <span v-if="!val" class="btn input-group-text" @click="val = today()">Hoje</span>
+                    <span v-if="clearButton && val" class="btn input-group-text" @click="val = ''">X</span>
                 </div>
             </div>
 
@@ -21,10 +21,10 @@
                     <p @click="switchMonthView">{{stringifyDayHeader(currDate)}}</p>
                 </div>
                 <div class="datepicker-weekRange">
-                    <span v-for="w in text.daysOfWeek" :key="index">{{w}}</span>
+                    <span v-for="(w, index) in text.daysOfWeek" :key="index">{{w}}</span>
                 </div>
                 <div class="datepicker-dateRange">
-                    <span v-for="d in dateRange" :class="d.sclass" @click="daySelect(d.date,this)" :key="index">{{d.text}}</span>
+                    <span v-for="(d, index) in dateRange" :class="d.sclass" @click="daySelect(d.date,this)" :key="index">{{d.text}}</span>
                 </div>
                 </div>
             </div>
@@ -40,8 +40,8 @@
                 <div class="datepicker-monthRange">
                     <template v-for="m in text.months">
                     <span   :class="{'datepicker-dateRange-item-active':
-                        (text.months[parse(value).getMonth()]  === m) &&
-                        currDate.getFullYear() === parse(value).getFullYear()}"
+                        (text.months[parse(val).getMonth()]  === m) &&
+                        currDate.getFullYear() === parse(val).getFullYear()}"
                         @click="monthSelect(index)"
                         >{{m.substr(0,3)}}</span>
                     </template>
@@ -59,7 +59,7 @@
                 </div>
                 <div class="datepicker-monthRange decadeRange">
                     <template v-for="decade in decadeRange">
-                    <span :class="{'datepicker-dateRange-item-active':parse(this.value).getFullYear() === decade.text}"
+                    <span :class="{'datepicker-dateRange-item-active':parse(this.val).getFullYear() === decade.text}"
                         @click.stop="yearSelect(decade.text)"
                     >{{decade.text}}</span>
                     </template>
@@ -92,12 +92,12 @@ export default {
       displayDayView: false,
       displayMonthView: false,
       displayYearView: false,
-      value: this.value
+      val: this.value
     }
   },
   watch: {
-    value (value) {
-      this.$emit('input', value)
+    val (val) {
+      this.$emit('input', val)
     },
     currDate () {
       this.getDateRange()
@@ -148,7 +148,7 @@ export default {
       this.displayDayView = this.displayMonthView = this.displayYearView = false
     },
     inputClick () {
-      this.currDate = this.parse(this.value) || this.parse(new Date())
+      this.currDate = this.parse(this.val) || this.parse(new Date())
       if (this.displayMonthView || this.displayYearView) {
         this.displayDayView = false
       } else {
@@ -197,7 +197,7 @@ export default {
         return false
       } else {
         this.currDate = date
-        this.value = this.stringify(this.currDate)
+        this.val = this.stringify(this.currDate)
         this.displayDayView = false
       }
     },
@@ -256,7 +256,7 @@ export default {
       .replace(/M(?!a)/g, month)
       .replace(/d/g, day)
     },
-    parse (str = this.value) {       
+    parse (str = this.val) {       
       let date
       if (str.length === 10 && (this.format === 'dd-MM-yyyy' || this.format === 'dd/MM/yyyy')) {
         date = new Date(str.substring(6, 10), str.substring(3, 5), str.substring(0, 2))
@@ -315,8 +315,8 @@ export default {
           if (week === parseInt(el, 10)) sclass = 'datepicker-item-disable'
         })
         if (i === time.day) {
-          if (this.value) {
-            const valueDate = this.parse(this.value)
+          if (this.val) {
+            const valueDate = this.parse(this.val)
             if (valueDate) {
               if (valueDate.getFullYear() === time.year && valueDate.getMonth() === time.month) {
                 sclass = 'datepicker-dateRange-item-active'
@@ -350,7 +350,7 @@ export default {
         this.close()
     }   
     this.$emit('child-created', this)
-    this.currDate = this.parse(this.value) || this.parse(new Date())
+    this.currDate = this.parse(this.val) || this.parse(new Date())
     window.addEventListener('click', this._blur);
   },
   beforeDestroy () {

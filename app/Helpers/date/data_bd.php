@@ -3,7 +3,7 @@
 if (! function_exists('data_bd')) 
 {
     function data_bd($date){
-        if($date != '' || $date != NULL )
+        if($date)
         {
             // só executa caso já não esteja no formato do banco de dados
             if(substr($date, 2, 1) == '/')

@@ -79,6 +79,7 @@ class LoginController extends Controller
         $isAdmin = User::role('admin')->count();
         $isAdmin = ($isAdmin > 0) ? true : false;
         session()->put('is_admin', $isAdmin);
+        session()->put('nivel',sistema('posto',$user->cargo));
 
         if (Auth::attempt($credentials)) 
         {

@@ -67,7 +67,7 @@ class MovimentoApiController extends Controller
     public function store(Request $request)
     {
         $dados = $request->all();
-        $dados['data'] = data_br($dados['data']);
+        $dados['data'] = data_bd($dados['data']);
         $create = Movimento::create($dados);
         if($create)
         {

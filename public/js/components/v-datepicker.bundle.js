@@ -1,4 +1,4 @@
-webpackJsonp([5],{
+webpackJsonp([6],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Vuestrap/Datepicker.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -102,13 +102,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       displayDayView: false,
       displayMonthView: false,
       displayYearView: false,
-      value: this.value
+      val: this.value
     };
   },
 
   watch: {
-    value: function value(_value) {
-      this.$emit('input', _value);
+    val: function val(_val) {
+      this.$emit('input', _val);
     },
     currDate: function currDate() {
       this.getDateRange();
@@ -161,7 +161,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.displayDayView = this.displayMonthView = this.displayYearView = false;
     },
     inputClick: function inputClick() {
-      this.currDate = this.parse(this.value) || this.parse(new Date());
+      this.currDate = this.parse(this.val) || this.parse(new Date());
       if (this.displayMonthView || this.displayYearView) {
         this.displayDayView = false;
       } else {
@@ -210,7 +210,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return false;
       } else {
         this.currDate = date;
-        this.value = this.stringify(this.currDate);
+        this.val = this.stringify(this.currDate);
         this.displayDayView = false;
       }
     },
@@ -264,7 +264,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return format.replace(/yyyy/g, year).replace(/MMMM/g, monthName).replace(/MMM/g, monthName.substring(0, 3)).replace(/MM/g, ('0' + month).slice(-2)).replace(/dd/g, ('0' + day).slice(-2)).replace(/yy/g, year).replace(/M(?!a)/g, month).replace(/d/g, day);
     },
     parse: function parse() {
-      var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.value;
+      var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.val;
 
       var date = void 0;
       if (str.length === 10 && (this.format === 'dd-MM-yyyy' || this.format === 'dd/MM/yyyy')) {
@@ -327,8 +327,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           if (week === parseInt(el, 10)) sclass = 'datepicker-item-disable';
         });
         if (_i2 === time.day) {
-          if (_this.value) {
-            var valueDate = _this.parse(_this.value);
+          if (_this.val) {
+            var valueDate = _this.parse(_this.val);
             if (valueDate) {
               if (valueDate.getFullYear() === time.year && valueDate.getMonth() === time.month) {
                 sclass = 'datepicker-dateRange-item-active';
@@ -367,7 +367,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (!el.contains(e.target)) _this2.close();
     };
     this.$emit('child-created', this);
-    this.currDate = this.parse(this.value) || this.parse(new Date());
+    this.currDate = this.parse(this.val) || this.parse(new Date());
     window.addEventListener('click', this._blur);
   },
   beforeDestroy: function beforeDestroy() {
@@ -598,24 +598,24 @@ var render = function() {
         staticClass: "form-control",
         class: { "with-reset-button": _vm.clearButton },
         attrs: { type: "text", placeholder: _vm.placeholder, name: _vm.name },
-        domProps: { value: _vm.value },
+        domProps: { value: _vm.val },
         on: {
           click: _vm.inputClick,
           input: function($event) {
-            return this.$emit("input", $event.target.value)
+            return this.$emit("input", $event.target.val)
           }
         }
       }),
       _vm._v(" "),
       _c("div", { staticClass: "input-group-append" }, [
-        !_vm.value
+        !_vm.val
           ? _c(
               "span",
               {
                 staticClass: "btn input-group-text",
                 on: {
                   click: function($event) {
-                    _vm.value = _vm.today()
+                    _vm.val = _vm.today()
                   }
                 }
               },
@@ -623,14 +623,14 @@ var render = function() {
             )
           : _vm._e(),
         _vm._v(" "),
-        _vm.clearButton && _vm.value
+        _vm.clearButton && _vm.val
           ? _c(
               "span",
               {
                 staticClass: "btn input-group-text",
                 on: {
                   click: function($event) {
-                    _vm.value = ""
+                    _vm.val = ""
                   }
                 }
               },
@@ -685,8 +685,8 @@ var render = function() {
             _c(
               "div",
               { staticClass: "datepicker-weekRange" },
-              _vm._l(_vm.text.daysOfWeek, function(w) {
-                return _c("span", { key: _vm.index }, [_vm._v(_vm._s(w))])
+              _vm._l(_vm.text.daysOfWeek, function(w, index) {
+                return _c("span", { key: index }, [_vm._v(_vm._s(w))])
               }),
               0
             ),
@@ -694,11 +694,11 @@ var render = function() {
             _c(
               "div",
               { staticClass: "datepicker-dateRange" },
-              _vm._l(_vm.dateRange, function(d) {
+              _vm._l(_vm.dateRange, function(d, index) {
                 return _c(
                   "span",
                   {
-                    key: _vm.index,
+                    key: index,
                     class: d.sclass,
                     on: {
                       click: function($event) {
@@ -769,10 +769,10 @@ var render = function() {
                       {
                         class: {
                           "datepicker-dateRange-item-active":
-                            _vm.text.months[_vm.parse(_vm.value).getMonth()] ===
+                            _vm.text.months[_vm.parse(_vm.val).getMonth()] ===
                               m &&
                             _vm.currDate.getFullYear() ===
-                              _vm.parse(_vm.value).getFullYear()
+                              _vm.parse(_vm.val).getFullYear()
                         },
                         on: {
                           click: function($event) {
@@ -843,7 +843,7 @@ var render = function() {
                       {
                         class: {
                           "datepicker-dateRange-item-active":
-                            _vm.parse(this.value).getFullYear() === decade.text
+                            _vm.parse(this.val).getFullYear() === decade.text
                         },
                         on: {
                           click: function($event) {
