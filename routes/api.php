@@ -64,6 +64,13 @@ Route::group(['as'=>'sobrestamento.','prefix' =>'sobrestamento'],function(){
     Route::post('edit/{id}',['as' =>'edit','uses'=>'_Api\SJD\Proc\SobrestamentoApiController@edit']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\Proc\SobrestamentoApiController@destroy']);
 });
+// rotas componente SubForm/Arquivo.vue
+Route::group(['as'=>'arquivo.','prefix' =>'arquivo'],function(){
+    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'_Api\SJD\Proc\ArquivoApiController@list']);
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\Proc\ArquivoApiController@store']);
+    Route::post('edit/{id}',['as' =>'edit','uses'=>'_Api\SJD\Proc\ArquivoApiController@edit']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\Proc\ArquivoApiController@destroy']);
+});
 Route::group(['as'=>'vitima.','prefix' =>'vitima'],function(){
     Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'_Api\SJD\PM\VitimaApiController@list']);
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\VitimaApiController@store']);

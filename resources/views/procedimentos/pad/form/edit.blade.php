@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'adl - Editar')
+@section('title', 'ADL - Editar')
 
 @section('content_header')
 <section class="content-header">   
@@ -11,13 +11,6 @@
   <li class="active">ADL - Editar</li>
   </ol>
   <br>
-  <div class='form-group col-md-12 col-xs-12' style='padding-left: 0px'>
-    <div class='btn-group col-md-8 col-xs-12 ' style='padding-left: 0px'>
-      <a class="btn btn-success col-md-3 col-xs-4 "  href="#">Editar</a>
-    <a class="btn btn-default col-md-3 col-xs-4 "  href="{{route('adl.movimentos',['ref' => $proc['sjd_ref'],'ano' => $proc['sjd_ref_ano']])}}">Movimentos</a>
-      <a class="btn btn-default col-md-3 col-xs-4 "  href="{{route('adl.sobrestamentos',['ref' => $proc['sjd_ref'],'ano' => $proc['sjd_ref_ano']])}}">Sobrestamentos</a>   
-    </div>
-  <div>
 </section>
   
 @stop
@@ -26,340 +19,186 @@
      <!-- Content Wrapper. Contains page content -->
   <div class="">
     <!-- Content Header (Page header) -->
-<section class="">
-    <div class="row">
+<section>
+    <div class="nav-tabs-custom">
+        <v-tab-menu
+        :itens="[
+            {idp: 'principal',name: 'Principal', cls: 'active'},
+            {idp: 'envolvidos',name: 'Envolvidos'},
+            {idp: 'documentos',name: 'Documentos'},
+            {idp: 'recursos',name: 'Recursos'},
+            {idp: 'membros',name: 'Membros'},
+            {idp: 'movimentos',name: 'Movimentos'},
+            {idp: 'sobrestamentos',name: 'Sobrestamentos'},
+            {idp: 'encaminhamentos',name: 'Encaminhamentos'},
+            {idp: 'arquivo',name: 'Arquivo'},
 
-        <div class="col-xs-12">
+        ]">
 
-        <div class="box">{{-- formulário principal --}}
-            <div class="box-header">
-                {{-- sjd_ref / sjd_ref_ano --}}
-                <h4 class="box-title">N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal</h4>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                        <i class="fa fa-plus"></i>
-                    </button> 
-                </div>             
-            </div>
+        </v-tab-menu>
+       
+        <div class="tab-content">
+            <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
+                {!! Form::model($proc,['url' => route('adl.update',$proc['id_adl']),'method' => 'put']) !!}
+                <v-label label="id_andamento" title="Andamento">
+                    {!! Form::select('id_andamento',config('sistema.andamentoADL'),null, ['class' => 'form-control ']) !!}
+                </v-label>
+                <v-label label="id_andamentocoger" title="Andamento COGER">
+                    {!! Form::select('id_andamentocoger',config('sistema.andamentocogerADL'),null, ['class' => 'form-control ']) !!}
+                </v-label>
+                <v-label label="id_motivoconselho" title="Motivo ADL (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">
+                    {!! Form::select('id_motivoconselho', config('sistema.motivoConselho'),null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
+                </v-label>
+                <v-label label="check" title="Selecione: " md="12" lg="12">
+                    <v-checkbox value="{{$proc['ac_desempenho_bl']}}" name="ac_desempenho_bl" true-value="S" false-value="0"
+                    text="Procedido incorretamente no desempenho do cargo ou função.">
+                    </v-checkbox>
+                    <v-checkbox value="{{$proc['ac_conduta_bl']}}" name="ac_conduta_bl" true-value="S" false-value="0"
+                    text="Conduta irregular ou ato que venha a denegrir a imagem da Corporação.">
+                    </v-checkbox>
+                    <v-checkbox value="{{$proc['ac_honra_bl']}}" name="ac_honra_bl" true-value="S" false-value="0"
+                    text="Praticado ato que afete a honra pessoal, o pundonor militar ou o decoro da classe.">
+                    </v-checkbox>
+                </v-label>
+                <v-label label="outromotivo" title="Especificar (no caso de outros motivos)">
+                    {{ Form::text('outromotivo', null, ['class' => 'form-control ']) }}
+                </v-label>
+                <v-label label="id_situacaoconselho" title="Situação">
+                    {!! Form::select('id_situacaoconselho',config('sistema.situacaoConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+                </v-label>
+                <v-label label="portaria_numero" title="N° Portaria">
+                    {{ Form::text('portaria_numero', null, ['class' => 'form-control ']) }}
+                </v-label>
+                <v-label label="portaria_data" title="Data da Portaria" icon="fa fa-calendar">
+                    <v-datepicker name="portaria_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['portaria_data'] ?? ''}}"></v-datepicker>
+                </v-label>
+                <v-label label="doc_tipo" title="Tipo de boletim">
+                    {!! Form::select('doc_tipo',config('sistema.tipoBoletim'),null, ['class' => 'form-control ']) !!}
+                </v-label>
+                <v-label label="doc_numero" title="N° Boletim">
+                    {{ Form::text('doc_numero', null, ['class' => 'form-control ']) }}
+                </v-label>
+                <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
+                    <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>
+                </v-label>
+                <v-label label="abertura_data" title="Data da abertura" icon="fa fa-calendar">
+                    <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['abertura_data'] ?? ''}}"></v-datepicker>
+                </v-label>
+                <v-label label="prescricao_data" title="Data da prescricao" icon="fa fa-calendar">
+                    <v-datepicker name="prescricao_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['prescricao_data'] ?? ''}}"></v-datepicker>
+                </v-label>
+                <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
+                    {!! Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
+                </v-label>
+                {!! Form::submit('Alterar ADL',['class' => 'btn btn-primary btn-block']) !!}
+                {!! Form::close() !!}
+            </v-tab-item>
+            <v-tab-item title="Envolvidos" idp="envolvidos">
+                <v-proced-origem></v-proced-origem><br>           
+                <v-acusado idp="{{$proc['id_adl']}}" situacao="{{sistema('procSituacao','adl')}}" ></v-acusado><br>
+                <v-vitima idp="{{$proc['id_adl']}}" ></v-vitima><br>
+            </v-tab-item>
+            <v-tab-item title="Documentos" idp="documentos">
+                <file-upload 
+                        title="Libelo:"
+                        name="libelo_file"
+                        proc="adl"
+                        idp="{{$proc['id_adl']}}"
+                        :ext="['pdf']" 
+                        :candelete="{{session('is_admin')}}"
+                        ></file-upload>
 
-            <div class="box-body">
+                <file-upload 
+                    title="Parecer:"
+                    name="parecer_file"
+                    proc="adl"
+                    idp="{{$proc['id_adl']}}"
+                    :ext="['pdf']" 
+                    :candelete="{{session('is_admin')}}"
+                    ></file-upload>
+                <v-item-unique title="Parecer comissão" proc="adl" idp="{{$proc['id_adl']}}" name="parecer_comissao"></v-item-unique>
 
-            {!! Form::model($proc,['url' => route('adl.update',['ref' => $proc['sjd_ref'],'ano' => $proc['sjd_ref_ano']]),'method' => 'put', 'files' => true]) !!}
-            @component('components.form.select',
-            ['titulo' => 'Andamento','campo' => 'id_andamento', 'opt' => config('sistema.andamentoADL')])
-            @endcomponent
+                <file-upload 
+                    title="Parecer CMT Geral:"
+                    name="decisao_file"
+                    proc="adl"
+                    idp="{{$proc['id_adl']}}"
+                    :ext="['pdf']" 
+                    :candelete="{{session('is_admin')}}"
+                    ></file-upload>
+                <v-item-unique title="Parecer CMT Geral" proc="adl" idp="{{$proc['id_adl']}}" name="parecer_cmtgeral"></v-item-unique>
+            </v-tab-item>
+            <v-tab-item title="Recursos" idp="recursos">
+                <file-upload 
+                    title="Reconsideração de ato (solução):"
+                    name="rec_ato_file"
+                    proc="adl"
+                    idp="{{$proc['id_adl']}}"
+                    :ext="['pdf']" 
+                    :candelete="{{session('is_admin')}}"
+                    >
+                </file-upload>
 
-            @component('components.form.select',
-            ['titulo' => 'Andamento COGER','campo' => 'andamentocoger', 'opt' => config('sistema.andamentocogerADL'), 'class' => 'select2'])
-            @endcomponent
+                <file-upload 
+                    title="Recurso CMT OPM:"
+                    name="rec_cmt_file"
+                    proc="adl"
+                    idp="{{$proc['id_adl']}}"
+                    :ext="['pdf']" 
+                    :candelete="{{session('is_admin')}}"
+                    >
+                </file-upload>
 
-            @component('components.form.text',['titulo' => 'Modelo','campo' => 'modelo'])
-            @endcomponent
+                <file-upload 
+                    title="Recurso CMT CRPM:"
+                    name="rec_crpm_file"
+                    proc="adl"
+                    idp="{{$proc['id_adl']}}"
+                    :ext="['pdf']" 
+                    :candelete="{{session('is_admin')}}"
+                    >
+                </file-upload>
 
-            {{-- linha --}}
-            <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-            {!! Form::label('id_motivoconselho', 'Motivo ADL (Lei nº 16.544/2010)')!!} <a href="https://goo.gl/L1m5Ps" target="_blank"><i class="fa fa-link text-info"></i></a><br>
-            {!! Form::select('id_motivoconselho', config('sistema.motivoConselho'),'', ['class' => 'form-control select2', 'id' => 'descricao']) !!}
-            @if ($errors->has('id_motivoconselho'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('id_motivoconselho') }}</strong>
-                </span>
-            @endif
-            </div>
-
-            @component('components.form.text',['titulo' => 'Especificar (no caso de outros motivos)','campo' => 'outromotivo'])
-            @endcomponent
-
-            @component('components.form.select',
-            ['titulo' => 'Situação','campo' => 'id_situacaoconselho', 'opt' => config('sistema.situacaoConselho'), 'id' => 'descricao'])
-            @endcomponent
-
-            @component('components.form.text',['titulo' => 'N° Portaria','campo' => 'portaria_numero'])
-            @endcomponent
-            
-            @component('components.form.date',['titulo' => 'Data da portaria','campo' => 'portaria_data'])
-            @endcomponent
-
-            @component('components.form.select',
-            ['titulo' => 'Tipo de boletim','campo' => 'doc_tipo', 'opt' => config('sistema.tipoBoletim')])
-            @endcomponent
-
-            @component('components.form.text',['titulo' => 'N° Boletim','campo' => 'doc_numero'])
-            @endcomponent
-
-            @component('components.form.date',['titulo' => 'Data da fato','campo' => 'fato_data'])
-            @endcomponent
-
-            @component('components.form.date',['titulo' => 'Data da abertura','campo' => 'abertura_data'])
-            @endcomponent
-
-            @component('components.form.date',['titulo' => 'Data da prescricao','campo' => 'prescricao_data'])
-            @endcomponent
-
-            @component('components.form.sintese_txt')
-            @endcomponent
-
-            {{-- linha --}}
-            
-            <br>
-            
-            @component('components.subform',
-            [
-                'title' => 'Procedimento(s) de Origem (apenas se houver)',
-                'btn' => 'Adicionar documento de origem',
-                'arquivo' => 'ligacao',
-                'relacao' => $ligacao,
-                'proc' => 'adl',
-                'unico' => false
-            ])    
-            @endcomponent
-            
-
-            @component('components.subform',
-            [
-                'title' => 'Acusado',
-                'btn' => 'Adicionar acusado',
-                'arquivo' => 'envolvido',
-                'relacao' => $envolvido,
-                'proc' => 'adl',
-                'unico' => false
-            ])    
-            @endcomponent
-
-            @component('components.subform',
-            [
-                'title' => 'Vítima (apenas se houver)',
-                'btn' => 'Adicionar vítima',
-                'arquivo' => 'ofendido',
-                'relacao' => $ofendido,
-                'proc' => 'adl',
-                'unico' => false
-            ])    
-            @endcomponent
-            
-
-            </div>
+                <file-upload 
+                    title="Recurso CMT Geral:"
+                    name="rec_cg_file"
+                    proc="adl"
+                    idp="{{$proc['id_adl']}}"
+                    :ext="['pdf']" 
+                    :candelete="{{session('is_admin')}}"
+                    >
+                </file-upload>
+            </v-tab-item>
+            <v-tab-item title="Membros" idp="membros">
+                <v-membro idp="{{$proc['id_adl']}}"></v-membro>
+            </v-tab-item>
+            <v-tab-item title="Movimentos" idp="movimentos">
+                <v-movimento idp="{{$proc['id_adl']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+            </v-tab-item>
+            <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
+                <v-sobrestamento idp="{{$proc['id_adl']}}" ></v-sobrestamento>
+            </v-tab-item>
+            <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
+                Encaminhamentos
+            </v-tab-item>
+            <v-tab-item title="Arquivo" idp="arquivo">
+                <v-arquivo idp="{{$proc['id_adl']}}" ></v-arquivo>
+            </v-tab-item>
         </div>
-    </div>{{-- procedimento principal --}}
-
-</div>
-{{-- DOCUMENTOS --}}
-<div class="box">{{-- formulário principal --}}
-    <div class="box-header">
-        {{-- sjd_ref / sjd_ref_ano --}}
-        <h4 class="box-title">Documentos</h4>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                <i class="fa fa-plus"></i>
-            </button> 
-        </div>             
     </div>
 
-    <div class="box-body">
-
-    {{-- linha --}}
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        {!! Form::sfile('libelo','Libelo:','adl',$proc['libelo'], ['class' => 'form-control']) !!}
-        @if ($errors->has('libelo'))
-            <span class='help-block'>
-                <strong>{{$errors->first('libelo')}}</strong>
-            </span>
-        @endif
+    <div class="content-footer">
+        <br>
+        
     </div>
-
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-    {!! Form::label('parecer_comissao', 'Parecer comissão')!!} <br>
-    {!! Form::text('parecer_comissao', $proc['parecer_comissao'], ['class' => 'form-control']) !!}
-    @if ($errors->has('parecer_comissao'))
-        <span class="help-block">
-            <strong>{{ $errors->first('parecer_comissao') }}</strong>
-        </span>
-    @endif
-    </div>
-
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        {!! Form::sfile('parecer_file','Parecer:','adl',$proc['parecer_file'], ['class' => 'form-control']) !!}
-        @if ($errors->has('parecer_file'))
-            <span class='help-block'>
-                <strong>{{$errors->first('parecer_file')}}</strong>
-            </span>
-        @endif
-    </div>
-    {{-- linha --}}
-
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-    {!! Form::label('parecer_cmtgeral', 'Parecer CMT Geral')!!} <br>
-    {!! Form::text('parecer_cmtgeral', $proc['parecer_cmtgeral'], ['class' => 'form-control']) !!}
-    @if ($errors->has('parecer_cmtgeral'))
-        <span class="help-block">
-            <strong>{{ $errors->first('parecer_cmtgeral') }}</strong>
-        </span>
-    @endif
-    </div>
-
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        {!! Form::sfile('decisao_file','Parecer CMT Geral:','adl',$proc['decisao_file'], ['class' => 'form-control']) !!}
-        @if ($errors->has('decisao_file'))
-            <span class='help-block'>
-                <strong>{{$errors->first('decisao_file')}}</strong>
-            </span>
-        @endif
-    </div>
-
-    <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
-        <h5>Arquivos excluídos</h5>
-        @forelse ($arquivos_apagados as $aa)
-            <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
-                <a href="{{asset('public/storage/arquivo/adl/'.$proc['id_adl'].'/'.$aa->objeto.'')}}" target='_blank'>
-                    <i class='fa fa-file-pdf-o'></i>{{$aa->objeto}}
-                </a>&emsp;Excluído por {{special_ucwords($aa->nome)}}, RG:{{$aa->rg}}, em: {{$aa->created_at}}
-            </div>   
-        @empty
-        <h6>Nenhum arquivo</h6>
-        @endforelse
-    </div>
-
-    </div>
-</div>
-{{-- \DOCUMENTOS --}}
-{{-- RECURSOS --}}
-<div class="box">
-    <div class="box-header">
-        {{-- sjd_ref / sjd_ref_ano --}}
-        <h4 class="box-title">Recursos</h4>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                <i class="fa fa-plus"></i>
-            </button> 
-        </div>             
-    </div>
-
-    <div class="box-body">
-
-    {{-- linha --}}
-    <div class='col-md-6 col-xs-12'>
-        {!! Form::sfile('rec_ato_file','Reconsideração de ato (solução): ','fatd',$proc['rec_ato_file']) !!}
-    </div>
-
-    <div class='col-md-6 col-xs-12'>
-        {!! Form::sfile('rec_cmt_file','Recurso CMT OPM','fatd',$proc['rec_cmt_file']) !!}
-    </div>
-
-    {{-- linha --}}
-    <div class='col-md-6 col-xs-12'>
-        {!! Form::sfile('rec_crpm_file','Recurso CMT CRPM:','fatd',$proc['rec_crpm_file']) !!}
-    </div>
-
-    <div class='col-md-6 col-xs-12'>
-        {!! Form::sfile('rec_cg_file','Recurso CMT Geral:','fatd',$proc['rec_cg_file']) !!}
-    </div>
-
-    </div>
-</div>
-{{-- \RECURSOS --}}
-{{-- MEMBROS --}}
-<div class="box">
-    <div class="box-header">
-        {{-- sjd_ref / sjd_ref_ano --}}
-        <h4 class="box-title">Membros</h4>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                <i class="fa fa-plus"></i>
-            </button> 
-        </div>             
-    </div>
-
-    <div class="box-body">
-
-    {{--  presidente --}}
-    <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-        {!! Form::label('presidente-rg', 'RG do presidente')!!} <br>
-        {!! Form::text('presidente-rg',$presidente['rg'],
-        ['onblur' => "completaDados($(this).val(),'presidente-nome','presidente-posto')",'class' => 'form-control']) !!}
-    </div>
-
-    <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-        {!! Form::label('presidente-nome', 'Nome do presidente')!!} <br>
-        {!! Form::text('presidente-nome',$presidente['nome'],['readonly','class' => 'form-control']) !!}
-    </div>
-
-    <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-        {!! Form::label('presidente-posto', 'Posto/Graduação')!!} <br>
-        {!! Form::text('presidente-posto',$presidente['cargo'],['readonly','class' => 'form-control']) !!}
-    </div>
-
-    {{--  escrivao --}}
-    <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-        {!! Form::label('escrivao-rg', 'RG do escrivao')!!} <br>
-        {!! Form::text('escrivao-rg',$escrivao['rg'],
-        ['onblur' => "completaDados($(this).val(),'escrivao-nome','escrivao-posto')",'class' => 'form-control']) !!}
-    </div>
-
-    <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-        {!! Form::label('escrivao-nome', 'Nome do escrivao')!!} <br>
-        {!! Form::text('escrivao-nome',$escrivao['nome'],['readonly','class' => 'form-control']) !!}
-    </div>
-
-    <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-        {!! Form::label('escrivao-posto', 'Posto/Graduação')!!} <br>
-        {!! Form::text('escrivao-posto',$escrivao['cargo'],['readonly','class' => 'form-control']) !!}
-    </div>
-
-    {{--  defensor --}}
-    <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-        {!! Form::label('defensor-rg', 'RG do defensor')!!} <br>
-        {!! Form::text('defensor-rg',$defensor['rg'],
-        ['onblur' => "completaDados($(this).val(),'defensor-nome','defensor-posto')",'class' => 'form-control']) !!}
-    </div>
-
-    <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-        {!! Form::label('defensor-nome', 'Nome do defensor')!!} <br>
-        {!! Form::text('defensor-nome',$defensor['nome'],['readonly','class' => 'form-control']) !!}
-    </div>
-
-    <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-        {!! Form::label('defensor-posto', 'Posto/Graduação')!!} <br>
-        {!! Form::text('defensor-posto',$defensor['cargo'],['readonly','class' => 'form-control']) !!}
-    </div>
-
-    </div>
-</div>
-{{-- \MEMBROS --}}
-
-
-<div class="content-footer">
-    <br>
-    {!! Form::submit('Alterar ADL',['class' => 'btn btn-primary btn-block']) !!}
-    {!! Form::close() !!}
-</div>
-
 
 </section>
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
 @section('js')
-  @include('vendor.adminlte.includes.pickers')
-  @include('vendor.adminlte.includes.select2')
-<script>
-
-    $("#descricao").on('load, change',function ()
-    {
-        var campo = $("#descricao").val();
-        console.log(campo);
-        if (campo == 'Outro') 
-        {
-            $(".descricao_outros").show();
-        }
-        else
-        {
-            $(".descricao_outros").hide();
-        }
-    });
-
-</script>
+@include('vendor.adminlte.includes.vue')
 @stop
 

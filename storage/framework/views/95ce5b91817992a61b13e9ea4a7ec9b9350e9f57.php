@@ -52,9 +52,15 @@
 
                 </v-label>
                 <v-label label="check" title="Selecione: " md="12" lg="12">
-                    <?php echo e(Form::checkbox("ac_desempenho_bl","On",true,["class" => "form-group"])); ?>Procedido incorretamente no desempenho do cargo ou função.<br>
-                    <?php echo e(Form::checkbox("ac_conduta_bl","On",true,["class" => "form-group"])); ?>Conduta irregular ou ato que venha a denegrir a imagem da Corporação.<br>
-                    <?php echo e(Form::checkbox("ac_honra_bl","On",true,["class" => "form-group"])); ?>Praticado ato que afete a honra pessoal, o pundonor militar ou o decoro da classe.<br>
+                    <v-checkbox value="<?php echo e($proc['ac_desempenho_bl']); ?>" name="ac_desempenho_bl" true-value="S" false-value="0"
+                    text="Procedido incorretamente no desempenho do cargo ou função.">
+                    </v-checkbox>
+                    <v-checkbox value="<?php echo e($proc['ac_conduta_bl']); ?>" name="ac_conduta_bl" true-value="S" false-value="0"
+                    text="Conduta irregular ou ato que venha a denegrir a imagem da Corporação.">
+                    </v-checkbox>
+                    <v-checkbox value="<?php echo e($proc['ac_honra_bl']); ?>" name="ac_honra_bl" true-value="S" false-value="0"
+                    text="Praticado ato que afete a honra pessoal, o pundonor militar ou o decoro da classe.">
+                    </v-checkbox>
                 </v-label>
                 <v-label label="outromotivo" title="Especificar (no caso de outros motivos)">
                     <?php echo e(Form::text('outromotivo', null, ['class' => 'form-control '])); ?>
@@ -186,7 +192,7 @@
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                arquivo
+                <v-arquivo idp="<?php echo e($proc['id_adl']); ?>" ></v-arquivo>
             </v-tab-item>
         </div>
     </div>

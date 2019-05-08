@@ -3,7 +3,7 @@
     <input v-if="name" type="hidden" :name="name" :value="checked?trueValue:falseValue" />
     <span v-if="!isButton" class="icon dropdown-toggle" :class="[checked?'btn-'+typeColor:'',{bg:typeColor==='default'}]"></span>
     <span v-if="!isButton&&checked&&typeColor==='default'" class="icon"></span>
-    <slot></slot>
+    &nbsp;<span v-if="text" style="font-size: 1rem;">{{text}}</span>
   </a>
 </template>
 
@@ -14,6 +14,7 @@ export default {
     disabled: {type: Boolean, default: false},
     falseValue: {default: false},
     name: {type: String, default: null},
+    text: {type: String, default: null},
     readonly: {type: Boolean, default: false},
     trueValue: {default: true},
     type: {type: String, default: null},

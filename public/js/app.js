@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-sobrestamento","1":"v-movimento","2":"v-select","3":"v-vitima","4":"v-membro","5":"v-acusado","6":"v-datepicker","7":"v-proced-origem","8":"v-defensor","9":"v-tab-item","10":"v-label","11":"v-item-unique","12":"v-cautelas","13":"file-upload","14":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
+/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-sobrestamento","1":"v-movimento","2":"v-select","3":"v-vitima","4":"v-membro","5":"v-acusado","6":"v-datepicker","7":"v-proced-origem","8":"v-defensor","9":"v-tab-item","10":"v-label","11":"v-item-unique","12":"v-cautelas","13":"file-upload","14":"v-tab-menu","16":"v-checkbox","17":"v-arquivo"}[chunkId]||chunkId) + ".bundle.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -48804,6 +48804,9 @@ Vue.component('v-movimento', function () {
 Vue.component('v-sobrestamento', function () {
   return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Sobrestamento.vue"));
 });
+Vue.component('v-arquivo', function () {
+  return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Arquivo.vue"));
+});
 
 // FDI
 Vue.component('v-cautelas', function () {
@@ -48824,6 +48827,9 @@ Vue.component('v-datepicker', function () {
 Vue.component('v-select', function () {
   return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Select.vue"));
 });
+Vue.component('v-checkbox', function () {
+  return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Checkbox.vue"));
+});
 // Não revisados
 /*Vue.component('v-accordion', function (resolve) {require(['vue-strap']).accordion});
 Vue.component('v-affix', function (resolve) {require(['vue-strap']).affix});
@@ -48831,7 +48837,6 @@ Vue.component('v-alert', function (resolve) {require(['vue-strap']).alert});
 Vue.component('v-aside', function (resolve) {require(['vue-strap']).aside});
 Vue.component('v-button-group', function (resolve) {require(['vue-strap']).buttonGroup});
 Vue.component('v-carousel', function (resolve) {require(['vue-strap']).carousel});
-Vue.component('v-checkbox', function (resolve) {require(['vue-strap']).checkbox});
 Vue.component('v-dropdown', function (resolve) {require(['vue-strap']).dropdown});
 Vue.component('v-form-group', function (resolve) {require(['vue-strap']).formGroup});
 Vue.component('v-form-validator', function (resolve) {require(['vue-strap']).formValidator});
