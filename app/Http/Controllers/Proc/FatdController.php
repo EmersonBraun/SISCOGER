@@ -117,37 +117,7 @@ class FatdController extends Controller
         }
 
         //cria o novo procedimento
-        //Fatd::create($dados);
-        //dd(session());
-        $id = Fatd::ultimo_id();
-
-        //ligação (documentos de origem)
-        if ($dados['ligacao']) {
-            $ligacao = $dados['ligacao'];
-            foreach ($ligacao as $l) {
-                $l['id_fatd'] = $id;
-                $l['origem_proc'] = 'fatd';
-                $l['origem_sjd_ref'] = $ref;
-                $l['origem_sjd_ref_ano'] = $ano;
-                $l['origem_opm'] = session('opm_descricao');
-                Ligacao::create($l);
-            }   
-        }
-
-        //envolvido
-        if ($dados['envolvido']) {
-            $envolvido = $dados['envolvido'];
-            foreach ($envolvido as $e) {
-                dd($e);
-                // $e['id_fatd'] = $id;
-                // $e['origem_proc'] = 'fatd';
-                // $e['origem_sjd_ref'] = $ref;
-                // $e['origem_sjd_ref_ano'] = $ano;
-                // $e['origem_opm'] = session('opm_descricao');
-                // Envolvido::create($l);
-            } 
-        }
-        
+        Fatd::create($dados);
 
         toast()->success('N° '.$ref.'/'.$ano,'FATD Inserido');
         return redirect()->route('fatd.lista',['ano' => date('Y')]);
@@ -170,22 +140,8 @@ class FatdController extends Controller
         //teste para verificar se pode ver superior, caso não possa aborta
         ver_superior($envolvido, Auth::user());
 
-        //----ofendido no procedimento
-        $ofendidos = Ofendido::ofendido('id_fatd',$proc->id_fatd)->first();
 
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref, $proc->sjd_ref_ano)->where('destino_proc','=','fatd')->first();
-        
-        //membros
-        $encarregado = Envolvido::encarregado()->where('id_fatd','=',$proc->id_fatd)->first();
-        $acusador = Envolvido::acusador()->where('id_fatd','=',$proc->id_fatd)->first();
-        $defensor = Envolvido::defensor()->where('id_fatd','=',$proc->id_fatd)->first();
-
-        //movimentos e sobrestamentos
-        $movimentos = Movimento::where('id_fatd','=',$proc->id_fatd)->get();
-        $sobrestamentos = Sobrestamento::where('id_fatd','=',$proc->id_fatd)->get();
-
-        return view('procedimentos.fatd.form.show', compact('proc','envolvido','ofendido','ligacao','encarregado','acusador','defensor','movimentos','sobrestamentos'));
+        return view('procedimentos.fatd.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano)
@@ -203,20 +159,7 @@ class FatdController extends Controller
         //teste para verificar se pode ver superior, caso não possa aborta
         ver_superior($envolvido, Auth::user());
 
-        //----ofendido no procedimento
-        $ofendido = Ofendido::ofendido('id_fatd',$proc->id_fatd)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref,$proc->sjd_ref_ano)->where('destino_proc','=','fatd')->first();
-         
-        $encarregado = Envolvido::encarregado()->where('id_fatd','=',$proc->id_fatd)->first();
-        $acusador = Envolvido::acusador()->where('id_fatd','=',$proc->id_fatd)->first();
-        $defensor = Envolvido::defensor()->where('id_fatd','=',$proc->id_fatd)->first();
-        
-        //-- arquivos apagados
-        $arquivos_apagados = ArquivosApagado::proc_id('fatd',$proc->id_fatd)->get();
-
-        return view('procedimentos.fatd.form.edit', compact('proc','envolvido','ofendido','ligacao','encarregado','acusador','defensor','movimentos','sobrestamentos','arquivos_apagados'));
+        return view('procedimentos.fatd.form.edit', compact('proc'));
     }
 
 
@@ -260,46 +203,4 @@ class FatdController extends Controller
     	toast()->success('N° '.$ref.'/'.$ano,'FATD Apagado');
         return redirect()->route('fatd.lista',['ano' => date('Y')]);
     }
-
-    public function movimentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Fatd::ref_ano($ref, $ano)->first();
-        //verifica se o usuário tem permissão para ver todas unidades s/n
-        $verTodasUnidades = (User::permission('todas-unidades')->count() != NULL) ? 1 : 0;
-
-        //verificar se a opm de login é diferente da unidade do procedimento
-        $opm = ($proc->cdopm != session()->get('cdopmbase')) ? 1 : 0;
-
-        /*não pode ver todas unidades e a unidade do procedimento diferente da opm do login
-        *redireciona o erro de acesso não permitido */
-        if ($verTodasUnidades == 0 && $opm == 1) return abort(403);
-
-        $movimentos = Movimento::where('id_fatd','=',$proc->id_fatd)->get();
-        $sobrestamentos = Sobrestamento::where('id_fatd','=',$proc->id_fatd)->get();
-
-        return view('procedimentos.fatd.form.movimentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
-    public function sobrestamentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Fatd::ref_ano($ref, $ano)->first();
-
-        //verifica se o usuário tem permissão para ver todas unidades s/n
-        $verTodasUnidades = (User::permission('todas-unidades')->count() != NULL) ? 1 : 0;
-
-        //verificar se a opm de login é diferente da unidade do procedimento
-        $opm = ($proc->cdopm != session()->get('cdopmbase')) ? 1 : 0;
-
-        /*não pode ver todas unidades e a unidade do procedimento diferente da opm do login
-        *redireciona o erro de acesso não permitido */
-        if ($verTodasUnidades == 0 && $opm == 1) return abort(403);
-
-        $movimentos = Movimento::where('id_fatd','=',$proc->id_fatd)->get();
-        $sobrestamentos = Sobrestamento::where('id_fatd','=',$proc->id_fatd)->get();
-        
-        return view('procedimentos.fatd.form.sobrestamentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
 }

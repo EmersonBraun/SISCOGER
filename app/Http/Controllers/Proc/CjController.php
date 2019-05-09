@@ -127,30 +127,12 @@ class CjController extends Controller
         $proc = Cj::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-        
+        ver_unidade($proc);
+
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_cj','=',$proc->id_cj)->first();
+        $envolvido = Envolvido::acusado()->where('id_cj','=',$proc->id_cj)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendidos = Ofendido::ofendido('id_cj',$proc->id_cj)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref, $proc->sjd_ref_ano)->where('destino_proc','=','cj')->first();
-        
-        //membros
-        $presidente = Envolvido::presidente()->where('id_cj','=',$proc->id_cj)->first();
-        $escrivao = Envolvido::escrivao()->where('id_cj','=',$proc->id_cj)->first();
-        $defensor = Envolvido::defensor()->where('id_cj','=',$proc->id_cj)->first();
-
-        //movimentos e sobrestamentos
-        $movimentos = Movimento::where('id_cj','=',$proc->id_cj)->get();
-        $sobrestamentos = Sobrestamento::where('id_cj','=',$proc->id_cj)->get();
-
-        return view('procedimentos.cj.form.show', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos'));
+        return view('procedimentos.cj.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano)
@@ -160,28 +142,12 @@ class CjController extends Controller
         $proc = Cj::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
+        ver_unidade($proc);
 
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_cj','=',$proc->id_cj)->first();
+        $envolvido = Envolvido::acusado()->where('id_cj','=',$proc->id_cj)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendido = Ofendido::ofendido('id_cj',$proc->id_cj)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref,$proc->sjd_ref_ano)->where('destino_proc','=','cj')->first();
-         
-        $presidente = Envolvido::presidente()->where('id_cj','=',$proc->id_cj)->first();
-        $escrivao = Envolvido::escrivao()->where('id_cj','=',$proc->id_cj)->first();
-        $defensor = Envolvido::defensor()->where('id_cj','=',$proc->id_cj)->first();
-        
-        //-- arquivos apagados
-        $arquivos_apagados = ArquivosApagado::proc_id('cj',$proc->id_cj)->get();
-
-        return view('procedimentos.cj.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos','arquivos_apagados'));
+        return view('procedimentos.cj.form.edit', compact('proc'));
     }
 
 
@@ -224,33 +190,6 @@ class CjController extends Controller
         //mensagem
     	toast()->success('CJ Apagado');
         return redirect()->route('cj.lista');
-    }
-
-    public function movimentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Cj::ref_ano($ref, $ano)->first();
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_cj','=',$proc->id_cj)->get();
-        $sobrestamentos = Sobrestamento::where('id_cj','=',$proc->id_cj)->get();
-
-        return view('procedimentos.cj.form.movimentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
-    public function sobrestamentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Cj::ref_ano($ref, $ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_cj','=',$proc->id_cj)->get();
-        $sobrestamentos = Sobrestamento::where('id_cj','=',$proc->id_cj)->get();
-        
-        return view('procedimentos.cj.form.sobrestamentos',compact('proc','movimentos','sobrestamentos'));
     }
 
 }

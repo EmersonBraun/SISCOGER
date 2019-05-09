@@ -46,15 +46,15 @@
                             <a class="btn btn-danger btn-block" @click="clear(false)"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-6 col-md-6 col-xs-6">
-                            <template v-if="!edit">
-                                <label>Adicionar</label><br>
-                                <a class="btn btn-success btn-block" :disabled="!local" 
-                                @click="createArquivo"><i class="fa fa-plus" style="color: white"></i></a>
-                            </template>
-                            <template v-else>
+                            <template v-if="edit">
                                 <label>Editar</label><br>
                                 <a class="btn btn-success btn-block" :disabled="!local" 
                                 @click="editArquivo"><i class="fa fa-plus" style="color: white"></i></a>
+                            </template>
+                            <template v-else>
+                                <label>Adicionar</label><br>
+                                <a class="btn btn-success btn-block" :disabled="!local" 
+                                @click="createArquivo"><i class="fa fa-plus" style="color: white"></i></a>
                             </template>
                         </div>
                     </form>
@@ -210,12 +210,13 @@
                 .catch((error) => console.log(error));
             },
             replaceArquivo(arquivo){
+                this.edit = arquivo.id_arquivo
+
                 this.arquivo_data = arquivo.arquivo_data,
                 this.local = arquivo.local_atual,
                 this.numero = arquivo.numero,
                 this.letra = arquivo.letra,
                 this.obs = arquivo.obs,
-                this.edit = arquivo.id_arquivo
 
                 // this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
                 this.add = true

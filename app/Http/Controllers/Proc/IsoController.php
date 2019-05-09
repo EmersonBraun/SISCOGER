@@ -116,30 +116,12 @@ class IsoController extends Controller
         $proc = Iso::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-        
+        ver_unidade($proc);
+
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_iso','=',$proc->id_iso)->first();
+        $envolvido = Envolvido::acusado()->where('id_iso','=',$proc->id_iso)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendidos = Ofendido::ofendido('id_iso',$proc->id_iso)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref, $proc->sjd_ref_ano)->where('destino_proc','=','iso')->first();
-        
-        //membros
-        $presidente = Envolvido::presidente()->where('id_iso','=',$proc->id_iso)->first();
-        $escrivao = Envolvido::escrivao()->where('id_iso','=',$proc->id_iso)->first();
-        $defensor = Envolvido::defensor()->where('id_iso','=',$proc->id_iso)->first();
-
-        //movimentos e sobrestamentos
-        $movimentos = Movimento::where('id_iso','=',$proc->id_iso)->get();
-        $sobrestamentos = Sobrestamento::where('id_iso','=',$proc->id_iso)->get();
-
-        return view('procedimentos.iso.form.show', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos'));
+        return view('procedimentos.iso.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano)
@@ -149,28 +131,12 @@ class IsoController extends Controller
         $proc = Iso::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
+        ver_unidade($proc);
 
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_iso','=',$proc->id_iso)->first();
+        $envolvido = Envolvido::acusado()->where('id_iso','=',$proc->id_iso)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendido = Ofendido::ofendido('id_iso',$proc->id_iso)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref,$proc->sjd_ref_ano)->where('destino_proc','=','iso')->first();
-         
-        $presidente = Envolvido::presidente()->where('id_iso','=',$proc->id_iso)->first();
-        $escrivao = Envolvido::escrivao()->where('id_iso','=',$proc->id_iso)->first();
-        $defensor = Envolvido::defensor()->where('id_iso','=',$proc->id_iso)->first();
-        
-        //-- arquivos apagados
-        $arquivos_apagados = ArquivosApagado::proc_id('iso',$proc->id_iso)->get();
-
-        return view('procedimentos.iso.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos','arquivos_apagados'));
+        return view('procedimentos.iso.form.edit', compact('proc'));
     }
 
 
@@ -214,32 +180,4 @@ class IsoController extends Controller
     	toast()->success('ISO Apagado');
         return redirect()->route('iso.lista');
     }
-
-    public function movimentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Iso::ref_ano($ref, $ano)->first();
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_iso','=',$proc->id_iso)->get();
-        $sobrestamentos = Sobrestamento::where('id_iso','=',$proc->id_iso)->get();
-
-        return view('procedimentos.iso.form.movimentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
-    public function sobrestamentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Iso::ref_ano($ref, $ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_iso','=',$proc->id_iso)->get();
-        $sobrestamentos = Sobrestamento::where('id_iso','=',$proc->id_iso)->get();
-        
-        return view('procedimentos.iso.form.sobrestamentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
 }

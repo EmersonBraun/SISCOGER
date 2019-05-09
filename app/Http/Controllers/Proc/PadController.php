@@ -103,30 +103,12 @@ class PadController extends Controller
         $proc = Pad::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-        
+        ver_unidade($proc);
+
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_pad','=',$proc->id_pad)->first();
+        $envolvido = Envolvido::acusado()->where('id_pad','=',$proc->id_pad)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendidos = Ofendido::ofendido('id_pad',$proc->id_pad)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref, $proc->sjd_ref_ano)->where('destino_proc','=','pad')->first();
-        
-        //membros
-        $presidente = Envolvido::presidente()->where('id_pad','=',$proc->id_pad)->first();
-        $escrivao = Envolvido::escrivao()->where('id_pad','=',$proc->id_pad)->first();
-        $defensor = Envolvido::defensor()->where('id_pad','=',$proc->id_pad)->first();
-
-        //movimentos e sobrestamentos
-        $movimentos = Movimento::where('id_pad','=',$proc->id_pad)->get();
-        $sobrestamentos = Sobrestamento::where('id_pad','=',$proc->id_pad)->get();
-
-        return view('procedimentos.pad.form.show', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos'));
+        return view('procedimentos.pad.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano)
@@ -136,28 +118,12 @@ class PadController extends Controller
         $proc = Pad::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
+        ver_unidade($proc);
 
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_pad','=',$proc->id_pad)->first();
+        $envolvido = Envolvido::acusado()->where('id_pad','=',$proc->id_pad)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendido = Ofendido::ofendido('id_pad',$proc->id_pad)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref,$proc->sjd_ref_ano)->where('destino_proc','=','pad')->first();
-         
-        $presidente = Envolvido::presidente()->where('id_pad','=',$proc->id_pad)->first();
-        $escrivao = Envolvido::escrivao()->where('id_pad','=',$proc->id_pad)->first();
-        $defensor = Envolvido::defensor()->where('id_pad','=',$proc->id_pad)->first();
-        
-        //-- arquivos apagados
-        $arquivos_apagados = ArquivosApagado::proc_id('pad',$proc->id_pad)->get();
-
-        return view('procedimentos.pad.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos','arquivos_apagados'));
+        return view('procedimentos.pad.form.edit', compact('proc'));
     }
 
 
@@ -201,32 +167,4 @@ class PadController extends Controller
     	toast()->success('PAD Apagado');
         return redirect()->route('pad.lista');
     }
-
-    public function movimentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Pad::ref_ano($ref, $ano)->first();
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_pad','=',$proc->id_pad)->get();
-        $sobrestamentos = Sobrestamento::where('id_pad','=',$proc->id_pad)->get();
-
-        return view('procedimentos.pad.form.movimentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
-    public function sobrestamentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Pad::ref_ano($ref, $ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_pad','=',$proc->id_pad)->get();
-        $sobrestamentos = Sobrestamento::where('id_pad','=',$proc->id_pad)->get();
-        
-        return view('procedimentos.pad.form.sobrestamentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
 }

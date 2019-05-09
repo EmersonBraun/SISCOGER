@@ -87,13 +87,18 @@
 
                         <div class="col-lg-1 col-md-1 col-xs 1">
                             <label>Cancelar</label><br>
-                            <a class="btn btn-danger btn-block" @click="cancel"><i class="fa fa-times" style="color: white"></i></a>
+                            <a class="btn btn-danger btn-block" @click="clear(true)"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs 1">
-                            <label>Adicionar</label><br>
-                            <a class="btn btn-success btn-block" :disabled="!rg.length || !nome.length" @click="createVitima()"><i class="fa fa-plus" style="color: white"></i></a>
+                            <template v-if="!edit">
+                                <label>Adicionar</label><br>
+                                <a class="btn btn-success btn-block" :disabled="!rg.length || !nome.length" @click="createVitima"><i class="fa fa-plus" style="color: white"></i></a>
+                            </template>
+                             <template v-else>
+                                <label>Editar</label><br>
+                                <a class="btn btn-success btn-block" :disabled="!rg.length || !nome.length" @click="editVitima"><i class="fa fa-plus" style="color: white"></i></a>
+                            </template>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -129,6 +134,9 @@
                                 <td v-if="dproc == 'sai' || dproc == 'proc_outros'">{{ vitima.envolvimento }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="First group">
+                                        <a type="button" @click="replaceVitima(vitima)" target="_blanck" class="btn btn-success" style="color: white">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
                                         <a type="button"  @click="removeVitima(vitima.id_ofendido, index)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
                                         </a>
@@ -178,6 +186,7 @@
                 resultado: false,
                 counter: 0,
                 only: false,
+                edit: ''
             }
         },
         filters:{
@@ -214,7 +223,6 @@
         },
         methods: {
              listVitima(){
-                this.clear()
                 let urlIndex = this.getBaseUrl + 'api/vitima/list/' + this.dproc + '/' +this.idp;
                 if(this.dproc && this.idp){
                     axios
@@ -223,7 +231,7 @@
                         this.vitimas = response.data
                         // console.log(response.data)
                     })
-                    .then(this.clear)//limpa a busca
+                    .then(this.clear(false))//limpa a busca
                     .catch(error => console.log(error));
                 }
             },
@@ -237,7 +245,35 @@
                 .then(this.listVitima())
                 .catch((error) => console.log(error));
             },
-            // apagar arquivo
+            replaceVitima(vitima){
+                this.rg = vitima.rg,
+                this.nome = vitima.nome,
+                this.resultado = vitima.resultado,
+                this.sexo = vitima.sexo,
+                this.fone = vitima.fone,
+                this.email = vitima.email,
+                this.idade = vitima.idade,
+                this.escolaridade = vitima.escolaridade,
+                this.vsituacao = vitima.situacao,
+
+                this.edit = vitima.id_ofendido
+                // this.titleSubstitute=" - Substituição do "+vitima.situacao+" "+vitima.nome
+
+                this.add = true
+            },
+            editVitima(){
+                let urledit = this.getBaseUrl + 'api/vitima/edit/' + this.edit;
+
+                let formData = document.getElementById('formData');
+                let data = new FormData(formData);
+                
+                axios.post( urledit,data)
+                .then(() => {
+                    this.listVitima()
+                    this.clear(false)
+                })
+                .catch((error) => console.log(error));
+            },
             removeVitima(id, index){
                 let urlDelete = this.getBaseUrl + 'api/vitima/destroy/' + id;
                 axios
@@ -245,8 +281,8 @@
                 .then(this.vitimas.splice(index,1))
                 .catch(error => console.log(error));
             },
-            cancel(){
-                this.add = false
+            clear(add){
+                this.add = add
                 this.rg = '',
                 this.nome = '',
                 this.resultado = '',
@@ -256,19 +292,8 @@
                 this.idade = '',
                 this.escolaridade = '',
                 this.vsituacao = '',
-                this.finded = false
-            },
-            clear(){
-                this.rg = '',
-                this.nome = '',
-                this.resultado = '',
-                this.sexo = '',
-                this.fone = '',
-                this.email = '',
-                this.idade = '',
-                this.escolaridade = '',
-                this.vsituacao = '',
-                this.finded = false
+                this.finded = false,
+                this.edit = ''
             },
         },
     }

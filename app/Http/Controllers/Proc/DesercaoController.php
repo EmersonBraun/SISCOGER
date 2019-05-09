@@ -111,30 +111,12 @@ class DesercaoController extends Controller
         $proc = Desercao::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-        
+        ver_unidade($proc);
+
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_desercao','=',$proc->id_desercao)->first();
+        $envolvido = Envolvido::acusado()->where('id_desercao','=',$proc->id_desercao)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendidos = Ofendido::ofendido('id_desercao',$proc->id_desercao)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref, $proc->sjd_ref_ano)->where('destino_proc','=','desercao')->first();
-        
-        //membros
-        $presidente = Envolvido::presidente()->where('id_desercao','=',$proc->id_desercao)->first();
-        $escrivao = Envolvido::escrivao()->where('id_desercao','=',$proc->id_desercao)->first();
-        $defensor = Envolvido::defensor()->where('id_desercao','=',$proc->id_desercao)->first();
-
-        //movimentos e sobrestamentos
-        $movimentos = Movimento::where('id_desercao','=',$proc->id_desercao)->get();
-        $sobrestamentos = Sobrestamento::where('id_desercao','=',$proc->id_desercao)->get();
-
-        return view('procedimentos.desercao.form.show', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos'));
+        return view('procedimentos.desercao.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano)
@@ -144,28 +126,12 @@ class DesercaoController extends Controller
         $proc = Desercao::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
+        ver_unidade($proc);
 
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_desercao','=',$proc->id_desercao)->first();
+        $envolvido = Envolvido::acusado()->where('id_desercao','=',$proc->id_desercao)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendido = Ofendido::ofendido('id_desercao',$proc->id_desercao)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref,$proc->sjd_ref_ano)->where('destino_proc','=','desercao')->first();
-         
-        $presidente = Envolvido::presidente()->where('id_desercao','=',$proc->id_desercao)->first();
-        $escrivao = Envolvido::escrivao()->where('id_desercao','=',$proc->id_desercao)->first();
-        $defensor = Envolvido::defensor()->where('id_desercao','=',$proc->id_desercao)->first();
-        
-        //-- arquivos apagados
-        $arquivos_apagados = ArquivosApagado::proc_id('desercao',$proc->id_desercao)->get();
-
-        return view('procedimentos.desercao.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos','arquivos_apagados'));
+        return view('procedimentos.desercao.form.edit', compact('proc'));
     }
 
 
@@ -208,33 +174,6 @@ class DesercaoController extends Controller
         //mensagem
     	toast()->success('Deserção Apagado');
         return redirect()->route('desercao.lista');
-    }
-
-    public function movimentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Desercao::ref_ano($ref, $ano)->first();
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_desercao','=',$proc->id_desercao)->get();
-        $sobrestamentos = Sobrestamento::where('id_desercao','=',$proc->id_desercao)->get();
-
-        return view('procedimentos.desercao.form.movimentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
-    public function sobrestamentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Desercao::ref_ano($ref, $ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_desercao','=',$proc->id_desercao)->get();
-        $sobrestamentos = Sobrestamento::where('id_desercao','=',$proc->id_desercao)->get();
-        
-        return view('procedimentos.desercao.form.sobrestamentos',compact('proc','movimentos','sobrestamentos'));
     }
 
 }

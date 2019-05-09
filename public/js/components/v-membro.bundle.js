@@ -1,4 +1,4 @@
-webpackJsonp([4],{
+webpackJsonp([5],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Membro.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -192,7 +192,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             nomesubs: '',
             situacaosubs: '',
             substitute: false,
-            titleSubstitute: ''
+            titleSubstitute: '',
+            indexsubs: ''
         };
     },
     mounted: function mounted() {
@@ -289,7 +290,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
 
-            console.log(data.get('situacao'));
             axios.post(urlCreate, data).then(this.clear(false)) //limpa a busca
             .catch(function (error) {
                 return console.log(error);

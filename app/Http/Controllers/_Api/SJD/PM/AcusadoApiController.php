@@ -45,6 +45,24 @@ class AcusadoApiController extends Controller
         ], 500);
     }
 
+    public function edit(Request $request, $id)
+    {
+        $dados = $request->all();
+        $edit = Envolvido::findOrFail($id)->update($dados);
+        if($edit)
+        {
+            return response()->json([
+                'success' => true,
+            ], 200);
+        }
+
+        return response()->json([
+            'success' => false,
+        ], 500);
+
+
+        }
+
     public function destroy($id)
     {
         $destroy = Envolvido::findOrFail($id)->delete();

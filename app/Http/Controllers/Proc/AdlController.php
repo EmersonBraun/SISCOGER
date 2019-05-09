@@ -180,17 +180,7 @@ class AdlController extends Controller
         //teste para verificar se pode ver superior, caso não possa aborta
         ver_superior($envolvido, Auth::user());
 
-        //----ofendido no procedimento
-        $ofendido = Ofendido::ofendido('id_adl',$proc->id_adl)->get();
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref,$proc->sjd_ref_ano)->where('destino_proc','=','adl')->get();
-         
-        $presidente = Envolvido::presidente()->where('id_adl','=',$proc['id_adl'])->first();
-        $escrivao = Envolvido::escrivao()->where('id_adl','=',$proc['id_adl'])->first();
-        $defensor = Envolvido::defensor()->where('id_adl','=',$proc['id_adl'])->first();
-        
-        //dd($proc);
-        return view('procedimentos.adl.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos'));
+        return view('procedimentos.adl.form.edit', compact('proc'));
 
         //return view('procedimentos.adl.form.edit', compact('proc','presidente','escrivao','defensor'));
     }
@@ -241,33 +231,6 @@ class AdlController extends Controller
         //mensagem
     	toast()->success('Adl Apagado');
         return redirect()->route('adl.lista');
-    }
-
-    public function movimentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Adl::ref_ano($ref, $ano)->first();
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        $movimentos = Movimento::where('id_adl','=',$proc->id_adl)->get();
-        $sobrestamentos = Sobrestamento::where('id_adl','=',$proc->id_adl)->get();
-
-        return view('procedimentos.adl.form.movimentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
-    public function sobrestamentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Adl::ref_ano($ref, $ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        $movimentos = Movimento::where('id_adl','=',$proc->id_adl)->get();
-        $sobrestamentos = Sobrestamento::where('id_adl','=',$proc->id_adl)->get();
-        
-        return view('procedimentos.adl.form.sobrestamentos',compact('proc','movimentos','sobrestamentos'));
     }
 
 }

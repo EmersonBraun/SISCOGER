@@ -116,30 +116,12 @@ class ProcOutrosController extends Controller
         $proc = ProcOutro::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-        
+        ver_unidade($proc);
+
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_proc_outros','=',$proc->id_proc_outros)->first();
+        $envolvido = Envolvido::acusado()->where('id_proc_outros','=',$proc->id_proc_outros)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        ver_superior($envolvido, Auth::user());
-
-        //----ofendido no procedimento
-        $ofendidos = Ofendido::ofendido('id_proc_outros',$proc->id_proc_outros)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref, $proc->sjd_ref_ano)->where('destino_proc','=','proc_outros')->first();
-        
-        //membros
-        $presidente = Envolvido::presidente()->where('id_proc_outros','=',$proc->id_proc_outros)->first();
-        $escrivao = Envolvido::escrivao()->where('id_proc_outros','=',$proc->id_proc_outros)->first();
-        $defensor = Envolvido::defensor()->where('id_proc_outros','=',$proc->id_proc_outros)->first();
-
-        //movimentos e sobrestamentos
-        $movimentos = Movimento::where('id_proc_outros','=',$proc->id_proc_outros)->get();
-        $sobrestamentos = Sobrestamento::where('id_proc_outros','=',$proc->id_proc_outros)->get();
-
-        return view('procedimentos.procoutros.form.show', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos'));
+        return view('procedimentos.procoutros.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano)
@@ -152,25 +134,9 @@ class ProcOutrosController extends Controller
         ver_unidade($proc);
 
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_proc_outros','=',$proc->id_proc_outros)->first();
+        $envolvido = Envolvido::acusado()->where('id_proc_outros','=',$proc->id_proc_outros)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        ver_superior($envolvido, Auth::user());
-
-        //----ofendido no procedimento
-        $ofendido = Ofendido::ofendido('id_proc_outros',$proc->id_proc_outros)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref,$proc->sjd_ref_ano)->where('destino_proc','=','proc_outros')->first();
-         
-        $presidente = Envolvido::presidente()->where('id_proc_outros','=',$proc->id_proc_outros)->first();
-        $escrivao = Envolvido::escrivao()->where('id_proc_outros','=',$proc->id_proc_outros)->first();
-        $defensor = Envolvido::defensor()->where('id_proc_outros','=',$proc->id_proc_outros)->first();
-        
-        //-- arquivos apagados
-        $arquivos_apagados = ArquivosApagado::proc_id('proc_outros',$proc->id_proc_outros)->get();
-
-        return view('procedimentos.procoutros.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos','arquivos_apagados'));
+        return view('procedimentos.procoutros.form.edit', compact('proc'));
     }
 
 
@@ -214,32 +180,4 @@ class ProcOutrosController extends Controller
     	toast()->success('Proc. Outros Apagado');
         return redirect()->route('procoutros.lista');
     }
-
-    public function movimentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = ProcOutro::ref_ano($ref, $ano)->first();
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        $movimentos = Movimento::where('id_proc_outros','=',$proc->id_proc_outros)->get();
-        $sobrestamentos = Sobrestamento::where('id_proc_outros','=',$proc->id_proc_outros)->get();
-
-        return view('procedimentos.procoutros.form.movimentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
-    public function sobrestamentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = ProcOutro::ref_ano($ref, $ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        $movimentos = Movimento::where('id_proc_outros','=',$proc->id_proc_outros)->get();
-        $sobrestamentos = Sobrestamento::where('id_proc_outros','=',$proc->id_proc_outros)->get();
-        
-        return view('procedimentos.procoutros.form.sobrestamentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
 }

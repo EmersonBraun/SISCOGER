@@ -41,8 +41,14 @@
                             <a class="btn btn-danger btn-block" @click="clear(true)"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs 1">
-                            <label>Adicionar</label><br>
-                            <a class="btn btn-success btn-block" :disabled="!resultado" @click="createPM"><i class="fa fa-plus" style="color: white"></i></a>
+                            <template v-if="!edit">
+                                <label>Adicionar</label><br>
+                                <a class="btn btn-success btn-block" :disabled="!resultado" @click="createPM"><i class="fa fa-plus" style="color: white"></i></a>
+                            </template>
+                             <template v-else>
+                                <label>Editar</label><br>
+                                <a class="btn btn-success btn-block" :disabled="!resultado" @click="editPM"><i class="fa fa-plus" style="color: white"></i></a>
+                            </template>
                         </div>
                     </form>
                 </div>
@@ -58,8 +64,8 @@
                                 <th class="col-sm-2">RG</th>
                                 <th class="col-sm-2">Nome</th>
                                 <th class="col-sm-2">Posto/Grad.</th>
-                                <th class="col-sm-2">Resutlado</th>
-                                <th class="col-sm-2">Ver/Apagar Ligação</th>
+                                <th class="col-sm-2">Resultado</th>
+                                <th class="col-sm-2">Ver/Editar/Apagar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,11 +74,14 @@
                                 <td>{{ pm.rg }}</td>
                                 <td>{{ pm.nome }}</td>
                                 <td>{{ pm.cargo }}</td>
-                                <td>{{ pm.resultado }}</td>
+                                <td>{{ pm.resultado | vazio}}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="First group">
                                         <a type="button" @click="showPM(pm.rg)" target="_blanck" class="btn btn-primary" style="color: white">
                                             <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a type="button" @click="replacePM(pm)" target="_blanck" class="btn btn-success" style="color: white">
+                                            <i class="fa fa-edit"></i>
                                         </a>
                                         <a type="button"  @click="removePM(pm.id_envolvido, index)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
@@ -119,6 +128,12 @@
                 resultado: false,
                 counter: 0,
                 only: false,
+                edit: ''
+            }
+        },
+        filters: {
+            vazio(value) {
+                return (!value) ? 'Não há' : value
             }
         },
         mounted(){
@@ -129,7 +144,7 @@
             const json = sessionStorage.getItem(name)
             const array = JSON.parse(json)
             this.pms = Array.isArray(array) ? array : []
-            if(this.pms == []) this.listPM()
+            if(!this.pms.length) this.listPM()
         },
         watch: {
             rg() {
@@ -219,7 +234,29 @@
                 let urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';                
                 window.open(urlIndex, "_blank")
             },
-            // apagar arquivo
+            replacePM(pm){
+                this.rg = pm.rg,
+                this.nome = pm.nome,
+                this.cargo = pm.cargo,
+                this.resultado = pm.resultado,
+                this.edit = pm.id_envolvido
+                // this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
+
+                this.add = true
+            },
+            editPM(){
+                let urledit = this.getBaseUrl + 'api/acusado/edit/' + this.edit;
+
+                let formData = document.getElementById('formData');
+                let data = new FormData(formData);
+                
+                axios.post( urledit,data)
+                .then(() => {
+                    this.listPM()
+                    this.clear(false)
+                })
+                .catch((error) => console.log(error));
+            },
             removePM(id, index){
                 let urlDelete = this.getBaseUrl + 'api/acusado/destroy/' + id;
                 axios
@@ -234,6 +271,7 @@
                 this.nome = ''
                 this.cargo = ''
                 this.resultado = ''
+                this.edit = ''
                 this.finded = false
             },
         },

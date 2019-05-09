@@ -885,6 +885,42 @@ return [
         "5" => "Terceiro"
     ],
 
+    'tipo_penal_novo' => 
+    [
+        '' => 'Selecione',
+        'Homicidio' => 'Homicidio',
+        'Lesao Corporal' => 'Lesao Corporal',
+        'Extravio de arma' => 'Extravio de arma',
+        'Furto de arma' => 'Furto de arma',
+        'Roubo de arma' => 'Roubo de arma',
+        'Extravio de municao' => 'Extravio de Munição',
+        'Concussao' => 'Concussão (Art. 305)',
+        'Peculato' => 'Peculato (Art. 303)',
+        'Corrupcao passiva' => 'Corrupção passiva (Art. 308)',
+        'Contrabando ou descaminho' => 'Contrabando ou descaminho',
+        'Uso de documento falso' => 'Uso de documento falso (Art. 315)',
+        'Falsidade ideologica' => 'Falsidade ideológica',
+        'Fuga de Preso' => 'Fuga de preso',
+        'Prevaricacao' => 'Prevaricação (Art. 319)',
+        'Violacao do sigilo funcional' => 'Violação do sigilo funcional',
+        'Deserção' => 'Deserção',
+        'Violencia contra superior' => 'Violencia contra superior (Art. 157)',
+        'Violencia contra militar de sv' => 'Violencia contra militar de serviço (Art. 158)',
+        'Desrespeito a superior' => 'Desrespeito a superior (Art. 160)',
+        'Recusa de obediencia' => 'Recusa de obediencia (Art. 163)',
+        'Abandono de posto' => 'Abandono de posto (Art. 195)',
+        'Embriaguez em servico' => 'Embriaguez em serviço (Art. 202)',
+        'Desacato a superior' => 'Desacato a superior (Art. 298)',
+        'Desacato a militar' => 'Desacato a militar (Art. 299)',
+        'Furto' => 'Furto',
+        'Roubo' => 'Roubo',
+        'Dano' => 'Dano',
+        'Instigamento ao suicidio' => 'Instigamento ao suicidio',
+        'Abuso de autoridade' => 'Abuso de autoridade',
+        'Auferir vantagem indevida' => 'Auferir vantagem indevida',
+        'Outros' => 'Outros (especificar)',
+    ],
+    
     //subformulário envolvido
     'envolvidoFatd' =>
     [

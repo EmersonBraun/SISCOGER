@@ -47,6 +47,9 @@
                     <?php echo Form::select('id_andamentocoger',config('sistema.andamentocogerADL'),null, ['class' => 'form-control ']); ?>
 
                 </v-label>
+                <v-label label="cdopm" title="OPM">
+                    <v-opm cdopm="<?php echo e($proc['cdopm']); ?>"></v-opm>
+                </v-label>
                 <v-label label="id_motivoconselho" title="Motivo ADL (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">
                     <?php echo Form::select('id_motivoconselho', config('sistema.motivoConselho'),null, ['class' => 'form-control select2', 'id' => 'descricao']); ?>
 
@@ -206,25 +209,9 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('css'); ?>
-    <link rel="stylesheet" href="/css/admin_custom.css">
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>
-<script>
-    $("#descricao").on('load, change',function ()
-    {
-        var campo = $("#descricao").val();
-        console.log(campo);
-        if (campo == 'Outro') 
-        {
-            $(".descricao_outros").show();
-        }
-        else
-        {
-            $(".descricao_outros").hide();
-        }
-    });
-</script>
 <?php echo $__env->make('vendor.adminlte.includes.vue', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 

@@ -1,72 +1,72 @@
 <template>
-    <div>
-            <div class=" input-group">
-                <input class="form-control" :class="{'with-reset-button': clearButton}" type="text" :placeholder="placeholder"
-                    :value="val"
-                    :name="name"
-                    @click="inputClick"
-                    @input="this.$emit('input',$event.target.val)" />
-                <div class="input-group-append">
-                    <span v-if="!val" class="btn input-group-text" @click="val = today()">Hoje</span>
-                    <span v-if="clearButton && val" class="btn input-group-text" @click="val = ''">X</span>
-                </div>
+    <div >
+        <div class=" input-group" style="width: 85%">
+            <input class="form-control" :class="{'with-reset-button': clearButton}" type="text" :placeholder="placeholder"
+                :value="val"
+                :name="name"
+                @click="inputClick"
+                @input="this.$emit('input',$event.target.val)" />
+            <div class="input-group-append">
+                <span v-if="!val" class="btne input-group-text" @click="val = today()">Hoje</span>
+                <span v-if="clearButton && val" class="btne input-group-text" @click="val = ''">X</span>
             </div>
+        </div>
 
-            <div class="datepicker-popup" v-show="displayDayView">
-            <div class="datepicker-inner">
-                <div class="datepicker-body">
-                <div class="datepicker-ctrl">
-                    <span class="datepicker-preBtn fa fa-angle-left" aria-hidden="true" @click="preNextMonthClick(0)"></span>
-                    <span class="datepicker-nextBtn fa fa-angle-right" aria-hidden="true" @click="preNextMonthClick(1)"></span>
-                    <p @click="switchMonthView">{{stringifyDayHeader(currDate)}}</p>
-                </div>
-                <div class="datepicker-weekRange">
-                    <span v-for="(w, index) in text.daysOfWeek" :key="index">{{w}}</span>
-                </div>
-                <div class="datepicker-dateRange">
-                    <span v-for="(d, index) in dateRange" :class="d.sclass" @click="daySelect(d.date,this)" :key="index">{{d.text}}</span>
-                </div>
-                </div>
+        <div class="datepicker-popup" v-show="displayDayView">
+        <div class="datepicker-inner">
+            <div class="datepicker-body">
+            <div class="datepicker-ctrl">
+                <span class="datepicker-preBtn fa fa-angle-left" aria-hidden="true" @click="preNextMonthClick(0)"></span>
+                <span class="datepicker-nextBtn fa fa-angle-right" aria-hidden="true" @click="preNextMonthClick(1)"></span>
+                <p @click="switchMonthView">{{stringifyDayHeader(currDate)}}</p>
+            </div>
+            <div class="datepicker-weekRange">
+                <span v-for="(w, index) in text.daysOfWeek" :key="index">{{w}}</span>
+            </div>
+            <div class="datepicker-dateRange">
+                <span v-for="(d, index) in dateRange" :class="d.sclass" @click="daySelect(d.date,this)" :key="index">{{d.text}}</span>
             </div>
             </div>
-            <div class="datepicker-popup" v-show="displayMonthView">
-            <div class="datepicker-inner">
-                <div class="datepicker-body">
-                <div class="datepicker-ctrl">
-                    <span class="datepicker-preBtn fa fa-angle-left" aria-hidden="true" @click="preNextYearClick(0)"></span>
-                    <span class="datepicker-nextBtn fa fa-angle-right" aria-hidden="true" @click="preNextYearClick(1)"></span>
-                    <p @click="switchDecadeView">{{stringifyYearHeader(currDate)}}</p>
-                </div>
-                <div class="datepicker-monthRange">
-                    <template v-for="m in text.months">
-                    <span   :class="{'datepicker-dateRange-item-active':
-                        (text.months[parse(val).getMonth()]  === m) &&
-                        currDate.getFullYear() === parse(val).getFullYear()}"
-                        @click="monthSelect(index)"
-                        >{{m.substr(0,3)}}</span>
-                    </template>
-                </div>
-                </div>
+        </div>
+        </div>
+        <div class="datepicker-popup" v-show="displayMonthView">
+        <div class="datepicker-inner">
+            <div class="datepicker-body">
+            <div class="datepicker-ctrl">
+                <span class="datepicker-preBtn fa fa-angle-left" aria-hidden="true" @click="preNextYearClick(0)"></span>
+                <span class="datepicker-nextBtn fa fa-angle-right" aria-hidden="true" @click="preNextYearClick(1)"></span>
+                <p @click="switchDecadeView">{{stringifyYearHeader(currDate)}}</p>
+            </div>
+            <div class="datepicker-monthRange">
+                <template v-for="m in text.months">
+                <span   :class="{'datepicker-dateRange-item-active':
+                    (text.months[parse(val).getMonth()]  === m) &&
+                    currDate.getFullYear() === parse(val).getFullYear()}"
+                    @click="monthSelect(index)"
+                    >{{m.substr(0,3)}}</span>
+                </template>
             </div>
             </div>
-            <div class="datepicker-popup" v-show="displayYearView">
-            <div class="datepicker-inner">
-                <div class="datepicker-body">
-                <div class="datepicker-ctrl">
-                    <span class="datepicker-preBtn fa fa-angle-left" aria-hidden="true" @click="preNextDecadeClick(0)"></span>
-                    <span class="datepicker-nextBtn fa fa-angle-right" aria-hidden="true" @click="preNextDecadeClick(1)"></span>
-                    <p>{{stringifyDecadeHeader(currDate)}}</p>
-                </div>
-                <div class="datepicker-monthRange decadeRange">
-                    <template v-for="decade in decadeRange">
-                    <span :class="{'datepicker-dateRange-item-active':parse(this.val).getFullYear() === decade.text}"
-                        @click.stop="yearSelect(decade.text)"
-                    >{{decade.text}}</span>
-                    </template>
-                </div>
-                </div>
+        </div>
+        </div>
+        <div class="datepicker-popup" v-show="displayYearView">
+        <div class="datepicker-inner">
+            <div class="datepicker-body">
+            <div class="datepicker-ctrl">
+                <span class="datepicker-preBtn fa fa-angle-left" aria-hidden="true" @click="preNextDecadeClick(0)"></span>
+                <span class="datepicker-nextBtn fa fa-angle-right" aria-hidden="true" @click="preNextDecadeClick(1)"></span>
+                <p>{{stringifyDecadeHeader(currDate)}}</p>
+            </div>
+            <div class="datepicker-monthRange decadeRange">
+                <template v-for="decade in decadeRange">
+                <span :class="{'datepicker-dateRange-item-active':parse(this.val).getFullYear() === decade.text}"
+                    @click.stop="yearSelect(decade.text)"
+                >{{decade.text}}</span>
+                </template>
             </div>
             </div>
+        </div>
+    </div>
 
     </div>
 </template>
@@ -351,16 +351,16 @@ export default {
     }   
     this.$emit('child-created', this)
     this.currDate = this.parse(this.val) || this.parse(new Date())
-    window.addEventListener('click', this._blur);
+    // window.addEventListener('click', this._blur);
   },
   beforeDestroy () {
-    window.removeEventListner('click', this._blur)
+    // window.removeEventListner('click', this._blur)
   }
 }
 
 </script>
 
-<style>
+<style scoped>
 .datepicker {
   position: relative;
   display: inline-block;
@@ -481,25 +481,8 @@ input.datepicker-input.with-reset-button {
 .datepicker-nextBtn {
   right: 2px;
 }
-.input-group-text {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: center;
-    align-items: center;
-    padding: 0.3rem 0.75rem !important;
-    margin-bottom: 0;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    text-align: center;
-    white-space: nowrap;
-    background-color: #e9ecef;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
+.btne{
+    cursor: pointer;
 }
+
 </style>

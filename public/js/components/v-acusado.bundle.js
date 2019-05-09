@@ -1,4 +1,4 @@
-webpackJsonp([5],{
+webpackJsonp([6],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Acusado.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -7,6 +7,15 @@ webpackJsonp([5],{
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_the_mask__ = __webpack_require__("./node_modules/vue-the-mask/dist/vue-the-mask.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_the_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_the_mask__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -127,8 +136,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             finded: false,
             resultado: false,
             counter: 0,
-            only: false
+            only: false,
+            edit: ''
         };
+    },
+
+    filters: {
+        vazio: function vazio(value) {
+            return !value ? 'Não há' : value;
+        }
     },
     mounted: function mounted() {
         this.verifyOnly;
@@ -138,7 +154,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var json = sessionStorage.getItem(name);
         var array = JSON.parse(json);
         this.pms = Array.isArray(array) ? array : [];
-        if (this.pms == []) this.listPM();
+        if (!this.pms.length) this.listPM();
     },
 
     watch: {
@@ -231,8 +247,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';
             window.open(urlIndex, "_blank");
         },
+        replacePM: function replacePM(pm) {
+            this.rg = pm.rg, this.nome = pm.nome, this.cargo = pm.cargo, this.resultado = pm.resultado, this.edit = pm.id_envolvido;
+            // this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
 
-        // apagar arquivo
+            this.add = true;
+        },
+        editPM: function editPM() {
+            var _this3 = this;
+
+            var urledit = this.getBaseUrl + 'api/acusado/edit/' + this.edit;
+
+            var formData = document.getElementById('formData');
+            var data = new FormData(formData);
+
+            axios.post(urledit, data).then(function () {
+                _this3.listPM();
+                _this3.clear(false);
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
         removePM: function removePM(id, index) {
             var urlDelete = this.getBaseUrl + 'api/acusado/destroy/' + id;
             axios.delete(urlDelete).then(this.pms.splice(index, 1)).then(this.clear(false)).catch(function (error) {
@@ -245,6 +280,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.nome = '';
             this.cargo = '';
             this.resultado = '';
+            this.edit = '';
             this.finded = false;
         }
     }
@@ -260,7 +296,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -705,24 +741,49 @@ var render = function() {
                             "div",
                             { staticClass: "col-lg-1 col-md-1 col-xs 1" },
                             [
-                              _c("label", [_vm._v("Adicionar")]),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "btn btn-success btn-block",
-                                  attrs: { disabled: !_vm.resultado },
-                                  on: { click: _vm.createPM }
-                                },
-                                [
-                                  _c("i", {
-                                    staticClass: "fa fa-plus",
-                                    staticStyle: { color: "white" }
-                                  })
-                                ]
-                              )
-                            ]
+                              !_vm.edit
+                                ? [
+                                    _c("label", [_vm._v("Adicionar")]),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-block",
+                                        attrs: { disabled: !_vm.resultado },
+                                        on: { click: _vm.createPM }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: { color: "white" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                : [
+                                    _c("label", [_vm._v("Editar")]),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-block",
+                                        attrs: { disabled: !_vm.resultado },
+                                        on: { click: _vm.editPM }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: { color: "white" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                            ],
+                            2
                           )
                         ]
                       )
@@ -752,7 +813,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(pm.cargo))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(pm.resultado))]),
+                      _c("td", [_vm._v(_vm._s(_vm._f("vazio")(pm.resultado)))]),
                       _vm._v(" "),
                       _c("td", [
                         _c(
@@ -778,6 +839,21 @@ var render = function() {
                                 }
                               },
                               [_c("i", { staticClass: "fa fa-eye" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-success",
+                                staticStyle: { color: "white" },
+                                attrs: { type: "button", target: "_blanck" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.replacePM(pm)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-edit" })]
                             ),
                             _vm._v(" "),
                             _c(
@@ -833,9 +909,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "col-sm-2" }, [_vm._v("Posto/Grad.")]),
         _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Resutlado")]),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Resultado")]),
         _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ver/Apagar Ligação")])
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ver/Editar/Apagar")])
       ])
     ])
   },

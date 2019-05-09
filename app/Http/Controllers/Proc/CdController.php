@@ -127,30 +127,12 @@ class CdController extends Controller
         $proc = Cd::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-        
+        ver_unidade($proc);
+
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_cd','=',$proc->id_cd)->first();
+        $envolvido = Envolvido::acusado()->where('id_cd','=',$proc->id_cd)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendidos = Ofendido::ofendido('id_cd',$proc->id_cd)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref, $proc->sjd_ref_ano)->where('destino_proc','=','cd')->first();
-        
-        //membros
-        $presidente = Envolvido::presidente()->where('id_cd','=',$proc->id_cd)->first();
-        $escrivao = Envolvido::escrivao()->where('id_cd','=',$proc->id_cd)->first();
-        $defensor = Envolvido::defensor()->where('id_cd','=',$proc->id_cd)->first();
-
-        //movimentos e sobrestamentos
-        $movimentos = Movimento::where('id_cd','=',$proc->id_cd)->get();
-        $sobrestamentos = Sobrestamento::where('id_cd','=',$proc->id_cd)->get();
-
-        return view('procedimentos.cd.form.show', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos'));
+        return view('procedimentos.cd.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano)
@@ -160,28 +142,12 @@ class CdController extends Controller
         $proc = Cd::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
+        ver_unidade($proc);
 
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_cd','=',$proc->id_cd)->first();
+        $envolvido = Envolvido::acusado()->where('id_cd','=',$proc->id_cd)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendido = Ofendido::ofendido('id_cd',$proc->id_cd)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref,$proc->sjd_ref_ano)->where('destino_proc','=','cd')->first();
-         
-        $presidente = Envolvido::presidente()->where('id_cd','=',$proc->id_cd)->first();
-        $escrivao = Envolvido::escrivao()->where('id_cd','=',$proc->id_cd)->first();
-        $defensor = Envolvido::defensor()->where('id_cd','=',$proc->id_cd)->first();
-        
-        //-- arquivos apagados
-        $arquivos_apagados = ArquivosApagado::proc_id('cd',$proc->id_cd)->get();
-
-        return view('procedimentos.cd.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos','arquivos_apagados'));
+        return view('procedimentos.cd.form.edit', compact('proc'));
     }
 
 
@@ -224,33 +190,6 @@ class CdController extends Controller
         //mensagem
     	toast()->success('CD Apagado');
         return redirect()->route('cd.lista');
-    }
-
-    public function movimentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Cd::ref_ano($ref, $ano)->first();
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_cd','=',$proc->id_cd)->get();
-        $sobrestamentos = Sobrestamento::where('id_cd','=',$proc->id_cd)->get();
-
-        return view('procedimentos.cd.form.movimentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
-    public function sobrestamentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Cd::ref_ano($ref, $ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_cd','=',$proc->id_cd)->get();
-        $sobrestamentos = Sobrestamento::where('id_cd','=',$proc->id_cd)->get();
-        
-        return view('procedimentos.cd.form.sobrestamentos',compact('proc','movimentos','sobrestamentos'));
     }
 
 }

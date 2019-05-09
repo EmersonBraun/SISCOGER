@@ -43,13 +43,21 @@ Route::group(['as'=>'ligacao.','prefix' =>'ligacao'],function(){
 Route::group(['as'=>'acusado.','prefix' =>'acusado'],function(){
     Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\AcusadoApiController@list']);
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\AcusadoApiController@store']);
+    Route::post('edit/{id}',['as' =>'edit','uses'=>'_Api\SJD\PM\AcusadoApiController@edit']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\AcusadoApiController@destroy']);
 });
-// rotas componente SubForm/Acusado.vue
+// rotas componente SubForm/Membros.vue
 Route::group(['as'=>'membros.','prefix' =>'membros'],function(){
     Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'_Api\SJD\PM\MembroApiController@list']);
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\MembroApiController@store']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\MembroApiController@destroy']);
+});
+// rotas componente SubForm/Vitima.vue
+Route::group(['as'=>'vitima.','prefix' =>'vitima'],function(){
+    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'_Api\SJD\PM\VitimaApiController@list']);
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\VitimaApiController@store']);
+    Route::post('edit/{id}',['as' =>'edit','uses'=>'_Api\SJD\PM\VitimaApiController@edit']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\VitimaApiController@destroy']);
 });
 // rotas componente SubForm/Movimento.vue
 Route::group(['as'=>'movimento.','prefix' =>'movimento'],function(){
@@ -71,11 +79,7 @@ Route::group(['as'=>'arquivo.','prefix' =>'arquivo'],function(){
     Route::post('edit/{id}',['as' =>'edit','uses'=>'_Api\SJD\Proc\ArquivoApiController@edit']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\Proc\ArquivoApiController@destroy']);
 });
-Route::group(['as'=>'vitima.','prefix' =>'vitima'],function(){
-    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'_Api\SJD\PM\VitimaApiController@list']);
-    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\PM\VitimaApiController@store']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\PM\VitimaApiController@destroy']);
-});
+
 Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
     // pegar dados do PM pelo RG
     Route::get('pm/{rg}',['as' =>'pm','uses'=>'_Api\SJD\PM\PMApiController@dados']);

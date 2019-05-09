@@ -111,61 +111,32 @@ class ApfdController extends Controller
         $proc = Apfd::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-        
+        ver_unidade($proc);
+
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_apfd','=',$proc->id_apfd)->first();
+        $envolvido = Envolvido::acusado()->where('id_apfd','=',$proc->id_apfd)->get();
 
         //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
+        ver_superior($envolvido, Auth::user());
 
-        //----ofendido no procedimento
-        $ofendidos = Ofendido::ofendido('id_apfd',$proc->id_apfd)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref, $proc->sjd_ref_ano)->where('destino_proc','=','apfd')->first();
-        
-        //membros
-        $presidente = Envolvido::presidente()->where('id_apfd','=',$proc->id_apfd)->first();
-        $escrivao = Envolvido::escrivao()->where('id_apfd','=',$proc->id_apfd)->first();
-        $defensor = Envolvido::defensor()->where('id_apfd','=',$proc->id_apfd)->first();
-
-        //movimentos e sobrestamentos
-        $movimentos = Movimento::where('id_apfd','=',$proc->id_apfd)->get();
-        $sobrestamentos = Sobrestamento::where('id_apfd','=',$proc->id_apfd)->get();
-
-        return view('procedimentos.apfd.form.show', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos'));
+        return view('procedimentos.apfd.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano)
     {
-        
-        //----levantar procedimento
-        $proc = Apfd::ref_ano($ref,$ano)->first();
+         //----levantar procedimento
+         $proc = Apfd::ref_ano($ref,$ano)->first();
 
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
+         //teste para verificar se pode ver outras unidades, caso não possa aborta
+         ver_unidade($proc);
+ 
+         //----envolvido do procedimento
+         $envolvido = Envolvido::acusado()->where('id_apfd','=',$proc->id_apfd)->get();
+ 
+         //teste para verificar se pode ver superior, caso não possa aborta
+         ver_superior($envolvido, Auth::user());
 
-        //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_apfd','=',$proc->id_apfd)->first();
-
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendido = Ofendido::ofendido('id_apfd',$proc->id_apfd)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref,$proc->sjd_ref_ano)->where('destino_proc','=','apfd')->first();
-         
-        $presidente = Envolvido::presidente()->where('id_apfd','=',$proc->id_apfd)->first();
-        $escrivao = Envolvido::escrivao()->where('id_apfd','=',$proc->id_apfd)->first();
-        $defensor = Envolvido::defensor()->where('id_apfd','=',$proc->id_apfd)->first();
-        
-        //-- arquivos apagados
-        $arquivos_apagados = ArquivosApagado::proc_id('apfd',$proc->id_apfd)->get();
-
-        return view('procedimentos.apfd.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos','arquivos_apagados'));
+        return view('procedimentos.apfd.form.edit', compact('proc'));
     }
 
 
@@ -173,24 +144,6 @@ class ApfdController extends Controller
     {
         //dd(\Request::all());
         $dados = $request->all();
-
-        //datas
-        $datas = ['fato_data','portaria_data','prescricao_data'];
-
-        foreach ($datas as $d) 
-        {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
-        }
-
-        //arquivos
-        $arquivos = ['libelo_file','parecer_file','decisao_file','tjpr_file','stj_file'];
-
-        foreach ($arquivos as $a) 
-        {
-            if ($request->hasFile($a)) $dados[$a] = arquivo($request,$a,'apfd',$id);
-
-        }
-
         //busca procedimento e atualiza
     	Apfd::find($id)->update($dados);
         //mensagem
@@ -209,33 +162,6 @@ class ApfdController extends Controller
         //mensagem
     	toast()->success('Apfd Apagado');
         return redirect()->route('apfd.lista');
-    }
-
-    public function movimentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Apfd::ref_ano($ref, $ano)->first();
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_apfd','=',$proc->id_apfd)->get();
-        $sobrestamentos = Sobrestamento::where('id_apfd','=',$proc->id_apfd)->get();
-
-        return view('procedimentos.apfd.form.movimentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
-    public function sobrestamentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = Apfd::ref_ano($ref, $ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_apfd','=',$proc->id_apfd)->get();
-        $sobrestamentos = Sobrestamento::where('id_apfd','=',$proc->id_apfd)->get();
-        
-        return view('procedimentos.apfd.form.sobrestamentos',compact('proc','movimentos','sobrestamentos'));
     }
 
 }

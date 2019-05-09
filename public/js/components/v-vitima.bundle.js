@@ -1,4 +1,4 @@
-webpackJsonp([3],{
+webpackJsonp([4],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Vitima.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -9,6 +9,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_the_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_the_mask__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -188,7 +196,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             vitimas: [],
             add: false,
             finded: false
-        }, _defineProperty(_ref, 'resultado', false), _defineProperty(_ref, 'counter', 0), _defineProperty(_ref, 'only', false), _ref;
+        }, _defineProperty(_ref, 'resultado', false), _defineProperty(_ref, 'counter', 0), _defineProperty(_ref, 'only', false), _defineProperty(_ref, 'edit', ''), _ref;
     },
 
     filters: {
@@ -228,13 +236,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         listVitima: function listVitima() {
             var _this = this;
 
-            this.clear();
             var urlIndex = this.getBaseUrl + 'api/vitima/list/' + this.dproc + '/' + this.idp;
             if (this.dproc && this.idp) {
                 axios.get(urlIndex).then(function (response) {
                     _this.vitimas = response.data;
                     // console.log(response.data)
-                }).then(this.clear) //limpa a busca
+                }).then(this.clear(false)) //limpa a busca
                 .catch(function (error) {
                     return console.log(error);
                 });
@@ -250,20 +257,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 return console.log(error);
             });
         },
+        replaceVitima: function replaceVitima(vitima) {
+            this.rg = vitima.rg, this.nome = vitima.nome, this.resultado = vitima.resultado, this.sexo = vitima.sexo, this.fone = vitima.fone, this.email = vitima.email, this.idade = vitima.idade, this.escolaridade = vitima.escolaridade, this.vsituacao = vitima.situacao, this.edit = vitima.id_ofendido;
+            // this.titleSubstitute=" - Substituição do "+vitima.situacao+" "+vitima.nome
 
-        // apagar arquivo
+            this.add = true;
+        },
+        editVitima: function editVitima() {
+            var _this2 = this;
+
+            var urledit = this.getBaseUrl + 'api/vitima/edit/' + this.edit;
+
+            var formData = document.getElementById('formData');
+            var data = new FormData(formData);
+
+            axios.post(urledit, data).then(function () {
+                _this2.listVitima();
+                _this2.clear(false);
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
         removeVitima: function removeVitima(id, index) {
             var urlDelete = this.getBaseUrl + 'api/vitima/destroy/' + id;
             axios.delete(urlDelete).then(this.vitimas.splice(index, 1)).catch(function (error) {
                 return console.log(error);
             });
         },
-        cancel: function cancel() {
-            this.add = false;
-            this.rg = '', this.nome = '', this.resultado = '', this.sexo = '', this.fone = '', this.email = '', this.idade = '', this.escolaridade = '', this.vsituacao = '', this.finded = false;
-        },
-        clear: function clear() {
-            this.rg = '', this.nome = '', this.resultado = '', this.sexo = '', this.fone = '', this.email = '', this.idade = '', this.escolaridade = '', this.vsituacao = '', this.finded = false;
+        clear: function clear(add) {
+            this.add = add;
+            this.rg = '', this.nome = '', this.resultado = '', this.sexo = '', this.fone = '', this.email = '', this.idade = '', this.escolaridade = '', this.vsituacao = '', this.finded = false, this.edit = '';
         }
     }
 });
@@ -278,7 +301,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1024,7 +1047,11 @@ var render = function() {
                               "a",
                               {
                                 staticClass: "btn btn-danger btn-block",
-                                on: { click: _vm.cancel }
+                                on: {
+                                  click: function($event) {
+                                    return _vm.clear(true)
+                                  }
+                                }
                               },
                               [
                                 _c("i", {
@@ -1040,30 +1067,53 @@ var render = function() {
                           "div",
                           { staticClass: "col-lg-1 col-md-1 col-xs 1" },
                           [
-                            _c("label", [_vm._v("Adicionar")]),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-success btn-block",
-                                attrs: {
-                                  disabled: !_vm.rg.length || !_vm.nome.length
-                                },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.createVitima()
-                                  }
-                                }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-plus",
-                                  staticStyle: { color: "white" }
-                                })
-                              ]
-                            )
-                          ]
+                            !_vm.edit
+                              ? [
+                                  _c("label", [_vm._v("Adicionar")]),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "btn btn-success btn-block",
+                                      attrs: {
+                                        disabled:
+                                          !_vm.rg.length || !_vm.nome.length
+                                      },
+                                      on: { click: _vm.createVitima }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fa fa-plus",
+                                        staticStyle: { color: "white" }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              : [
+                                  _c("label", [_vm._v("Editar")]),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "btn btn-success btn-block",
+                                      attrs: {
+                                        disabled:
+                                          !_vm.rg.length || !_vm.nome.length
+                                      },
+                                      on: { click: _vm.editVitima }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fa fa-plus",
+                                        staticStyle: { color: "white" }
+                                      })
+                                    ]
+                                  )
+                                ]
+                          ],
+                          2
                         )
                       ],
                       2
@@ -1162,6 +1212,21 @@ var render = function() {
                             }
                           },
                           [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-success",
+                                staticStyle: { color: "white" },
+                                attrs: { type: "button", target: "_blanck" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.replaceVitima(vitima)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-edit" })]
+                            ),
+                            _vm._v(" "),
                             _c(
                               "a",
                               {

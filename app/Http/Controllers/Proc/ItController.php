@@ -127,30 +127,12 @@ class ItController extends Controller
         $proc = It::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-        
+        ver_unidade($proc);
+
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_it','=',$proc->id_it)->first();
+        $envolvido = Envolvido::acusado()->where('id_it','=',$proc->id_it)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendidos = Ofendido::ofendido('id_it',$proc->id_it)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref, $proc->sjd_ref_ano)->where('destino_proc','=','it')->first();
-        
-        //membros
-        $presidente = Envolvido::presidente()->where('id_it','=',$proc->id_it)->first();
-        $escrivao = Envolvido::escrivao()->where('id_it','=',$proc->id_it)->first();
-        $defensor = Envolvido::defensor()->where('id_it','=',$proc->id_it)->first();
-
-        //movimentos e sobrestamentos
-        $movimentos = Movimento::where('id_it','=',$proc->id_it)->get();
-        $sobrestamentos = Sobrestamento::where('id_it','=',$proc->id_it)->get();
-
-        return view('procedimentos.it.form.show', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos'));
+        return view('procedimentos.it.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano)
@@ -160,28 +142,12 @@ class ItController extends Controller
         $proc = It::ref_ano($ref,$ano)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
+        ver_unidade($proc);
 
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_it','=',$proc->id_it)->first();
+        $envolvido = Envolvido::acusado()->where('id_it','=',$proc->id_it)->get();
 
-        //teste para verificar se pode ver superior, caso não possa aborta
-        include 'app/includes/testeVerSuperior.php';
-
-        //----ofendido no procedimento
-        $ofendido = Ofendido::ofendido('id_it',$proc->id_it)->first();
-
-        //----ligação do procedimento
-        $ligacao = Ligacao::ref_ano($proc->sjd_ref,$proc->sjd_ref_ano)->where('destino_proc','=','it')->first();
-         
-        $presidente = Envolvido::presidente()->where('id_it','=',$proc->id_it)->first();
-        $escrivao = Envolvido::escrivao()->where('id_it','=',$proc->id_it)->first();
-        $defensor = Envolvido::defensor()->where('id_it','=',$proc->id_it)->first();
-        
-        //-- arquivos apagados
-        $arquivos_apagados = ArquivosApagado::proc_id('it',$proc->id_it)->get();
-
-        return view('procedimentos.it.form.edit', compact('proc','envolvido','ofendido','ligacao','presidente','escrivao','defensor','movimentos','sobrestamentos','arquivos_apagados'));
+        return view('procedimentos.it.form.edit', compact('proc'));
     }
 
 
@@ -225,32 +191,4 @@ class ItController extends Controller
     	toast()->success('IT Apagado');
         return redirect()->route('it.lista');
     }
-
-    public function movimentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = It::ref_ano($ref, $ano)->first();
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_it','=',$proc->id_it)->get();
-        $sobrestamentos = Sobrestamento::where('id_it','=',$proc->id_it)->get();
-
-        return view('procedimentos.it.form.movimentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
-    public function sobrestamentos($ref, $ano)
-    {
-        //----levantar procedimento
-        $proc = It::ref_ano($ref, $ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        include 'app/includes/testeVerUnidades.php';
-
-        $movimentos = Movimento::where('id_it','=',$proc->id_it)->get();
-        $sobrestamentos = Sobrestamento::where('id_it','=',$proc->id_it)->get();
-        
-        return view('procedimentos.it.form.sobrestamentos',compact('proc','movimentos','sobrestamentos'));
-    }
-
 }

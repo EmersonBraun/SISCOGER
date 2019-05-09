@@ -184,6 +184,7 @@
                 situacaosubs: '',
                 substitute: false,
                 titleSubstitute: '',
+                indexsubs: ''
             }
         },
         mounted(){
@@ -274,7 +275,6 @@
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
 
-                console.log(data.get('situacao'))
                 axios.post( urlCreate,data)
                 .then(this.clear(false))//limpa a busca
                 .catch((error) => console.log(error));
@@ -311,7 +311,7 @@
                 this.nomesubs= pm.nome
                 this.situacaosubs= pm.situacao
                 this.idsubs= pm.id_envolvido
-                this.indexsubs= index
+                this.indexsubs = index
                 this.add = true
             },
             clear(add){

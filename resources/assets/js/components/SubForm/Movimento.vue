@@ -66,7 +66,7 @@
                                 <td>{{ movimento.rg }}</td>
                                 <td v-if="admin">
                                     <div class="btn-group" role="group" aria-label="First group">
-                                        <a type="button"  @click="removeMovimento(movimento.id_movimento, index)" class="btn btn-danger" style="color: white">
+                                        <a type="button"  @click="removeMovimento(movimento, index)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
                                         </a>
                                     </div>
@@ -167,23 +167,20 @@
                 let data = new FormData(formData);
                 
                 axios.post( urlCreate,data)
-                .then(() => {
-                    this.movimentos.push({
-                        data: data.get('data'),
-                        descricao: data.get('descricao'),
-                        opm: this.opm,
-                        rg: this.rg,
-                    })
-                    this.clear(false)
-                })
+                .then(this.listMovimento())
                 .catch((error) => console.log(error));
             },
-            removeMovimento(id, index){
-                let urlDelete = this.getBaseUrl + 'api/movimento/destroy/' + id;
-                axios
-                .delete(urlDelete)
-                .then(this.movimentos.splice(index,1))
-                .catch(error => console.log(error));
+            removeMovimento(movimento, index){
+                let id = movimento.id_movimento ? movimento.id_movimento : false
+                if(id){
+                    let urlDelete = this.getBaseUrl + 'api/movimento/destroy/' + id
+                    axios
+                    .delete(urlDelete)
+                    .then(this.movimentos.splice(index,1))
+                    .catch(error => console.log(error));
+                }else{
+                    console.log('movimento sem ID')
+                }
             },
             clear(add){
                 this.add = add
