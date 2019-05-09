@@ -46,22 +46,22 @@
                 <v-label label="id_andamentocoger" title="Andamento COGER">
                     {!! Form::select('id_andamentocoger',config('sistema.andamentocogerCD'),null, ['class' => 'form-control ']) !!}
                 </v-label>
-                <v-label label="id_motivoconselho" title="Motivo ADL (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">
+                <v-label label="id_motivoconselho" title="Motivo CD (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">
                     {!! Form::select('id_motivoconselho', config('sistema.motivoConselho'),null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
                 </v-label>
                 <v-label label="id_situacaoconselho" title="Situação">
                     {!! Form::select('id_situacaoconselho',config('sistema.situacaoConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
                 </v-label>
-                <v-label label="id_decorrenciaconselho" title="Situação">
+                <v-label label="id_decorrenciaconselho" title="Em decorrência de">
                     {!! Form::select('id_decorrenciaconselho',config('sistema.decorrenciaConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
                 </v-label>
                 <v-label label="outromotivo" title="Especificar (no caso de outros motivos)">
                     {{ Form::text('outromotivo', null, ['class' => 'form-control ']) }}
                 </v-label>
-                <v-label label="portaria_numero" title="N° Portaria">
+                <v-label label="portaria_numero" title="N° Portaria do CG">
                     {{ Form::text('portaria_numero', null, ['class' => 'form-control ']) }}
                 </v-label>
-                <v-label label="portaria_data" title="Data da Portaria" icon="fa fa-calendar">
+                <v-label label="portaria_data" title="Data da Portaria do CG" icon="fa fa-calendar">
                     <v-datepicker name="portaria_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['portaria_data'] ?? ''}}"></v-datepicker>
                 </v-label>
                 <v-label label="doc_tipo" title="Tipo de boletim">

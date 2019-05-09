@@ -103,14 +103,6 @@ class CdController extends Controller
             $dados[$v] = ($dados[$v] == NULL) ? '' : $dados[$v]; 
         }
 
-        //datas
-        $datas = ['abertura_data','fato_data','portaria_data','prescricao_data'];
-
-        foreach ($datas as $d) 
-        {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
-        }
-
         //cria o novo procedimento
         Cd::create($dados);
 
@@ -153,28 +145,11 @@ class CdController extends Controller
 
     public function update(Request $request, $id)
     {
-        //dd(\Request::all());
+        // dd(\Request::all());
         $dados = $request->all();
 
-        //datas
-        $datas = ['fato_data','portaria_data','prescricao_data'];
-
-        foreach ($datas as $d) 
-        {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
-        }
-
-        //arquivos
-        $arquivos = ['libelo_file','parecer_file','decisao_file','tjpr_file','stj_file'];
-
-        foreach ($arquivos as $a) 
-        {
-            if ($request->hasFile($a)) $dados[$a] = arquivo($request,$a,'cd',$id);
-
-        }
-
         //busca procedimento e atualiza
-    	Cd::find($id)->update($dados);
+    	Cd::findOrFail($id)->update($dados);
         //mensagem
         toast()->success('cd atualizado!');
 
@@ -185,7 +160,7 @@ class CdController extends Controller
     public function destroy($id)
     {
         //busca procedimento e apaga
-        Cd::find($id)->delete();
+        Cd::findOrFail($id)->delete();
 
         //mensagem
     	toast()->success('CD Apagado');

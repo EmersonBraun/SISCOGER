@@ -206,7 +206,7 @@ class AdlController extends Controller
         // dd(\Request::all());
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = Adl::find($id)->update($dados);
+        $update = Adl::findOrFail($id)->update($dados);
         if(!$update)
         {
             toast()->error('adl NÃO atualizado!');
@@ -222,8 +222,7 @@ class AdlController extends Controller
     public function destroy($id)
     {
         //busca procedimento e apaga
-        $proc = Adl::findOrFail($id);
-        $proc->delete();
+        $proc = Adl::findOrFail($id)->delete();
 
         //limpa o cache inteiro
         Cache::flush();
