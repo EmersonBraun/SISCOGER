@@ -1260,33 +1260,8 @@ var render = function() {
                             "div",
                             { staticClass: "col-lg-6 col-md-6 col-xs-6" },
                             [
-                              !_vm.edit
+                              _vm.edit
                                 ? [
-                                    _c("label", [_vm._v("Adicionar")]),
-                                    _c("br"),
-                                    _vm._v(" "),
-                                    _c(
-                                      "a",
-                                      {
-                                        staticClass:
-                                          "btn btn-success btn-block",
-                                        attrs: {
-                                          disabled:
-                                            !_vm.motivo ||
-                                            (_vm.motivo == "outros" &&
-                                              !_vm.motivo_outros.length)
-                                        },
-                                        on: { click: _vm.createSobrestamento }
-                                      },
-                                      [
-                                        _c("i", {
-                                          staticClass: "fa fa-plus",
-                                          staticStyle: { color: "white" }
-                                        })
-                                      ]
-                                    )
-                                  ]
-                                : [
                                     _c("label", [_vm._v("Editar")]),
                                     _c("br"),
                                     _vm._v(" "),
@@ -1302,6 +1277,31 @@ var render = function() {
                                               !_vm.motivo_outros.length)
                                         },
                                         on: { click: _vm.editSobrestamento }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: { color: "white" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                : [
+                                    _c("label", [_vm._v("Adicionar")]),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-block",
+                                        attrs: {
+                                          disabled:
+                                            !_vm.motivo ||
+                                            (_vm.motivo == "outros" &&
+                                              !_vm.motivo_outros.length)
+                                        },
+                                        on: { click: _vm.createSobrestamento }
                                       },
                                       [
                                         _c("i", {
@@ -1478,7 +1478,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: " input-group", staticStyle: { width: "85%" } }, [
+    _c("div", { staticClass: " input-group", staticStyle: { width: "86%" } }, [
       _c("input", {
         staticClass: "form-control",
         class: { "with-reset-button": _vm.clearButton },
@@ -1504,7 +1504,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Hoje")]
+              [_vm._v("Hoje ")]
             )
           : _vm._e(),
         _vm._v(" "),
@@ -1519,7 +1519,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("X")]
+              [_vm._v("   X   ")]
             )
           : _vm._e()
       ])

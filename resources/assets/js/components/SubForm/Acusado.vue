@@ -41,13 +41,13 @@
                             <a class="btn btn-danger btn-block" @click="clear(true)"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs 1">
-                            <template v-if="!edit">
-                                <label>Adicionar</label><br>
-                                <a class="btn btn-success btn-block" :disabled="!resultado" @click="createPM"><i class="fa fa-plus" style="color: white"></i></a>
-                            </template>
-                             <template v-else>
+                             <template v-if="!edit">
                                 <label>Editar</label><br>
                                 <a class="btn btn-success btn-block" :disabled="!resultado" @click="editPM"><i class="fa fa-plus" style="color: white"></i></a>
+                            </template>
+                            <template v-else>
+                                <label>Adicionar</label><br>
+                                <a class="btn btn-success btn-block" :disabled="!resultado" @click="createPM"><i class="fa fa-plus" style="color: white"></i></a>
                             </template>
                         </div>
                     </form>
@@ -154,13 +154,6 @@
                     this.clear(true)
                 }
             },
-            pms:{
-                deep: true,
-                handler(){
-                    let name = this.dproc+this.idp+'acusados'
-                    sessionStorage.setItem(name, JSON.stringify(this.pms))
-                }
-            }
         },
         computed:{
             getBaseUrl(){
@@ -207,13 +200,14 @@
                 }
             },
              listPM(){
-                this.clear(false)
                 let urlIndex = this.getBaseUrl + 'api/dados/envolvido/' + this.dproc + '/' +this.idp + '/' + this.situacao ;
                 if(this.dproc && this.idp && this.situacao){
                     axios
                     .get(urlIndex)
                     .then((response) => {
                         this.pms = response.data
+                        let name = this.dproc+this.idp+'acusados'
+                        sessionStorage.setItem(name, JSON.stringify(this.pms))
                         // console.log(response.data)
                     })
                     .then(this.clear(false))//limpa a busca

@@ -1,14 +1,14 @@
 <template>
     <div >
-        <div class=" input-group" style="width: 85%">
+        <div class=" input-group" style="width: 86%">
             <input class="form-control" :class="{'with-reset-button': clearButton}" type="text" :placeholder="placeholder"
                 :value="val"
                 :name="name"
                 @click="inputClick"
                 @input="this.$emit('input',$event.target.val)" />
             <div class="input-group-append">
-                <span v-if="!val" class="btne input-group-text" @click="val = today()">Hoje</span>
-                <span v-if="clearButton && val" class="btne input-group-text" @click="val = ''">X</span>
+                <span v-if="!val" class="btne input-group-text" @click="val = today()">Hoje&nbsp;</span>
+                <span v-if="clearButton && val" class="btne input-group-text" @click="val = ''">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>
             </div>
         </div>
 

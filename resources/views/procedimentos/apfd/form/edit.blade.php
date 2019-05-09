@@ -7,7 +7,7 @@
   <h1>APFD - Editar</h1>
   <ol class="breadcrumb">
   <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li><a href="{{route('apfd.lista',['ano' => date('Y')])}}">APFD - Lista</a></li>
+  <li><a href="{{route('apfd.lista')}}">APFD - Lista</a></li>
   <li class="active">APFD - Editar</li>
   </ol>
   <br>

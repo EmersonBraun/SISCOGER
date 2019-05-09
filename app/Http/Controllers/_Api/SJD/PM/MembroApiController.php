@@ -15,15 +15,7 @@ class MembroApiController extends Controller
     {
         $dados = $request->all();
         
-        if($dados['rg'] == 0 || $dados['rg'] == null)
-        {
-            return response()->json([
-                'opm' => 'Sem RG',
-                'success' => false,
-            ], 500);
-        }
-        //substituicao
-        if($dados['idsubs']){
+        if(isset($dados['idsubs'])){
             $substituto = Envolvido::findOrFail($dados['idsubs'])->update(['rg_substituto'=> $dados['rg']]);
         }
 

@@ -195,18 +195,7 @@
                 let data = new FormData(formData);
                 
                 axios.post( urlCreate,data)
-                .then(() => {
-                    this.arquivos.push({
-                        arquivo_data: data.get('arquivo_data'),
-                        local_atual: data.get('local_atual'),
-                        numero: data.get('numero'),
-                        letra: data.get('letra'),
-                        obs: data.get('obs'),
-                        opm: this.opm,
-                        rg: this.rg,
-                    })
-                    this.clear(false)
-                })
+                .then(this.listArquivo())
                 .catch((error) => console.log(error));
             },
             replaceArquivo(arquivo){

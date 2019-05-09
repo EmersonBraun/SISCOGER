@@ -164,14 +164,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 this.clear(true);
             }
-        },
-
-        pms: {
-            deep: true,
-            handler: function handler() {
-                var name = this.dproc + this.idp + 'acusados';
-                sessionStorage.setItem(name, JSON.stringify(this.pms));
-            }
         }
     },
     computed: {
@@ -221,11 +213,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         listPM: function listPM() {
             var _this2 = this;
 
-            this.clear(false);
             var urlIndex = this.getBaseUrl + 'api/dados/envolvido/' + this.dproc + '/' + this.idp + '/' + this.situacao;
             if (this.dproc && this.idp && this.situacao) {
                 axios.get(urlIndex).then(function (response) {
                     _this2.pms = response.data;
+                    var name = _this2.dproc + _this2.idp + 'acusados';
+                    sessionStorage.setItem(name, JSON.stringify(_this2.pms));
                     // console.log(response.data)
                 }).then(this.clear(false)) //limpa a busca
                 .catch(function (error) {
@@ -296,7 +289,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -743,26 +736,6 @@ var render = function() {
                             [
                               !_vm.edit
                                 ? [
-                                    _c("label", [_vm._v("Adicionar")]),
-                                    _c("br"),
-                                    _vm._v(" "),
-                                    _c(
-                                      "a",
-                                      {
-                                        staticClass:
-                                          "btn btn-success btn-block",
-                                        attrs: { disabled: !_vm.resultado },
-                                        on: { click: _vm.createPM }
-                                      },
-                                      [
-                                        _c("i", {
-                                          staticClass: "fa fa-plus",
-                                          staticStyle: { color: "white" }
-                                        })
-                                      ]
-                                    )
-                                  ]
-                                : [
                                     _c("label", [_vm._v("Editar")]),
                                     _c("br"),
                                     _vm._v(" "),
@@ -773,6 +746,26 @@ var render = function() {
                                           "btn btn-success btn-block",
                                         attrs: { disabled: !_vm.resultado },
                                         on: { click: _vm.editPM }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: { color: "white" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                : [
+                                    _c("label", [_vm._v("Adicionar")]),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-block",
+                                        attrs: { disabled: !_vm.resultado },
+                                        on: { click: _vm.createPM }
                                       },
                                       [
                                         _c("i", {

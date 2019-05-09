@@ -23,15 +23,6 @@ class AcusadoApiController extends Controller
     public function store(Request $request)
     {
         $dados = $request->all();
-        
-        if($dados['rg'] == 0 || $dados['rg'] == null)
-        {
-            return response()->json([
-                'opm' => 'Sem RG',
-                'success' => false,
-            ], 500);
-        }
-
         $create = Envolvido::create($dados);
 
         if($create)

@@ -56,13 +56,13 @@
                             <a class="btn btn-danger btn-block" @click="clear(false)"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-6 col-md-6 col-xs-6">
-                            <template v-if="!edit">
-                                <label>Adicionar</label><br>
-                                <a class="btn btn-success btn-block" :disabled="!motivo || (motivo == 'outros' && !motivo_outros.length)" @click="createSobrestamento"><i class="fa fa-plus" style="color: white"></i></a>
-                            </template>
-                             <template v-else>
+                             <template v-if="edit">
                                 <label>Editar</label><br>
                                 <a class="btn btn-success btn-block" :disabled="!motivo || (motivo == 'outros' && !motivo_outros.length)" @click="editSobrestamento"><i class="fa fa-plus" style="color: white"></i></a>
+                            </template>
+                            <template v-else>
+                                <label>Adicionar</label><br>
+                                <a class="btn btn-success btn-block" :disabled="!motivo || (motivo == 'outros' && !motivo_outros.length)" @click="createSobrestamento"><i class="fa fa-plus" style="color: white"></i></a>
                             </template>
                         </div>
                     </form>

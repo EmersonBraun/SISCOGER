@@ -200,25 +200,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         createArquivo: function createArquivo() {
-            var _this2 = this;
-
             var urlCreate = this.getBaseUrl + 'api/arquivo/store';
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
 
-            axios.post(urlCreate, data).then(function () {
-                _this2.arquivos.push({
-                    arquivo_data: data.get('arquivo_data'),
-                    local_atual: data.get('local_atual'),
-                    numero: data.get('numero'),
-                    letra: data.get('letra'),
-                    obs: data.get('obs'),
-                    opm: _this2.opm,
-                    rg: _this2.rg
-                });
-                _this2.clear(false);
-            }).catch(function (error) {
+            axios.post(urlCreate, data).then(this.listArquivo()).catch(function (error) {
                 return console.log(error);
             });
         },
@@ -231,7 +218,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.add = true;
         },
         editArquivo: function editArquivo() {
-            var _this3 = this;
+            var _this2 = this;
 
             var urledit = this.getBaseUrl + 'api/arquivo/edit/' + this.edit;
 
@@ -239,8 +226,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var data = new FormData(formData);
 
             axios.post(urledit, data).then(function () {
-                _this3.listArquivo();
-                _this3.clear(false);
+                _this2.listArquivo();
+                _this2.clear(false);
             }).catch(function (error) {
                 return console.log(error);
             });
@@ -653,7 +640,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1373,7 +1360,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: " input-group", staticStyle: { width: "85%" } }, [
+    _c("div", { staticClass: " input-group", staticStyle: { width: "86%" } }, [
       _c("input", {
         staticClass: "form-control",
         class: { "with-reset-button": _vm.clearButton },
@@ -1399,7 +1386,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Hoje")]
+              [_vm._v("Hoje ")]
             )
           : _vm._e(),
         _vm._v(" "),
@@ -1414,7 +1401,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("X")]
+              [_vm._v("   X   ")]
             )
           : _vm._e()
       ])

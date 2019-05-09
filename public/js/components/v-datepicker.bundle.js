@@ -593,7 +593,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: " input-group", staticStyle: { width: "85%" } }, [
+    _c("div", { staticClass: " input-group", staticStyle: { width: "86%" } }, [
       _c("input", {
         staticClass: "form-control",
         class: { "with-reset-button": _vm.clearButton },
@@ -619,7 +619,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Hoje")]
+              [_vm._v("Hoje ")]
             )
           : _vm._e(),
         _vm._v(" "),
@@ -634,7 +634,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("X")]
+              [_vm._v("   X   ")]
             )
           : _vm._e()
       ])
