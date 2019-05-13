@@ -35,7 +35,7 @@ const app = new Vue({
             let hasSession =  (sessionStorage.getItem("session") !== null) ? true : false
             if(!hasSession){
                 let urlIndex = 'http://10.47.1.90/siscoger/session/dados';
-                console.log(urlIndex)
+                //console.log(urlIndex)
                     axios
                     .get(urlIndex)
                     .then((response) => {

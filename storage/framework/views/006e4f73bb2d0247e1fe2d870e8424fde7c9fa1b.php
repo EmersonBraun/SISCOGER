@@ -46,9 +46,10 @@
                     <th style="display: none">#</th>
                     <th class='col-xs-2 col-md-2'>N°/Ano</th>
                     <th class='col-xs-2 col-md-2'>OPM</th>
-                    <th class='col-xs-4 col-md-4'>Desertor</th>
+                    <th class='col-xs-2 col-md-2'>Desertor</th>
                     <th class='col-xs-2 col-md-2'>RG</th>
-                    <th class='col-xs-2 col-md-2'>Documento</th>     
+                    <th class='col-xs-2 col-md-2'>Documento</th>
+                    <th class='col-xs-2 col-md-2'>Ações</th>     
                   </tr>
                   </thead>
   
@@ -61,6 +62,13 @@
                     <td><?php echo e($registro['nome']); ?></td> 
                     <td><a href="<?php echo e(route('fdi.show',$registro['rg'])); ?>" target="_blanck"><?php echo e($registro['rg']); ?></a></td>
                     <td><?php echo e($registro['doc_tipo']); ?> Nº <?php echo e($registro['doc_numero']); ?></td>  
+                    <td>
+                        <span>
+                        <a class="btn btn-default" href="<?php echo e(route('desercao.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])); ?>"><i class="fa fa-fw fa-eye "></i></a>
+                        <a class="btn btn-info" href="<?php echo e(route('desercao.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])); ?>"><i class="fa fa-fw fa-edit "></i></a>
+                        <a class="btn btn-danger"  href="<?php echo e(route('desercao.destroy',$registro['id_desercao'])); ?>" onclick="confirmApagar('desercao',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i class="fa fa-fw fa-trash-o "></i></a>
+                        </span>
+                    </td>
                   </tr>
                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                   </tbody>
@@ -71,7 +79,8 @@
                       <th>OPM</th>
                       <th>Desertor</th>
                       <th>RG</th>
-                      <th>Documento</th> 
+                      <th>Documento</th>
+                      <th>Ações</th> 
                   </tr>
                   </tfoot>
                 </table>

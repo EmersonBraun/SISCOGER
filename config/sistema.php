@@ -793,7 +793,36 @@ return [
         "1" => "Em serviço ou atendimento de Ocorrência",
         "2" => "Fora do Serviço ou outras circunstâncias"
     ],
-  
+    // ---- Desercao -------
+    'termo_exclusao' => 
+    [
+        '' => 'Escolha',
+        'Exclusao' => 'Exclusão',
+        'Agregacao' => 'Agregação'
+    ],
+
+    'termo_captura' => 
+    [
+        '' => 'Escolha',
+        'Captura' => 'Captura',
+        'Apresentacao espontanea' => 'Apresentaçãoo Espontânea'
+    ],
+
+    'pericia' => 
+    [
+        '' => 'Escolha',
+        'Sim' => 'Sim',
+        'Nao' => 'Não'
+    ],
+
+    'termo_inclusao' => 
+    [
+        '' => 'Escolha',
+        'Inclusao' => 'Inclusão',
+        'Reversao' => 'Reversão'
+    ],
+
+
     // ---- APRESENTAÇÃO -------
 
     'apresentacaoClassificacaoSigilo' =>

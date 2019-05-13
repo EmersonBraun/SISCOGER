@@ -15,11 +15,16 @@ class EnvolvidoApiController extends Controller
         if($situacao) $situacao = strtolower($situacao);
         
         $query = Envolvido::where('id_'.$proc,'=',$id);
-            if($situacao != '') $query->where('situacao','=',$situacao);
-            $result = $query->get();
+        if($situacao != '') $query->where('situacao','=',$situacao);
+        $result = $query->get();
 
-        return response()->json(
-            $result, 200);
+        if($result)
+        {
+            return response()->json(
+                $result, 200);
+        }
+
+        return response()->json(null, 500);
     }
 
     public function membros($proc, $id)

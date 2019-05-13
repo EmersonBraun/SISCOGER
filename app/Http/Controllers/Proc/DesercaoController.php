@@ -87,14 +87,6 @@ class DesercaoController extends Controller
             $dados[$v] = ($dados[$v] == NULL) ? '' : $dados[$v]; 
         }
 
-        //datas
-        $datas = ['abertura_data','fato_data','portaria_data','prescricao_data'];
-
-        foreach ($datas as $d) 
-        {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
-        }
-
         //cria o novo procedimento
         Desercao::create($dados);
 
@@ -139,24 +131,6 @@ class DesercaoController extends Controller
     {
         //dd(\Request::all());
         $dados = $request->all();
-
-        //datas
-        $datas = ['fato_data','portaria_data','prescricao_data'];
-
-        foreach ($datas as $d) 
-        {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
-        }
-
-        //arquivos
-        $arquivos = ['libelo_file','parecer_file','decisao_file','tjpr_file','stj_file'];
-
-        foreach ($arquivos as $a) 
-        {
-            if ($request->hasFile($a)) $dados[$a] = arquivo($request,$a,'desercao',$id);
-
-        }
-
         //busca procedimento e atualiza
     	Desercao::find($id)->update($dados);
         //mensagem

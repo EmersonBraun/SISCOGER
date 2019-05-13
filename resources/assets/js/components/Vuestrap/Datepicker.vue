@@ -351,7 +351,7 @@ export default {
     }   
     this.$emit('child-created', this)
     this.currDate = this.parse(this.val) || this.parse(new Date())
-    // window.addEventListener('click', this._blur);
+    window.addEventListener('click', this._blur);
   },
   beforeDestroy () {
     // window.removeEventListner('click', this._blur)
