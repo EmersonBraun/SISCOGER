@@ -251,8 +251,6 @@
                 }
             },
             listPM(){
-                this.clear(false)//limpa a busca
-
                 let urlIndex = this.getBaseUrl + 'api/dados/membros/' + this.dproc + '/' +this.idp;
                 if(this.dproc && this.idp){
                     axios
@@ -266,6 +264,7 @@
                         let situacoes = ['Acusador','Encarregado','Escrivão','Membro','Presidente']
                         this.situacoes = situacoes.filter(a => !this.usados.includes(a))
                     })// atualiza disponíveis
+                    .then(this.clear(false))
                     .catch(error => console.log(error));
                 } 
             },
@@ -276,9 +275,9 @@
                 let data = new FormData(formData);
 
                 axios.post( urlCreate,data)
-                .then(this.clear(false))//limpa a busca
+                .then(this.listPM())//limpa a busca
                 .catch((error) => console.log(error));
-                this.listPM()
+                
             },
             showPM(rg){
                 let urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';                

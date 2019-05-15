@@ -2,6 +2,7 @@
 namespace App\Presenters;
 
 use Laracasts\Presenter\Presenter;
+use App\Repositories\OPMRepository;
 
 class ExclusaojudicialPresenter extends Presenter {
 	
@@ -20,6 +21,11 @@ class ExclusaojudicialPresenter extends Presenter {
             ];
 
             return $labels[$this->prioridade];
+    }
+
+    public function opm()
+    {
+        return OPMRepository::abreviatura($this->cdopm_quandoexcluido);
     }
 
 }

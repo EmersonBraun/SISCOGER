@@ -1,14 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'ADL - Editar')
+@section('title', 'FATD - Editar')
 
 @section('content_header')
 <section class="content-header">   
-  <h1>ADL - Editar</h1>
+  <h1>FATD - Editar</h1>
   <ol class="breadcrumb">
   <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li><a href="{{route('adl.lista',['ano' => date('Y')])}}">ADL - Lista</a></li>
-  <li class="active">ADL - Editar</li>
+  <li><a href="{{route('fatd.lista',['ano' => date('Y')])}}">FATD - Lista</a></li>
+  <li class="active">FATD - Editar</li>
   </ol>
   <br>
 </section>
@@ -39,37 +39,35 @@
        
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
-                {!! Form::model($proc,['url' => route('adl.update',$proc['id_adl']),'method' => 'put']) !!}
+                {!! Form::model($proc,['url' => route('fatd.update',$proc['id_fatd']),'method' => 'put']) !!}
                 <v-label label="id_andamento" title="Andamento">
-                    {!! Form::select('id_andamento',config('sistema.andamentoADL'),null, ['class' => 'form-control ']) !!}
+                    {!! Form::select('id_andamento',config('sistema.andamentoFATD'),null, ['class' => 'form-control ']) !!}
                 </v-label>
                 <v-label label="id_andamentocoger" title="Andamento COGER">
-                    {!! Form::select('id_andamentocoger',config('sistema.andamentocogerADL'),null, ['class' => 'form-control ']) !!}
+                    {!! Form::select('id_andamentocoger',config('sistema.andamentocogerFATD'),null, ['class' => 'form-control ']) !!}
                 </v-label>
-                <v-label label="id_motivoconselho" title="Motivo ADL (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">
-                    {!! Form::select('id_motivoconselho', config('sistema.motivoConselho'),null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
+                <v-label label="doc_origem_txt" title="Documentos de origem">
+                    {{ Form::text('doc_origem_txt', null, ['class' => 'form-control ']) }}
                 </v-label>
-                <v-label label="check" title="Selecione: " md="12" lg="12">
-                    <v-checkbox value="{{$proc['ac_desempenho_bl']}}" name="ac_desempenho_bl" true-value="S" false-value="0"
-                    text="Procedido incorretamente no desempenho do cargo ou função.">
-                    </v-checkbox>
-                    <v-checkbox value="{{$proc['ac_conduta_bl']}}" name="ac_conduta_bl" true-value="S" false-value="0"
-                    text="Conduta irregular ou ato que venha a denegrir a imagem da Corporação.">
-                    </v-checkbox>
-                    <v-checkbox value="{{$proc['ac_honra_bl']}}" name="ac_honra_bl" true-value="S" false-value="0"
-                    text="Praticado ato que afete a honra pessoal, o pundonor militar ou o decoro da classe.">
-                    </v-checkbox>
+                <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
+                    <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>
+                </v-label>
+                <v-label label="cdopm" title="OPM">
+                    <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
+                </v-label>
+                <v-label label="motivo_fatd" title="Motivo" >
+                    {!! Form::select('motivo_fatd', config('sistema.motivoFATD'),null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
                 </v-label>
                 <v-label label="outromotivo" title="Especificar (no caso de outros motivos)">
                     {{ Form::text('outromotivo', null, ['class' => 'form-control ']) }}
                 </v-label>
-                <v-label label="id_situacaoconselho" title="Situação">
-                    {!! Form::select('id_situacaoconselho',config('sistema.situacaoConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+                <v-label label="situacao_fatd" title="Situação">
+                    {!! Form::select('situacao_fatd',config('sistema.situacaoOCOR'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
                 </v-label>
-                <v-label label="portaria_numero" title="N° Portaria">
-                    {{ Form::text('portaria_numero', null, ['class' => 'form-control ']) }}
+                <v-label label="despacho_numero" title="Nº do despacho que designa o Encarregado">
+                    {{ Form::text('despacho_numero', null, ['class' => 'form-control ']) }}
                 </v-label>
-                <v-label label="portaria_data" title="Data da Portaria" icon="fa fa-calendar">
+                <v-label label="portaria_data" title="Data do despacho" icon="fa fa-calendar">
                     <v-datepicker name="portaria_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['portaria_data'] ?? ''}}"></v-datepicker>
                 </v-label>
                 <v-label label="doc_tipo" title="Tipo de boletim">
@@ -78,62 +76,74 @@
                 <v-label label="doc_numero" title="N° Boletim">
                     {{ Form::text('doc_numero', null, ['class' => 'form-control ']) }}
                 </v-label>
-                <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
-                    <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>
-                </v-label>
                 <v-label label="abertura_data" title="Data da abertura" icon="fa fa-calendar">
                     <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['abertura_data'] ?? ''}}"></v-datepicker>
-                </v-label>
-                <v-label label="prescricao_data" title="Data da prescricao" icon="fa fa-calendar">
-                    <v-datepicker name="prescricao_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['prescricao_data'] ?? ''}}"></v-datepicker>
                 </v-label>
                 <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
                     {!! Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
                 </v-label>
-                {!! Form::submit('Alterar ADL',['class' => 'btn btn-primary btn-block']) !!}
+                {!! Form::submit('Alterar FATD',['class' => 'btn btn-primary btn-block']) !!}
                 {!! Form::close() !!}
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">
                 <v-proced-origem></v-proced-origem><br>           
-                <v-acusado idp="{{$proc['id_adl']}}" situacao="{{sistema('procSituacao','adl')}}" ></v-acusado><br>
-                <v-vitima idp="{{$proc['id_adl']}}" ></v-vitima><br>
+                <v-acusado idp="{{$proc['id_fatd']}}" situacao="{{sistema('procSituacao','fatd')}}" ></v-acusado><br>
+                <v-vitima idp="{{$proc['id_fatd']}}" ></v-vitima><br>
             </v-tab-item>
             <v-tab-item title="Documentos" idp="documentos">
                 <file-upload 
-                        title="Libelo:"
-                        name="libelo_file"
-                        proc="adl"
-                        idp="{{$proc['id_adl']}}"
-                        :ext="['pdf']" 
-                        :candelete="{{session('is_admin')}}"
-                        ></file-upload>
+                title="Relato do fato imputado:"
+                name="fato_file"
+                proc="fatd"
+                idp="{{$proc['id_fatd']}}"
+                :ext="['pdf']" 
+                :candelete="{{session('is_admin')}}"
+                ></file-upload>
 
                 <file-upload 
-                    title="Parecer:"
-                    name="parecer_file"
-                    proc="adl"
-                    idp="{{$proc['id_adl']}}"
-                    :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
-                    ></file-upload>
-                <v-item-unique title="Parecer comissão" proc="adl" idp="{{$proc['id_adl']}}" name="parecer_comissao"></v-item-unique>
+                title="Relatório:"
+                name="relatorio_file"
+                proc="fatd"
+                idp="{{$proc['id_fatd']}}"
+                :ext="['pdf']" 
+                :candelete="{{session('is_admin')}}"
+                ></file-upload>
 
                 <file-upload 
-                    title="Parecer CMT Geral:"
-                    name="decisao_file"
-                    proc="adl"
-                    idp="{{$proc['id_adl']}}"
-                    :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
-                    ></file-upload>
-                <v-item-unique title="Parecer CMT Geral" proc="adl" idp="{{$proc['id_adl']}}" name="parecer_cmtgeral"></v-item-unique>
+                title="Solução do Comandante:"
+                name="sol_cmt_file"
+                proc="fatd"
+                idp="{{$proc['id_fatd']}}"
+                :ext="['pdf']" 
+                :candelete="{{session('is_admin')}}"
+                ></file-upload>
+
+                <file-upload 
+                title="Solução do Cmt Geral:"
+                name="sol_cg_file"
+                proc="fatd"
+                idp="{{$proc['id_fatd']}}"
+                :ext="['pdf']" 
+                :candelete="{{session('is_admin')}}"
+                ></file-upload>
+
+                <file-upload 
+                title="Nota de punição:"
+                name="notapunicao_file"
+                proc="fatd"
+                idp="{{$proc['id_fatd']}}"
+                :ext="['pdf']" 
+                :candelete="{{session('is_admin')}}"
+                ></file-upload>
+
+                <v-item-unique title="Publicação da nota de punição (Ex: BI nº 12/2011)" proc="fatd" idp="{{$proc['id_fatd']}}" name="publicacaonp"></v-item-unique>
             </v-tab-item>
             <v-tab-item title="Recursos" idp="recursos">
                 <file-upload 
                     title="Reconsideração de ato (solução):"
                     name="rec_ato_file"
-                    proc="adl"
-                    idp="{{$proc['id_adl']}}"
+                    proc="fatd"
+                    idp="{{$proc['id_fatd']}}"
                     :ext="['pdf']" 
                     :candelete="{{session('is_admin')}}"
                     >
@@ -142,8 +152,8 @@
                 <file-upload 
                     title="Recurso CMT OPM:"
                     name="rec_cmt_file"
-                    proc="adl"
-                    idp="{{$proc['id_adl']}}"
+                    proc="fatd"
+                    idp="{{$proc['id_fatd']}}"
                     :ext="['pdf']" 
                     :candelete="{{session('is_admin')}}"
                     >
@@ -152,8 +162,8 @@
                 <file-upload 
                     title="Recurso CMT CRPM:"
                     name="rec_crpm_file"
-                    proc="adl"
-                    idp="{{$proc['id_adl']}}"
+                    proc="fatd"
+                    idp="{{$proc['id_fatd']}}"
                     :ext="['pdf']" 
                     :candelete="{{session('is_admin')}}"
                     >
@@ -162,27 +172,27 @@
                 <file-upload 
                     title="Recurso CMT Geral:"
                     name="rec_cg_file"
-                    proc="adl"
-                    idp="{{$proc['id_adl']}}"
+                    proc="fatd"
+                    idp="{{$proc['id_fatd']}}"
                     :ext="['pdf']" 
                     :candelete="{{session('is_admin')}}"
                     >
                 </file-upload>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                <v-membro idp="{{$proc['id_adl']}}"></v-membro>
+                <v-membro idp="{{$proc['id_fatd']}}"></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento idp="{{$proc['id_adl']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento idp="{{$proc['id_fatd']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
             </v-tab-item>
             <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
-                <v-sobrestamento idp="{{$proc['id_adl']}}" ></v-sobrestamento>
+                <v-sobrestamento idp="{{$proc['id_fatd']}}" ></v-sobrestamento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo idp="{{$proc['id_adl']}}" ></v-arquivo>
+                <v-arquivo idp="{{$proc['id_fatd']}}" ></v-arquivo>
             </v-tab-item>
         </div>
     </div>

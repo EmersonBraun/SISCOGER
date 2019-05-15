@@ -11,19 +11,18 @@ function completaDados(rg,nome,posto)
         method: "POST",
         data: {
         _token: _token,
-        'rg': rg
+        'rg': $(rg).val()
         },
         success: function(result){
-            
             if(result != '')
             {
-                $('#'+nome).val(result.NOME);
-                $('#'+posto).val(result.CARGO);
+                $(nome).val(result.NOME);
+                $(posto).val(result.CARGO);
             }
             else
             {
-                $('#'+nome).val('Não encontrado');
-                $('#'+posto).val('Não encontrado');
+                $(nome).val('Não encontrado');
+                $(posto).val('Não encontrado');
             }
         }
     });

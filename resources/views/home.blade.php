@@ -343,33 +343,6 @@
         </table>
         @endcomponent
 
-        @component('components.comp.boxcolapse',['titulo' => 'SINDICÂNCIA ABERTURA', 'qtd' => $tsindicancia_aberturas])
-        <table class="table no-margin">
-            <thead>
-                <tr>
-                    <th>Sindicância ref/ano</th>
-                    <th>Situação</th>
-                </tr>
-            </thead>
-            @forelse($sindicancia_aberturas as $sindicancia_abertura)
-            
-            <tr>
-                <td>
-                    <a href="{{route('sindicancia.edit',['ref' =>$sindicancia_abertura['sjd_ref'], 'ano' => $sindicancia_abertura['sjd_ref_ano']])}}" target="_blank">
-                        {{$sindicancia_abertura['sjd_ref']}}/{{$sindicancia_abertura['sjd_ref_ano']}}
-                    </a>
-                </td>
-                <td><span class='label label-danger'>não tem data de abertura cadastrada. </span></td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan='3'>Nenhuma Pendência</td> 
-            </tr>
-            @endforelse
-            </tbody>
-        </table>
-        @endcomponent
-
         @component('components.comp.boxcolapse',['titulo' => 'CONSELHOS DE DISCIPLINA - DATA DE ABERTURA', 'qtd' => $tcd_aberturas])
             <table class="table no-margin">
                 <thead>

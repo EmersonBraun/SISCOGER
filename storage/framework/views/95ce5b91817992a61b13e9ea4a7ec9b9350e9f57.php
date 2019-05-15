@@ -5,7 +5,7 @@
   <h1>ADL - Editar</h1>
   <ol class="breadcrumb">
   <li><a href="<?php echo e(route('home')); ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li><a href="<?php echo e(route('adl.lista',['ano' => date('Y')])); ?>">ADL - Lista</a></li>
+  <li><a href="<?php echo e(route('adl.lista')); ?>">ADL - Lista</a></li>
   <li class="active">ADL - Editar</li>
   </ol>
   <br>

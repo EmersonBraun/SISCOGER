@@ -115,7 +115,74 @@ return [
         "5" => "Mau"
     ],
 
-    // ---- ANDAMENTO -------
+    // ---- TIPOS DE PROCEDIMENTOS -----------------------------------------------------------------
+    
+    'procedimentosTipos' =>
+    [
+        "IPM" => "Inquérito Policial Militar",
+        "SINDICANCIA" => "Sindicância",
+        "CJ" => "Conselho de Justificação",
+        "CD" => "Conselho de Disciplina",
+        "IT" => "Inquérito Técnico",
+        "ADL" => "Apuração Disciplinar de Licenciamento",
+        "APFD" => "Auto de Prisão em Flagrante Delito",
+        "FATD" => "Formulário de Apuração de Transgressão Disciplinar",
+        "ISO" => "Inquérito Sanitário de Origem",
+        "DESERCAO" => "Deserção",
+        "SAI" => "Investigação Policial",
+        "PROCOUTROS" => "Procedimento Outros"
+    ],
+
+    'pocedimentosOpcoes' =>
+    [
+        "",
+        "ipm",
+        "sindicancia",
+        "cd",
+        "cj",
+        "apfdc",
+        "apfdm",
+        "fatd",
+        "iso",
+        "desercao",
+        "it",
+        "adl",
+        "pad",
+        "sai",
+        "proc_outros"
+    ],
+
+    'procSituacao' =>
+    [
+        '' => 'Indiciado',
+        'adl' => 'Acusado',
+        'ipm' => 'Indiciado',
+        'cj' => 'Justificante',
+        'cd' => 'Acusado',
+        'sindicancia' => 'Sindicado',
+        'fatd' => 'Acusado',
+        'iso' => 'Paciente',
+        'desercao' => 'Desertor',
+        'apfd' => 'Acusado',
+        'it' => 'Condutor',
+        'sai' => 'Denunciado',
+        'proc_outros' => 'Envolvido'
+    ],
+
+    'procTiposAcusados' =>
+    [
+        'Acusado',
+        'Condutor',
+        'Denunciado',
+        'Desertor',
+        'Envolvido',
+        'Indiciado',
+        'Justificante',
+        'Paciente',
+        'Sindicado'
+    ],
+    
+    // ---- ANDAMENTO -----------------------------------------------------------------------------
 
     /*
     *$andamento = array_get(config('sistema.andamento'), $proc->id_andamento);
@@ -242,77 +309,8 @@ return [
         "33" => "CJ"
     ],
 
-    // ---- TIPOS DE PROCEDIMENTOS -------
+    // ---- ANDAMENTO COGER -----------------------------------------------------------------------
     
-    'procedimentosTipos' =>
-    [
-        "IPM" => "Inquérito Policial Militar",
-        "SINDICANCIA" => "Sindicância",
-        "CJ" => "Conselho de Justificação",
-        "CD" => "Conselho de Disciplina",
-        "IT" => "Inquérito Técnico",
-        "ADL" => "Apuração Disciplinar de Licenciamento",
-        "APFD" => "Auto de Prisão em Flagrante Delito",
-        "FATD" => "Formulário de Apuração de Transgressão Disciplinar",
-        "ISO" => "Inquérito Sanitário de Origem",
-        "DESERCAO" => "Deserção",
-        "SAI" => "Investigação Policial",
-        "PROCOUTROS" => "Procedimento Outros"
-    ],
-
-    'pocedimentosOpcoes' =>
-    [
-        "",
-        "ipm",
-        "sindicancia",
-        "cd",
-        "cj",
-        "apfdc",
-        "apfdm",
-        "fatd",
-        "iso",
-        "desercao",
-        "it",
-        "adl",
-        "pad",
-        "sai",
-        "proc_outros"
-    ],
-
-    'procSituacao' =>
-    [
-        '' => 'Indiciado',
-        'adl' => 'Acusado',
-        'ipm' => 'Indiciado',
-        'cj' => 'Justificante',
-        'cd' => 'Acusado',
-        'sindicancia' => 'Sindicado',
-        'fatd' => 'Acusado',
-        'iso' => 'Paciente',
-        'desercao' => 'Desertor',
-        'apfd' => 'Acusado',
-        'it' => 'Condutor',
-        'sai' => 'Denunciado',
-        'proc_outros' => 'Envolvido'
-    ],
-
-    'procTiposAcusados' =>
-    [
-        'Acusado',
-        'Condutor',
-        'Denunciado',
-        'Desertor',
-        'Envolvido',
-        'Indiciado',
-        'Justificante',
-        'Paciente',
-        'Sindicado'
-    ],
-    
-
-
-    // ---- ANDAMENTO COGER -------
-
     /*
     *$andamentocoger = array_get(config('sistema.andamentocoger'), $proc->id_andamentocoger);
     */
@@ -563,7 +561,8 @@ return [
         "60" => "ARQUIVADO/JUST. COMUM"
     ],
 
-    // ---- RESULTADO -------
+    // ---- RESULTADO -----------------------------------------------------------------------
+
     'resultado' => 
     [
         "1" => "Punido",
@@ -666,7 +665,7 @@ return [
         "22" => "Ind. Crime Transg."
     ],
    
-    // ---- FATD --------
+    // ---- FATD -----------------------------------------------------------------------
 
     'motivoFATD' =>
     [
@@ -703,8 +702,51 @@ return [
         "BI" => "BI",
         "BR" => "BR"
     ],
-		
-    // ---- INQUÉRITO TÉCNICO -------
+    
+    // ---- IPM -------------------------------------------------------------------------------------
+
+    'crime' =>
+    [
+        "Homicidio" => "Homicidio",
+        "Lesao Corporal" => "Lesao Corporal",
+        "Extravio de arma" => "Extravio de arma",
+        "Furto de arma" => "Furto de arma",
+        "Roubo de arma" => "Roubo de arma",
+        "Extravio de municao" => "Extravio de Munição",
+        "Concussao" => "Concussão (Art. 305)",
+        "Peculato" => "Peculato (Art. 303)",
+        "Corrupcao passiva" => "Corrupção passiva (Art. 308)",
+        "Contrabando ou descaminho" => "Contrabando ou descaminho",
+        "Uso de documento falso" => "Uso de documento falso (Art. 315)",
+        "Falsidade ideologica" => "Falsidade ideológica",
+        "Fuga de Preso" => "Fuga de preso",
+        "Prevaricacao" => "Prevaricação (Art. 319)",
+        "Violacao do sigilo funcional" => "Violação do sigilo funcional",
+        "Deserção" => "Deserção",
+        "Violencia contra superior" => "Violencia contra superior (Art. 157)",
+        "Violencia contra militar de sv" => "Violencia contra militar de serviço (Art. 158)",
+        "Desrespeito a superior" => "Desrespeito a superior (Art. 160)",
+        "Recusa de obediencia" => "Recusa de obediencia (Art. 163)",
+        "Abandono de posto" => "Abandono de posto (Art. 195)",
+        "Embriaguez em servico" => "Embriaguez em serviço (Art. 202)",
+        "Desacato a superior" => "Desacato a superior (Art. 298)",
+        "Desacato a militar" => "Desacato a militar (Art. 299)",
+        "Furto" => "Furto",
+        "Roubo" => "Roubo",
+        "Dano" => "Dano",
+        "Instigamento ao suicidio" => "Instigamento ao suicidio",
+        "Abuso de autoridade" => "Abuso de autoridade",
+        "Auferir vantagem indevida" => "Auferir vantagem indevida",
+        "Outros" => "Outros (especificar)",
+    ],
+
+    'tentado' =>
+    [
+        "" =>"Selecione",
+        "Tentado" => "Tentado",
+        "Consumado" => "Consumado",
+    ],
+    // ---- INQUERITO TECNICO -----------------------------------------------------------------------
     
     'causaAcidente' =>
     [
@@ -745,7 +787,7 @@ return [
         "9" => "Engavetamento"
     ],
 
-    // ---- CONSELHO -------
+    // ---- CONSELHO ---------------------------------------------------------------------------------------------------------
     
     'decorrenciaConselho' =>
     [
@@ -793,7 +835,8 @@ return [
         "1" => "Em serviço ou atendimento de Ocorrência",
         "2" => "Fora do Serviço ou outras circunstâncias"
     ],
-    // ---- Desercao -------
+
+    // ---- Desercao --------------------------------------------------------------------------------------------------
     'termo_exclusao' => 
     [
         '' => 'Escolha',
@@ -823,7 +866,7 @@ return [
     ],
 
 
-    // ---- APRESENTAÇÃO -------
+    // ---- APRESENTAÇÃO ---------------------------------------------------------------------------------------
 
     'apresentacaoClassificacaoSigilo' =>
     [
@@ -890,7 +933,7 @@ return [
         "17" => "VAJME"
     ],
 
-    // ---- TIPO DE PRESO -------
+    // ---- TIPO DE PRESO -------------------------------------------------------------------------------
 
     'presoTipo' => 
     [
@@ -902,7 +945,7 @@ return [
         "6" => "DESERCAO"
     ],
 
-    // ---- RESPONSABILIDADE CíVIL -------
+    // ---- RESPONSABILIDADE CíVIL ------------------------------------------------------------------------
 
     'respCivil' =>
     [

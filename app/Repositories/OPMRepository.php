@@ -154,10 +154,17 @@ class OPMRepository
 
     public static function abreviatura($cdopm)
     {
-        $abreviatura = OPMRepository::codigo($cdopm);
-        return $abreviatura->ABREVIATURA;
-    }
+        //tempo de cahe
+        $expiration = 60 * 24 * 7; //uma semana
 
+        $opmCodigo = Cache::remember('codigo_'.$cdopm, $expiration, function() use($cdopm){
+             $opm = Opmpmpr::where('CODIGO','like',$cdopm.'%')->first();
+             return $opm->ABREVIATURA;
+        });
+
+        return $opmCodigo;
+    }
+    
     public static function uabreviatura($cdopm)
     {
         $abreviatura = Opmpmpr::where('CODIGO','=',$cdopm)->first();

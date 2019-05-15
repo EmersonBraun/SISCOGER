@@ -24,6 +24,7 @@
         <v-tab-menu
         :itens="[
             {idp: 'principal',name: 'Principal', cls: 'active'},
+            {idp: 'reus',name: 'Réus'},
             {idp: 'movimentos',name: 'Movimentos'},
             {idp: 'encaminhamentos',name: 'Encaminhamentos'},
             {idp: 'arquivo',name: 'Arquivo'},
@@ -35,6 +36,7 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('desercao.update',$proc['id_desercao']),'method' => 'put']) !!}
+                <v-acusado-unico idp="{{$proc['id_desercao']}}" situacao="{{sistema('procSituacao','desercao')}}" ></v-acusado-unico><br>
                 <v-label label="cdopm" title="OPM">
                     <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
                 </v-label>
@@ -78,8 +80,10 @@
                     {{ Form::text('referenciavajme', null, ['class' => 'form-control ']) }}
                 </v-label>
                 {!! Form::submit('Alterar Desercao',['class' => 'btn btn-primary btn-block']) !!}
-                <v-acusado-unico idp="{{$proc['id_desercao']}}" situacao="{{sistema('procSituacao','desercao')}}" ></v-acusado-unico><br>
                 {!! Form::close() !!}
+            </v-tab-item>
+            <v-tab-item title="Réus" idp="reus">
+                Reus
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
                 <v-movimento idp="{{$proc['id_desercao']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>

@@ -97,32 +97,31 @@ class ExclusaoController extends Controller
     }
 
     
-    public function show($ref, $ano)
+    public function show($id)
     {
         
         //----levantar procedimento
-        $proc = Exclusao::ref_ano($ref,$ano)->first();
+        $proc = Exclusaojudicial::find($id)->first();
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
         ver_unidade($proc);
 
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_exclusao','=',$proc->id_exclusao)->get();
+        //$envolvido = Envolvido::acusado()->where('id_exclusaojudicial','=',$proc->id_exclusaojudicial)->get();
 
         return view('procedimentos.exclusao.form.show', compact('proc'));
     }
 
-    public function edit($ref, $ano)
+    public function edit($id)
     {
         
         //----levantar procedimento
-        $proc = Exclusao::ref_ano($ref,$ano)->first();
-
+        $proc = Exclusaojudicial::find($id)->first();
         //teste para verificar se pode ver outras unidades, caso não possa aborta
         ver_unidade($proc);
 
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_exclusao','=',$proc->id_exclusao)->get();
+        //$envolvido = Envolvido::acusado()->where('id_exclusaojudicial','=',$proc->id_exclusaojudicial)->get();
 
         return view('procedimentos.exclusao.form.edit', compact('proc'));
     }

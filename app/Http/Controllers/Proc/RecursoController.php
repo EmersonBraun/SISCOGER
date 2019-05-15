@@ -105,9 +105,6 @@ class RecursoController extends Controller
         //teste para verificar se pode ver outras unidades, caso não possa aborta
         ver_unidade($proc);
 
-        //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_recurso','=',$proc->id_recurso)->get();
-
         return view('procedimentos.recurso.form.show', compact('proc'));
     }
 
@@ -119,9 +116,6 @@ class RecursoController extends Controller
 
         //teste para verificar se pode ver outras unidades, caso não possa aborta
         ver_unidade($proc);
-
-        //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_recurso','=',$proc->id_recurso)->get();
 
         return view('procedimentos.recurso.form.edit', compact('proc'));
     }

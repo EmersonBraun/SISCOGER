@@ -343,34 +343,6 @@
         </table>
         <?php echo $__env->renderComponent(); ?>
 
-        <?php $__env->startComponent('components.comp.boxcolapse',['titulo' => 'SINDICÂNCIA ABERTURA', 'qtd' => $tsindicancia_aberturas]); ?>
-        <table class="table no-margin">
-            <thead>
-                <tr>
-                    <th>Sindicância ref/ano</th>
-                    <th>Situação</th>
-                </tr>
-            </thead>
-            <?php $__empty_1 = true; $__currentLoopData = $sindicancia_aberturas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sindicancia_abertura): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-            
-            <tr>
-                <td>
-                    <a href="<?php echo e(route('sindicancia.edit',['ref' =>$sindicancia_abertura['sjd_ref'], 'ano' => $sindicancia_abertura['sjd_ref_ano']])); ?>" target="_blank">
-                        <?php echo e($sindicancia_abertura['sjd_ref']); ?>/<?php echo e($sindicancia_abertura['sjd_ref_ano']); ?>
-
-                    </a>
-                </td>
-                <td><span class='label label-danger'>não tem data de abertura cadastrada. </span></td>
-            </tr>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-            <tr>
-                <td colspan='3'>Nenhuma Pendência</td> 
-            </tr>
-            <?php endif; ?>
-            </tbody>
-        </table>
-        <?php echo $__env->renderComponent(); ?>
-
         <?php $__env->startComponent('components.comp.boxcolapse',['titulo' => 'CONSELHOS DE DISCIPLINA - DATA DE ABERTURA', 'qtd' => $tcd_aberturas]); ?>
             <table class="table no-margin">
                 <thead>

@@ -1,21 +1,14 @@
-<?php $__env->startSection('title', 'adl - Editar'); ?>
+<?php $__env->startSection('title', 'FATD - Editar'); ?>
 
 <?php $__env->startSection('content_header'); ?>
 <section class="content-header">   
-  <h1>ADL - Editar</h1>
+  <h1>FATD - Editar</h1>
   <ol class="breadcrumb">
   <li><a href="<?php echo e(route('home')); ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li><a href="<?php echo e(route('adl.lista',['ano' => date('Y')])); ?>">ADL - Lista</a></li>
-  <li class="active">ADL - Editar</li>
+  <li><a href="<?php echo e(route('fatd.lista',['ano' => date('Y')])); ?>">FATD - Lista</a></li>
+  <li class="active">FATD - Editar</li>
   </ol>
   <br>
-  <div class='form-group col-md-12 col-xs-12' style='padding-left: 0px'>
-    <div class='btn-group col-md-8 col-xs-12 ' style='padding-left: 0px'>
-      <a class="btn btn-success col-md-3 col-xs-4 "  href="#">Editar</a>
-    <a class="btn btn-default col-md-3 col-xs-4 "  href="<?php echo e(route('adl.movimentos',['ref' => $proc['sjd_ref'],'ano' => $proc['sjd_ref_ano']])); ?>">Movimentos</a>
-      <a class="btn btn-default col-md-3 col-xs-4 "  href="<?php echo e(route('adl.sobrestamentos',['ref' => $proc['sjd_ref'],'ano' => $proc['sjd_ref_ano']])); ?>">Sobrestamentos</a>   
-    </div>
-  <div>
 </section>
   
 <?php $__env->stopSection(); ?>
@@ -24,308 +17,210 @@
      <!-- Content Wrapper. Contains page content -->
   <div class="">
     <!-- Content Header (Page header) -->
-<section class="">
-    <div class="row">
+<section>
+    <div class="nav-tabs-custom">
+        <v-tab-menu
+        :itens="[
+            {idp: 'principal',name: 'Principal', cls: 'active'},
+            {idp: 'envolvidos',name: 'Envolvidos'},
+            {idp: 'documentos',name: 'Documentos'},
+            {idp: 'recursos',name: 'Recursos'},
+            {idp: 'membros',name: 'Membros'},
+            {idp: 'movimentos',name: 'Movimentos'},
+            {idp: 'sobrestamentos',name: 'Sobrestamentos'},
+            {idp: 'encaminhamentos',name: 'Encaminhamentos'},
+            {idp: 'arquivo',name: 'Arquivo'},
 
-        <div class="col-xs-12">
+        ]">
 
-        <div class="box">
-            <div class="box-header">
-                
-                <h4 class="box-title">N° <?php echo e($proc['sjd_ref']); ?> / <?php echo e($proc['sjd_ref_ano']); ?> - Formulário principal</h4>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                        <i class="fa fa-plus"></i>
-                    </button> 
-                </div>             
-            </div>
+        </v-tab-menu>
+       
+        <div class="tab-content">
+            <v-tab-item title="N° <?php echo e($proc['sjd_ref']); ?> / <?php echo e($proc['sjd_ref_ano']); ?> - Formulário principal" idp="principal" cls="active show">
+                <?php echo Form::model($proc,['url' => route('fatd.update',$proc['id_fatd']),'method' => 'put']); ?>
 
-            <div class="box-body">
+                <v-label label="id_andamento" title="Andamento">
+                    <?php echo Form::select('id_andamento',config('sistema.andamentoFATD'),null, ['class' => 'form-control ']); ?>
 
-            <?php echo Form::model($proc,['url' => route('adl.update',['ref' => $proc['sjd_ref'],'ano' => $proc['sjd_ref_ano']]),'method' => 'put', 'files' => true]); ?>
+                </v-label>
+                <v-label label="id_andamentocoger" title="Andamento COGER">
+                    <?php echo Form::select('id_andamentocoger',config('sistema.andamentocogerFATD'),null, ['class' => 'form-control ']); ?>
 
-            <?php $__env->startComponent('components.form.select',
-            ['titulo' => 'Andamento','campo' => 'id_andamento', 'opt' => config('sistema.andamentoADL')]); ?>
-            <?php echo $__env->renderComponent(); ?>
+                </v-label>
+                <v-label label="doc_origem_txt" title="Documentos de origem">
+                    <?php echo e(Form::text('doc_origem_txt', null, ['class' => 'form-control '])); ?>
 
-            <?php $__env->startComponent('components.form.select',
-            ['titulo' => 'Andamento COGER','campo' => 'andamentocoger', 'opt' => config('sistema.andamentocogerADL'), 'class' => 'select2']); ?>
-            <?php echo $__env->renderComponent(); ?>
+                </v-label>
+                <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
+                    <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="<?php echo e($proc['fato_data'] ?? ''); ?>"></v-datepicker>
+                </v-label>
+                <v-label label="cdopm" title="OPM">
+                    <v-opm cdopm="<?php echo e($proc['cdopm']); ?>"></v-opm>
+                </v-label>
+                <v-label label="motivo_fatd" title="Motivo" >
+                    <?php echo Form::select('motivo_fatd', config('sistema.motivoFATD'),null, ['class' => 'form-control select2', 'id' => 'descricao']); ?>
 
-            <?php $__env->startComponent('components.form.text',['titulo' => 'Modelo','campo' => 'modelo']); ?>
-            <?php echo $__env->renderComponent(); ?>
+                </v-label>
+                <v-label label="outromotivo" title="Especificar (no caso de outros motivos)">
+                    <?php echo e(Form::text('outromotivo', null, ['class' => 'form-control '])); ?>
 
-            
-            <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-            <?php echo Form::label('id_motivoconselho', 'Motivo ADL (Lei nº 16.544/2010)'); ?> <a href="https://goo.gl/L1m5Ps" target="_blank"><i class="fa fa-link text-info"></i></a><br>
-            <?php echo Form::select('id_motivoconselho', config('sistema.motivoConselho'),'', ['class' => 'form-control select2', 'id' => 'descricao']); ?>
+                </v-label>
+                <v-label label="situacao_fatd" title="Situação">
+                    <?php echo Form::select('situacao_fatd',config('sistema.situacaoOCOR'),null, ['class' => 'form-control ', 'id' => 'descricao']); ?>
 
-            <?php if($errors->has('id_motivoconselho')): ?>
-                <span class="help-block">
-                    <strong><?php echo e($errors->first('id_motivoconselho')); ?></strong>
-                </span>
-            <?php endif; ?>
-            </div>
+                </v-label>
+                <v-label label="despacho_numero" title="Nº do despacho que designa o Encarregado">
+                    <?php echo e(Form::text('despacho_numero', null, ['class' => 'form-control '])); ?>
 
-            <?php $__env->startComponent('components.form.text',['titulo' => 'Especificar (no caso de outros motivos)','campo' => 'outromotivo']); ?>
-            <?php echo $__env->renderComponent(); ?>
+                </v-label>
+                <v-label label="portaria_data" title="Data do despacho" icon="fa fa-calendar">
+                    <v-datepicker name="portaria_data" placeholder="dd/mm/aaaa" clear-button value="<?php echo e($proc['portaria_data'] ?? ''); ?>"></v-datepicker>
+                </v-label>
+                <v-label label="doc_tipo" title="Tipo de boletim">
+                    <?php echo Form::select('doc_tipo',config('sistema.tipoBoletim'),null, ['class' => 'form-control ']); ?>
 
-            <?php $__env->startComponent('components.form.select',
-            ['titulo' => 'Situação','campo' => 'id_situacaoconselho', 'opt' => config('sistema.situacaoConselho'), 'id' => 'descricao']); ?>
-            <?php echo $__env->renderComponent(); ?>
+                </v-label>
+                <v-label label="doc_numero" title="N° Boletim">
+                    <?php echo e(Form::text('doc_numero', null, ['class' => 'form-control '])); ?>
 
-            <?php $__env->startComponent('components.form.text',['titulo' => 'N° Portaria','campo' => 'portaria_numero']); ?>
-            <?php echo $__env->renderComponent(); ?>
-            
-            <?php $__env->startComponent('components.form.date',['titulo' => 'Data da portaria','campo' => 'portaria_data']); ?>
-            <?php echo $__env->renderComponent(); ?>
+                </v-label>
+                <v-label label="abertura_data" title="Data da abertura" icon="fa fa-calendar">
+                    <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button value="<?php echo e($proc['abertura_data'] ?? ''); ?>"></v-datepicker>
+                </v-label>
+                <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="<?php echo e($errors->first('sintese_txt')); ?>">
+                    <?php echo Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']); ?>
 
-            <?php $__env->startComponent('components.form.select',
-            ['titulo' => 'Tipo de boletim','campo' => 'doc_tipo', 'opt' => config('sistema.tipoBoletim')]); ?>
-            <?php echo $__env->renderComponent(); ?>
+                </v-label>
+                <?php echo Form::submit('Alterar FATD',['class' => 'btn btn-primary btn-block']); ?>
 
-            <?php $__env->startComponent('components.form.text',['titulo' => 'N° Boletim','campo' => 'doc_numero']); ?>
-            <?php echo $__env->renderComponent(); ?>
+                <?php echo Form::close(); ?>
 
-            <?php $__env->startComponent('components.form.date',['titulo' => 'Data da fato','campo' => 'fato_data']); ?>
-            <?php echo $__env->renderComponent(); ?>
+            </v-tab-item>
+            <v-tab-item title="Envolvidos" idp="envolvidos">
+                <v-proced-origem></v-proced-origem><br>           
+                <v-acusado idp="<?php echo e($proc['id_fatd']); ?>" situacao="<?php echo e(sistema('procSituacao','fatd')); ?>" ></v-acusado><br>
+                <v-vitima idp="<?php echo e($proc['id_fatd']); ?>" ></v-vitima><br>
+            </v-tab-item>
+            <v-tab-item title="Documentos" idp="documentos">
+                <file-upload 
+                title="Relato do fato imputado:"
+                name="fato_file"
+                proc="fatd"
+                idp="<?php echo e($proc['id_fatd']); ?>"
+                :ext="['pdf']" 
+                :candelete="<?php echo e(session('is_admin')); ?>"
+                ></file-upload>
 
-            <?php $__env->startComponent('components.form.date',['titulo' => 'Data da abertura','campo' => 'abertura_data']); ?>
-            <?php echo $__env->renderComponent(); ?>
+                <file-upload 
+                title="Relatório:"
+                name="relatorio_file"
+                proc="fatd"
+                idp="<?php echo e($proc['id_fatd']); ?>"
+                :ext="['pdf']" 
+                :candelete="<?php echo e(session('is_admin')); ?>"
+                ></file-upload>
 
-            <?php $__env->startComponent('components.form.date',['titulo' => 'Data da prescricao','campo' => 'prescricao_data']); ?>
-            <?php echo $__env->renderComponent(); ?>
+                <file-upload 
+                title="Solução do Comandante:"
+                name="sol_cmt_file"
+                proc="fatd"
+                idp="<?php echo e($proc['id_fatd']); ?>"
+                :ext="['pdf']" 
+                :candelete="<?php echo e(session('is_admin')); ?>"
+                ></file-upload>
 
-            <?php $__env->startComponent('components.form.sintese_txt'); ?>
-            <?php echo $__env->renderComponent(); ?>
+                <file-upload 
+                title="Solução do Cmt Geral:"
+                name="sol_cg_file"
+                proc="fatd"
+                idp="<?php echo e($proc['id_fatd']); ?>"
+                :ext="['pdf']" 
+                :candelete="<?php echo e(session('is_admin')); ?>"
+                ></file-upload>
 
-            
-            
-            <br>
-            
-            <?php $__env->startComponent('components.subform',
-            [
-                'title' => 'Procedimento(s) de Origem (apenas se houver)',
-                'btn' => 'Adicionar documento de origem',
-                'arquivo' => 'ligacao',
-                'relacao' => $ligacao,
-                'proc' => 'adl',
-                'unico' => false
-            ]); ?>    
-            <?php echo $__env->renderComponent(); ?>
-            
+                <file-upload 
+                title="Nota de punição:"
+                name="notapunicao_file"
+                proc="fatd"
+                idp="<?php echo e($proc['id_fatd']); ?>"
+                :ext="['pdf']" 
+                :candelete="<?php echo e(session('is_admin')); ?>"
+                ></file-upload>
 
-            <?php $__env->startComponent('components.subform',
-            [
-                'title' => 'Acusado',
-                'btn' => 'Adicionar acusado',
-                'arquivo' => 'envolvido',
-                'relacao' => $envolvido,
-                'proc' => 'adl',
-                'unico' => false
-            ]); ?>    
-            <?php echo $__env->renderComponent(); ?>
+                <v-item-unique title="Publicação da nota de punição (Ex: BI nº 12/2011)" proc="fatd" idp="<?php echo e($proc['id_fatd']); ?>" name="publicacaonp"></v-item-unique>
+            </v-tab-item>
+            <v-tab-item title="Recursos" idp="recursos">
+                <file-upload 
+                    title="Reconsideração de ato (solução):"
+                    name="rec_ato_file"
+                    proc="fatd"
+                    idp="<?php echo e($proc['id_fatd']); ?>"
+                    :ext="['pdf']" 
+                    :candelete="<?php echo e(session('is_admin')); ?>"
+                    >
+                </file-upload>
 
-            <?php $__env->startComponent('components.subform',
-            [
-                'title' => 'Vítima (apenas se houver)',
-                'btn' => 'Adicionar vítima',
-                'arquivo' => 'ofendido',
-                'relacao' => $ofendido,
-                'proc' => 'adl',
-                'unico' => false
-            ]); ?>    
-            <?php echo $__env->renderComponent(); ?>
-            
+                <file-upload 
+                    title="Recurso CMT OPM:"
+                    name="rec_cmt_file"
+                    proc="fatd"
+                    idp="<?php echo e($proc['id_fatd']); ?>"
+                    :ext="['pdf']" 
+                    :candelete="<?php echo e(session('is_admin')); ?>"
+                    >
+                </file-upload>
 
-            </div>
+                <file-upload 
+                    title="Recurso CMT CRPM:"
+                    name="rec_crpm_file"
+                    proc="fatd"
+                    idp="<?php echo e($proc['id_fatd']); ?>"
+                    :ext="['pdf']" 
+                    :candelete="<?php echo e(session('is_admin')); ?>"
+                    >
+                </file-upload>
+
+                <file-upload 
+                    title="Recurso CMT Geral:"
+                    name="rec_cg_file"
+                    proc="fatd"
+                    idp="<?php echo e($proc['id_fatd']); ?>"
+                    :ext="['pdf']" 
+                    :candelete="<?php echo e(session('is_admin')); ?>"
+                    >
+                </file-upload>
+            </v-tab-item>
+            <v-tab-item title="Membros" idp="membros">
+                <v-membro idp="<?php echo e($proc['id_fatd']); ?>"></v-membro>
+            </v-tab-item>
+            <v-tab-item title="Movimentos" idp="movimentos">
+                <v-movimento idp="<?php echo e($proc['id_fatd']); ?>" opm="<?php echo e(session('opm_descricao')); ?>" rg="<?php echo e(session('rg')); ?>" :admin="<?php echo e(session('is_admin')); ?>"></v-movimento>
+            </v-tab-item>
+            <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
+                <v-sobrestamento idp="<?php echo e($proc['id_fatd']); ?>" ></v-sobrestamento>
+            </v-tab-item>
+            <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
+                Encaminhamentos
+            </v-tab-item>
+            <v-tab-item title="Arquivo" idp="arquivo">
+                <v-arquivo idp="<?php echo e($proc['id_fatd']); ?>" ></v-arquivo>
+            </v-tab-item>
         </div>
     </div>
 
-</div>
-
-<div class="box">
-    <div class="box-header">
+    <div class="content-footer">
+        <br>
         
-        <h4 class="box-title">Documentos</h4>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                <i class="fa fa-plus"></i>
-            </button> 
-        </div>             
     </div>
-
-    <div class="box-body">
-
-    
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        <?php echo Form::sfile('libelo','Libelo:','adl',$proc['libelo'], ['class' => 'form-control']); ?>
-
-        <?php if($errors->has('libelo')): ?>
-            <span class='help-block'>
-                <strong><?php echo e($errors->first('libelo')); ?></strong>
-            </span>
-        <?php endif; ?>
-    </div>
-
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-    <?php echo Form::label('parecer_comissao', 'Parecer comissão'); ?> <br>
-    <?php echo Form::text('parecer_comissao', $proc['parecer_comissao'], ['class' => 'form-control']); ?>
-
-    <?php if($errors->has('parecer_comissao')): ?>
-        <span class="help-block">
-            <strong><?php echo e($errors->first('parecer_comissao')); ?></strong>
-        </span>
-    <?php endif; ?>
-    </div>
-
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        <?php echo Form::sfile('parecer_file','Parecer:','adl',$proc['parecer_file'], ['class' => 'form-control']); ?>
-
-        <?php if($errors->has('parecer_file')): ?>
-            <span class='help-block'>
-                <strong><?php echo e($errors->first('parecer_file')); ?></strong>
-            </span>
-        <?php endif; ?>
-    </div>
-    
-
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-    <?php echo Form::label('parecer_cmtgeral', 'Parecer CMT Geral'); ?> <br>
-    <?php echo Form::text('parecer_cmtgeral', $proc['parecer_cmtgeral'], ['class' => 'form-control']); ?>
-
-    <?php if($errors->has('parecer_cmtgeral')): ?>
-        <span class="help-block">
-            <strong><?php echo e($errors->first('parecer_cmtgeral')); ?></strong>
-        </span>
-    <?php endif; ?>
-    </div>
-
-    <div class='col-lg-6 col-md-6 col-xs-12 form-group'>
-        <?php echo Form::sfile('decisao_file','Parecer CMT Geral:','adl',$proc['decisao_file'], ['class' => 'form-control']); ?>
-
-        <?php if($errors->has('decisao_file')): ?>
-            <span class='help-block'>
-                <strong><?php echo e($errors->first('decisao_file')); ?></strong>
-            </span>
-        <?php endif; ?>
-    </div>
-
-    <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
-        <h5>Arquivos excluídos</h5>
-        <?php $__empty_1 = true; $__currentLoopData = $arquivos_apagados; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $aa): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-            <div class='col-lg-12 col-md-12 col-xs-12 form-group'>
-                <a href="<?php echo e(asset('public/storage/arquivo/adl/'.$proc['id_adl'].'/'.$aa->objeto.'')); ?>" target='_blank'>
-                    <i class='fa fa-file-pdf-o'></i><?php echo e($aa->objeto); ?>
-
-                </a>&emsp;Excluído por <?php echo e(special_ucwords($aa->nome)); ?>, RG:<?php echo e($aa->rg); ?>, em: <?php echo e($aa->created_at); ?>
-
-            </div>   
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-        <h6>Nenhum arquivo</h6>
-        <?php endif; ?>
-    </div>
-
-    </div>
-</div>
-
-
-<div class="box">
-    <div class="box-header">
-        
-        <h4 class="box-title">Recursos</h4>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                <i class="fa fa-plus"></i>
-            </button> 
-        </div>             
-    </div>
-
-    <div class="box-body">
-
-    
-    <div class='col-md-6 col-xs-12'>
-        <?php echo Form::sfile('rec_ato_file','Reconsideração de ato (solução): ','fatd',$proc['rec_ato_file']); ?>
-
-    </div>
-
-    <div class='col-md-6 col-xs-12'>
-        <?php echo Form::sfile('rec_cmt_file','Recurso CMT OPM','fatd',$proc['rec_cmt_file']); ?>
-
-    </div>
-
-    
-    <div class='col-md-6 col-xs-12'>
-        <?php echo Form::sfile('rec_crpm_file','Recurso CMT CRPM:','fatd',$proc['rec_crpm_file']); ?>
-
-    </div>
-
-    <div class='col-md-6 col-xs-12'>
-        <?php echo Form::sfile('rec_cg_file','Recurso CMT Geral:','fatd',$proc['rec_cg_file']); ?>
-
-    </div>
-
-    </div>
-</div>
-
-
-<div class="box">
-    <div class="box-header">
-        
-        <h4 class="box-title">Membros</h4>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                <i class="fa fa-plus"></i>
-            </button> 
-        </div>             
-    </div>
-
-    <div class="box-body">
-
-    
-    
-
-    </div>
-</div>
-
-
-
-<div class="content-footer">
-    <br>
-    <?php echo Form::submit('Alterar ADL',['class' => 'btn btn-primary btn-block']); ?>
-
-    <?php echo Form::close(); ?>
-
-</div>
-
 
 </section>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('css'); ?>
-    <link rel="stylesheet" href="/css/admin_custom.css">
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>
-  <?php echo $__env->make('vendor.adminlte.includes.pickers', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-  <?php echo $__env->make('vendor.adminlte.includes.select2', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-<script>
-
-    $("#descricao").on('load, change',function ()
-    {
-        var campo = $("#descricao").val();
-        console.log(campo);
-        if (campo == 'Outro') 
-        {
-            $(".descricao_outros").show();
-        }
-        else
-        {
-            $(".descricao_outros").hide();
-        }
-    });
-
-</script>
+<?php echo $__env->make('vendor.adminlte.includes.vue', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 
