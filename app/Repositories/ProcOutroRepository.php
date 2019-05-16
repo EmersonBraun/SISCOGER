@@ -18,7 +18,7 @@ class ProcOutroRepository extends BaseRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60; 
+    protected static $expiration = 60 * 24;//um dia 
 
 	public function __construct(ProcOutro $model)
 	{
@@ -35,6 +35,38 @@ class ProcOutroRepository extends BaseRepository
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
+
+    public static function cleanCache($ano)
+	{
+        $proc = 'proc_outro';
+        $unidade = session('cdopmbase');
+        $ano = (int) date('Y');
+        $caches = [
+            'todos_'.$proc,
+            'todos_'.$proc.$unidade,
+            'todos_'.$proc.$ano,
+            'todos_'.$proc.$ano.$unidade,
+            'andamento_'.$proc,
+            'andamento_'.$proc.$unidade,
+            'andamento_'.$proc.$ano,
+            'andamento_'.$proc.$ano.$unidade,
+            'julgamento_'.$proc,
+            'julgamento_'.$proc.$unidade,
+            'julgamento_'.$proc.$ano,
+            'julgamento_'.$proc.$ano.$unidade,
+            'prazo_'.$proc,
+            'prazo_'.$proc.$unidade,
+            'prazo_'.$proc.$ano,
+            'prazo_'.$proc.$ano.$unidade,
+        ];
+
+        foreach ($caches as $cache) 
+        {
+           $clean = Cache::forget($cache);
+           $fail = (!$clean) ? true : false;
+        }
+        return $fail;
+    }
     
     public function all()
 	{
@@ -49,7 +81,7 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('todos_proc_outro_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::remember('todos_proc_outro'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')->get();
             });
         }
@@ -70,7 +102,7 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('todos_proc_outro_'.$unidade.$ano, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::remember('todos_proc_outro'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
@@ -95,7 +127,7 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_proc_outro_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::remember('andamento_proc_outro'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_proc_outro', '=', 'proc_outro.id_proc_outro')
@@ -114,7 +146,7 @@ class ProcOutroRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('andamento_proc_outro', self::$expiration, function() use ($ano){
+            $registros = Cache::remember('andamento_proc_outro'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_proc_outro', '=', 'proc_outro.id_proc_outro')
@@ -125,7 +157,7 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_proc_outro_'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::remember('andamento_proc_outro'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -158,7 +190,7 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_proc_outro_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::remember('julgamento_proc_outro'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_proc_outro', '=', 'proc_outro.id_proc_outro')
@@ -179,7 +211,7 @@ class ProcOutroRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('julgamento_proc_outro', self::$expiration, function() use ($ano){
+            $registros = Cache::remember('julgamento_proc_outro'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_proc_outro', '=', 'proc_outro.id_proc_outro')
@@ -192,7 +224,7 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_proc_outro_'.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::remember('julgamento_proc_outro'.$ano.$unidade, self::$expiration, function() use ($unidade,$ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -218,7 +250,7 @@ class ProcOutroRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('proc_outro_prazo_opm', self::$expiration, function() {
+            $registros = Cache::remember('prazo_proc_outro', self::$expiration, function() {
                 return $this->model->selectRaw('SELECT DISTINCT proc_outros.*,
                     dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
@@ -232,7 +264,7 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('proc_outro'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
+            $registros = Cache::remember('prazo_proc_outro'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
                 return $this->model->selectRaw('SELECT DISTINCT proc_outros.*,
                     dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
@@ -258,7 +290,7 @@ class ProcOutroRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('proc_outro_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::remember('prazo_proc_outro'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->selectRaw('SELECT DISTINCT proc_outros.*,
                     dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
@@ -273,7 +305,7 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('proc_outro'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::remember('prazo_proc_outro'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano){
                 return $this->model->selectRaw('SELECT DISTINCT proc_outros.*,
                     dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,

@@ -23,37 +23,37 @@ class IpmController extends Controller
 {
     public function index()
     {
-        return redirect()->route('ipm.lista');
+        return redirect()->route('ipm.lista',['ano' => date('Y')]);
     }
 
-    public function lista(IpmRepository $repository)
+    public function lista($ano, IpmRepository $repository)
     {
-        $registros = $repository->all();
-        return view('procedimentos.ipm.list.index',compact('registros'));
+        $registros = $repository->ano($ano);
+        return view('procedimentos.ipm.list.index',compact('registros','ano'));
     }
 
-    public function andamento(IpmRepository $repository )
+    public function andamento($ano, IpmRepository $repository)
     {
-        $registros = $repository->andamento();
-        return view('procedimentos.ipm.list.andamento',compact('registros'));
+        $registros = $repository->andamentoAno($ano);
+        return view('procedimentos.ipm.list.andamento',compact('registros','ano'));
     }
 
-    public function prazos(IpmRepository $repository)
+    public function prazos($ano, IpmRepository $repository)
     {
-        $registros = $repository->prazos();
-        return view('procedimentos.ipm.list.prazos',compact('registros'));
+        $registros = $repository->prazosAno($ano);
+        return view('procedimentos.ipm.list.prazos',compact('registros','ano'));
     }
 
-    public function rel_situacao(IpmRepository $repository)
+    public function rel_situacao($ano, IpmRepository $repository)
     {
-        $registros = $repository->all();
-        return view('procedimentos.ipm.list.rel_situacao',compact('registros'));
+        $registros = $repository->ano($ano);
+        return view('procedimentos.ipm.list.rel_situacao',compact('registros','ano'));
     }
 
-    public function resultado(IpmRepository $repository)
+    public function resultado($ano, IpmRepository $repository)
     {
-        $registros = $repository->julgamento();
-        return view('procedimentos.ipm.list.resultado',compact('registros'));
+        $registros = $repository->julgamentoAno($ano);
+        return view('procedimentos.ipm.list.resultado',compact('registros','ano'));
     }
 
     public function create(Request $request)

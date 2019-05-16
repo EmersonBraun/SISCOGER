@@ -18,7 +18,7 @@ class IpmRepository extends BaseRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60; 
+    protected static $expiration = 60 * 24;//um dia 
 
 	public function __construct(Ipm $model)
 	{
@@ -35,6 +35,38 @@ class IpmRepository extends BaseRepository
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
+
+    public static function cleanCache($ano)
+	{
+        $proc = 'ipm';
+        $unidade = session('cdopmbase');
+        $ano = (int) date('Y');
+        $caches = [
+            'todos_'.$proc,
+            'todos_'.$proc.$unidade,
+            'todos_'.$proc.$ano,
+            'todos_'.$proc.$ano.$unidade,
+            'andamento_'.$proc,
+            'andamento_'.$proc.$unidade,
+            'andamento_'.$proc.$ano,
+            'andamento_'.$proc.$ano.$unidade,
+            'julgamento_'.$proc,
+            'julgamento_'.$proc.$unidade,
+            'julgamento_'.$proc.$ano,
+            'julgamento_'.$proc.$ano.$unidade,
+            'prazo_'.$proc,
+            'prazo_'.$proc.$unidade,
+            'prazo_'.$proc.$ano,
+            'prazo_'.$proc.$ano.$unidade,
+        ];
+
+        foreach ($caches as $cache) 
+        {
+           $clean = Cache::forget($cache);
+           $fail = (!$clean) ? true : false;
+        }
+        return $fail;
+    }
     
     public function all()
 	{
@@ -49,7 +81,7 @@ class IpmRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('todos_ipm_'.$unidade, 60, function() use ($unidade) {
+            $registros = Cache::remember('todos_ipm'.$unidade, 60, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')->get();
             });
         }
@@ -70,7 +102,7 @@ class IpmRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('todos_ipm_'.$unidade.$ano, 60, function() use ($unidade, $ano) {
+            $registros = Cache::remember('todos_ipm'.$ano.$unidade, 60, function() use ($unidade, $ano) {
                 return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
@@ -95,7 +127,7 @@ class IpmRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_ipm_'.$unidade, 60, function() use ($unidade) {
+            $registros = Cache::remember('andamento_ipm'.$unidade, 60, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
@@ -114,7 +146,7 @@ class IpmRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('andamento_ipm', 60, function() use ($ano){
+            $registros = Cache::remember('andamento_ipm'.$ano, 60, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
@@ -125,7 +157,7 @@ class IpmRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_ipm_'.$unidade, 60, function() use ($unidade, $ano) {
+            $registros = Cache::remember('andamento_ipm'.$ano.$unidade, 60, function() use ($unidade, $ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -158,7 +190,7 @@ class IpmRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_ipm_'.$unidade, 60, function() use ($unidade) {
+            $registros = Cache::remember('julgamento_ipm'.$unidade, 60, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
@@ -179,20 +211,21 @@ class IpmRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('julgamento_ipm', 60, function() use ($ano){
-                return $this->model->where('sjd_ref_ano', '=' ,$ano)
+            $registros = Cache::remember('julgamento_ipm'.$ano, 60, function() use ($ano){
+                return $this->model
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
                                 ->where('envolvido.id_ipm', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','ipm'))
+                    ->where('ipm.sjd_ref_ano', '=' ,$ano)
                     ->get();
             });
         }
         else 
         {
-            $registros = Cache::remember('julgamento_ipm_'.$unidade, 60, function() use ($unidade,$ano) {
+            $registros = Cache::remember('julgamento_ipm'.$ano.$unidade, 60, function() use ($unidade,$ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -218,7 +251,7 @@ class IpmRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('ipm_prazo_opm', 60, function() {
+            $registros = Cache::remember('prazo_ipm', 60, function() {
                 return $this->model
                     ->selectRaw('ipm.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis')
@@ -234,7 +267,7 @@ class IpmRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('ipm'.$unidade.'_prazo_topm', 60, function() use ($unidade){
+            $registros = Cache::remember('prazo_ipm'.$unidade, 60, function() use ($unidade){
                 return $this->model
                     ->selectRaw('ipm.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis')
@@ -262,7 +295,7 @@ class IpmRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('ipm_prazo_opm'.$ano, 60, function() use ($ano) {
+            $registros = Cache::remember('prazo_ipm'.$ano, 60, function() use ($ano) {
                 return $this->model
                     ->selectRaw('ipm.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis')
@@ -278,7 +311,7 @@ class IpmRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('ipm'.$unidade.'_prazo_topm', 60, function() use ($unidade, $ano){
+            $registros = Cache::remember('prazo_ipm'.$ano.$unidade, 60, function() use ($unidade, $ano){
                 return $this->model
                     ->selectRaw('ipm.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),autuacao_data)+1) AS diasuteis')

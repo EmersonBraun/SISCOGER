@@ -18,7 +18,7 @@ class ReintegradoRepository extends BaseRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60; 
+    protected static $expiration = 60 * 24;//um dia 
 
 	public function __construct(Reintegrado $model)
 	{
@@ -34,6 +34,38 @@ class ReintegradoRepository extends BaseRepository
 
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
+    }
+
+    public static function cleanCache($ano)
+	{
+        $proc = 'reintegrado';
+        $unidade = session('cdopmbase');
+        $ano = (int) date('Y');
+        $caches = [
+            'todos_'.$proc,
+            'todos_'.$proc.$unidade,
+            'todos_'.$proc.$ano,
+            'todos_'.$proc.$ano.$unidade,
+            'andamento_'.$proc,
+            'andamento_'.$proc.$unidade,
+            'andamento_'.$proc.$ano,
+            'andamento_'.$proc.$ano.$unidade,
+            'julgamento_'.$proc,
+            'julgamento_'.$proc.$unidade,
+            'julgamento_'.$proc.$ano,
+            'julgamento_'.$proc.$ano.$unidade,
+            'prazo_'.$proc,
+            'prazo_'.$proc.$unidade,
+            'prazo_'.$proc.$ano,
+            'prazo_'.$proc.$ano.$unidade,
+        ];
+
+        foreach ($caches as $cache) 
+        {
+           $clean = Cache::forget($cache);
+           $fail = (!$clean) ? true : false;
+        }
+        return $fail;
     }
     
     public function all()
@@ -70,7 +102,7 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('todos_reintegrado_'.$unidade.$ano, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::remember('todos_reintegrado'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
@@ -95,7 +127,7 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_reintegrado_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::remember('andamento_reintegrado'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
@@ -114,7 +146,7 @@ class ReintegradoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('andamento_reintegrado', self::$expiration, function() use ($ano){
+            $registros = Cache::remember('andamento_reintegrado'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
@@ -125,7 +157,7 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_reintegrado_'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::remember('andamento_reintegrado'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -158,7 +190,7 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_reintegrado_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::remember('julgamento_reintegrado'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
@@ -179,7 +211,7 @@ class ReintegradoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('julgamento_reintegrado', self::$expiration, function() use ($ano){
+            $registros = Cache::remember('julgamento_reintegrado'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
@@ -192,7 +224,7 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_reintegrado_'.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::remember('julgamento_reintegrado'.$ano.$unidade, self::$expiration, function() use ($unidade,$ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -218,7 +250,7 @@ class ReintegradoRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('reintegrado_prazo_opm', self::$expiration, function() {
+            $registros = Cache::remember('prazo_reintegrado', self::$expiration, function() {
                 return $this->model
                     ->selectRaw('reintegrado.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -241,7 +273,7 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('reintegrado'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
+            $registros = Cache::remember('prazo_reintegrado'.$unidade, self::$expiration, function() use ($unidade){
                 return $this->model
                     ->selectRaw('reintegrado.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -276,7 +308,7 @@ class ReintegradoRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('reintegrado_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::remember('prazo_reintegrado'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model
                     ->selectRaw('reintegrado.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -299,7 +331,7 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('reintegrado'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::remember('prazo_reintegrado'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano){
                 return $this->model
                     ->selectRaw('reintegrado.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  

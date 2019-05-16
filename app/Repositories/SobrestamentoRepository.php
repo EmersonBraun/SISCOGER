@@ -18,7 +18,7 @@ class SobrestamentoRepository extends BaseRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60; 
+    protected static $expiration = 60 * 24;//um dia 
 
 	public function __construct(Sobrestamento $model)
 	{

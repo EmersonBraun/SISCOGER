@@ -12,15 +12,29 @@
   <br>
   <div class='form-group col-md-12 col-xs-12' style='padding-left: 0px'>
     <div class='btn-group col-md-8 col-xs-12 ' style='padding-left: 0px'>
-      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('ipm.lista')}}">Lista</a>
-      <a class="btn btn-success col-md-2 col-xs-4 "  href="{{route('ipm.andamento')}}">Andamento</a>
-      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('ipm.prazos')}}">Prazos</a>  
-      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('ipm.rel_situacao')}}">Rel. Situação</a> 
-      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('ipm.resultado')}}">Resultado</a> 
+      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('ipm.lista',['ano' => $ano])}}">Lista</a>
+      <a class="btn btn-success col-md-2 col-xs-4 "  href="{{route('ipm.andamento',['ano' => $ano])}}">Andamento</a>
+      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('ipm.prazos',['ano' => $ano])}}">Prazos</a>  
+      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('ipm.rel_situacao',['ano' => $ano])}}">Rel. Situação</a> 
+      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('ipm.resultado',['ano' => $ano])}}">Resultado</a> 
     </div>
-    <div class='col-md-4 col-xs-6 '>
+    <div class='col-md-2 col-xs-6 '>
         <a class="btn btn-block btn-primary"  href="{{route('ipm.create')}}">
         <i class="fa fa-plus "></i> Adicionar IPM</a>
+    </div>
+    <div class='col-md-2 col-xs-6  pull-right'>
+        <div class="pull-right">
+        <label for="navegaco">Listar ano: </label>
+        <select class="" id="navegacao" data-toggle="tooltip" data-placement="bottom" 
+        title="O ano apenas modifica a listagem,os dados continuam sendo inseridos em {{date('Y')}}"> 
+            <option selected='selected'> {{ $ano }} </option>
+            @for ($i = date('Y'); $i >= 2008; $i--)
+            @if($i != $ano)
+                <option onclick="javascript:location.href='{{route('ipm.andamento',['ano' => $i])}}'"> {{ $i }} </option>
+            @endif
+            @endfor  
+        </select> 
+        </div>
     </div>
   <div>
 </section>

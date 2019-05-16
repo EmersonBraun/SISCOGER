@@ -96,39 +96,18 @@ class AdlController extends Controller
         $dados['sjd_ref'] = $ref;
         $dados['sjd_ref_ano'] = $ano;
 
-        //preenchimento de dados vazios
-        foreach (config('sistema2.vazios.adl') as $v) 
+        $create = Adl::create($dados);
+
+        if($create)
         {
-            $dados[$v] = ($dados[$v] == NULL) ? '' : $dados[$v]; 
+            //limpa os caches
+            $clean = AdlRepository::cleanCache();
+            toast()->success('N° '.$ref.'/'.'adl Inserido');
+            return redirect()->route('adl.lista');
         }
 
-        //datas
-        foreach (config('sistema2.dates.adl') as $d) 
-        {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
-        }
-        /*
-        //cria o novo procedimento
-        Adl::create($dados);
-
-        //id para subforms
-        $dados['id_adl'] = Adl::ultimo_id();
-        
-        //ligação (documentos de origem) /helpers/subformulario
-        ligacao($dados, 'adl');
-
-        //envolvido
-        envolvido($dados, 'adl');
-
-        //ofendido
-        ofendido($dados, 'adl');
-
-        //limpa o cache inteiro
-        Cache::flush();*/
-        
-
-        toast()->success('N° '.$ref.'/'.'adl Inserido');
-        return redirect()->route('adl.lista');
+        toast()->error('Houve um erro na inserção');
+        return redirect()->back();
         
     }
 
@@ -225,7 +204,7 @@ class AdlController extends Controller
         $proc = Adl::findOrFail($id)->delete();
 
         //limpa o cache inteiro
-        Cache::flush();
+        $clean = AdlRepository::cleanCache();
 
         //mensagem
     	toast()->success('Adl Apagado');

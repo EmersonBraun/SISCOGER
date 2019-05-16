@@ -1,4 +1,4 @@
-<?php $__env->startSection('title', 'adl - Criar'); ?>
+<?php $__env->startSection('title', 'ADL - Criar'); ?>
 
 <?php $__env->startSection('content_header'); ?>
 <section class="content-header">   
@@ -18,93 +18,79 @@
   <div class="">
     <!-- Content Header (Page header) -->
 <section class="">
-    <div class="row">
-
-        <div class="col-xs-12">
-
-        <div class="box">
-            <div class="box-header">
-                
-                <h4 class="box-title">N° * / <?php echo e(date('Y')); ?> - Formulário principal</h4>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                        <i class="fa fa-plus"></i>
-                    </button> 
-                </div>             
-            </div>
-
-            <div class="box-body">
-
+    <div class="tab-content">
+        <v-tab-item title="Formulário principal" idp="principal" cls="active show">
             <?php echo Form::open(['url' => route('adl.store')]); ?>
 
-            <div class='col-md-12 col-xs-12'>
-            <?php echo Form::label('prioridade', 'Processo prioritário'); ?>
+            <v-label label="id_andamento" title="Andamento">
+                <?php echo Form::select('id_andamento',config('sistema.andamentoADL'),null, ['class' => 'form-control ']); ?>
 
-            <?php echo Form::checkbox('prioridade', '1'); ?>
+            </v-label>
+            <v-label label="id_andamentocoger" title="Andamento COGER">
+                <?php echo Form::select('id_andamentocoger',config('sistema.andamentocogerADL'),null, ['class' => 'form-control ']); ?>
 
-            </div>
+            </v-label>
+            <v-label label="id_motivoconselho" title="Motivo ADL (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">
+                <?php echo Form::select('id_motivoconselho', config('sistema.motivoConselho'),null, ['class' => 'form-control select2', 'id' => 'descricao']); ?>
 
-            
+            </v-label>
+            <v-label label="check" title="Selecione: " md="12" lg="12">
+                <v-checkbox name="ac_desempenho_bl" true-value="S" false-value="0"
+                text="Procedido incorretamente no desempenho do cargo ou função.">
+                </v-checkbox>
+                <v-checkbox name="ac_conduta_bl" true-value="S" false-value="0"
+                text="Conduta irregular ou ato que venha a denegrir a imagem da Corporação.">
+                </v-checkbox>
+                <v-checkbox name="ac_honra_bl" true-value="S" false-value="0"
+                text="Praticado ato que afete a honra pessoal, o pundonor militar ou o decoro da classe.">
+                </v-checkbox>
+            </v-label>
+            <v-label label="outromotivo" title="Especificar (no caso de outros motivos)">
+                <?php echo e(Form::text('outromotivo', null, ['class' => 'form-control '])); ?>
 
-            <?php $__env->startComponent('components.form.select',
-            ['titulo' => 'Andamento','campo' => 'id_andamento', 'opt' => config('sistema.andamentoADL')]); ?>
-            <?php echo $__env->renderComponent(); ?>
+            </v-label>
+            <v-label label="id_situacaoconselho" title="Situação">
+                <?php echo Form::select('id_situacaoconselho',config('sistema.situacaoConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']); ?>
 
-            <?php $__env->startComponent('components.form.select',
-            ['titulo' => 'Andamento COGER','campo' => 'andamentocoger', 'opt' => config('sistema.andamentocogerADL'), 'class' => 'select2']); ?>
-            <?php echo $__env->renderComponent(); ?>
+            </v-label>
+            <v-label label="portaria_numero" title="N° Portaria">
+                <?php echo e(Form::text('portaria_numero', null, ['class' => 'form-control '])); ?>
 
+            </v-label>
+            <v-label label="portaria_data" title="Data da Portaria" icon="fa fa-calendar">
+                <v-datepicker name="portaria_data" placeholder="dd/mm/aaaa" clear-button value="<?php echo e($proc['portaria_data'] ?? ''); ?>"></v-datepicker>
+            </v-label>
+            <v-label label="doc_tipo" title="Tipo de boletim">
+                <?php echo Form::select('doc_tipo',config('sistema.tipoBoletim'),null, ['class' => 'form-control ']); ?>
 
-            
-            <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-            <?php echo Form::label('id_motivoconselho', 'Motivo ADL (Lei nº 16.544/2010)'); ?> <a href="https://goo.gl/L1m5Ps" target="_blank"><i class="fa fa-link text-info"></i></a><br>
-            <?php echo Form::select('id_motivoconselho', config('sistema.motivoConselho'),'', ['class' => 'form-control select2', 'id' => 'descricao']); ?>
+            </v-label>
+            <v-label label="doc_numero" title="N° Boletim">
+                <?php echo e(Form::text('doc_numero', null, ['class' => 'form-control '])); ?>
 
-            <?php if($errors->has('id_motivoconselho')): ?>
-                <span class="help-block">
-                    <strong><?php echo e($errors->first('id_motivoconselho')); ?></strong>
-                </span>
-            <?php endif; ?>
-            </div>
+            </v-label>
+            <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
+                <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="<?php echo e($proc['fato_data'] ?? ''); ?>"></v-datepicker>
+            </v-label>
+            <v-label label="abertura_data" title="Data da abertura" icon="fa fa-calendar">
+                <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button value="<?php echo e($proc['abertura_data'] ?? ''); ?>"></v-datepicker>
+            </v-label>
+            <v-label label="prescricao_data" title="Data da prescricao" icon="fa fa-calendar">
+                <v-datepicker name="prescricao_data" placeholder="dd/mm/aaaa" clear-button value="<?php echo e($proc['prescricao_data'] ?? ''); ?>"></v-datepicker>
+            </v-label>
+            <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="<?php echo e($errors->first('sintese_txt')); ?>">
+                <?php echo Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']); ?>
 
-            <?php $__env->startComponent('components.form.text',['titulo' => 'Especificar (no caso de outros motivos)','campo' => 'outromotivo']); ?>
-            <?php echo $__env->renderComponent(); ?>
+            </v-label>
+            <?php echo Form::submit('Inserir ADL',['class' => 'btn btn-primary btn-block']); ?>
 
-            <?php $__env->startComponent('components.form.select',
-            ['titulo' => 'Situação','campo' => 'id_situacaoconselho', 'opt' => config('sistema.situacaoConselho'), 'id' => 'descricao']); ?>
-            <?php echo $__env->renderComponent(); ?>
+            <?php echo Form::close(); ?>
 
-            <?php $__env->startComponent('components.form.text',['titulo' => 'N° Portaria','campo' => 'portaria_numero']); ?>
-            <?php echo $__env->renderComponent(); ?>
-            
-            <v-datepicker title="Data da portaria" name="portaria_data"></v-datepicker>
-
-            <?php $__env->startComponent('components.form.select',
-            ['titulo' => 'Tipo de boletim','campo' => 'doc_tipo', 'opt' => config('sistema.tipoBoletim')]); ?>
-            <?php echo $__env->renderComponent(); ?>
-
-            <?php $__env->startComponent('components.form.text',['titulo' => 'N° Boletim','campo' => 'doc_numero']); ?>
-            <?php echo $__env->renderComponent(); ?>
-
-            <v-datepicker title="Dato do fato" name="fato_data"></v-datepicker>
-
-            <v-datepicker title="Data da abertura" name="abertura_data"></v-datepicker>
-
-            <v-datepicker title="Data da prescricao" name="prescricao_data"></v-datepicker>
-
-
-            <?php $__env->startComponent('components.form.sintese_txt'); ?>
-            <?php echo $__env->renderComponent(); ?>
-
-        </div>
-    </div>
-
+        </v-tab-item>
     </div>
 </section>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('css'); ?>
-    <link rel="stylesheet" href="/css/admin_custom.css">
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>

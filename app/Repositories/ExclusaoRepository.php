@@ -18,7 +18,7 @@ class ExclusaoRepository extends BaseRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60; 
+    protected static $expiration = 60 * 24;//um dia 
 
 	public function __construct(Exclusaojudicial $model)
 	{
@@ -35,6 +35,38 @@ class ExclusaoRepository extends BaseRepository
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
+
+    public static function cleanCache($ano)
+	{
+        $proc = 'exclusao';
+        $unidade = session('cdopmbase');
+        $ano = (int) date('Y');
+        $caches = [
+            'todos_'.$proc,
+            'todos_'.$proc.$unidade,
+            'todos_'.$proc.$ano,
+            'todos_'.$proc.$ano.$unidade,
+            'andamento_'.$proc,
+            'andamento_'.$proc.$unidade,
+            'andamento_'.$proc.$ano,
+            'andamento_'.$proc.$ano.$unidade,
+            'julgamento_'.$proc,
+            'julgamento_'.$proc.$unidade,
+            'julgamento_'.$proc.$ano,
+            'julgamento_'.$proc.$ano.$unidade,
+            'prazo_'.$proc,
+            'prazo_'.$proc.$unidade,
+            'prazo_'.$proc.$ano,
+            'prazo_'.$proc.$ano.$unidade,
+        ];
+
+        foreach ($caches as $cache) 
+        {
+           $clean = Cache::forget($cache);
+           $fail = (!$clean) ? true : false;
+        }
+        return $fail;
+    }
     
     public function all()
 	{
@@ -49,7 +81,7 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('todos_exclusao_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::remember('todos_exclusao'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')->get();
             });
         }
@@ -70,7 +102,7 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('todos_exclusao_'.$unidade.$ano, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::remember('todos_exclusao'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
@@ -95,7 +127,7 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_exclusao_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::remember('andamento_exclusao'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
@@ -114,7 +146,7 @@ class ExclusaoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('andamento_exclusao', self::$expiration, function() use ($ano){
+            $registros = Cache::remember('andamento_exclusao'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
@@ -125,7 +157,7 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_exclusao_'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::remember('andamento_exclusao'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -158,7 +190,7 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_exclusao_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::remember('julgamento_exclusao'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
@@ -179,7 +211,7 @@ class ExclusaoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('julgamento_exclusao', self::$expiration, function() use ($ano){
+            $registros = Cache::remember('julgamento_exclusao'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
@@ -192,7 +224,7 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_exclusao_'.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::remember('julgamento_exclusao'.$ano.$unidade, self::$expiration, function() use ($unidade,$ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -218,7 +250,7 @@ class ExclusaoRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('exclusao_prazo_opm', self::$expiration, function() {
+            $registros = Cache::remember('prazo_exclusao', self::$expiration, function() {
                 return $this->model
                     ->selectRaw('exclusao.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -240,7 +272,7 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('exclusao'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
+            $registros = Cache::remember('prazo_exclusao'.$unidade, self::$expiration, function() use ($unidade){
                 return $this->model
                     ->selectRaw('exclusao.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -275,7 +307,7 @@ class ExclusaoRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('exclusao_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::remember('prazo_exclusao'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model
                     ->selectRaw('exclusao.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -298,7 +330,7 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('exclusao'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::remember('prazo_exclusao'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano){
                 return $this->model
                     ->selectRaw('exclusao.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  

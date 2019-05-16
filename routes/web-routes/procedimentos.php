@@ -47,11 +47,11 @@ Route::group(['as'=>'exclusao.','prefix' =>'exclusao'],function(){
 Route::group(['as'=>'ipm.','prefix' =>'ipm'],function(){
 	Route::get('',['as' =>'index','uses'=>'Proc\IpmController@index','middleware' => ['permission:listar-ipm']]);
 	//listagem
-	Route::get('lista',['as' =>'lista','uses'=>'Proc\IpmController@lista','middleware' => ['permission:listar-ipm']]);
-	Route::get('andamento',['as' =>'andamento','uses'=>'Proc\IpmController@andamento','middleware' => ['permission:listar-ipm']]);
-	Route::get('prazos',['as' =>'prazos','uses'=>'Proc\IpmController@prazos','middleware' => ['permission:listar-ipm']]);
-	Route::get('rel_situacao',['as' =>'rel_situacao','uses'=>'Proc\IpmController@rel_situacao','middleware' => ['permission:listar-ipm']]);
-	Route::get('resultado',['as' =>'resultado','uses'=>'Proc\IpmController@resultado','middleware' => ['permission:listar-ipm']]);
+	Route::get('lista/{ano}',['as' =>'lista','uses'=>'Proc\IpmController@lista','middleware' => ['permission:listar-ipm']]);
+	Route::get('andamento/{ano}',['as' =>'andamento','uses'=>'Proc\IpmController@andamento','middleware' => ['permission:listar-ipm']]);
+	Route::get('prazos/{ano}',['as' =>'prazos','uses'=>'Proc\IpmController@prazos','middleware' => ['permission:listar-ipm']]);
+	Route::get('rel_situacao/{ano}',['as' =>'rel_situacao','uses'=>'Proc\IpmController@rel_situacao','middleware' => ['permission:listar-ipm']]);
+	Route::get('resultado/{ano}',['as' =>'resultado','uses'=>'Proc\IpmController@resultado','middleware' => ['permission:listar-ipm']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\IpmController@create','middleware' => ['permission:criar-ipm']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\IpmController@store','middleware' => ['permission:criar-ipm']]);

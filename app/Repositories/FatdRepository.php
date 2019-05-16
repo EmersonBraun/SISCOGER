@@ -18,7 +18,7 @@ class FatdRepository extends BaseRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60;  
+    protected static $expiration = 60 * 24;//um dia  
 
 	public function __construct(Fatd $model)
 	{
@@ -35,6 +35,42 @@ class FatdRepository extends BaseRepository
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
+
+    public static function cleanCache($ano)
+	{
+        $proc = 'fatd';
+        $unidade = session('cdopmbase');
+        $ano = (int) date('Y');
+        $caches = [
+            'todos_'.$proc,
+            'todos_'.$proc.$unidade,
+            'todos_'.$proc.$ano,
+            'todos_'.$proc.$ano.$unidade,
+            'andamento_'.$proc,
+            'andamento_'.$proc.$unidade,
+            'andamento_'.$proc.$ano,
+            'andamento_'.$proc.$ano.$unidade,
+            'julgamento_'.$proc,
+            'julgamento_'.$proc.$unidade,
+            'julgamento_'.$proc.$ano,
+            'julgamento_'.$proc.$ano.$unidade,
+            'prazo_'.$proc,
+            'prazo_'.$proc.$unidade,
+            'prazo_'.$proc.$ano,
+            'prazo_'.$proc.$ano.$unidade,
+            'fora_prazo_'.$proc,
+            'fora_prazo_'.$proc.$unidade,
+            'punidos_'.$proc.$unidade,
+            'aberturas_'.$proc.$unidade,
+        ];
+
+        foreach ($caches as $cache) 
+        {
+           $clean = Cache::forget($cache);
+           $fail = (!$clean) ? true : false;
+        }
+        return $fail;
+    }
     
     public function all()
 	{
@@ -49,7 +85,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('todos_fatd_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::remember('todos_fatd'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')->get();
             });
         }
@@ -70,7 +106,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('todos_fatd_'.$unidade.$ano, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::remember('todos_fatd'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
@@ -95,7 +131,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_fatd_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::remember('andamento_fatd'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
@@ -114,7 +150,7 @@ class FatdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('andamento_fatd', self::$expiration, function() use ($ano){
+            $registros = Cache::remember('andamento_fatd'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
@@ -125,7 +161,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_fatd_'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::remember('andamento_fatd'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -158,7 +194,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_fatd_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::remember('julgamento_fatd'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
@@ -179,7 +215,7 @@ class FatdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('julgamento_fatd', self::$expiration, function() use ($ano){
+            $registros = Cache::remember('julgamento_fatd'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('fatd.sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
@@ -192,7 +228,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_fatd_'.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::remember('julgamento_fatd'.$ano.$unidade, self::$expiration, function() use ($unidade,$ano) {
                 return $this->model->where('fatd.sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -215,7 +251,7 @@ class FatdRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('fatd_prazo_opm', self::$expiration, function() {
+            $registros = Cache::remember('prazo_fatd', self::$expiration, function() {
                 return $this->model
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -238,7 +274,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('fatd'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
+            $registros = Cache::remember('prazo_fatd'.$unidade, self::$expiration, function() use ($unidade){
                 return $this->model
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -271,7 +307,7 @@ class FatdRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('fatd_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::remember('prazo_fatd'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -297,7 +333,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('fatd'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::remember('prazo_fatd'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano){
                 return $this->model
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -331,7 +367,7 @@ class FatdRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('fatd_prazo_opm', self::$expiration, function() {
+            $registros = Cache::remember('fora_prazo_fatd', self::$expiration, function() {
                 return $this->model
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -355,7 +391,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('fatd'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
+            $registros = Cache::remember('fora_prazo_fatd'.$unidade, self::$expiration, function() use ($unidade){
                 return $this->model
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -383,7 +419,7 @@ class FatdRepository extends BaseRepository
 
     public static function punidos($unidade)
     {
-        $registros = Cache::remember('fatd_punidos'.$unidade, 60, function() use ($unidade){
+        $registros = Cache::remember('punidos_fatd'.$unidade, 60, function() use ($unidade){
             return DB::connection('sjd')
             ->table('view_fatd_punicao')
             ->where('cdopm', 'LIKE', $unidade.'%') 
@@ -395,7 +431,7 @@ class FatdRepository extends BaseRepository
     }
  
     public function aberturas($unidade){    
-        $registros = Cache::remember('fatd_aberturas'.$unidade, 60, function() use ($unidade){
+        $registros = Cache::remember('aberturas_fatd'.$unidade, 60, function() use ($unidade){
             return $this->model
             ->where('cdopm', 'LIKE', $unidade.'%') 
             ->where('abertura_data','=','0000-00-00')
