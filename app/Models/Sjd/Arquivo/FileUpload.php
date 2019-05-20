@@ -11,7 +11,7 @@ class FileUpload extends Model
 
     protected $dates = ['deleted_at','data_arquivo'];
 
-    protected $fillable = ['name', 'mime', 'path', 'size','id_proc','proc'];
+    protected $fillable = ['name', 'mime', 'path', 'size','id_proc','proc','obs'];
 
     protected $casts = [
 		'id_proc' => 'int'

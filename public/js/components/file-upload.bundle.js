@@ -1,4 +1,4 @@
-webpackJsonp([21,9,10],{
+webpackJsonp([0,10,11],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Arquivos/FileUpload.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -9,10 +9,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Vuestrap_Checkbox___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Vuestrap_Checkbox__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Datepicker__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Datepicker.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Vuestrap_Datepicker__);
-//
-//
-//
-//
 //
 //
 //
@@ -214,6 +210,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             data_arquivo: '',
             rg: '',
             nome_original: '',
+            obs: '',
             del: false
         };
     },
@@ -233,6 +230,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var MB = 1048576;
             value = value / MB;
             return value.toFixed(2);
+        },
+        hasObs: function hasObs(value) {
+            if (!value) return 'Não há';
+            return value;
         }
     },
     computed: {
@@ -303,6 +304,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             formData.append('ext', this.filetype);
             formData.append('nome_original', this.nome_original);
             formData.append('data_arquivo', this.data_arquivo);
+            formData.append('obs', this.obs);
 
             axios.post(urlCreate, formData, { headers: this.headers }).then(this.progress()).catch(function (error) {
                 console.log(error);
@@ -1252,7 +1254,7 @@ var render = function() {
                 ? _c("div", { staticClass: "row" }, [
                     _c(
                       "div",
-                      { staticClass: "col-sm-4" },
+                      { staticClass: "col-sm-3" },
                       [
                         _c("label", { attrs: { for: "data_arquivo" } }, [
                           _vm._v("Data do documento")
@@ -1277,47 +1279,66 @@ var render = function() {
                       1
                     ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-sm-5" }, [
+                    _c("div", { staticClass: "col-sm-3" }, [
                       _c("label", { attrs: { for: "data" } }, [
-                        _vm._v("Nome Original")
+                        _vm._v("Observações")
                       ]),
                       _c("br"),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-5" }, [
-                        _vm.file.name
-                          ? _c("span", [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(_vm.file.name) +
-                                  "\n                        "
-                              )
-                            ])
-                          : _vm._e()
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "col-sm-7" },
-                        [
-                          _c("v-checkbox", {
-                            attrs: {
-                              name: "nome_original",
-                              "true-value": "1",
-                              "false-value": "0",
-                              text: "Manter nome do arquivo"
-                            },
-                            model: {
-                              value: _vm.nome_original,
-                              callback: function($$v) {
-                                _vm.nome_original = $$v
-                              },
-                              expression: "nome_original"
-                            }
-                          })
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.obs,
+                            expression: "obs"
+                          }
                         ],
-                        1
-                      )
+                        staticClass: "form-control",
+                        attrs: { name: "obs", type: "text" },
+                        domProps: { value: _vm.obs },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.obs = $event.target.value
+                          }
+                        }
+                      })
                     ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-sm-3" },
+                      [
+                        _c("label", { attrs: { for: "data" } }, [
+                          _vm._v("Nome Original:")
+                        ]),
+                        _vm._v(" "),
+                        _vm.file.name
+                          ? _c("span", [_vm._v(_vm._s(_vm.file.name))])
+                          : _vm._e(),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("v-checkbox", {
+                          attrs: {
+                            name: "nome_original",
+                            "true-value": "1",
+                            "false-value": "0",
+                            text: "Manter nome do arquivo"
+                          },
+                          model: {
+                            value: _vm.nome_original,
+                            callback: function($$v) {
+                              _vm.nome_original = $$v
+                            },
+                            expression: "nome_original"
+                          }
+                        })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-sm-3" }, [
                       _c("label", { attrs: { for: "data" } }, [
@@ -1407,33 +1428,29 @@ var render = function() {
                           _c("thead", [
                             _c("tr", [
                               !_vm.only
-                                ? _c("th", { staticClass: "col-sm-2" }, [
+                                ? _c("th", { staticClass: "col-sm-1" }, [
                                     _vm._v("#")
                                   ])
                                 : _vm._e(),
                               _vm._v(" "),
                               _c("th", { staticClass: "col-sm-2" }, [
-                                _vm._v("Aquivo")
+                                _vm._v("Nome aquivo")
                               ]),
                               _vm._v(" "),
                               _c("th", { staticClass: "col-sm-1" }, [
-                                _vm._v("Ref.")
+                                _vm._v("Ref/Ano")
                               ]),
                               _vm._v(" "),
-                              _c("th", { staticClass: "col-sm-1" }, [
-                                _vm._v("Ano")
+                              _c("th", { staticClass: "col-sm-2" }, [
+                                _vm._v("Tamanho - Ext.")
                               ]),
                               _vm._v(" "),
                               _c("th", { staticClass: "col-sm-1" }, [
                                 _vm._v("Data")
                               ]),
                               _vm._v(" "),
-                              _c("th", { staticClass: "col-sm-2" }, [
-                                _vm._v("Tamanho")
-                              ]),
-                              _vm._v(" "),
-                              _c("th", { staticClass: "col-sm-1" }, [
-                                _vm._v("Ext.")
+                              _c("th", { staticClass: "col-sm-3" }, [
+                                _vm._v("Obs.")
                               ]),
                               _vm._v(" "),
                               _c("th", { staticClass: "col-sm-2" }, [
@@ -1452,17 +1469,27 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(u.name))]),
                                 _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(u.sjd_ref))]),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(u.sjd_ref) +
+                                      "/" +
+                                      _vm._s(u.sjd_ref_ano)
+                                  )
+                                ]),
                                 _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(u.sjd_ref_ano))]),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(_vm._f("toMB")(u.size)) +
+                                      " MB - " +
+                                      _vm._s(u.mime)
+                                  )
+                                ]),
                                 _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(u.data_arquivo))]),
                                 _vm._v(" "),
                                 _c("td", [
-                                  _vm._v(_vm._s(_vm._f("toMB")(u.size)) + " MB")
+                                  _vm._v(_vm._s(_vm._f("hasObs")(u.obs)))
                                 ]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(u.mime))]),
                                 _vm._v(" "),
                                 _c("td", [
                                   _c(
@@ -1557,15 +1584,27 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(a.name))]),
                                 _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(a.sjd_ref))]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(a.sjd_ref_ano))]),
-                                _vm._v(" "),
                                 _c("td", [
-                                  _vm._v(_vm._s(_vm._f("toMB")(a.size)) + " MB")
+                                  _vm._v(
+                                    _vm._s(a.sjd_ref) +
+                                      "/" +
+                                      _vm._s(a.sjd_ref_ano)
+                                  )
                                 ]),
                                 _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(a.mime))]),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(_vm._f("toMB")(a.size)) +
+                                      " MB - " +
+                                      _vm._s(a.mime)
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(a.data_arquivo))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(_vm._f("hasObs")(a.obs)))
+                                ]),
                                 _vm._v(" "),
                                 _c("td", [
                                   _c(
@@ -1658,17 +1697,17 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
+        _c("th", { staticClass: "col-sm-1" }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Aquivo")]),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Nome aquivo")]),
         _vm._v(" "),
-        _c("th", { staticClass: "col-sm-1" }, [_vm._v("Ref.")]),
+        _c("th", { staticClass: "col-sm-1" }, [_vm._v("Ref/Ano")]),
         _vm._v(" "),
-        _c("th", { staticClass: "col-sm-1" }, [_vm._v("Ano")]),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Tamanho - Ext.")]),
         _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Tamanho")]),
+        _c("th", { staticClass: "col-sm-1" }, [_vm._v("Data")]),
         _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ext.")]),
+        _c("th", { staticClass: "col-sm-3" }, [_vm._v("Obs.")]),
         _vm._v(" "),
         _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ações")])
       ])

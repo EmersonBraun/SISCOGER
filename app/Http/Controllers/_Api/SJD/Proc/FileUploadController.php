@@ -122,6 +122,7 @@ class FileUploadController extends Controller
             $fileUpload->proc = $dados['proc'];
             $fileUpload->id_proc = $dados['id_proc'];
             $fileUpload->data_arquivo = $data_arquivo;
+            $fileUpload->obs = $dados['obs'];
             $fileUpload->save();
 
             return response()->json([

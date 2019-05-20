@@ -29,22 +29,20 @@
                 </label>
                 <!-- ações -->
                 <div v-if="forUpload" class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <label for="data_arquivo">Data do documento</label><br>
                         <v-datepicker name="data_arquivo" placeholder="dd/mm/aaaa" v-model="data_arquivo" clear-button></v-datepicker>
                     </div>
-                    <div class="col-sm-5">
-                        <label for="data">Nome Original</label><br>
-                        <div class="col-sm-5">
-                            <span v-if="file.name">
-                                {{ file.name }}
-                            </span>
-                        </div>
-                        <div class="col-sm-7">
-                            <v-checkbox v-model="nome_original" name="nome_original" true-value="1" false-value="0"
-                            text="Manter nome do arquivo">
-                            </v-checkbox>
-                        </div>
+                    <div class="col-sm-3">
+                        <label for="data">Observações</label><br>
+                        <input name="obs" type="text" v-model="obs" class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="data">Nome Original:</label>
+                        <span v-if="file.name">{{ file.name }}</span><br>
+                        <v-checkbox v-model="nome_original" name="nome_original" true-value="1" false-value="0"
+                        text="Manter nome do arquivo">
+                        </v-checkbox>
                     </div>
                     <div class="col-sm-3">
                         <label for="data">Ações</label><br>
@@ -73,13 +71,12 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th v-if="!only" class="col-sm-2">#</th>
-                                        <th class="col-sm-2">Aquivo</th>
-                                        <th class="col-sm-1">Ref.</th>
-                                        <th class="col-sm-1">Ano</th>
+                                        <th v-if="!only" class="col-sm-1">#</th>
+                                        <th class="col-sm-2">Nome aquivo</th>
+                                        <th class="col-sm-1">Ref/Ano</th>
+                                        <th class="col-sm-2">Tamanho - Ext.</th>
                                         <th class="col-sm-1">Data</th>
-                                        <th class="col-sm-2">Tamanho</th>
-                                        <th class="col-sm-1">Ext.</th>
+                                        <th class="col-sm-3">Obs.</th>
                                         <th class="col-sm-2">Ações</th>
                                     </tr>
                                 </thead>
@@ -87,11 +84,10 @@
                                     <tr v-for="(u, index) in uploaded" :key="index">
                                         <td v-if="!only">{{ u.id }}</td>
                                         <td>{{ u.name}}</td>
-                                        <td>{{ u.sjd_ref}}</td>
-                                        <td>{{ u.sjd_ref_ano}}</td>
+                                        <td>{{ u.sjd_ref}}/{{ u.sjd_ref_ano}}</td>
+                                        <td>{{ u.size | toMB}} MB - {{ u.mime}}</td>
                                         <td>{{ u.data_arquivo}}</td>
-                                        <td>{{ u.size | toMB}} MB</td>
-                                        <td>{{ u.mime}}</td>
+                                        <td>{{ u.obs | hasObs}}</td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="First group">
                                                 <a type="button" @click="showFile(u.hash)" target="_black" class="btn btn-primary" style="color: white">
@@ -123,12 +119,12 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th class="col-sm-2">#</th>
-                                        <th class="col-sm-2">Aquivo</th>
-                                        <th class="col-sm-1">Ref.</th>
-                                        <th class="col-sm-1">Ano</th>
-                                        <th class="col-sm-2">Tamanho</th>
-                                        <th class="col-sm-2">Ext.</th>
+                                        <th class="col-sm-1">#</th>
+                                        <th class="col-sm-2">Nome aquivo</th>
+                                        <th class="col-sm-1">Ref/Ano</th>
+                                        <th class="col-sm-2">Tamanho - Ext.</th>
+                                        <th class="col-sm-1">Data</th>
+                                        <th class="col-sm-3">Obs.</th>
                                         <th class="col-sm-2">Ações</th>
                                     </tr>
                                 </thead>
@@ -136,10 +132,10 @@
                                     <tr v-for="(a, i) in apagados" :key="i">
                                         <td>{{ a.id }}</td>
                                         <td>{{ a.name}}</td>
-                                        <td>{{ a.sjd_ref}}</td>
-                                        <td>{{ a.sjd_ref_ano}}</td>
-                                        <td>{{ a.size | toMB}} MB</td>
-                                        <td>{{ a.mime}}</td>
+                                        <td>{{ a.sjd_ref}}/{{ a.sjd_ref_ano}}</td>
+                                        <td>{{ a.size | toMB}} MB - {{ a.mime}}</td>
+                                        <td>{{ a.data_arquivo}}</td>
+                                        <td>{{ a.obs | hasObs}}</td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="First group">
                                                 <a type="button" @click="showFile(a.hash)" target="_black" class="btn btn-primary" style="color: white">
@@ -203,6 +199,7 @@
             data_arquivo: '',
             rg: '',
             nome_original: '',
+            obs: '',
             del: false
         }
         
@@ -222,6 +219,10 @@
             let MB = 1048576
             value = value / MB
             return  value.toFixed(2)
+        },
+        hasObs(value){
+            if (!value) return 'Não há'
+            return  value
         }
     },
     computed:{
@@ -285,6 +286,7 @@
             formData.append('ext', this.filetype);
             formData.append('nome_original', this.nome_original);
             formData.append('data_arquivo', this.data_arquivo);
+            formData.append('obs', this.obs);
 
             axios.post( urlCreate,formData,{headers: this.headers})
             .then(this.progress())
