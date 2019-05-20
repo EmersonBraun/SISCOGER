@@ -12,37 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-
-/**
- * Class Sindicancium
- * 
- * @property int $id_sindicancia
- * @property int $id_andamentocoger
- * @property int $id_andamento
- * @property int $sjd_ref
- * @property int $sjd_ref_ano
- * @property \Carbon\Carbon $fato_data
- * @property \Carbon\Carbon $abertura_data
- * @property string $sintese_txt
- * @property string $cdopm
- * @property string $doc_tipo
- * @property string $doc_numero
- * @property string $doc_origem_txt
- * @property string $portaria_numero
- * @property \Carbon\Carbon $portaria_data
- * @property string $sol_cmt_file
- * @property \Carbon\Carbon $sol_cmt_data
- * @property string $sol_cmtgeral_file
- * @property \Carbon\Carbon $sol_cmtgeral_data
- * @property string $opm_meta4
- * @property string $relatorio_file
- * @property \Carbon\Carbon $relatorio_data
- * @property int $prioridade
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Sindicancia extends Eloquent
 {    
+    use SoftDeletes;
+
 	protected $primaryKey = 'id_sindicancia';
 	protected $table = 'sindicancia';
 	public $timestamps = false;
@@ -61,7 +36,8 @@ class Sindicancia extends Eloquent
 		'portaria_data',
 		'sol_cmt_data',
 		'sol_cmtgeral_data',
-		'relatorio_data'
+        'relatorio_data',
+        'deleted_at'
     ];
     
     public static $files = [

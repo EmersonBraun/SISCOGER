@@ -4,11 +4,11 @@
             <!-- titulo -->
             <div v-if="title" class="card-header">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-sm-10">
                         <h4>{{ title }}</h4>
                     </div>
-                    <div class="col-md-5"></div>
-                    <div v-if="candelete" class="col-md-3 btn-group">
+                    <!-- <div class="col-md-5"></div> -->
+                    <div v-if="candelete" class="col align-self-end">
                         <div class="btn-group">
                             <a type="button" @click="showUploaded" target="_black" class="btn" :class="!del ? 'btn-info' : 'btn-default'">
                                 Ativos
@@ -28,17 +28,34 @@
                     <input @change="verifyFile" :id="name" :name="name" ref="file" type='file' style="display:none">
                 </label>
                 <!-- ações -->
-                <a v-if="forUpload" @click="cancelFile()" class="btn btn-danger bgicon" style="color: white">
-                    <i class="fa fa-undo"></i> Cancelar
-                </a>
-                <a v-if="forUpload" @click="createFile()" class="btn btn-primary bgicon" style="color: white">
-                    <i class="fa fa-cloud-upload"></i> Upload
-                </a>
-                <!-- nome do arquivo -->
-                <span v-if="file.name">
-                    {{ file.name }}
-                </span>
-                <!-- erros -->
+                <div v-if="forUpload" class="row">
+                    <div class="col-sm-4">
+                        <label for="data_arquivo">Data do documento</label><br>
+                        <v-datepicker name="data_arquivo" placeholder="dd/mm/aaaa" v-model="data_arquivo" clear-button></v-datepicker>
+                    </div>
+                    <div class="col-sm-5">
+                        <label for="data">Nome Original</label><br>
+                        <div class="col-sm-5">
+                            <span v-if="file.name">
+                                {{ file.name }}
+                            </span>
+                        </div>
+                        <div class="col-sm-7">
+                            <v-checkbox v-model="nome_original" name="nome_original" true-value="1" false-value="0"
+                            text="Manter nome do arquivo">
+                            </v-checkbox>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="data">Ações</label><br>
+                        <a @click="cancelFile()" class="btn btn-danger bgicon" style="color: white">
+                            <i class="fa fa-undo"></i> Cancelar
+                        </a>
+                        <a @click="createFile()" class="btn btn-primary bgicon" style="color: white">
+                            <i class="fa fa-cloud-upload"></i> Upload
+                        </a>
+                    </div>
+                </div>
                 <div v-if="error.length" style="color: red">
                     <p v-for="(e, index) in error" :key="index">{{e}}</p>
                 </div>
@@ -60,8 +77,9 @@
                                         <th class="col-sm-2">Aquivo</th>
                                         <th class="col-sm-1">Ref.</th>
                                         <th class="col-sm-1">Ano</th>
+                                        <th class="col-sm-1">Data</th>
                                         <th class="col-sm-2">Tamanho</th>
-                                        <th class="col-sm-2">Ext.</th>
+                                        <th class="col-sm-1">Ext.</th>
                                         <th class="col-sm-2">Ações</th>
                                     </tr>
                                 </thead>
@@ -71,11 +89,12 @@
                                         <td>{{ u.name}}</td>
                                         <td>{{ u.sjd_ref}}</td>
                                         <td>{{ u.sjd_ref_ano}}</td>
+                                        <td>{{ u.data_arquivo}}</td>
                                         <td>{{ u.size | toMB}} MB</td>
                                         <td>{{ u.mime}}</td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="First group">
-                                                <a type="button" @click="showFile(u.id)" target="_black" class="btn btn-primary" style="color: white">
+                                                <a type="button" @click="showFile(u.hash)" target="_black" class="btn btn-primary" style="color: white">
                                                     <i class="fa fa-eye"></i> Ver
                                                 </a>
                                                 <a  v-if="u.deleted_at == null" type="button" @click="deleteFile(u.id)" class="btn btn-danger" style="color: white">
@@ -123,7 +142,7 @@
                                         <td>{{ a.mime}}</td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="First group">
-                                                <a type="button" @click="showFile(a.id)" target="_black" class="btn btn-primary" style="color: white">
+                                                <a type="button" @click="showFile(a.hash)" target="_black" class="btn btn-primary" style="color: white">
                                                     <i class="fa fa-eye"></i> Ver
                                                 </a>
                                                 <a type="button" @click="removeFile(a.id)" class="btn btn-danger" style="color: white">
@@ -151,7 +170,10 @@
 </template>
 
 <script>
+    import {Checkbox} from '../Vuestrap/Checkbox'
+    import {Datepicker} from '../Vuestrap/Datepicker'
     export default {
+    components: {Checkbox,Datepicker},
     props: {
         title: {type: String},
         name: {type: String},
@@ -178,12 +200,16 @@
             countap: 0,
             filetype: '',
             action: 'fileupload',
-            del: false,
+            data_arquivo: '',
+            rg: '',
+            nome_original: '',
+            del: false
         }
         
     },
     beforeMount(){
         this.listFile(); 
+        this.data_arquivo = this.today
     },
     watch: {
         countup() {
@@ -204,39 +230,38 @@
             let getUrl = window.location;
             // dividir em array
             let pathname = getUrl.pathname.split('/')              
-            let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + pathname[1]+"/";
+            let baseUrl = `${getUrl.protocol}//${getUrl.host}/${pathname[1]}/api/`;
             
         return baseUrl;
         },
         // verificar se é upload unico
         verifyOnly(){         
-            if(this.unique == true && this.countup > 0){
-                this.only = true;
-            }else{
-                this.only = false;
-            }
-            
+            this.only = (this.unique == true && this.countup > 0) ? true : false
         },
         verifyType(){
             this.filetype = this.file.type.split('/')[1];
             if (!this.ext.includes(this.filetype)) {
-                this.error.push('Extenção inválida! deve ser: ' + this.ext.join(', '));
+                this.error.push(`Extenção inválida! deve ser: ${this.ext.join(', ')}`);
                 return false
-            }else{
-                return true
-            }
-            
+            }else{return true}
         },
         verifySize(){
             let fileSize = this.file.size;
             let qtdMB = 5
             let maxSize = 1048576 * qtdMB
             if (fileSize > maxSize) {
-                this.error.push('Tamanho excedido! deve ser menor que '+qtdMB+'MB ');
+                this.error.push(`Tamanho excedido! deve ser menor que ${qtdMB}MB `);
                 return false
-            }else{
-                return true
-            }    
+            }else{return true}    
+        },
+        today() {
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            let yyyy = today.getFullYear();
+
+            today = dd + '/' + mm + '/' + yyyy;
+            return today
         },
     },
     methods: {
@@ -249,14 +274,17 @@
             if(!this.forUpload) this.file = ''
         },
         createFile(){
-            let urlCreate = this.getBaseUrl + this.action + '/store';
+            let urlCreate = `${this.getBaseUrl}${this.action}/store`;
             
             let formData = new FormData();
             formData.append('file', this.file);
             formData.append('name', this.name);
+            formData.append('rg', this.rg);
             formData.append('id_proc', this.idp);
             formData.append('proc', this.proc);
             formData.append('ext', this.filetype);
+            formData.append('nome_original', this.nome_original);
+            formData.append('data_arquivo', this.data_arquivo);
 
             axios.post( urlCreate,formData,{headers: this.headers})
             .then(this.progress())
@@ -266,7 +294,7 @@
             });
         },
         listFile(){
-            let urlIndex = this.getBaseUrl + this.action + '/list/' + this.proc + '/' + this.idp + '/' + this.name;
+            let urlIndex = `${this.getBaseUrl}${this.action}/list/${this.proc}/${this.idp}/${this.name}`;
             axios
             .get(urlIndex)
             .then((response) => {
@@ -277,19 +305,19 @@
             })
             .catch(error => console.log(error));
         },
-        showFile(id){
-            let urlShow = this.getBaseUrl + this.action + '/show/' + this.proc + '/' + this.idp + '/' + this.name + '/' + id;
+        showFile(hash){
+            let urlShow = `${this.getBaseUrl}${this.action}/show/${this.proc}/${this.idp}/${this.name}/${hash}`;
             window.open(urlShow, "_blank")
         },
         deleteFile(id){
-            let urlDelete = this.getBaseUrl + this.action + '/delete/' + id;
+            let urlDelete = `${this.getBaseUrl}${this.action}/delete/${id}`;
             axios
             .delete(urlDelete)
             .then((response) => this.listFile())//chama list para atualizar
             .catch(error => console.log(error));
         },
         removeFile(id){
-            let urlDelete = this.getBaseUrl + this.action + '/destroy/' + id;
+            let urlDelete = `${this.getBaseUrl}${this.action}/destroy/${id}`;
             axios
             .delete(urlDelete)
             .then((response) => this.listFile())//chama list para atualizar
@@ -326,5 +354,16 @@
 <style scope>
     .bgicon{
         color: white;
+    }
+    .align-self-end {
+        -ms-flex-item-align: end !important;
+        align-self: flex-end !important;
+    }
+    .col {
+        -ms-flex-preferred-size: 0;
+        flex-basis: 0;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        max-width: 100%;
     }
 </style>

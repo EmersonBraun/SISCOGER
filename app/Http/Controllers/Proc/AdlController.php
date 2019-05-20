@@ -57,6 +57,12 @@ class AdlController extends Controller
         return view('procedimentos.adl.list.julgamento',compact('registros'));
     }
 
+    public function apagados(AdlRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.adl.list.apagados',compact('registros'));
+    }
+
     public function create(Request $request)
     {
         return view('procedimentos.adl.form.create');
@@ -208,6 +214,40 @@ class AdlController extends Controller
 
         //mensagem
     	toast()->success('Adl Apagado');
+        return redirect()->route('adl.lista');
+    }
+
+    public function restore($id)
+    {
+        // Recupera o post pelo ID
+        $restore = Adl::findOrFail($id)->restore();
+    
+        if($restore)
+        {
+            //mensagem
+            toast()->success('Adl Recuperado!');
+            return redirect()->route('adl.lista');  
+        }
+
+        //mensagem
+        toast()->error('Houve um erro ao recuperar!');
+        return redirect()->route('adl.lista'); 
+    }
+
+    public function forceDelete($id)
+    {
+        // Recupera o post pelo ID
+        $forceDelete = Adl::findOrFail($id)->forceDelete();
+    
+        if($forceDelete)
+        {
+            //mensagem
+            toast()->success('Adl Recuperado!');
+            return redirect()->route('adl.lista');  
+        }
+
+        //mensagem
+        toast()->error('Houve um erro ao Apagar definitivo!');
         return redirect()->route('adl.lista');
     }
 

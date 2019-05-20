@@ -12,34 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class Exclusaojudicial
- * 
- * @property int $id_exclusaojudicial
- * @property string $rg
- * @property string $cargo
- * @property string $nome
- * @property string $cdopm_quandoexcluido
- * @property string $origem_proc
- * @property int $origem_sjd_ref
- * @property int $origem_sjd_ref_ano
- * @property string $origem_opm
- * @property string $processo
- * @property string $complemento
- * @property string $vara
- * @property string $numerounico
- * @property \Carbon\Carbon $data
- * @property \Carbon\Carbon $exclusao_data
- * @property string $obs_txt
- * @property int $portaria_numero
- * @property int $bg_numero
- * @property int $bg_ano
- * @property int $prioridade
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Exclusaojudicial extends Eloquent
 {	
+    use SoftDeletes;
+
 	protected $table = 'exclusaojudicial';
 	protected $primaryKey = 'id_exclusaojudicial';
 	public $timestamps = false;
@@ -55,7 +33,8 @@ class Exclusaojudicial extends Eloquent
 
 	protected $dates = [
 		'data',
-		'exclusao_data'
+        'exclusao_data',
+        'deleted_at'
 	];
 
 	protected $fillable = [

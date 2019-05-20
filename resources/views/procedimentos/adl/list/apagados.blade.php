@@ -1,12 +1,12 @@
 @extends('adminlte::page')
 
-@section('title', 'adl')
+@section('title', 'ADL - Apagados')
 
 @section('content_header')
 <section class="content-header nopadding">  
     @component('components.treeview',
     [
-      'title' => 'ADL - Lista',
+      'title' => 'ADL - Apagados',
       'opts' => []
     ])
     @endcomponent   
@@ -16,12 +16,12 @@
       'title' => 'ADL',
       'prop' => ['10','2'],
       'menu' => [
-        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.lista','name'=>'lista','type'=>'success'],
+        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.lista','name'=>'lista'],
         ['md'=> 2, 'xs'=> 2, 'route'=>'adl.andamento','name'=>'Andamento'],
         ['md'=> 2, 'xs'=> 2, 'route'=>'adl.prazos','name'=>'Prazos'],
         ['md'=> 2, 'xs'=> 2, 'route'=>'adl.rel_situacao','name'=>'Rel. Situação'],
         ['md'=> 2, 'xs'=> 2, 'route'=>'adl.julgamento','name'=>'Julgamento'],
-        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.apagados','name'=>'Apagados']
+        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.apagados','name'=>'Apagados','type'=>'success']
       ]
     ])   
     @endcomponent
@@ -73,8 +73,8 @@
                     <td>
                         <span>
                         <a class="btn btn-default" href="{{route('adl.show',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i class="fa fa-fw fa-eye "></i></a>
-                        <a class="btn btn-info" href="{{route('adl.edit',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i class="fa fa-fw fa-edit "></i></a>
-                        <a class="btn btn-danger"  href="{{route('adl.destroy',$registro['id_adl'])}}" onclick="confirm('Tem certeza que quer apagar o ADL?')"><i class="fa fa-fw fa-trash-o "></i></a>
+                        <a class="btn btn-info" href="{{route('adl.restore',$registro['id_adl'])}}"><i class="fa fa-medkit"></i></a>
+                        <a class="btn btn-danger"  href="{{route('adl.forceDelete',$registro['id_adl'])}}" onclick="confirm('Tem certeza que quer apagar DEFINITIVO o ADL?')"><i class="fa fa-fw fa-trash-o "></i></a>
                         </span>
                     </td>   
                   </tr>

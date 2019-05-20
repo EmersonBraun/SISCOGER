@@ -36,7 +36,7 @@ class CjRepository extends BaseRepository
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
 
-    public static function cleanCache($ano)
+    public static function cleanCache()
 	{
         $proc = 'cj';
         $unidade = session('cdopmbase');
@@ -355,7 +355,5 @@ class CjRepository extends BaseRepository
         }
         return $registros;
     }
-
-
 }
 

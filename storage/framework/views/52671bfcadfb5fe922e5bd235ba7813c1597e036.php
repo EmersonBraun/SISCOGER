@@ -12,13 +12,14 @@
     <?php $__env->startComponent('components.menu',
     [
       'title' => 'ADL',
-      'prop' => ['8','4'],
+      'prop' => ['10','2'],
       'menu' => [
-        ['md'=> 2, 'xs'=> 4, 'route'=>'adl.lista','name'=>'lista','type'=>'success'],
-        ['md'=> 2, 'xs'=> 4, 'route'=>'adl.andamento','name'=>'Andamento'],
-        ['md'=> 2, 'xs'=> 4, 'route'=>'adl.prazos','name'=>'Prazos'],
-        ['md'=> 3, 'xs'=> 4, 'route'=>'adl.rel_situacao','name'=>'Rel. Situação'],
-        ['md'=> 3, 'xs'=> 4, 'route'=>'adl.julgamento','name'=>'Julgamento']
+        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.lista','name'=>'lista','type'=>'success'],
+        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.andamento','name'=>'Andamento'],
+        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.prazos','name'=>'Prazos'],
+        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.rel_situacao','name'=>'Rel. Situação'],
+        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.julgamento','name'=>'Julgamento'],
+        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.apagados','name'=>'Apagados']
       ]
     ]); ?>   
     <?php echo $__env->renderComponent(); ?>
@@ -71,7 +72,7 @@
                         <span>
                         <a class="btn btn-default" href="<?php echo e(route('adl.show',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])); ?>"><i class="fa fa-fw fa-eye "></i></a>
                         <a class="btn btn-info" href="<?php echo e(route('adl.edit',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])); ?>"><i class="fa fa-fw fa-edit "></i></a>
-                        <a class="btn btn-danger"  href="<?php echo e(route('adl.destroy',$registro['id_adl'])); ?>" onclick="confirmApagar('adl',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])"><i class="fa fa-fw fa-trash-o "></i></a>
+                        <a class="btn btn-danger"  href="<?php echo e(route('adl.destroy',$registro['id_adl'])); ?>" onclick="confirm('Tem certeza que quer apagar o ADL?')"><i class="fa fa-fw fa-trash-o "></i></a>
                         </span>
                     </td>   
                   </tr>

@@ -33,6 +33,15 @@ Route::group(['as'=>'sjd.','prefix' =>'sjd'],function(){
         });
     });
 });
+// rotas componente Arquivos/FileUpload.vue
+Route::group(['as'=>'fileupload.','prefix' =>'fileupload'],function(){
+    Route::post('store',['as' =>'store','uses'=>'_Api\SJD\Proc\FileUploadController@store']);
+    Route::get('show/{proc}/{procid}/{arquivo}/{hash}',['as' =>'show','uses'=>'_Api\SJD\Proc\FileUploadController@show']);
+    Route::delete('delete/{id}',['as' =>'delete','uses'=>'_Api\SJD\Proc\FileUploadController@delete']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\Proc\FileUploadController@destroy']);
+    Route::get('list/{proc}/{id}/{arquivo}',['as' =>'index','uses'=>'_Api\SJD\Proc\FileUploadController@index']);
+	//Route::post('remover',['as' =>'remover','uses'=>'UploadController@remover']);
+});
 // rotas componente SubForm/ProcedOrigem.vue
 Route::group(['as'=>'ligacao.','prefix' =>'ligacao'],function(){
     Route::get('list/{proc}/{ref}/{ano}',['as' =>'index','uses'=>'_Api\SJD\Proc\LigacaoApiController@list']);

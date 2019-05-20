@@ -12,32 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class Apfd
- * 
- * @property int $id_apfd
- * @property int $id_andamento
- * @property int $id_andamentocoger
- * @property int $sjd_ref
- * @property int $sjd_ref_ano
- * @property string $tipo
- * @property string $cdopm
- * @property \Carbon\Carbon $fato_data
- * @property string $sintese_txt
- * @property string $tipo_penal
- * @property string $tipo_penal_novo
- * @property string $especificar
- * @property string $doc_tipo
- * @property string $doc_numero
- * @property string $exclusao_txt
- * @property string $opm_meta4
- * @property string $referenciavajme
- * @property int $prioridade
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Apfd extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $table = 'apfd';
 	protected $primaryKey = 'id_apfd';
 	public $timestamps = false;
@@ -51,7 +31,8 @@ class Apfd extends Eloquent
 	];
 
 	protected $dates = [
-		'fato_data'
+        'fato_data',
+        'deleted_at'
 	];
 
 	protected $fillable = [

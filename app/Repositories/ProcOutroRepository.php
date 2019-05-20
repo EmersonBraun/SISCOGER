@@ -36,7 +36,7 @@ class ProcOutroRepository extends BaseRepository
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
 
-    public static function cleanCache($ano)
+    public static function cleanCache()
 	{
         $proc = 'proc_outro';
         $unidade = session('cdopmbase');

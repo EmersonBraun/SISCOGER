@@ -12,25 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class Reintegrado
- * 
- * @property int $id_reintegrado
- * @property string $rg
- * @property string $cargo
- * @property string $nome
- * @property string $motivo
- * @property string $procedimento
- * @property int $sjd_ref
- * @property int $sjd_ref_ano
- * @property \Carbon\Carbon $retorno_data
- * @property int $bg_numero
- * @property int $bg_ano
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Reintegrado extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $table = 'reintegrado';
 	protected $primaryKey = 'id_reintegrado';
 	public $timestamps = false;
@@ -43,7 +30,8 @@ class Reintegrado extends Eloquent
 	];
 
 	protected $dates = [
-		'retorno_data'
+        'retorno_data',
+        'deleted_at'
 	];
 
 	protected $fillable = [

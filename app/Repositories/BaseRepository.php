@@ -179,7 +179,22 @@ class BaseRepository
         return $qtd;
     }
 
+    public function apagados()
+	{
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
 
+        if($verTodasUnidades)
+        {
+            $registros = $this->model->onlyTrashed()->get();
+        }
+        else 
+        {
+            $registros = $this->model->onlyTrashed()->where('cdopm','like',$unidade.'%')->get();
+        }
+
+        return $registros;
+    }
 
 
     

@@ -12,49 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class ProcOutro
- * 
- * @property int $id_proc_outros
- * @property int $sjd_ref
- * @property int $sjd_ref_ano
- * @property string $rg_cadastro
- * @property string $cdopm
- * @property string $opm_abreviatura
- * @property string $cdopm_apuracao
- * @property \Carbon\Carbon $abertura_data
- * @property \Carbon\Carbon $data
- * @property string $bou_ano
- * @property string $bou_numero
- * @property int $id_municipio
- * @property string $doc_origem
- * @property string $num_doc_origem
- * @property string $motivo_abertura
- * @property string $sintese_txt
- * @property string $relatorio1
- * @property string $relatorio1_file
- * @property \Carbon\Carbon $relatorio1_data
- * @property string $relatorio2
- * @property string $relatorio2_file
- * @property \Carbon\Carbon $relatorio2_data
- * @property string $relatorio3
- * @property string $relatorio3_file
- * @property \Carbon\Carbon $relatorio3_data
- * @property string $desc_outros
- * @property string $andamento
- * @property string $andamentocoger
- * @property string $vtr1_placa
- * @property string $vtr1_prefixo
- * @property string $vtr2_placa
- * @property string $vtr2_prefixo
- * @property string $digitador
- * @property string $num_pid
- * @property \Carbon\Carbon $limite_data
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class ProcOutro extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $primaryKey = 'id_proc_outros';
 	public $timestamps = false;
 
@@ -70,7 +33,8 @@ class ProcOutro extends Eloquent
 		'relatorio1_data',
 		'relatorio2_data',
 		'relatorio3_data',
-		'limite_data'
+        'limite_data',
+        'deleted_at'
     ];
     
     public static $files = [

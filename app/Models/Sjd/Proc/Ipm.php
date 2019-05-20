@@ -12,57 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class Ipm
- * 
- * @property int $id_ipm
- * @property int $id_andamento
- * @property int $id_andamentocoger
- * @property int $id_municipio
- * @property int $id_situacao
- * @property string $cdopm
- * @property string $opm_sigla
- * @property int $opm_ref
- * @property int $opm_ref_ano
- * @property int $sjd_ref
- * @property int $sjd_ref_ano
- * @property \Carbon\Carbon $abertura_data
- * @property \Carbon\Carbon $fato_data
- * @property \Carbon\Carbon $autuacao_data
- * @property string $crime
- * @property string $tentado
- * @property string $crime_especificar
- * @property string $sintese_txt
- * @property string $relato_enc
- * @property \Carbon\Carbon $relato_enc_data
- * @property string $relato_cmtopm
- * @property \Carbon\Carbon $relato_cmtopm_data
- * @property string $relato_cmtgeral
- * @property \Carbon\Carbon $relato_cmtgeral_data
- * @property string $vajme_ref
- * @property string $justicacomum_ref
- * @property string $vitima
- * @property string $confronto_armado_bl
- * @property int $vitima_qtdd
- * @property string $julgamento
- * @property string $portaria_numero
- * @property string $exclusao_txt
- * @property string $relato_enc_file
- * @property string $relato_cmtopm_file
- * @property string $relato_cmtgeral_file
- * @property string $defensor_oab
- * @property string $defensor_nome
- * @property string $relcomplementar_file
- * @property \Carbon\Carbon $relcomplementar_data
- * @property string $opm_meta4
- * @property int $bou_ano
- * @property int $bou_numero
- * @property int $prioridade
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Ipm extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $table = 'ipm';
 	protected $primaryKey = 'id_ipm';
 	public $timestamps = false;
@@ -89,7 +44,8 @@ class Ipm extends Eloquent
 		'relato_enc_data',
 		'relato_cmtopm_data',
 		'relato_cmtgeral_data',
-		'relcomplementar_data'
+        'relcomplementar_data',
+        'deleted_at'
     ];
     
     public static $files = [

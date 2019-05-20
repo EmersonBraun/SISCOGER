@@ -12,31 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class Pad
- * 
- * @property int $id_pad
- * @property int $id_andamento
- * @property int $id_andamentocoger
- * @property int $sjd_ref
- * @property int $sjd_ref_ano
- * @property string $doc_origem_txt
- * @property \Carbon\Carbon $fato_data
- * @property string $cdopm
- * @property string $sintese_txt
- * @property string $portaria_numero
- * @property \Carbon\Carbon $portaria_data
- * @property string $doc_tipo
- * @property string $doc_numero
- * @property \Carbon\Carbon $abertura_data
- * @property string $relatorio_file
- * @property string $solucao_file
- * @property int $prioridade
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Pad extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $table = 'pad';
 	protected $primaryKey = 'id_pad';
 	public $timestamps = false;
@@ -52,7 +33,8 @@ class Pad extends Eloquent
 	protected $dates = [
 		'fato_data',
 		'portaria_data',
-		'abertura_data'
+        'abertura_data',
+        'deleted_at'
     ];
     
     public static $files = [

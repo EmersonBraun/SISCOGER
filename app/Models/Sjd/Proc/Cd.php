@@ -12,47 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class Cd
- * 
- * @property int $id_cd
- * @property int $id_andamento
- * @property int $id_andamentocoger
- * @property int $id_motivoconselho
- * @property int $id_decorrenciaconselho
- * @property int $id_situacaoconselho
- * @property string $outromotivo
- * @property \Carbon\Carbon $fato_data
- * @property \Carbon\Carbon $abertura_data
- * @property string $sintese_txt
- * @property string $libelo_file
- * @property string $doc_tipo
- * @property string $doc_numero
- * @property string $portaria_numero
- * @property \Carbon\Carbon $portaria_data
- * @property string $parecer_file
- * @property string $decisao_file
- * @property string $doc_prorrogacao
- * @property int $sjd_ref
- * @property int $sjd_ref_ano
- * @property \Carbon\Carbon $prescricao_data
- * @property string $parecer_comissao
- * @property string $parecer_cmtgeral
- * @property string $exclusao_txt
- * @property string $rec_ato_file
- * @property string $rec_gov_file
- * @property string $cdopm
- * @property string $ac_desempenho_bl
- * @property string $ac_conduta_bl
- * @property string $ac_honra_bl
- * @property string $tjpr_file
- * @property string $stj_file
- * @property int $prioridade
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Cd extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $table = 'cd';
 	protected $primaryKey = 'id_cd';
 	public $timestamps = false;
@@ -72,7 +37,8 @@ class Cd extends Eloquent
 		'fato_data',
 		'abertura_data',
 		'portaria_data',
-		'prescricao_data'
+        'prescricao_data',
+        'deleted_at'
     ];
     
     public static $files = [

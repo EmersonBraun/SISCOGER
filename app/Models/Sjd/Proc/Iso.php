@@ -12,35 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class Iso
- * 
- * @property int $id_iso
- * @property int $id_andamento
- * @property int $id_andamentocoger
- * @property int $sjd_ref
- * @property int $sjd_ref_ano
- * @property string $cdopm
- * @property \Carbon\Carbon $fato_data
- * @property \Carbon\Carbon $abertura_data
- * @property string $sintese_txt
- * @property string $tipo_penal
- * @property string $doc_tipo
- * @property string $doc_numero
- * @property string $portaria_numero
- * @property \Carbon\Carbon $portaria_data
- * @property string $exclusao_txt
- * @property string $opm_meta4
- * @property string $relatoriomedico_file
- * @property \Carbon\Carbon $relatoriomedico_data
- * @property string $solucaoautoridade_file
- * @property \Carbon\Carbon $solucaoautoridade_data
- * @property int $prioridade
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Iso extends Eloquent
 {	
+    use SoftDeletes;
+
 	protected $table = 'iso';
 	protected $primaryKey = 'id_iso';
 	public $timestamps = false;
@@ -58,7 +35,8 @@ class Iso extends Eloquent
 		'abertura_data',
 		'portaria_data',
 		'relatoriomedico_data',
-		'solucaoautoridade_data'
+        'solucaoautoridade_data',
+        'deleted_at'
     ];
     
     public static $files = [

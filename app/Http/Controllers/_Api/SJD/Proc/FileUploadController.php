@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Arquivo;
+namespace App\Http\Controllers\_Api\SJD\Proc;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 use Storage;
 use File;
@@ -40,24 +41,17 @@ class FileUploadController extends Controller
         ], 500);
     }
 
-    public function show($proc, $procid, $arquivo, $id)
+    public function show($proc, $procid, $arquivo, $hash)
     {
-        if(!$proc) 
-        {
-            return response()->json([
-                'erro' => 'Falta Proc',
-                'success' => false
-            ], 500);
-        }
-        if(!$procid) 
-        {
-            return response()->json([
-                'erro' => 'Falta ID Proc',
-                'success' => false
-            ], 500);
-        }
+        // validações
+        if(!$proc) return response()->json(['erro' => 'Falta Proc','success' => false], 500);
+        if(!$procid) return response()->json(['erro' => 'Falta ID Proc','success' => false], 500);
+        if(!$arquivo) return response()->json(['erro' => 'Falta arquivo','success' => false], 500);
+        if(!$hash) return response()->json(['erro' => 'Falta HASH','success' => false], 500);
 
-        $search = FileUpload::where('id',$id)->withTrashed()->first();
+        $search = FileUpload::where('hash',$hash)->withTrashed()->first();
+        if(!$search) abort(404);
+
         $config = config('app.uploads');
         $path = storage_path($search->path);
         if (!File::exists($path)) {
@@ -66,9 +60,7 @@ class FileUploadController extends Controller
                 ->where('id_'.$dados['proc'], $dados['id_proc'])
                 ->value();
             
-            if(!$fileAntigo){
-                abort(404);
-            }
+            if(!$fileAntigo) abort(404);
 
             $path = $config.'/'.$filename;
         }
@@ -85,16 +77,29 @@ class FileUploadController extends Controller
 
     public function store(Request $request)
     {
+        // dados requisição
         $dados = $request->all();
+        //arquivo
         $file = $request->file('file');
-        $filename = $dados['proc'].$dados['id_proc'].'_'.$dados['name'].'.'.$dados['ext'];
 
-        $query = DB::table($dados['proc'])->where('id_'.$dados['proc'], $dados['id_proc']);
-
-        if(Schema::hasColumn($dados['proc'], $dados['name'])) 
+        // nome do arquivo
+        if($dados['nome_original']) 
         {
-           $query->update([$dados['name'] => $filename]);
+            $filename = $file->getClientOriginalName();
         }
+        else
+        { 
+            $filename = $dados['proc'].$dados['id_proc'].'_'.$dados['name'].'.'.$dados['ext'];
+        }
+
+        //data_arquivo
+        $data_arquivo = (!$dados['data_arquivo']) ? date('Y-m-d'): $dados['data_arquivo'];
+        // consulta
+        $query = DB::table($dados['proc'])->where('id_'.$dados['proc'], $dados['id_proc']);
+        // nome
+        if(Schema::hasColumn($dados['proc'], $dados['name'])) $query->update([$dados['name'] => $filename]);
+        // data do arquivo
+        if(Schema::hasColumn($dados['proc'], $dados['name'].'_data')) $query->update([$dados['name'].'_data' => $data_arquivo]);
 
         //pegar procedimento
         $proc = $query->first();
@@ -105,6 +110,7 @@ class FileUploadController extends Controller
 
         if(Storage::disk('uploads')->putFileAs($folder,  $file, $filename)) {
             $fileUpload = new FileUpload();
+            $fileUpload->hash = md5($filename);
             $fileUpload->name = $filename;
             $fileUpload->campo = $dados['name'];
             $fileUpload->mime = $file->getClientMimeType();
@@ -112,9 +118,10 @@ class FileUploadController extends Controller
             $fileUpload->size = $file->getClientSize();
             $fileUpload->sjd_ref = $proc['sjd_ref'];
             $fileUpload->sjd_ref_ano = $proc['sjd_ref_ano'];
-            $fileUpload->rg = session('rg');
+            $fileUpload->rg = $dados['rg'];
             $fileUpload->proc = $dados['proc'];
             $fileUpload->id_proc = $dados['id_proc'];
+            $fileUpload->data_arquivo = $data_arquivo;
             $fileUpload->save();
 
             return response()->json([

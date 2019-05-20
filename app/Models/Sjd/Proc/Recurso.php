@@ -12,24 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class Recurso
- * 
- * @property int $id_recurso
- * @property string $cdopm
- * @property string $opm
- * @property string $rg
- * @property string $nome
- * @property string $procedimento
- * @property int $sjd_ref
- * @property int $sjd_ref_ano
- * @property \Carbon\Carbon $datahora
- * @property int $id_movimento
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Recurso extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $table = 'recurso';
 	protected $primaryKey = 'id_recurso';
 	public $timestamps = false;
@@ -41,7 +29,8 @@ class Recurso extends Eloquent
 	];
 
 	protected $dates = [
-		'datahora'
+        'datahora',
+        'deleted_at'
 	];
 
 	protected $fillable = [

@@ -36,7 +36,7 @@ class DesercaoRepository extends BaseRepository
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
 
-    public static function cleanCache($ano)
+    public static function cleanCache()
 	{
         $proc = 'desercao';
         $unidade = session('cdopmbase');
@@ -353,7 +353,6 @@ class DesercaoRepository extends BaseRepository
         }
         return $registros;
     }
-
 
 }
 

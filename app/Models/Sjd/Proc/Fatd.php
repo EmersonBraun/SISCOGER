@@ -12,43 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class Fatd
- * 
- * @property int $id_fatd
- * @property int $id_andamento
- * @property int $id_andamentocoger
- * @property int $sjd_ref
- * @property int $sjd_ref_ano
- * @property \Carbon\Carbon $fato_data
- * @property \Carbon\Carbon $abertura_data
- * @property string $sintese_txt
- * @property string $cdopm
- * @property string $doc_tipo
- * @property string $doc_numero
- * @property string $doc_origem_txt
- * @property string $despacho_numero
- * @property \Carbon\Carbon $portaria_data
- * @property string $fato_file
- * @property string $relatorio_file
- * @property string $sol_cmt_file
- * @property string $sol_cg_file
- * @property string $rec_ato_file
- * @property string $rec_cmt_file
- * @property string $rec_crpm_file
- * @property string $rec_cg_file
- * @property string $opm_meta4
- * @property string $notapunicao_file
- * @property string $publicacaonp
- * @property int $prioridade
- * @property string $situacao_fatd
- * @property string $motivo_fatd
- * @property string $motivo_outros
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Fatd extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $table = 'fatd';
 	protected $primaryKey = 'id_fatd';
 	public $timestamps = false;
@@ -64,7 +33,8 @@ class Fatd extends Eloquent
 	protected $dates = [
 		'fato_data',
 		'abertura_data',
-		'portaria_data'
+        'portaria_data',
+        'deleted_at'
     ];
     
     public static $files = [

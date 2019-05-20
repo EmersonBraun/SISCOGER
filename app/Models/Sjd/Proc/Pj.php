@@ -12,20 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class Pj
- * 
- * @property int $id_pj
- * @property int $id_pad
- * @property string $cnpj
- * @property string $razaosocial
- * @property string $contato
- * @property string $telefone
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Pj extends Eloquent
 {	
+    use SoftDeletes;
+
 	protected $table = 'pj';
 	protected $primaryKey = 'id_pj';
 	public $timestamps = false;
@@ -34,6 +26,8 @@ class Pj extends Eloquent
 		'id_pad' => 'int'
 	];
 
+    protected $dates = ['deleted_at'];
+    
 	protected $fillable = [
 		'id_pad',
 		'cnpj',

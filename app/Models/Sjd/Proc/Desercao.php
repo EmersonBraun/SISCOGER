@@ -12,34 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class Desercao
- * 
- * @property int $id_desercao
- * @property int $id_andamento
- * @property int $id_andamentocoger
- * @property int $sjd_ref
- * @property int $sjd_ref_ano
- * @property string $cdopm
- * @property \Carbon\Carbon $fato_data
- * @property string $doc_tipo
- * @property string $doc_numero
- * @property string $termo_exclusao
- * @property string $termo_exclusao_pub
- * @property string $termo_captura
- * @property string $termo_captura_pub
- * @property string $pericia
- * @property string $pericia_pub
- * @property string $termo_inclusao
- * @property string $termo_inclusao_pub
- * @property string $opm_meta4
- * @property string $referenciavajme
- * @property int $prioridade
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Desercao extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $table = 'desercao';
 	protected $primaryKey = 'id_desercao';
 	public $timestamps = false;
@@ -53,7 +31,8 @@ class Desercao extends Eloquent
 	];
 
 	protected $dates = [
-		'fato_data'
+        'fato_data',
+        'deleted_at'
 	];
 
 	protected $fillable = [

@@ -12,55 +12,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
-/**
- * Class It
- * 
- * @property int $id_it
- * @property int $id_andamento
- * @property int $id_andamentocoger
- * @property string $cdopm
- * @property int $sjd_ref
- * @property int $sjd_ref_ano
- * @property \Carbon\Carbon $fato_data
- * @property \Carbon\Carbon $abertura_data
- * @property string $vtr_placa
- * @property string $vtr_prefixo
- * @property string $vtr_propriedade
- * @property string $portaria_numero
- * @property string $boletiminterno_numero
- * @property \Carbon\Carbon $boletiminterno_data
- * @property string $tipo_acidente
- * @property string $avarias
- * @property string $situacao_objeto
- * @property string $sintese_txt
- * @property string $br_numero
- * @property string $situacaoviatura
- * @property string $acordoamigavel
- * @property int $id_causa_acidente
- * @property int $id_resp_civil
- * @property string $arquivo_numero
- * @property string $protocolo_numero
- * @property string $acaojudicial
- * @property string $danoestimado_rs
- * @property string $danoreal_rs
- * @property string $opm_meta4
- * @property string $objetoprocedimento
- * @property string $identificacao_arma
- * @property string $identificacao_municao
- * @property string $identificacao_semovente
- * @property string $outros
- * @property string $relatorio_file
- * @property \Carbon\Carbon $relatorio_data
- * @property string $solucao_unidade_file
- * @property \Carbon\Carbon $solucao_unidade_data
- * @property string $solucao_complementar_file
- * @property \Carbon\Carbon $solucao_complementar_data
- * @property int $prioridade
- *
- * @package App\Models
- */
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 class It extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $table = 'it';
 	protected $primaryKey = 'id_it';
 	public $timestamps = false;
@@ -81,7 +38,8 @@ class It extends Eloquent
 		'boletiminterno_data',
 		'relatorio_data',
 		'solucao_unidade_data',
-		'solucao_complementar_data'
+        'solucao_complementar_data',
+        'deleted_at'
     ];
     
     public static $files = [

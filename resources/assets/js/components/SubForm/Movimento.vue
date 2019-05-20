@@ -111,6 +111,7 @@
         },
         mounted(){
             this.verifyOnly
+            this.dadosSession
             this.listMovimento()
         },
         computed:{
@@ -143,6 +144,10 @@
                 }else{
                     this.only = false
                 }      
+            },
+            dadosSession(){
+                let session = JSON.parse(sessionStorage.getItem("session"))
+                this.rg = session.rg
             },
         },
         methods: {
