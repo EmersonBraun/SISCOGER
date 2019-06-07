@@ -1,10 +1,11 @@
-webpackJsonp([12],{
+webpackJsonp([13],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/ProcedOrigem.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_js__ = __webpack_require__("./resources/assets/js/mixins.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -120,7 +121,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_js__["a" /* default */]],
     props: {
         unique: { type: Boolean, default: false }
     },
@@ -132,12 +135,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             ref: '',
             ano: '',
             opm: '',
-            dproc: '',
-            dref: '',
-            dano: '',
             action: 'editar',
-            procedimentos: [],
-            add: false
+            procedimentos: []
         }, _defineProperty(_ref, 'action', 'proc'), _defineProperty(_ref, 'params', ''), _defineProperty(_ref, 'finded', false), _defineProperty(_ref, 'counter', 0), _defineProperty(_ref, 'id_proc', ''), _defineProperty(_ref, 'idp', ''), _defineProperty(_ref, 'origin', ''), _defineProperty(_ref, 'only', false), _ref;
     },
 
@@ -165,7 +164,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var _this = this;
 
             this.opm = '';
-            var searchUrl = this.getBaseUrl() + 'api/dados/proc/' + this.proc + '/' + this.ref + '/' + this.ano;
+            var searchUrl = this.getBaseUrl + 'api/dados/proc/' + this.proc + '/' + this.ref + '/' + this.ano;
             if (this.proc && this.ref && this.ano) {
                 axios.get(searchUrl).then(function (response) {
                     _this.opm = response.data.opm;
@@ -179,7 +178,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         createProc: function createProc() {
             var _this2 = this;
 
-            var urlCreate = this.getBaseUrl() + 'api/ligacao/store';
+            var urlCreate = this.getBaseUrl + 'api/ligacao/store';
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
@@ -194,7 +193,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         listProc: function listProc() {
             var _this3 = this;
 
-            var urlIndex = this.getBaseUrl() + 'api/ligacao/list/' + this.dproc + '/' + this.dref + '/' + this.dano;
+            var urlIndex = this.getBaseUrl + 'api/ligacao/list/' + this.dprocl + '/' + this.dref + '/' + this.dano;
             axios.get(urlIndex).then(function (response) {
                 _this3.procedimentos = response.data;
             }).then(this.clear) //limpa a busca
@@ -203,13 +202,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
         },
         showProc: function showProc(proc, ref, ano) {
-            var urlIndex = this.getBaseUrl() + proc + '/' + this.action + '/' + ref + '/' + ano;
+            var urlIndex = '' + this.getBaseUrl + proc + '/' + this.action + '/' + ref + '/' + ano;
             window.open(urlIndex, "_blank");
         },
 
         // apagar arquivo
         removeProc: function removeProc(id) {
-            var urlDelete = this.getBaseUrl() + 'api/ligacao/destroy/' + id;
+            var urlDelete = this.getBaseUrl + 'api/ligacao/destroy/' + id;
             axios.delete(urlDelete).then(this.listProc) //chama list para atualizar
             .catch(function (error) {
                 return console.log(error);
@@ -234,19 +233,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.ref = '';
             this.ano = '';
             this.opm = '';
-        },
-        getBaseUrl: function getBaseUrl() {
-            // URL completa
-            var getUrl = window.location;
-            // dividir em array
-            var pathname = getUrl.pathname.split('/');
-            this.action = pathname[3];
-            this.dproc = pathname[2];
-            this.dref = pathname[4];
-            this.dano = pathname[5];
-            var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + pathname[1] + "/";
-
-            return baseUrl;
         }
     },
     watch: {
@@ -268,7 +254,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1329,6 +1315,50 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
+
+/***/ }),
+
+/***/ "./resources/assets/js/mixins.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            action: '',
+            dproc: '',
+            dref: '',
+            dano: '',
+            add: false,
+            admin: false,
+            rg: ''
+        };
+    },
+
+    computed: {
+        getBaseUrl: function getBaseUrl() {
+            // URL completa
+            var getUrl = window.location;
+            // dividir em array
+            var pathname = getUrl.pathname.split('/');
+            this.action = pathname[3];
+            this.dproc = pathname[2];
+            this.dref = pathname[4];
+            this.dano = pathname[5];
+
+            var baseUrl = getUrl.protocol + '//' + getUrl.host + '/' + pathname[1] + '/';
+
+            return baseUrl;
+        }
+    },
+    methods: {
+        dadosSession: function dadosSession() {
+            var session = this.$root.getSessionData();
+            this.admin = session.is_admin;
+            this.rg = session.rg;
+        }
+    }
+});
 
 /***/ })
 

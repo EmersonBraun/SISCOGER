@@ -38,34 +38,7 @@ class ItRepository extends BaseRepository
 
     public static function cleanCache()
 	{
-        $proc = 'it';
-        $unidade = session('cdopmbase');
-        $ano = (int) date('Y');
-        $caches = [
-            'todos_'.$proc,
-            'todos_'.$proc.$unidade,
-            'todos_'.$proc.$ano,
-            'todos_'.$proc.$ano.$unidade,
-            'andamento_'.$proc,
-            'andamento_'.$proc.$unidade,
-            'andamento_'.$proc.$ano,
-            'andamento_'.$proc.$ano.$unidade,
-            'julgamento_'.$proc,
-            'julgamento_'.$proc.$unidade,
-            'julgamento_'.$proc.$ano,
-            'julgamento_'.$proc.$ano.$unidade,
-            'prazo_'.$proc,
-            'prazo_'.$proc.$unidade,
-            'prazo_'.$proc.$ano,
-            'prazo_'.$proc.$ano.$unidade,
-        ];
-
-        foreach ($caches as $cache) 
-        {
-           $clean = Cache::forget($cache);
-           $fail = (!$clean) ? true : false;
-        }
-        return $fail;
+        Cache::tags('it')->flush();
     }
     
     public function all()
@@ -75,13 +48,13 @@ class ItRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('todos_it', self::$expiration, function() {
+            $registros = Cache::tags('it')->remember('todos_it', self::$expiration, function() {
                 return $this->model->all();
             });
         }
         else 
         {
-            $registros = Cache::remember('todos_it'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('it')->remember('todos_it:'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')->get();
             });
         }
@@ -96,13 +69,13 @@ class ItRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('todos_it'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('it')->remember('todos_it:'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         else 
         {
-            $registros = Cache::remember('todos_it'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('it')->remember('todos_it:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
@@ -116,13 +89,13 @@ class ItRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('todos_it', self::$expiration, function() {
+            $registros = Cache::tags('it')->remember('todos_it', self::$expiration, function() {
                 return $this->model->where('objetoprocedimento','=','viatura')->get();
             });
         }
         else 
         {
-            $registros = Cache::remember('todos_it'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('it')->remember('todos_it:'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('objetoprocedimento','=','viatura')
                 ->where('cdopm','like',$unidade.'%')->get();
             });
@@ -138,7 +111,7 @@ class ItRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('andamento_it', self::$expiration, function() {
+            $registros = Cache::tags('it')->remember('andamento_it', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_it', '=', 'it.id_it')
@@ -149,7 +122,7 @@ class ItRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_it'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('it')->remember('andamento_it:'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_it', '=', 'it.id_it')
@@ -168,7 +141,7 @@ class ItRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('andamento_it'.$ano, self::$expiration, function() use ($ano){
+            $registros = Cache::tags('it')->remember('andamento_it:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_it', '=', 'it.id_it')
@@ -179,7 +152,7 @@ class ItRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_it'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('it')->remember('andamento_it:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -199,7 +172,7 @@ class ItRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('julgamento_it', self::$expiration, function() {
+            $registros = Cache::tags('it')->remember('julgamento_it', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_it', '=', 'it.id_it')
@@ -212,7 +185,7 @@ class ItRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_it'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('it')->remember('julgamento_it:'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_it', '=', 'it.id_it')
@@ -233,7 +206,7 @@ class ItRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('julgamento_it'.$ano, self::$expiration, function() use ($ano){
+            $registros = Cache::tags('it')->remember('julgamento_it:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_it', '=', 'it.id_it')
@@ -246,7 +219,7 @@ class ItRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_it'.$ano.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('it')->remember('julgamento_it:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade,$ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -272,7 +245,7 @@ class ItRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('prazo_it', self::$expiration, function() {
+            $registros = Cache::tags('it')->remember('prazo_it', self::$expiration, function() {
                 return $this->model
                     ->selectRaw('DISTINCT it.*, 
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_it=it.id_it ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -293,7 +266,7 @@ class ItRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('prazo_it'.$unidade, self::$expiration, function() use ($unidade){
+            $registros = Cache::tags('it')->remember('prazo_it:'.$unidade, self::$expiration, function() use ($unidade){
                 return $this->model
                     ->selectRaw('DISTINCT it.*, 
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_it=it.id_it ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -327,7 +300,7 @@ class ItRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('prazo_it'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('it')->remember('prazo_it:'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model
                     ->selectRaw('DISTINCT it.*, 
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_it=it.id_it ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -350,7 +323,7 @@ class ItRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('prazo_it'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('it')->remember('prazo_it:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano){
                 return $this->model
                     ->selectRaw('DISTINCT it.*, 
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_it=it.id_it ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  

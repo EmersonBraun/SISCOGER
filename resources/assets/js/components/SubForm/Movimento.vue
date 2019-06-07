@@ -87,25 +87,21 @@
 </template>
 
 <script>
+    import mixin from '../../mixins.js'
     import {Datepicker} from '../Vuestrap/Datepicker'
     export default {
+        mixins: [mixin],
         components: {Datepicker},
         props: {
             unique: {type: Boolean, default: false},
-            admin: {type: Number, default: 0},
             opm: {type: String, default: ''},
-            rg: {type: String, default: ''},
             idp: {type: String, default: ''},
         },
         data() {
             return {
                 data: '',
                 descricao: '',
-                dproc: '',
-                dref: 0,
-                dano: 0,
                 movimentos: [],
-                add: false,
                 only: false,
             }
         },
@@ -124,20 +120,6 @@
                 today = dd + '/' + mm + '/' + yyyy;
                 return today
             },
-            getBaseUrl(){
-                // URL completa
-                let getUrl = window.location;
-                // dividir em array
-                let pathname = getUrl.pathname.split('/')
-                this.action = pathname[3]
-                this.dproc = pathname[2]
-                this.dref = pathname[4]
-                this.dano = pathname[5]
-                
-                let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + pathname[1]+"/";
-                
-            return baseUrl;
-            },
             verifyOnly(){     
                 if(this.unique == true){
                     this.only = true
@@ -145,15 +127,11 @@
                     this.only = false
                 }      
             },
-            dadosSession(){
-                let session = JSON.parse(sessionStorage.getItem("session"))
-                this.rg = session.rg
-            },
         },
         methods: {
             listMovimento(){
                 this.clear(true)
-                let urlIndex = this.getBaseUrl + 'api/movimento/list/' + this.dproc + '/' +this.idp;
+                let urlIndex = `${this.getBaseUrl}api/movimento/list/${this.dprocl}/${this.idp}`;
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)
@@ -166,7 +144,7 @@
                 }
             },
             createMovimento(){
-                let urlCreate = this.getBaseUrl + 'api/movimento/store';
+                let urlCreate = `${this.getBaseUrl}api/movimento/store`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -178,7 +156,7 @@
             removeMovimento(movimento, index){
                 let id = movimento.id_movimento ? movimento.id_movimento : false
                 if(id){
-                    let urlDelete = this.getBaseUrl + 'api/movimento/destroy/' + id
+                    let urlDelete = `${this.getBaseUrl}api/movimento/destroy/${id}`
                     axios
                     .delete(urlDelete)
                     .then(this.movimentos.splice(index,1))

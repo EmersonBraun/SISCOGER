@@ -119,8 +119,10 @@
 </template>
 
 <script>
+    import mixin from '../../mixins.js'
     import {Datepicker} from '../Vuestrap/Datepicker'
     export default {
+        mixins: [mixin],
         components: {Datepicker},
         props: {
             unique: {type: Boolean, default: false},
@@ -146,15 +148,8 @@
                     'Deslinde Criminal',
                     'outros',
                 ],
-                action: '',
-                dproc: '',
-                dref: '',
-                dano: '',
-                add: false,
                 only: false,
                 edit: '',
-                admin: false,
-                rg: ''
             }
         },
         mounted(){
@@ -163,20 +158,6 @@
             this.dadosSession()
         },
         computed:{
-            getBaseUrl(){
-                // URL completa
-                let getUrl = window.location;
-                // dividir em array
-                let pathname = getUrl.pathname.split('/')
-                this.action = pathname[3]
-                this.dproc = pathname[2]
-                this.dref = pathname[4]
-                this.dano = pathname[5]
-                
-                let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + pathname[1]+"/";
-                
-            return baseUrl;
-            },
             verifyOnly(){     
                 if(this.unique == true){
                     this.only = true
@@ -191,7 +172,7 @@
         },
         methods: {
             listSobrestamento(){
-                let urlIndex = this.getBaseUrl + 'api/sobrestamento/list/' + this.dproc + '/' +this.idp;
+                let urlIndex = `${this.getBaseUrl}api/sobrestamento/list/${this.dprocl}/${this.idp}`;
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)
@@ -204,7 +185,7 @@
                 }
             },
             createSobrestamento(){
-                let urlCreate = this.getBaseUrl + 'api/sobrestamento/store';
+                let urlCreate = `${this.getBaseUrl}api/sobrestamento/store`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -241,7 +222,7 @@
                 this.add = true
             },
             editSobrestamento(){
-                let urledit = this.getBaseUrl + 'api/sobrestamento/edit/' + this.edit;
+                let urledit = `${this.getBaseUrl}api/sobrestamento/edit/${this.edit}`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -254,7 +235,7 @@
                 .catch((error) => console.log(error));
             },
             removeSobrestamento(id, index){
-                let urlDelete = this.getBaseUrl + 'api/sobrestamento/destroy/' + id;
+                let urlDelete = `${this.getBaseUrl}api/sobrestamento/destroy/${id}`
                 axios
                 .delete(urlDelete)
                 .then(this.sobrestamentos.splice(index,1))
@@ -274,7 +255,7 @@
                 this.edit = ''
             },
             dadosSession(){
-                let session = this.$root.getSessionData()
+                let session = this.$store.getters.getSession
                 this.admin = session.is_admin
                 this.rg = session.rg
             },

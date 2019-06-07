@@ -43,13 +43,13 @@ class SobrestamentoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('todos_sobrestamento', self::$expiration, function() {
+            $registros = Cache::tags('sobrestamento')->remember('todos_sobrestamento', self::$expiration, function() {
                 return $this->model->all();
             });
         }
         else 
         {
-            $registros = Cache::remember('todos_sobrestamento_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('sobrestamento')->remember('todos_sobrestamento_'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')->get();
             });
         }
@@ -64,13 +64,13 @@ class SobrestamentoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('todos_sobrestamento'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('sobrestamento')->remember('todos_sobrestamento'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         else 
         {
-            $registros = Cache::remember('todos_sobrestamento_'.$unidade.$ano, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('sobrestamento')->remember('todos_sobrestamento_'.$unidade.$ano, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
@@ -84,7 +84,7 @@ class SobrestamentoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('andamento_sobrestamento', self::$expiration, function() {
+            $registros = Cache::tags('sobrestamento')->remember('andamento_sobrestamento', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_sobrestamento', '=', 'sobrestamento.id_sobrestamento')
@@ -95,7 +95,7 @@ class SobrestamentoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_sobrestamento_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('sobrestamento')->remember('andamento_sobrestamento_'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_sobrestamento', '=', 'sobrestamento.id_sobrestamento')
@@ -114,7 +114,7 @@ class SobrestamentoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('andamento_sobrestamento', self::$expiration, function() use ($ano){
+            $registros = Cache::tags('sobrestamento')->remember('andamento_sobrestamento', self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_sobrestamento', '=', 'sobrestamento.id_sobrestamento')
@@ -125,7 +125,7 @@ class SobrestamentoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_sobrestamento_'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('sobrestamento')->remember('andamento_sobrestamento_'.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -145,7 +145,7 @@ class SobrestamentoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('julgamento_sobrestamento', self::$expiration, function() {
+            $registros = Cache::tags('sobrestamento')->remember('julgamento_sobrestamento', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_sobrestamento', '=', 'sobrestamento.id_sobrestamento')
@@ -158,7 +158,7 @@ class SobrestamentoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_sobrestamento_'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('sobrestamento')->remember('julgamento_sobrestamento_'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_sobrestamento', '=', 'sobrestamento.id_sobrestamento')
@@ -179,7 +179,7 @@ class SobrestamentoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('julgamento_sobrestamento', self::$expiration, function() use ($ano){
+            $registros = Cache::tags('sobrestamento')->remember('julgamento_sobrestamento', self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_sobrestamento', '=', 'sobrestamento.id_sobrestamento')
@@ -192,7 +192,7 @@ class SobrestamentoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_sobrestamento_'.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('sobrestamento')->remember('julgamento_sobrestamento_'.$unidade, self::$expiration, function() use ($unidade,$ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -218,7 +218,7 @@ class SobrestamentoRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('sobrestamento_prazo_opm', self::$expiration, function() {
+            $registros = Cache::tags('sobrestamento')->remember('sobrestamento_prazo_opm', self::$expiration, function() {
                 return $this->model
                     ->selectRaw('sobrestamento.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_sobrestamento=sobrestamento.id_sobrestamento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -242,7 +242,7 @@ class SobrestamentoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('sobrestamento'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
+            $registros = Cache::tags('sobrestamento')->remember('sobrestamento'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
                 return $this->model
                 ->selectRaw('sobrestamento.*, 
                 (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_sobrestamento=sobrestamento.id_sobrestamento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -277,7 +277,7 @@ class SobrestamentoRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('sobrestamento_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('sobrestamento')->remember('sobrestamento_prazo_opm'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model
                 ->selectRaw('sobrestamento.*, 
                 (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_sobrestamento=sobrestamento.id_sobrestamento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -300,7 +300,7 @@ class SobrestamentoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('sobrestamento'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('sobrestamento')->remember('sobrestamento'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade, $ano){
                 return $this->model
                     ->selectRaw('sobrestamento.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_sobrestamento=sobrestamento.id_sobrestamento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  

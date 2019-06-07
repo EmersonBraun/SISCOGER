@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Busca;
 
 use App\User;
 
+use App\Models\Sjd\Policiais\BackupEfetivo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -28,30 +29,74 @@ class BuscaController extends Controller
         return redirect()->route('fdi.show',$rg);
     }
 
-    public function opcoesnome(Request $request)
+     //dados adicionais
+    //  public function teste()
+    //  {
+    //      $pm = DB::connection('rhparana')->table('policial')->get();
+    //      foreach ($pm as $p => $v) {
+    //         if($v['RG']){
+    //             $search = BackupEfetivo::where('rg',$v['RG'])->count();
+    //             if($search){
+    //                 $array = [
+    //                     'rg' => $v['RG'],
+    //                     'nome' => $v['NOME'],
+    //                     'cdopm' => $v['CDOPM'],
+    //                     'situacao' => 'ativo'
+    //                 ];
+    //                 BackupEfetivo::create($array);
+    //             }
+    //         }
+    //      }
+        //  $inativo = DB::connection('rhparana')->table('inativos')->get();
+        //  foreach ($inativo as $i => $v) {
+        //     if($v['CBR_NUM_RG']){
+        //         $search = BackupEfetivo::where('rg',$v['CBR_NUM_RG'])->count();
+        //         if($search){
+        //             $array = [
+        //                 'rg' => $v['CBR_NUM_RG'],
+        //                 'nome' => $v['NOME'],
+        //                 'cdopm' => NULL,
+        //                 'situacao' => 'inativo'
+        //             ];
+        //             BackupEfetivo::create($array);
+        //         }
+        //     }
+        //  }
+        //  $reserva = DB::connection('rhparana')->table('RESERVA')->get();
+        //  foreach ($reserva as $r => $v) {
+        //     if($v['UserRG']){
+        //         $search = BackupEfetivo::where('rg',$v['UserRG'])->count();
+        //         if($search){
+        //             $array = [
+        //                 'rg' => $v['UserRG'],
+        //                 'nome' => $v['nome'],
+        //                 'cdopm' => NULL,
+        //                 'situacao' => 'reserva'
+        //             ];
+        //             BackupEfetivo::create($array);
+        //         }
+        //     }
+        //  }
+         //dd($reserva);
+    //  }
+
+    public function opcoesnome(Request $request,$nome)
     {
         //código da opm sem os zeros
         $codigoOPM = $request->session()->get('cdopmbase');
         //verifica se o usuário tem permissão para ver todas unidades
         $verTodasUnidades = User::permission('todas-unidades')->count();
-        
-        $busca = $request->phrase;
 
         if ($verTodasUnidades) 
         {
-
-        $pm = DB::connection('rhparana')
-            ->table('policial')
-            ->where('nome','like', "%".$busca."%")
+        $pm = BackupEfetivo::where('nome','like', "%".$nome."%")
             ->limit(10)
             ->get();
 
         } 
         else 
         {
-            $pm = DB::connection('rhparana')
-            ->table('policial')
-            ->where('nome','like', "%".$busca."%")
+            $pm = BackupEfetivo::where('nome','like', "%".$nome."%")
             ->where('cdopm', 'like', $codigoOPM.'%')
             ->limit(10)
             ->get();           
@@ -61,30 +106,24 @@ class BuscaController extends Controller
         
     }
 
-    public function opcoesrg(Request $request)
+    public function opcoesrg(Request $request,$rg)
     {
         //código da opm sem os zeros
         $codigoOPM = $request->session()->get('cdopmbase');
         //verifica se o usuário tem permissão para ver todas unidades
         $verTodasUnidades = User::permission('todas-unidades')->count();
         
-        $busca = $request->phrase;
-
         if ($verTodasUnidades) 
         {
 
-        $pm = DB::connection('rhparana')
-            ->table('policial')
-            ->where('rg','like', "%".$busca."%")
+        $pm = BackupEfetivo::where('rg','like', "%".$rg."%")
             ->limit(10)
             ->get();
-
+        dd($pm);
         } 
         else 
         {
-            $pm = DB::connection('rhparana')
-            ->table('policial')
-            ->where('rg','like', "%".$busca."%")
+            $pm = BackupEfetivo::where('rg','like', "%".$rg."%")
             ->where('cdopm', 'like', $codigoOPM.'%')
             ->limit(10)
             ->get();           

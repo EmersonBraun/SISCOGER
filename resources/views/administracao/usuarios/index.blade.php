@@ -43,36 +43,32 @@
           <thead>
               <tr>
                   <th class='col-xs-1 col-md-1'>#</th>
-                  <th class='col-xs-2 col-md-2'>RG</th>
-                  <th class='col-xs-3 col-md-3'>Email</th>
+                  <th class='col-xs-1 col-md-1'>RG</th>
+                  <th class='col-xs-2 col-md-2'>Email</th>
                   <th class='col-xs-2 col-md-2'>Unidade</th>
                   <th class='col-xs-2 col-md-2'>Papéis</th>
-                  <th class='col-xs-2 col-md-2'>Ações</th>
+                  <th class='col-xs-4 col-md-4'>Ações</th>
               </tr>
           </thead>
 
           <tbody>
             @foreach ($users as $user)
               <tr>
-                  <td class='col-xs-2 col-md-2'>{{ $user->id }}</td>
-                  <td class='col-xs-2 col-md-2'>{{ $user->rg }}</td>
-                  <td class='col-xs-3 col-md-3'>{{ $user->email }}</td>
-                  <td class='col-xs-2 col-md-2'>{{ $user->opm_descricao }}</td>
-                  <td class='col-xs-3 col-md-3'>{{  $user->roles()->pluck('name')->implode(' ') }}</td>
-                  <td class='col-xs-2 col-md-2'>
+                  <td>{{ $user->id }}</td>
+                  <td>{{ $user->rg }}</td>
+                  <td>{{ $user->email }}</td>
+                  <td>{{ $user->opm_descricao }}</td>
+                  <td>{{ $user->roles()->pluck('name')->implode('/') }}</td>
+                  <td>
                     <div class="btn-group">
                       <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info pull-left" style="margin-right: 3px;">Editar</a>
-                      {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id] ]) !!}
-                      {!! Form::submit('Apagar', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Você tem certeza?");']) !!}
+                      {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id],'style' => 'display: inline' ]) !!}
+                      {!! Form::submit('Apagar', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Você tem certeza?");','style' => 'display: inline']) !!}
                       {!! Form::close() !!}
                   @if($user->block == '0')
-                  <p>
-                    <a href="{{ route('users.block', $user->id) }}" class="btn btn-danger" style="">Bloquear</a>
-                  </p>
+                    <a href="{{ route('users.block', $user->id) }}" class="btn btn-warning" style="">Bloquear</a>
                   @else
-                  <p>
                     <a href="{{ route('users.unblock', $user->id) }}" class="btn btn-success" style="">Desbloquear</a>
-                  </p>
                   @endif
                     </div>
                   </td>
@@ -85,11 +81,11 @@
           <tfoot>
             <tr>
                 <th class='col-xs-1 col-md-1'>#</th>
-                <th class='col-xs-2 col-md-2'>RG</th>
-                <th class='col-xs-3 col-md-3'>Email</th>
-                <th class='col-xs-2 col-md-2'>Unidade</th>
-                <th class='col-xs-3 col-md-3'>Papéis</th>
-                <th class='col-xs-2 col-md-2'>Ações</th>
+                  <th class='col-xs-1 col-md-1'>RG</th>
+                  <th class='col-xs-2 col-md-2'>Email</th>
+                  <th class='col-xs-2 col-md-2'>Unidade</th>
+                  <th class='col-xs-2 col-md-2'>Papéis</th>
+                  <th class='col-xs-4 col-md-4'>Ações</th>
             </tr>
           </tfoot>
 

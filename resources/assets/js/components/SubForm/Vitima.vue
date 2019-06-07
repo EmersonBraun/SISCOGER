@@ -158,8 +158,10 @@
 </template>
 
 <script>
+    import mixin from '../../mixins.js'
     import {TheMask} from 'vue-the-mask'
     export default {
+        mixins: [mixin],
         components: {TheMask},
         props: {
             unique: {type: Boolean, default: false},
@@ -167,7 +169,7 @@
         },
         data() {
             return {
-                rg: '',
+                
                 nome: '',
                 resultado: '',
                 sexo: '',
@@ -176,12 +178,7 @@
                 idade: '',
                 escolaridade: '',
                 vsituacao: '',
-                dproc: '',
-                dref: 0,
-                dano: 0,
-                action: '',
                 vitimas: [],
-                add: false,
                 finded: false,
                 resultado: false,
                 counter: 0,
@@ -199,20 +196,6 @@
             this.listVitima()
         },
         computed:{
-            getBaseUrl(){
-                // URL completa
-                let getUrl = window.location;
-                // dividir em array
-                let pathname = getUrl.pathname.split('/')
-                this.action = pathname[3]
-                this.dproc = pathname[2]
-                this.dref = pathname[4]
-                this.dano = pathname[5]
-                
-                let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + pathname[1]+"/";
-                
-            return baseUrl;
-            },
             verifyOnly(){     
                 if(this.unique == true){
                     this.only = true
@@ -223,7 +206,7 @@
         },
         methods: {
              listVitima(){
-                let urlIndex = this.getBaseUrl + 'api/vitima/list/' + this.dproc + '/' +this.idp;
+                let urlIndex = `${this.getBaseUrl}api/vitima/list/${this.dprocl}/${this.idp}`;
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)
@@ -236,7 +219,7 @@
                 }
             },
             createVitima(){
-                let urlCreate = this.getBaseUrl + 'api/vitima/store';
+                let urlCreate = `${this.getBaseUrl}api/vitima/store`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -262,7 +245,7 @@
                 this.add = true
             },
             editVitima(){
-                let urledit = this.getBaseUrl + 'api/vitima/edit/' + this.edit;
+                let urledit = `${this.getBaseUrl}api/vitima/edit/${this.edit}`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -275,7 +258,7 @@
                 .catch((error) => console.log(error));
             },
             removeVitima(id, index){
-                let urlDelete = this.getBaseUrl + 'api/vitima/destroy/' + id;
+                let urlDelete = `${this.getBaseUrl}api/vitima/destroy/${id}`
                 axios
                 .delete(urlDelete)
                 .then(this.vitimas.splice(index,1))

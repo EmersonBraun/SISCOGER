@@ -13,6 +13,9 @@
 @stop
 
 @section('content')
+<vue-simple-suggest mode="select">
+  </vue-simple-suggest>
+
 <div class=''>
     <h4 style="padding-left: 3%"><b>Buscar por:</b></h4>
     {{ Form::open(array('route' => array('busca.fdi'))) }}
@@ -56,5 +59,85 @@
 @stop
 
 @section('js')
-    @include('vendor.adminlte.includes.nome_rg')
+@include('vendor.adminlte.includes.vue')
+<script type="text/javascript">
+    //Função para dar opções de autocompletar o nome
+   var options = {
+    
+    url: function(phrase) {
+      return "{!! route('busca.opcoesnome') !!}";
+    },
+    
+    getValue: function(element) {
+      return element.nome+' '+element.situacao;
+    },
+
+    list: {
+        onSelectItemEvent: function() {
+            var selectedItemValue = $("#nome").getSelectedItemData().rg;
+            $("#rg").val(selectedItemValue).trigger("change");
+        },
+        onHideListEvent: function() {
+        	$("#rg").val(selectedItemValue).trigger("change");
+    	}
+    },
+    
+    ajaxSettings: {
+      dataType: "json",
+      method: "POST",
+      data: {
+            "_token": "{{ csrf_token() }}"
+        }
+    },
+    
+    preparePostData: function(data) {
+      data.phrase = $("#nome").val();
+      return data;
+    },
+    
+    requestDelay: 100
+    };
+    
+    $("#nome").easyAutocomplete(options);
+    
+    //Função para dar opções de autocompletar o rg
+    var options = {
+    
+    url: function(phrase) {
+      return "{!! route('busca.opcoesrg') !!}";
+    },
+    
+    getValue: function(element) {
+        return element.rg+' '+element.situacao;
+    },
+
+    list: {
+        onSelectItemEvent: function() {
+            var selectedItemValue = $("#rg").getSelectedItemData().nome;
+
+            $("#nome").val(selectedItemValue).trigger("change");
+        },
+        onHideListEvent: function() {
+        	$("#nome").val(selectedItemValue).trigger("change");
+    	}
+    },
+    
+    ajaxSettings: {
+      dataType: "json",
+      method: "POST",
+      data: {
+            "_token": "{{ csrf_token() }}"
+        }
+    },
+    
+    preparePostData: function(data) {
+      data.phrase = $("#rg").val();
+      return data;
+    },
+    
+    requestDelay: 100
+    };
+    
+    $("#rg").easyAutocomplete(options);
+</script>
 @stop

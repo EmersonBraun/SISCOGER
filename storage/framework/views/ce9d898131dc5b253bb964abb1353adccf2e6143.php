@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title_postfix', '| usuários'); ?>
 
 <?php $__env->startSection('content_header'); ?>
@@ -43,39 +41,35 @@
           <thead>
               <tr>
                   <th class='col-xs-1 col-md-1'>#</th>
-                  <th class='col-xs-2 col-md-2'>RG</th>
-                  <th class='col-xs-3 col-md-3'>Email</th>
+                  <th class='col-xs-1 col-md-1'>RG</th>
+                  <th class='col-xs-2 col-md-2'>Email</th>
                   <th class='col-xs-2 col-md-2'>Unidade</th>
                   <th class='col-xs-2 col-md-2'>Papéis</th>
-                  <th class='col-xs-2 col-md-2'>Ações</th>
+                  <th class='col-xs-4 col-md-4'>Ações</th>
               </tr>
           </thead>
 
           <tbody>
             <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
               <tr>
-                  <td class='col-xs-2 col-md-2'><?php echo e($user->id); ?></td>
-                  <td class='col-xs-2 col-md-2'><?php echo e($user->rg); ?></td>
-                  <td class='col-xs-3 col-md-3'><?php echo e($user->email); ?></td>
-                  <td class='col-xs-2 col-md-2'><?php echo e($user->opm_descricao); ?></td>
-                  <td class='col-xs-3 col-md-3'><?php echo e($user->roles()->pluck('name')->implode(' ')); ?></td>
-                  <td class='col-xs-2 col-md-2'>
+                  <td><?php echo e($user->id); ?></td>
+                  <td><?php echo e($user->rg); ?></td>
+                  <td><?php echo e($user->email); ?></td>
+                  <td><?php echo e($user->opm_descricao); ?></td>
+                  <td><?php echo e($user->roles()->pluck('name')->implode('/')); ?></td>
+                  <td>
                     <div class="btn-group">
                       <a href="<?php echo e(route('users.edit', $user->id)); ?>" class="btn btn-info pull-left" style="margin-right: 3px;">Editar</a>
-                      <?php echo Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id] ]); ?>
+                      <?php echo Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id],'style' => 'display: inline' ]); ?>
 
-                      <?php echo Form::submit('Apagar', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Você tem certeza?");']); ?>
+                      <?php echo Form::submit('Apagar', ['class' => 'btn btn-danger', 'onclick' => 'return confirm("Você tem certeza?");','style' => 'display: inline']); ?>
 
                       <?php echo Form::close(); ?>
 
                   <?php if($user->block == '0'): ?>
-                  <p>
-                    <a href="<?php echo e(route('users.block', $user->id)); ?>" class="btn btn-danger" style="">Bloquear</a>
-                  </p>
+                    <a href="<?php echo e(route('users.block', $user->id)); ?>" class="btn btn-warning" style="">Bloquear</a>
                   <?php else: ?>
-                  <p>
                     <a href="<?php echo e(route('users.unblock', $user->id)); ?>" class="btn btn-success" style="">Desbloquear</a>
-                  </p>
                   <?php endif; ?>
                     </div>
                   </td>
@@ -88,11 +82,11 @@
           <tfoot>
             <tr>
                 <th class='col-xs-1 col-md-1'>#</th>
-                <th class='col-xs-2 col-md-2'>RG</th>
-                <th class='col-xs-3 col-md-3'>Email</th>
-                <th class='col-xs-2 col-md-2'>Unidade</th>
-                <th class='col-xs-3 col-md-3'>Papéis</th>
-                <th class='col-xs-2 col-md-2'>Ações</th>
+                  <th class='col-xs-1 col-md-1'>RG</th>
+                  <th class='col-xs-2 col-md-2'>Email</th>
+                  <th class='col-xs-2 col-md-2'>Unidade</th>
+                  <th class='col-xs-2 col-md-2'>Papéis</th>
+                  <th class='col-xs-4 col-md-4'>Ações</th>
             </tr>
           </tfoot>
 

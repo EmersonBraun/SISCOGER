@@ -5,11 +5,12 @@ namespace App\Http\Controllers\_Api\SJD\PM;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use App\Models\Sjd\Policiais\BackupEfetivo;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
-use Ixudra\Curl\Facades\Curl;
-
+// use Ixudra\Curl\Facades\Curl;
+use App\Repositories\PolicialRepository;
 class PMApiController extends Controller
 {
     public function dados($rg)
@@ -34,6 +35,36 @@ class PMApiController extends Controller
 
     }
 
+    public function sugestrg(Request $request)
+    {
+        $dados = $request->all();
+        $data = PolicialRepository::sugestrg($dados);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);  
+    }
+
+    public function sugestnome(Request $request)
+    {
+        $dados = $request->all();
+        $data = PolicialRepository::sugestnome($dados);
+        if($data){
+            return response()->json([
+                'data' => $data,
+                'success' => true,
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);  
+    }
+
     public function cautelas($rg)
     {
         // $url = 'http://10.147.242.21/api/patrimonios/?action=1&token=ce31be1f4dbb005e0700309890b423f826dcd324&uid='.$rg;
@@ -56,7 +87,7 @@ class PMApiController extends Controller
         {
             return response()->json([
                 'success' => false,
-            ], 200);
+            ], 401);
         } 
 
         return response()->json([

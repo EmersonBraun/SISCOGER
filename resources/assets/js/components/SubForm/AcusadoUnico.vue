@@ -93,8 +93,10 @@
 </template>
 
 <script>
+    import mixin from '../../mixins.js'
     import {TheMask} from 'vue-the-mask'
     export default {
+        mixins: [mixin],
         components: {TheMask},
         props: {
             unique: {type: Boolean, default: false},
@@ -103,14 +105,9 @@
         },
         data() {
             return {
-                rg: '',
                 nome: '',
                 cargo: '',
                 proc: '',
-                dproc: '',
-                dref: 0,
-                dano: 0,
-                action: '',
                 pms: [],
                 cls: false,
                 resultado: false,
@@ -139,20 +136,6 @@
             },
         },
         computed:{
-            getBaseUrl(){
-                // URL completa
-                let getUrl = window.location;
-                // dividir em array
-                let pathname = getUrl.pathname.split('/')
-                this.action = pathname[3]
-                this.dproc = pathname[2]
-                this.dref = pathname[4]
-                this.dano = pathname[5]
-                
-                let baseUrl = `${getUrl.protocol}//${getUrl.host}/${pathname[1]}/`;
-                
-            return baseUrl;
-            },
             verifyOnly(){     
                 if(this.unique == true){
                     this.only = true

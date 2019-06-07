@@ -14,8 +14,9 @@
 //Route::get('tabelas/{conn}/{colunas?}', ['as'=>'teste','uses'=>'Testes\testeBD@tabelas']);
 // Route::get('colunas/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas']);
 // Route::get('colunas2/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas2']);
-Route::get('bd/{conn}/{nome}/{limite}/{c1?}/{oper?}{c2?}', ['as'=>'bd','uses'=>'Testes\testeBD@bd']);
-Route::get('bd/28', ['as'=>'bd','uses'=>'Testes\testeBD@a28']);
+//Route::get('bd/{conn}/{nome}/{limite}/{c1?}/{oper?}{c2?}', ['as'=>'bd','uses'=>'Testes\testeBD@bd']);
+//Route::get('bd/{cod}/{nome?}', ['as'=>'bd','uses'=>'Testes\testeBD@search']);
+Route::get('bd/qtds', ['as'=>'bd','uses'=>'Testes\testeBD@qtds']);
 // Route::get('bd/bdgeral', ['as'=>'bdgeral','uses'=>'Testes\testeBD@bdgeral']);
 
 
@@ -125,14 +126,17 @@ Route::group(['as'=>'sobrestamento.','prefix' =>'sobrestamento'],function(){
 */
 //Rotas do módulo Busca
 Route::group(['as'=>'busca.','prefix' =>'busca'],function(){
-	Route::get('pm',['as' =>'pm','uses'=>'Busca\BuscaController@pm']);
+    Route::get('pm',['as' =>'pm','uses'=>'Busca\BuscaController@pm']);
+    Route::get('teste',['as' =>'teste','uses'=>'Busca\BuscaController@teste']);
 	Route::post('fdi',['as' =>'fdi','uses'=>'Busca\BuscaController@fdi']);
 	//para trazer via ajax
 	Route::post('getpmrg/{rg}',['as' =>'getpmrg','uses'=>'Busca\BuscaController@getpmrg']);
 	//função envia rg e traz nome e posto
-	Route::post('completadados',['as' =>'completadados','uses'=>'Busca\BuscaController@completadados']);
-	Route::post('opcoesnome',['as' =>'opcoesnome','uses'=>'Busca\BuscaController@opcoesnome']);
-	Route::post('opcoesrg',['as' =>'opcoesrg','uses'=>'Busca\BuscaController@opcoesrg']);
+    Route::post('completadados',['as' =>'completadados','uses'=>'Busca\BuscaController@completadados']);
+    // opções de dados para o componente Form/SugestRg
+	Route::post('opcoes/nome',['as' =>'opcoesnome','uses'=>'Busca\BuscaController@opcoesnome']);
+    Route::post('opcoes/rg',['as' =>'opcoesrg','uses'=>'Busca\BuscaController@opcoesrg']);
+    //
 	Route::get('ofendido',['as' =>'ofendido','uses'=>'Busca\BuscaController@ofendido']);
 	Route::get('envolvido',['as' =>'envolvido','uses'=>'Busca\BuscaController@envolvido']);
 	Route::get('documentacao',['as' =>'documentacao','uses'=>'Busca\BuscaController@documentacao']);
@@ -410,7 +414,7 @@ Route::group(['as'=>'dev.','prefix' =>'dev'],function(){
 
 /*
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------
-|ROTAS SESSION - dados sessão
+|ROTAS VUE
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------
 */
 
@@ -419,7 +423,6 @@ Route::group(['as'=>'session.','prefix' =>'session'],function(){
     //para atualizar um campo de um procedimento
     Route::get('dados',['as' =>'dados','uses'=>'Dev\SessionController@dados']);
 });
-
 /*
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------
 |EXEMPLO DE TÍTULO DE MÓDULO

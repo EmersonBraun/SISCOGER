@@ -171,16 +171,25 @@ class testeBD extends Controller
 		return view('ajuda.bd',compact('res','colunas','meta4','rhparana','pass'));
 	}
     //SELECT * FROM RHPARANA.opmPMPR where CODIGO like '723%' or CODIGO like '439%';
-    public function a28(){
-        $dados = DB::connection('rhparana')
+    public function search($cod, $nome=""){
+        $query = DB::connection('rhparana')
         ->table('opmPMPR')
-        ->where('CODIGO','like','723%')
-        ->orWhere('CODIGO','like','439%')
-        ->get();
-
+        ->where('CODIGO','like',$cod.'%');
+        if($nome) $query->orWhere('ABREVIATURA','like',$nome.'%');
+        $dados = $query->get();
+ 
         return view('ajuda.a28',compact('dados'));
         
     }
+
+    public function qtds(){
+        $query = DB::connection('rhparana')
+        ->table('policial')
+        ->where('cdopm','like','907%')
+        ->count();
+        dd($query);     
+    }
+
 	public function bdgeral()
 	{
 		$meta4 = testeBD::tabelas2('meta4');

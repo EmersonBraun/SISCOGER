@@ -33,13 +33,18 @@ class OPMRepository
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
 
+    public static function cleanCache()
+	{
+        Cache::tags('opm')->flush();
+    }
+    
     //dados para formulários
     public static function get()
     {
         //tempo de cahe
         $expiration = 60 * 24 * 7; //uma semana
 
-        $opms = Cache::remember('opms_sjd', $expiration, function(){
+        $opms = Cache::tags('opm')->remember('opms_sjd', $expiration, function(){
             $opmscg = Opmpmpr::where('CODIGO','like','00%')
             ->where('CODIGO','like', '%0000000')
             ->orWhere('CODIGO','=','0010130000')  // AJ GER COMPANHIA DE COMANDO E SERVICOS
@@ -145,7 +150,7 @@ class OPMRepository
         //tempo de cahe
         $expiration = 60 * 24 * 7; //uma semana
 
-        $opms = Cache::remember('opms_'.$cdopm, $expiration, function() use($cdopm){
+        $opms = Cache::tags('opm')->remember('codigo:'.$cdopm, $expiration, function() use($cdopm){
             return Opmpmpr::where('CODIGO','like',$cdopm.'%')->first();
         });
 
@@ -157,7 +162,7 @@ class OPMRepository
         //tempo de cahe
         $expiration = 60 * 24 * 7; //uma semana
 
-        $opmCodigo = Cache::remember('codigo_'.$cdopm, $expiration, function() use($cdopm){
+        $opmCodigo = Cache::tags('opm')->remember('abreviatura:'.$cdopm, $expiration, function() use($cdopm){
              $opm = Opmpmpr::where('CODIGO','like',$cdopm.'%')->first();
              return $opm->ABREVIATURA;
         });

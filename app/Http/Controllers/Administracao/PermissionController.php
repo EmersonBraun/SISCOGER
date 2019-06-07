@@ -27,7 +27,7 @@ class PermissionController extends Controller
  
     public function create()
     {
-        $roles = Role::get()->paginate(10); //pega todos os papeis
+        $roles = Role::paginate(10); //pega todos os papeis
         return view('administracao.permissoes.create',compact('roles'));
     }
 
@@ -38,6 +38,7 @@ class PermissionController extends Controller
         ]);
 
         $name = $request['name'];
+        
         $permission = new Permission();
         $permission->name = $name;
 

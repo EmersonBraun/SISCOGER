@@ -1,12 +1,13 @@
-webpackJsonp([2,10],{
+webpackJsonp([3,11],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Movimento.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Vuestrap_Datepicker__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Datepicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Vuestrap_Datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Vuestrap_Datepicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_js__ = __webpack_require__("./resources/assets/js/mixins.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Datepicker__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Datepicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Vuestrap_Datepicker__);
 //
 //
 //
@@ -95,26 +96,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { Datepicker: __WEBPACK_IMPORTED_MODULE_0__Vuestrap_Datepicker__["Datepicker"] },
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_js__["a" /* default */]],
+    components: { Datepicker: __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Datepicker__["Datepicker"] },
     props: {
         unique: { type: Boolean, default: false },
-        admin: { type: Number, default: 0 },
         opm: { type: String, default: '' },
-        rg: { type: String, default: '' },
         idp: { type: String, default: '' }
     },
     data: function data() {
         return {
             data: '',
             descricao: '',
-            dproc: '',
-            dref: 0,
-            dano: 0,
             movimentos: [],
-            add: false,
             only: false
         };
     },
@@ -134,30 +131,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             today = dd + '/' + mm + '/' + yyyy;
             return today;
         },
-        getBaseUrl: function getBaseUrl() {
-            // URL completa
-            var getUrl = window.location;
-            // dividir em array
-            var pathname = getUrl.pathname.split('/');
-            this.action = pathname[3];
-            this.dproc = pathname[2];
-            this.dref = pathname[4];
-            this.dano = pathname[5];
-
-            var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + pathname[1] + "/";
-
-            return baseUrl;
-        },
         verifyOnly: function verifyOnly() {
             if (this.unique == true) {
                 this.only = true;
             } else {
                 this.only = false;
             }
-        },
-        dadosSession: function dadosSession() {
-            var session = JSON.parse(sessionStorage.getItem("session"));
-            this.rg = session.rg;
         }
     },
     methods: {
@@ -165,7 +144,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.clear(true);
-            var urlIndex = this.getBaseUrl + 'api/movimento/list/' + this.dproc + '/' + this.idp;
+            var urlIndex = this.getBaseUrl + 'api/movimento/list/' + this.dprocl + '/' + this.idp;
             if (this.dproc && this.idp) {
                 axios.get(urlIndex).then(function (response) {
                     _this.movimentos = response.data;
@@ -592,7 +571,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1826,6 +1805,50 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
+
+/***/ }),
+
+/***/ "./resources/assets/js/mixins.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            action: '',
+            dproc: '',
+            dref: '',
+            dano: '',
+            add: false,
+            admin: false,
+            rg: ''
+        };
+    },
+
+    computed: {
+        getBaseUrl: function getBaseUrl() {
+            // URL completa
+            var getUrl = window.location;
+            // dividir em array
+            var pathname = getUrl.pathname.split('/');
+            this.action = pathname[3];
+            this.dproc = pathname[2];
+            this.dref = pathname[4];
+            this.dano = pathname[5];
+
+            var baseUrl = getUrl.protocol + '//' + getUrl.host + '/' + pathname[1] + '/';
+
+            return baseUrl;
+        }
+    },
+    methods: {
+        dadosSession: function dadosSession() {
+            var session = this.$root.getSessionData();
+            this.admin = session.is_admin;
+            this.rg = session.rg;
+        }
+    }
+});
 
 /***/ })
 

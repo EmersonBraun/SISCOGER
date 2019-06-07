@@ -125,7 +125,7 @@
                                 <td>{{ s.nome }}</td>
                                 <td>{{ s.cargo }}</td>
                                 <td>
-                                    <i class="fa fa-sign-out" style="color: red"></i>{{ s.situacao }}</br>
+                                    <i class="fa fa-sign-out" style="color: red"></i>{{ s.situacao }}<br>
                                     <i class="fa fa-sign-in" style="color: green"></i>{{ s.rg_substituto }}
                                 </td>
                                 <td>
@@ -150,26 +150,22 @@
 </template>
 
 <script>
+    import mixin from '../../mixins.js'
     import {TheMask} from 'vue-the-mask'
     export default {
+        mixins: [mixin],
         components: {TheMask},
         props: {
             unique: {type: Boolean, default: false},
             idp: {type: String, default: ''},
         },
         data() {
-            return {
-                rg: '',
+            return {    
                 nome: '',
                 cargo: '',
                 proc: '',
-                dproc: '',
-                dref: 0,
-                dano: 0,
-                action: '',
                 pms: [],
                 subs: [],
-                add: false,
                 finded: false,
                 situacao: false,
                 counter: 0,
@@ -201,20 +197,6 @@
             },
         },
         computed:{
-            getBaseUrl(){
-                // URL completa
-                let getUrl = window.location;
-                // dividir em array
-                let pathname = getUrl.pathname.split('/')
-                this.action = pathname[3]
-                this.dproc = pathname[2]
-                this.dref = pathname[4]
-                this.dano = pathname[5]
-                
-                let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + pathname[1]+"/";
-                
-            return baseUrl;
-            },
             verifyOnly(){     
                 if(this.unique == true){
                     this.only = true
@@ -225,7 +207,7 @@
         },
         methods: {
             searchPM(){
-                let searchUrl = this.getBaseUrl + 'api/dados/pm/' + this.rg ;
+                let searchUrl = `${this.getBaseUrl}api/dados/pm/${this.rg}`
                 if(this.rg.length > 5){
                     if(this.substituido && this.rg == this.rgsubs){
                         this.nome = 'Inválido - Mesmo RG informado'
@@ -251,7 +233,7 @@
                 }
             },
             listPM(){
-                let urlIndex = this.getBaseUrl + 'api/dados/membros/' + this.dproc + '/' +this.idp;
+                let urlIndex = `${this.getBaseUrl}api/dados/membros/${this.dprocl}/${this.idp}`;
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)
@@ -269,7 +251,7 @@
                 } 
             },
             createPM(){  
-                let urlCreate = this.getBaseUrl + 'api/membros/store';
+                let urlCreate = `${this.getBaseUrl}api/membros/store`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -280,13 +262,13 @@
                 
             },
             showPM(rg){
-                let urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';                
+                let urlIndex = `${this.getBaseUrl}fdi/' + rg + '/ver`                
                 window.open(urlIndex, "_blank")
             },
             removePM(id, situacao, index){
                 this.clear(false)//limpa a busca
                 
-                let urlDelete = this.getBaseUrl + 'api/membros/destroy/' + id;
+                let urlDelete = `${this.getBaseUrl}api/membros/destroy/${id}`
                 axios
                 .delete(urlDelete)
                 .then(this.updateSituacao(situacao,'remove'))
@@ -304,7 +286,7 @@
                 this.situacoes = situacoes.filter(a => !this.usados.includes(a))
             },
             replacePM(pm, index){
-                this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
+                this.titleSubstitute=` - Substituição do ${pm.situacao} ${pm.nome}`
                 this.substituido = true
                 this.rgsubs= pm.rg
                 this.nomesubs= pm.nome

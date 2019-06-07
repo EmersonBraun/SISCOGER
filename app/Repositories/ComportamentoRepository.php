@@ -36,9 +36,14 @@ class ComportamentoRepository extends BaseRepository
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
     
+    public static function cleanCache()
+	{
+        Cache::tags('comportamento')->flush();
+    }
+
     public static function comportamentos($unidade)
     {
-        $rgs = Cache::remember('rgs'.$unidade, self::$expiration, function() use ($unidade){
+        $rgs = Cache::tags('comportamento')->remember('rgs:'.$unidade, self::$expiration, function() use ($unidade){
 
             try {
                 $rgs = DB::connection('rhparana')
@@ -66,7 +71,7 @@ class ComportamentoRepository extends BaseRepository
 
         //dd($rgs);
 
-        $comportamentos = Cache::remember('comportamentos'.$unidade, self::$expiration, function() use ($rgs){
+        $comportamentos = Cache::tags('comportamento')->remember('comportamentos:'.$unidade, self::$expiration, function() use ($rgs){
            /*busca na VIEW comportamento_tempo que é a junção das tabelas 
             *comportamento e comportamentopm
             */

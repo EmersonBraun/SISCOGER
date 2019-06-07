@@ -39,7 +39,7 @@ class PolicialRepository extends BaseRepository
     //EFETIVO
     public static function efetivoOPM($unidade)
     {
-        $efetivo = Cache::remember('efetivo'.$unidade, self::$expiration, function() use ($unidade){
+        $efetivo = Cache::tags('policial')->remember('efetivo:'.$unidade, self::$expiration, function() use ($unidade){
 
             return $this->model
             ->select('cargo', DB::raw('count(cargo) AS qtd'))
@@ -56,7 +56,7 @@ class PolicialRepository extends BaseRepository
     //TOTAL EFETIVO
     public static function totalEfetivoOPM($unidade)
     {
-        $total_efetivo = Cache::remember('total_efetivo'.$unidade, self::$expiration, function() use ($unidade){
+        $total_efetivo = Cache::tags('policial')->remember('total_efetivo:'.$unidade, self::$expiration, function() use ($unidade){
 
             return $this->model
             ->select(DB::raw('count(cargo) AS qtd'))
@@ -68,130 +68,143 @@ class PolicialRepository extends BaseRepository
     //dados principais do policial
     public static function get($rg)
     {
-        //busca primeiro nos ATIVOS
-        $pm = DB::connection('rhparana')
-            ->table('policial')
-            ->where('rg','=', $rg)
-            ->first();
-        //caso não encontre busca nos INATIVOS
-        if(is_null($pm))
+        $militar_estadual = Cache::remember('fdi:'.$rg, self::$expiration, function() use ($rg)
         {
-            $inativo = DB::connection('rhparana')
-            ->table('inativos')
-            ->where('CBR_NUM_RG','=', $rg)
-            ->first();
-
-            //caso não encontre nos inativos busca na RESERVA
-            if (is_null($inativo)) 
+            //busca primeiro nos ATIVOS
+            $pm = DB::connection('rhparana')->table('policial')->where('rg','=', $rg)->first();
+            //caso não encontre busca nos INATIVOS
+            if(is_null($pm))
             {
-                $reserva = DB::connection('rhparana')
-                ->table('RESERVA')
-                ->where('UserRG','=', $rg)
-                ->first();
-
-                //Caso não encontre NÃO HÁ DADOS
-                if (is_null($reserva)) 
+                $inativo = DB::connection('rhparana')->table('inativos')->where('CBR_NUM_RG','=', $rg)->first();
+                //caso não encontre nos inativos busca na RESERVA
+                if (is_null($inativo)) 
                 {
-                    $encontrado = false;
-                    //cria objeto com dados vazios
-                    $pm = (object) [
-                        'CARGO' => 'Não encontrado',
-                        'QUADRO' => 'Não encontrado',
-                        'SUBQUADRO' => 'Não encontrado',
-                        'NOME' => 'Não encontrado',
-                        'RG' => 'Não encontrado',
-                        'OPM_DESCRICAO' => '-',
-                        'NASCIMENTO' => 'Não encontrado',
-                        'ADMISSAO_REAL' => '',
-                        'CIDADE' => 'Não encontrado',
-                        'EMAIL_META4' => '-',
-                        'SEXO' => 'Não encontrado',
-                        'STATUS' => "Não encontrado - Buscado em Ativo, Inativo e Reserva",
+                    $reserva = DB::connection('rhparana')->table('RESERVA')->where('UserRG','=', $rg)->first();
+
+                    //Caso não encontre NÃO HÁ DADOS
+                    if (is_null($reserva)) 
+                    {
+                        $encontrado = false;
+                        $tabela = null;
+                        //cria objeto com dados vazios
+                        $pm = (object) [
+                            'CARGO' => 'Não encontrado',
+                            'QUADRO' => 'Não encontrado',
+                            'SUBQUADRO' => 'Não encontrado',
+                            'NOME' => 'Não encontrado',
+                            'RG' => 'Não encontrado',
+                            'OPM_DESCRICAO' => '-',
+                            'NASCIMENTO' => 'Não encontrado',
+                            'ADMISSAO_REAL' => '',
+                            'CIDADE' => 'Não encontrado',
+                            'EMAIL_META4' => '-',
+                            'SEXO' => 'Não encontrado',
+                            'STATUS' => "Não encontrado - Buscado em Ativo, Inativo e Reserva",
+                            ];
+                    } 
+                    else 
+                    {
+                        $encontrado = true;
+                        $tabela = 'Reserva';
+                        //cria objeto com dados do reserva
+                        $pm = (object) [
+                            'CARGO' => $reserva['posto'],
+                            'QUADRO' => $reserva['quadro'],
+                            'SUBQUADRO' => $reserva['subquadro'],
+                            'NOME' => $reserva['nome'],
+                            'RG' => $reserva['UserRG'],
+                            'OPM_DESCRICAO' => '-',
+                            'NASCIMENTO' => '',
+                            'ADMISSAO_REAL' => $reserva['data'],
+                            'CIDADE' => '-',
+                            'EMAIL_META4' => '-',
+                            'SEXO' => '-',
+                            'STATUS' => "Reserva",
+                            'SITUACAO' => "Normal",
                         ];
+                    }
                 } 
                 else 
                 {
                     $encontrado = true;
-                    //cria objeto com dados do reserva
+                    $tabela = 'Inativo';
+                    //cria objeto com dados do inativo
                     $pm = (object) [
-                        'CARGO' => $reserva['posto'],
-                        'QUADRO' => $reserva['quadro'],
-                        'SUBQUADRO' => $reserva['subquadro'],
-                        'NOME' => $reserva['nome'],
-                        'RG' => $reserva['UserRG'],
-                        'OPM_DESCRICAO' => '-',
-                        'NASCIMENTO' => '',
-                        'ADMISSAO_REAL' => $reserva['data'],
-                        'CIDADE' => '-',
-                        'EMAIL_META4' => '-',
-                        'SEXO' => '-',
-                        'STATUS' => "Reserva",
-                        'SITUACAO' => "Normal",
-                        ];
-                }
-                
-            } 
-            else 
+                    'CARGO' => $inativo['cargo'],
+                    'QUADRO' => $inativo['QUADRO'],
+                    'SUBQUADRO' => 'RR',
+                    'NOME' => $inativo['NOME'],
+                    'RG' => $inativo['CBR_NUM_RG'],
+                    'OPM_DESCRICAO' => '-',
+                    'NASCIMENTO' => $inativo['DT_NASC'],
+                    'ADMISSAO_REAL' => $inativo['DT_INI_RH'],
+                    'CIDADE' => $inativo['END_CIDADE'],
+                    'EMAIL_META4' => '-',
+                    'SEXO' => $inativo['SEXO'],
+                    'END_RUA' => $inativo['END_LOGRADOURO'],
+                    'END_NUM' => $inativo['END_NUMERO'],
+                    'END_COMPL' => $inativo['END_COMPL'],
+                    'END_BAIRRO' => $inativo['END_BAIRRO'],
+                    'END_CIDADE' => $inativo['END_CIDADE'],
+                    'END_CEP' => $inativo['END_CEP'],
+                    'FONE' => $inativo['FONE'],
+                    'STATUS' => "Inativo",
+                    'SITUACAO' => "Normal",
+                    ];
+                }        
+            }
+            else
             {
                 $encontrado = true;
-                //cria objeto com dados do inativo
-                $pm = (object) [
-                'CARGO' => $inativo['cargo'],
-                'QUADRO' => $inativo['QUADRO'],
-                'SUBQUADRO' => 'RR',
-                'NOME' => $inativo['NOME'],
-                'RG' => $inativo['CBR_NUM_RG'],
-                'OPM_DESCRICAO' => '-',
-                'NASCIMENTO' => $inativo['DT_NASC'],
-                'ADMISSAO_REAL' => $inativo['DT_INI_RH'],
-                'CIDADE' => $inativo['END_CIDADE'],
-                'EMAIL_META4' => '-',
-                'SEXO' => $inativo['SEXO'],
-                'END_RUA' => $inativo['END_LOGRADOURO'],
-                'END_NUM' => $inativo['END_NUMERO'],
-                'END_COMPL' => $inativo['END_COMPL'],
-                'END_BAIRRO' => $inativo['END_BAIRRO'],
-                'END_CIDADE' => $inativo['END_CIDADE'],
-                'END_CEP' => $inativo['END_CEP'],
-                'FONE' => $inativo['FONE'],
-                'STATUS' => "Inativo",
-                'SITUACAO' => "Normal",
-                ];
-            }        
-        }
-        else
-        {
-            $encontrado = true;
-            //força ser objeto
-            $pm = (object) $pm;
-            //coloca o status e situacao
-            $pm->STATUS = 'Ativo';
-            $pm->SITUACAO = 'Normal';
-        }
-        //Idade
-        $pm->IDADE = ($encontrado) ? idade($pm->NASCIMENTO) : 'Não encontrado';
+                $tabela = 'Ativo';
+                //força ser objeto
+                $pm = (object) $pm;
+                //coloca o status e situacao
+                $pm->STATUS = 'Ativo';
+                $pm->SITUACAO = 'Normal';
+            }
+            //Idade
+            $pm->IDADE = ($encontrado) ? idade($pm->NASCIMENTO) : 'Não encontrado';
 
-        return $pm;
+            return $pm;
+        });
+        return $militar_estadual;
     }
 
-    //dados adicionais
     public static function adicionais($rg)
     {
-        $adc = DB::connection('rhparana')
-        ->table('efetivo1')
-        ->where('CBR_NUM_RG','=', $rg)
-        ->first();
+        $adc = DB::connection('rhparana')->table('efetivo1')->where('CBR_NUM_RG','=', $rg)->first();
 
         if(is_null($adc))
         {
-            $adc = DB::connection('rhparana')
-            ->table('efetivo2')
-            ->where('CBR_NUM_RG','=', $rg)
-            ->first();  
+            $adc = DB::connection('rhparana')->table('efetivo2')->where('CBR_NUM_RG','=', $rg)->first();  
         }
         $adc = (is_null($adc)) ? '' : (object) $adc;
 
         return $adc;
+    }
+
+    public static function sugestrg($dados) 
+    {
+        $result = [];
+        $pm = ($dados['ativos']) ? DB::connection('rhparana')->table('policial')->select('rg','nome')->where('rg','like', '%'.$dados['rg'].'%')->limit(5)->get()->toArray() : [];
+        $inativo = ($dados['inativos']) ? DB::connection('rhparana')->table('inativos')->select('CBR_NUM_RG as rg','nome')->where('CBR_NUM_RG','like', '%'.$dados['rg'].'%')->limit(5)->get()->toArray() : [];
+        $reserva = ($dados['reserva']) ? DB::connection('rhparana')->table('RESERVA')->select('UserRG as rg','nome')->where('UserRG','like', '%'.$dados['rg'].'%')->limit(5)->get()->toArray() : [];
+        
+        $result = array_merge($pm, $inativo, $reserva);
+        dd($result);
+    }
+
+    public static function sugestnome($dados) 
+    {
+        $result = [];
+        $pm = ($dados['ativos']) ? DB::connection('rhparana')->table('policial')->select('rg','nome')->where('nome','like', '%'.$dados['nome'].'%')->limit(5)->get()->toArray() : [];
+        $inativo = ($dados['inativos']) ? DB::connection('rhparana')->table('inativos')->select('CBR_NUM_RG as rg','nome')->where('nome','like', '%'.$dados['nome'].'%')->limit(5)->get()->toArray() : [];
+        $reserva = ($dados['reserva']) ? DB::connection('rhparana')->table('RESERVA')->select('UserRG as rg','nome')->where('nome','like', '%'.$dados['nome'].'%')->limit(5)->get()->toArray() : [];
+
+        $result = array_merge($pm, $inativo, $reserva);
+
+        dd($result);
     }
 
     public static function comportamentoAtual($pm)
@@ -244,7 +257,8 @@ class PolicialRepository extends BaseRepository
         else
         {
             $comportamentos = DB::table('comportamentopm')
-            ->leftJoin('comportamento', 'comportamento.id_comportamento', '=', 'comportamentopm.id_comportamento');
+            ->leftJoin('comportamento', 'comportamento.id_comportamento', '=', 'comportamentopm.id_comportamento')
+            ->get();
         }
         
         return $comportamentos;
@@ -593,69 +607,43 @@ class PolicialRepository extends BaseRepository
             foreach ($envolvido as $e) {
                 if ($e['id_ipm'] !== 0) {
                     $procedimento = 'ipm';
-                    $proc = DB::table('ipm')
-                    ->where('id_ipm','=', $e['id_ipm'])
-                    ->first();
+                    $proc = DB::table('ipm')->where('id_ipm','=', $e['id_ipm'])->first();
                 }elseif ($e['id_cj'] !== 0) {
                     $procedimento = 'cj';
-                    $proc = DB::table('cj')
-                    ->where('id_cj','=', $e['id_cj'])
-                    ->first();
+                    $proc = DB::table('cj')->where('id_cj','=', $e['id_cj'])->first();
                 }elseif ($e['id_cd'] !== 0) {
                     $procedimento = 'cd';
-                    $proc = DB::table('cd')
-                    ->where('id_cd','=', $e['id_cd'])
-                    ->first();
+                    $proc = DB::table('cd')->where('id_cd','=', $e['id_cd'])->first();
                 }elseif ($e['id_adl'] !== 0) {
                     $procedimento = 'adl';
-                    $proc = DB::table('adl')
-                    ->where('id_adl','=', $e['id_adl'])
-                    ->first();
+                    $proc = DB::table('adl')->where('id_adl','=', $e['id_adl'])->first();
                 }elseif ($e['id_sindicancia'] !== 0) {
                     $procedimento = 'sindicancia';
-                    $proc = DB::table('sindicancia')
-                    ->where('id_sindicancia','=', $e['id_sindicancia'])
-                    ->first();
+                    $proc = DB::table('sindicancia')->where('id_sindicancia','=', $e['id_sindicancia'])->first();
                 }elseif ($e['id_fatd'] !== 0) {
                     $procedimento = 'fatd';
-                    $proc = DB::table('fatd')
-                    ->where('id_fatd','=', $e['id_fatd'])
-                    ->first();
+                    $proc = DB::table('fatd')->where('id_fatd','=', $e['id_fatd'])->first();
                 }elseif ($e['id_desercao'] !== 0) {
                     $procedimento = 'desercao';
-                    $proc = DB::table('desercao')
-                    ->where('id_desercao','=', $e['id_desercao'])
-                    ->first();
+                    $proc = DB::table('desercao')->where('id_desercao','=', $e['id_desercao'])->first();
                 }elseif ($e['id_apfd'] !== 0) {
                     $procedimento = 'apfd';
-                    $proc = DB::table('apfd')
-                    ->where('id_apfd','=', $e['id_apfd'])
-                    ->first();
+                    $proc = DB::table('apfd')->where('id_apfd','=', $e['id_apfd'])->first();
                 }elseif ($e['id_iso'] !== 0) {
                     $procedimento = 'iso';
-                    $proc = DB::table('iso')
-                    ->where('id_iso','=', $e['id_iso'])
-                    ->first();
+                    $proc = DB::table('iso')->where('id_iso','=', $e['id_iso'])->first();
                 }elseif ($e['id_it'] !== 0) {
                     $procedimento = 'it';
-                    $proc = DB::table('it')
-                    ->where('id_it','=', $e['id_it'])
-                    ->first();
+                    $proc = DB::table('it')->where('id_it','=', $e['id_it'])->first();
                 }elseif ($e['id_pad'] !== 0) {
                     $procedimento = 'pad';
-                    $proc = DB::table('ipm')
-                    ->where('id_ipm','=', $e['id_ipm'])
-                    ->first();
+                    $proc = DB::table('ipm')->where('id_ipm','=', $e['id_ipm'])->first();
                 }elseif ($e['id_sai'] !== 0) {
                     $procedimento = 'sai';
-                    $proc = DB::table('sai')
-                    ->where('id_sai','=', $e['id_sai'])
-                    ->first();
+                    $proc = DB::table('sai')->where('id_sai','=', $e['id_sai'])->first();
                 }elseif ($e['id_proc_outros'] !== 0) {
                     $procedimento = 'proc_outros';
-                    $proc = DB::table('proc_outros')
-                    ->where('id_proc_outros','=', $e['id_proc_outros'])
-                    ->first();
+                    $proc = DB::table('proc_outros')->where('id_proc_outros','=', $e['id_proc_outros'])->first();
                 }
                 if(!isset($proc)){
                     $proc = [
@@ -717,69 +705,32 @@ class PolicialRepository extends BaseRepository
             foreach ($envolvido as $e) {
                 if ($e['id_ipm'] !== 0) {
                     $procedimento = 'ipm';
-                    $proc = DB::table('ipm')
-                    ->where('id_ipm','=', $e['id_ipm'])
-                    ->first();
+                    $proc = DB::table('ipm')->where('id_ipm','=', $e['id_ipm'])->first();
                 }elseif ($e['id_cj'] !== 0) {
-                    $procedimento = 'cj';
-                    $proc = DB::table('cj')
-                    ->where('id_cj','=', $e['id_cj'])
-                    ->first();
+                    $procedimento = 'cj';$proc = DB::table('cj')->where('id_cj','=', $e['id_cj'])->first();
                 }elseif ($e['id_cd'] !== 0) {
-                    $procedimento = 'cd';
-                    $proc = DB::table('cd')
-                    ->where('id_cd','=', $e['id_cd'])
-                    ->first();
+                    $procedimento = 'cd';$proc = DB::table('cd')->where('id_cd','=', $e['id_cd'])->first();
                 }elseif ($e['id_adl'] !== 0) {
-                    $procedimento = 'adl';
-                    $proc = DB::table('adl')
-                    ->where('id_adl','=', $e['id_adl'])
-                    ->first();
+                    $procedimento = 'adl';$proc = DB::table('adl')->where('id_adl','=', $e['id_adl'])->first();
                 }elseif ($e['id_sindicancia'] !== 0) {
-                    $procedimento = 'sindicancia';
-                    $proc = DB::table('sindicancia')
-                    ->where('id_sindicancia','=', $e['id_sindicancia'])
-                    ->first();                      
+                    $procedimento = 'sindicancia';$proc = DB::table('sindicancia')->where('id_sindicancia','=', $e['id_sindicancia'])->first(); 
                 }elseif ($e['id_fatd'] !== 0) {
-                    $procedimento = 'fatd';
-                    $proc = DB::table('fatd')
-                    ->where('id_fatd','=', $e['id_fatd'])
-                    ->first();
+                    $procedimento = 'fatd';$proc = DB::table('fatd')->where('id_fatd','=', $e['id_fatd'])->first();
                 }elseif ($e['id_desercao'] !== 0) {
-                    $procedimento = 'desercao';
-                    $proc = DB::table('desercao')
-                    ->where('id_desercao','=', $e['id_desercao'])
-                    ->first();
+                    $procedimento = 'desercao';$proc = DB::table('desercao')->where('id_desercao','=', $e['id_desercao'])->first();
                 }elseif ($e['id_apfd'] !== 0) {
-                    $procedimento = 'apfd';
-                    $proc = DB::table('apfd')
-                    ->where('id_apfd','=', $e['id_apfd'])
-                    ->first();
+                    $procedimento = 'apfd';$proc = DB::table('apfd')->where('id_apfd','=', $e['id_apfd'])->first();
                 }elseif ($e['id_iso'] !== 0) {
-                    $procedimento = 'iso';
-                    $proc = DB::table('iso')
-                    ->where('id_iso','=', $e['id_iso'])
-                    ->first();
+                    $procedimento = 'iso';$proc = DB::table('iso')->where('id_iso','=', $e['id_iso'])->first();
                 }elseif ($e['id_it'] !== 0) {
-                    $procedimento = 'it';
-                    $proc = DB::table('it')
-                    ->where('id_it','=', $e['id_it'])
-                    ->first();
+                    $procedimento = 'it';$proc = DB::table('it')->where('id_it','=', $e['id_it'])->first();
                 }elseif ($e['id_pad'] !== 0) {
-                    $procedimento = 'pad';
-                    $proc = DB::table('ipm')
-                    ->where('id_ipm','=', $e['id_ipm'])
-                    ->first();
+                    $procedimento = 'pad';$proc = DB::table('ipm')->where('id_ipm','=', $e['id_ipm'])->first();
                 }elseif ($e['id_sai'] !== 0) {
-                    $procedimento = 'sai';
-                    $proc = DB::table('sai')
-                    ->where('id_sai','=', $e['id_sai'])
-                    ->first();
+                    $procedimento = 'sai';$proc = DB::table('sai')->where('id_sai','=', $e['id_sai'])->first();
                 }elseif ($e['id_proc_outros'] !== 0) {
                     $procedimento = 'proc_outros';
-                    $proc = DB::table('proc_outros')
-                    ->where('id_proc_outros','=', $e['id_proc_outros'])
-                    ->first();
+                    $proc = DB::table('proc_outros')->where('id_proc_outros','=', $e['id_proc_outros'])->first();
                 }
                 if(!isset($proc)){
                     $proc = [
@@ -840,7 +791,7 @@ class PolicialRepository extends BaseRepository
         }
         else
         {
-            $elogios = DB::table('elogio');
+            $elogios = DB::table('elogio')->get();
         }
         
         return $elogios;

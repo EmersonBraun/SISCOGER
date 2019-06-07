@@ -21,7 +21,7 @@ export default{
             this.dref = pathname[4]
             this.dano = pathname[5]
             
-            let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + pathname[1]+"/";
+            let baseUrl = `${getUrl.protocol}//${getUrl.host}/${pathname[1]}/`;
             
         return baseUrl;
         },

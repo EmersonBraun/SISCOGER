@@ -39,7 +39,7 @@ class TransferidosRepository extends BaseRepository
     public static function semana($unidade)
     {
         //buscar dados do cache
-        $transferidos = Cache::remember('transferidos'.$unidade, self::$expiration, function() use ($unidade){
+        $transferidos = Cache::tags('transferido')->remember('transferidos'.$unidade, self::$expiration, function() use ($unidade){
             
             $date = \Carbon\Carbon::today()->subDays(7);
             $query = DB::connection('pass')->table('movimentos');

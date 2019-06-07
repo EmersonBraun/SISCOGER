@@ -12,13 +12,10 @@
   </ol>
   <br>
 </section>
-  
 @stop
 
 @section('content')
-     <!-- Content Wrapper. Contains page content -->
-  <div class="">
-    <!-- Content Header (Page header) -->
+<div class="">
 <section>
     <div class="nav-tabs-custom">
         <v-tab-menu
@@ -28,11 +25,8 @@
             {idp: 'movimentos',name: 'Movimentos'},
             {idp: 'encaminhamentos',name: 'Encaminhamentos'},
             {idp: 'arquivo',name: 'Arquivo'},
-
         ]">
-
         </v-tab-menu>
-       
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('desercao.update',$proc['id_desercao']),'method' => 'put']) !!}
@@ -96,10 +90,8 @@
             </v-tab-item>
         </div>
     </div>
-
     <div class="content-footer">
         <br>
-        
     </div>
 
 </section>

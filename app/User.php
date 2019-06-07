@@ -9,6 +9,7 @@ namespace App;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
@@ -43,6 +44,7 @@ use App\Notifications\ResetPassword;
  */
 class User extends Authenticatable 
 {
+    use SoftDeletes;
     use Notifiable;
     use HasRoles;
      //Activitylog

@@ -38,34 +38,7 @@ class IsoRepository extends BaseRepository
 
     public static function cleanCache()
 	{
-        $proc = 'iso';
-        $unidade = session('cdopmbase');
-        $ano = (int) date('Y');
-        $caches = [
-            'todos_'.$proc,
-            'todos_'.$proc.$unidade,
-            'todos_'.$proc.$ano,
-            'todos_'.$proc.$ano.$unidade,
-            'andamento_'.$proc,
-            'andamento_'.$proc.$unidade,
-            'andamento_'.$proc.$ano,
-            'andamento_'.$proc.$ano.$unidade,
-            'julgamento_'.$proc,
-            'julgamento_'.$proc.$unidade,
-            'julgamento_'.$proc.$ano,
-            'julgamento_'.$proc.$ano.$unidade,
-            'prazo_'.$proc,
-            'prazo_'.$proc.$unidade,
-            'prazo_'.$proc.$ano,
-            'prazo_'.$proc.$ano.$unidade,
-        ];
-
-        foreach ($caches as $cache) 
-        {
-           $clean = Cache::forget($cache);
-           $fail = (!$clean) ? true : false;
-        }
-        return $fail;
+        Cache::tags('iso')->flush();
     }
     
     public function all()
@@ -75,13 +48,13 @@ class IsoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('todos_iso', self::$expiration, function() {
+            $registros = Cache::tags('iso')->remember('todos_iso', self::$expiration, function() {
                 return $this->model->all();
             });
         }
         else 
         {
-            $registros = Cache::remember('todos_iso'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('iso')->remember('todos_iso:'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')->get();
             });
         }
@@ -96,13 +69,13 @@ class IsoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('todos_iso'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('iso')->remember('todos_iso:'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         else 
         {
-            $registros = Cache::remember('todos_iso'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('iso')->remember('todos_iso:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
@@ -116,7 +89,7 @@ class IsoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('andamento_iso', self::$expiration, function() {
+            $registros = Cache::tags('iso')->remember('andamento_iso', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_iso', '=', 'iso.id_iso')
@@ -127,7 +100,7 @@ class IsoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_iso'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('iso')->remember('andamento_iso:'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_iso', '=', 'iso.id_iso')
@@ -146,7 +119,7 @@ class IsoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('andamento_iso'.$ano, self::$expiration, function() use ($ano){
+            $registros = Cache::tags('iso')->remember('andamento_iso:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_iso', '=', 'iso.id_iso')
@@ -157,7 +130,7 @@ class IsoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('andamento_iso'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('iso')->remember('andamento_iso:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -177,7 +150,7 @@ class IsoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('julgamento_iso', self::$expiration, function() {
+            $registros = Cache::tags('iso')->remember('julgamento_iso', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_iso', '=', 'iso.id_iso')
@@ -190,7 +163,7 @@ class IsoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_iso'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('iso')->remember('julgamento_iso:'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_iso', '=', 'iso.id_iso')
@@ -211,7 +184,7 @@ class IsoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::remember('julgamento_iso'.$ano, self::$expiration, function() use ($ano){
+            $registros = Cache::tags('iso')->remember('julgamento_iso:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_iso', '=', 'iso.id_iso')
@@ -224,7 +197,7 @@ class IsoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('julgamento_iso'.$ano.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('iso')->remember('julgamento_iso:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade,$ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -250,7 +223,7 @@ class IsoRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('prazo_iso', self::$expiration, function() {
+            $registros = Cache::tags('iso')->remember('prazo_iso', self::$expiration, function() {
                 return $this->model
                     ->selectRaw('iso.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis')
@@ -265,7 +238,7 @@ class IsoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('prazo_iso'.$unidade, self::$expiration, function() use ($unidade){
+            $registros = Cache::tags('iso')->remember('prazo_iso:'.$unidade, self::$expiration, function() use ($unidade){
                 return $this->model
                     ->selectRaw('iso.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis')
@@ -293,7 +266,7 @@ class IsoRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::remember('prazo_iso'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('iso')->remember('prazo_iso:'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model
                     ->selectRaw('iso.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis')
@@ -309,7 +282,7 @@ class IsoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::remember('prazo_iso'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('iso')->remember('prazo_iso:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano){
                 return $this->model
                     ->selectRaw('iso.*, envolvido.cargo, envolvido.nome, 
                     (DATEDIFF(DATE(NOW()),abertura_data)+1) AS diasuteis')

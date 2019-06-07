@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import {getScrollBarWidth} from './utils/utils.js'
+import {getScrollBarWidth} from './util.js'
 
 export default {
   props: {
@@ -51,6 +51,7 @@ export default {
       }
       return this.width
     }
+    
   },
   watch: {
     transition (val, old) {

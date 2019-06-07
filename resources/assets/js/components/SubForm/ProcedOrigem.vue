@@ -111,7 +111,9 @@
 </template>
 
 <script>
+    import mixin from '../../mixins.js'
     export default {
+        mixins: [mixin],
         props: {
             unique: {type: Boolean, default: false},
         },
@@ -121,12 +123,8 @@
                 ref: '',
                 ano: '',
                 opm: '',
-                dproc: '',
-                dref: '',
-                dano: '',
                 action: 'editar',
                 procedimentos: [],
-                add: false,
                 action: 'proc',
                 params: '',
                 finded: false,
@@ -157,7 +155,7 @@
         methods: {
             searchProc(){
                 this.opm = ''
-                let searchUrl = this.getBaseUrl() + 'api/dados/proc/' + this.proc + '/' + this.ref + '/' + this.ano;
+                let searchUrl = `${this.getBaseUrl}api/dados/proc/${this.proc}/${this.ref}/${this.ano}`;
                 if(this.proc && this.ref && this.ano){
                     axios
                     .get(searchUrl)
@@ -170,7 +168,7 @@
                 }
             },
             createProc(){
-                let urlCreate = this.getBaseUrl() + 'api/ligacao/store';
+                let urlCreate = `${this.getBaseUrl}api/ligacao/store`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -184,7 +182,7 @@
             },
             // listagem dos arquivos existentes
             listProc(){
-                let urlIndex = this.getBaseUrl() + 'api/ligacao/list/' + this.dproc + '/' + this.dref + '/' + this.dano;
+                let urlIndex = `${this.getBaseUrl}api/ligacao/list/${this.dprocl}/${this.dref}/${this.dano}`
                 axios
                 .get(urlIndex)
                 .then((response) => {
@@ -195,12 +193,12 @@
                 .catch(error => console.log(error));
             },
             showProc(proc, ref, ano){
-                let urlIndex = this.getBaseUrl() + proc + '/'+ this.action +'/' + ref + '/' + ano;                
+                let urlIndex = `${this.getBaseUrl}${proc}/${this.action}/${ref}/${ano}`;                
                 window.open(urlIndex, "_blank")
             },
             // apagar arquivo
             removeProc(id){
-                let urlDelete = this.getBaseUrl() + 'api/ligacao/destroy/' + id;
+                let urlDelete = `${this.getBaseUrl}api/ligacao/destroy/${id}`
                 axios
                 .delete(urlDelete)
                 .then(this.listProc)//chama list para atualizar
@@ -225,19 +223,6 @@
                 this.ref = ''
                 this.ano = ''
                 this.opm = ''
-            },
-            getBaseUrl(){
-                // URL completa
-                let getUrl = window.location; 
-                // dividir em array
-                let pathname = getUrl.pathname.split('/')
-                this.action = pathname[3]
-                this.dproc = pathname[2]
-                this.dref = pathname[4]
-                this.dano = pathname[5]
-                let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + pathname[1]+"/";
-                
-            return baseUrl;
             },
         },
         watch: {

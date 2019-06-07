@@ -12,13 +12,10 @@
   </ol>
   <br>
 </section>
-  
 @stop
 
 @section('content')
-     <!-- Content Wrapper. Contains page content -->
-  <div class="">
-    <!-- Content Header (Page header) -->
+<div class="">
 <section>
     <div class="nav-tabs-custom">
         <v-tab-menu
@@ -32,11 +29,8 @@
             {idp: 'encaminhamentos',name: 'Encaminhamentos'},
             {idp: 'vajme',name: 'Vajme'},
             {idp: 'arquivo',name: 'Arquivo'},
-
         ]">
-
         </v-tab-menu>
-       
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('ipm.update',$proc['id_ipm']),'method' => 'put']) !!}
@@ -90,7 +84,7 @@
             </v-tab-item>
             <v-tab-item title="Indiciados" idp="indiciados">
                 <v-proced-origem></v-proced-origem><br>           
-                <v-acusado idp="{{$proc['id_ipm']}}" situacao="{{sistema('procSituacao','ipm')}}" ></v-acusado><br>
+                <v-acusado idp="{{$proc['id_ipm']}}" situacao="{{sistema('procSituacao','ipm')}}" reu></v-acusado><br>
             </v-tab-item>
             <v-tab-item title="Documentos" idp="documentos">
                 <file-upload 
@@ -103,7 +97,6 @@
                 ></file-upload>
                 <v-item-unique title="Data" proc="ipm" idp="{{$proc['id_ipm']}}" name="relato_enc_data"></v-item-unique>
                 <v-item-unique title="Conclusão do encarregado" proc="ipm" idp="{{$proc['id_ipm']}}" name="relato_enc"></v-item-unique>
-
                 <file-upload 
                 title="PDF - Solução do Cmt OPM:"
                 name="relato_cmtopm_file"
@@ -114,7 +107,6 @@
                 ></file-upload>
                 <v-item-unique title="Data" proc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtopm_data"></v-item-unique>
                 <v-item-unique title="Conclusão do Cmt. OPM" proc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtopm"></v-item-unique>
-
                 <file-upload 
                 title="PDF - Decisão do Cmt Geral:"
                 name="relato_cmtgeral_file"
@@ -137,7 +129,6 @@
                 </file-upload>
                 <v-item-unique title="Data" proc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtgeral_data"></v-item-unique>
             </v-tab-item>
-
             <v-tab-item title="Membros" idp="membros">
                 <v-membro idp="{{$proc['id_ipm']}}"></v-membro>
             </v-tab-item>
@@ -159,12 +150,9 @@
             </v-tab-item>
         </div>
     </div>
-
     <div class="content-footer">
         <br>
-        
     </div>
-
 </section>
 @stop
 

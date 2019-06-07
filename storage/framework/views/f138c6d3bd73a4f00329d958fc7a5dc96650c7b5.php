@@ -11,6 +11,9 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
+<vue-simple-suggest mode="select">
+  </vue-simple-suggest>
+
 <div class=''>
     <h4 style="padding-left: 3%"><b>Buscar por:</b></h4>
     <?php echo e(Form::open(array('route' => array('busca.fdi')))); ?>
@@ -61,6 +64,86 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>
-    <?php echo $__env->make('vendor.adminlte.includes.nome_rg', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('vendor.adminlte.includes.vue', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<script type="text/javascript">
+    //Função para dar opções de autocompletar o nome
+   var options = {
+    
+    url: function(phrase) {
+      return "<?php echo route('busca.opcoesnome'); ?>";
+    },
+    
+    getValue: function(element) {
+      return element.nome+' '+element.situacao;
+    },
+
+    list: {
+        onSelectItemEvent: function() {
+            var selectedItemValue = $("#nome").getSelectedItemData().rg;
+            $("#rg").val(selectedItemValue).trigger("change");
+        },
+        onHideListEvent: function() {
+        	$("#rg").val(selectedItemValue).trigger("change");
+    	}
+    },
+    
+    ajaxSettings: {
+      dataType: "json",
+      method: "POST",
+      data: {
+            "_token": "<?php echo e(csrf_token()); ?>"
+        }
+    },
+    
+    preparePostData: function(data) {
+      data.phrase = $("#nome").val();
+      return data;
+    },
+    
+    requestDelay: 100
+    };
+    
+    $("#nome").easyAutocomplete(options);
+    
+    //Função para dar opções de autocompletar o rg
+    var options = {
+    
+    url: function(phrase) {
+      return "<?php echo route('busca.opcoesrg'); ?>";
+    },
+    
+    getValue: function(element) {
+        return element.rg+' '+element.situacao;
+    },
+
+    list: {
+        onSelectItemEvent: function() {
+            var selectedItemValue = $("#rg").getSelectedItemData().nome;
+
+            $("#nome").val(selectedItemValue).trigger("change");
+        },
+        onHideListEvent: function() {
+        	$("#nome").val(selectedItemValue).trigger("change");
+    	}
+    },
+    
+    ajaxSettings: {
+      dataType: "json",
+      method: "POST",
+      data: {
+            "_token": "<?php echo e(csrf_token()); ?>"
+        }
+    },
+    
+    preparePostData: function(data) {
+      data.phrase = $("#rg").val();
+      return data;
+    },
+    
+    requestDelay: 100
+    };
+    
+    $("#rg").easyAutocomplete(options);
+</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('adminlte::page', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
