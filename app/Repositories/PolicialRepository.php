@@ -184,27 +184,53 @@ class PolicialRepository extends BaseRepository
         return $adc;
     }
 
-    public static function sugestrg($dados) 
+    public static function sugest($dados) 
     {
         $result = [];
-        $pm = ($dados['ativos']) ? DB::connection('rhparana')->table('policial')->select('rg','nome')->where('rg','like', '%'.$dados['rg'].'%')->limit(5)->get()->toArray() : [];
-        $inativo = ($dados['inativos']) ? DB::connection('rhparana')->table('inativos')->select('CBR_NUM_RG as rg','nome')->where('CBR_NUM_RG','like', '%'.$dados['rg'].'%')->limit(5)->get()->toArray() : [];
-        $reserva = ($dados['reserva']) ? DB::connection('rhparana')->table('RESERVA')->select('UserRG as rg','nome')->where('UserRG','like', '%'.$dados['rg'].'%')->limit(5)->get()->toArray() : [];
+        $limit = 10 / $dados['opts'];
+
+        if(in_array('ativos',$dados['tables'], true))
+        {
+            $query = DB::connection('rhparana')
+            ->table('policial')->select('rg','nome')
+            ->where($dados['type'],'like', '%'.$dados['search'].'%')
+            ->distinct($dados['type']);
+            $ativos = $query->limit(ceil($limit))->get()->toArray();
+        }
+        else 
+        {
+            $ativos = [];
+        }
+
+        if(in_array('inativos',$dados['tables'], true))
+        {
+            $type = ($dados['type'] == 'rg') ? 'CBR_NUM_RG' : 'nome';
+            $query = DB::connection('rhparana')
+            ->table('inativos')->select('CBR_NUM_RG as rg','nome')
+            ->where($type,'like', '%'.$dados['search'].'%')
+            ->distinct($type);
+            $inativos = $query->limit(floor($limit))->get()->toArray();
+        }
+        else 
+        {
+            $inativos = [];
+        }
+
+        if(in_array('reserva',$dados['tables'], true))
+        {
+            $type = ($dados['type'] == 'rg') ? 'UserRG' : 'nome';
+            $query = DB::connection('rhparana')
+            ->table('RESERVA')->select('UserRG as rg','nome')
+            ->where($type,'like', '%'.$dados['search'].'%')
+            ->distinct($type);
+            $reserva = $query->limit(floor($limit))->get()->toArray();
+        }
+        else 
+        {
+            $reserva = [];
+        }
         
-        $result = array_merge($pm, $inativo, $reserva);
-        dd($result);
-    }
-
-    public static function sugestnome($dados) 
-    {
-        $result = [];
-        $pm = ($dados['ativos']) ? DB::connection('rhparana')->table('policial')->select('rg','nome')->where('nome','like', '%'.$dados['nome'].'%')->limit(5)->get()->toArray() : [];
-        $inativo = ($dados['inativos']) ? DB::connection('rhparana')->table('inativos')->select('CBR_NUM_RG as rg','nome')->where('nome','like', '%'.$dados['nome'].'%')->limit(5)->get()->toArray() : [];
-        $reserva = ($dados['reserva']) ? DB::connection('rhparana')->table('RESERVA')->select('UserRG as rg','nome')->where('nome','like', '%'.$dados['nome'].'%')->limit(5)->get()->toArray() : [];
-
-        $result = array_merge($pm, $inativo, $reserva);
-
-        dd($result);
+        return array_merge($ativos, $inativos, $reserva);
     }
 
     public static function comportamentoAtual($pm)

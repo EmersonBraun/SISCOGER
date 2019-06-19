@@ -11,29 +11,24 @@ window.Vue = require('vue');
 require ('./components')
 require ('./filters')
 
+let currentDate = new Date().toISOString().split('T')[0]
+if(localStorage.getItem(currentDate+"session")==null){
+    let urlIndex = 'http://10.47.1.90/siscoger/session/dados';
+        axios
+        .get(urlIndex)
+        .then((response) => {
+            sessionStorage.setItem(currentDate+"session", JSON.stringify(response.data))
+            // this.$store.dispatch('changeSession',response.data)
+        })
+        .catch(error => console.log(error));
+} 
+
 const app = new Vue({
-    store,
     el: '#app',
-    mounted() {
-        this.putSessionData()
-    },
     methods: {
-        putSessionData() {
-            //let hasSession =  (sessionStorage.getItem("session") !== null) ? true : false
-            let hasSession = this.$store.state.session.length
-            if(!hasSession){
-                let urlIndex = 'http://10.47.1.90/siscoger/session/dados';
-                //console.log(urlIndex)
-                    axios
-                    .get(urlIndex)
-                    .then((response) => {
-                        this.$store.dispatch('changeSession',response.data)
-                        //sessionStorage.setItem("session", JSON.stringify(response.data))
-                        //this.session = response.data
-                        // console.log(response.data)
-                    })
-                    .catch(error => console.log(error));
-           } 
+        getSessionData() {
+            let currentDate = new Date().toISOString().split('T')[0]
+            return JSON.parse(sessionStorage.getItem(currentDate+"session"))
         },
     },
 });

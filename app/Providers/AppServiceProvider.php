@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);
         }*/
         if ($this->app->environment() == 'local') {
-            //\Debugbar::disable();
+            \Debugbar::disable();
             $this->app->register(\Reliese\Coders\CodersServiceProvider::class);
         }
 

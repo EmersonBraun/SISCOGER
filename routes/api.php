@@ -89,10 +89,8 @@ Route::group(['as'=>'arquivo.','prefix' =>'arquivo'],function(){
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\Proc\ArquivoApiController@destroy']);
 });
 Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
-    // pegar sugestões de RG
-    Route::post('sugest/rg',['as' =>'sugestrg','uses'=>'_Api\SJD\PM\PMApiController@sugestrg']);
-    // pegar sugestões pelo Nome
-    Route::post('sugest/nome',['as' =>'sugestnome','uses'=>'_Api\SJD\PM\PMApiController@sugestnome']);
+    // pegar sugestões de RG e NOME
+    Route::post('sugest',['as' =>'sugestrg','uses'=>'_Api\SJD\PM\PMApiController@sugest']);
     // pegar dados do PM pelo RG
     Route::get('pm/{rg}',['as' =>'pm','uses'=>'_Api\SJD\PM\PMApiController@dados']);
     // pegar cautelas do PM pelo RG
