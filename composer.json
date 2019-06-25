@@ -47,8 +47,6 @@
             "App\\": "app/"
         },
         "files": [
-            "app/Helpers/arquivo/file_save.php",
-            "app/Helpers/arquivo/arquivo.php",
             "app/Helpers/dados/sistema.php",
             "app/Helpers/dados/pm.php",
             "app/Helpers/dados/pvue.php",
@@ -71,10 +69,7 @@
             "app/Helpers/validacao/hasPermission.php",
             "app/Helpers/validacao/hasRole.php",
             "app/Helpers/validacao/ver_superior.php",
-            "app/Helpers/validacao/ver_unidade.php",
-            "app/Helpers/subformulario/ligacao.php",
-            "app/Helpers/subformulario/envolvido.php",
-            "app/Helpers/subformulario/ofendido.php"
+            "app/Helpers/validacao/ver_unidade.php"
         ]
     },
     "autoload-dev": {

@@ -1,6 +1,6 @@
 # SISCOGER
 ## Descrição
-Sistema de controle processual da PMPR, dentre eles:  
+Sistema de controle processual da PMPR, relatórios de pendências das unidades, andamentos, ficha disciplinar e gerenciamento de processos e procedimentos, dentre eles:  
 ### Processos:
 + **A**puração **D**isciplinar de **L**icenciamento
 + **C**onselho de **D**isciplina
@@ -86,4 +86,3 @@ siscoger
 artinan (comandos para auxiliar no desenvolvimento)
 composer.json (lista de dependências do sistema)
 pacotes.txt (pacotes usados no sistema)
-
