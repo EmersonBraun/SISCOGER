@@ -3,9 +3,9 @@
 /public/storage
 /public/arquivo
 /storage
+/storage/arquivos
 /storage/*.key
 /vendor
-/documentacao
 /.idea
 /.vscode
 /.vagrant

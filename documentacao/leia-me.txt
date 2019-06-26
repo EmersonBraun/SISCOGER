@@ -1,0 +1,36 @@
+Siscoger - Controle processual
+
+Estrutura do sistema (informações principais):
+siscoger
+	|_app
+		|_Http
+			|_Controllers (controladores - processam as models e devolvem views)
+			|_Middleware
+		|_Models (modelos - representação do banco de dados)
+	|_bootstrap (inicialização da aplicação)
+	|_config
+		adminlte.php (configurações como nome da aplicação e menu)
+		app.php (configurações gerais da aplicação)
+	|_database
+		|_migrations (migrações - onde são criadas as tabelas do banco de dados)
+	|_public
+		|_arquivo (arquivos dos processos e procedimentos)
+		|_css (estilos da aplicação)
+		|_js (funcionalidades da aplicação)
+		|_vendor
+			|_adminlte (arquivos de estilo do template da aplicação)
+			|_plugins (funcionalidades em js para a aplicação)
+	|_resources
+		|_views (visão - telas para os usuários)
+	|_routes
+		web.php (rotas - pegam as URL e encaminham a um controlador)
+	|_storage (arquivos do sistema)
+	|_tests (testes do sistema)
+	|_vagrant (container para o sistema - tentativa sem sucesso)
+	|_vendor (arquivos das dependêcnias do sistema)
+	.env (dados sensíveis do sistema)
+	.gitignore (arquivos que são ignoradas quando for subir para o repositório)
+	.htaccess (apontamento para a pasta pública)
+	artinan (comandos para auxiliar no desenvolvimento)
+	composer.json (lista de dependências do sistema)
+	pacotes.txt (pacotes usados no sistema)
