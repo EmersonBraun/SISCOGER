@@ -12,7 +12,7 @@ if (! function_exists('corta_zeros'))
 		}
 		else
 		{
-			$Zopm[1]=substr($codigo,0,1);
+			/*$Zopm[1]=substr($codigo,0,1);
 			$Zopm[2]=substr($codigo,1,2);
 			$Zopm[3]=substr($codigo,3,2);
 			$Zopm[4]=substr($codigo,5,1);
@@ -21,7 +21,7 @@ if (! function_exists('corta_zeros'))
 
 			$x=0;
 
-			for ($i=6; $i>=1; $i--) 
+			for ($i=6; $i>1; $i--) 
 			{
 				if ($Zopm[$i]!="0" and $Zopm[$i]!="00" and $Zopm[$i]!="  ") 
 				{
@@ -30,7 +30,8 @@ if (! function_exists('corta_zeros'))
 				}
 			}
 
-			if ($opmRetorno=="") return "0";
+            if ($opmRetorno=="") return "0";*/
+            return substr($codigo,0,3);
 		}
 	}
 }

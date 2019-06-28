@@ -15,7 +15,7 @@
 // Route::get('colunas/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas']);
 // Route::get('colunas2/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas2']);
 //Route::get('bd/{conn}/{nome}/{limite}/{c1?}/{oper?}{c2?}', ['as'=>'bd','uses'=>'Testes\testeBD@bd']);
-Route::get('bd/{cod}/{nome?}', ['as'=>'bd','uses'=>'Testes\testeBD@search']);
+Route::get('bd/{nome?}', ['as'=>'bd','uses'=>'Testes\testeBD@search']);
 Route::get('bd/qtds', ['as'=>'bd','uses'=>'Testes\testeBD@qtds']);
 // Route::get('bd/bdgeral', ['as'=>'bdgeral','uses'=>'Testes\testeBD@bdgeral']);
 
@@ -67,6 +67,15 @@ Route::group(['as'=>'permissions.','prefix' =>'permissoes','middleware' => ['rol
 	Route::get('{id}/editar',['as' =>'edit','uses'=>'Administracao\PermissionController@edit']);
 	Route::put('{id}/atualizar',['as' =>'update','uses'=>'Administracao\PermissionController@update']);
 	Route::delete('{id}/remover',['as' =>'destroy','uses'=>'Administracao\PermissionController@destroy']);
+});
+//Rotas do módulo controle SJDS
+Route::group(['as'=>'sjd.','prefix' =>'sjd','middleware' => ['role:admin']],function(){
+	Route::get('',['as' =>'index','uses'=>'Administracao\SjdController@index']);
+	Route::get('criar',['as' =>'create','uses'=>'Administracao\SjdController@create']);
+	Route::post('salvar',['as' =>'store','uses'=>'Administracao\SjdController@store']);
+	Route::get('{id}/editar',['as' =>'edit','uses'=>'Administracao\SjdController@edit']);
+	Route::put('{id}/atualizar',['as' =>'update','uses'=>'Administracao\SjdController@update']);
+	Route::delete('{id}/remover',['as' =>'destroy','uses'=>'Administracao\SjdController@destroy']);
 });
 //Rotas do módulo Terms
 Route::group(['as'=>'terms.','prefix' =>'termo'],function(){

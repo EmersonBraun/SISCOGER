@@ -11,6 +11,9 @@ window.Vue = require('vue');
 require ('./components')
 require ('./filters')
 
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask)
+
 let currentDate = new Date().toISOString().split('T')[0]
 if(localStorage.getItem(currentDate+"session")==null){
     let urlIndex = 'http://10.47.1.90/siscoger/session/dados';

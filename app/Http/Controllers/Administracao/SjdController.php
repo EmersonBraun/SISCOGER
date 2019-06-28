@@ -8,13 +8,10 @@ use Illuminate\Http\Request;
 
 use Auth;
 
-use App\User;
-use Cache;
+use App\Models\Sjd\Administracao\Sjd;
+use DB;
 
-
-use Illuminate\Support\Facades\DB;
-
-class UserController extends Controller
+class SjdController extends Controller
 {
      public function __construct() {
         $this->middleware('auth');
@@ -22,132 +19,70 @@ class UserController extends Controller
 
     public function index()
     {
-        //tempo de cahe
-        $expiration = 60; 
-        //chave
-        $key = 'user';
-        //buscar dados do cache
-        //$users = Cache::remember($key, $expiration, function(){
-            $users =  User::all();
-        //});
+        $sjd =  Sjd::all();
         
-        return view('administracao.usuarios.index',compact('users'));
+        return view('administracao.sjd.index',compact('sjd'));
     }
 
     public function create()
     {
-        $roles = Role::get();
-
-        return view('administracao.usuarios.create', compact('roles'));
+        return view('administracao.sjd.create');
     }
 
-    public function store(User $user, Request $request)
+    public function store(Sjd $sjd, Request $request)
     {
-       //Validação
         $this->validate($request, [
-            'rg'=>'required|unique:users|min:6',
-            'roles' =>'required'
+            'rg'=>'required',
+            'cpf'=>'required'
         ]);
-        //$pm = Policial::Where('rg',$request->rg)->first();
-        $pm = DB::connection('rhparana')->table('policial')->where('rg',$request->rg)->first();
         
-        //dd($pm);
+        $dados = $request->all();
+        $opm = DB::connection('rhparana')->table('policial')->where('RG',$dados['rg'])->first();
+        $dados['cdopm'] = corta_zeros($opm['CDOPM']);
+        $dados['cdsecao'] = $opm['CDOPM'];
+        $dados['secao'] = $opm['OPM_DESCRICAO'];
+        $dados['cidade'] = $opm['CIDADE'];
+        dd($dados);
+        Sjd::create($dados);
 
-        //verificar se o RG existe
-        if (!$pm) 
-        {
-            toast()->warning('esse RG não existe no Meta4!', 'ERRO!');
-            return redirect()->route('users.index');
-        }
-        else
-        {
-            $pm = (object) $pm;
-
-            $user->rg = $request->rg;
-            $user->nome = $pm->NOME;
-            $user->email = $pm->EMAIL_META4;
-            $user->classe = $pm->CLASSE;
-            $user->cargo = $pm->CARGO; //graduação
-            $user->quadro = $pm->QUADRO;
-            $user->subquadro = $pm->SUBQUADRO;
-            $user->opm_descricao = $pm->OPM_DESCRICAO; //nome unidade
-            $user->cdopm = $pm->CDOPM; //código da unidade
-            $user->password = bcrypt($request->rg);//atribuir senha provisória
-
-            $user->save();
-
-            //Recuperando o campo de funções
-            $roles = $request['roles']; 
-            //Verficar se as regras foram selecionadas
-            if (isset($roles)) {
-
-                foreach ($roles as $role) {
-                $role_r = Role::where('id', '=', $role)->firstOrFail();  
-                //Atribuindo papel ao usuário    
-                $user->assignRole($role_r); 
-                }
-            }     
-             
-            //limpa o cache
-            Cache::forget('user');
-
-            //Redirecionando users.index view com mensagem
-            toast()->success('adicionado com sucesso!', 'Usuário');
-            return redirect()->route('users.index');
-        }
+        toast()->success('adicionado com sucesso!', 'SJD');
+        return redirect()->route('sjd.index');
     }
 
     public function show($id)
     {
-        return redirect('users');
+        return redirect('sjd');
     }
 
 
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        $roles = Role::get(); 
-
-        return view('administracao.usuarios.edit', compact('user', 'roles')); 
+        $sjd = Sjd::findOrFail($id);
+        return view('administracao.sjd.edit', compact('sjd')); 
     }
 
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);  
+        $sjd = Sjd::findOrFail($id);  
         
         $this->validate($request, [
             'rg'=>'required',
-            'email'=>'required|email|unique:users,email,'.$id
+            'cpf'=>'required'
         ]);
 
-        $input = $request->only(['rg', 'email']); //Recupere os campos rg, email
-        $roles = $request['roles']; //Recuperar todas as regras
-        $user->fill($input)->save();
+        Sjd::update($sjd);
 
-        //limpa o cache
-        Cache::forget('user');
-
-        if (isset($roles)) 
-        {        
-            $user->roles()->sync($roles);  //If one or more role is selected associate user to roles          
-        }        
-        else 
-        {
-            $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
-        }
-
-        toast()->success('atualizado com sucesso!', 'Usuário');
-
-        return redirect()->route('users.index');
+        toast()->success('atualizado com sucesso!', 'SJD');
+        return redirect()->route('sjd.index');
     }
-    //apagar usuário
+    //apagar SJD
     public function destroy($id)
     {
-        $user = User::findOrFail($id); 
-        $user->delete();
+        $sjd = Sjd::findOrFail($id); 
+        $sjd->delete();
 
-        toast()->message('atualizado com sucesso!', 'Usuário');
-        return redirect()->route('users.index');
+        toast()->message('apagado com sucesso!', 'SJD');
+        return redirect()->route('sjd.index');
     }
 
 }

@@ -3,17 +3,22 @@
 namespace App\Models\Sjd\Administracao;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 // para não apagar diretamente, inserir data em "deleted_at"
 use Illuminate\Database\Eloquent\SoftDeletes;
 class Sjd extends Eloquent
 {
     use SoftDeletes;
 
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\SjdPresenter';
+
     protected $table = 'sjds';
-    protected $primaryKey = 'id_sjd';
+    protected $primaryKey = 'id_sjds';
     
     protected $casts = [
-		'id_sjd' => 'int',
+		'id_sjds' => 'int',
         'cred' => 'int',
         'ead_conclusao' => 'int',
         'cert' => 'int'
@@ -30,14 +35,16 @@ class Sjd extends Eloquent
     ];
     
 	protected $fillable = [
-        'id_sjd',
+        'id_sjds',
         'rg',
         'cpf',
         'telefone_secao',
         'email',
         'assuncao_data',
         'saida_data',
+        'cidade',
         'cdopm',
+        'cdsecao',
         'secao',
         'cred',
         'ead_inicio_data',
@@ -85,6 +92,44 @@ class Sjd extends Eloquent
     public function setEadFimDataAttribute($value)
     {
         $this->attributes['ead_fim_data'] = data_bd($value);
+    }
+
+     //mutators (para alterar na hora da exibição)
+     public function getAssuncaoDataAttribute($value)
+     {
+         if($value == '0000-00-00' || $value == null)
+         {
+             return '';
+         }
+         else
+         {
+             return date( 'd/m/Y' , strtotime($value));
+         }
+     }
+ 
+     //mutators (para alterar na hora de salvar no banco)
+     public function setAssuncaoDataAttribute($value)
+     {
+         $this->attributes['assuncao_data'] = data_bd($value);
+     }
+
+      //mutators (para alterar na hora da exibição)
+    public function getSaidaDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null)
+        {
+            return '';
+        }
+        else
+        {
+            return date( 'd/m/Y' , strtotime($value));
+        }
+    }
+
+    //mutators (para alterar na hora de salvar no banco)
+    public function setSaidaDataAttribute($value)
+    {
+        $this->attributes['saida_data'] = data_bd($value);
     }
 
     //mutators (para alterar na hora de salvar no banco)

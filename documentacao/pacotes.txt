@@ -1,0 +1,41 @@
+Pacotes usados para facilitar funcionalidades JÁ IMPLANTADAS no sistema
+
+Laravel-AdminLTE (para o template do sistema):
+https://github.com/jeroennoten/Laravel-AdminLTE
+
+Forms & HTML (Para criar forms):
+https://laravelcollective.com/docs/5.2/html
+
+laravel-activitylog (para os logs):
+https://docs.spatie.be/laravel-activitylog/v2/installation-and-setup
+
+migrations-generator (gerar as migrations do banco de dados existente):
+https://github.com/Xethron/migrations-generator
+
+Reliese Laravel (para gerar as models do banco de dados existente):
+https://github.com/reliese/laravel
+
+ACL
+https://github.com/spatie/laravel-permission
+
+barra de debug
+https://github.com/barryvdh/laravel-debugbar
+
+Mensagens
+https://github.com/Grimthorr/laravel-toast
+
+Chart js
+https://github.com/fxcosta/laravel-chartjs
+
+Mascara para os inputs (só adicionar classes que coloquei no js.blade.php)
+https://igorescobar.github.io/jQuery-Mask-Plugin/docs.html
+
+Auto complete (sugestões no input tipo busca no google)
+http://easyautocomplete.com/example/ajax-post
+
+Confirm (confirm do js com mais opções)
+https://craftpip.github.io/jquery-confirm/
+---------------------------------------------------------------------------------------
+Links para ajudar
+traduzir queryes 
+http://www.midnightcowboycoder.com/
