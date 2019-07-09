@@ -129,6 +129,13 @@ class LogController extends Controller
         return view('logs.apresentacao',compact('logs'));
     }
 
+    public function locaisapresentacao()
+    {
+        $logs = Activity::where('log_name' , 'locaisapresentacao')->get();
+
+        return view('logs.locaisapresentacao',compact('logs'));
+    }
+
     public function locais()
     {
         $logs = Activity::where('log_name' , 'locais')->get();
@@ -193,6 +200,13 @@ class LogController extends Controller
         $logs = Activity::where('log_name' , 'fdi')->get();
 
         return view('logs.fdi',compact('logs'));
+    }
+
+    public function consulta()
+    {
+        $logs = Activity::where('log_name' , 'consulta')->get();
+
+        return view('logs.consulta',compact('logs'));
     }
 
     public function cadastroopmcoger()

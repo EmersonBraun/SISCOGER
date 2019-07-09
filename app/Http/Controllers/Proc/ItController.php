@@ -191,4 +191,9 @@ class ItController extends Controller
     	toast()->success('IT Apagado');
         return redirect()->route('it.lista');
     }
+
+    public function documentacao()
+    {
+        return true;
+    }
 }

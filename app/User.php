@@ -58,7 +58,7 @@ class User extends Authenticatable
 		'password',
 		'block',
 		'termos',
-		'nome',
+		'name',
 		'classe',
 		'cargo', 
 		'quadro', 

@@ -33,7 +33,7 @@ class AcusadoApiController extends Controller
         }
         return response()->json([
             'success' => false,
-        ], 500);
+        ], 400);
     }
 
     public function edit(Request $request, $id)
@@ -49,7 +49,7 @@ class AcusadoApiController extends Controller
 
         return response()->json([
             'success' => false,
-        ], 500);
+        ], 400);
 
 
         }
@@ -65,6 +65,6 @@ class AcusadoApiController extends Controller
         }
         return response()->json([
             'success' => false,
-        ], 500);
+        ], 400);
     }
 }

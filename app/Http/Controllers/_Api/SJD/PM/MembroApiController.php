@@ -10,7 +10,15 @@ use App\Models\Sjd\Policiais\Envolvido;
 
 class MembroApiController extends Controller
 {
-    
+    public function list()
+    {
+        $result = Envolvido::where('situacao','=','')
+            ->get();
+
+        return response()->json(
+            $result, 200);
+    }
+
     public function store(Request $request)
     {
         $dados = $request->all();
@@ -28,7 +36,7 @@ class MembroApiController extends Controller
         }
         return response()->json([
             'success' => false,
-        ], 500);
+        ], 400);
     }
 
     public function destroy($id)
@@ -42,6 +50,6 @@ class MembroApiController extends Controller
         }
         return response()->json([
             'success' => false,
-        ], 500);
+        ], 400);
     }
 }

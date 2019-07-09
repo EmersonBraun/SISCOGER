@@ -44,6 +44,18 @@ class ProcOutrosController extends Controller
         return view('procedimentos.procoutros.list.prazos',compact('registros'));
     }
 
+    public function rel_situacao(ProcOutroRepository $repository)
+    {
+        $registros = $repository->rel_situacao();
+        return view('procedimentos.procoutros.list.prazos',compact('registros'));
+    }
+
+    public function julgamento(ProcOutroRepository $repository)
+    {
+        $registros = $repository->julgamento();
+        return view('procedimentos.procoutros.list.prazos',compact('registros'));
+    }
+
 
     public function create(Request $request)
     {

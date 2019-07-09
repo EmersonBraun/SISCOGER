@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "668edddfa1ff623d922b5727f4089b89",
+    "content-hash": "8fd5c940f4403c578b961b43121480fe",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -6094,6 +6094,49 @@
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
             "time": "2017-04-07T12:08:54+00:00"
+        },
+        {
+            "name": "vigneshc91/laravel-test-generator",
+            "version": "v0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vigneshc91/laravel-test-generator.git",
+                "reference": "09ed581dfc68d165cfefdaf1467e5b31efa90fb6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vigneshc91/laravel-test-generator/zipball/09ed581dfc68d165cfefdaf1467e5b31efa90fb6",
+                "reference": "09ed581dfc68d165cfefdaf1467e5b31efa90fb6",
+                "shasum": ""
+            },
+            "require": {
+                "fzaninotto/faker": "^1.8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigneshc91\\LaravelTestGenerator\\TestGeneratorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigneshc91\\LaravelTestGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vignesh C",
+                    "email": "vignesh.jag@gmail.com"
+                }
+            ],
+            "description": "Laravel package for generating unit test automatically",
+            "time": "2018-07-31T12:12:23+00:00"
         },
         {
             "name": "webmozart/assert",

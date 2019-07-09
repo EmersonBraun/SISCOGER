@@ -41,7 +41,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Exception $e)
     {   
-        if($this->isHttpException($e))
+        /*if($this->isHttpException($e))
         {
             switch (intval($e->getStatusCode())) {
                 //proibido
@@ -81,7 +81,7 @@ class Handler extends ExceptionHandler
                     return parent::render($request, $e);
                     break;
             }
-        }
+        }*/
 
         // if ($e instanceof \PDOException) {
         //     toast()->error('Meta4 fora do ar!', 'ERRO!');

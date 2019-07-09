@@ -24,7 +24,7 @@ class EnvolvidoApiController extends Controller
                 $result, 200);
         }
 
-        return response()->json(null, 500);
+        return response()->json(null, 400);
     }
 
     public function membros($proc, $id)
@@ -40,7 +40,7 @@ class EnvolvidoApiController extends Controller
                     ->where('rg_substituto','<>','')
                     ->get();
         
-        if(!$result) return response()->json(null, 500);
+        if(!$result) return response()->json(null, 400);
         // situações usadas
         $usados = [];
         foreach ($result as $r) 

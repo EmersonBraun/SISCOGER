@@ -885,4 +885,43 @@ class PendenciasController extends Controller
         ));
     }
 
+    public function comportamento() {
+        return true;
+    }
+
+    public function punicoes() {
+        return true;
+    }
+
+    public function quantidade() {
+        return true;
+    }
+
+    public function prioritarios() {
+        return true;
+    }
+
+    public function sobrestamentos() {
+        return true;
+    }
+
+    public function processos() {
+        return true;
+    }
+
+    public function postograd() {
+        return true;
+    }
+
+    public function encarregados() {
+        return true;
+    }
+
+    public function defensores() {
+        return true;
+    }
+
+    public function ofendidos() {
+        return true;
+    }
 }

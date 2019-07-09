@@ -24,7 +24,7 @@ class PMApiController extends Controller
         {
             return response()->json([
                 'success' => false,
-            ], 200);
+            ], 400);
         } 
 
         return response()->json([
@@ -47,7 +47,7 @@ class PMApiController extends Controller
         }
         return response()->json([
             'success' => false
-        ], 500);  
+        ], 400);  
     }
 
     public function cautelas($rg)
@@ -72,7 +72,7 @@ class PMApiController extends Controller
         {
             return response()->json([
                 'success' => false,
-            ], 401);
+            ], 400);
         } 
 
         return response()->json([

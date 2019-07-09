@@ -230,4 +230,10 @@ class HomeController extends Controller
             ->options([]);
             return $chartjs;
     }
+
+    public function logout(User $user)
+    {
+        Auth::logout();
+        return redirect()->intended('login');
+    }
 }
