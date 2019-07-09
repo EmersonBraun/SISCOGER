@@ -32,19 +32,22 @@ class DesercaoController extends Controller
         return view('procedimentos.desercao.list.index',compact('registros'));
     }
 
-
     public function rel_situacao(DesercaoRepository $repository)
     {
         $registros = $repository->all();
         return view('procedimentos.desercao.list.rel_situacao',compact('registros'));
     }
 
+    public function apagados(DesercaoRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.desercao.list.apagados',compact('registros'));
+    }
 
     public function create(Request $request)
     {
         return view('procedimentos.desercao.form.create');
     }
-
 
     public function store(Request $request)
     {

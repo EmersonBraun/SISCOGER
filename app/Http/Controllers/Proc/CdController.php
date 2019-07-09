@@ -56,6 +56,12 @@ class CdController extends Controller
         return view('procedimentos.cd.list.julgamento',compact('registros'));
     }
 
+    public function apagados(CdRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.cd.list.apagados',compact('registros'));
+    }
+
     public function create(Request $request)
     {
         return view('procedimentos.cd.form.create');

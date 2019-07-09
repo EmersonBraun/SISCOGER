@@ -57,6 +57,12 @@ class SindicanciaController extends Controller
         return view('procedimentos.sindicancia.list.resultado',compact('registros'));
     }
 
+    public function apagados(SindicanciaRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.sindicancia.list.apagados',compact('registros'));
+    }
+
     public function create(Request $request)
     {
         return view('procedimentos.sindicancia.form.create');

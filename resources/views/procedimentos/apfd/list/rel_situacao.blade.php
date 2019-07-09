@@ -3,25 +3,7 @@
 @section('title', 'APFD - Rel. Sit.')
 
 @section('content_header')
-<section class="content-header nopadding"> 
-  @component('components.treeview',
-  [
-      'title' => 'APFD - Relatório de Situação',
-      'opts' => []
-  ])
-  @endcomponent   
-  
-  @component('components.menu',
-  [
-      'title' => 'APFD',
-      'prop' => ['8','4'],
-      'menu' => [
-          ['md'=> 6, 'xs'=> 6, 'route'=>'apfd.lista','name'=>'lista'],
-          ['md'=> 6, 'xs'=> 6, 'route'=>'apfd.rel_situacao','name'=>'Rel. Situação','type' => 'success']
-      ]
-  ])   
-  @endcomponent
-</section>
+  @include('procedimentos.apfd.list.menu', ['title' => 'Rel. Situação','page' => 'rel_situacao'])
 @stop
 
 @section('content')

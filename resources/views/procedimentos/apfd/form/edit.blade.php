@@ -37,14 +37,15 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('apfd.update',$proc['id_apfd']),'method' => 'put']) !!}
+                <v-prioritario admin="session('admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                <v-label label="cdopm" title="OPM">
+                    <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
+                </v-label>
                 <v-label label="id_andamentocoger" title="Andamento COGER">
                     {!! Form::select('id_andamentocoger',config('sistema.andamentocogerAPFD'),null, ['class' => 'form-control ']) !!}
                 </v-label>
                 <v-label label="tipo" title="Tipo">
                     {!! Form::select('tipo', ['Crime comum','Crime militar'],null, ['class' => 'form-control select2']) !!}
-                </v-label>
-                <v-label label="cdopm" title="OPM">
-                    <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
                 </v-label>
                 <v-label label="fato_data" title="Data do fato">
                     <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>

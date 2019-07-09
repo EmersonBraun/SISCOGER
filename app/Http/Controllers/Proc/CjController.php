@@ -56,6 +56,12 @@ class CjController extends Controller
         return view('procedimentos.cj.list.julgamento',compact('registros'));
     }
 
+    public function apagados(CjRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.cj.list.apagados',compact('registros'));
+    }
+
     public function create(Request $request)
     {
         return view('procedimentos.cj.form.create');

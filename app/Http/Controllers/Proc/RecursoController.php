@@ -32,6 +32,12 @@ class RecursoController extends Controller
         return view('procedimentos.recurso.list.index',compact('registros'));
     }
 
+    public function apagados(RecursoRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.recurso.list.apagados',compact('registros'));
+    }
+
     public function create(Request $request)
     {
         return view('procedimentos.recurso.form.create');

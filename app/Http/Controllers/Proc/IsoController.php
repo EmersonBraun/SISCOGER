@@ -44,6 +44,11 @@ class IsoController extends Controller
         return view('procedimentos.iso.list.prazos',compact('registros'));
     }
 
+    public function apagados(IsoRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.iso.list.apagados',compact('registros'));
+    }
 
     public function create(Request $request)
     {

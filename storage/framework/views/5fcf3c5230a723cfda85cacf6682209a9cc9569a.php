@@ -56,7 +56,7 @@
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        <li class=""><a href="<?php echo e(route('mail.sent')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Emails Agendados</span></a></li>
+        
         <li class=""><a href="<?php echo e(route('notacoger.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Notas COGER</span></a></li>
         <li class=""><a href="<?php echo e(route('apresentacao.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Lista apresentações</span></a></li>
         <li class=""><a href="<?php echo e(route('apresentacao.buscar')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Buscar Apresentação</span></a></li>
@@ -96,10 +96,10 @@
     </a>
     <ul class="treeview-menu">
         
-        <li class=""><a href="<?php echo e(route('correicao.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ordinária</span></a></li>
+        <li class=""><a href="<?php echo e(route('correicao.ordinaria.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ordinária</span></a></li>
         
         
-        <li class=""><a href="<?php echo e(route('correicao.extra.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Extraordinária</span></a></li>
+        <li class=""><a href="<?php echo e(route('correicao.extraordinaria.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Extraordinária</span></a></li>
         
     </ul>
 </li>
@@ -205,7 +205,7 @@
         <li class=""><a href="<?php echo e(route('terms.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Termos de compromisso</span></a></li>
         <li class=""><a href="<?php echo e(route('unidades.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Unidades</span></a></li>
         <li class=""><a href="<?php echo e(route('feriados.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Feriados</span></a></li>
-        <li class=""><a href="<?php echo e(route('mail.sent')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>E-mails agendados</span></a></li>
+        
     </ul>
 </li>
 <?php endif; ?>
@@ -273,7 +273,7 @@
                 <li class=""><a href="<?php echo e(route('log.bloqueios')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Bloqueios</span></a></li>
                 <li class=""><a href="<?php echo e(route('log.papeis')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Papeis</span></a></li>
                 <li class=""><a href="<?php echo e(route('log.permissoes')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Permissões</span></a></li> 
-                <li class=""><a href="<?php echo e(route('log.feriados')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Feriados</span></a></li>  
+                <li class=""><a href="<?php echo e(route('log.feriado')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Feriados</span></a></li>  
             </ul>
         </li>
         <li class="treeview"><a href="#"><i class="fa fa-fw fa-bug "></i><span>Policiais</span>

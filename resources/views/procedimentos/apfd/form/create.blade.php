@@ -37,88 +37,37 @@
             <div class="box-body">
 
             {!! Form::open(['url' => route('apfd.store')]) !!}
-            <div class='col-md-12 col-xs-12'>
-            {!! Form::label('prioridade', 'Processo prioritário') !!}
-            {!! Form::checkbox('prioridade', '1') !!}
-            </div>
-
-            @component('components.form.select',
-            ['titulo' => 'Andamento','campo' => 'id_andamento', 'opt' => config('sistema.andamentoAPFD')])
-            @endcomponent
-
-            @component('components.form.select',
-            ['titulo' => 'Andamento COGER','campo' => 'andamentocoger', 'opt' => config('sistema.andamentocogerAPFD'), 'class' => 'select2'])
-            @endcomponent
-
-            @component('components.form.opm',
-            ['titulo' => 'OPM/OBM','campo' => 'cdopm', 'opms' => $opms])
-            @endcomponent
-
-            @component('components.form.select',
-            ['titulo' => 'Tipo','campo' => 'tipo', 'opt' => ['Crime comum','Crime militar']])
-            @endcomponent
-
-            @component('components.form.date',['titulo' => 'Data do fato','campo' => 'fato_data'])
-            @endcomponent
-
-            @component('components.form.tipo_penal',
-            ['titulo' => 'Tipos penais (Do mais grave ao menos grave)','campo' => 'tipo_penal_novo'])
-            @endcomponent
-
-            @component('components.form.text',['titulo' => 'Especificar (no caso de outros motivos)','campo' => 'especificar'])
-            @endcomponent
-
-            @component('components.form.select',
-            ['titulo' => 'Tipo de boletim','campo' => 'doc_tipo', 'opt' => config('sistema.tipoBoletim')])
-            @endcomponent
-
-            @component('components.form.text',['titulo' => 'N° Boletim','campo' => 'doc_numero'])
-            @endcomponent
-
-            @component('components.form.text',['titulo' => 'Referencia da VAJME (Nº do processo e vara)','campo' => 'referenciavajme'])
-            @endcomponent
-
-            @component('components.form.textarea',['titulo' => 'Síntese do fato (Quem, quando, onde, como e por quê)','campo' => 'sintese_txt'])
-            @endcomponent
-
-            <br>
-            
-            @component('components.subform',
-            [
-                'title' => 'Procedimento(s) de Origem (apenas se houver)',
-                'btn' => 'Adicionar documento de origem',
-                'arquivo' => 'ligacao',
-                'relacao' => NULL,
-                'proc' => 'apfd',
-                'unico' => false
-            ])    
-            @endcomponent
-            
-
-            @component('components.subform',
-            [
-                'title' => 'Acusado',
-                'btn' => 'Adicionar acusado',
-                'arquivo' => 'envolvido',
-                'relacao' => NULL,
-                'proc' => 'apfd',
-                'unico' => false
-            ])    
-            @endcomponent
-
-            @component('components.subform',
-            [
-                'title' => 'Vítima (apenas se houver)',
-                'btn' => 'Adicionar vítima',
-                'arquivo' => 'ofendido',
-                'relacao' => NULL,
-                'proc' => 'apfd',
-                'unico' => false
-            ])    
-            @endcomponent
-
-            <div class='col-md-12 col-xs-12'>
-            <br>
+            <v-prioritario admin="session('admin')"></v-prioritario>
+            <v-label label="cdopm" title="OPM">
+                <v-opm></v-opm>
+            </v-label>
+            <v-label label="id_andamentocoger" title="Andamento COGER">
+                {!! Form::select('id_andamentocoger',config('sistema.andamentocogerAPFD'),null, ['class' => 'form-control ']) !!}
+            </v-label>
+            <v-label label="tipo" title="Tipo">
+                {!! Form::select('tipo', ['Crime comum','Crime militar'],null, ['class' => 'form-control select2']) !!}
+            </v-label>
+            <v-label label="fato_data" title="Data do fato">
+                <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>
+            </v-label>
+            <v-label label="sintese_txt" title="Síntese do fato (Quem, quando, onde, como e por quê): " lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
+                {!! Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
+            </v-label>
+            <v-label label="tipo_penal_novo" title="Tipos penais (Do mais grave ao menos grave): ">
+                {!! Form::select('tipo_penal_novo', config('sistema.tipo_penal_novo'),null, ['class' => 'form-control select2']) !!}
+            </v-label>
+            <v-label label="especificar" title="Especificar (Caso tipo penal OUTROS): ">
+                {{ Form::text('especificar', null, ['class' => 'form-control ']) }}
+            </v-label>
+            <v-label label="doc_tipo" title="Documento da publicação: ">
+                {!! Form::select('doc_tipo',['BI','BG','BR'],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+            </v-label>
+            <v-label label="doc_tipo" title="N° Documento da publicação: ">
+                {{ Form::text('doc_tipo', null, ['class' => 'form-control ']) }}
+            </v-label>
+            <v-label label="referenciavajme" title="Referencia da VAJME (Nº do processo e vara)" >
+                {{ Form::text('referenciavajme', null, ['class' => 'form-control ']) }}
+            </v-label>
             {!! Form::submit('Inserir apfd',['class' => 'btn btn-primary btn-block']) !!}
             {!! Form::close() !!}
             </div>
@@ -135,26 +84,6 @@
 @stop
 
 @section('js')
-  @include('vendor.adminlte.includes.pickers')
-  @include('vendor.adminlte.includes.select2')
-<script>
-    $(document).ready(function(){
-        addObjectForm('envolvido','apfd');
-    });
-
-    $("#descricao").on('load, change',function ()
-    {
-        var campo = $("#descricao").val();
-        console.log(campo);
-        if (campo == 'Outro') 
-        {
-            $(".descricao_outros").show();
-        }
-        else
-        {
-            $(".descricao_outros").hide();
-        }
-    });
-</script>
+@include('vendor.adminlte.includes.vue')
 @stop
 

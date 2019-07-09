@@ -40,6 +40,7 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('adl.update',$proc['id_adl']),'method' => 'put']) !!}
+                <v-prioritario admin="session('admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
                 <v-label label="id_andamento" title="Andamento">
                     {!! Form::select('id_andamento',config('sistema.andamentoADL'),null, ['class' => 'form-control ']) !!}
                 </v-label>
@@ -65,6 +66,9 @@
                 </v-label>
                 <v-label label="id_situacaoconselho" title="Situação">
                     {!! Form::select('id_situacaoconselho',config('sistema.situacaoConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+                </v-label>
+                <v-label label="id_decorrenciaconselho" title="Em decorrência de">
+                    {!! Form::select('id_decorrenciaconselho',config('sistema.decorrenciaConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
                 </v-label>
                 <v-label label="portaria_numero" title="N° Portaria">
                     {{ Form::text('portaria_numero', null, ['class' => 'form-control ']) }}

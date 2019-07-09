@@ -1,29 +1,7 @@
 <?php $__env->startSection('title', 'ADL - Rel. Sit'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<section class="content-header nopadding"> 
-    <?php $__env->startComponent('components.treeview',
-    [
-        'title' => 'ADL - Relatório de Situação',
-        'opts' => []
-    ]); ?>
-    <?php echo $__env->renderComponent(); ?>   
-    
-    <?php $__env->startComponent('components.menu',
-    [
-        'title' => 'ADL',
-        'prop' => ['10','2'],
-        'menu' => [
-            ['md'=> 2, 'xs'=> 2, 'route'=>'adl.lista','name'=>'lista'],
-            ['md'=> 2, 'xs'=> 2, 'route'=>'adl.andamento','name'=>'Andamento'],
-            ['md'=> 2, 'xs'=> 2, 'route'=>'adl.prazos','name'=>'Prazos'],
-            ['md'=> 2, 'xs'=> 2, 'route'=>'adl.rel_situacao','name'=>'Rel. Situação','type'=>'success'],
-            ['md'=> 2, 'xs'=> 2, 'route'=>'adl.julgamento','name'=>'Julgamento'],
-            ['md'=> 2, 'xs'=> 2, 'route'=>'adl.apagados','name'=>'Apagados']
-        ]
-    ]); ?>   
-    <?php echo $__env->renderComponent(); ?>  
-</section>
+    <?php echo $__env->make('procedimentos.adl.list.menu', ['title' => 'Rel. Situação','page' => 'rel_situacao'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>

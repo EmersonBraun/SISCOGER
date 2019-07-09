@@ -56,6 +56,11 @@ class ProcOutrosController extends Controller
         return view('procedimentos.procoutros.list.prazos',compact('registros'));
     }
 
+    public function apagados(ProcOutroRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.procoutros.list.apagados',compact('registros'));
+    }
 
     public function create(Request $request)
     {

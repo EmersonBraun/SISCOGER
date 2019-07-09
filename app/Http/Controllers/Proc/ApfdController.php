@@ -39,6 +39,12 @@ class ApfdController extends Controller
         return view('procedimentos.apfd.list.rel_situacao',compact('registros'));
     }
 
+    public function apagados(ApfdRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.apfd.list.apagados',compact('registros'));
+    }
+
     public function create(Request $request)
     {
         $opms = OPM::get();

@@ -22,6 +22,7 @@
         <v-tab-item title="Formulário principal" idp="principal" cls="active show">
             <?php echo Form::open(['url' => route('adl.store')]); ?>
 
+            <v-prioritario admin="session('admin')"></v-prioritario>
             <v-label label="id_andamento" title="Andamento">
                 <?php echo Form::select('id_andamento',config('sistema.andamentoADL'),null, ['class' => 'form-control ']); ?>
 
@@ -51,6 +52,10 @@
             </v-label>
             <v-label label="id_situacaoconselho" title="Situação">
                 <?php echo Form::select('id_situacaoconselho',config('sistema.situacaoConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']); ?>
+
+            </v-label>
+            <v-label label="id_decorrenciaconselho" title="Em decorrência de">
+                <?php echo Form::select('id_decorrenciaconselho',config('sistema.decorrenciaConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']); ?>
 
             </v-label>
             <v-label label="portaria_numero" title="N° Portaria">

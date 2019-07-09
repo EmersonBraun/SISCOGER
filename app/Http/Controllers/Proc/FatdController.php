@@ -56,6 +56,12 @@ class FatdController extends Controller
         return view('procedimentos.fatd.list.julgamento',compact('registros','ano'));
     }
 
+    public function apagados(FatdRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.fatd.list.apagados',compact('registros'));
+    }
+
     public function create(Request $request)
     {
         return view('procedimentos.fatd.form.create');

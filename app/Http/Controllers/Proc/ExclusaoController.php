@@ -32,6 +32,11 @@ class ExclusaoController extends Controller
         return view('procedimentos.exclusao.list.index',compact('registros'));
     }
 
+    public function apagados(ExclusaoRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.exclusao.list.apagados',compact('registros'));
+    }
 
     public function create(Request $request)
     {

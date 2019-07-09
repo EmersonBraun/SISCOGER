@@ -56,6 +56,12 @@ class ItController extends Controller
         return view('procedimentos.it.list.julgamento',compact('registros'));
     }
 
+    public function apagados(ItRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.it.list.apagados',compact('registros'));
+    }
+
     public function create(Request $request)
     {
         return view('procedimentos.it.form.create');

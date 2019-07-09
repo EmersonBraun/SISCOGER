@@ -32,6 +32,12 @@ class PadController extends Controller
         return view('procedimentos.pad.list.index',compact('registros'));
     }
 
+    public function apagados(PadRepository $repository)
+    {
+        $registros = $repository->apagados();
+        return view('procedimentos.pad.list.apagados',compact('registros'));
+    }
+
     public function create(Request $request)
     {
         return view('procedimentos.pad.form.create');

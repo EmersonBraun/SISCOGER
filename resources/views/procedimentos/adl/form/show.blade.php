@@ -63,6 +63,9 @@
                 <v-label label="id_situacaoconselho" title="Situação">
                     <v-show dado="{{sistema('situacaoconselho',$proc['id_situacaoconselho'])}}"></v-show>
                 </v-label>
+                <v-label label="id_decorrenciaconselho" title="Em decorrência de">
+                    <v-show dado="{{sistema('situacaoconselho',$proc['id_decorrenciaconselho'])}}"></v-show>
+                </v-label>
                 <v-label label="portaria_numero" title="N° Portaria">
                     <v-show dado="{{$proc['portaria_numero']}}"></v-show>
                 </v-label>
@@ -76,7 +79,7 @@
                     <v-show dado="{{$proc['doc_numero']}}"></v-show>
                 </v-label>
                 <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
-                    <p>{{$proc['fato_data']}}</p>
+                    <v-show dado="{{$proc['fato_data']}}"></v-show>
                 </v-label>
                 <v-label label="abertura_data" title="Data da abertura" icon="fa fa-calendar">
                     <v-show dado="{{$proc['abertura_data']}}"></v-show>

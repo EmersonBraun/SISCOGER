@@ -3,30 +3,7 @@
 @section('title', 'ADL - Apagados')
 
 @section('content_header')
-<section class="content-header nopadding">  
-    @component('components.treeview',
-    [
-      'title' => 'ADL - Apagados',
-      'opts' => []
-    ])
-    @endcomponent   
-  
-    @component('components.menu',
-    [
-      'title' => 'ADL',
-      'prop' => ['10','2'],
-      'menu' => [
-        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.lista','name'=>'lista'],
-        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.andamento','name'=>'Andamento'],
-        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.prazos','name'=>'Prazos'],
-        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.rel_situacao','name'=>'Rel. Situação'],
-        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.julgamento','name'=>'Julgamento'],
-        ['md'=> 2, 'xs'=> 2, 'route'=>'adl.apagados','name'=>'Apagados','type'=>'success']
-      ]
-    ])   
-    @endcomponent
-</section>
-  
+    @include('procedimentos.adl.list.menu', ['title' => 'Apagados','page' => 'apagados']) 
 @stop
 
 @section('content')
