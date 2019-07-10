@@ -1,29 +1,7 @@
 <?php $__env->startSection('title', 'CD - Rel. Sit.'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<section class="content-header nopadding"> 
-    <?php $__env->startComponent('components.treeview',
-    [
-        'title' => 'CD - Relatório de Situação',
-        'opts' => []
-    ]); ?>
-    <?php echo $__env->renderComponent(); ?>   
-    
-    <?php $__env->startComponent('components.menu',
-    [
-        'title' => 'CD',
-        'prop' => ['8','4'],
-        'menu' => [
-            ['md'=> 2, 'xs'=> 4, 'route'=>'cd.lista','name'=>'Lista'],
-            ['md'=> 3, 'xs'=> 4, 'route'=>'cd.andamento','name'=>'Andamento'],
-            ['md'=> 2, 'xs'=> 4, 'route'=>'cd.prazos','name'=>'Prazos'],
-            ['md'=> 3, 'xs'=> 4, 'route'=>'cd.rel_situacao','name'=>'Rel. Situação','type' => 'success'],
-            ['md'=> 2, 'xs'=> 4, 'route'=>'cd.julgamento','name'=>'Julgamento']
-        ]
-    ]); ?>   
-    <?php echo $__env->renderComponent(); ?>  
-</section>
-  
+    <?php echo $__env->make('procedimentos.cd.list.menu', ['title' => 'Rel. Situação','page' => 'rel_situacao'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>

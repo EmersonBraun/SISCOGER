@@ -1,20 +1,7 @@
 <?php $__env->startSection('title', 'Deserção'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<section class="content-header nopadding">  
-    <?php $__env->startComponent('components.treeview',['title' => 'Deserção - Relatório de Situação','opts' => []]); ?>
-    <?php echo $__env->renderComponent(); ?>   
-    
-    <?php $__env->startComponent('components.menu',
-    [
-        'title' => 'Deserção',
-        'prop' => ['8','4'],
-        'menu' => [
-            ['md'=> 6, 'xs'=> 6, 'route'=>'desercao.lista','name'=>'Lista'],
-            ['md'=> 6, 'xs'=> 6, 'route'=>'desercao.rel_situacao','name'=>'Rel. Situação','type' => 'success']
-        ]
-    ]); ?>   
-    <?php echo $__env->renderComponent(); ?> 
+    <?php echo $__env->make('procedimentos.desercao.list.menu', ['title' => 'Rel. Situação','page' => 'rel_situacao'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>

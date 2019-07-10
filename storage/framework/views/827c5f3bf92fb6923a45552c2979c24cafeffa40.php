@@ -3,19 +3,7 @@
 <?php $__env->startSection('title', 'Exclusão - Lista'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<section class="content-header nopadding">   
-    <?php $__env->startComponent('components.treeview',['title' => 'Exclusão - Lista','opts' => []]); ?>
-    <?php echo $__env->renderComponent(); ?>   
-    
-    <?php $__env->startComponent('components.menu',
-    [
-        'title' => 'Exclusão',
-        'prop' => ['0','12'],
-        'menu' => []
-    ]); ?>   
-    <?php echo $__env->renderComponent(); ?>
-</section>
-  
+    <?php echo $__env->make('procedimentos.exclusao.list.menu', ['title' => 'Consulta','page' => 'lista'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>

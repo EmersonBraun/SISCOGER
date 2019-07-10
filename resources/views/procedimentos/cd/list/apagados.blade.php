@@ -3,29 +3,7 @@
 @section('title', 'CD - Lista')
 
 @section('content_header')
-<section class="content-header nopadding">  
-  @component('components.treeview',
-  [
-      'title' => 'CD - Lista',
-      'opts' => []
-  ])
-  @endcomponent   
-  
-  @component('components.menu',
-  [
-      'title' => 'CD',
-      'prop' => ['8','4'],
-      'menu' => [
-          ['md'=> 2, 'xs'=> 4, 'route'=>'cd.lista','name'=>'Lista','type' => 'success'],
-          ['md'=> 3, 'xs'=> 4, 'route'=>'cd.andamento','name'=>'Andamento'],
-          ['md'=> 2, 'xs'=> 4, 'route'=>'cd.prazos','name'=>'Prazos'],
-          ['md'=> 3, 'xs'=> 4, 'route'=>'cd.rel_situacao','name'=>'Rel. Situação'],
-          ['md'=> 2, 'xs'=> 4, 'route'=>'cd.julgamento','name'=>'Julgamento']
-      ]
-  ])   
-  @endcomponent
-</section>
-  
+    @include('procedimentos.cd.list.menu', ['title' => 'Apagados','page' => 'apagados'])
 @stop
 
 @section('content')

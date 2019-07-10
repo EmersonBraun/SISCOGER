@@ -56,10 +56,10 @@ class IpmController extends Controller
         return view('procedimentos.ipm.list.resultado',compact('registros','ano'));
     }
 
-    public function apagados(IpmRepository $repository)
+    public function apagados($ano, IpmRepository $repository)
     {
         $registros = $repository->apagados();
-        return view('procedimentos.ipm.list.apagados',compact('registros'));
+        return view('procedimentos.ipm.list.apagados',compact('registros','ano'));
     }
 
     public function create(Request $request)

@@ -1,29 +1,7 @@
 <?php $__env->startSection('title', 'Sindicância - prazos'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<section class="content-header nopadding"> 
-  <?php $__env->startComponent('components.treeview',
-  [
-      'title' => 'Sindicância - prazos',
-      'opts' => []
-  ]); ?>
-  <?php echo $__env->renderComponent(); ?>   
-  
-  <?php $__env->startComponent('components.menu',
-  [
-      'title' => 'Sindicância',
-      'prop' => ['8','4'],
-      'menu' => [
-          ['md'=> 2, 'xs'=> 4, 'route'=>'sindicancia.lista','name'=>'Lista'],
-          ['md'=> 3, 'xs'=> 4, 'route'=>'sindicancia.andamento','name'=>'Andamento'],
-          ['md'=> 2, 'xs'=> 4, 'route'=>'sindicancia.prazos','name'=>'Prazos','type' => 'success'],
-          ['md'=> 3, 'xs'=> 4, 'route'=>'sindicancia.rel_situacao','name'=>'Rel. Situação'],
-          ['md'=> 2, 'xs'=> 4, 'route'=>'sindicancia.resultado','name'=>'resultado']
-      ]
-  ]); ?>   
-  <?php echo $__env->renderComponent(); ?>   
-</section>
-  
+    <?php echo $__env->make('procedimentos.sindicancia.list.menu', ['title' => 'Prazos','page' => 'prazos'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>   
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>

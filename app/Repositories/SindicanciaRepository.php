@@ -185,20 +185,21 @@ class SindicanciaRepository extends BaseRepository
         if($verTodasUnidades)
         {
             $registros = Cache::tags('sindicancia')->remember('julgamento_sindicancia'.$ano, self::$expiration, function() use ($ano){
-                return $this->model->where('sjd_ref_ano', '=' ,$ano)
+                return $this->model
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                                 ->where('envolvido.id_sindicancia', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','sindicancia'))
+                    ->where('sindicancia.sjd_ref_ano', '=' ,$ano)
                     ->get();
             });
         }
         else 
         {
             $registros = Cache::tags('sindicancia')->remember('julgamento_sindicancia'.$ano.$unidade, self::$expiration, function() use ($unidade,$ano) {
-                return $this->model->where('sjd_ref_ano', '=' ,$ano)
+                return $this->model
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
@@ -206,6 +207,7 @@ class SindicanciaRepository extends BaseRepository
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','sindicancia'))
+                    ->where('sindicancia.sjd_ref_ano', '=' ,$ano)
                     ->get();
             });
         }
@@ -279,7 +281,7 @@ class SindicanciaRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::tags('sindicancia')->remember('prazo_sindicancia'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('sindicancia')->remember('prazo_sindicancia:'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model
                     ->selectRaw('sindicancia.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -288,7 +290,7 @@ class SindicanciaRepository extends BaseRepository
                     b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
                         DB::raw("(SELECT id_sindicancia, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data !=:termino_data AND id_sindicancia!=:id_sindicancia GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b"),
+                        WHERE termino_data !='0000-00-00' AND id_sindicancia!='' GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b"),
                         'b.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
@@ -302,7 +304,7 @@ class SindicanciaRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('sindicancia')->remember('prazo_sindicancia'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('sindicancia')->remember('prazo_sindicancia:'.$unidade.':'.$ano, self::$expiration, function() use ($unidade, $ano){
                 return $this->model
                     ->selectRaw('sindicancia.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -311,15 +313,15 @@ class SindicanciaRepository extends BaseRepository
                     b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
                         DB::raw("(SELECT id_sindicancia, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data !=:termino_data AND id_sindicancia!=:id_sindicancia GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b"),
+                        WHERE termino_data !='0000-00-00' AND id_sindicancia!='' GROUP BY id_sindicancia ORDER BY id_sindicancia ASC LIMIT 1) b"),
                         'b.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('sindicancia.sjd_ref_ano','=',$ano)
                     ->where('sindicancia.cdopm','like',$unidade.'%')
+                    ->where('sindicancia.sjd_ref_ano','=',$ano)
                     ->get(); 
 
             });   

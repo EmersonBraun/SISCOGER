@@ -3,19 +3,7 @@
 @section('title', 'Exclusão - Lista')
 
 @section('content_header')
-<section class="content-header nopadding">   
-    @component('components.treeview',['title' => 'Exclusão - Lista','opts' => []])
-    @endcomponent   
-    
-    @component('components.menu',
-    [
-        'title' => 'Exclusão',
-        'prop' => ['0','12'],
-        'menu' => []
-    ])   
-    @endcomponent
-</section>
-  
+    @include('procedimentos.exclusao.list.menu', ['title' => 'Apagados','page' => 'apagados'])
 @stop
 
 @section('content')

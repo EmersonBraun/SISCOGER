@@ -23,44 +23,44 @@ class SindicanciaController extends Controller
 {
     public function index()
     {
-        return redirect()->route('sindicancia.lista');
+        return redirect()->route('sindicancia.lista',['ano' => date('Y')]);
     }
 
-    public function lista(SindicanciaRepository $repository)
+    public function lista($ano, SindicanciaRepository $repository)
     {
-        $registros = $repository->all();
-        return view('procedimentos.sindicancia.list.index',compact('registros'));
+        $registros = $repository->ano($ano);
+        return view('procedimentos.sindicancia.list.index',compact('registros','ano'));
     }
 
-    public function andamento(SindicanciaRepository $repository)
+    public function andamento($ano, SindicanciaRepository $repository)
     {
-        $registros = $repository->all();
-        return view('procedimentos.sindicancia.list.andamento',compact('registros'));
+        $registros = $repository->ano($ano);
+        return view('procedimentos.sindicancia.list.andamento',compact('registros','ano'));
     }
 
-    public function prazos(SindicanciaRepository $repository)
+    public function prazos($ano, SindicanciaRepository $repository)
     {
-        $registros = $repository->prazos();
-        return view('procedimentos.sindicancia.list.prazos',compact('registros'));
+        $registros = $repository->prazosAno($ano);
+        return view('procedimentos.sindicancia.list.prazos',compact('registros','ano'));
     }
 
-    public function rel_situacao(SindicanciaRepository $repository)
+    public function rel_situacao($ano, SindicanciaRepository $repository)
     {
-        $registros = $repository->all();
-        return view('procedimentos.sindicancia.list.rel_situacao',compact('registros'));
+        $registros = $repository->ano($ano);
+        return view('procedimentos.sindicancia.list.rel_situacao',compact('registros','ano'));
     }
 
-    public function resultado(SindicanciaRepository $repository)
+    public function resultado($ano, SindicanciaRepository $repository)
     {
-        $registros = $repository->julgamento();
+        $registros = $repository->julgamentoAno($ano);
 
-        return view('procedimentos.sindicancia.list.resultado',compact('registros'));
+        return view('procedimentos.sindicancia.list.resultado',compact('registros','ano'));
     }
 
-    public function apagados(SindicanciaRepository $repository)
+    public function apagados($ano, SindicanciaRepository $repository)
     {
         $registros = $repository->apagados();
-        return view('procedimentos.sindicancia.list.apagados',compact('registros'));
+        return view('procedimentos.sindicancia.list.apagados',compact('registros','ano'));
     }
 
     public function create(Request $request)

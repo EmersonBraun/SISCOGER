@@ -3,42 +3,7 @@
 <?php $__env->startSection('title', 'IPM - Lista'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<section class="content-header">   
-    <h1>IPM - Lista</h1>
-    <ol class="breadcrumb">
-    <li><a href="<?php echo e(route('home')); ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">IPM - Lista</li>
-    </ol>
-    <br>
-    <div class='form-group col-md-12 col-xs-12' style='padding-left: 0px'>
-        <div class='btn-group col-md-8 col-xs-12 ' style='padding-left: 0px'>
-        <a class="btn btn-success col-md-2 col-xs-4 "  href="<?php echo e(route('ipm.lista',['ano' => $ano])); ?>">Lista</a>
-        <a class="btn btn-default col-md-2 col-xs-4 "  href="<?php echo e(route('ipm.andamento',['ano' => $ano])); ?>">Andamento</a>
-        <a class="btn btn-default col-md-2 col-xs-4 "  href="<?php echo e(route('ipm.prazos',['ano' => $ano])); ?>">Prazos</a>  
-        <a class="btn btn-default col-md-2 col-xs-4 "  href="<?php echo e(route('ipm.rel_situacao',['ano' => $ano])); ?>">Rel. Situação</a> 
-        <a class="btn btn-default col-md-2 col-xs-4 "  href="<?php echo e(route('ipm.resultado',['ano' => $ano])); ?>">Resultado</a> 
-        </div>
-        <div class='col-md-2 col-xs-6 '>
-            <a class="btn btn-block btn-primary"  href="<?php echo e(route('ipm.create')); ?>">
-            <i class="fa fa-plus "></i> Adicionar IPM</a>
-        </div>
-        <div class='col-md-2 col-xs-6  pull-right'>
-            <div class="pull-right">
-            <label for="navegaco">Listar ano: </label>
-            <select class="" id="navegacao" data-toggle="tooltip" data-placement="bottom" 
-            title="O ano apenas modifica a listagem,os dados continuam sendo inseridos em <?php echo e(date('Y')); ?>"> 
-                <option selected='selected'> <?php echo e($ano); ?> </option>
-                <?php for($i = date('Y'); $i >= 2008; $i--): ?>
-                <?php if($i != $ano): ?>
-                    <option onclick="javascript:location.href='<?php echo e(route('ipm.lista',['ano' => $i])); ?>'"> <?php echo e($i); ?> </option>
-                <?php endif; ?>
-                <?php endfor; ?>  
-            </select> 
-            </div>
-        </div>
-    <div>
-</section>
-  
+    <?php echo $__env->make('procedimentos.ipm.list.menu', ['title' => 'Consulta','page' => 'lista'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>

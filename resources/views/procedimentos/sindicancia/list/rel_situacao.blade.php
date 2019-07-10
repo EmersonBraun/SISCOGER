@@ -3,27 +3,7 @@
 @section('title', 'Sindicância - Rel. Sit.')
 
 @section('content_header')
-<section class="content-header nopadding">
-    @component('components.treeview',
-    [
-        'title' => 'Sindicância - Relatório de Situação',
-        'opts' => []
-    ])
-    @endcomponent   
-    
-    @component('components.menu',
-    [
-        'title' => 'Sindicância',
-        'prop' => ['8','4'],
-        'menu' => [
-            ['md'=> 2, 'xs'=> 4, 'route'=>'sindicancia.lista','name'=>'Lista'],
-            ['md'=> 3, 'xs'=> 4, 'route'=>'sindicancia.andamento','name'=>'Andamento'],
-            ['md'=> 2, 'xs'=> 4, 'route'=>'sindicancia.prazos','name'=>'Prazos'],
-            ['md'=> 3, 'xs'=> 4, 'route'=>'sindicancia.rel_situacao','name'=>'Rel. Situação'],
-            ['md'=> 2, 'xs'=> 4, 'route'=>'sindicancia.resultado','name'=>'resultado','type' => 'success']
-        ]
-    ])   
-    @endcomponent   
+    @include('procedimentos.sindicancia.list.menu', ['title' => 'Rel. Situação','page' => 'rel_situacao'])  
 @stop
 
 @section('content')

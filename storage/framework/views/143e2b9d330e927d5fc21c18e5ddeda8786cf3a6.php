@@ -1,29 +1,7 @@
 <?php $__env->startSection('title', 'CJ - Julgamento'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<section class="content-header nopadding"> 
-  <?php $__env->startComponent('components.treeview',
-  [
-      'title' => 'CJ - Julgamento',
-      'opts' => []
-  ]); ?>
-  <?php echo $__env->renderComponent(); ?>   
-  
-  <?php $__env->startComponent('components.menu',
-  [
-      'title' => 'CJ',
-      'prop' => ['8','4'],
-      'menu' => [
-          ['md'=> 2, 'xs'=> 4, 'route'=>'cj.lista','name'=>'Lista'],
-          ['md'=> 3, 'xs'=> 4, 'route'=>'cj.andamento','name'=>'Andamento'],
-          ['md'=> 2, 'xs'=> 4, 'route'=>'cj.prazos','name'=>'Prazos'],
-          ['md'=> 3, 'xs'=> 4, 'route'=>'cj.rel_situacao','name'=>'Rel. Situação'],
-          ['md'=> 2, 'xs'=> 4, 'route'=>'cj.julgamento','name'=>'Julgamento','type' => 'success']
-      ]
-  ]); ?>   
-  <?php echo $__env->renderComponent(); ?>   
-</section>
-  
+    <?php echo $__env->make('procedimentos.cj.list.menu', ['title' => 'Julgamento','page' => 'julgamento'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>

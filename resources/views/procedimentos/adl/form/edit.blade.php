@@ -12,7 +12,6 @@
   </ol>
   <br>
 </section>
-  
 @stop
 
 @section('content')

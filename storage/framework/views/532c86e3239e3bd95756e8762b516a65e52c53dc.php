@@ -3,23 +3,7 @@
 <?php $__env->startSection('title', 'PAD'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<section class="content-header"> 
-  <?php $__env->startComponent('components.treeview',
-  [
-    'title' => 'PAD - Lista',
-    'opts' => []
-  ]); ?>
-  <?php echo $__env->renderComponent(); ?>  
-
-  <?php $__env->startComponent('components.menu',
-  [
-    'title' => 'pad',
-    'prop' => ['8','4'],
-    'menu' => []
-  ]); ?>   
-  <?php echo $__env->renderComponent(); ?>
-</section>
-  
+    <?php echo $__env->make('procedimentos.pad.list.menu', ['title' => 'Consulta','page' => 'lista'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>

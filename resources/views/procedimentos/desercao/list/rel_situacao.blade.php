@@ -3,20 +3,7 @@
 @section('title', 'Deserção')
 
 @section('content_header')
-<section class="content-header nopadding">  
-    @component('components.treeview',['title' => 'Deserção - Relatório de Situação','opts' => []])
-    @endcomponent   
-    
-    @component('components.menu',
-    [
-        'title' => 'Deserção',
-        'prop' => ['8','4'],
-        'menu' => [
-            ['md'=> 6, 'xs'=> 6, 'route'=>'desercao.lista','name'=>'Lista'],
-            ['md'=> 6, 'xs'=> 6, 'route'=>'desercao.rel_situacao','name'=>'Rel. Situação','type' => 'success']
-        ]
-    ])   
-    @endcomponent 
+    @include('procedimentos.desercao.list.menu', ['title' => 'Rel. Situação','page' => 'rel_situacao'])
 @stop
 
 @section('content')

@@ -3,23 +3,7 @@
 @section('title', 'PAD')
 
 @section('content_header')
-<section class="content-header"> 
-  @component('components.treeview',
-  [
-    'title' => 'PAD - Lista',
-    'opts' => []
-  ])
-  @endcomponent  
-
-  @component('components.menu',
-  [
-    'title' => 'pad',
-    'prop' => ['8','4'],
-    'menu' => []
-  ])   
-  @endcomponent
-</section>
-  
+    @include('procedimentos.pad.list.menu', ['title' => 'Apagados','page' => 'apagados']) 
 @stop
 
 @section('content')

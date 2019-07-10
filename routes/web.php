@@ -197,7 +197,8 @@ Route::group(['as'=>'cd.','prefix' =>'cd'],function(){
 	Route::get('andamento',['as' =>'andamento','uses'=>'Proc\CdController@andamento','middleware' => ['permission:listar-cd']]);
 	Route::get('prazos',['as' =>'prazos','uses'=>'Proc\CdController@prazos','middleware' => ['permission:listar-cd']]);
 	Route::get('rel_situacao',['as' =>'rel_situacao','uses'=>'Proc\CdController@rel_situacao','middleware' => ['permission:listar-cd']]);
-	Route::get('julgamento',['as' =>'julgamento','uses'=>'Proc\CdController@julgamento','middleware' => ['permission:listar-cd']]);
+    Route::get('julgamento',['as' =>'julgamento','uses'=>'Proc\CdController@julgamento','middleware' => ['permission:listar-cd']]);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Proc\CdController@apagados','middleware' => ['permission:listar-cd']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\CdController@create','middleware' => ['permission:criar-cd']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\CdController@store','middleware' => ['permission:criar-cd']]);
@@ -214,7 +215,8 @@ Route::group(['as'=>'cj.','prefix' =>'cj'],function(){
 	Route::get('andamento',['as' =>'andamento','uses'=>'Proc\CjController@andamento','middleware' => ['permission:listar-cj']]);
 	Route::get('prazos',['as' =>'prazos','uses'=>'Proc\CjController@prazos','middleware' => ['permission:listar-cj']]);
 	Route::get('rel_situacao',['as' =>'rel_situacao','uses'=>'Proc\CjController@rel_situacao','middleware' => ['permission:listar-cj']]);
-	Route::get('julgamento',['as' =>'julgamento','uses'=>'Proc\CjController@julgamento','middleware' => ['permission:listar-cj']]);
+    Route::get('julgamento',['as' =>'julgamento','uses'=>'Proc\CjController@julgamento','middleware' => ['permission:listar-cj']]);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Proc\CjController@apagados','middleware' => ['permission:listar-cj']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\CjController@create','middleware' => ['permission:criar-cj']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\CjController@store','middleware' => ['permission:criar-cj']]);
@@ -231,7 +233,8 @@ Route::group(['as'=>'fatd.','prefix' =>'fatd'],function(){
 	Route::get('andamento/{ano}',['as' =>'andamento','uses'=>'Proc\FatdController@andamento','middleware' => ['permission:listar-fatd']]);
 	Route::get('prazos/{ano}',['as' =>'prazos','uses'=>'Proc\FatdController@prazos','middleware' => ['permission:listar-fatd']]);
 	Route::get('rel_situacao/{ano}',['as' =>'rel_situacao','uses'=>'Proc\FatdController@rel_situacao','middleware' => ['permission:listar-fatd']]);
-	Route::get('julgamento/{ano}',['as' =>'julgamento','uses'=>'Proc\FatdController@julgamento','middleware' => ['permission:listar-fatd']]);
+    Route::get('julgamento/{ano}',['as' =>'julgamento','uses'=>'Proc\FatdController@julgamento','middleware' => ['permission:listar-fatd']]);
+    Route::get('apagados/{ano}',['as' =>'apagados','uses'=>'Proc\FatdController@apagados','middleware' => ['permission:listar-fatd']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\FatdController@create','middleware' => ['permission:criar-fatd']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\FatdController@store','middleware' => ['permission:criar-fatd']]);
@@ -242,9 +245,10 @@ Route::group(['as'=>'fatd.','prefix' =>'fatd'],function(){
 });
 //Rotas do módulo Pad
 Route::group(['as'=>'pad.','prefix' =>'pad'],function(){
-	Route::get('',['as' =>'index','uses'=>'Proc\PadController@index','middleware' => ['permission:listar-pad']]);
+    Route::get('',['as' =>'index','uses'=>'Proc\PadController@index','middleware' => ['permission:listar-pad']]);
 	//listagem
 	Route::get('lista',['as' =>'lista','uses'=>'Proc\PadController@lista','middleware' => ['permission:listar-pad']]);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Proc\PadController@apagados','middleware' => ['permission:listar-pad']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\PadController@create','middleware' => ['permission:criar-pad']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\PadController@store','middleware' => ['permission:criar-pad']]);
@@ -258,7 +262,8 @@ Route::group(['as'=>'apfd.','prefix' =>'apfd'],function(){
 	Route::get('',['as' =>'index','uses'=>'Proc\ApfdController@index','middleware' => ['permission:listar-apfd']]);
 	//listagem
 	Route::get('lista',['as' =>'lista','uses'=>'Proc\ApfdController@lista','middleware' => ['permission:listar-apfd']]);
-	Route::get('rel_situacao',['as' =>'rel_situacao','uses'=>'Proc\ApfdController@rel_situacao','middleware' => ['permission:listar-apfd']]);
+    Route::get('rel_situacao',['as' =>'rel_situacao','uses'=>'Proc\ApfdController@rel_situacao','middleware' => ['permission:listar-apfd']]);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Proc\ApfdController@apagados','middleware' => ['permission:listar-apfd']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\ApfdController@create','middleware' => ['permission:criar-apfd']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\ApfdController@store','middleware' => ['permission:criar-apfd']]);
@@ -272,7 +277,8 @@ Route::group(['as'=>'desercao.','prefix' =>'desercao'],function(){
 	Route::get('',['as' =>'index','uses'=>'Proc\DesercaoController@index','middleware' => ['permission:listar-desercao']]);
 	//listagem
 	Route::get('lista',['as' =>'lista','uses'=>'Proc\DesercaoController@lista','middleware' => ['permission:listar-desercao']]);
-	Route::get('rel_situacao',['as' =>'rel_situacao','uses'=>'Proc\DesercaoController@rel_situacao','middleware' => ['permission:listar-desercao']]);
+    Route::get('rel_situacao',['as' =>'rel_situacao','uses'=>'Proc\DesercaoController@rel_situacao','middleware' => ['permission:listar-desercao']]);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Proc\DesercaoController@apagados','middleware' => ['permission:listar-desercao']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\DesercaoController@create','middleware' => ['permission:criar-desercao']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\DesercaoController@store','middleware' => ['permission:criar-desercao']]);
@@ -285,7 +291,8 @@ Route::group(['as'=>'desercao.','prefix' =>'desercao'],function(){
 Route::group(['as'=>'exclusao.','prefix' =>'exclusao'],function(){
 	Route::get('',['as' =>'index','uses'=>'Proc\ExclusaoController@index','middleware' => ['permission:listar-exclusao']]);
 	//listagem
-	Route::get('lista',['as' =>'lista','uses'=>'Proc\ExclusaoController@lista','middleware' => ['permission:listar-exclusao']]);
+    Route::get('lista',['as' =>'lista','uses'=>'Proc\ExclusaoController@lista','middleware' => ['permission:listar-exclusao']]);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Proc\ExclusaoController@apagados','middleware' => ['permission:listar-exclusao']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\ExclusaoController@create','middleware' => ['permission:criar-exclusao']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\ExclusaoController@store','middleware' => ['permission:criar-exclusao']]);
@@ -302,7 +309,8 @@ Route::group(['as'=>'ipm.','prefix' =>'ipm'],function(){
 	Route::get('andamento/{ano}',['as' =>'andamento','uses'=>'Proc\IpmController@andamento','middleware' => ['permission:listar-ipm']]);
 	Route::get('prazos/{ano}',['as' =>'prazos','uses'=>'Proc\IpmController@prazos','middleware' => ['permission:listar-ipm']]);
 	Route::get('rel_situacao/{ano}',['as' =>'rel_situacao','uses'=>'Proc\IpmController@rel_situacao','middleware' => ['permission:listar-ipm']]);
-	Route::get('resultado/{ano}',['as' =>'resultado','uses'=>'Proc\IpmController@resultado','middleware' => ['permission:listar-ipm']]);
+    Route::get('resultado/{ano}',['as' =>'resultado','uses'=>'Proc\IpmController@resultado','middleware' => ['permission:listar-ipm']]);
+    Route::get('apagados/{ano}',['as' =>'apagados','uses'=>'Proc\IpmController@apagados','middleware' => ['permission:listar-ipm']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\IpmController@create','middleware' => ['permission:criar-ipm']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\IpmController@store','middleware' => ['permission:criar-ipm']]);
@@ -317,7 +325,8 @@ Route::group(['as'=>'iso.','prefix' =>'iso'],function(){
 	//listagem
 	Route::get('lista',['as' =>'lista','uses'=>'Proc\IsoController@lista','middleware' => ['permission:listar-iso']]);
 	Route::get('andamento',['as' =>'andamento','uses'=>'Proc\IsoController@andamento','middleware' => ['permission:listar-iso']]);
-	Route::get('prazos',['as' =>'prazos','uses'=>'Proc\IsoController@prazos','middleware' => ['permission:listar-iso']]);
+    Route::get('prazos',['as' =>'prazos','uses'=>'Proc\IsoController@prazos','middleware' => ['permission:listar-iso']]);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Proc\IsoController@apagados','middleware' => ['permission:listar-iso']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\IsoController@create','middleware' => ['permission:criar-iso']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\IsoController@store','middleware' => ['permission:criar-iso']]);
@@ -330,11 +339,12 @@ Route::group(['as'=>'iso.','prefix' =>'iso'],function(){
 Route::group(['as'=>'it.','prefix' =>'it'],function(){
 	Route::get('',['as' =>'index','uses'=>'Proc\ItController@index','middleware' => ['permission:listar-it']]);
 	//listagem
-	Route::get('lista',['as' =>'lista','uses'=>'Proc\ItController@lista','middleware' => ['permission:listar-it']]);
-	Route::get('andamento',['as' =>'andamento','uses'=>'Proc\ItController@andamento','middleware' => ['permission:listar-it']]);
-	Route::get('prazos',['as' =>'prazos','uses'=>'Proc\ItController@prazos','middleware' => ['permission:listar-it']]);
-	Route::get('rel_valores',['as' =>'rel_valores','uses'=>'Proc\ItController@rel_valores','middleware' => ['permission:listar-it']]);
-	Route::get('julgamento',['as' =>'julgamento','uses'=>'Proc\ItController@julgamento','middleware' => ['permission:listar-it']]);
+	Route::get('lista/{ano}',['as' =>'lista','uses'=>'Proc\ItController@lista','middleware' => ['permission:listar-it']]);
+	Route::get('andamento/{ano}',['as' =>'andamento','uses'=>'Proc\ItController@andamento','middleware' => ['permission:listar-it']]);
+	Route::get('prazos/{ano}',['as' =>'prazos','uses'=>'Proc\ItController@prazos','middleware' => ['permission:listar-it']]);
+	Route::get('rel_valores/{ano}',['as' =>'rel_valores','uses'=>'Proc\ItController@rel_valores','middleware' => ['permission:listar-it']]);
+    Route::get('julgamento/{ano}',['as' =>'julgamento','uses'=>'Proc\ItController@julgamento','middleware' => ['permission:listar-it']]);
+    Route::get('apagados/{ano}',['as' =>'apagados','uses'=>'Proc\ItController@apagados','middleware' => ['permission:listar-it']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\ItController@create','middleware' => ['permission:criar-it']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\ItController@store','middleware' => ['permission:criar-it']]);
@@ -352,7 +362,8 @@ Route::group(['as'=>'procoutros.','prefix' =>'procoutros'],function(){
 	Route::get('andamento',['as' =>'andamento','uses'=>'Proc\ProcOutrosController@andamento','middleware' => ['permission:listar-proc-outros']]);
 	Route::get('prazos',['as' =>'prazos','uses'=>'Proc\ProcOutrosController@prazos','middleware' => ['permission:listar-proc-outros']]);
 	Route::get('rel_situacao',['as' =>'rel_situacao','uses'=>'Proc\ProcOutrosController@rel_situacao','middleware' => ['permission:listar-proc-outros']]);
-	Route::get('julgamento',['as' =>'julgamento','uses'=>'Proc\ProcOutrosController@julgamento','middleware' => ['permission:listar-proc-outros']]);
+    Route::get('julgamento',['as' =>'julgamento','uses'=>'Proc\ProcOutrosController@julgamento','middleware' => ['permission:listar-proc-outros']]);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Proc\ProcOutrosController@apagados','middleware' => ['permission:listar-proc-outros']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\ProcOutrosController@create','middleware' => ['permission:criar-proc-outros']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\ProcOutrosController@store','middleware' => ['permission:criar-proc-outros']]);
@@ -364,7 +375,8 @@ Route::group(['as'=>'procoutros.','prefix' =>'procoutros'],function(){
 //Rotas do módulo recurso
 Route::group(['as'=>'recurso.','prefix' =>'recurso'],function(){
 	Route::get('',['as' =>'index','uses'=>'Proc\RecursoController@index','middleware' => ['permission:listar-recursos']]);
-	Route::get('lista',['as' =>'lista','uses'=>'Proc\RecursoController@lista','middleware' => ['permission:listar-recursos']]);
+    Route::get('lista',['as' =>'lista','uses'=>'Proc\RecursoController@lista','middleware' => ['permission:listar-recursos']]);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Proc\RecursoController@apagados','middleware' => ['permission:listar-recursos']]);
 	Route::get('criar',['as' =>'create','uses'=>'Proc\RecursoController@create','middleware' => ['permission:criar-recursos']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\RecursoController@store','middleware' => ['permission:criar-recursos']]);
 	Route::get('ver/{ref}/{ano}',['as' =>'show','uses'=>'Proc\RecursoController@show','middleware' => ['permission:ver-recursos']]);
@@ -376,11 +388,12 @@ Route::group(['as'=>'recurso.','prefix' =>'recurso'],function(){
 Route::group(['as'=>'sindicancia.','prefix' =>'sindicancia'],function(){
 	Route::get('',['as' =>'index','uses'=>'Proc\SindicanciaController@index','middleware' => ['permission:listar-sindicancia']]);
 	//listagem
-	Route::get('lista',['as' =>'lista','uses'=>'Proc\SindicanciaController@lista','middleware' => ['permission:listar-sindicancia']]);
-	Route::get('andamento',['as' =>'andamento','uses'=>'Proc\SindicanciaController@andamento','middleware' => ['permission:listar-sindicancia']]);
-	Route::get('prazos',['as' =>'prazos','uses'=>'Proc\SindicanciaController@prazos','middleware' => ['permission:listar-sindicancia']]);
-	Route::get('rel_situacao',['as' =>'rel_situacao','uses'=>'Proc\SindicanciaController@rel_situacao','middleware' => ['permission:listar-sindicancia']]);
-	Route::get('resultado',['as' =>'resultado','uses'=>'Proc\SindicanciaController@resultado','middleware' => ['permission:listar-sindicancia']]);
+	Route::get('lista/{ano}',['as' =>'lista','uses'=>'Proc\SindicanciaController@lista','middleware' => ['permission:listar-sindicancia']]);
+	Route::get('andamento/{ano}',['as' =>'andamento','uses'=>'Proc\SindicanciaController@andamento','middleware' => ['permission:listar-sindicancia']]);
+	Route::get('prazos/{ano}',['as' =>'prazos','uses'=>'Proc\SindicanciaController@prazos','middleware' => ['permission:listar-sindicancia']]);
+	Route::get('rel_situacao/{ano}',['as' =>'rel_situacao','uses'=>'Proc\SindicanciaController@rel_situacao','middleware' => ['permission:listar-sindicancia']]);
+    Route::get('resultado/{ano}',['as' =>'resultado','uses'=>'Proc\SindicanciaController@resultado','middleware' => ['permission:listar-sindicancia']]);
+    Route::get('apagados/{ano}',['as' =>'apagados','uses'=>'Proc\SindicanciaController@apagados','middleware' => ['permission:listar-sindicancia']]);
 	//formulários
 	Route::get('criar',['as' =>'create','uses'=>'Proc\SindicanciaController@create','middleware' => ['permission:criar-sindicancia']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\SindicanciaController@store','middleware' => ['permission:criar-sindicancia']]);

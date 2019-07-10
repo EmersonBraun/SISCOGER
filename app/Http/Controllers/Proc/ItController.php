@@ -23,43 +23,43 @@ class ItController extends Controller
 {
     public function index()
     {
-        return redirect()->route('it.lista');
+        return redirect()->route('it.lista',['ano' => date('Y')]);
     }
 
-    public function lista(ItRepository $repository)
+    public function lista($ano, ItRepository $repository)
     {
-        $registros = $repository->all();
-        return view('procedimentos.it.list.index',compact('registros'));
+        $registros = $repository->ano($ano);
+        return view('procedimentos.it.list.index',compact('registros','ano'));
     }
 
-    public function andamento(ItRepository $repository)
+    public function andamento($ano, ItRepository $repository)
     {
-        $registros = $repository->andamento();
-        return view('procedimentos.it.list.andamento',compact('registros'));
+        $registros = $repository->andamentoAno($ano);
+        return view('procedimentos.it.list.andamento',compact('registros','ano'));
     }
 
-    public function prazos(ItRepository $repository)
+    public function prazos($ano, ItRepository $repository)
     {
-        $registros = $repository->prazos();
-        return view('procedimentos.it.list.prazos',compact('registros'));
+        $registros = $repository->prazosAno($ano);
+        return view('procedimentos.it.list.prazos',compact('registros','ano'));
     }
 
-    public function rel_valores(ItRepository $repository)
+    public function rel_valores($ano, ItRepository $repository)
     {
-        $registros = $repository->relValores();
-        return view('procedimentos.it.list.rel_valores',compact('registros'));
+        $registros = $repository->relValoresAno($ano);
+        return view('procedimentos.it.list.rel_valores',compact('registros','ano'));
     }
 
-    public function julgamento(ItRepository $repository)
+    public function julgamento($ano, ItRepository $repository)
     {
-        $registros = Proc::julgamento('it');
-        return view('procedimentos.it.list.julgamento',compact('registros'));
+        $registros = $repository->julgamentoAno($ano);
+        return view('procedimentos.it.list.julgamento',compact('registros','ano'));
     }
 
-    public function apagados(ItRepository $repository)
+    public function apagados($ano, ItRepository $repository)
     {
         $registros = $repository->apagados();
-        return view('procedimentos.it.list.apagados',compact('registros'));
+        return view('procedimentos.it.list.apagados',compact('registros','ano'));
     }
 
     public function create(Request $request)

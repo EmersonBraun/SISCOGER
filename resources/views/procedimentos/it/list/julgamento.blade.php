@@ -3,28 +3,7 @@
 @section('title', 'IT')
 
 @section('content_header')
-<section class="content-header">   
-  <h1>IT - Lista</h1>
-  <ol class="breadcrumb">
-  <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li class="active">IT - Julgamento</li>
-  </ol>
-  <br>
-  <div class='form-group col-md-12 col-xs-12' style='padding-left: 0px'>
-    <div class='btn-group col-md-8 col-xs-12 ' style='padding-left: 0px'>
-      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('it.lista')}}">Lista</a>
-      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('it.andamento')}}">Andamento</a>
-      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('it.prazos')}}">Prazos</a>  
-      <a class="btn btn-default col-md-2 col-xs-4 "  href="{{route('it.rel_situacao')}}">Rel. Situação</a> 
-      <a class="btn btn-success col-md-2 col-xs-4 "  href="{{route('it.julgamento')}}">Julgamento</a> 
-    </div>
-    <div class='col-md-4 col-xs-6 '>
-        <a class="btn btn-block btn-primary"  href="{{route('it.create')}}">
-        <i class="fa fa-plus "></i> Adicionar IT</a>
-    </div>
-  <div>
-</section>
-  
+    @include('procedimentos.it.list.menu', ['title' => 'Julgamento','page' => 'julgamento']) 
 @stop
 
 @section('content')

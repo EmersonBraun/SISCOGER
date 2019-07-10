@@ -1,25 +1,7 @@
 <?php $__env->startSection('title', 'APFD - Rel. Sit.'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<section class="content-header nopadding"> 
-  <?php $__env->startComponent('components.treeview',
-  [
-      'title' => 'APFD - Relatório de Situação',
-      'opts' => []
-  ]); ?>
-  <?php echo $__env->renderComponent(); ?>   
-  
-  <?php $__env->startComponent('components.menu',
-  [
-      'title' => 'APFD',
-      'prop' => ['8','4'],
-      'menu' => [
-          ['md'=> 6, 'xs'=> 6, 'route'=>'apfd.lista','name'=>'lista'],
-          ['md'=> 6, 'xs'=> 6, 'route'=>'apfd.rel_situacao','name'=>'Rel. Situação','type' => 'success']
-      ]
-  ]); ?>   
-  <?php echo $__env->renderComponent(); ?>
-</section>
+  <?php echo $__env->make('procedimentos.apfd.list.menu', ['title' => 'Rel. Situação','page' => 'rel_situacao'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>

@@ -3,29 +3,7 @@
 @section('title', 'CJ - Lista')
 
 @section('content_header')
-<section class="content-header nopadding">  
-  @component('components.treeview',
-  [
-      'title' => 'CJ - Lista',
-      'opts' => []
-  ])
-  @endcomponent   
-  
-  @component('components.menu',
-  [
-      'title' => 'CJ',
-      'prop' => ['8','4'],
-      'menu' => [
-          ['md'=> 2, 'xs'=> 4, 'route'=>'cj.lista','name'=>'Lista','type' => 'success'],
-          ['md'=> 3, 'xs'=> 4, 'route'=>'cj.andamento','name'=>'Andamento'],
-          ['md'=> 2, 'xs'=> 4, 'route'=>'cj.prazos','name'=>'Prazos'],
-          ['md'=> 3, 'xs'=> 4, 'route'=>'cj.rel_situacao','name'=>'Rel. Situação'],
-          ['md'=> 2, 'xs'=> 4, 'route'=>'cj.julgamento','name'=>'Julgamento']
-      ]
-  ])   
-  @endcomponent 
-</section>
-  
+    @include('procedimentos.cj.list.menu', ['title' => 'Consulta','page' => 'lista'])
 @stop
 
 @section('content')

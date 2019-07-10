@@ -3,24 +3,7 @@
 <?php $__env->startSection('title', 'RECURSOS - Lista'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<section class="content-header">   
-  <h1>RECURSOS - Lista</h1>
-  <ol class="breadcrumb">
-  <li><a href="<?php echo e(route('home')); ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li class="active">RECURSOS - Lista</li>
-  </ol>
-  <br>
-  <div class='form-group col-md-12 col-xs-12' style='padding-left: 0px'>
-    <div class='btn-group col-md-4 col-xs-12 ' style='padding-left: 0px'>
-      <a class="btn btn-success btn-block "  href="<?php echo e(route('recurso.lista')); ?>">Lista</a>
-    </div>
-    <div class='col-md-8 col-xs-6 '>
-        <a class="btn btn-block btn-primary"  href="<?php echo e(route('recurso.create')); ?>">
-        <i class="fa fa-plus "></i> Adicionar RECURSOS</a>
-    </div>
-  <div>
-</section>
-  
+    <?php echo $__env->make('procedimentos.recurso.list.menu', ['title' => 'Consulta','page' => 'lista'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>  
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>

@@ -89,15 +89,37 @@ class ItRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('it')->remember('todos_it', self::$expiration, function() {
+            $registros = Cache::tags('it')->remember('viaturas_it', self::$expiration, function() {
                 return $this->model->where('objetoprocedimento','=','viatura')->get();
             });
         }
         else 
         {
-            $registros = Cache::tags('it')->remember('todos_it:'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('it')->remember('viaturas_it:'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('objetoprocedimento','=','viatura')
                 ->where('cdopm','like',$unidade.'%')->get();
+            });
+        }
+
+        return $registros;
+    } 
+
+    public function relValoresAno($ano)
+	{
+        $unidade = $this->unidade;
+        $verTodasUnidades = $this->verTodasUnidades;
+
+        if($verTodasUnidades)
+        {
+            $registros = Cache::tags('it')->remember('viaturas_it:'.$ano, self::$expiration, function() use ($ano){
+                return $this->model->where('objetoprocedimento','=','viatura')->where('sjd_ref_ano','=',$ano)->get();
+            });
+        }
+        else 
+        {
+            $registros = Cache::tags('it')->remember('viaturas_it:'.$unidade.':'.$ano, self::$expiration, function() use ($unidade, $ano) {
+                return $this->model->where('objetoprocedimento','=','viatura')
+                ->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
 
@@ -207,20 +229,21 @@ class ItRepository extends BaseRepository
         if($verTodasUnidades)
         {
             $registros = Cache::tags('it')->remember('julgamento_it:'.$ano, self::$expiration, function() use ($ano){
-                return $this->model->where('sjd_ref_ano', '=' ,$ano)
+                return $this->model
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_it', '=', 'it.id_it')
                                 ->where('envolvido.id_it', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','it'))
+                    ->where('it.sjd_ref_ano', '=' ,$ano)
                     ->get();
             });
         }
         else 
         {
             $registros = Cache::tags('it')->remember('julgamento_it:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade,$ano) {
-                return $this->model->where('sjd_ref_ano', '=' ,$ano)
+                return $this->model
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_it', '=', 'it.id_it')
@@ -228,6 +251,7 @@ class ItRepository extends BaseRepository
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','it'))
+                    ->where('it.sjd_ref_ano', '=' ,$ano)
                     ->get();
             });
         }

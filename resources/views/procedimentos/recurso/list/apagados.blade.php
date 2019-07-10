@@ -3,24 +3,7 @@
 @section('title', 'RECURSOS - Lista')
 
 @section('content_header')
-<section class="content-header">   
-  <h1>RECURSOS - Lista</h1>
-  <ol class="breadcrumb">
-  <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li class="active">RECURSOS - Lista</li>
-  </ol>
-  <br>
-  <div class='form-group col-md-12 col-xs-12' style='padding-left: 0px'>
-    <div class='btn-group col-md-4 col-xs-12 ' style='padding-left: 0px'>
-      <a class="btn btn-success btn-block "  href="{{route('recurso.lista')}}">Lista</a>
-    </div>
-    <div class='col-md-8 col-xs-6 '>
-        <a class="btn btn-block btn-primary"  href="{{route('recurso.create')}}">
-        <i class="fa fa-plus "></i> Adicionar RECURSOS</a>
-    </div>
-  <div>
-</section>
-  
+    @include('procedimentos.recurso.list.menu', ['title' => 'Apagados','page' => 'apagados']) 
 @stop
 
 @section('content')
