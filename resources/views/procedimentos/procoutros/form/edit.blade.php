@@ -39,46 +39,47 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('procoutros.update',$proc['id_proc_outros']),'method' => 'put']) !!}
-                <v-label label="id_andamento" title="Andamento">
-                    {{-- {!! Form::select('id_andamento',config('sistema.andamentoPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}
-                </v-label>
-                <v-label label="id_andamentocoger" title="Andamento COGER">
-                    {{-- {!! Form::select('id_andamentocoger',config('sistema.andamentocogerPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}
-                </v-label>
-                <v-label label="num_pid" title="N° PID">
-                    {{ Form::text('num_pid', null, ['class' => 'form-control ']) }}
-                </v-label>
-                <v-label label="data" title="Data da abertura" icon="fa fa-calendar">
-                    <v-datepicker name="data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['data'] ?? ''}}"></v-datepicker>
-                </v-label>
-                <v-label label="abertura_data" title="Data de recebimento" icon="fa fa-calendar">
-                    <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['abertura_data'] ?? ''}}"></v-datepicker>
-                </v-label>
-                <v-label label="limite_data" title="Data limite" icon="fa fa-calendar">
-                    <v-datepicker name="limite_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['limite_data'] ?? ''}}"></v-datepicker>
-                </v-label>
-                <v-label label="cdopm" title="OPM">
-                    <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
-                </v-label>
-                <v-label label="doc_origem" title="Doc. Origem">---arrumar---
-                    {!! Form::select('doc_origem',[],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
-                </v-label>
-                <v-label label="num_doc_origem" title="Nº Documento, ou descrição outros documentos">
-                    {{ Form::text('num_doc_origem', null, ['class' => 'form-control ']) }}
-                </v-label>
-                <v-label label="motivo_abertura" title="Motivo Abertura">---arrumar---
-                    {!! Form::select('motivo_abertura',[],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
-                </v-label>
-                <v-label label="desc_outros" title="Descrição outros motivos:">
-                    {{ Form::text('desc_outros', null, ['class' => 'form-control ']) }}
-                </v-label>
-                <v-label label="id_municipio" title="Municipio">
-                    <v-municipio id_municipio="{{$proc['id_municipio']}}"></v-municipio>
-                </v-label>
-                --subform viaturas--
-                <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
-                    {!! Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
-                </v-label>
+                    <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                    <v-label label="id_andamento" title="Andamento">
+                        {{-- {!! Form::select('id_andamento',config('sistema.andamentoPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}
+                    </v-label>
+                    <v-label label="id_andamentocoger" title="Andamento COGER">
+                        {{-- {!! Form::select('id_andamentocoger',config('sistema.andamentocogerPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}
+                    </v-label>
+                    <v-label label="num_pid" title="N° PID">
+                        {{ Form::text('num_pid', null, ['class' => 'form-control ']) }}
+                    </v-label>
+                    <v-label label="data" title="Data da abertura" icon="fa fa-calendar">
+                        <v-datepicker name="data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['data'] ?? ''}}"></v-datepicker>
+                    </v-label>
+                    <v-label label="abertura_data" title="Data de recebimento" icon="fa fa-calendar">
+                        <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['abertura_data'] ?? ''}}"></v-datepicker>
+                    </v-label>
+                    <v-label label="limite_data" title="Data limite" icon="fa fa-calendar">
+                        <v-datepicker name="limite_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['limite_data'] ?? ''}}"></v-datepicker>
+                    </v-label>
+                    <v-label label="cdopm" title="OPM">
+                        <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
+                    </v-label>
+                    <v-label label="doc_origem" title="Doc. Origem">---arrumar---
+                        {!! Form::select('doc_origem',[],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+                    </v-label>
+                    <v-label label="num_doc_origem" title="Nº Documento, ou descrição outros documentos">
+                        {{ Form::text('num_doc_origem', null, ['class' => 'form-control ']) }}
+                    </v-label>
+                    <v-label label="motivo_abertura" title="Motivo Abertura">---arrumar---
+                        {!! Form::select('motivo_abertura',[],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+                    </v-label>
+                    <v-label label="desc_outros" title="Descrição outros motivos:">
+                        {{ Form::text('desc_outros', null, ['class' => 'form-control ']) }}
+                    </v-label>
+                    <v-label label="id_municipio" title="Municipio">
+                        <v-municipio id_municipio="{{$proc['id_municipio']}}"></v-municipio>
+                    </v-label>
+                    --subform viaturas--
+                    <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
+                        {!! Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
+                    </v-label>
                 {!! Form::submit('Alterar Proc. Outros',['class' => 'btn btn-primary btn-block']) !!}
                 {!! Form::close() !!}
             </v-tab-item>

@@ -37,7 +37,7 @@
             <div class="box-body">
 
             {!! Form::open(['url' => route('apfd.store')]) !!}
-            <v-prioritario admin="session('admin')"></v-prioritario>
+            <v-prioritario admin="session('is_admin')"></v-prioritario>
             <v-label label="cdopm" title="OPM">
                 <v-opm></v-opm>
             </v-label>

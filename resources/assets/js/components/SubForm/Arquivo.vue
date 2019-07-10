@@ -223,12 +223,6 @@
                 this.obs = ''
                 this.edit = ''
             },
-            dadosSession(){
-                let session = this.$store.getters.getSession
-                this.rg = session.rg
-                this.nome = session.nome
-                this.opm = session.opm_descricao
-            },
         },
     }
 </script>

@@ -40,39 +40,40 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('pad.update',$proc['id_pad']),'method' => 'put']) !!}
-                <v-label label="id_andamento" title="Andamento">
-                    {!! Form::select('id_andamento',config('sistema.andamentoPAD'),null, ['class' => 'form-control ']) !!}
-                </v-label>
-                <v-label label="id_andamentocoger" title="Andamento COGER">
-                    {!! Form::select('id_andamentocoger',config('sistema.andamentocogerPAD'),null, ['class' => 'form-control ']) !!}
-                </v-label>
-                <v-label label="doc_origem_txt" title="Documentos de origem">
-                    {{ Form::text('doc_origem_txt', null, ['class' => 'form-control ']) }}
-                </v-label>
-                <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
-                    <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>
-                </v-label>
-                <v-label label="cdopm" title="OPM">
-                    <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
-                </v-label>
-                <v-label label="portaria_numero" title="N° Portaria">
-                    {{ Form::text('portaria_numero', null, ['class' => 'form-control ']) }}
-                </v-label>
-                <v-label label="portaria_data" title="Data da Portaria" icon="fa fa-calendar">
-                    <v-datepicker name="portaria_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['portaria_data'] ?? ''}}"></v-datepicker>
-                </v-label>
-                <v-label label="doc_tipo" title="Tipo de boletim">
-                    {!! Form::select('doc_tipo',config('sistema.tipoBoletim'),null, ['class' => 'form-control ']) !!}
-                </v-label>
-                <v-label label="doc_numero" title="N° Boletim">
-                    {{ Form::text('doc_numero', null, ['class' => 'form-control ']) }}
-                </v-label>
-                <v-label label="abertura_data" title="Data da abertura" icon="fa fa-calendar">
-                    <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['abertura_data'] ?? ''}}"></v-datepicker>
-                </v-label>
-                <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
-                    {!! Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
-                </v-label>
+                    <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                    <v-label label="id_andamento" title="Andamento">
+                        {!! Form::select('id_andamento',config('sistema.andamentoPAD'),null, ['class' => 'form-control ']) !!}
+                    </v-label>
+                    <v-label label="id_andamentocoger" title="Andamento COGER">
+                        {!! Form::select('id_andamentocoger',config('sistema.andamentocogerPAD'),null, ['class' => 'form-control ']) !!}
+                    </v-label>
+                    <v-label label="doc_origem_txt" title="Documentos de origem">
+                        {{ Form::text('doc_origem_txt', null, ['class' => 'form-control ']) }}
+                    </v-label>
+                    <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
+                        <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>
+                    </v-label>
+                    <v-label label="cdopm" title="OPM">
+                        <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
+                    </v-label>
+                    <v-label label="portaria_numero" title="N° Portaria">
+                        {{ Form::text('portaria_numero', null, ['class' => 'form-control ']) }}
+                    </v-label>
+                    <v-label label="portaria_data" title="Data da Portaria" icon="fa fa-calendar">
+                        <v-datepicker name="portaria_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['portaria_data'] ?? ''}}"></v-datepicker>
+                    </v-label>
+                    <v-label label="doc_tipo" title="Tipo de boletim">
+                        {!! Form::select('doc_tipo',config('sistema.tipoBoletim'),null, ['class' => 'form-control ']) !!}
+                    </v-label>
+                    <v-label label="doc_numero" title="N° Boletim">
+                        {{ Form::text('doc_numero', null, ['class' => 'form-control ']) }}
+                    </v-label>
+                    <v-label label="abertura_data" title="Data da abertura" icon="fa fa-calendar">
+                        <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['abertura_data'] ?? ''}}"></v-datepicker>
+                    </v-label>
+                    <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
+                        {!! Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
+                    </v-label>
                 {!! Form::submit('Alterar ISO',['class' => 'btn btn-primary btn-block']) !!}
                 {!! Form::close() !!}
             </v-tab-item>

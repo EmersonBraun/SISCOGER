@@ -40,6 +40,7 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('cd.update',$proc['id_cd']),'method' => 'put']) !!}
+                <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
                 <v-label label="id_andamento" title="Andamento">
                     {!! Form::select('id_andamento',config('sistema.andamentoCD'),null, ['class' => 'form-control ']) !!}
                 </v-label>

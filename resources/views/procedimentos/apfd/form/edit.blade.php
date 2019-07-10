@@ -37,7 +37,7 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('apfd.update',$proc['id_apfd']),'method' => 'put']) !!}
-                <v-prioritario admin="session('admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
                 <v-label label="cdopm" title="OPM">
                     <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
                 </v-label>

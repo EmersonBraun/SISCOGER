@@ -254,11 +254,6 @@
                 this.publicacao_termino = '',
                 this.edit = ''
             },
-            dadosSession(){
-                let session = this.$store.getters.getSession
-                this.admin = session.is_admin
-                this.rg = session.rg
-            },
         },
     }
 </script>

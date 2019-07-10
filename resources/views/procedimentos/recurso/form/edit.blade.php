@@ -21,18 +21,19 @@
     <div class="nav-tabs-custom">
         <v-tab-item title="Recurso do {{strtoupper($proc['procedimento'])}} N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
             {!! Form::model($proc,['url' => route('recurso.update',$proc['id_recurso']),'method' => 'put']) !!}
-            <v-label label="procedimento" title="Procedimento">
-                {!! Form::select('procedimento',config('sistema.pocedimentosOpcoes'),null, ['class' => 'form-control ']) !!}
-            </v-label>
-            <v-label label="sjd_ref" title="Referência">
-                {{ Form::text('sjd_ref', null, ['class' => 'form-control ']) }}
-            </v-label>
-            <v-label label="sjd_ref_ano" title="Ano">
-                <v-ano name="sjd_ref_ano" ano="{{$proc['sjd_ref_ano']}}"></v-ano>
-            </v-label>
-            <v-label label="portaria_data" title="Data e hora do recebimento (automático)" icon="fa fa-calendar" lg="12" md="12">
-                <v-datepicker name="portaria_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['portaria_data'] ?? ''}}"></v-datepicker>
-            </v-label>
+                <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                <v-label label="procedimento" title="Procedimento">
+                    {!! Form::select('procedimento',config('sistema.pocedimentosOpcoes'),null, ['class' => 'form-control ']) !!}
+                </v-label>
+                <v-label label="sjd_ref" title="Referência">
+                    {{ Form::text('sjd_ref', null, ['class' => 'form-control ']) }}
+                </v-label>
+                <v-label label="sjd_ref_ano" title="Ano">
+                    <v-ano name="sjd_ref_ano" ano="{{$proc['sjd_ref_ano']}}"></v-ano>
+                </v-label>
+                <v-label label="portaria_data" title="Data e hora do recebimento (automático)" icon="fa fa-calendar" lg="12" md="12">
+                    <v-datepicker name="portaria_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['portaria_data'] ?? ''}}"></v-datepicker>
+                </v-label>
             {!! Form::submit('Alterar Recurso',['class' => 'btn btn-primary btn-block']) !!}
             {!! Form::close() !!}
         </v-tab-item>

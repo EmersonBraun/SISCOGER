@@ -1,14 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'adl - Criar')
+@section('title', 'IT - Criar')
 
 @section('content_header')
 <section class="content-header">   
-  <h1>ADL - Criar</h1>
+  <h1>IT - Criar</h1>
   <ol class="breadcrumb">
   <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li><a href="{{route('adl.lista')}}">ADL - Lista</a></li>
-  <li class="active">ADL - Criar</li>
+  <li><a href="{{route('it.lista',['ano' => date('Y')])}}">IT - Lista</a></li>
+  <li class="active">IT - Criar</li>
   </ol>
 </section>
   
@@ -36,107 +36,61 @@
 
             <div class="box-body">
 
-            {!! Form::open(['url' => route('adl.store')]) !!}
-            <div class='col-md-12 col-xs-12'>
-            {!! Form::label('prioritario', 'Processo prioritário') !!}
-            {!! Form::checkbox('prioritario', '1') !!}
-            </div>
-
-            @component('components.form.select',
-            ['titulo' => 'Andamento','campo' => 'id_andamento', 'opt' => config('sistema.andamentoADL')])
-            @endcomponent
-
-            @component('components.form.select',
-            ['titulo' => 'Andamento COGER','campo' => 'andamentocoger', 'opt' => config('sistema.andamentocogerADL'), 'class' => 'select2'])
-            @endcomponent
-
-            @component('components.form.text',['titulo' => 'Modelo','campo' => 'modelo'])
-            @endcomponent
-
-            {{-- linha --}}
-            <div class='col-lg-4 col-md-6 col-xs-12 form-group'>
-            {!! Form::label('id_motivoconselho', 'Motivo ADL (Lei nº 16.544/2010)')!!} <a href="https://goo.gl/L1m5Ps" target="_blank"><i class="fa fa-link text-info"></i></a><br>
-            {!! Form::select('id_motivoconselho', config('sistema.motivoConselho'),'', ['class' => 'form-control select2', 'id' => 'descricao']) !!}
-            @if ($errors->has('id_motivoconselho'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('id_motivoconselho') }}</strong>
-                </span>
-            @endif
-            </div>
-
-            @component('components.form.text',['titulo' => 'Especificar (no caso de outros motivos)','campo' => 'outromotivo'])
-            @endcomponent
-
-            @component('components.form.select',
-            ['titulo' => 'Situação','campo' => 'id_situacaoconselho', 'opt' => config('sistema.situacaoConselho'), 'id' => 'descricao'])
-            @endcomponent
-
-            @component('components.form.text',['titulo' => 'N° Portaria','campo' => 'portaria_numero'])
-            @endcomponent
-            
-            @component('components.form.date',['titulo' => 'Data da portaria','campo' => 'portaria_data'])
-            @endcomponent
-
-            @component('components.form.select',
-            ['titulo' => 'Tipo de boletim','campo' => 'doc_tipo', 'opt' => config('sistema.tipoBoletim')])
-            @endcomponent
-
-            @component('components.form.text',['titulo' => 'N° Boletim','campo' => 'doc_numero'])
-            @endcomponent
-
-            @component('components.form.date',['titulo' => 'Data da fato','campo' => 'fato_data'])
-            @endcomponent
-
-            @component('components.form.date',['titulo' => 'Data da abertura','campo' => 'abertura_data'])
-            @endcomponent
-
-            @component('components.form.date',['titulo' => 'Data da prescricao','campo' => 'prescricao_data'])
-            @endcomponent
-
-            @component('components.form.sintese_txt')
-            @endcomponent
-
-            {{-- linha --}}
-            
-            <br>
-            
-            @component('components.subform',
-            [
-                'title' => 'Procedimento(s) de Origem (apenas se houver)',
-                'btn' => 'Adicionar documento de origem',
-                'arquivo' => 'ligacao',
-                'relacao' => NULL,
-                'proc' => 'adl',
-                'unico' => false
-            ])    
-            @endcomponent
-            
-
-            @component('components.subform',
-            [
-                'title' => 'Acusado',
-                'btn' => 'Adicionar acusado',
-                'arquivo' => 'envolvido',
-                'relacao' => NULL,
-                'proc' => 'adl',
-                'unico' => false
-            ])    
-            @endcomponent
-
-            @component('components.subform',
-            [
-                'title' => 'Vítima (apenas se houver)',
-                'btn' => 'Adicionar vítima',
-                'arquivo' => 'ofendido',
-                'relacao' => NULL,
-                'proc' => 'adl',
-                'unico' => false
-            ])    
-            @endcomponent
-
-            <div class='col-md-12 col-xs-12'>
-            <br>
-            {!! Form::submit('Inserir adl',['class' => 'btn btn-primary btn-block']) !!}
+            {!! Form::open(['url' => route('it.store')]) !!}
+                <v-prioritario admin="session('is_admin')"></v-prioritario>
+                <v-label label="id_andamento" title="Andamento">
+                    {!! Form::select('id_andamento',config('sistema.andamentoIT'),null, ['class' => 'form-control ']) !!}
+                </v-label>
+                <v-label label="id_andamentocoger" title="Andamento COGER">
+                    {!! Form::select('id_andamentocoger',config('sistema.andamentocogerIT'),null, ['class' => 'form-control ']) !!}
+                </v-label>
+                <v-label label="cdopm" title="OPM">
+                    <v-opm></v-opm>
+                </v-label>
+                <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
+                    <v-datepicker name="fato_data" placeholder="dd/mm/aaaa"></v-datepicker>
+                </v-label>
+                <v-label label="abertura_data" title="Data da abertura" icon="fa fa-calendar">
+                    <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button ></v-datepicker>
+                </v-label>
+                <v-it-objeto-procedimento></v-it-objeto-procedimento>
+                <v-label label="boletiminterno_numero" title="N° Boletim">
+                    {{ Form::text('boletiminterno_numero', null, ['class' => 'form-control ']) }}
+                </v-label>
+                <v-label label="boletiminterno_data" title="Data boletim">
+                    <v-datepicker name="boletiminterno_data" placeholder="dd/mm/aaaa" clear-button></v-datepicker>
+                </v-label>
+                <v-label label="br_numero" title="Nº do BR da publicação">
+                    {{ Form::text('br_numero', null, ['class' => 'form-control ']) }}
+                </v-label>
+                <v-label label="situacao_objeto" title="Nº do BR da publicação">
+                    {{ Form::text('situacao_objeto', null, ['class' => 'form-control ']) }}
+                </v-label>
+                <v-label label="acordoamigavel" title="Ressarcimento Extrajudicial">
+                    {!! Form::select('acordoamigavel', ['-','S','N'],null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
+                </v-label>
+                <v-label label="resp_civil" title="Responsabilidade civil">
+                    {!! Form::select('resp_civil', config('sistema.respCivil'),null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
+                </v-label>
+                <v-label label="arquivo_numero" title="Número do arquivo">
+                    {{ Form::text('arquivo_numero', null, ['class' => 'form-control ']) }}
+                </v-label>
+                <v-label label="protocolo_numero" title="Número do protocolo">
+                    {{ Form::text('protocolo_numero', null, ['class' => 'form-control ']) }}
+                </v-label>
+                <v-label label="acaojudicial" title="Ação judicial">
+                    {!! Form::select('acaojudicial', ['-','S','N'],null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
+                </v-label>
+                <v-label label="danoestimado_rs" title="Valor do dano estimado">--arrumar R$--
+                    {{ Form::text('danoestimado_rs', null, ['class' => 'form-control ']) }}
+                </v-label>
+                <v-label label="danoreal_rs" title="Valor do dano real">--arrumar R$--
+                    {{ Form::text('danoreal_rs', null, ['class' => 'form-control ']) }}
+                </v-label>
+                <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
+                    {!! Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
+                </v-label>
+            {!! Form::submit('Inserir IT',['class' => 'btn btn-primary btn-block']) !!}
             {!! Form::close() !!}
             </div>
         </div>
@@ -152,26 +106,6 @@
 @stop
 
 @section('js')
-  @include('vendor.adminlte.includes.pickers')
-  @include('vendor.adminlte.includes.select2')
-<script>
-    $(document).ready(function(){
-        addObjectForm('envolvido','adl');
-    });
-
-    $("#descricao").on('load, change',function ()
-    {
-        var campo = $("#descricao").val();
-        console.log(campo);
-        if (campo == 'Outro') 
-        {
-            $(".descricao_outros").show();
-        }
-        else
-        {
-            $(".descricao_outros").hide();
-        }
-    });
-</script>
+@include('vendor.adminlte.includes.vue')
 @stop
 

@@ -4,6 +4,7 @@
 /public/arquivo
 /storage
 /storage/arquivos
+/storage/framework/views
 /storage/*.key
 /vendor
 /.idea

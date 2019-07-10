@@ -34,51 +34,52 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('ipm.update',$proc['id_ipm']),'method' => 'put']) !!}
-                <v-label label="id_andamento" title="Andamento">
-                    {!! Form::select('id_andamento',config('sistema.andamentoIPM'),null, ['class' => 'form-control ']) !!}
-                </v-label>
-                <v-label label="id_andamentocoger" title="Andamento COGER">
-                    {!! Form::select('id_andamentocoger',config('sistema.andamentocogerIPM'),null, ['class' => 'form-control ']) !!}
-                </v-label>
-                <v-label label="cdopm" title="OPM">
-                    <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
-                </v-label>
-                <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
-                    <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>
-                </v-label>
-                <v-label label="abertura_data" title="Data da portaria de delegação de poderes" icon="fa fa-calendar">
-                    <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['abertura_data'] ?? ''}}"></v-datepicker>
-                </v-label>
-                <v-label label="autuacao_data" title="Data da portaria de instauração" icon="fa fa-calendar">
-                    <v-datepicker name="autuacao_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['autuacao_data'] ?? ''}}"></v-datepicker>
-                </v-label>
-                <v-label label="portaria_numero" title="Nº da portaria de delegação de poderes">
-                    {{ Form::text('portaria_numero', null, ['class' => 'form-control ']) }}
-                </v-label>
-                <v-label label="crime" title="Crime">
-                    {!! Form::select('crime',config('sistema.crime'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
-                </v-label>
-                <v-label label="id_municipio" title="Municipio">
-                    <v-municipio id_municipio="{{$proc['id_municipio']}}"></v-municipio>
-                </v-label>
-                <v-label label="bou_ano" title="BOU (Ano)">
-                    <v-ano ano="{{$proc['bou_ano']}}"></v-ano>
-                </v-label>
-                <v-label label="bou_numero" title="N° BOU">
-                    {{ Form::text('bou_numero', null, ['class' => 'form-control ']) }}
-                </v-label>
-                <v-label label="n_eproc" title="N° Eproc">
-                    {{ Form::text('n_eproc', null, ['class' => 'form-control ']) }}
-                </v-label>
-                <v-label label="ano_eproc" title="Eproc (Ano)">
-                    <v-ano ano="{{$proc['ano_eproc']}}"></v-ano>
-                </v-label>
-                <v-label label="relato_enc" title="Conclusão do encarregado">
-                    {{ Form::text('relato_enc', null, ['class' => 'form-control ']) }}
-                </v-label>
-                <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
-                    {!! Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
-                </v-label>
+                    <v-prioritario admin="session('admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                    <v-label label="id_andamento" title="Andamento">
+                        {!! Form::select('id_andamento',config('sistema.andamentoIPM'),null, ['class' => 'form-control ']) !!}
+                    </v-label>
+                    <v-label label="id_andamentocoger" title="Andamento COGER">
+                        {!! Form::select('id_andamentocoger',config('sistema.andamentocogerIPM'),null, ['class' => 'form-control ']) !!}
+                    </v-label>
+                    <v-label label="cdopm" title="OPM">
+                        <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
+                    </v-label>
+                    <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
+                        <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>
+                    </v-label>
+                    <v-label label="abertura_data" title="Data da portaria de delegação de poderes" icon="fa fa-calendar">
+                        <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['abertura_data'] ?? ''}}"></v-datepicker>
+                    </v-label>
+                    <v-label label="autuacao_data" title="Data da portaria de instauração" icon="fa fa-calendar">
+                        <v-datepicker name="autuacao_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['autuacao_data'] ?? ''}}"></v-datepicker>
+                    </v-label>
+                    <v-label label="portaria_numero" title="Nº da portaria de delegação de poderes">
+                        {{ Form::text('portaria_numero', null, ['class' => 'form-control ']) }}
+                    </v-label>
+                    <v-label label="crime" title="Crime">
+                        {!! Form::select('crime',config('sistema.crime'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+                    </v-label>
+                    <v-label label="id_municipio" title="Municipio">
+                        <v-municipio id_municipio="{{$proc['id_municipio']}}"></v-municipio>
+                    </v-label>
+                    <v-label label="bou_ano" title="BOU (Ano)">
+                        <v-ano ano="{{$proc['bou_ano']}}"></v-ano>
+                    </v-label>
+                    <v-label label="bou_numero" title="N° BOU">
+                        {{ Form::text('bou_numero', null, ['class' => 'form-control ']) }}
+                    </v-label>
+                    <v-label label="n_eproc" title="N° Eproc">
+                        {{ Form::text('n_eproc', null, ['class' => 'form-control ']) }}
+                    </v-label>
+                    <v-label label="ano_eproc" title="Eproc (Ano)">
+                        <v-ano ano="{{$proc['ano_eproc']}}"></v-ano>
+                    </v-label>
+                    <v-label label="relato_enc" title="Conclusão do encarregado">
+                        {{ Form::text('relato_enc', null, ['class' => 'form-control ']) }}
+                    </v-label>
+                    <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
+                        {!! Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
+                    </v-label>
                 {!! Form::submit('Alterar IPM',['class' => 'btn btn-primary btn-block']) !!}
                 {!! Form::close() !!}
             </v-tab-item>

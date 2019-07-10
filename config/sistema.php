@@ -768,23 +768,42 @@ return [
 
     'tipoAcidente' =>
     [
-        "1" => "Abalroamento Lateral",
-        "10" => "Incêndio",
-        "11" => "Queda de Passageiro",
-        "12" => "Queda de Objeto",
-        "13" => "Queda de Moto",
-        "14" => "Queda de Veículo",
-        "15" => "Tombamento",
-        "16" => "Acidente Complexo",
-        "17" => "Não Identificado",
-        "2" => "Abalroamento Transversal",
-        "3" => "Atropelamento",
-        "4" => "Atropelamento de Animal",
-        "5" => "Capotamento",
-        "6" => "Colisão Frontal",
-        "7" => "Colisão Traseira",
-        "8" => "Choque",
-        "9" => "Engavetamento"
+        '-' => '-',
+		'nao identificado' => 'Não identificado',
+		'abalroamento lateral' => 'Abalroamento lateral',
+		'abalroamento transversal' => 'Abalroamento transversal',
+		'atropelamento' => 'Atropelamento',
+		'atropelamento de animal' => 'Atropelamento de animal',
+		'capotamento' => 'Capotamento',
+		'colisao frontal' => 'Colisão frontal',
+		'colisao traseira' => 'Colisão traseira',
+		'choque' => 'Choque',
+		'engavetamento' => 'Engavetamento',
+		'incendio' => 'Incêndio',
+		'queda de passageiro' => 'Queda de passageiro',
+		'queda de objeto' => 'Queda de objeto',
+		'queda de moto' => 'Queda de moto',
+		'queda de veiculo' => 'Queda de veículo',
+		'tombamento' => 'Tombamento',
+		'acidente complexo' => 'Acidente complexo',
+		'nao identificado' => 'Não identificado'
+    ],
+
+    'avarias' =>
+    [
+        '' => 'Selecione',
+		'Pequena Monta' => 'Pequena Monta',
+		'Media Monta' => 'Media Monta',
+		'Grande Monta' => 'Grande Monta'
+    ],
+
+    'situacaoviatura' =>
+    [
+        "nao informado" => "Não informado",
+        "consertada com onus" => "Consertada com ônus",
+        "consertada sem onus" => "Consertada sem ônus",
+        "inservivel" => "Inservível",
+        "aguarda conserto" => "Aguarda conserto"
     ],
 
     // ---- CONSELHO ---------------------------------------------------------------------------------------------------------
