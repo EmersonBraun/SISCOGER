@@ -22,13 +22,13 @@
         <v-tab-item title="Formulário principal" idp="principal" cls="active show">
             <?php echo Form::open(['url' => route('adl.store')]); ?>
 
-            <v-prioritario admin="session('admin')"></v-prioritario>
-            <v-label label="id_andamento" title="Andamento">
-                <?php echo Form::select('id_andamento',config('sistema.andamentoADL'),null, ['class' => 'form-control ']); ?>
+            <v-prioritario admin="session('is_admin')"></v-prioritario>
+            <v-label label="id_andamento" title="Andamento" error="<?php echo e($errors->first('id_andamento')); ?>">
+                <?php echo Form::select('id_andamento',config('sistema.andamentoADL'),null, ['class' => 'form-control','required']); ?>
 
             </v-label>
-            <v-label label="id_andamentocoger" title="Andamento COGER">
-                <?php echo Form::select('id_andamentocoger',config('sistema.andamentocogerADL'),null, ['class' => 'form-control ']); ?>
+            <v-label label="id_andamentocoger" title="Andamento COGER" error="<?php echo e($errors->first('id_andamentocoger')); ?>">
+                <?php echo Form::select('id_andamentocoger',config('sistema.andamentocogerADL'),null, ['class' => 'form-control','required']); ?>
 
             </v-label>
             <v-label label="id_motivoconselho" title="Motivo ADL (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">

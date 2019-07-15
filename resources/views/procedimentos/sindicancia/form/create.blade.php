@@ -38,10 +38,10 @@
 
             {!! Form::open(['url' => route('sindicancia.store')]) !!}
                 <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
-                <v-label label="id_andamento" title="Andamento">
+                <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
                     {!! Form::select('id_andamento',config('sistema.andamentoSINDICANCIA'),null, ['class' => 'form-control ']) !!}
                 </v-label>
-                <v-label label="id_andamentocoger" title="Andamento COGER">
+                <v-label label="id_andamentocoger" title="Andamento COGER" error="{{$errors->first('id_andamentocoger')}}">
                     {!! Form::select('id_andamentocoger',config('sistema.andamentocogerSINDICANCIA'),null, ['class' => 'form-control ']) !!}
                 </v-label>
                 <v-label label="doc_origem_txt" title="Documentos de origem">
@@ -50,7 +50,7 @@
                 <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
                     <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>
                 </v-label>
-                <v-label label="cdopm" title="OPM">
+                <v-label label="cdopm" title="OPM" error="{{$errors->first('cdopm')}}">
                     <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
                 </v-label>
                 <v-label label="portaria_numero" title="N° Portaria">

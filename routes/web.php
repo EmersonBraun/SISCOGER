@@ -15,8 +15,9 @@
 // Route::get('colunas/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas']);
 // Route::get('colunas2/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas2']);
 //Route::get('bd/{conn}/{nome}/{limite}/{c1?}/{oper?}{c2?}', ['as'=>'bd','uses'=>'Testes\testeBD@bd']);
-Route::get('bd/{nome?}', ['as'=>'bd','uses'=>'Testes\testeBD@search']);
+//Route::get('bd/{nome?}', ['as'=>'bd','uses'=>'Testes\testeBD@search']);
 Route::get('bd/qtds', ['as'=>'bd','uses'=>'Testes\testeBD@qtds']);
+Route::get('bd/acesso/{rg}', ['as'=>'acesso','uses'=>'Testes\testeBD@acesso']);
 // Route::get('bd/bdgeral', ['as'=>'bdgeral','uses'=>'Testes\testeBD@bdgeral']);
 //para rodar os testes
 $middleware = [];

@@ -10,14 +10,6 @@ use App\User;
 use App\Repositories\ExclusaoRepository;
 use App\Models\Sjd\Proc\Exclusaojudicial;
 use App\Models\Sjd\Busca\Envolvido;
-use App\Models\Sjd\Busca\Ofendido;
-use App\Models\Sjd\Busca\Ligacao;
-use App\Models\Sjd\Proc\Movimento;
-use App\Models\Sjd\Proc\Sobrestamento;
-use App\Models\Sjd\Arquivo\ArquivosApagado;
-
-use Illuminate\Support\Facades\DB;
-use Cache;
 
 class ExclusaoController extends Controller
 {
@@ -38,15 +30,68 @@ class ExclusaoController extends Controller
         return view('procedimentos.exclusao.list.apagados',compact('registros'));
     }
 
-    public function create(Request $request)
+    public function create()
     {
         return view('procedimentos.exclusao.form.create');
     }
 
-
     public function store(Request $request)
     {
+        //andamento (concluído) alguns campos ficam obrigatórios
+        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' ){
+            $this->validate($request, [
+                'id_andamento' => 'required',
+                'sintese_txt' => 'required',
+                ]);
+        } else {
+            $this->validate($request, [
+                'id_andamento' => 'required',
+                'sintese_txt' => 'required',
+                ]);
+        }
+       
+        //dados do formulário
+        $dados = $this->datesToCreate($request); 
+
+        $create = Exclusaojudicial::create($dados);
+
+        if($create)
+        {
+            ExclusaoRepository::cleanCache();
+            toast()->success('N° '.$dados['sjd_ref'].'/'.'Exclusão Inserido');
+            return redirect()->route('exclusao.lista');
+        }
+
+        toast()->error('Houve um erro na inserção');
+        return redirect()->back();
         
+    }
+    
+    public function show($ref, $ano)
+    {
+        //----levantar procedimento
+        $proc = Exclusaojudicial::ref_ano($ref,$ano)->first();
+        if(!$proc) abort('404');
+
+        $this->canSee($proc);
+
+        return view('procedimentos.exclusao.form.show', compact('proc'));
+    }
+
+    public function edit($ref, $ano)
+    {
+        //----levantar procedimento
+        $proc = Exclusaojudicial::ref_ano($ref,$ano)->first();
+        if(!$proc) abort('404');
+        
+        $this->canSee($proc);
+
+        return view('procedimentos.exclusao.form.edit', compact('proc'));
+
+    }
+
+    public function update(Request $request, $id)
+    {
         //andamento (concluído) alguns campos ficam obrigatórios
         if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' )
         {
@@ -58,118 +103,91 @@ class ExclusaoController extends Controller
         else
         {
             $this->validate($request, [
-                'sintese_txt' => 'required',
-                'libelo_file' => 'required',
-                'parecer_file' => 'required',
-                ]);
+                'sintese_txt' => 'required'
+            ]);
         }
-        //ano atual
-        $ano = (int) date('Y');
 
-        //última referência de exclusao inserida
-        $ref = Exclusaojudicial::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
-        $ref = $ref+1;
-
-        //dados do formulário
+        // dd(\Request::all());
         $dados = $request->all();
-
-        //referência e ano
-        $dados['sjd_ref'] = $ref;
-        $dados['sjd_ref_ano'] = $ano;
-
-        //preenchimento de dados vazios
-        $vazios = ['id_andamentocoger','outromotivo','portaria_numero','doc_tipo','doc_numero'];
-
-        foreach ($vazios as $v) 
-        {
-            $dados[$v] = ($dados[$v] == NULL) ? '' : $dados[$v]; 
-        }
-
-        //datas
-        $datas = ['abertura_data','fato_data','portaria_data','prescricao_data'];
-
-        foreach ($datas as $d) 
-        {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
-        }
-
-        //cria o novo procedimento
-        Exclusaojudicial::create($dados);
-
-        toast()->success('N° '.$ref.'/'.'exclusao Inserido');
-        return redirect()->route('exclusao.lista');
-        
-    }
-
-    
-    public function show($id)
-    {
-        
-        //----levantar procedimento
-        $proc = Exclusaojudicial::find($id)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        //----envolvido do procedimento
-        //$envolvido = Envolvido::acusado()->where('id_exclusaojudicial','=',$proc->id_exclusaojudicial)->get();
-
-        return view('procedimentos.exclusao.form.show', compact('proc'));
-    }
-
-    public function edit($id)
-    {
-        
-        //----levantar procedimento
-        $proc = Exclusaojudicial::find($id)->first();
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        //----envolvido do procedimento
-        //$envolvido = Envolvido::acusado()->where('id_exclusaojudicial','=',$proc->id_exclusaojudicial)->get();
-
-        return view('procedimentos.exclusao.form.edit', compact('proc'));
-    }
-
-
-    public function update(Request $request, $id)
-    {
-        //dd(\Request::all());
-        $dados = $request->all();
-
-        //datas
-        $datas = ['fato_data','portaria_data','prescricao_data'];
-
-        foreach ($datas as $d) 
-        {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
-        }
-
-        //arquivos
-        $arquivos = ['libelo_file','parecer_file','decisao_file','tjpr_file','stj_file'];
-
-        foreach ($arquivos as $a) 
-        {
-            if ($request->hasFile($a)) $dados[$a] = arquivo($request,$a,'exclusao',$id);
-
-        }
-
         //busca procedimento e atualiza
-    	Exclusaojudicial::find($id)->update($dados);
-        //mensagem
-        toast()->success('exclusao atualizado!');
+        $update = Exclusaojudicial::findOrFail($id)->update($dados);
+        
+        if($update)
+        {
+            ExclusaoRepository::cleanCache();
+            toast()->success('Exclusão atualizado!');
+            return redirect()->route('exclusao.lista');
+        }
 
+        toast()->error('Exclusão NÃO atualizado!');
         return redirect()->route('exclusao.lista');
-    }
 
+    }
 
     public function destroy($id)
     {
         //busca procedimento e apaga
-        Exclusaojudicial::find($id)->delete();
+        $destroy = Exclusaojudicial::findOrFail($id)->delete();
 
-        //mensagem
-    	toast()->success('Exclusão Apagado');
+        if($destroy) {
+            ExclusaoRepository::cleanCache();
+            toast()->success('Exclusão Apagado');
+            return redirect()->route('exclusao.lista');
+        }
+
+        toast()->success('erro ao apagar Exclusão');
         return redirect()->route('exclusao.lista');
+
+    }
+
+    public function restore($id)
+    {
+        // Recupera o post pelo ID
+        $restore = Exclusaojudicial::findOrFail($id)->restore();
+    
+        if($restore){
+            ExclusaoRepository::cleanCache();
+            toast()->success('Exclusão Recuperado!');
+            return redirect()->route('exclusao.lista');  
+        }
+
+        toast()->error('Houve um erro ao recuperar!');
+        return redirect()->route('exclusao.lista'); 
+    }
+
+    public function forceDelete($id)
+    {
+        // Recupera o post pelo ID
+        $forceDelete = Exclusaojudicial::findOrFail($id)->forceDelete();
+    
+        if($forceDelete){
+            ExclusaoRepository::cleanCache();
+            toast()->success('Exclusão Recuperado!');
+            return redirect()->route('exclusao.lista');  
+        }
+
+        toast()->error('Houve um erro ao Apagar definitivo!');
+        return redirect()->route('exclusao.lista');
+    }
+
+    public function datesToCreate($request) {
+        //dados do formulário
+        $dados = $request->all();
+        $ano = (int) date('Y');
+
+        $ref = Exclusaojudicial::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        //referência e ano
+        $dados['sjd_ref'] = $ref+1;
+        $dados['sjd_ref_ano'] = $ano;
+        
+        return $dados;
+    }
+
+    public function canSee($proc) {
+        ver_unidade($proc);//teste para verificar se pode ver outras unidades, caso não possa aborta
+        //----envolvido do procedimento
+        $envolvido = Envolvido::acusado()->where('id_exclusao','=',$proc->id_exclusao)->get();
+        //teste para verificar se pode ver superior, caso não possa aborta
+        ver_superior($envolvido, Auth::user());
     }
 }

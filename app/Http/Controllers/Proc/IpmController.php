@@ -10,14 +10,6 @@ use App\User;
 use App\Repositories\IpmRepository;
 use App\Models\Sjd\Proc\Ipm;
 use App\Models\Sjd\Busca\Envolvido;
-use App\Models\Sjd\Busca\Ofendido;
-use App\Models\Sjd\Busca\Ligacao;
-use App\Models\Sjd\Proc\Movimento;
-use App\Models\Sjd\Proc\Sobrestamento;
-use App\Models\Sjd\Arquivo\ArquivosApagado;
-
-use Illuminate\Support\Facades\DB;
-use Cache;
 
 class IpmController extends Controller
 {
@@ -62,15 +54,68 @@ class IpmController extends Controller
         return view('procedimentos.ipm.list.apagados',compact('registros','ano'));
     }
 
-    public function create(Request $request)
+    public function create()
     {
         return view('procedimentos.ipm.form.create');
     }
 
-
     public function store(Request $request)
     {
+        //andamento (concluído) alguns campos ficam obrigatórios
+        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' ){
+            $this->validate($request, [
+                'id_andamento' => 'required',
+                'sintese_txt' => 'required',
+                ]);
+        } else {
+            $this->validate($request, [
+                'id_andamento' => 'required',
+                'sintese_txt' => 'required',
+                ]);
+        }
+       
+        //dados do formulário
+        $dados = $this->datesToCreate($request); 
+
+        $create = Ipm::create($dados);
+
+        if($create)
+        {
+            IpmRepository::cleanCache();
+            toast()->success('N° '.$dados['sjd_ref'].'/'.'IPM Inserido');
+            return redirect()->route('ipm.lista');
+        }
+
+        toast()->error('Houve um erro na inserção');
+        return redirect()->back();
         
+    }
+    
+    public function show($ref, $ano)
+    {
+        //----levantar procedimento
+        $proc = Ipm::ref_ano($ref,$ano)->first();
+        if(!$proc) abort('404');
+
+        $this->canSee($proc);
+
+        return view('procedimentos.ipm.form.show', compact('proc'));
+    }
+
+    public function edit($ref, $ano)
+    {
+        //----levantar procedimento
+        $proc = Ipm::ref_ano($ref,$ano)->first();
+        if(!$proc) abort('404');
+        
+        $this->canSee($proc);
+
+        return view('procedimentos.ipm.form.edit', compact('proc'));
+
+    }
+
+    public function update(Request $request, $id)
+    {
         //andamento (concluído) alguns campos ficam obrigatórios
         if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' )
         {
@@ -82,119 +127,91 @@ class IpmController extends Controller
         else
         {
             $this->validate($request, [
-                'sintese_txt' => 'required',
-                'libelo_file' => 'required',
-                'parecer_file' => 'required',
-                ]);
+                'sintese_txt' => 'required'
+            ]);
         }
-        //ano atual
-        $ano = (int) date('Y');
 
-        //última referência de ipm inserida
-        $ref = Ipm::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
-        $ref = $ref+1;
-
-        //dados do formulário
+        // dd(\Request::all());
         $dados = $request->all();
-
-        //referência e ano
-        $dados['sjd_ref'] = $ref;
-        $dados['sjd_ref_ano'] = $ano;
-
-        //preenchimento de dados vazios
-        $vazios = ['id_andamentocoger','outromotivo','portaria_numero','doc_tipo','doc_numero'];
-
-        foreach ($vazios as $v) 
-        {
-            $dados[$v] = ($dados[$v] == NULL) ? '' : $dados[$v]; 
-        }
-
-        //datas
-        $datas = ['abertura_data','fato_data','portaria_data','prescricao_data'];
-
-        foreach ($datas as $d) 
-        {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
-        }
-
-        //cria o novo procedimento
-        Ipm::create($dados);
-
-        toast()->success('N° '.$ref.'/'.'ipm Inserido');
-        return redirect()->route('ipm.lista');
-        
-    }
-
-    
-    public function show($ref, $ano)
-    {
-        
-        //----levantar procedimento
-        $proc = Ipm::ref_ano($ref,$ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_ipm','=',$proc->id_ipm)->get();
-
-        return view('procedimentos.ipm.form.show', compact('proc'));
-    }
-
-    public function edit($ref, $ano)
-    {
-        
-        //----levantar procedimento
-        $proc = Ipm::ref_ano($ref,$ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_ipm','=',$proc->id_ipm)->get();
-
-        return view('procedimentos.ipm.form.edit', compact('proc'));
-    }
-
-
-    public function update(Request $request, $id)
-    {
-        //dd(\Request::all());
-        $dados = $request->all();
-
-        //datas
-        $datas = ['fato_data','portaria_data','prescricao_data'];
-
-        foreach ($datas as $d) 
-        {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
-        }
-
-        //arquivos
-        $arquivos = ['libelo_file','parecer_file','decisao_file','tjpr_file','stj_file'];
-
-        foreach ($arquivos as $a) 
-        {
-            if ($request->hasFile($a)) $dados[$a] = arquivo($request,$a,'ipm',$id);
-
-        }
-
         //busca procedimento e atualiza
-    	Ipm::find($id)->update($dados);
-        //mensagem
-        toast()->success('ipm atualizado!');
+        $update = Ipm::findOrFail($id)->update($dados);
+        
+        if($update)
+        {
+            IpmRepository::cleanCache();
+            toast()->success('IPM atualizado!');
+            return redirect()->route('ipm.lista');
+        }
 
+        toast()->error('IPM NÃO atualizado!');
         return redirect()->route('ipm.lista');
-    }
 
+    }
 
     public function destroy($id)
     {
         //busca procedimento e apaga
-        Ipm::find($id)->delete();
+        $destroy = Ipm::findOrFail($id)->delete();
 
-        //mensagem
-    	toast()->success('IPM Apagado');
+        if($destroy) {
+            IpmRepository::cleanCache();
+            toast()->success('IPM Apagado');
+            return redirect()->route('ipm.lista');
+        }
+
+        toast()->success('erro ao apagar IPM');
         return redirect()->route('ipm.lista');
+
+    }
+
+    public function restore($id)
+    {
+        // Recupera o post pelo ID
+        $restore = Ipm::findOrFail($id)->restore();
+    
+        if($restore){
+            IpmRepository::cleanCache();
+            toast()->success('IPM Recuperado!');
+            return redirect()->route('ipm.lista');  
+        }
+
+        toast()->error('Houve um erro ao recuperar!');
+        return redirect()->route('ipm.lista'); 
+    }
+
+    public function forceDelete($id)
+    {
+        // Recupera o post pelo ID
+        $forceDelete = Ipm::findOrFail($id)->forceDelete();
+    
+        if($forceDelete){
+            IpmRepository::cleanCache();
+            toast()->success('IPM Recuperado!');
+            return redirect()->route('ipm.lista');  
+        }
+
+        toast()->error('Houve um erro ao Apagar definitivo!');
+        return redirect()->route('ipm.lista');
+    }
+
+    public function datesToCreate($request) {
+        //dados do formulário
+        $dados = $request->all();
+        $ano = (int) date('Y');
+
+        $ref = Ipm::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        //referência e ano
+        $dados['sjd_ref'] = $ref+1;
+        $dados['sjd_ref_ano'] = $ano;
+        
+        return $dados;
+    }
+
+    public function canSee($proc) {
+        ver_unidade($proc);//teste para verificar se pode ver outras unidades, caso não possa aborta
+        //----envolvido do procedimento
+        $envolvido = Envolvido::acusado()->where('id_ipm','=',$proc->id_ipm)->get();
+        //teste para verificar se pode ver superior, caso não possa aborta
+        ver_superior($envolvido, Auth::user());
     }
 }

@@ -10,14 +10,6 @@ use App\User;
 use App\Repositories\FatdRepository;
 use App\Models\Sjd\Proc\Fatd;
 use App\Models\Sjd\Busca\Envolvido;
-use App\Models\Sjd\Busca\Ofendido;
-use App\Models\Sjd\Busca\Ligacao;
-use App\Models\Sjd\Proc\Movimento;
-use App\Models\Sjd\Proc\Sobrestamento;
-use App\Models\Sjd\Arquivo\ArquivosApagado;
-
-use Illuminate\Support\Facades\DB;
-use Cache;
 
 class FatdController extends Controller
 {
@@ -62,151 +54,164 @@ class FatdController extends Controller
         return view('procedimentos.fatd.list.apagados',compact('registros','ano'));
     }
 
-    public function create(Request $request)
+    public function create()
     {
         return view('procedimentos.fatd.form.create');
     }
 
-
     public function store(Request $request)
     {
-        //dd(\Request::all());
-
-        //andamento 2 (concluído) alguns campos ficam obrigatórios
-        if($request['id_andamento'] != 2 ){
+        //andamento (concluído) alguns campos ficam obrigatórios
+        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' ){
             $this->validate($request, [
                 'id_andamento' => 'required',
-                'situacao_fatd' => 'required',
                 'sintese_txt' => 'required',
                 ]);
-        }
-        else
-        {
+        } else {
             $this->validate($request, [
-                'situacao_fatd' => 'required',
-                'abertura_data' => 'required',
+                'id_andamento' => 'required',
                 'sintese_txt' => 'required',
-                'fato_data' => 'required',
-                'fato_file' => 'required',
-                'relatorio_file' => 'required',
-                'sol_cmt_file' => 'required',
                 ]);
         }
-        //ano atual
-        $ano = (int) date('Y');
-
-        //última referência de fatd inserida
-        $ref = Fatd::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
-        $ref = $ref+1;
-
+       
         //dados do formulário
-        $dados = $request->all();
+        $dados = $this->datesToCreate($request); 
 
-        //referência e ano
-        $dados['sjd_ref'] = $ref;
-        $dados['sjd_ref_ano'] = $ano;
-        
-        //datas
-        $datas = ['fato_data','portaria_data','abertura_data'];
+        $create = Fatd::create($dados);
 
-        foreach ($datas as $d) 
+        if($create)
         {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
+            FatdRepository::cleanCache();
+            toast()->success('N° '.$dados['sjd_ref'].'/'.'FATD Inserido');
+            return redirect()->route('fatd.lista');
         }
 
-        //preenchimento de dados vazios
-        $vazios = ['doc_tipo','doc_numero','despacho_numero','portaria_data'];
-
-        foreach ($vazios as $v) 
-        {
-            $dados[$v] = ($dados[$v] == NULL || $dados[$v] == '') ? '' : $dados[$v];
-        }
-
-        //cria o novo procedimento
-        Fatd::create($dados);
-
-        toast()->success('N° '.$ref.'/'.$ano,'FATD Inserido');
-        return redirect()->route('fatd.lista',['ano' => date('Y')]);
+        toast()->error('Houve um erro na inserção');
+        return redirect()->back();
         
     }
-
     
     public function show($ref, $ano)
     {
-        
         //----levantar procedimento
-        $proc = Fatd::where('sjd_ref','=',$ref)->where('sjd_ref_ano','=',$ano)->first();
+        $proc = Fatd::ref_ano($ref,$ano)->first();
+        if(!$proc) abort('404');
 
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-        
-        //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_fatd','=',$proc->id_fatd)->first();
-
-        //teste para verificar se pode ver superior, caso não possa aborta
-        ver_superior($envolvido, Auth::user());
-
+        $this->canSee($proc);
 
         return view('procedimentos.fatd.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano)
     {
-        
         //----levantar procedimento
-        $proc = Fatd::ref_ano($ref, $ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_fatd','=',$proc->id_fatd)->first();
-
-        //teste para verificar se pode ver superior, caso não possa aborta
-        ver_superior($envolvido, Auth::user());
+        $proc = Fatd::ref_ano($ref,$ano)->first();
+        if(!$proc) abort('404');
+        
+        $this->canSee($proc);
 
         return view('procedimentos.fatd.form.edit', compact('proc'));
-    }
 
+    }
 
     public function update(Request $request, $id)
     {
-        //dd(\Request::all());
+        //andamento (concluído) alguns campos ficam obrigatórios
+        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' )
+        {
+            $this->validate($request, [
+                'id_andamento' => 'required',
+                'sintese_txt' => 'required',
+                ]);
+        }
+        else
+        {
+            $this->validate($request, [
+                'sintese_txt' => 'required'
+            ]);
+        }
+
+        // dd(\Request::all());
         $dados = $request->all();
-
-        //datas
-        $datas = ['fato_data','portaria_data','abertura_data'];
-
-        foreach ($datas as $d) 
-        {
-            $dados[$d] = ($dados[$d] != '0000-00-00') ? data_bd($dados[$d]) : '0000-00-00'; 
-        }
-
-        //arquivos
-        $arquivos = ['fato_file','relatorio_file','sol_cmt_file','sol_cg_file','rec_ato_file','rec_ato_file','rec_cmt_file','rec_crpm_file','rec_cg_file','notapunicao_file'];
-
-        foreach ($arquivos as $a) 
-        {
-            if ($request->hasFile($a)) $dados[$a] = arquivo($request,$a,'fatd',$id);
-
-        }
-
         //busca procedimento e atualiza
-    	Fatd::find($id)->update($dados);
-        //mensagem
-        toast()->success('FATD atualizado!');
+        $update = Fatd::findOrFail($id)->update($dados);
+        
+        if($update)
+        {
+            FatdRepository::cleanCache();
+            toast()->success('FATD atualizado!');
+            return redirect()->route('fatd.lista');
+        }
 
-        return redirect()->route('fatd.lista',['ano' => date('Y')]);
+        toast()->error('FATD NÃO atualizado!');
+        return redirect()->route('fatd.lista');
+
     }
-
 
     public function destroy($id)
     {
         //busca procedimento e apaga
-        Fatd::find($id)->delete();
+        $destroy = Fatd::findOrFail($id)->delete();
 
-        //mensagem
-    	toast()->success('N° '.$ref.'/'.$ano,'FATD Apagado');
-        return redirect()->route('fatd.lista',['ano' => date('Y')]);
+        if($destroy) {
+            FatdRepository::cleanCache();
+            toast()->success('FATD Apagado');
+            return redirect()->route('fatd.lista');
+        }
+
+        toast()->success('erro ao apagar FATD');
+        return redirect()->route('fatd.lista');
+
+    }
+
+    public function restore($id)
+    {
+        // Recupera o post pelo ID
+        $restore = Fatd::findOrFail($id)->restore();
+    
+        if($restore){
+            FatdRepository::cleanCache();
+            toast()->success('FATD Recuperado!');
+            return redirect()->route('fatd.lista');  
+        }
+
+        toast()->error('Houve um erro ao recuperar!');
+        return redirect()->route('fatd.lista'); 
+    }
+
+    public function forceDelete($id)
+    {
+        // Recupera o post pelo ID
+        $forceDelete = Fatd::findOrFail($id)->forceDelete();
+    
+        if($forceDelete){
+            FatdRepository::cleanCache();
+            toast()->success('FATD Recuperado!');
+            return redirect()->route('fatd.lista');  
+        }
+
+        toast()->error('Houve um erro ao Apagar definitivo!');
+        return redirect()->route('fatd.lista');
+    }
+
+    public function datesToCreate($request) {
+        //dados do formulário
+        $dados = $request->all();
+        $ano = (int) date('Y');
+
+        $ref = Fatd::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        //referência e ano
+        $dados['sjd_ref'] = $ref+1;
+        $dados['sjd_ref_ano'] = $ano;
+        
+        return $dados;
+    }
+
+    public function canSee($proc) {
+        ver_unidade($proc);//teste para verificar se pode ver outras unidades, caso não possa aborta
+        //----envolvido do procedimento
+        $envolvido = Envolvido::acusado()->where('id_fatd','=',$proc->id_fatd)->get();
+        //teste para verificar se pode ver superior, caso não possa aborta
+        ver_superior($envolvido, Auth::user());
     }
 }

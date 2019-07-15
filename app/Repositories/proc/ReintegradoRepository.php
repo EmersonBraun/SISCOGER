@@ -1,26 +1,22 @@
 <?php
 //Aqui ficam as consultas de banco de dados dos processos e procedimentos
-namespace App\Repositories;
+namespace App\proc\Repositories;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
-use Auth;
 use Cache;
-use App\User;
-use App\Models\Sjd\Proc\Apfd;
+use App\Models\Sjd\Proc\Reintegrado;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Route;
 
-class ApfdRepository extends BaseRepository
+class ReintegradoRepository extends BaseRepository
 {
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
     protected static $expiration = 60 * 24;//um dia 
 
-	public function __construct(Apfd $model)
+	public function __construct(Reintegrado $model)
 	{
 		$this->model = $model;
         
@@ -38,7 +34,7 @@ class ApfdRepository extends BaseRepository
 
     public static function cleanCache()
 	{
-        Cache::tags('apfd')->flush();
+        Cache::tags('reintegrado')->flush();
     }
     
     public function all()
@@ -48,13 +44,13 @@ class ApfdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('apfd')->remember('todos_apfd', self::$expiration, function() {
+            $registros = Cache::tags('reintegrado')->remember('todos_reintegrado', self::$expiration, function() {
                 return $this->model->all();
             });
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('todos_apfd:'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('reintegrado')->remember('todos_reintegrado_'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')->get();
             });
         }
@@ -69,13 +65,13 @@ class ApfdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('apfd')->remember('todos_apfd:'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('reintegrado')->remember('todos_reintegrado'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('todos_apfd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('reintegrado')->remember('todos_reintegrado'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
@@ -89,10 +85,10 @@ class ApfdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('apfd')->remember('andamento_apfd', self::$expiration, function() {
+            $registros = Cache::tags('reintegrado')->remember('andamento_reintegrado', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join){
-                    $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                    $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
                     })->get();
@@ -100,10 +96,10 @@ class ApfdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('andamento_apfd_:'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('reintegrado')->remember('andamento_reintegrado'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
-                    $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                    $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
                     })->get();
@@ -119,10 +115,10 @@ class ApfdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('apfd')->remember('andamento_apfd:'.$ano, self::$expiration, function() use ($ano){
+            $registros = Cache::tags('reintegrado')->remember('andamento_reintegrado'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
-                    $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                    $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
                     })->get();
@@ -130,11 +126,11 @@ class ApfdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('andamento_apfd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('reintegrado')->remember('andamento_reintegrado'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
-                    $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                    $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
                     })->get();
@@ -150,27 +146,27 @@ class ApfdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('apfd')->remember('julgamento_apfd', self::$expiration, function() {
+            $registros = Cache::tags('reintegrado')->remember('julgamento_reintegrado', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join) {
-                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
-                                ->where('envolvido.id_apfd', '<>', 0);
+                        $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
+                                ->where('envolvido.id_reintegrado', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
-                    ->where('envolvido.situacao','=',sistema('procSituacao','apfd'))
+                    ->where('envolvido.situacao','=',sistema('procSituacao','reintegrado'))
                     ->get();
             });
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('julgamento_apfd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('reintegrado')->remember('julgamento_reintegrado'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
-                                ->where('envolvido.id_apfd', '<>', 0);
+                        $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
+                                ->where('envolvido.id_reintegrado', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
-                    ->where('envolvido.situacao','=',sistema('procSituacao','apfd'))
+                    ->where('envolvido.situacao','=',sistema('procSituacao','reintegrado'))
                     ->get();
             });
         }
@@ -184,28 +180,28 @@ class ApfdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('apfd')->remember('julgamento_apfd', self::$expiration, function() use ($ano){
+            $registros = Cache::tags('reintegrado')->remember('julgamento_reintegrado'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
-                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
-                                ->where('envolvido.id_apfd', '<>', 0);
+                        $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
+                                ->where('envolvido.id_reintegrado', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
-                    ->where('envolvido.situacao','=',sistema('procSituacao','apfd'))
+                    ->where('envolvido.situacao','=',sistema('procSituacao','reintegrado'))
                     ->get();
             });
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('julgamento_apfd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('reintegrado')->remember('julgamento_reintegrado'.$ano.$unidade, self::$expiration, function() use ($unidade,$ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
-                                ->where('envolvido.id_apfd', '<>', 0);
+                        $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
+                                ->where('envolvido.id_reintegrado', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
-                    ->where('envolvido.situacao','=',sistema('procSituacao','apfd'))
+                    ->where('envolvido.situacao','=',sistema('procSituacao','reintegrado'))
                     ->get();
             });
         }
@@ -223,49 +219,49 @@ class ApfdRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::tags('apfd')->remember('prazo_apfd', self::$expiration, function() {
+            $registros = Cache::tags('reintegrado')->remember('prazo_reintegrado', self::$expiration, function() {
                 return $this->model
-                    ->selectRaw('apfd.*, 
-                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    ->selectRaw('reintegrado.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
                     b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data != '0000-00-00' AND id_apfd != '' GROUP BY id_apfd ORDER BY sobrestamento.id_apfd ASC LIMIT 1) b"),
-                        'b.id_apfd', '=', 'apfd.id_apfd')
+                        DB::raw("(SELECT id_reintegrado, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data !=:termino_data AND id_reintegrado!=:id_reintegrado GROUP BY id_reintegrado ORDER BY id_reintegrado ASC LIMIT 1) b"),
+                        'b.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                        $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->get();
-
+ 
             });
                     
         }
         else 
         {
-                $registros = Cache::tags('apfd')->remember('prazo_apfd:'.$unidade, self::$expiration, function() use ($unidade){
-                    return $this->model
-                    ->selectRaw('apfd.*, 
-                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+            $registros = Cache::tags('reintegrado')->remember('prazo_reintegrado'.$unidade, self::$expiration, function() use ($unidade){
+                return $this->model
+                    ->selectRaw('reintegrado.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
                     b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data != '0000-00-00' AND id_apfd != '' GROUP BY id_apfd ORDER BY sobrestamento.id_apfd ASC LIMIT 1) b"),
-                        'b.id_apfd', '=', 'apfd.id_apfd')
+                        DB::raw("(SELECT id_reintegrado, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data !=:termino_data AND id_reintegrado!=:id_reintegrado GROUP BY id_reintegrado ORDER BY id_reintegrado ASC LIMIT 1) b"),
+                        'b.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                        $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('apfd.cdopm','like',$unidade.'%')
-                    ->get();
-    
-                });   
+                    ->where('reintegrado.cdopm','like',$unidade.'%')
+                    ->get(); 
+
+            });   
         }
         return $registros;
     }
@@ -281,52 +277,54 @@ class ApfdRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::tags('apfd')->remember('prazo_apfd:'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('reintegrado')->remember('prazo_reintegrado'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model
-                    ->selectRaw('apfd.*, 
-                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    ->selectRaw('reintegrado.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
                     b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data != '0000-00-00' AND id_apfd != '' GROUP BY id_apfd ORDER BY sobrestamento.id_apfd ASC LIMIT 1) b"),
-                        'b.id_apfd', '=', 'apfd.id_apfd')
+                        DB::raw("(SELECT id_reintegrado, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data !=:termino_data AND id_reintegrado!=:id_reintegrado GROUP BY id_reintegrado ORDER BY id_reintegrado ASC LIMIT 1) b"),
+                        'b.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                        $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('apfd.sjd_ref_ano','=',$ano)
-                    ->get();
+                    ->where('reintegrado.sjd_ref_ano','=',$ano)
+                    ->get(); 
             });
+                    
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('prazo_apfd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('reintegrado')->remember('prazo_reintegrado'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano){
                 return $this->model
-                    ->selectRaw('apfd.*, 
-                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    ->selectRaw('reintegrado.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
                     b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data != '0000-00-00' AND id_apfd != '' GROUP BY id_apfd ORDER BY sobrestamento.id_apfd ASC LIMIT 1) b"),
-                        'b.id_apfd', '=', 'apfd.id_apfd')
+                        DB::raw("(SELECT id_reintegrado, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data !=:termino_data AND id_reintegrado!=:id_reintegrado GROUP BY id_reintegrado ORDER BY id_reintegrado ASC LIMIT 1) b"),
+                        'b.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                        $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('apfd.sjd_ref_ano','=',$ano)
-                    ->where('apfd.cdopm','like',$unidade.'%')
+                    ->where('reintegrado.sjd_ref_ano','=',$ano)
+                    ->where('reintegrado.cdopm','like',$unidade.'%')
                     ->get();
 
             });   
         }
         return $registros;
     }
+
 
 }
 

@@ -41,10 +41,10 @@
                 <v-label label="procedimento" title="Procedimento">
                     {!! Form::select('procedimento',config('sistema.pocedimentosOpcoes'),null, ['class' => 'form-control ']) !!}
                 </v-label>
-                <v-label label="sjd_ref" title="Referência">
+                <v-label label="sjd_ref" title="Referência" error="{{$errors->first('sjd_ref')}}">
                     {{ Form::text('sjd_ref', null, ['class' => 'form-control ']) }}
                 </v-label>
-                <v-label label="sjd_ref_ano" title="Ano">
+                <v-label label="sjd_ref_ano" title="Ano" error="{{$errors->first('sjd_ref_ano')}}">
                     <v-ano name="sjd_ref_ano" ano="{{$proc['sjd_ref_ano']}}"></v-ano>
                 </v-label>
                 <v-label label="portaria_data" title="Data e hora do recebimento (automático)" icon="fa fa-calendar" lg="12" md="12">

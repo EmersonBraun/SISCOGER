@@ -38,10 +38,10 @@
 
             {!! Form::open(['url' => route('procoutros.store')]) !!}
                 <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
-                <v-label label="id_andamento" title="Andamento">
+                <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
                     {{-- {!! Form::select('id_andamento',config('sistema.andamentoPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}
                 </v-label>
-                <v-label label="id_andamentocoger" title="Andamento COGER">
+                <v-label label="id_andamentocoger" title="Andamento COGER" error="{{$errors->first('id_andamentocoger')}}">
                     {{-- {!! Form::select('id_andamentocoger',config('sistema.andamentocogerPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}
                 </v-label>
                 <v-label label="num_pid" title="N° PID">

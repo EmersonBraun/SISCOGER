@@ -584,7 +584,8 @@ return [
         '1' => 'documento_id'
     ],
     
-    'concurso' => [ '0' => 'rg',
+    'concurso' => 
+    [ '0' => 'rg',
         '1' => 'senha',
         '2' => 'direito'
     ], 

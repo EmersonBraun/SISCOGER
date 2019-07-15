@@ -1,26 +1,22 @@
 <?php
 //Aqui ficam as consultas de banco de dados dos processos e procedimentos
-namespace App\Repositories;
+namespace App\proc\Repositories;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
-use Auth;
 use Cache;
-use App\User;
-use App\Models\Sjd\Proc\Movimento;
+use App\Models\Sjd\Proc\Cj;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Route;
 
-class MovimentoRepository extends BaseRepository
+class CjRepository extends BaseRepository
 {
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60 * 24;//um dia 
+    protected static $expiration = 60 * 24;//um dia  
 
-	public function __construct(Movimento $model)
+	public function __construct(Cj $model)
 	{
 		$this->model = $model;
         
@@ -38,17 +34,7 @@ class MovimentoRepository extends BaseRepository
 
     public static function cleanCache()
 	{
-        Cache::tags('movimento')->flush();
-    }
-
-    public function allProc($id, $proc)
-	{
-
-        $registros = Cache::tags('movimento')->remember('movimentos:'.$proc.':'.$id, 1, function() use($id, $proc) {
-            return $this->model->where('id_'.$proc,'=',$id)->get();
-        });
-
-        return $registros;
+        Cache::tags('cj')->flush();
     }
     
     public function all()
@@ -58,13 +44,13 @@ class MovimentoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('movimento')->remember('todos_movimento', self::$expiration, function() {
+            $registros = Cache::tags('cj')->remember('todos_cj', self::$expiration, function() {
                 return $this->model->all();
             });
         }
         else 
         {
-            $registros = Cache::tags('movimento')->remember('todos_movimento::'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('cj')->remember('todos_cj'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')->get();
             });
         }
@@ -79,13 +65,13 @@ class MovimentoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('movimento')->remember('todos_movimento::'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('cj')->remember('todos_cj'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         else 
         {
-            $registros = Cache::tags('movimento')->remember('todos_movimento::'.$ano.'::'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('cj')->remember('todos_cj'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
@@ -99,10 +85,10 @@ class MovimentoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('movimento')->remember('andamento_movimento', self::$expiration, function() {
+            $registros = Cache::tags('cj')->remember('andamento_cj', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join){
-                    $join->on('envolvido.id_movimento', '=', 'movimento.id_movimento')
+                    $join->on('envolvido.id_cj', '=', 'cj.id_cj')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
                     })->get();
@@ -110,10 +96,10 @@ class MovimentoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('movimento')->remember('andamento_movimento:'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('cj')->remember('andamento_cj'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
-                    $join->on('envolvido.id_movimento', '=', 'movimento.id_movimento')
+                    $join->on('envolvido.id_cj', '=', 'cj.id_cj')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
                     })->get();
@@ -129,10 +115,10 @@ class MovimentoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('movimento')->remember('andamento_movimento:'.$ano, self::$expiration, function() use ($ano){
+            $registros = Cache::tags('cj')->remember('andamento_cj'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
-                    $join->on('envolvido.id_movimento', '=', 'movimento.id_movimento')
+                    $join->on('envolvido.id_cj', '=', 'cj.id_cj')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
                     })->get();
@@ -140,11 +126,11 @@ class MovimentoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('movimento')->remember('andamento_movimento:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('cj')->remember('andamento_cj'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
-                    $join->on('envolvido.id_movimento', '=', 'movimento.id_movimento')
+                    $join->on('envolvido.id_cj', '=', 'cj.id_cj')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
                     })->get();
@@ -160,27 +146,27 @@ class MovimentoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('movimento')->remember('julgamento_movimento', self::$expiration, function() {
+            $registros = Cache::tags('cj')->remember('julgamento_cj', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join) {
-                        $join->on('envolvido.id_movimento', '=', 'movimento.id_movimento')
-                                ->where('envolvido.id_movimento', '<>', 0);
+                        $join->on('envolvido.id_cj', '=', 'cj.id_cj')
+                                ->where('envolvido.id_cj', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
-                    ->where('envolvido.situacao','=',sistema('procSituacao','movimento'))
+                    ->where('envolvido.situacao','=',sistema('procSituacao','cj'))
                     ->get();
             });
         }
         else 
         {
-            $registros = Cache::tags('movimento')->remember('julgamento_movimento:'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('cj')->remember('julgamento_cj'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_movimento', '=', 'movimento.id_movimento')
-                                ->where('envolvido.id_movimento', '<>', 0);
+                        $join->on('envolvido.id_cj', '=', 'cj.id_cj')
+                                ->where('envolvido.id_cj', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
-                    ->where('envolvido.situacao','=',sistema('procSituacao','movimento'))
+                    ->where('envolvido.situacao','=',sistema('procSituacao','cj'))
                     ->get();
             });
         }
@@ -194,28 +180,28 @@ class MovimentoRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('movimento')->remember('julgamento_movimento:'.$ano, self::$expiration, function() use ($ano){
+            $registros = Cache::tags('cj')->remember('julgamento_cj'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
-                        $join->on('envolvido.id_movimento', '=', 'movimento.id_movimento')
-                                ->where('envolvido.id_movimento', '<>', 0);
+                        $join->on('envolvido.id_cj', '=', 'cj.id_cj')
+                                ->where('envolvido.id_cj', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
-                    ->where('envolvido.situacao','=',sistema('procSituacao','movimento'))
+                    ->where('envolvido.situacao','=',sistema('procSituacao','cj'))
                     ->get();
             });
         }
         else 
         {
-            $registros = Cache::tags('movimento')->remember('julgamento_movimento:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('cj')->remember('julgamento_cj'.$ano.$unidade, self::$expiration, function() use ($unidade,$ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_movimento', '=', 'movimento.id_movimento')
-                                ->where('envolvido.id_movimento', '<>', 0);
+                        $join->on('envolvido.id_cj', '=', 'cj.id_cj')
+                                ->where('envolvido.id_cj', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
-                    ->where('envolvido.situacao','=',sistema('procSituacao','movimento'))
+                    ->where('envolvido.situacao','=',sistema('procSituacao','cj'))
                     ->get();
             });
         }
@@ -233,46 +219,46 @@ class MovimentoRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::tags('movimento')->remember('prazo_movimento', self::$expiration, function() {
+            $registros = Cache::tags('cj')->remember('prazo_cj', self::$expiration, function() {
                 return $this->model
-                    ->selectRaw('movimento.*, 
-                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_movimento=movimento.id_movimento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_movimento=movimento.id_movimento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    ->selectRaw('cj.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
                     b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_movimento, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data != '0000-00-00' AND id_movimento!= '' GROUP BY id_movimento) b"),
-                        'b.id_movimento', '=', 'movimento.id_movimento')
+                        DB::raw("(SELECT id_cj, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_cj != '' GROUP BY id_cj ORDER BY sobrestamento.id_cj ASC LIMIT 1) b"),
+                        'b.id_cj', '=', 'cj.id_cj')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_movimento', '=', 'movimento.id_movimento')
+                        $join->on('envolvido.id_cj', '=', 'cj.id_cj')
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->get();
 
-                });
+            });
                     
         }
         else 
         {
-            $registros = Cache::tags('movimento')->remember('prazo_movimento:'.$unidade, self::$expiration, function() use ($unidade){
+            $registros = Cache::tags('cj')->remember('prazo_cj'.$unidade, self::$expiration, function() use ($unidade){
                 return $this->model
-                    ->selectRaw('movimento.*, 
-                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_movimento=movimento.id_movimento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_movimento=movimento.id_movimento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    ->selectRaw('cj.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
                     b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_movimento, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data != '0000-00-00' AND id_movimento!= '' GROUP BY id_movimento) b"),
-                        'b.id_movimento', '=', 'movimento.id_movimento')
+                        DB::raw("(SELECT id_cj, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_cj != '' GROUP BY id_cj ORDER BY sobrestamento.id_cj ASC LIMIT 1) b"),
+                        'b.id_cj', '=', 'cj.id_cj')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_movimento', '=', 'movimento.id_movimento')
+                        $join->on('envolvido.id_cj', '=', 'cj.id_cj')
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('it.cdopm','like',$unidade.'%')
+                    ->where('adl.cdopm','like',$unidade.'%')
                     ->get();
 
             });   
@@ -291,54 +277,52 @@ class MovimentoRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::tags('movimento')->remember('prazo_movimento:'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('cj')->remember('prazo_cj'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model
-                    ->selectRaw('movimento.*, 
-                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_movimento=movimento.id_movimento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_movimento=movimento.id_movimento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    ->selectRaw('cj.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
                     b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_movimento, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data != '0000-00-00' AND id_movimento!= '' GROUP BY id_movimento) b"),
-                        'b.id_movimento', '=', 'movimento.id_movimento')
+                        DB::raw("(SELECT id_cj, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_cj != '' GROUP BY id_cj ORDER BY sobrestamento.id_cj ASC LIMIT 1) b"),
+                        'b.id_cj', '=', 'cj.id_cj')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_movimento', '=', 'movimento.id_movimento')
+                        $join->on('envolvido.id_cj', '=', 'cj.id_cj')
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('it.sjd_ref_ano','=',$ano)
+                    ->where('adl.sjd_ref_ano','=',$ano)
                     ->get();
                 });
                     
         }
         else 
         {
-            $registros = Cache::tags('movimento')->remember('prazo_movimento:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('cj')->remember('prazo_cj'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano){
                 return $this->model
-                    ->selectRaw('movimento.*, 
-                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_movimento=movimento.id_movimento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_movimento=movimento.id_movimento ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    ->selectRaw('cj.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_cj=cj.id_cj ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
                     b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_movimento, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data != '0000-00-00' AND id_movimento!= '' GROUP BY id_movimento) b"),
-                        'b.id_movimento', '=', 'movimento.id_movimento')
+                        DB::raw("(SELECT id_cj, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_cj != '' GROUP BY id_cj ORDER BY sobrestamento.id_cj ASC LIMIT 1) b"),
+                        'b.id_cj', '=', 'cj.id_cj')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_movimento', '=', 'movimento.id_movimento')
+                        $join->on('envolvido.id_cj', '=', 'cj.id_cj')
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('it.cdopm','like',$unidade.'%')
-                    ->where('it.sjd_ref_ano','=',$ano)
+                    ->where('adl.cdopm','like',$unidade.'%')
+                    ->where('adl.sjd_ref_ano','=',$ano)
                     ->get();
 
             });   
         }
         return $registros;
     }
-
-
 }
 

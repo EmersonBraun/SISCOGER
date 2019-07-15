@@ -41,10 +41,10 @@
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('cj.update',$proc['id_cj']),'method' => 'put']) !!}
                     <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
-                    <v-label label="id_andamento" title="Andamento">
+                    <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
                         {!! Form::select('id_andamento',config('sistema.andamentoCJ'),null, ['class' => 'form-control ']) !!}
                     </v-label>
-                    <v-label label="id_andamentocoger" title="Andamento COGER">
+                    <v-label label="id_andamentocoger" title="Andamento COGER" error="{{$errors->first('id_andamentocoger')}}">
                         {!! Form::select('id_andamentocoger',config('sistema.andamentocogerCJ'),null, ['class' => 'form-control ']) !!}
                     </v-label>
                     <v-label label="id_motivoconselho" title="Motivo CJ (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">

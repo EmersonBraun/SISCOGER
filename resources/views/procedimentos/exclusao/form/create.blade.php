@@ -37,19 +37,19 @@
             <div class="box-body">
             {!! Form::open(['url' => route('exclusao.store')]) !!}
                 <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
-                <v-label label="rg" title="RG" lg="3" md="3">
+                <v-label label="rg" title="RG" lg="3" md="3" error="{{$errors->first('rg')}}">
                     {{ Form::text('rg', null, ['class' => 'form-control ','onchange' => 'completaDados(this,nome,cargo)','onkeyup' => 'completaDados(this,nome,cargo)']) }}
                 </v-label>
-                <v-label label="nome" title="Nome" lg="3" md="3">
+                <v-label label="nome" title="Nome" lg="3" md="3" error="{{$errors->first('nome')}}">
                     {{ Form::text('nome', null, ['class' => 'form-control ','readonly','id' => 'nome']) }}
                 </v-label>
-                <v-label label="cargo" title="Posto/Graduação" lg="3" md="3">
+                <v-label label="cargo" title="Posto/Graduação" lg="3" md="3" error="{{$errors->first('cargo')}}">
                     {{ Form::text('cargo', null, ['class' => 'form-control ','readonly','id' => 'cargo']) }}
                 </v-label>
                 <v-label label="situacao" title="Resultado" lg="3" md="3">
                     {{ Form::text('situacao', sistema('procSituacao','desercao'), ['class' => 'form-control ','readonly']) }}
                 </v-label>
-                <v-label label="cdopm_quandoexcluido" title="OPM em que estava servindo quando excluído">
+                <v-label label="cdopm_quandoexcluido" title="OPM em que estava servindo quando excluído" error="{{$errors->first('cdopm_quandoexcluido')}}">
                     <v-opm cdopm="{{$proc['cdopm_quandoexcluido']}}"></v-opm>
                 </v-label>
                 <v-label label="id_motivoconselho" title="Motivo">

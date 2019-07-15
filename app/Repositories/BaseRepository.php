@@ -2,13 +2,7 @@
 //Aqui ficam as consultas de banco de dados dos processos e procedimentos
 namespace App\Repositories;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-
-use Auth;
-use Cache;
-use App\User;
 
 class BaseRepository
 {

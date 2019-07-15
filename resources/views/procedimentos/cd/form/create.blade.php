@@ -38,10 +38,10 @@
 
             {!! Form::open(['url' => route('cd.store')]) !!}
                 <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
-                <v-label label="id_andamento" title="Andamento">
+                <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
                     {!! Form::select('id_andamento',config('sistema.andamentoCD'),null, ['class' => 'form-control ']) !!}
                 </v-label>
-                <v-label label="id_andamentocoger" title="Andamento COGER">
+                <v-label label="id_andamentocoger" title="Andamento COGER" error="{{$errors->first('id_andamentocoger')}}">
                     {!! Form::select('id_andamentocoger',config('sistema.andamentocogerCD'),null, ['class' => 'form-control ']) !!}
                 </v-label>
                 <v-label label="id_motivoconselho" title="Motivo CD (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">

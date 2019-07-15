@@ -44,7 +44,7 @@
             <v-label label="id_andamentocoger" title="Andamento COGER">
                 {!! Form::select('id_andamentocoger',config('sistema.andamentocogerAPFD'),null, ['class' => 'form-control ']) !!}
             </v-label>
-            <v-label label="tipo" title="Tipo">
+            <v-label label="tipo" title="Tipo" error="{{$errors->first('tipo')}}">
                 {!! Form::select('tipo', ['Crime comum','Crime militar'],null, ['class' => 'form-control select2']) !!}
             </v-label>
             <v-label label="fato_data" title="Data do fato">

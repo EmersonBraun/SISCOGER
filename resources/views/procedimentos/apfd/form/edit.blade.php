@@ -38,13 +38,13 @@
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('apfd.update',$proc['id_apfd']),'method' => 'put']) !!}
                 <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
-                <v-label label="cdopm" title="OPM">
+                <v-label label="cdopm" title="OPM" error="{{$errors->first('cdopm')}}">
                     <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
                 </v-label>
                 <v-label label="id_andamentocoger" title="Andamento COGER">
                     {!! Form::select('id_andamentocoger',config('sistema.andamentocogerAPFD'),null, ['class' => 'form-control ']) !!}
                 </v-label>
-                <v-label label="tipo" title="Tipo">
+                <v-label label="tipo" title="Tipo" error="{{$errors->first('tipo')}}">
                     {!! Form::select('tipo', ['Crime comum','Crime militar'],null, ['class' => 'form-control select2']) !!}
                 </v-label>
                 <v-label label="fato_data" title="Data do fato">

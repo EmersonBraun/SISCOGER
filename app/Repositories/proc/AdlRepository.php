@@ -1,17 +1,11 @@
 <?php
 //Aqui ficam as consultas de banco de dados dos processos e procedimentos
-namespace App\Repositories;
+namespace App\proc\Repositories;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
-use Auth;
 use Cache;
-use App\User;
 use App\Models\Sjd\Proc\Adl;
-use App\Models\Sjd\Proc\Sobrestamento;
-use App\Models\Sjd\Busca\Envolvido;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Route;
 

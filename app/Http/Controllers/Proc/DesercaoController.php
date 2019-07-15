@@ -10,14 +10,6 @@ use App\User;
 use App\Repositories\DesercaoRepository;
 use App\Models\Sjd\Proc\Desercao;
 use App\Models\Sjd\Busca\Envolvido;
-use App\Models\Sjd\Busca\Ofendido;
-use App\Models\Sjd\Busca\Ligacao;
-use App\Models\Sjd\Proc\Movimento;
-use App\Models\Sjd\Proc\Sobrestamento;
-use App\Models\Sjd\Arquivo\ArquivosApagado;
-
-use Illuminate\Support\Facades\DB;
-use Cache;
 
 class DesercaoController extends Controller
 {
@@ -44,14 +36,68 @@ class DesercaoController extends Controller
         return view('procedimentos.desercao.list.apagados',compact('registros'));
     }
 
-    public function create(Request $request)
+    public function create()
     {
         return view('procedimentos.desercao.form.create');
     }
 
     public function store(Request $request)
     {
+        //andamento (concluído) alguns campos ficam obrigatórios
+        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' ){
+            $this->validate($request, [
+                'id_andamento' => 'required',
+                'sintese_txt' => 'required',
+                ]);
+        } else {
+            $this->validate($request, [
+                'id_andamento' => 'required',
+                'sintese_txt' => 'required',
+                ]);
+        }
+       
+        //dados do formulário
+        $dados = $this->datesToCreate($request); 
+
+        $create = Desercao::create($dados);
+
+        if($create)
+        {
+            DesercaoRepository::cleanCache();
+            toast()->success('N° '.$dados['sjd_ref'].'/'.'Deserção Inserido');
+            return redirect()->route('desercao.lista');
+        }
+
+        toast()->error('Houve um erro na inserção');
+        return redirect()->back();
         
+    }
+    
+    public function show($ref, $ano)
+    {
+        //----levantar procedimento
+        $proc = Desercao::ref_ano($ref,$ano)->first();
+        if(!$proc) abort('404');
+
+        $this->canSee($proc);
+
+        return view('procedimentos.desercao.form.show', compact('proc'));
+    }
+
+    public function edit($ref, $ano)
+    {
+        //----levantar procedimento
+        $proc = Desercao::ref_ano($ref,$ano)->first();
+        if(!$proc) abort('404');
+        
+        $this->canSee($proc);
+
+        return view('procedimentos.desercao.form.edit', compact('proc'));
+
+    }
+
+    public function update(Request $request, $id)
+    {
         //andamento (concluído) alguns campos ficam obrigatórios
         if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' )
         {
@@ -63,94 +109,92 @@ class DesercaoController extends Controller
         else
         {
             $this->validate($request, [
-                'sintese_txt' => 'required',
-                'libelo_file' => 'required',
-                'parecer_file' => 'required',
-                ]);
-        }
-        //ano atual
-        $ano = (int) date('Y');
-
-        //última referência de desercao inserida
-        $ref = Desercao::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
-        $ref = $ref+1;
-
-        //dados do formulário
-        $dados = $request->all();
-
-        //referência e ano
-        $dados['sjd_ref'] = $ref;
-        $dados['sjd_ref_ano'] = $ano;
-
-        //preenchimento de dados vazios
-        $vazios = ['id_andamentocoger','outromotivo','portaria_numero','doc_tipo','doc_numero'];
-
-        foreach ($vazios as $v) 
-        {
-            $dados[$v] = ($dados[$v] == NULL) ? '' : $dados[$v]; 
+                'sintese_txt' => 'required'
+            ]);
         }
 
-        //cria o novo procedimento
-        Desercao::create($dados);
-
-        toast()->success('N° '.$ref.'/'.'desercao Inserido');
-        return redirect()->route('desercao.lista');
-        
-    }
-
-    
-    public function show($ref, $ano)
-    {
-        
-        //----levantar procedimento
-        $proc = Desercao::ref_ano($ref,$ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_desercao','=',$proc->id_desercao)->get();
-
-        return view('procedimentos.desercao.form.show', compact('proc'));
-    }
-
-    public function edit($ref, $ano)
-    {
-        
-        //----levantar procedimento
-        $proc = Desercao::ref_ano($ref,$ano)->first();
-
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_desercao','=',$proc->id_desercao)->get();
-
-        return view('procedimentos.desercao.form.edit', compact('proc'));
-    }
-
-
-    public function update(Request $request, $id)
-    {
-        //dd(\Request::all());
+        // dd(\Request::all());
         $dados = $request->all();
         //busca procedimento e atualiza
-    	Desercao::find($id)->update($dados);
-        //mensagem
-        toast()->success('desercao atualizado!');
+        $update = Desercao::findOrFail($id)->update($dados);
+        
+        if($update)
+        {
+            DesercaoRepository::cleanCache();
+            toast()->success('Deserção atualizado!');
+            return redirect()->route('desercao.lista');
+        }
 
+        toast()->error('Deserção NÃO atualizado!');
         return redirect()->route('desercao.lista');
-    }
 
+    }
 
     public function destroy($id)
     {
         //busca procedimento e apaga
-        Desercao::find($id)->delete();
+        $destroy = Desercao::findOrFail($id)->delete();
 
-        //mensagem
-    	toast()->success('Deserção Apagado');
+        if($destroy) {
+            DesercaoRepository::cleanCache();
+            toast()->success('Deserção Apagado');
+            return redirect()->route('desercao.lista');
+        }
+
+        toast()->success('erro ao apagar Deserção');
         return redirect()->route('desercao.lista');
+
+    }
+
+    public function restore($id)
+    {
+        // Recupera o post pelo ID
+        $restore = Desercao::findOrFail($id)->restore();
+    
+        if($restore){
+            DesercaoRepository::cleanCache();
+            toast()->success('Deserção Recuperado!');
+            return redirect()->route('desercao.lista');  
+        }
+
+        toast()->error('Houve um erro ao recuperar!');
+        return redirect()->route('desercao.lista'); 
+    }
+
+    public function forceDelete($id)
+    {
+        // Recupera o post pelo ID
+        $forceDelete = Desercao::findOrFail($id)->forceDelete();
+    
+        if($forceDelete){
+            DesercaoRepository::cleanCache();
+            toast()->success('Deserção Recuperado!');
+            return redirect()->route('desercao.lista');  
+        }
+
+        toast()->error('Houve um erro ao Apagar definitivo!');
+        return redirect()->route('desercao.lista');
+    }
+
+    public function datesToCreate($request) {
+        //dados do formulário
+        $dados = $request->all();
+        $ano = (int) date('Y');
+
+        $ref = Desercao::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        //referência e ano
+        $dados['sjd_ref'] = $ref+1;
+        $dados['sjd_ref_ano'] = $ano;
+        
+        return $dados;
+    }
+
+    public function canSee($proc) {
+        ver_unidade($proc);//teste para verificar se pode ver outras unidades, caso não possa aborta
+        //----envolvido do procedimento
+        $envolvido = Envolvido::acusado()->where('id_desercao ','=',$proc->id_desercao )->get();
+        //teste para verificar se pode ver superior, caso não possa aborta
+        ver_superior($envolvido, Auth::user());
     }
 
 }

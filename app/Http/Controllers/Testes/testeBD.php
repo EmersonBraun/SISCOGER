@@ -181,6 +181,38 @@ class testeBD extends Controller
         return view('ajuda.a28',compact('dados'));
         
     }
+    //40601
+    public function acesso($rg){
+       //usuário
+        /*$pm = DB::connection('pass')
+        ->table('PPUsuarios')
+        ->where('UserRG','=','84634875')
+        ->first();*/
+
+        /*$query = DB::connection('pass')
+        ->table('PPUsuarioGrupo')
+        ->where('UserID','=',$pm['UserID'])
+        ->get(['GrupoID']);*/
+        
+        /*$grupos = ['10','32','46','47','77','85','90','100','121','126','141','142','144'];
+
+        $query = DB::connection('pass')
+        ->table('PPGrupos')
+        ->whereIn('GrupoID',$grupos)
+        ->get();*/
+        //90 sjd
+
+        $dados = DB::connection('pass')
+            ->table('LOG_ACESSOS')
+            ->where('rg',$rg)
+            ->where('GrupoID','90')
+            ->orderBy('datahora','ASC')
+            ->get();
+
+        return view('ajuda.acesso',compact('dados'));
+        dd($query);
+        
+    }
 
     public function qtds(){
         $query = DB::connection('rhparana')

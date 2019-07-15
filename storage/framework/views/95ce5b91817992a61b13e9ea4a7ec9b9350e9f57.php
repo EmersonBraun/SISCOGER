@@ -10,7 +10,6 @@
   </ol>
   <br>
 </section>
-  
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -39,6 +38,7 @@
             <v-tab-item title="N° <?php echo e($proc['sjd_ref']); ?> / <?php echo e($proc['sjd_ref_ano']); ?> - Formulário principal" idp="principal" cls="active show">
                 <?php echo Form::model($proc,['url' => route('adl.update',$proc['id_adl']),'method' => 'put']); ?>
 
+                <v-prioritario admin="session('is_admin')" prioridade="<?php echo e($proc['prioridade']); ?>"></v-prioritario>
                 <v-label label="id_andamento" title="Andamento">
                     <?php echo Form::select('id_andamento',config('sistema.andamentoADL'),null, ['class' => 'form-control ']); ?>
 
@@ -68,6 +68,10 @@
                 </v-label>
                 <v-label label="id_situacaoconselho" title="Situação">
                     <?php echo Form::select('id_situacaoconselho',config('sistema.situacaoConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']); ?>
+
+                </v-label>
+                <v-label label="id_decorrenciaconselho" title="Em decorrência de">
+                    <?php echo Form::select('id_decorrenciaconselho',config('sistema.decorrenciaConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']); ?>
 
                 </v-label>
                 <v-label label="portaria_numero" title="N° Portaria">

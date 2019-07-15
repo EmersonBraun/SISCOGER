@@ -43,7 +43,7 @@
                     <v-label label="id_andamento" title="Andamento">
                         {!! Form::select('id_andamento',config('sistema.andamentoIT'),null, ['class' => 'form-control ']) !!}
                     </v-label>
-                    <v-label label="id_andamentocoger" title="Andamento COGER">
+                    <v-label label="id_andamentocoger" title="Andamento COGER" error="{{$errors->first('cdopm')}}">
                         {!! Form::select('id_andamentocoger',config('sistema.andamentocogerIT'),null, ['class' => 'form-control ']) !!}
                     </v-label>
                     <v-label label="cdopm" title="OPM">
