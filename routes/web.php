@@ -84,9 +84,9 @@ Route::group(['as'=>'sjd.','prefix' =>'sjd','middleware' => ['role:admin']],func
 });
 //Rotas do módulo Terms
 Route::group(['as'=>'terms.','prefix' =>'termo'],function(){
-	Route::get('',['as' =>'index','uses'=>'Administracao\TermsController@index']);
-	Route::get('criar',['as' =>'create','uses'=>'Administracao\TermsController@create']);
-	Route::post('salvar',['as' =>'store','uses'=>'Administracao\TermsController@store']);
+    Route::get('',['as' =>'index','uses'=>'Administracao\TermsController@index']);
+	Route::get('criar/{id}',['as' =>'create','uses'=>'Administracao\TermsController@create']);
+	Route::post('salvar/{id}',['as' =>'store','uses'=>'Administracao\TermsController@store']);
 });
 //Rotas do módulo feriado
 Route::group(['as'=>'feriados.','prefix' =>'feriado'],function(){

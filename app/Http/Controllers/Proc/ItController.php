@@ -86,7 +86,7 @@ class ItController extends Controller
             return redirect()->route('it.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -143,7 +143,7 @@ class ItController extends Controller
             return redirect()->route('it.lista');
         }
 
-        toast()->error('IT NÃO atualizado!');
+        toast()->warning('IT NÃO atualizado!');
         return redirect()->route('it.lista');
 
     }
@@ -159,7 +159,7 @@ class ItController extends Controller
             return redirect()->route('it.lista');
         }
 
-        toast()->success('erro ao apagar IT');
+        toast()->warning('erro ao apagar IT');
         return redirect()->route('it.lista');
 
     }
@@ -175,7 +175,7 @@ class ItController extends Controller
             return redirect()->route('it.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('it.lista'); 
     }
 
@@ -190,7 +190,7 @@ class ItController extends Controller
             return redirect()->route('it.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('it.lista');
     }
 

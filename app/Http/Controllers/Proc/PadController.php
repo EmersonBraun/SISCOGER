@@ -62,7 +62,7 @@ class PadController extends Controller
             return redirect()->route('pad.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -119,7 +119,7 @@ class PadController extends Controller
             return redirect()->route('pad.lista');
         }
 
-        toast()->error('PAD NÃO atualizado!');
+        toast()->warning('PAD NÃO atualizado!');
         return redirect()->route('pad.lista');
 
     }
@@ -135,7 +135,7 @@ class PadController extends Controller
             return redirect()->route('pad.lista');
         }
 
-        toast()->success('erro ao apagar PAD');
+        toast()->warning('erro ao apagar PAD');
         return redirect()->route('pad.lista');
 
     }
@@ -151,7 +151,7 @@ class PadController extends Controller
             return redirect()->route('pad.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('pad.lista'); 
     }
 
@@ -166,7 +166,7 @@ class PadController extends Controller
             return redirect()->route('pad.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('pad.lista');
     }
 

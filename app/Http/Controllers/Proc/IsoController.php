@@ -74,7 +74,7 @@ class IsoController extends Controller
             return redirect()->route('iso.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -131,7 +131,7 @@ class IsoController extends Controller
             return redirect()->route('iso.lista');
         }
 
-        toast()->error('ISO NÃO atualizado!');
+        toast()->warning('ISO NÃO atualizado!');
         return redirect()->route('iso.lista');
 
     }
@@ -147,7 +147,7 @@ class IsoController extends Controller
             return redirect()->route('iso.lista');
         }
 
-        toast()->success('erro ao apagar ISO');
+        toast()->warning('erro ao apagar ISO');
         return redirect()->route('iso.lista');
 
     }
@@ -163,7 +163,7 @@ class IsoController extends Controller
             return redirect()->route('iso.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('iso.lista'); 
     }
 
@@ -178,7 +178,7 @@ class IsoController extends Controller
             return redirect()->route('iso.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('iso.lista');
     }
 

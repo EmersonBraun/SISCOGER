@@ -86,7 +86,7 @@ class CjController extends Controller
             return redirect()->route('cj.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -143,7 +143,7 @@ class CjController extends Controller
             return redirect()->route('cj.lista');
         }
 
-        toast()->error('CJ NÃO atualizado!');
+        toast()->warning('CJ NÃO atualizado!');
         return redirect()->route('cj.lista');
 
     }
@@ -159,7 +159,7 @@ class CjController extends Controller
             return redirect()->route('cj.lista');
         }
 
-        toast()->success('erro ao apagar CJ');
+        toast()->warning('erro ao apagar CJ');
         return redirect()->route('cj.lista');
 
     }
@@ -175,7 +175,7 @@ class CjController extends Controller
             return redirect()->route('cj.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('cj.lista'); 
     }
 
@@ -190,7 +190,7 @@ class CjController extends Controller
             return redirect()->route('cj.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('cj.lista');
     }
 

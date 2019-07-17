@@ -86,7 +86,7 @@ class CdController extends Controller
             return redirect()->route('cd.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -143,7 +143,7 @@ class CdController extends Controller
             return redirect()->route('cd.lista');
         }
 
-        toast()->error('CD NÃO atualizado!');
+        toast()->warning('CD NÃO atualizado!');
         return redirect()->route('cd.lista');
 
     }
@@ -159,7 +159,7 @@ class CdController extends Controller
             return redirect()->route('cd.lista');
         }
 
-        toast()->success('erro ao apagar CD');
+        toast()->warning('erro ao apagar CD');
         return redirect()->route('cd.lista');
 
     }
@@ -175,7 +175,7 @@ class CdController extends Controller
             return redirect()->route('cd.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('cd.lista'); 
     }
 
@@ -190,7 +190,7 @@ class CdController extends Controller
             return redirect()->route('cd.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('cd.lista');
     }
 

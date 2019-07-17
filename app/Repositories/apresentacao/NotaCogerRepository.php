@@ -5,18 +5,18 @@ namespace App\apresentacao\Repositories;
 use Illuminate\Support\Facades\DB;
 
 use Cache;
-use App\Models\Sjd\apresentacao\Notacomparecimento;
+use App\Models\Sjd\apresentacao\NotaCoger;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Route;
 
-class NotacomparecimentoRepository extends BaseRepository
+class NotaCogerRepository extends BaseRepository
 {
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
     protected static $expiration = 60 * 24;//um dia; 
 
-	public function __construct(Notacomparecimento $model)
+	public function __construct(NotaCoger $model)
 	{
         $this->model = $model;
         

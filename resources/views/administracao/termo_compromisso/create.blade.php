@@ -4,7 +4,7 @@
 
 @include('administracao.termo_compromisso.termo')
 
-{{ Form::open(array('route' => array('terms.store'), 'method' => 'POST')) }}
+{{ Form::open(array('route' => array('terms.store',$id), 'method' => 'POST')) }}
 
 <div class="form-group">
 <div class='col-md-3'>

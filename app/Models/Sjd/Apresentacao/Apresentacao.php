@@ -166,5 +166,61 @@ class Apresentacao extends Eloquent
 		'sjd_ref_ano',
 		'cdopm',
 		'memorando_pdf'
-	];
+    ];
+        
+    //mutators (para alterar na hora da exibição)
+	public function getDocumentoDeOrigemDataAttribute($value)
+	{
+        if($value == '0000-00-00' || !$value) return '';
+        return date( 'd/m/Y' , strtotime($value));
+	}
+
+	public function setDocumentoDeOrigemDataAttribute($value)
+	{
+		$this->attributes['documento_de_origem_data'] = data_bd($value);
+    }
+    
+    public function getComparecimentoDataAttribute($value)
+	{
+        if($value == '0000-00-00' || !$value) return '';
+        return date( 'd/m/Y' , strtotime($value));
+	}
+
+	public function setComparecimentoDataAttribute($value)
+	{
+		$this->attributes['comparecimento_data'] = data_bd($value);
+    }
+    
+    public function getComparecimentoHoraAttribute($value)
+	{
+        if($value == '0000-00-00' || !$value) return '';
+        return date( 'd/m/Y' , strtotime($value));
+	}
+
+	public function setComparecimentoHoraAttribute($value)
+	{
+		$this->attributes['comparecimento_hora'] = data_bd($value);
+    }
+    
+    public function getComparecimentoDhAttribute($value)
+	{
+        if($value == '0000-00-00' || !$value) return '';
+        return date( 'd/m/Y' , strtotime($value));
+	}
+
+	public function setComparecimentoDhAttribute($value)
+	{
+		$this->attributes['comparecimento_dh'] = data_bd($value);
+    }
+    
+    public function getCriacaoDhAttribute($value)
+	{
+        if($value == '0000-00-00' || !$value) return '';
+        return date( 'd/m/Y' , strtotime($value));
+	}
+
+	public function setCriacaoDhAttribute($value)
+	{
+		$this->attributes['criacao_dh'] = data_bd($value);
+	}
 }

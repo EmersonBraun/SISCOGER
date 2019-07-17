@@ -86,7 +86,7 @@ class ProcOutrosController extends Controller
             return redirect()->route('procoutros.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -143,7 +143,7 @@ class ProcOutrosController extends Controller
             return redirect()->route('procoutros.lista');
         }
 
-        toast()->error('Proc. Outros NÃO atualizado!');
+        toast()->warning('Proc. Outros NÃO atualizado!');
         return redirect()->route('procoutros.lista');
 
     }
@@ -159,7 +159,7 @@ class ProcOutrosController extends Controller
             return redirect()->route('procoutros.lista');
         }
 
-        toast()->success('erro ao apagar Proc. Outros');
+        toast()->warning('erro ao apagar Proc. Outros');
         return redirect()->route('procoutros.lista');
 
     }
@@ -175,7 +175,7 @@ class ProcOutrosController extends Controller
             return redirect()->route('procoutros.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('procoutros.lista'); 
     }
 
@@ -190,7 +190,7 @@ class ProcOutrosController extends Controller
             return redirect()->route('procoutros.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('procoutros.lista');
     }
 

@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Apresentacao;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\apresentacao\NotacomparecimentoRepository;
+use App\Repositories\apresentacao\NotaCogerRepository;
 use App\Model\Apresentacao\Notacomparecimento;
 
 class NotaCogerController extends Controller
 {
-    public function index(NotacomparecimentoRepository $repository, $ano=date('Y'))
+    public function index(NotaCogerRepository $repository, $ano=date('Y'))
     {
         $registros = $repository->ano($ano);
         return view('apresentacao.notacoger.index', compact('registros','ano'));
@@ -18,7 +18,7 @@ class NotaCogerController extends Controller
 
     public function create()
     {
-        return view('apresetacao.notacoger.form.create');
+        return view('apresentacao.notacoger.form.create');
     }
 
     public function store(Request $request)
@@ -36,12 +36,12 @@ class NotaCogerController extends Controller
 
         if($create)
         {
-            AdlRepository::cleanCache();
+            NotaCogerRepository::cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'Nota COGER Inserido');
             return redirect()->route('notacoger.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
     }
 
@@ -50,7 +50,7 @@ class NotaCogerController extends Controller
         $proc = Notacomparecimento::ref_ano($ref,$ano)->first();
         if(!$proc) abort('404');
 
-        return view('apresetacao.notacoger.form.show', compact('proc'));
+        return view('apresentacao.notacoger.form.show', compact('proc'));
     }
 
     public function edit($ref,$ano)
@@ -58,7 +58,7 @@ class NotaCogerController extends Controller
         $proc = Notacomparecimento::ref_ano($ref,$ano)->first();
         if(!$proc) abort('404');
         
-        return view('apresetacao.notacoger.form.edit', compact('proc'));
+        return view('apresentacao.notacoger.form.edit', compact('proc'));
     }
 
     public function update(Request $request, $id)
@@ -74,12 +74,12 @@ class NotaCogerController extends Controller
         
         if($update)
         {
-            AdlRepository::cleanCache();
+            NotaCogerRepository::cleanCache();
             toast()->success('Nota COGER atualizada!');
             return redirect()->route('notacoger.lista');
         }
 
-        toast()->error('Nota COGER NÃO atualizada!');
+        toast()->warning('Nota COGER NÃO atualizada!');
         return redirect()->route('notacoger.lista');
     }
 
@@ -88,12 +88,12 @@ class NotaCogerController extends Controller
         $destroy = Notacomparecimento::findOrFail($id)->delete();
 
         if($destroy) {
-            AdlRepository::cleanCache();
+            NotaCogerRepository::cleanCache();
             toast()->success('Nota COGER Apagada');
             return redirect()->route('notacoger.lista');
         }
 
-        toast()->success('erro ao apagar Nota COGER');
+        toast()->warning('erro ao apagar Nota COGER');
         return redirect()->route('notacoger.lista');
     }
 

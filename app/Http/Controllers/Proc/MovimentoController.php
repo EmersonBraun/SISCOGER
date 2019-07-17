@@ -35,29 +35,29 @@ class MovimentoController extends Controller
     
    public function inserir($id, Request $request)
    {
-    //dd(\Request::all());
-    $this->validate($request, [
-        'descricao' => 'required',
-    ]);
-    
-    $dados = $request->all();
-    //cria array com dados do movimento
-    $dados = [
-        'data' => date("Y-m-d"),
-        'descricao' => $request->descricao,
-        'id_'.strtolower(tira_acentos($request->proc)) => $id,
-        'rg' => session()->get('rg'),
-        'opm' => session()->get('opm_descricao')
-    ];
-    dd($dados);
-    
-    //cria o novo movimento
-    Movimento::create($dados);
+        //dd(\Request::all());
+        $this->validate($request, [
+            'descricao' => 'required',
+        ]);
+        
+        $dados = $request->all();
+        //cria array com dados do movimento
+        $dados = [
+            'data' => date("Y-m-d"),
+            'descricao' => $request->descricao,
+            'id_'.strtolower(tira_acentos($request->proc)) => $id,
+            'rg' => session()->get('rg'),
+            'opm' => session()->get('opm_descricao')
+        ];
+        
+        $create = Movimento::create($dados);
+        if($create) {
+            toast()->success('inserido','Movimento');
+            return redirect()->back();
+        }
 
-    toast()->success('inserido','Movimento');
-
-    return redirect()->back();
-
+        toast()->warning('Não inserido','Movimento');
+        return redirect()->back();
    }
 
 }

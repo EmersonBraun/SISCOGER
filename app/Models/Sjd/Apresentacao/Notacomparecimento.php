@@ -33,7 +33,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  *
  * @package App\Models
  */
-class Notacomparecimento extends Eloquent
+class NotaCoger extends Eloquent
 {
 	//Activitylog
 	use LogsActivity;

@@ -62,7 +62,7 @@ class ExclusaoController extends Controller
             return redirect()->route('exclusao.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -119,7 +119,7 @@ class ExclusaoController extends Controller
             return redirect()->route('exclusao.lista');
         }
 
-        toast()->error('Exclusão NÃO atualizado!');
+        toast()->warning('Exclusão NÃO atualizado!');
         return redirect()->route('exclusao.lista');
 
     }
@@ -135,7 +135,7 @@ class ExclusaoController extends Controller
             return redirect()->route('exclusao.lista');
         }
 
-        toast()->success('erro ao apagar Exclusão');
+        toast()->warning('erro ao apagar Exclusão');
         return redirect()->route('exclusao.lista');
 
     }
@@ -151,7 +151,7 @@ class ExclusaoController extends Controller
             return redirect()->route('exclusao.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('exclusao.lista'); 
     }
 
@@ -166,7 +166,7 @@ class ExclusaoController extends Controller
             return redirect()->route('exclusao.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('exclusao.lista');
     }
 

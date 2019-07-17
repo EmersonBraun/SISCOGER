@@ -85,7 +85,7 @@ class AdlController extends Controller
             return redirect()->route('adl.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -142,7 +142,7 @@ class AdlController extends Controller
             return redirect()->route('adl.lista');
         }
 
-        toast()->error('adl NÃO atualizado!');
+        toast()->warning('adl NÃO atualizado!');
         return redirect()->route('adl.lista');
 
     }
@@ -158,7 +158,7 @@ class AdlController extends Controller
             return redirect()->route('adl.lista');
         }
 
-        toast()->success('erro ao apagar ADL');
+        toast()->warning('erro ao apagar ADL');
         return redirect()->route('adl.lista');
 
     }
@@ -174,7 +174,7 @@ class AdlController extends Controller
             return redirect()->route('adl.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('adl.lista'); 
     }
 
@@ -189,7 +189,7 @@ class AdlController extends Controller
             return redirect()->route('adl.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('adl.lista');
     }
 

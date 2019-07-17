@@ -87,7 +87,7 @@ class SindicanciaController extends Controller
             return redirect()->route('sindicancia.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -144,7 +144,7 @@ class SindicanciaController extends Controller
             return redirect()->route('sindicancia.lista');
         }
 
-        toast()->error('Sindicância NÃO atualizado!');
+        toast()->warning('Sindicância NÃO atualizado!');
         return redirect()->route('sindicancia.lista');
 
     }
@@ -160,7 +160,7 @@ class SindicanciaController extends Controller
             return redirect()->route('sindicancia.lista');
         }
 
-        toast()->success('erro ao apagar Sindicância');
+        toast()->warning('erro ao apagar Sindicância');
         return redirect()->route('sindicancia.lista');
 
     }
@@ -176,7 +176,7 @@ class SindicanciaController extends Controller
             return redirect()->route('sindicancia.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('sindicancia.lista'); 
     }
 
@@ -191,7 +191,7 @@ class SindicanciaController extends Controller
             return redirect()->route('sindicancia.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('sindicancia.lista');
     }
 

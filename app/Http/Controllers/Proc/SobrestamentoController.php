@@ -35,27 +35,25 @@ class SobrestamentoController extends Controller
     
    public function inserir($id, Request $request)
    {
-    //dd(\Request::all());
-    $this->validate($request, [
-        'inicio_data' => 'required',
-        'motivo' => 'required',
-    ]);
-    
-    //colocar como vazio '' os que vierem nulos do formulário
-    $request->publicacao_termino = (is_null($request->publicacao_termino) || $request->publicacao_termino == '') ? '' : $request->publicacao_termino;
-    $request->doc_controle_termino = (is_null($request->doc_controle_termino) || $request->doc_controle_termino == '') ? '' : $request->doc_controle_termino;
-    
-    $dados = $request->all();
-
-    //adiciona ao array
-    $dados['id_'.strtolower(tira_acentos($request->proc))] = $id;
-    //dd($dados);
-    //cria o novo sobrestamento
-    Sobrestamento::create($dados);
-
-    toast()->success('inserido','Sobrestamento');
-
-    return redirect()->back();
+        //dd(\Request::all());
+        $this->validate($request, [
+            'inicio_data' => 'required',
+            'motivo' => 'required',
+        ]);
+        
+        //colocar como vazio '' os que vierem nulos do formulário
+        $request->publicacao_termino = (is_null($request->publicacao_termino) || $request->publicacao_termino == '') ? '' : $request->publicacao_termino;
+        $request->doc_controle_termino = (is_null($request->doc_controle_termino) || $request->doc_controle_termino == '') ? '' : $request->doc_controle_termino;
+        
+        $dados = $request->all();
+        $dados['id_'.strtolower(tira_acentos($request->proc))] = $id;
+        $create = Sobrestamento::create($dados);
+        if($create) {
+            toast()->success('inserido','Sobrestamento');
+            return redirect()->back();
+        }
+        toast()->warning('Não inserido','Sobrestamento');
+        return redirect()->back();
 
    }
 

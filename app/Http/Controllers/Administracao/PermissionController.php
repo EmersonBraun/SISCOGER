@@ -36,32 +36,22 @@ class PermissionController extends Controller
         $this->validate($request, [
             'name'=>'required|max:40',
         ]);
-
-        $name = $request['name'];
         
         $permission = new Permission();
-        $permission->name = $name;
+        $permission->name = $request['name'];
 
-        $roles = $request['roles'];
-
-        $permission->save();
-
-        if (!empty($request['roles'])) { //Se uma ou mais funções forem selecionadas
-            foreach ($roles as $role) {
-                $r = Role::where('id', '=', $role)->firstOrFail(); //Corresponder função de entrada ao registro db
-
-                $permission = Permission::where('name', '=', $name)->first(); //Combinar entrada //permissão para registro de db
-                $r->givePermissionTo($permission);
+        $create = $permission->save();
+        
+        if($create) {
+            if (!empty($request['roles'])) { //Se uma ou mais funções forem selecionadas
+                $this->givePermission($request['roles'], $request['name']);
             }
+            toast()->success(''.$permission->name.' adicionadas!', 'Permissões');
+            return redirect()->route('permissions.index');
         }
-        toast()->success(''.$permission->name.' adicionadas!', 'Permissões');
-        return redirect()->route('permissions.index');
-        //return redirect()->route('permissions.create');
-    }
 
-    public function show(Permission $permission)
-    {
-        return redirect('permissions');
+        toast()->warning('Erro ao adicionar!', 'Permissões');
+        return redirect()->route('permissions.index');
     }
  
     public function edit($id)
@@ -72,26 +62,44 @@ class PermissionController extends Controller
 
     public function update(Request $request, $id)
     {
-        $permission = Permission::findOrFail($id);
-
         $this->validate($request, [
             'name'=>'required',
         ]);
-
+            
+        $permission = Permission::findOrFail($id);
         $input = $request->all();
-        $permission->fill($input)->save();
+        $update = $permission->fill($input)->save();
 
-        toast()->success(''. $permission->name.' atualizada!', 'Permissões');
+        if($update) {
+            toast()->success(''. $permission->name.' atualizada!', 'Permissões');
+            return redirect()->route('permissions.index');
+        }
+
+        toast()->warning('Erro ao atualizar!', 'Permissões');
         return redirect()->route('permissions.index');
-        //return redirect()->route('permissions.create');
     }
  
     public function destroy(Permission $permission, $id)
     {
         $permission = Permission::findOrFail($id);
-        $permission->delete();
+        $destroy = $permission->delete();
         
-        toast()->success('apagadas com sucesso!', 'Permissões');
+        if($destroy) {
+            toast()->success('apagadas com sucesso!', 'Permissões');
+            return redirect()->route('permissions.index');
+        }
+
+        toast()->warning('Erro ao apagar!', 'Permissões');
         return redirect()->route('permissions.index');
+    }
+
+    public function givePermission($roles, $name) 
+    {
+        foreach ($roles as $role) {
+            $r = Role::where('id', '=', $role)->firstOrFail(); //Corresponder função de entrada ao registro db
+
+            $permission = Permission::where('name', '=', $name)->first(); //Combinar entrada //permissão para registro de db
+            $r->givePermissionTo($permission);
+        }
     }
 }

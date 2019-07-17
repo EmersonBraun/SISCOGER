@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administracao;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\User;
 
 use App\Models\Sjd\Administracao\Termocompromisso as Termocompromisso;
 class TermsController extends Controller
@@ -16,37 +17,28 @@ class TermsController extends Controller
     public function index()
     {
         $terms = Termocompromisso::all();
-
         return view('administracao.termo_compromisso.index',compact('terms'));
     }
 
-    public function create()
+    public function create($id)
     {
-        
+        $user = User::findOrFail($id);
+        return view('administracao.termo_compromisso.create', compact('user','id'));
     }
 
-    public function store(Request $request)
+    public function store($id, Request $request)
     {
-        //
-    }
+        //Validação
+        $this->validate($request, [
+            'termos' =>'required'
+        ]);
 
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+        $store = User::findOrFail($id)->update(['termos' => $request->termos]);
+        if($store) {
+            toast()->success('Criado com sucesso','Termo');
+            return redirect()->route('home'); 
+        }
+        toast()->warning('Erro ao criar','Termo');
+        return redirect()->route('home');
     }
 }

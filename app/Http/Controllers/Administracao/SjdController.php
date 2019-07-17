@@ -29,7 +29,7 @@ class SjdController extends Controller
         return view('administracao.sjd.create');
     }
 
-    public function store(Sjd $sjd, Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
             'rg'=>'required',
@@ -42,16 +42,15 @@ class SjdController extends Controller
         $dados['cdsecao'] = $opm['CDOPM'];
         $dados['secao'] = $opm['OPM_DESCRICAO'];
         $dados['cidade'] = $opm['CIDADE'];
-        dd($dados);
-        Sjd::create($dados);
 
-        toast()->success('adicionado com sucesso!', 'SJD');
+        $create = Sjd::create($dados);
+        if($create) {
+            toast()->success('adicionado com sucesso!', 'SJD');
+            return redirect()->route('sjd.index');
+        }
+
+        toast()->success('Erro ao adicionar', 'SJD');
         return redirect()->route('sjd.index');
-    }
-
-    public function show($id)
-    {
-        return redirect('sjd');
     }
 
 
@@ -70,18 +69,25 @@ class SjdController extends Controller
             'cpf'=>'required'
         ]);
 
-        Sjd::update($sjd);
+        $update = Sjd::update($sjd);
+        if($update) {
+            toast()->success('atualizado com sucesso!', 'SJD');
+            return redirect()->route('sjd.index');
+        }
 
-        toast()->success('atualizado com sucesso!', 'SJD');
+        toast()->warning('Erro ao atualizar!', 'SJD');
         return redirect()->route('sjd.index');
     }
-    //apagar SJD
+
     public function destroy($id)
     {
-        $sjd = Sjd::findOrFail($id); 
-        $sjd->delete();
+        $destroy = Sjd::findOrFail($id)->delete();
+        if($destroy) {
+            toast()->success('apagado com sucesso!', 'SJD');
+            return redirect()->route('sjd.index');
+        }
 
-        toast()->message('apagado com sucesso!', 'SJD');
+        toast()->warning('apagado com sucesso!', 'SJD');
         return redirect()->route('sjd.index');
     }
 

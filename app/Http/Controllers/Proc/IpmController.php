@@ -86,7 +86,7 @@ class IpmController extends Controller
             return redirect()->route('ipm.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -143,7 +143,7 @@ class IpmController extends Controller
             return redirect()->route('ipm.lista');
         }
 
-        toast()->error('IPM NÃO atualizado!');
+        toast()->warning('IPM NÃO atualizado!');
         return redirect()->route('ipm.lista');
 
     }
@@ -159,7 +159,7 @@ class IpmController extends Controller
             return redirect()->route('ipm.lista');
         }
 
-        toast()->success('erro ao apagar IPM');
+        toast()->warning('erro ao apagar IPM');
         return redirect()->route('ipm.lista');
 
     }
@@ -175,7 +175,7 @@ class IpmController extends Controller
             return redirect()->route('ipm.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('ipm.lista'); 
     }
 
@@ -190,7 +190,7 @@ class IpmController extends Controller
             return redirect()->route('ipm.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('ipm.lista');
     }
 

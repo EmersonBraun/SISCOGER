@@ -18,7 +18,7 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
 use App\Models\Sjd\Administracao\LogAcesso;
 use App\Models\Sjd\Administracao\LogBloqueio as LogBloqueio;
-use App\Models\Sjd\Administracao\Termocompromisso as Termocompromisso;
+
 class UserController extends Controller
 {
      public function __construct() {
@@ -27,12 +27,8 @@ class UserController extends Controller
 
     public function index()
     {
-        //tempo de cahe
-        $expiration = 60; 
-        //chave
-        $key = 'user';
         //buscar dados do cache
-        //$users = Cache::remember($key, $expiration, function(){
+        //$users = Cache::remember('user', 60, function(){
             $users =  User::all();
         //});
         
@@ -42,71 +38,67 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::get();
-
         return view('administracao.usuarios.create', compact('roles'));
     }
 
     public function store(User $user, Request $request)
     {
-       //Validação
         $this->validate($request, [
             'rg'=>'required|unique:users|min:6',
             'roles' =>'required'
         ]);
-        //$pm = Policial::Where('rg',$request->rg)->first();
+        
         $pm = DB::connection('rhparana')->table('policial')->where('rg',$request->rg)->first();
         
-        //dd($pm);
-
-        //verificar se o RG existe
         if (!$pm) 
         {
             toast()->warning('esse RG não existe no Meta4!', 'ERRO!');
             return redirect()->route('users.index');
         }
-        else
-        {
-            $pm = (object) $pm;
-
-            $user->rg = $request->rg;
-            $user->nome = $pm->NOME;
-            $user->email = $pm->EMAIL_META4;
-            $user->classe = $pm->CLASSE;
-            $user->cargo = $pm->CARGO; //graduação
-            $user->quadro = $pm->QUADRO;
-            $user->subquadro = $pm->SUBQUADRO;
-            $user->opm_descricao = $pm->OPM_DESCRICAO; //nome unidade
-            $user->cdopm = $pm->CDOPM; //código da unidade
-            $user->password = bcrypt($request->rg);//atribuir senha provisória
-
-            $user->save();
-
-            //Recuperando o campo de funções
-            $roles = $request['roles']; 
-            //Verficar se as regras foram selecionadas
-            if (isset($roles)) {
-
-                foreach ($roles as $role) {
-                $role_r = Role::where('id', '=', $role)->firstOrFail();  
-                //Atribuindo papel ao usuário    
-                $user->assignRole($role_r); 
-                }
-            }     
-             
-            //limpa o cache
+        
+        $create = $this->createUser($pm, $request);
+        
+        if($create) {
+            if (isset($request['roles'])) $this->assignRole($request['roles'],$user); 
+                
             Cache::forget('user');
-
-            //Redirecionando users.index view com mensagem
+    
             toast()->success('adicionado com sucesso!', 'Usuário');
             return redirect()->route('users.index');
         }
+        
+        toast()->warning('problema ao adicionar!', 'Usuário');
+        return redirect()->route('users.index');
     }
 
-    public function show($id)
+    public function createUser($pm, $request)
     {
-        return redirect('users');
+        $user = [
+            'rg' => $request->rg,
+            'nome' => $pm->NOME,
+            'email' => $pm->EMAIL_META4,
+            'classe' => $pm->CLASSE,
+            'cargo' => $pm->CARGO, //graduação
+            'quadro' => $pm->QUADRO,
+            'subquadro' => $pm->SUBQUADRO,
+            'opm_descricao' => $pm->OPM_DESCRICAO, //nome unidade
+            'cdopm' => $pm->CDOPM, //código da unidade
+            'password' => bcrypt($request->rg)//atribuir senha provisória
+        ];
+
+        $create = User::create($user);
+        if($create) return $create;
+        return false;
     }
 
+    public function assignRole($roles, $user) 
+    {
+        foreach ($roles as $role) {
+            $role_r = Role::where('id', '=', $role)->firstOrFail();  
+            //Atribuindo papel ao usuário    
+            $user->assignRole($role_r); 
+        }
+    }
 
     public function edit($id)
     {
@@ -118,160 +110,154 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);  
-        
         $this->validate($request, [
             'rg'=>'required',
             'email'=>'required|email|unique:users,email,'.$id
         ]);
-
+        
+        $user = User::findOrFail($id);
         $input = $request->only(['rg', 'email']); //Recupere os campos rg, email
-        $roles = $request['roles']; //Recuperar todas as regras
-        $user->fill($input)->save();
-
-        //limpa o cache
-        Cache::forget('user');
-
-        if (isset($roles)) 
-        {        
-            $user->roles()->sync($roles);  //If one or more role is selected associate user to roles          
-        }        
-        else 
-        {
-            $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
+        $update = $user->fill($input)->save();
+        
+        if($update) {
+            Cache::forget('user');
+            if (isset($request['roles'])) $user->roles()->sync($request['roles']);  //If one or more role is selected associate user to roles                 
+            else  $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
+    
+            toast()->success('atualizado com sucesso!', 'Usuário');
+            return redirect()->route('users.index');
         }
 
-        toast()->success('atualizado com sucesso!', 'Usuário');
-
+        toast()->warning('Erro ao atualizar','Usuário');
         return redirect()->route('users.index');
     }
-    //apagar usuário
+
     public function destroy($id)
     {
-        $user = User::findOrFail($id); 
-        $user->delete();
+        $destroy = User::findOrFail($id)->delete();
+        if($destroy) {
+            toast()->success('apagado com sucesso!', 'Usuário');
+            return redirect()->route('users.index');
+        }
 
-        toast()->message('atualizado com sucesso!', 'Usuário');
+        toast()->warning('não apagado', 'Usuário');
         return redirect()->route('users.index');
+
     }
 
     //formulário para atualizar senha
     public function passedit($id)
     {
         $user = User::findOrFail($id);
-        //verifica se o usuário já tem termo de compromisso
-        if ($user->termos == 0) 
-        {
-           return view('administracao.usuarios.reset', compact('user'));
-        }
-        else
-        {
-          return view('administracao.usuarios.pass', compact('user'));  
-        }
+        if ($user->termos == 0) return view('administracao.usuarios.reset', compact('user'));
+        return view('administracao.usuarios.pass', compact('user'));  
+
 
     }
     //atualizar a senha
     public function passupdate($id, Request $request)
     { 
-
         $this->validate($request, [
             'password'=>'required|min:6|confirmed'
         ]);
-
-        $user = User::findOrFail($id);  
-        $user->password = bcrypt($request['password']); //Recuperar o campo senha
-        $user->save();
-
-        //limpa o cache
-        Cache::forget('user');
-
-        //verifica se o usuário já concordou com os termos de uso
-        if ($user->termos == 0) 
-        {
-            return redirect()->route('users.termocriar',$user->id);
-        }
-        else
-        {
+        
+        $user = User::findOrFail($id);
+        $data = ['password' => bcrypt($request['password'])];
+        $passupdate = $user->update($data);  
+        if($passupdate) {
+            Cache::forget('user');
             toast()->success('atualizado com sucesso!', 'Usuário');
+            $this->hasTerm($user);
             return redirect()->route('home');
         }
+
+        //verifica se o usuário já concordou com os termos de uso
+        toast()->warning('atualizado com sucesso!', 'Usuário');
+        $this->hasTerm($user);
+        return redirect()->route('home');
         
     }
     //bloquear usuário
-    public function block($id, LogBloqueio $logBlock)
+    public function block($id)
     {
         $user = User::findOrFail($id);
+
         if(!$user->hasRole('admin')) 
         {
-            //bloqueio de usuário
-            $user->block = 1;
-            $user->save();
+            $block = $user->update(['block' => 0]);
+            if($block) {
+                Cache::forget('user');
+                $this->logBlock($user);
 
-            //limpa o cache
-            Cache::forget('user');
+                toast()->success('bloqueado!', 'Usuário');
+                return redirect()->back();
+            }
 
-            //pegar o RG de quem está bloqueando
-            $id = Auth::id();
-            $rg_block = User::where('id','=', $id)->get()->first();
-
-            //salvar LOG
-            $logBlock->acao = 'bloqueio';
-            $logBlock->rg_acao = $rg_block->rg;
-            $logBlock->rg_block = $user->rg;
-            $logBlock->ip = $_SERVER["REMOTE_ADDR"];
-            $logBlock->save();
-
-            //mensagens
-            toast()->warning('bloqueado!', 'Usuário');
+            toast()->warning('Não bloqueado!', 'Usuário');
             return redirect()->back();
         }
+
         toast()->warning('Não pode ser bloqueado!', 'Usuário Administrador');
         return redirect()->back();
     }
-    //desbloquear usuário
-    public function unblock($id, LogAcesso $logacesso, LogBloqueio $logBlock)
+
+    public function unblock($id, LogBloqueio $logBlock)
     {
         //desbloqueio usuário
         $user = User::findOrFail($id);
-        $user->block = 0;
-        $user->save();
+        $unblock = $user->update(['block' => 0]);
 
-        //limpa o cache
-        Cache::forget('user');
-
-        /*
-        *insere log de acesso com ip = 'desbloqueio' 
-        *para que não seja barrado na validação do tempo de inatividade
-        */
-        $logacesso->rg = $user->rg;
-        $logacesso->nome = $user->nome;
-        $logacesso->tipo = 'desbloqueio';
-        $logacesso->created_at = \Carbon\Carbon::now();
-        $logacesso->ip = 'desbloqueio';
-        $logacesso->save();
-
-        //pegar o RG de quem está bloqueando
-        $id = Auth::id();
-        $rg_block = User::where('id','=', $id)->get()->first();
-
-        //salvar LOG
-        $logBlock->acao = 'desbloqueio';
-        $logBlock->rg_acao = $rg_block->rg;
-        $logBlock->rg_block = $user->rg;
-        $logBlock->ip = $_SERVER["REMOTE_ADDR"];
-        $logBlock->save();
-
+        if(unblock) {
+            Cache::forget('user');
+            $this->logAcesso($user);
+            $this->logBlock($user);
+            toast()->success('desbloqueado!', 'Usuário');
+            return redirect()->back();
+        }
         //mensagens
-        toast()->success('desbloqueado!', 'Usuário');
+        toast()->warning('não desbloqueado!', 'Usuário');
+        return redirect()->back();
+    }
 
-        return redirect()->route('users.index');
+    public function logAcesso($user) {
+        /*insere log de acesso com ip = 'desbloqueio' para que não seja barrado na validação do tempo de inatividade*/
+        $logacesso = [
+            'rg' => $user->rg,
+            'nome' => $user->nome,
+            'tipo' => 'desbloqueio',
+            'created_at' => \Carbon\Carbon::now(),
+            'ip' => 'desbloqueio' 
+        ];
+        $create = LogAcesso::create($logacesso); 
+        if($create) return true;
+        return false;
+    }
+
+    public function logBlock($user) {
+        //pegar o RG de quem está bloqueando
+        $rg_block = User::where('id','=', Auth::id())->get()->first();
+        /*insere log de acesso com ip = 'desbloqueio' para que não seja barrado na validação do tempo de inatividade*/
+        $logBlock = [
+            'acao' => 'desbloqueio',
+            'rg_acao' => $rg_block->rg,
+            'rg_block' => $user->rg,
+            'ip' => $_SERVER["REMOTE_ADDR"],
+        ];
+        $create = LogBloqueio::create($logBlock); 
+        if($create) return true;
+        return false;
+    }
+
+    public function hasTerm($user) 
+    {
+        if ($user->termos == 0) return redirect()->route('termo.create',$user->id);
+        return true;
     }
 
     public function termocriar($id)
     {
         $user = User::findOrFail($id);
-
-        return view('administracao.usuarios.termocriar', compact('user'));
+        return view('administracao.termo.criar', compact('user'));
     }
 
     public function termosalvar($id, Request $request)

@@ -4,21 +4,21 @@ namespace App\Http\Controllers\Apresentacao;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\apresentacao\ApresentacaoRepository;
+use App\Repositories\apresentacao\LocalApresentacaoRepository;
 use App\Model\Apresentacao\Apresentacao;
 
-class ApresentacaoController extends Controller
+class LocalApresentacaoController extends Controller
 {
-    public function index(ApresentacaoRepository $repository, $ano=date('Y'))
+    public function index(LocalApresentacaoRepository $repository, $ano=date('Y'))
     {
         $registros = $repository->ano($ano);
-        return view('apresentacao.apresentacao.index', compact('registros','ano'));
+        return view('apresentacao.localapresentacao.index', compact('registros','ano'));
     }
 
 
     public function create()
     {
-        return view('apresentacao.apresentacao.form.create');
+        return view('apresentacao.localapresentacao.form.create');
     }
 
     public function store(Request $request)
@@ -36,9 +36,9 @@ class ApresentacaoController extends Controller
 
         if($create)
         {
-            ApresentacaoRepository::cleanCache();
-            toast()->success('N° '.$dados['sjd_ref'].'/'.'Apresentacao Inserida');
-            return redirect()->route('apresentacao.lista');
+            LocalApresentacaoRepository::cleanCache();
+            toast()->success('N° '.$dados['sjd_ref'].'/'.'Local apresentacao Inserida');
+            return redirect()->route('localapresentacao.lista');
         }
 
         toast()->warning('Houve um erro na inserção');
@@ -50,7 +50,7 @@ class ApresentacaoController extends Controller
         $proc = Apresentacao::ref_ano($ref,$ano)->first();
         if(!$proc) abort('404');
 
-        return view('apresentacao.apresentacao.form.show', compact('proc'));
+        return view('apresentacao.localapresentacao.form.show', compact('proc'));
     }
 
     public function edit($ref,$ano)
@@ -58,7 +58,7 @@ class ApresentacaoController extends Controller
         $proc = Apresentacao::ref_ano($ref,$ano)->first();
         if(!$proc) abort('404');
         
-        return view('apresentacao.apresentacao.form.edit', compact('proc'));
+        return view('apresentacao.localapresentacao.form.edit', compact('proc'));
     }
 
     public function update(Request $request, $id)
@@ -74,13 +74,13 @@ class ApresentacaoController extends Controller
         
         if($update)
         {
-            ApresentacaoRepository::cleanCache();
-            toast()->success('Apresentacao atualizada!');
-            return redirect()->route('apresentacao.lista');
+            LocalApresentacaoRepository::cleanCache();
+            toast()->success('Local apresentacao atualizada!');
+            return redirect()->route('localapresentacao.lista');
         }
 
-        toast()->warning('Apresentacao NÃO atualizada!');
-        return redirect()->route('apresentacao.lista');
+        toast()->warning('Local apresentacao NÃO atualizada!');
+        return redirect()->route('localapresentacao.lista');
     }
 
     public function destroy($id)
@@ -88,13 +88,13 @@ class ApresentacaoController extends Controller
         $destroy = Apresentacao::findOrFail($id)->delete();
 
         if($destroy) {
-            ApresentacaoRepository::cleanCache();
-            toast()->success('Apresentacao Apagada');
-            return redirect()->route('apresentacao.lista');
+            LocalApresentacaoRepository::cleanCache();
+            toast()->success('Local apresentacao Apagada');
+            return redirect()->route('localapresentacao.lista');
         }
 
         toast()->warning('erro ao apagar Apresentacao');
-        return redirect()->route('apresentacao.lista');
+        return redirect()->route('localapresentacao.lista');
     }
 
     public function datesToCreate($request) {

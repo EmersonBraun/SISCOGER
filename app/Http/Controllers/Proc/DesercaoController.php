@@ -68,7 +68,7 @@ class DesercaoController extends Controller
             return redirect()->route('desercao.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -125,7 +125,7 @@ class DesercaoController extends Controller
             return redirect()->route('desercao.lista');
         }
 
-        toast()->error('Deserção NÃO atualizado!');
+        toast()->warning('Deserção NÃO atualizado!');
         return redirect()->route('desercao.lista');
 
     }
@@ -141,7 +141,7 @@ class DesercaoController extends Controller
             return redirect()->route('desercao.lista');
         }
 
-        toast()->success('erro ao apagar Deserção');
+        toast()->warning('erro ao apagar Deserção');
         return redirect()->route('desercao.lista');
 
     }
@@ -157,7 +157,7 @@ class DesercaoController extends Controller
             return redirect()->route('desercao.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('desercao.lista'); 
     }
 
@@ -172,7 +172,7 @@ class DesercaoController extends Controller
             return redirect()->route('desercao.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('desercao.lista');
     }
 

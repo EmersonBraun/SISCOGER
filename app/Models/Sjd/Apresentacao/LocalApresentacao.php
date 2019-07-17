@@ -27,13 +27,13 @@ use Spatie\Activitylog\Traits\LogsActivity;
  *
  * @package App\Models
  */
-class Localdeapresentacao extends Eloquent
+class LocalApresentacao extends Eloquent
 {
 	//Activitylog
 	use LogsActivity;
 
     protected static $logName = 'localdeapresentacao';
-    protected static $logAttributes = [[
+    protected static $logAttributes = [
 		'localdeapresentacao',
 		'id_municipio',
 		'bairro',

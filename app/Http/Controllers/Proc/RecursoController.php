@@ -62,7 +62,7 @@ class RecursoController extends Controller
             return redirect()->route('recurso.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -119,7 +119,7 @@ class RecursoController extends Controller
             return redirect()->route('recurso.lista');
         }
 
-        toast()->error('Recurso NÃO atualizado!');
+        toast()->warning('Recurso NÃO atualizado!');
         return redirect()->route('recurso.lista');
 
     }
@@ -135,7 +135,7 @@ class RecursoController extends Controller
             return redirect()->route('recurso.lista');
         }
 
-        toast()->success('erro ao apagar Recurso');
+        toast()->warning('erro ao apagar Recurso');
         return redirect()->route('recurso.lista');
 
     }
@@ -151,7 +151,7 @@ class RecursoController extends Controller
             return redirect()->route('recurso.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('recurso.lista'); 
     }
 
@@ -166,7 +166,7 @@ class RecursoController extends Controller
             return redirect()->route('recurso.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('recurso.lista');
     }
 

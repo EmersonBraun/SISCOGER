@@ -86,7 +86,7 @@ class FatdController extends Controller
             return redirect()->route('fatd.lista');
         }
 
-        toast()->error('Houve um erro na inserção');
+        toast()->warning('Houve um erro na inserção');
         return redirect()->back();
         
     }
@@ -143,7 +143,7 @@ class FatdController extends Controller
             return redirect()->route('fatd.lista');
         }
 
-        toast()->error('FATD NÃO atualizado!');
+        toast()->warning('FATD NÃO atualizado!');
         return redirect()->route('fatd.lista');
 
     }
@@ -159,7 +159,7 @@ class FatdController extends Controller
             return redirect()->route('fatd.lista');
         }
 
-        toast()->success('erro ao apagar FATD');
+        toast()->warning('erro ao apagar FATD');
         return redirect()->route('fatd.lista');
 
     }
@@ -175,7 +175,7 @@ class FatdController extends Controller
             return redirect()->route('fatd.lista');  
         }
 
-        toast()->error('Houve um erro ao recuperar!');
+        toast()->warning('Houve um erro ao recuperar!');
         return redirect()->route('fatd.lista'); 
     }
 
@@ -190,7 +190,7 @@ class FatdController extends Controller
             return redirect()->route('fatd.lista');  
         }
 
-        toast()->error('Houve um erro ao Apagar definitivo!');
+        toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('fatd.lista');
     }
 
