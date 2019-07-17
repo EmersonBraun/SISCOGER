@@ -122,7 +122,7 @@ class ProcOutro extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\ProcOutroPresenter';
+    protected $presenter = 'App\Presenters\proc\ProcOutroPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

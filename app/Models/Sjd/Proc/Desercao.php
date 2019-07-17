@@ -84,7 +84,7 @@ class Desercao extends Eloquent
 	];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\DesercaoPresenter';
+    protected $presenter = 'App\Presenters\proc\DesercaoPresenter';
     
 	public function scopeRef_ano($query, $ref, $ano)
 	{

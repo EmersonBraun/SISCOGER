@@ -139,7 +139,7 @@ class It extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\ItPresenter';
+    protected $presenter = 'App\Presenters\proc\ItPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

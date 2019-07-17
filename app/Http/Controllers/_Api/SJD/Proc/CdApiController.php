@@ -8,7 +8,7 @@ use Auth;
 use Cache;
 use DB;
 use App\User;
-use App\Repositories\CdRepository;
+use App\proc\Repositories\CdRepository;
 
 class CdApiController extends Controller
 {

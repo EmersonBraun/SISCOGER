@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\ApfdRepository;
+use App\proc\Repositories\ApfdRepository;
 use App\Models\Sjd\Proc\Apfd;
 
 class ApfdController extends Controller

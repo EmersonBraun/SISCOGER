@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\PadRepository;
+use App\proc\Repositories\PadRepository;
 
 class PadApiController extends Controller
 {

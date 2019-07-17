@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use App\User;
 use App\Models\Sjd\Proc\Recurso;
-use App\Repositories\RecursoRepository;
+use App\proc\Repositories\RecursoRepository;
 use App\Models\Sjd\Busca\Envolvido;
 
 class RecursoController extends Controller

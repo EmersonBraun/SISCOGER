@@ -126,7 +126,7 @@ class Cj extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\CjPresenter';
+    protected $presenter = 'App\Presenters\proc\proc\CjPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

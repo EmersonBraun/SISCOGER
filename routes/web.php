@@ -9,7 +9,7 @@
 | rotas são carregadas pelo RouteServiceProvider dentro de um grupo que
 | contém o grupo de middleware "web".
 */
-//Route::get('teste', ['as'=>'teste','uses'=>'Testes\testeBD@opm']);
+Route::get('teste', ['as'=>'teste','uses'=>'Testes\testeBD@opm']);
 //Route::get('fds', ['as'=>'fds','uses'=>'Testes\testeBD@fds']);
 //Route::get('tabelas/{conn}/{colunas?}', ['as'=>'teste','uses'=>'Testes\testeBD@tabelas']);
 // Route::get('colunas/{nome}', ['as'=>'teste','uses'=>'Testes\testeBD@colunas']);

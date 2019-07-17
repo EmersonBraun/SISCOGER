@@ -126,7 +126,7 @@ class Cd extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\CdPresenter';
+    protected $presenter = 'App\Presenters\proc\CdPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

@@ -1,9 +1,9 @@
 <?php
-namespace App\Presenters;
+namespace App\Presenters\proc;
 
 use Laracasts\Presenter\Presenter;
 
-class SindicanciaPresenter extends Presenter {
+class SobrestamentoPresenter extends Presenter {
 	
     public function createdAt()
     {
@@ -25,26 +25,23 @@ class SindicanciaPresenter extends Presenter {
 }
 /*
 protected $fillable = [
-		'id_andamentocoger',
-		'id_andamento',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'fato_data',
-		'abertura_data',
-		'sintese_txt',
-		'cdopm',
-		'doc_tipo',
-		'doc_numero',
-		'doc_origem_txt',
-		'portaria_numero',
-		'portaria_data',
-		'sol_cmt_file',
-		'sol_cmt_data',
-		'sol_cmtgeral_file',
-		'sol_cmtgeral_data',
-		'opm_meta4',
-		'relatorio_file',
-		'relatorio_data',
-		'prioridade'
+		'rg',
+		'inicio_data',
+		'publicacao_inicio',
+		'termino_data',
+		'publicacao_termino',
+		'motivo',
+		'id_cj',
+		'id_cd',
+		'id_sindicancia',
+		'id_fatd',
+		'id_iso',
+		'id_it',
+		'id_adl',
+		'id_pad',
+		'id_sai',
+		'id_proc_outros',
+		'doc_controle_inicio',
+		'doc_controle_termino'
     ];
     */

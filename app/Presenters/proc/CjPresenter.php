@@ -1,5 +1,5 @@
 <?php
-namespace App\Presenters;
+namespace App\Presenters\proc;
 
 use Laracasts\Presenter\Presenter;
 

@@ -6,7 +6,7 @@ use Cache;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\ComportamentoRepository as CP;
+use App\Repositories\PM\ComportamentoRepository as CP;
 
 class ComportamentoApiController extends Controller
 {

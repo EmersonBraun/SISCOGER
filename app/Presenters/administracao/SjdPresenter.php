@@ -1,5 +1,5 @@
 <?php
-namespace App\Presenters;
+namespace App\Presenters\administracao;
 
 use Laracasts\Presenter\Presenter;
 use App\Repositories\OPMRepository;

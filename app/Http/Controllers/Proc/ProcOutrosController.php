@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\ProcOutroRepository;
+use App\proc\Repositories\ProcOutroRepository;
 use App\Models\Sjd\Proc\ProcOutro;
 use App\Models\Sjd\Busca\Envolvido;
 

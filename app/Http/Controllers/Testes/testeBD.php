@@ -13,7 +13,7 @@ class testeBD extends Controller
  
     public function opm()
     {
-		$testes = DB::connection('rhparana')
+		/*$testes = DB::connection('rhparana')
 		->table('opmPMPR')
 		->orderBy('codigo', 'asc')
 		->get();
@@ -23,7 +23,13 @@ class testeBD extends Controller
 			echo "'$teste->CODIGO'";
         	echo " => '$teste->ABREVIATURA', <br>";
         }
-        echo "];";
+		echo "];";*/
+		$testes = DB::connection('rhparana')
+		->table('opmPMPR')
+		->where('abreviatura','like', 'GBM%')
+		->get();
+
+		dd($testes);
     }
 
     public function tabelas($conn,$colunas='')

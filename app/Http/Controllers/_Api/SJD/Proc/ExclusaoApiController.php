@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\ExclusaoRepository;
+use App\proc\Repositories\ExclusaoRepository;
 
 class ExclusaoApiController extends Controller
 {

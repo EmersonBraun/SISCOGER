@@ -8,7 +8,7 @@ use Auth;
 use Cache;
 use DB;
 use App\User;
-use App\Repositories\SindicanciaRepository;
+use App\proc\Repositories\SindicanciaRepository;
 
 class SindicanciaApiController extends Controller
 {

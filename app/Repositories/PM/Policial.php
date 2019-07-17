@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Repositories;
+namespace App\PM\Repositories;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Models\Sjd\Policiais\Comportamentopm as Comportamentopm;

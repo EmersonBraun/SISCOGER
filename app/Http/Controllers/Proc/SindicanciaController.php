@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\SindicanciaRepository;
+use App\proc\Repositories\SindicanciaRepository;
 use App\Models\Sjd\Proc\Sindicancia;
 use App\Models\Sjd\Busca\Envolvido;
 

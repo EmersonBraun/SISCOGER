@@ -5,7 +5,7 @@ namespace App\Http\Controllers\_Api\SJD\PM;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use App\Repositories\OPMRepository;
+use App\Repositories\PM\OPMRepository;
 use App\Models\Sjd\Policiais\Envolvido;
 
 class EnvolvidoApiController extends Controller

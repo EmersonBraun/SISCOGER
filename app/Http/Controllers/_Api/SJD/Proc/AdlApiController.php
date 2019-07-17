@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\AdlRepository;
+use App\proc\Repositories\AdlRepository;
 
 class AdlApiController extends Controller
 {

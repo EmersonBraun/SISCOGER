@@ -1,9 +1,9 @@
 <?php
-namespace App\Presenters;
+namespace App\Presenters\proc;
 
 use Laracasts\Presenter\Presenter;
 
-class CdPresenter extends Presenter {
+class SindicanciaPresenter extends Presenter {
 	
     public function createdAt()
     {
@@ -23,40 +23,28 @@ class CdPresenter extends Presenter {
     }
 
 }
-
 /*
-[
-		'id_andamento',
+protected $fillable = [
 		'id_andamentocoger',
-		'id_motivoconselho',
-		'id_decorrenciaconselho',
-		'id_situacaoconselho',
-		'outromotivo',
+		'id_andamento',
+		'sjd_ref',
+		'sjd_ref_ano',
 		'fato_data',
 		'abertura_data',
 		'sintese_txt',
-		'libelo_file',
+		'cdopm',
 		'doc_tipo',
 		'doc_numero',
+		'doc_origem_txt',
 		'portaria_numero',
 		'portaria_data',
-		'parecer_file',
-		'decisao_file',
-		'doc_prorrogacao',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'prescricao_data',
-		'parecer_comissao',
-		'parecer_cmtgeral',
-		'exclusao_txt',
-		'rec_ato_file',
-		'rec_gov_file',
-		'cdopm',
-		'ac_desempenho_bl',
-		'ac_conduta_bl',
-		'ac_honra_bl',
-		'tjpr_file',
-		'stj_file',
+		'sol_cmt_file',
+		'sol_cmt_data',
+		'sol_cmtgeral_file',
+		'sol_cmtgeral_data',
+		'opm_meta4',
+		'relatorio_file',
+		'relatorio_data',
 		'prioridade'
     ];
     */

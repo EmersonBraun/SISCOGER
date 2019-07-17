@@ -107,7 +107,7 @@ class Movimento extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\MovimentoPresenter';
+    protected $presenter = 'App\Presenters\proc\MovimentoPresenter';
  
 	public function scopeRef_ano($query, $ref, $ano)
 	{

@@ -1,9 +1,9 @@
 <?php
-namespace App\Presenters;
+namespace App\Presenters\proc;
 
 use Laracasts\Presenter\Presenter;
 
-class ApfdPresenter extends Presenter {
+class ReintegradoPresenter extends Presenter {
 	
     public function createdAt()
     {
@@ -25,22 +25,15 @@ class ApfdPresenter extends Presenter {
 }
 /*
 protected $fillable = [
-		'id_andamento',
-		'id_andamentocoger',
+		'rg',
+		'cargo',
+		'nome',
+		'motivo',
+		'procedimento',
 		'sjd_ref',
 		'sjd_ref_ano',
-		'tipo',
-		'cdopm',
-		'fato_data',
-		'sintese_txt',
-		'tipo_penal',
-		'tipo_penal_novo',
-		'especificar',
-		'doc_tipo',
-		'doc_numero',
-		'exclusao_txt',
-		'opm_meta4',
-		'referenciavajme',
-		'prioridade'
+		'retorno_data',
+		'bg_numero',
+		'bg_ano'
     ];
     */

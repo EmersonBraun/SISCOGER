@@ -150,7 +150,7 @@ class Ipm extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\IpmPresenter';
+    protected $presenter = 'App\Presenters\proc\IpmPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

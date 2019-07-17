@@ -1,10 +1,6 @@
 <?php
 
-namespace App\Repositories;
-
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+namespace App\OPM\Repositories;
 
 use Cache;
 use App\Models\rhparana\Opmpmpr;

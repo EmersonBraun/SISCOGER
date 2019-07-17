@@ -5,12 +5,10 @@ namespace App\Http\Controllers\_Api\SJD\PM;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use App\Models\Sjd\Policiais\BackupEfetivo;
 
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 // use Ixudra\Curl\Facades\Curl;
-use App\Repositories\PolicialRepository;
+use App\Repositories\PM\PolicialRepository;
 class PMApiController extends Controller
 {
     public function dados($rg)

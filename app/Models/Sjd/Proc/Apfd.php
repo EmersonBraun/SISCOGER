@@ -80,7 +80,7 @@ class Apfd extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\ApfdPresenter';
+    protected $presenter = 'App\Presenters\proc\ApfdPresenter';
  
 	public function scopeRef_ano($query, $ref, $ano)
 	{

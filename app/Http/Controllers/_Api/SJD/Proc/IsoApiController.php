@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\IsoRepository;
+use App\proc\Repositories\IsoRepository;
 
 class IsoApiController extends Controller
 {

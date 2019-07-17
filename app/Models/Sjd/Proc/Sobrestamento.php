@@ -109,7 +109,7 @@ class Sobrestamento extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\SobrestamentoPresenter';
+    protected $presenter = 'App\Presenters\proc\SobrestamentoPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

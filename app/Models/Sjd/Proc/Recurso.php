@@ -62,7 +62,7 @@ class Recurso extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\RecursoPresenter';
+    protected $presenter = 'App\Presenters\proc\RecursoPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

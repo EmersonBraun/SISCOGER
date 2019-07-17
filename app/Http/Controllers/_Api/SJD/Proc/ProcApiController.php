@@ -5,7 +5,7 @@ namespace App\Http\Controllers\_Api\SJD\Proc;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use App\Repositories\OPMRepository;
+use App\proc\Repositories\OPMRepository;
 use App\Models\Sjd\Busca\Ligacao;
 
 class ProcApiController extends Controller

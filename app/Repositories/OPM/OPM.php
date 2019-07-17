@@ -1,12 +1,8 @@
 <?php
 
-namespace App\Repositories;
+namespace App\OPM\Repositories;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use App\Models\Sjd\Policiais\Comportamentopm as Comportamentopm;
-use Cache;
 use App\Models\rhparana\Opmpmpr;
 
 class OPM extends Controller

@@ -126,7 +126,7 @@ class Adl extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\AdlPresenter';
+    protected $presenter = 'App\Presenters\proc\AdlPresenter';
 
     // query scope
 	public function scopeRef_ano($query, $ref, $ano)

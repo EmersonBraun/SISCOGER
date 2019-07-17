@@ -5,30 +5,71 @@ use App\Models\Sjd\Relatorios\Pendencia as Pendencia;
 // dados via API
 use Auth;
 use ApiTransferencias;
-use ApiComportamento;
+use App\Repositories\PM\ComportamentoRepository;
 use ApiFatd;
 use ApiIpm;
 use ApiSindicancia;
 use ApiCd;
-use ApiEfetivo;
 use ApiPM;
-use ApiOPM;
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function isLoged($unidade) {
+        if($unidade == NULL || $unidade == '')
+        {
+            Auth::logout();
+            return redirect()->intended('login');
+        }
+    }
+
+    public function transferidos($unidade) { //PENDENCIA #0: TRANSFERIDOS obs: arrumar a pesquisa
+        return ApiTransferencias::transferencias($unidade);
+    }
+
+    public function comportamentos($unidade) { //PENDENCIA #1: COMPORTAMENTO
+        return ComportamentoRepository::comportamentos($unidade);
+    }
+
+    public function FATDpunidos($unidade) { //PENDENCIA #2: CADASTRO DE PUNICAO NO FATD MARCADO COMO PUNIDO
+        return ApiFatd::punidos($unidade);
+    }
+
+    public function FATDPrazos($unidade) { //PENDENCIA #2.1: PRAZO DO FATD
+        return ApiFatd::prazos($unidade);
+    }
+
+    public function FATDaberturas($unidade) { //PENDENCIA #2.2: FATD SEM DATA DE ABERTURA
+        return ApiFatd::aberturas($unidade);
+    }
+
+    public function IPMprazos($unidade) { //PENDENCIA #3: PERDA DE PRAZO EM IPM
+        return ApiIpm::prazos($unidade);
+    }
+
+    public function IPMaberturas($unidade) { //PENDENCIA #3.1: ipm SEM DATA DE ABERTURA
+        return ApiIpm::aberturas($unidade);
+    }
+
+    public function SindicanciaPrazos($unidade) { //PENDENCIA #4: PRAZO DAS SINDICANCIAS
+        return ApiSindicancia::prazos($unidade);
+    }
+
+    public function SindicanciaAberturas($unidade) { //PENDENCIA #4.1: SINDICANCIA SEM DATA DE ABERTURA
+        return ApiSindicancia::aberturas($unidade);
+    }
+
+    public function CDaberturas($unidade) { //PENDENCIA #5: CONSELHOS DE DISCIPLINA SEM DATA DE ABERTURA
+        return ApiCd::aberturas($unidade);
+    }
+
+    public function CDprazos($unidade) { //PENDENCIA #5.1: CONSELHOS DE DISCIPLINA - PRAZO
+        return ApiCd::prazos($unidade);
+    }
+
     public function index()
     {
         //caso não tenha argumentos a função pega a unidade do login
@@ -38,38 +79,21 @@ class HomeController extends Controller
         //nome da unidade caso não seja a logada
         $nome_unidade = ($unidade != session()->get('cdopmbase')) ? opm($unidade) : '';
         //caso não tenha unidade desloga
-        if($unidade == NULL || $unidade == '')
-        {
-            Auth::logout();
-            return redirect()->intended('login');
-        }
+        $this->isLoged($unidade);
+
         // pendências
-        //PENDENCIA #0: TRANSFERIDOS obs: arrumar a pesquisa
-        $transferidos = ApiTransferencias::transferencias($unidade);
-        //$transferidos = [];
-        //PENDENCIA #1: COMPORTAMENTO
-        $comportamentos = ApiComportamento::comportamentos($unidade);
-        //PENDENCIA #2: CADASTRO DE PUNICAO NO FATD MARCADO COMO PUNIDO
-        $fatd_punidos = ApiFatd::punidos($unidade);
-        
-        //PENDENCIA #2.1: PRAZO DO FATD
-        $fatd_prazos = ApiFatd::prazos($unidade);
-        
-        //PENDENCIA #2.2: FATD SEM DATA DE ABERTURA
-        $fatd_aberturas = ApiFatd::aberturas($unidade);
-        //PENDENCIA #3: PERDA DE PRAZO EM IPM
-        $ipm_prazos = ApiIpm::prazos($unidade);
-        
-        //PENDENCIA #3.1: ipm SEM DATA DE ABERTURA
-        $ipm_aberturas = ApiIpm::aberturas($unidade);
-        //PENDENCIA #4: PRAZO DAS SINDICANCIAS
-        $sindicancia_prazos = ApiSindicancia::prazos($unidade);
-        //PENDENCIA #4.1: SINDICANCIA SEM DATA DE ABERTURA
-        $sindicancia_aberturas = ApiSindicancia::aberturas($unidade);
-        //PENDENCIA #5: CONSELHOS DE DISCIPLINA SEM DATA DE ABERTURA
-        $cd_aberturas = ApiCd::aberturas($unidade);
-        //PENDENCIA #5.1: CONSELHOS DE DISCIPLINA - PRAZO
-        $cd_prazos = ApiCd::prazos($unidade);
+        $transferidos = $this->transferidos($unidade);
+        $comportamentos = $this->comportamentos($unidade);
+        $fatd_punidos = $this->FATDpunidos($unidade);
+        $fatd_prazos = $this->FATDPrazos($unidade);
+        $fatd_aberturas = $this->FATDaberturas($unidade);
+        $ipm_prazos = $this->IPMprazos($unidade);
+        $ipm_aberturas = $this->IPMaberturas($unidade);
+        $sindicancia_prazos = $this->SindicanciaPrazos($unidade);
+        $sindicancia_aberturas = $this->SindicanciaAberturas($unidade);
+        $cd_aberturas = $this->CDaberturas($unidade);
+        $cd_prazos = $this->CDprazos($unidade);
+
         //contagens
         $ttransferidos = count($transferidos);
         $tfatd_punidos = count($fatd_punidos);
@@ -81,6 +105,7 @@ class HomeController extends Controller
         $tsindicancia_aberturas = count($sindicancia_aberturas);
         $tcd_aberturas = count($cd_aberturas);
         $tcd_prazos = count($cd_prazos);
+
         // totais para as infobox
         $fatd_total = $tfatd_punidos + $tfatd_prazos + $tfatd_aberturas;
         $ipm_total = $tipm_prazos + $tipm_aberturas;
@@ -102,43 +127,9 @@ class HomeController extends Controller
         $pendencia->sindicancia_prazo = $tsindicancia_prazos; 
         $pendencia->sindicancia_abertura = $tsindicancia_aberturas; 
         $pendencia->save();
-        return view('home',compact(
-            'transferidos', 
-            'comportamentos',
-            'fatd_punidos',
-            'fatd_prazos',
-            'fatd_aberturas',
-            'fatd_total',
-            'ipm_prazos',
-            'ipm_aberturas',
-            'ipm_total',
-            'sindicancia_prazos',
-            'sindicancia_aberturas',
-            'sindicancia_total',
-            'cd_aberturas',
-            'cd_prazos',
-            'cd_total',
-            'efetivo_chartjs',
-            'chartjs',
-            'total_efetivo',
-            'ttransferidos',
-            'tfatd_punidos',
-            'tfatd_punidos',
-            'tfatd_prazos',
-            'tfatd_aberturas',
-            'tfatd_total',
-            'tipm_prazos',
-            'tipm_aberturas',
-            'tipm_total',
-            'tsindicancia_prazos',
-            'tsindicancia_aberturas',
-            'tsindicancia_total',
-            'tcd_aberturas',
-            'tcd_prazos',
-            'tcd_total',
-            'nome_unidade', 
-            'unidade' 
-            ));
+
+        return view('home',compact('transferidos', 'comportamentos','fatd_punidos','fatd_prazos','fatd_aberturas','fatd_total','ipm_prazos','ipm_aberturas','ipm_total','sindicancia_prazos','sindicancia_aberturas','sindicancia_total','cd_aberturas','cd_prazos','cd_total','efetivo_chartjs','chartjs','total_efetivo','ttransferidos',
+        'tfatd_punidos','tfatd_punidos','tfatd_prazos','tfatd_aberturas','tfatd_total','tipm_prazos','tipm_aberturas','tipm_total','tsindicancia_prazos','tsindicancia_aberturas','tsindicancia_total','tcd_aberturas','tcd_prazos','tcd_total','nome_unidade', 'unidade' ));
     }
     public function graficoEfetivo($unidade)
     {
@@ -160,7 +151,7 @@ class HomeController extends Controller
                 ]
             ])
             ->options([
-                'animationEasing'      => 'easeOutCirc',
+                'animationEasing' => 'easeOutCirc',
                 'legend' => [
                     'display' => true,
                     'position' => 'left'

@@ -8,7 +8,7 @@ use Auth;
 use Cache;
 use DB;
 use App\User;
-use App\Repositories\IpmRepository;
+use App\proc\Repositories\IpmRepository;
 
 class IpmApiController extends Controller
 {

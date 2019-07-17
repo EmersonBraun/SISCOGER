@@ -8,7 +8,7 @@ use Auth;
 use Cache;
 use DB;
 use App\User;
-use App\Repositories\FatdRepository;
+use App\proc\Repositories\FatdRepository;
 
 class FatdApiController extends Controller
 {

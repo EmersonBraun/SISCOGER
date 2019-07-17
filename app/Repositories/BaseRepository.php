@@ -8,26 +8,6 @@ class BaseRepository
 {
     protected $model;
 
-    public function create(array $data)
-    {
-        return $this->model->create($data);
-    }
-
-    public function update(array $data, $id)
-    {
-        return $this->model->find($id)->update($data);
-    }
-
-    public function firstOrCreate(array $data)
-    {
-        return $this->model->firstOrCreate($data);
-    }
-
-    public function delete($id)
-    {
-        return $this->model->find($id)->delete();
-    }
-
     public function find($id)
 	{
         $unidade = session('cdopmbase');

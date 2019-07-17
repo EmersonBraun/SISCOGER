@@ -91,4 +91,43 @@ class Notacomparecimento extends Eloquent
 		'criacao_dh',
 		'status'
 	];
+
+	//mutators (para alterar na hora da exibição)
+	public function getExpedicaoDataAttribute($value)
+	{
+			if($value == '0000-00-00' || $value == null)
+			{
+					return '';
+			}
+			else
+			{
+					return date( 'd/m/Y' , strtotime($value));
+			}
+	}
+
+	//mutator para alterar na hora de salvar no bd
+	public function setExpedicaoDataAttribute($value)
+	{
+			$this->attributes['expedicao_data'] = data_bd($value);
+	}
+
+	//mutators (para alterar na hora da exibição)
+	public function getCriacaoDhAttribute($value)
+	{
+			if($value == '0000-00-00' || $value == null)
+			{
+					return '';
+			}
+			else
+			{
+					return date( 'd/m/Y' , strtotime($value));
+			}
+	}
+
+	//mutator para alterar na hora de salvar no bd
+	public function setCriacaoDhAttribute($value)
+	{
+			$this->attributes['criacao_dh'] = data_bd($value);
+	}
+
 }

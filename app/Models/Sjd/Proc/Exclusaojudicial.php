@@ -86,7 +86,7 @@ class Exclusaojudicial extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\ExclusaojudicialPresenter';
+    protected $presenter = 'App\Presenters\proc\ExclusaojudicialPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

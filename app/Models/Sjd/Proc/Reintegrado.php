@@ -65,7 +65,7 @@ class Reintegrado extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\ReintegradoPresenter';
+    protected $presenter = 'App\Presenters\proc\ReintegradoPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

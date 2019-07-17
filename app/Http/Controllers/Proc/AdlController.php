@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\Repositories\AdlRepository;
+use App\proc\Repositories\AdlRepository;
 use App\Models\Sjd\Proc\Adl;
 use App\Models\Sjd\Busca\Envolvido;
 

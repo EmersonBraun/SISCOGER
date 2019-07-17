@@ -1,9 +1,9 @@
 <?php
-namespace App\Presenters;
+namespace App\Presenters\proc;
 
 use Laracasts\Presenter\Presenter;
 
-class ReintegradoPresenter extends Presenter {
+class PjPresenter extends Presenter {
 	
     public function createdAt()
     {
@@ -25,15 +25,9 @@ class ReintegradoPresenter extends Presenter {
 }
 /*
 protected $fillable = [
-		'rg',
-		'cargo',
-		'nome',
-		'motivo',
-		'procedimento',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'retorno_data',
-		'bg_numero',
-		'bg_ano'
-    ];
-    */
+		'id_pad',
+		'cnpj',
+		'razaosocial',
+		'contato',
+		'telefone'
+    ];*/

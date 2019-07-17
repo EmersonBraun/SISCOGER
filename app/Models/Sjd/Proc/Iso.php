@@ -95,7 +95,7 @@ class Iso extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\IsoPresenter';
+    protected $presenter = 'App\Presenters\proc\IsoPresenter';
     
 	public function scopeRef_ano($query, $ref, $ano)
 	{

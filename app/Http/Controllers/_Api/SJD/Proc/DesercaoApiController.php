@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\DesercaoRepository;
+use App\proc\Repositories\DesercaoRepository;
 
 class DesercaoApiController extends Controller
 {

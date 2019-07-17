@@ -1,9 +1,9 @@
 <?php
-namespace App\Presenters;
+namespace App\Presenters\proc;
 
 use Laracasts\Presenter\Presenter;
 
-class IsoPresenter extends Presenter {
+class FatdPresenter extends Presenter {
 	
     public function createdAt()
     {
@@ -23,28 +23,35 @@ class IsoPresenter extends Presenter {
     }
 
 }
-
 /*
 protected $fillable = [
 		'id_andamento',
 		'id_andamentocoger',
 		'sjd_ref',
 		'sjd_ref_ano',
-		'cdopm',
 		'fato_data',
 		'abertura_data',
 		'sintese_txt',
-		'tipo_penal',
+		'cdopm',
 		'doc_tipo',
 		'doc_numero',
-		'portaria_numero',
+		'doc_origem_txt',
+		'despacho_numero',
 		'portaria_data',
-		'exclusao_txt',
 		'opm_meta4',
-		'relatoriomedico_file',
-		'solucaoautoridade_file',
-		'relatoriomedico_data',
-		'solucaoautoridade_data',
-		'prioridade'
+		'publicacaonp',
+		'prioridade',
+		'situacao_fatd',
+		'motivo_fatd',
+		'motivo_outros',
+		'fato_file',
+		'relatorio_file',
+		'sol_cmt_file',
+		'sol_cg_file',
+		'rec_ato_file',
+		'rec_cmt_file',
+		'rec_crpm_file',
+		'rec_cg_file',
+		'notapunicao_file',
     ];
     */

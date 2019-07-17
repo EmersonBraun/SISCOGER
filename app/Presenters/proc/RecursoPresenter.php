@@ -1,9 +1,9 @@
 <?php
-namespace App\Presenters;
+namespace App\Presenters\proc;
 
 use Laracasts\Presenter\Presenter;
 
-class SobrestamentoPresenter extends Presenter {
+class RecursoPresenter extends Presenter {
 	
     public function createdAt()
     {
@@ -25,23 +25,14 @@ class SobrestamentoPresenter extends Presenter {
 }
 /*
 protected $fillable = [
+		'cdopm',
+		'opm',
 		'rg',
-		'inicio_data',
-		'publicacao_inicio',
-		'termino_data',
-		'publicacao_termino',
-		'motivo',
-		'id_cj',
-		'id_cd',
-		'id_sindicancia',
-		'id_fatd',
-		'id_iso',
-		'id_it',
-		'id_adl',
-		'id_pad',
-		'id_sai',
-		'id_proc_outros',
-		'doc_controle_inicio',
-		'doc_controle_termino'
+		'nome',
+		'procedimento',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'datahora',
+		'id_movimento'
     ];
     */

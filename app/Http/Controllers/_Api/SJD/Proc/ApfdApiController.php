@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\ApfdRepository;
+use App\proc\Repositories\ApfdRepository;
 
 class ApfdApiController extends Controller
 {

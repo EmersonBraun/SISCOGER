@@ -1,9 +1,9 @@
 <?php
-namespace App\Presenters;
+namespace App\Presenters\proc;
 
 use Laracasts\Presenter\Presenter;
 
-class DesercaoPresenter extends Presenter {
+class MovimentoPresenter extends Presenter {
 	
     public function createdAt()
     {
@@ -26,24 +26,22 @@ class DesercaoPresenter extends Presenter {
 
 /*
 protected $fillable = [
-		'id_andamento',
-		'id_andamentocoger',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'cdopm',
-		'fato_data',
-		'doc_tipo',
-		'doc_numero',
-		'termo_exclusao',
-		'termo_exclusao_pub',
-		'termo_captura',
-		'termo_captura_pub',
-		'pericia',
-		'pericia_pub',
-		'termo_inclusao',
-		'termo_inclusao_pub',
-		'opm_meta4',
-		'referenciavajme',
-		'prioridade'
+		'id_ipm',
+		'id_cj',
+		'id_cd',
+		'data',
+		'descricao',
+		'rg',
+		'opm',
+		'id_adl',
+		'id_sindicancia',
+		'id_fatd',
+		'id_desercao',
+		'id_iso',
+		'id_apfd',
+		'id_it',
+		'id_pad',
+		'id_sai',
+		'id_proc_outros'
     ];
     */

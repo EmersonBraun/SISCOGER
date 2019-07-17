@@ -1,9 +1,9 @@
 <?php
-namespace App\Presenters;
+namespace App\Presenters\proc;
 
 use Laracasts\Presenter\Presenter;
 
-class FatdPresenter extends Presenter {
+class DesercaoPresenter extends Presenter {
 	
     public function createdAt()
     {
@@ -23,35 +23,27 @@ class FatdPresenter extends Presenter {
     }
 
 }
+
 /*
 protected $fillable = [
 		'id_andamento',
 		'id_andamentocoger',
 		'sjd_ref',
 		'sjd_ref_ano',
-		'fato_data',
-		'abertura_data',
-		'sintese_txt',
 		'cdopm',
+		'fato_data',
 		'doc_tipo',
 		'doc_numero',
-		'doc_origem_txt',
-		'despacho_numero',
-		'portaria_data',
+		'termo_exclusao',
+		'termo_exclusao_pub',
+		'termo_captura',
+		'termo_captura_pub',
+		'pericia',
+		'pericia_pub',
+		'termo_inclusao',
+		'termo_inclusao_pub',
 		'opm_meta4',
-		'publicacaonp',
-		'prioridade',
-		'situacao_fatd',
-		'motivo_fatd',
-		'motivo_outros',
-		'fato_file',
-		'relatorio_file',
-		'sol_cmt_file',
-		'sol_cg_file',
-		'rec_ato_file',
-		'rec_cmt_file',
-		'rec_crpm_file',
-		'rec_cg_file',
-		'notapunicao_file',
+		'referenciavajme',
+		'prioridade'
     ];
     */

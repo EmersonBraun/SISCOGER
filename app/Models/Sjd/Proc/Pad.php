@@ -85,7 +85,7 @@ class Pad extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\PadPresenter';
+    protected $presenter = 'App\Presenters\proc\PadPresenter';
  
 	public function scopeRef_ano($query, $ref, $ano)
 	{

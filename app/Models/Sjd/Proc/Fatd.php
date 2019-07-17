@@ -116,7 +116,7 @@ class Fatd extends Eloquent
     ];
     
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\FatdPresenter';
+    protected $presenter = 'App\Presenters\proc\FatdPresenter';
 
 	//query scope - para auxir a montagem da query
 	public function scopeRef_ano($query, $ref, $ano)

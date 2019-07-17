@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\Repositories\CjRepository;
+use App\proc\Repositories\CjRepository;
 
 class CjApiController extends Controller
 {
