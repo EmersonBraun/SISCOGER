@@ -12,7 +12,11 @@
             <a class="btn @if($page == 'julgamento') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('it.julgamento',['ano' => $ano])}}">Julgamento</a>
             <a class="btn @if($page == 'rel_valores') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('it.rel_valores',['ano' => $ano])}}">Rel. Situação</a>
             <a class="btn @if($page == 'prazos') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('it.prazos',['ano' => $ano])}}">Prazos</a>
+            @if(session('is_admin'))
             <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('it.apagados',['ano' => $ano])}}">Apagados</a>
+            @else 
+            <span class="col-md-2 col-xs-2"></span>
+            @endif
         </div>
         <div class="col-md-2 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('it.create')}}">

@@ -9,7 +9,11 @@
         <div class="btn-group col-md-10 col-xs-12 nopadding">
             <a class="btn @if($page == 'lista') btn-success @else btn-default @endif col-md-4 col-xs-4" href="{{route('desercao.lista')}}">Consulta</a>
             <a class="btn @if($page == 'rel_situacao') btn-success @else btn-default @endif col-md-4 col-xs-4" href="{{route('desercao.rel_situacao')}}">Rel. Situação</a>
+            @if(session('is_admin'))
             <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-4 col-xs-4" href="{{route('desercao.apagados')}}">Apagados</a>
+            @else 
+            <span class="col-md-4 col-xs-4"></span>
+            @endif
         </div>
         <div class="col-md-2 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('desercao.create')}}">

@@ -10,7 +10,11 @@
             <a class="btn @if($page == 'lista') btn-success @else btn-default @endif col-md-3 col-xs-3" href="{{route('iso.lista')}}">Consulta</a>
             <a class="btn @if($page == 'andamento') btn-success @else btn-default @endif col-md-3 col-xs-3" href="{{route('iso.andamento')}}">Andamento</a>
             <a class="btn @if($page == 'prazos') btn-success @else btn-default @endif col-md-3 col-xs-3" href="{{route('iso.prazos')}}">Prazos</a>
+            @if(session('is_admin'))
             <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-3 col-xs-3" href="{{route('iso.apagados')}}">Apagados</a>
+            @else 
+            <span class="col-md-3 col-xs-3"></span>
+            @endif
         </div>
         <div class="col-md-2 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('iso.create')}}">

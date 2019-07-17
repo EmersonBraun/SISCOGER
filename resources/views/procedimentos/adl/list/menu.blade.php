@@ -12,7 +12,11 @@
             <a class="btn @if($page == 'julgamento') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('adl.julgamento')}}">Julgamento</a>
             <a class="btn @if($page == 'rel_situacao') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('adl.rel_situacao')}}">Rel. Situação</a>
             <a class="btn @if($page == 'prazos') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('adl.prazos')}}">Prazos</a>
+            @if(session('is_admin'))
             <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('adl.apagados')}}">Apagados</a>
+            @else 
+            <span class="col-md-2 col-xs-2"></span>
+            @endif
         </div>
         <div class="col-md-2 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('adl.create')}}">
