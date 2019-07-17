@@ -2,7 +2,7 @@
 namespace App\Presenters\proc;
 
 use Laracasts\Presenter\Presenter;
-use App\Repositories\OPMRepository;
+use App\Repositories\OPM\OPMRepository;
 
 class ExclusaojudicialPresenter extends Presenter {
 	

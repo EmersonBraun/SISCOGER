@@ -926,16 +926,20 @@ var render = function() {
             ])
           ])
         : !_vm.pms.length && _vm.only
-        ? _c("div", [_vm._m(2)])
+        ? _c("div", [
+            _c("h6", [
+              _vm._v("\n                Não há registros\n            ")
+            ])
+          ])
         : _vm._e(),
       _vm._v(" "),
-      _vm._m(3),
+      _vm._m(2),
       _vm._v(" "),
       _vm.subs.length
         ? _c("div", { staticClass: "row bordaform" }, [
             _c("div", { staticClass: "col-sm-12" }, [
               _c("table", { staticClass: "table table-hover" }, [
-                _vm._m(4),
+                _vm._m(3),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -1003,7 +1007,13 @@ var render = function() {
             ])
           ])
         : !_vm.subs.length && _vm.only
-        ? _c("div", [_vm._m(5)])
+        ? _c("div", [
+            _c("h6", [
+              _vm._v(
+                "\n                Não há registros substituídos\n            "
+              )
+            ])
+          ])
         : _vm._e()
     ])
   ])
@@ -1039,12 +1049,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h5", [_c("b", [_vm._v("Não há registros")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("h5", [_c("b", [_vm._v("Substituídos")])])
   },
   function() {
@@ -1066,12 +1070,6 @@ var staticRenderFns = [
         _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ver")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h5", [_c("b", [_vm._v("Não há registros substituídos")])])
   }
 ]
 render._withStripped = true

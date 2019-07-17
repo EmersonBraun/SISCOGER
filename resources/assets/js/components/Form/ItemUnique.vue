@@ -2,7 +2,7 @@
     <!-- :class="classform" -->
     <div class="mb-12 form-group " > 
         <label :for="label">{{ title }}</label><br>
-        <div class="input-group ">
+        <div class="input-group " v-if="!view">
             <div v-if="status" class="input-group-prepend">
                 <span v-if="status == 'ok'" class="input-group-text fa fa-check" style="color: green"></span>
                 <span v-else class="input-group-text fa fa-times" style="color: red"></span>
@@ -13,6 +13,7 @@
                 <button class="btn btn-danger" :disabled="!input.length" @click="remove()">Apagar</button>
             </div>
         </div>
+        <p>{{input || 'Não Há '}}</p>
     </div>
 </template>
 
@@ -30,7 +31,8 @@
         data(){
             return{
                 input: '',
-                status: ''
+                status: '',
+                view: false,
             }
         },
         beforeMount(){
@@ -41,7 +43,8 @@
                 // URL completa
                 let getUrl = window.location;
                 // dividir em array
-                let pathname = getUrl.pathname.split('/')              
+                let pathname = getUrl.pathname.split('/')   
+                this.view = (pathname[3] == 'ver') ? true : false           
                 let baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + pathname[1]+"/";
                 
             return baseUrl;

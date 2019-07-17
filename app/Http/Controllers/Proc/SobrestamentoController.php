@@ -15,21 +15,18 @@ class SobrestamentoController extends Controller
     public function sobrestamentos($ref, $ano)
     {
         $rota = Route::currentRouteName(); //proc.sobrestamentos
-        $rota = explode ('.', $rota); //divide em [0] -> proc e [1]-> sobrestamentos
-        $rota = $rota[0];
-
+        $rota = explode ('.', $rota)[0]; //divide em [0] -> proc e [1]-> sobrestamentos
+  
         //----levantar procedimento
         $proc = DB::table($rota)->where('sjd_ref','=',$ref)->where('sjd_ref_ano','=',$ano)->first();
-        //
+
         //teste para verificar se pode ver outras unidades, caso não possa aborta
         ver_unidade($proc);
 
         $sobrestamentos = Sobrestamento::where('id_'.$rota,'=',$proc['id_'.$rota])->get();
         $envolvidos = Envolvido::where('id_'.$rota,'=',$proc['id_'.$rota])->get();
-        //dd($envolvidos);
 
         $view = str_replace('_','',$rota);
-        //dd($proc);
         return view('procedimentos.'.$view.'.form.sobrestamentos',compact('proc','sobrestamentos','envolvidos'));
     }
     

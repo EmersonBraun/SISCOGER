@@ -1,6 +1,6 @@
 <?php
 
-namespace App\OPM\Repositories;
+namespace App\Repositories\OPM;
 
 use Cache;
 use App\Models\rhparana\Opmpmpr;

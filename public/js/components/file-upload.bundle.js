@@ -207,6 +207,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             countap: 0,
             filetype: '',
             action: 'fileupload',
+            view: false,
             data_arquivo: '',
             rg: '',
             nome_original: '',
@@ -242,6 +243,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var getUrl = window.location;
             // dividir em array
             var pathname = getUrl.pathname.split('/');
+            this.view = pathname[3] == 'ver' ? true : false;
             var baseUrl = getUrl.protocol + '//' + getUrl.host + '/' + pathname[1] + '/api/';
 
             return baseUrl;
@@ -1229,7 +1231,7 @@ var render = function() {
         _vm._v(" "),
         !_vm.only
           ? _c("div", { staticClass: "card-body" }, [
-              !_vm.forUpload
+              !_vm.forUpload && !_vm.view
                 ? _c(
                     "label",
                     {

@@ -2,7 +2,7 @@
 namespace App\Presenters;
 
 use Laracasts\Presenter\Presenter;
-use App\Repositories\OPMRepository;
+use App\Repositories\OPM\OPMRepository;
 
 class BasePresenter extends Presenter {
     
@@ -23,14 +23,8 @@ class BasePresenter extends Presenter {
 
     public function refAno()
     {
-        if($this->sjd_ref == null || $this->sjd_ref == '')
-        {
-            return $this->id_adl;
-        }
-        else 
-        {
-            return $this->sjd_ref.'/'.$this->sjd_ref_ano;
-        }
+        if($this->sjd_ref == null || $this->sjd_ref == '') return $this->id_adl;
+        return $this->sjd_ref.'/'.$this->sjd_ref_ano;
     }
 
 
@@ -41,13 +35,7 @@ class BasePresenter extends Presenter {
 
     public function prioridade()
     {
-        if($this->prioridade)
-        {
-            return 'Sim';
-        }
-        else 
-        {
-            return 'Não';
-        }
+        if($this->prioridade) return 'Sim';
+        return 'Não';
     }  
 }

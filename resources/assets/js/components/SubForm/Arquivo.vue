@@ -100,9 +100,7 @@
                 </div>
             </div>  
              <div v-if="!arquivos.length && only">
-                <h5>
-                    <b>Não há registtros</b>
-                </h5>
+                <h6>Não há registtros</h6>
             </div> 
         </div>
     </div>

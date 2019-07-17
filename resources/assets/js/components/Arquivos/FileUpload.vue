@@ -23,7 +23,7 @@
             <!-- form -->
             <div v-if="!only" class="card-body">
                 <!-- botão arquivo -->
-                <label v-if="!forUpload" class="btn btn-primary bgicon" :for="name">
+                <label v-if="!forUpload && !view" class="btn btn-primary bgicon" :for="name">
                     Selecionar arquivo
                     <input @change="verifyFile" :id="name" :name="name" ref="file" type='file' style="display:none">
                 </label>
@@ -196,6 +196,7 @@
             countap: 0,
             filetype: '',
             action: 'fileupload',
+            view: false,
             data_arquivo: '',
             rg: '',
             nome_original: '',
@@ -230,7 +231,8 @@
             // URL completa
             let getUrl = window.location;
             // dividir em array
-            let pathname = getUrl.pathname.split('/')              
+            let pathname = getUrl.pathname.split('/') 
+            this.view = (pathname[3] == 'ver') ? true : false       
             let baseUrl = `${getUrl.protocol}//${getUrl.host}/${pathname[1]}/api/`;
             
         return baseUrl;

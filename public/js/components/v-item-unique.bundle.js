@@ -23,6 +23,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -37,7 +38,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             input: '',
-            status: ''
+            status: '',
+            view: false
         };
     },
     beforeMount: function beforeMount() {
@@ -50,6 +52,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var getUrl = window.location;
             // dividir em array
             var pathname = getUrl.pathname.split('/');
+            this.view = pathname[3] == 'ver' ? true : false;
             var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + pathname[1] + "/";
 
             return baseUrl;
@@ -319,73 +322,77 @@ var render = function() {
     _c("label", { attrs: { for: _vm.label } }, [_vm._v(_vm._s(_vm.title))]),
     _c("br"),
     _vm._v(" "),
-    _c("div", { staticClass: "input-group " }, [
-      _vm.status
-        ? _c("div", { staticClass: "input-group-prepend" }, [
-            _vm.status == "ok"
-              ? _c("span", {
-                  staticClass: "input-group-text fa fa-check",
-                  staticStyle: { color: "green" }
-                })
-              : _c("span", {
-                  staticClass: "input-group-text fa fa-times",
-                  staticStyle: { color: "red" }
-                })
+    !_vm.view
+      ? _c("div", { staticClass: "input-group " }, [
+          _vm.status
+            ? _c("div", { staticClass: "input-group-prepend" }, [
+                _vm.status == "ok"
+                  ? _c("span", {
+                      staticClass: "input-group-text fa fa-check",
+                      staticStyle: { color: "green" }
+                    })
+                  : _c("span", {
+                      staticClass: "input-group-text fa fa-times",
+                      staticStyle: { color: "red" }
+                    })
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.input,
+                expression: "input"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { name: _vm.name, type: "text" },
+            domProps: { value: _vm.input },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.input = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group-append" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                attrs: { disabled: !_vm.input.length },
+                on: {
+                  click: function($event) {
+                    return _vm.insert()
+                  }
+                }
+              },
+              [_vm._v("Inserir/ Alterar")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-danger",
+                attrs: { disabled: !_vm.input.length },
+                on: {
+                  click: function($event) {
+                    return _vm.remove()
+                  }
+                }
+              },
+              [_vm._v("Apagar")]
+            )
           ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.input,
-            expression: "input"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { name: _vm.name, type: "text" },
-        domProps: { value: _vm.input },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.input = $event.target.value
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "input-group-append" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: { disabled: !_vm.input.length },
-            on: {
-              click: function($event) {
-                return _vm.insert()
-              }
-            }
-          },
-          [_vm._v("Inserir/ Alterar")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-danger",
-            attrs: { disabled: !_vm.input.length },
-            on: {
-              click: function($event) {
-                return _vm.remove()
-              }
-            }
-          },
-          [_vm._v("Apagar")]
-        )
-      ])
-    ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("p", [_vm._v(_vm._s(_vm.input || "Não Há "))])
   ])
 }
 var staticRenderFns = []

@@ -99,9 +99,9 @@
                 </div>
             </div>  
              <div v-else-if="!pms.length && only">
-                <h5>
-                    <b>Não há registros</b>
-                </h5>
+                <h6>
+                    Não há registros
+                </h6>
             </div> 
             <!-- substituiídos -->
             <h5><b>Substituídos</b></h5>
@@ -141,9 +141,9 @@
                 </div>
             </div>  
              <div v-else-if="!subs.length && only">
-                <h5>
-                    <b>Não há registros substituídos</b>
-                </h5>
+                <h6>
+                    Não há registros substituídos
+                </h6>
             </div> 
         </div>
     </div>

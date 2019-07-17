@@ -78,9 +78,7 @@
                 </div>
             </div>  
              <div v-if="!movimentos.length && only">
-                <h5>
-                    <b>Não há registtros</b>
-                </h5>
+                <h6>Não há registros</h6>
             </div> 
         </div>
     </div>
