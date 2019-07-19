@@ -90,40 +90,8 @@ class Cd extends Eloquent
 	use LogsActivity;
 
     protected static $logName = 'cd';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'id_motivoconselho',
-		'id_decorrenciaconselho',
-		'id_situacaoconselho',
-		'outromotivo',
-		'fato_data',
-		'abertura_data',
-		'sintese_txt',
-		'doc_tipo',
-		'doc_numero',
-		'portaria_numero',
-		'portaria_data',
-		'doc_prorrogacao',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'prescricao_data',
-		'parecer_comissao',
-		'parecer_cmtgeral',
-		'exclusao_txt',
-		'cdopm',
-		'ac_desempenho_bl',
-		'ac_conduta_bl',
-		'ac_honra_bl',
-		'prioridade',
-		'libelo_file',
-		'parecer_file',
-		'decisao_file',
-		'rec_ato_file',
-		'rec_gov_file',
-		'tjpr_file',
-		'stj_file'
-    ];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\proc\CdPresenter';

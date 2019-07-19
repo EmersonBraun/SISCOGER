@@ -69,35 +69,8 @@ class Arquivo extends Eloquent
     use LogsActivity;
     
     protected static $logName = 'arquivo';
-    protected static $logAttributes = [
-		'id_arquivo',
-        'local_atual',
-        'obs',
-        'numero',
-        'letra',
-        'id_ipm',
-		'id_cj',
-		'id_cd',
-		'id_adl',
-		'id_sindicancia',
-        'id_fatd',
-        'id_desercao',
-        'id_apfd',
-		'id_iso',
-		'id_it',
-		'id_sai',
-		'id_pad',
-        'id_proc_outros',
-        'id_punicao',
-        'rg',
-        'nome',
-        'opm',
-        'arquivo_data',
-        'retorno_data',
-        'procedimento',
-        'sjd_ref',
-        'sjd_ref_ano'
-    ];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

@@ -65,24 +65,8 @@ class Pad extends Eloquent
 	use LogsActivity;
 
     protected static $logName = 'pad';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'doc_origem_txt',
-		'fato_data',
-		'cdopm',
-		'sintese_txt',
-		'portaria_numero',
-		'portaria_data',
-		'doc_tipo',
-		'doc_numero',
-		'abertura_data',
-		'relatorio_file',
-		'solucao_file',
-		'prioridade'
-    ];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\proc\PadPresenter';

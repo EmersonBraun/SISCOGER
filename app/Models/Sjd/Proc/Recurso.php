@@ -49,17 +49,8 @@ class Recurso extends Eloquent
 	use LogsActivity;
 
     protected static $logName = 'recurso';
-    protected static $logAttributes = [
-		'cdopm',
-		'opm',
-		'rg',
-		'nome',
-		'procedimento',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'datahora',
-		'id_movimento'
-    ];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\proc\RecursoPresenter';

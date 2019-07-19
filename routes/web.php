@@ -668,50 +668,10 @@ Route::group(['as'=>'ajuda.','prefix' =>'ajuda'],function(){
 /* -------------- ROTAS LOGS -------------- */
 //Route::group(['as'=>'log.','prefix' =>'log','middleware' => ['permission:supervisao']],function(){
 Route::group(['as'=>'log.','prefix' =>'log'],function(){
-	Route::get('acessos',['as' =>'acessos','uses'=>'Log\LogController@acessos']);
-	Route::get('bloqueios',['as' =>'bloqueios','uses'=>'Log\LogController@bloqueios']);
-	//processos e procedimentos
-	Route::get('adl',['as' =>'adl','uses'=>'Log\LogController@adl']);
-	Route::get('apfd',['as' =>'apfd','uses'=>'Log\LogController@apfd']);
-	Route::get('cj',['as' =>'cj','uses'=>'Log\LogController@cj']);
-	Route::get('cd',['as' =>'cd','uses'=>'Log\LogController@cd']);
-	Route::get('it',['as' =>'it','uses'=>'Log\LogController@it']);
-	Route::get('iso',['as' =>'iso','uses'=>'Log\LogController@iso']);
-	Route::get('fatd',['as' =>'fatd','uses'=>'Log\LogController@fatd']);
-	Route::get('pad',['as' =>'pad','uses'=>'Log\LogController@pad']);
-	Route::get('sindicancia',['as' =>'sindicancia','uses'=>'Log\LogController@sindicancia']);
-	Route::get('sai',['as' =>'sai','uses'=>'Log\LogController@sai']);
-	Route::get('procoutros',['as' =>'procoutros','uses'=>'Log\LogController@procoutros']);
-	Route::get('desercao',['as' =>'desercao','uses'=>'Log\LogController@desercao']);
-	Route::get('exclusao',['as' =>'exclusao','uses'=>'Log\LogController@exclusao']);
-	Route::get('ipm',['as' =>'ipm','uses'=>'Log\LogController@ipm']);
-	Route::get('movimento',['as' =>'movimento','uses'=>'Log\LogController@movimento']);
-	Route::get('recurso',['as' =>'recurso','uses'=>'Log\LogController@recurso']);
-	//apresentações em juizo
-	Route::get('notacoger',['as' =>'notacoger','uses'=>'Log\LogController@notacoger']);
-	Route::get('apresentacao',['as' =>'apresentacao','uses'=>'Log\LogController@apresentacao']);
-	Route::get('locaisapresentacao',['as' =>'locaisapresentacao','uses'=>'Log\LogController@locaisapresentacao']);
-	Route::get('email',['as' =>'email','uses'=>'Log\LogController@email']);
-	//administração
-	Route::get('consulta',['as' =>'consulta','uses'=>'Log\LogController@consulta']);
-	Route::get('fdi',['as' =>'fdi','uses'=>'Log\LogController@fdi']);
-	Route::get('apagados',['as' =>'apagados','uses'=>'Log\LogController@apagados']);
-	Route::get('bloqueios',['as' =>'bloqueios','uses'=>'Log\LogController@bloqueios']);
-	Route::get('papeis',['as' =>'papeis','uses'=>'Log\LogController@papeis']);
-	Route::get('permissoes',['as' =>'permissoes','uses'=>'Log\LogController@permissoes']);
-	//Policiais
-	Route::get('fdi',['as' =>'fdi','uses'=>'Log\LogController@fdi']);
-	Route::get('feriado',['as' =>'feriado','uses'=>'Log\LogController@feriado']);
-	Route::get('cadastroopmcoger',['as' =>'cadastroopmcoger','uses'=>'Log\LogController@cadastroopmcoger']);
-	Route::get('comportamentopm',['as' =>'comportamentopm','uses'=>'Log\LogController@comportamentopm']);
-	Route::get('denunciacivil',['as' =>'denunciacivil','uses'=>'Log\LogController@denunciacivil']);
-	Route::get('elogio',['as' =>'elogio','uses'=>'Log\LogController@elogio']);
-	Route::get('reintegrado',['as' =>'reintegrado','uses'=>'Log\LogController@reintegrado']);
-	Route::get('falecimento',['as' =>'falecimento','uses'=>'Log\LogController@falecimento']);
-	Route::get('preso',['as' =>'preso','uses'=>'Log\LogController@preso']);
-	Route::get('restricao',['as' =>'restricao','uses'=>'Log\LogController@restricao']);
-	Route::get('suspenso',['as' =>'suspenso','uses'=>'Log\LogController@suspenso']);
-	Route::get('tramitacaoopm',['as' =>'tramitacaoopm','uses'=>'Log\LogController@tramitacaoopm']);
+    Route::get('criado/{name}',['as' =>'created','uses'=>'Log\LogController@created']);
+    Route::get('atualizado/{name}',['as' =>'updated','uses'=>'Log\LogController@updated']);
+    Route::get('apagado/{name}',['as' =>'deleted','uses'=>'Log\LogController@deleted']);
+    Route::get('restaurado/{name}',['as' =>'restored','uses'=>'Log\LogController@restored']);
 });
 
 /* -------------- ROTAS HISTÓRIA -------------- */

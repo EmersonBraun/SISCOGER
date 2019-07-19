@@ -2,119 +2,158 @@
 
 namespace App\Http\Controllers\FDI;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use App\Models\Sjd\Policiais\Comportamentopm as Comportamentopm;
-use App\Repositories\Policial;
-use App\Models\Sjd\Policiais\Preso;
+use App\Repositories\PM\PolicialRepository;
 
 class FdiController extends Controller
 {
-
-    public function show($rg, Comportamentopm $comportamentopm)
+    private $rg;
+    public function show(PolicialRepository $policial,$rg)
     {
-        //data de hoje
-        $hoje=date("Y-m-d");
+        $this->rg = $rg;
 
-        //informações gerais
+        $pm = $this->dadosGerais($policial);
+        $adc = $this->dadosAdicionais($policial);
+        $pm->comportamento = $this->comportamento($policial, $pm);
+        $preso = $this->preso($policial);
+        $suspenso = $this->suspenso($policial);
+        $excluido = $this->excluido($policial);
+        $subJudice = $this->subJudice($policial);
+        $denunciaCivil = $this->denunciaCivil($policial);
+        $prisoes = $this->prisoes($policial);
+        $restricoes = $this->restricoes($policial);
+        $afastamentos = $this->afastamentos($policial);
+        $dependentes = $this->dependentes($policial);
+        $sai = $this->sai($policial);
+        $objetos = $this->objetos($policial);
+        $membros = $this->membros($policial);
+        $comportamentos = $this->comportamentos($policial);
+        $elogios = $this->elogios($policial);
+        $punicoes = $this->punicoes($policial);
+        $tramitacao = $this->tramitacao($policial);
+        $tramitacaoopm = $this->tramitacaoopm($policial);
+        $apresentacoes = $this->apresentacoes($policial);
+        $proc_outros = $this->procOutros($policial);
 
-        $pm = Policial::get($rg);
-
-        //Informações adicionais
-        $adc = Policial::adicionais($rg);
-
-        //comportamento
-        $pm->comportamento = Policial::comportamentoAtual($pm);
-        
-        //verificar se está preso
-        $preso = Policial::preso($rg);
-        if($preso != 'n') $pm->SITUACAO = 'Preso';
-
-        //Verifica se esta suspenso. 
-        $suspenso = Policial::suspenso($rg);
-        if($suspenso != 'n') $pm->SITUACAO = 'Suspenso';
-
-        //Verifica se esta excluido. 
-        $excluido = Policial::excluido($rg);
-        if($excluido != 'n') $pm->SITUACAO = 'Excluído';
-
-        //SUB JUDICE
-        $subJudice = Policial::subjudice($rg);
-        if(count($subJudice) > 0) $pm->SITUACAO = 'Sub Júdice';
         $proc = '';
 
-        //Consulta das denuncias civis
-        $denunciaCivil = Policial::denunciaCivil($rg);
+        if($suspenso && $suspenso !== 'n') $pm->SITUACAO = 'Suspenso';
+        if($preso && $preso !== 'n') $pm->SITUACAO = 'Preso';
+        if($excluido && $excluido !== 'n') $pm->SITUACAO = 'Excluído';
+        if(count($subJudice) > 0) $pm->SITUACAO = 'Sub Júdice';
         if(count($denunciaCivil)) $pm->SITUACAO = 'Sub Júdice';
-
-        //prisões
-        $prisoes = Policial::prisoes($rg);
-
-        //restrições
-        $restricoes = Policial::restricoes($rg);
-
-        //afastamentos
-        $afastamentos = Policial::afastamentos($rg);
-
-        //dependentes
-        $dependentes = Policial::dependentes($rg);
-        
-        //sai
-        $sai = Policial::sai($rg);
-        
-        //objetos
-        $objetos = Policial::objetos($rg);
-        
-        //membros
-        $membros = Policial::membros($rg);
-        
-        //comportamentos
-        $comportamentos = Policial::comportamentos($rg);
-
-        //elogios
-        $elogios = Policial::elogios($rg);
-
-        //punicoes
-        $punicoes = Policial::punicoes($rg);
-
-        //tramitacao
-        $tramitacao = Policial::tramitacao($rg);
-
-        //tramitacaoopm
-        $tramitacaoopm = Policial::tramitacaoopm($rg);
-
-        //apresentacoes
-        $apresentacoes = Policial::apresentacoes($rg);
-
-        //outros
-        $proc_outros = Policial::proc_outros($rg);
         //dd($membros);
-        return view('FDI.ficha', compact(
-            'pm',
-            'adc',
-            'preso',
-            'suspenso',
-            'excluido',
-            'subJudice',
-            'proc',
-            'denunciaCivil',
-            'prisoes',
-            'restricoes',
-            'afastamentos',
-            'dependentes',
-            'sai',
-            'tramitacao',
-            'tramitacaoopm',
-            //'procedimentos',
-            'objetos',
-            'membros',
-            'comportamentos',
-            'elogios',
-            'punicoes',
-            'apresentacoes',
-            'proc_outros'
+        return view('FDI.ficha', compact('pm','adc','preso','suspenso','excluido','subJudice','proc','denunciaCivil','prisoes','restricoes','afastamentos','dependentes','sai','tramitacao','tramitacaoopm',
+        'objetos','membros','comportamentos','elogios','punicoes','apresentacoes','proc_outros'
         ));
     }
 
+    public function dadosGerais($policial) //informações gerais
+    {
+        return $policial->get($this->rg);
+    }
+    
+    public function dadosAdicionais($policial) //Informações adicionais
+    {
+        return $policial->adicionais($this->rg);
+    }
+    
+    public function comportamento($policial, $pm) //comportamento
+    {
+        return $policial->comportamentoAtual($pm);
+    }
+    
+    public function preso($policial) //verificar se está preso
+    {
+        return  $policial->preso($this->rg);
+    }
+    
+    public function suspenso($policial) //Verifica se esta suspenso.
+    {
+        return $policial->suspenso($this->rg);
+    }
+
+    public function excluido($policial) //Verifica se esta excluido. 
+    {
+        return $policial->excluido($this->rg);
+    }
+
+    public function subJudice($policial) //SUB JUDICE
+    {
+        return $policial->subjudice($this->rg);
+    }
+
+    public function denunciaCivil($policial) //Consulta das denuncias civis
+    {
+        return $policial->denunciaCivil($this->rg);
+    }
+    
+    public function prisoes($policial) //prisões
+    {
+        return $policial->prisoes($this->rg);
+    }
+
+    public function restricoes($policial) 
+    {
+        return $policial->restricoes($this->rg);
+    }
+
+    public function afastamentos($policial) 
+    {
+        return $policial->afastamentos($this->rg);
+    }
+
+    public function dependentes($policial) 
+    {
+        return $policial->dependentes($this->rg);
+    }
+
+    public function sai($policial) 
+    {
+        return $policial->sai($this->rg);
+    }
+    public function objetos($policial) 
+    {
+        return $policial->objetos($this->rg);
+    }
+
+    public function membros($policial) 
+    {
+        return $policial->membros($this->rg);
+    }
+
+    public function comportamentos($policial) 
+    {
+        return $policial->comportamentos($this->rg);
+    }
+
+    public function elogios($policial) 
+    {
+        return $policial->elogios($this->rg);
+    }
+
+    public function punicoes($policial) 
+    {
+        return $policial->punicoes($this->rg);
+    }
+
+    public function tramitacao($policial) 
+    {
+        return $policial->tramitacao($this->rg);
+    }
+
+    public function tramitacaoopm($policial) 
+    {
+        return $policial->tramitacaoopm($this->rg);
+    }
+
+    public function apresentacoes($policial) 
+    {
+        return $policial->apresentacoes($this->rg);
+    }
+
+    public function procOutros($policial) 
+    {
+        return $policial->proc_outros($this->rg);
+    }
 }

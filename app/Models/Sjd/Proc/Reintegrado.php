@@ -51,18 +51,8 @@ class Reintegrado extends Eloquent
 	use LogsActivity;
 
     protected static $logName = 'reintegrado';
-    protected static $logAttributes = [
-		'rg',
-		'cargo',
-		'nome',
-		'motivo',
-		'procedimento',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'retorno_data',
-		'bg_numero',
-		'bg_ano'
-    ];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\proc\ReintegradoPresenter';

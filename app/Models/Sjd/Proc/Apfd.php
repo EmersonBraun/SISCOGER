@@ -59,25 +59,8 @@ class Apfd extends Eloquent
 	use LogsActivity;
 
     protected static $logName = 'apfd';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'tipo',
-		'cdopm',
-		'fato_data',
-		'sintese_txt',
-		'tipo_penal',
-		'tipo_penal_novo',
-		'especificar',
-		'doc_tipo',
-		'doc_numero',
-		'exclusao_txt',
-		'opm_meta4',
-		'referenciavajme',
-		'prioridade'
-    ];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\proc\ApfdPresenter';

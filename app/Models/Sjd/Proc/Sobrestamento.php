@@ -87,26 +87,8 @@ class Sobrestamento extends Eloquent
     use LogsActivity;
     
     protected static $logName = 'sobrestamento';
-    protected static $logAttributes = [
-		'rg',
-		'inicio_data',
-		'publicacao_inicio',
-		'termino_data',
-		'publicacao_termino',
-		'motivo',
-		'id_cj',
-		'id_cd',
-		'id_sindicancia',
-		'id_fatd',
-		'id_iso',
-		'id_it',
-		'id_adl',
-		'id_pad',
-		'id_sai',
-		'id_proc_outros',
-		'doc_controle_inicio',
-		'doc_controle_termino'
-    ];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\proc\SobrestamentoPresenter';

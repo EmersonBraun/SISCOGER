@@ -32,6 +32,9 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     protected $redirectTo = '/home';
+    protected $rg;
+    protected $ip;
+    protected $user;
 
     public function __construct()
     {
@@ -44,7 +47,15 @@ class LoginController extends Controller
         return 'rg';
     }
 
-    public function login(Request $request, LogAcesso $logacesso)
+    public function getUser()
+    {
+        $user = User::where('rg', '=', $this->rg)->first();
+        // aborta caso não tenha o usuário
+        if (!$user) return abort(403);
+        $this->user = $user;
+    }
+
+    public function login(Request $request)
     {
         //verificar se os campos foram preenchidos
         $this->validate($request, [
@@ -54,61 +65,34 @@ class LoginController extends Controller
 
         //variáveis globais
         $credentials = $request->only('rg', 'password');
-        $ip = $_SERVER["REMOTE_ADDR"];
-        $rg = $request['rg'];
+        $this->rg = $request['rg'];
+        $this->ip = $_SERVER["REMOTE_ADDR"];
         
         //traz os dados do usuário
-        $user = User::where('rg', '=', $rg)->first();
-        // aborta caso não tenha o usuário
-        if (!$user) return abort(403);
-        
+        $this->getUser();
+
         //salva dados usuário na sessão
-        session()->put('rg',$user->rg);
-        session()->put('nome', $user->nome);
-        session()->put('email', $user->email);
-        session()->put('cargo', $user->cargo);
-        session()->put('quadro', $user->quadro);
-        session()->put('subquadro', $user->subquadro);
-        session()->put('opm_descricao', $user->opm_descricao);
-        session()->put('cdopm', $user->cdopm);    
-        session()->put('cdopmbase', corta_zeros($user->cdopm));
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = (boolean) User::permission('todas-unidades')->count();
-        session()->put('ver_todas_unidades', $verTodasUnidades);
-        //verifica se o usuário é administrador
-        $isAdmin = User::role('admin')->count();
-        $isAdmin = ($isAdmin > 0) ? true : false;
-        session()->put('is_admin', $isAdmin);
-        session()->put('nivel',sistema('posto',$user->cargo));
+        $this->session();
 
         if (Auth::attempt($credentials)) 
         {
             //mensagens
-            toast()->success('Bem vindo '.$user->nome, 'Login!');
+            toast()->success('Bem vindo '.$this->user->nome, 'Login!');
             
             //zera as tentativas
-            $user->tentativas = 0;
-            $user->save();
+            $this->user->tentativas = 0;
+            $this->user->save();
             
-            //salva dados de log
-            $logacesso->rg = $user->rg;
-            $logacesso->nome = $user->nome;
-            $logacesso->tipo = 'acesso';
-            $logacesso->created_at = \Carbon\Carbon::now();
-            $logacesso->ip = $ip;
-            $logacesso->save();
+            $this->logAcesso();
             //verifica se o usuário concordou com os termos de uso
-            if ($user->termos == 0) 
-            {
-               return redirect()->route('users.pass',$user->id); 
-            }
+            if ($this->user->termos == 0) return redirect()->route('users.pass',$this->user->id); 
             else
             {
                 //remove sessão antiga
-                session()->forget($user->id_sessao);
+                session()->forget($this->user->id_sessao);
                 // atualiza o id da sessão
-                $user->id_sessao = session()->getId();
-                $user->save();
+                $this->user->id_sessao = session()->getId();
+                $this->user->save();
 
                 return redirect()->route('home');
             }
@@ -116,16 +100,56 @@ class LoginController extends Controller
         }
 
         else
-        {
-            
-            $user->tentativas = ($user->sessao == session()->get('_token')) ? $user->tentativas + 1 : 1;
-            $user->save();
-            switch ($user->tentativas) 
+        { 
+            $this->user->tentativas = ($this->user->sessao == session()->get('_token')) ? $this->user->tentativas + 1 : 1;
+            $this->user->save();
+            $this->tentativas();   
+        }
+                   
+    }
+
+    public function session()
+    {
+        session()->put('rg',$this->user->rg);
+        session()->put('nome', $this->user->nome);
+        session()->put('email', $this->user->email);
+        session()->put('cargo', $this->user->cargo);
+        session()->put('quadro', $this->user->quadro);
+        session()->put('subquadro', $this->user->subquadro);
+        session()->put('opm_descricao', $this->user->opm_descricao);
+        session()->put('cdopm', $this->user->cdopm);    
+        session()->put('cdopmbase', corta_zeros($this->user->cdopm));
+        //verifica se o usuário tem permissão para ver todas unidades
+        $verTodasUnidades = (boolean) User::permission('todas-unidades')->count();
+        session()->put('ver_todas_unidades', $verTodasUnidades);
+        //verifica se o usuário é administrador
+        $isAdmin = User::role('admin')->count();
+        $isAdmin = ($isAdmin > 0) ? true : false;
+        session()->put('is_admin', $isAdmin);
+        session()->put('nivel',sistema('posto',$this->user->cargo));
+    }
+
+    public function logAcesso()
+    {
+        $dados = [
+            'rg' => $this->user->rg,
+            'nome' => $this->user->nome,
+            'tipo' => 'acesso',
+            'created_at' => \Carbon\Carbon::now(),
+            'ip' => $this->ip,
+        ];
+
+        LogAcesso::create($dados);
+    }
+
+    public function tentativas()
+    {
+        switch ($this->user->tentativas) 
             {
                 case '1':
                     //salva o token no usuário para verificar as tentativas
-                    $user->sessao = session()->get('_token');
-                    $user->save();
+                    $this->user->sessao = session()->get('_token');
+                    $this->user->save();
                    //mensagens
                     toast()->warning('Tentativas Restantes!', 2);
                     toast()->error('Dados inválidos!', 'ERRO!');
@@ -142,9 +166,9 @@ class LoginController extends Controller
 
                 case '3':
                     //bloqueio do usuário
-                    $user->block = 1;
-                    $user->tentativas = 0;
-                    $user->save();
+                    $this->user->block = 1;
+                    $this->user->tentativas = 0;
+                    $this->user->save();
                     //mensagens
                     toast()->warning('Favor entrar em contato com o SJD');
                     toast()->error('usuário BLOQUEADO!');
@@ -154,10 +178,6 @@ class LoginController extends Controller
                     return redirect()->back();
                 break;
             }
-            
-            
-        }
-                   
     }
 
     public function logout(User $user)

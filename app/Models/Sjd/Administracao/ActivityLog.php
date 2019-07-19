@@ -8,7 +8,8 @@
 namespace App\Models\Sjd\Administracao;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class ActivityLog
  * 
@@ -42,5 +43,8 @@ class ActivityLog extends Eloquent
 		'causer_id',
 		'causer_type',
 		'properties'
-	];
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\log\logPresenter';
 }

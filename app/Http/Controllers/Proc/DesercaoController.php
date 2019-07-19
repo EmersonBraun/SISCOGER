@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\proc\Repositories\DesercaoRepository;
+use App\Repositories\proc\DesercaoRepository;
 use App\Models\Sjd\Proc\Desercao;
 use App\Models\Sjd\Busca\Envolvido;
 

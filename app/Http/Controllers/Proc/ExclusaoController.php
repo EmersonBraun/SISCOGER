@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\User;
-use App\proc\Repositories\ExclusaoRepository;
+use App\Repositories\proc\ExclusaoRepository;
 use App\Models\Sjd\Proc\Exclusaojudicial;
 use App\Models\Sjd\Busca\Envolvido;
 

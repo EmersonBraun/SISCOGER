@@ -1,6 +1,6 @@
 <?php
 //Aqui ficam as consultas de banco de dados dos processos e procedimentos
-namespace App\proc\Repositories;
+namespace App\Repositories\proc;
 
 use Cache;
 use App\Models\Sjd\Proc\Ipm;

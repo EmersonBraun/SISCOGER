@@ -86,25 +86,8 @@ class Movimento extends Eloquent
 	use LogsActivity;
 
     protected static $logName = 'movimento';
-    protected static $logAttributes = [
-		'id_ipm',
-		'id_cj',
-		'id_cd',
-		'data',
-		'descricao',
-		'rg',
-		'opm',
-		'id_adl',
-		'id_sindicancia',
-		'id_fatd',
-		'id_desercao',
-		'id_iso',
-		'id_apfd',
-		'id_it',
-		'id_pad',
-		'id_sai',
-		'id_proc_outros'
-    ];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\proc\MovimentoPresenter';

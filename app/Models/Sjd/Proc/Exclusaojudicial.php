@@ -63,27 +63,8 @@ class Exclusaojudicial extends Eloquent
 	use LogsActivity;
 
     protected static $logName = 'exclusaojudicial';
-    protected static $logAttributes = [
-		'rg',
-		'cargo',
-		'nome',
-		'cdopm_quandoexcluido',
-		'origem_proc',
-		'origem_sjd_ref',
-		'origem_sjd_ref_ano',
-		'origem_opm',
-		'processo',
-		'complemento',
-		'vara',
-		'numerounico',
-		'data',
-		'exclusao_data',
-		'obs_txt',
-		'portaria_numero',
-		'bg_numero',
-		'bg_ano',
-		'prioridade'
-    ];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\proc\ExclusaojudicialPresenter';

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Historia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Sjd\Historia\Historia;
-use Illuminate\Support\Facades\DB;
+
 
 class HistoriaController extends Controller
 {
@@ -14,13 +14,13 @@ class HistoriaController extends Controller
     {
         $historias = Historia::orderBy('data','asc')->get();
         $anoatual = Historia::min('ano');
-        //dd($historias);
+
         return view('historia.index', compact('historias','anoatual'));
     }
 
     public function create()
     {
-        dd(\Request::all());
+        
     }
 
     public function store(Request $request)
@@ -30,38 +30,48 @@ class HistoriaController extends Controller
         $dados['ano'] = date( 'Y' , strtotime($dados['data']));
         $dados['rg'] = session()->get('rg');
         $dados['nome'] = session()->get('nome');
-        //dd($dados);
-        Historia::create($dados);
 
-        toast()->success('História inserida!');
-        return back();
+        $create = Historia::create($dados);
+        if($create) {
+            toast()->success('inserida com sucesso!','História');
+            return redirect()->route('histroria.index');
+        }
+
+        toast()->warning('Erro ao inserir','História');
+        return redirect()->route('histroria.index');    
     }
 
     public function show()
     {
-                
-        return view('FDI.ficha', compact('pm'));
+        return true;
     }
 
     public function update($id,Request $request)
     {
         $dados = $request->all();
-        //dd($dados);
         $dados['data'] = data_bd($dados['data']);
         $dados['ano'] = date( 'Y' , strtotime($dados['data']));
 
-        Historia::find($id)->update($dados);
+        $update = Historia::find($id)->update($dados);
+        if($update) {
+            toast()->success('atualizada com sucesso!','História');
+            return redirect()->route('histroria.index');
+        }
 
-        toast()->success('História atualizada!');
-        return back();
+        toast()->warning('Erro ao atualizar','História');
+        return redirect()->route('histroria.index'); 
     }
 
     public function destroy($id)
     {
-        //dd($id);
-        Historia::find($id)->delete();
+        $destroy = Historia::find($id)->delete();
 
-        //toast()->success('História apagada!');
-        return true;
+        if($destroy) {
+            toast()->success('apagada com sucesso!','História');
+            return redirect()->route('histroria.index');
+        }
+
+        toast()->warning('Erro ao apagar','História');
+        return redirect()->route('histroria.index'); 
     }
 }

@@ -40,13 +40,8 @@ class Pj extends Eloquent
 	use LogsActivity;
 
     protected static $logName = 'pj';
-    protected static $logAttributes = [
-		'id_pad',
-		'cnpj',
-		'razaosocial',
-		'contato',
-		'telefone'
-	];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\proc\PjPresenter';

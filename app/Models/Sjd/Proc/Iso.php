@@ -71,28 +71,8 @@ class Iso extends Eloquent
 	use LogsActivity;
 
     protected static $logName = 'iso';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'cdopm',
-		'fato_data',
-		'abertura_data',
-		'sintese_txt',
-		'tipo_penal',
-		'doc_tipo',
-		'doc_numero',
-		'portaria_numero',
-		'portaria_data',
-		'exclusao_txt',
-		'opm_meta4',
-		'relatoriomedico_file',
-		'solucaoautoridade_file',
-		'relatoriomedico_data',
-		'solucaoautoridade_data',
-		'prioridade'
-    ];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\proc\IsoPresenter';

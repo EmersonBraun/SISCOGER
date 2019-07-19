@@ -33,10 +33,10 @@ class PMApiController extends Controller
 
     }
 
-    public function sugest(Request $request)
+    public function sugest(PolicialRepository $pm,Request $request)
     {
         $dados = $request->all();
-        $data = PolicialRepository::sugest($dados);
+        $data = $pm->sugest($dados);
         if($data){
             return response()->json([
                 'data' => $data,

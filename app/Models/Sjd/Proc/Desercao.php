@@ -61,27 +61,8 @@ class Desercao extends Eloquent
 	use LogsActivity;
 
     protected static $logName = 'desercao';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'cdopm',
-		'fato_data',
-		'doc_tipo',
-		'doc_numero',
-		'termo_exclusao',
-		'termo_exclusao_pub',
-		'termo_captura',
-		'termo_captura_pub',
-		'pericia',
-		'pericia_pub',
-		'termo_inclusao',
-		'termo_inclusao_pub',
-		'opm_meta4',
-		'referenciavajme',
-		'prioridade'
-	];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\proc\DesercaoPresenter';

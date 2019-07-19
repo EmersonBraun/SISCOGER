@@ -68,12 +68,14 @@ class User extends Authenticatable
 
 	];
 
-     protected $guard_name = 'web';
-//class User extends Eloquent
-//{
+    protected $guard_name = 'web';
+
 	protected $hidden = [
 		'password',
-		'remember_token'
+		'remember_token',
+		'tentativas',
+		'sessao',
+		'id_sessao'
 	];
 
 	protected $fillable = [
