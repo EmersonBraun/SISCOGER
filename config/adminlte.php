@@ -107,29 +107,7 @@ return [
     |
     */
 
-    'menu' => [
-
-        [
-            'text'    => 'Ajuda',
-            'icon'    => 'question-circle',
-            'submenu' => 
-            [
-                [
-                    'text' => 'Manual do usuário',
-                    'url'  => '#',
-                ],
-                [
-                    'text' => 'Modificar senha',
-                    'url'  => '#',
-                ],
-                [
-                    'text' => 'Documentação para IT',
-                    'url'  => '#',
-                ],
-            ],
-        ],
-
-    ],
+    'menu' => [],
 
     /*
     |--------------------------------------------------------------------------

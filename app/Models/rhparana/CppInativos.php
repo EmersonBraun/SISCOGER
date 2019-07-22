@@ -4,17 +4,17 @@ namespace App\Models\rhparana;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
-class Civil extends Eloquent
+class CppInativos extends Eloquent
 {
     protected $connection = 'rhparana';
-	protected $table = 'civil';
-	protected $primaryKey = 'rg';
+	protected $table = 'CPP_INATIVOS';
+	protected $primaryKey = 'UserRG';
 	public $timestamps = false;
 
 	protected $fillable = [
-		'rg',
-        'nome',
-        'cdopm',
-        'funcao',
+		'UserRG',
+        'NOME',
+        'graduacao',
+        'reserva_data'
 	];
 }

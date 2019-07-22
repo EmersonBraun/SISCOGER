@@ -4,17 +4,20 @@ namespace App\Models\rhparana;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
-class Civil extends Eloquent
+class Reserva extends Eloquent
 {
     protected $connection = 'rhparana';
-	protected $table = 'civil';
-	protected $primaryKey = 'rg';
+	protected $table = 'RESERVA';
+	protected $primaryKey = 'UserRG';
 	public $timestamps = false;
 
 	protected $fillable = [
-		'rg',
+		'UserRG',
         'nome',
-        'cdopm',
-        'funcao',
+        'posto',
+        'quadro',
+        'subquadro',
+        'data',
+        'id',
 	];
 }

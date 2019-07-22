@@ -4,16 +4,6 @@ namespace App\Models\rhparana;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
-'0' => 'NOME',
-            '1' => 'CODIGO',
-            '2' => 'RG',
-            '3' => 'OPM_META4',
-            '4' => 'OPM_DESCRICAO',
-            '5' => 'COD_INCIDENTE',
-            '6' => 'DESC_INCIDENTE',
-            '7' => 'UNITS',
-            '8' => 'DT_INIC',
-            '9' => 'DT_FIM',
 /**
  * Class Ausencia
  * 
@@ -53,4 +43,13 @@ class Ausencia extends Eloquent
 		'dt_fim'
 	];
 
+    public function setDtInicAttribute($value)
+    {
+        $this->attributes['dt_inic'] = data_bd($value);
+    }
+
+    public function setDtFimAttribute($value)
+    {
+        $this->attributes['dt_fim'] = data_bd($value);
+    }
 }

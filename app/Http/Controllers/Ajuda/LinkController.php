@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Apresentacao;
+namespace App\Http\Controllers\Ajuda;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\apresentacao\LocalApresentacaoRepository;
-use App\Model\Apresentacao\Apresentacao;
+use App\Repositories\ajuda\LinkRepository;
 
-class LocalApresentacaoController extends Controller
+class LinkController extends Controller
 {
     protected $repository;
     public function __construct(LinkRepository $repository)
@@ -18,12 +17,12 @@ class LocalApresentacaoController extends Controller
     public function index()
     {
         $registros = $this->repository->all();
-        return view('apresentacao.local.index', compact('registros'));
+        return view('ajuda.link.index', compact('registros','ano'));
     }
 
     public function create()
     {
-        return view('apresentacao.local.form.create');
+        return view('ajuda.link.form.create');
     }
 
     public function store(Request $request)
@@ -35,15 +34,14 @@ class LocalApresentacaoController extends Controller
         ]);
 
         //dados do formulário
-        $dados = $this->datesToCreate($request); 
-
+        $dados = $request->all(); 
         $create = $this->repository->create($dados);
 
         if($create)
         {
             $this->repository->cleanCache();
-            toast()->success('N° '.$dados['sjd_ref'].'/'.'Local apresentacao Inserida');
-            return redirect()->route('local.lista');
+            toast()->success('N° '.$dados['sjd_ref'].'/'.'Nota COGER Inserido');
+            return redirect()->route('link.lista');
         }
 
         toast()->warning('Houve um erro na inserção');
@@ -55,7 +53,7 @@ class LocalApresentacaoController extends Controller
         $proc = $this->repository->findOrFail($id)->first();
         if(!$proc) abort('404');
 
-        return view('apresentacao.local.form.show', compact('proc'));
+        return view('ajuda.link.form.show', compact('proc'));
     }
 
     public function edit($id)
@@ -63,7 +61,7 @@ class LocalApresentacaoController extends Controller
         $proc = $this->repository->findOrFail($id)->first();
         if(!$proc) abort('404');
         
-        return view('apresentacao.local.form.edit', compact('proc'));
+        return view('ajuda.link.form.edit', compact('proc'));
     }
 
     public function update(Request $request, $id)
@@ -80,12 +78,12 @@ class LocalApresentacaoController extends Controller
         if($update)
         {
             $this->repository->cleanCache();
-            toast()->success('Local apresentacao atualizada!');
-            return redirect()->route('local.lista');
+            toast()->success('Nota COGER atualizada!');
+            return redirect()->route('link.lista');
         }
 
-        toast()->warning('Local apresentacao NÃO atualizada!');
-        return redirect()->route('local.lista');
+        toast()->warning('Nota COGER NÃO atualizada!');
+        return redirect()->route('link.lista');
     }
 
     public function destroy($id)
@@ -94,11 +92,12 @@ class LocalApresentacaoController extends Controller
 
         if($destroy) {
             $this->repository->cleanCache();
-            toast()->success('Local apresentacao Apagada');
-            return redirect()->route('local.lista');
+            toast()->success('Nota COGER Apagada');
+            return redirect()->route('link.lista');
         }
 
-        toast()->warning('erro ao apagar Apresentacao');
-        return redirect()->route('local.lista');
+        toast()->warning('erro ao apagar Nota COGER');
+        return redirect()->route('link.lista');
     }
+
 }

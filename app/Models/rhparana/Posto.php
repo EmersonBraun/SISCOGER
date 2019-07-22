@@ -29,6 +29,7 @@ class Posto extends Eloquent
 	];
 
 	protected $fillable = [
-		'id_posto'
+        'id_posto',
+        'codigo'
 	];
 }
