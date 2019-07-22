@@ -41,5 +41,22 @@ class Feriado extends Eloquent
 	protected $fillable = [
 		'data',
 		'feriado'
-	];
+    ];
+    
+    public function getDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null)
+        {
+            return '';
+        }
+        else
+        {
+            return date( 'd/m/Y' , strtotime($value));
+        }
+    }
+
+    public function setDataAttribute($value)
+    {
+        $this->attributes['data'] = data_bd($value);
+    }
 }

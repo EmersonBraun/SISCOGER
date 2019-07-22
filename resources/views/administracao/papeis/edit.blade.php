@@ -36,32 +36,14 @@
 
         <div class="box-body">               
             <div class="col-md-12 col-xs-12">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nome</th>
-                            </tr>
-                        </thead>
-                
-                        <tbody>
-                            @foreach ($permissions as $permission)
-                            <tr>
-                                <td>{{Form::checkbox('permissions[]',  $permission->id, $role->permissions ) }}</td>
-                                <td>{{ Form::label($permission->name, ucfirst($permission->name)) }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                
-                        <tfoot>
-                            <tr>
-                                <th>#</th>
-                                <th>Nome</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                    {{ Form::submit('Editar', array('class' => 'btn btn-primary btn-block')) }}
-                    {{ Form::close() }}   
+                @foreach ($permissions as $permission)
+                <div class="col-xs-3 nopadding">
+                    {{Form::checkbox('permissions[]',  $permission->id, $role->permissions ) }}
+                    {{ Form::label($permission->name, ucfirst($permission->name)) }}
+                </div>
+                @endforeach
+                {{ Form::submit('Editar', array('class' => 'btn btn-primary btn-block')) }}
+                {{ Form::close() }}   
             </div>
         </div>
     </div>

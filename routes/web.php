@@ -89,7 +89,7 @@ Route::group(['as'=>'terms.','prefix' =>'termo'],function(){
 	Route::post('salvar/{id}',['as' =>'store','uses'=>'Administracao\TermsController@store']);
 });
 //Rotas do módulo feriado
-Route::group(['as'=>'feriados.','prefix' =>'feriado'],function(){
+Route::group(['as'=>'feriado.','prefix' =>'feriado'],function(){
 	Route::get('',['as' =>'index','uses'=>'Administracao\FeriadoController@index','middleware' => ['permission:listar-feriados']]);
 	Route::get('criar',['as' =>'create','uses'=>'Administracao\FeriadoController@create','middleware' => ['permission:criar-feriados']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Administracao\FeriadoController@store','middleware' => ['permission:criar-feriados']]);

@@ -1,0 +1,109 @@
+<?
+global $login,$login_unidade,$nivel;
+
+$acao=$_REQUEST['acao'];
+$id_ipm=$_REQUEST['id_ipm'];
+$movimento=$_REQUEST['movimento'];
+if (!$id_ipm) $id_ipm=$movimento[id_ipm];
+$movobj=new movimento();
+$movobj->setvalues($movimento,"","simples");
+
+if ($_SESSION[debug]) pre($movimento);
+
+if ($acao=="gravar") {
+	if ($movobj->insere($movobj,"movimento")) $mensagem="Inserido com sucesso!";
+}
+
+$ano=date("Y");
+$resultado=@mysql_query("SELECT * FROM ipm WHERE (id_ipm='$id_ipm') LIMIT 0,1");
+$row=@mysql_fetch_array($resultado);
+
+ ?>
+		<!-- Content -->
+		<table cellpadding="0" cellspacing="1" border="0" width="100%">
+		<?hidden("ipm");?>
+		<tr>
+			<td align="center">			
+			<table cellpadding="0" cellspacing="0" width="100%" border="0"><tr><td bgcolor="#4682B4">
+			<center><h1>Inquerito Policial Militar</h1></center>
+			<table cellpadding="5" cellspacing="1" width="100%" border="0">
+			<tr><th colspan="2" bgcolor="#DBEAF5"><font face="tahoma, verdana" size="2"><a href="?module=ipm&ipm[id]=<?echo $row['id_ipm'];?>"><center>Visualiação e atualização</a> | Movimentos</font></center></td></tr>
+			
+			<tr>
+			<td bgcolor="#ffffff" valign="top">
+				
+			
+				<table border=0 cellpadding=0 cellspacing=0>
+								
+				<tr><td>Nº da OPM:</td><td bgcolor="white"><? 
+				echo $row['opm_ref']."/".$ano;
+				echo "<td><b>do ". $row['opm_sigla']."</b>";?></td></tr>
+				<tr><td>Nº SJD:</td>
+				<td bgcolor="#EEEEE"> 
+				<? echo " ".$row['sjd_ref']."/".date("Y");?>
+				</td>
+				</td></tr>
+				<tr><td>Data do fato:</td><td>
+				<? echo data::inverte($row['fato_data']); ?>
+				</td></tr>
+				<tr><td>Data de Abertura:</td><td>
+				<? echo data::inverte($row['abertura_data']); ?>
+				</td></tr>
+				<tr><td>Data de Autuação:</td><td>
+				<? echo data::inverte($row['autuacao_data']); ?>
+				</td></tr>
+				</td></tr><tr>
+				</table>
+</tr>
+</table>
+</form>
+</td>
+</tr>
+<tr>
+	<TD>
+	<form name="movimento" action="?module=movimento&acao=gravar" method="POST">
+	<input type="hidden" name="movimento[id_ipm]" value="<?echo $id_ipm;?>">
+	<br>
+	Inserir Movimento:
+	<input type="Text" name="movimento[data]" maxlenght="10" size="12" value="<?echo data::hoje();?>" onkeyup="MascaraData(this, event), pulaFocus(10, this, form.horaInicialCon)">
+	<input type="text" size="60" name="movimento[descricao]">
+	<input type="submit" value="Inserir">
+	</form>
+	</TD>
+	
+</tr>
+
+</table>
+				
+<br>
+
+
+
+<table cellpadding="0" cellspacing="0" width="95%" border="0"><tr><td bgcolor="white">
+
+<table cellpadding="0" cellspacing="0" width="100%" bgcolor="#4682B4"><tr><td>
+<table align=center border=0 cellpadding="0" cellspacing="1" width="100%">
+	<tr><th colspan="5" bgcolor="#DBEAF5"><font face="tahoma, verdana" size="2">Movimentos</font></th></tr>
+	<tr bgcolor=white align=center><td>Data</td><td>Descrição</td></tr>
+<?
+
+$sql="SELECT * FROM movimento WHERE id_ipm='$id_ipm' ORDER BY data DESC";
+$res=mysql_query($sql);
+
+if (mysql_num_rows($res)) {
+	$i=0;
+	while ($row=mysql_fetch_array($res)) {
+	($i%2)?($cor="white"):($cor="#EEEEEE");
+	echo "<tr bgcolor=$cor>";
+		echo "<td>".data::inverte($row['data'])."</td><td>".$row['descricao']."</td>";
+	echo "</tr>";
+	$i++;
+	}
+}
+else {
+	echo "<tr bgcolor=white><td colspan=2><b>Não há movimentos para este inquérito.</b></td></tr>";
+}
+
+?>
+
+</table>
