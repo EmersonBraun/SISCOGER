@@ -1,9 +1,9 @@
 <?php
 //Aqui ficam as consultas de banco de dados dos processos e procedimentos
-namespace App\Repositories\proc;
+namespace App\Repositories\administracao;
 
 use Cache;
-use App\Models\Administracao\Feriado;
+use App\Models\Sjd\Administracao\Feriado;
 use App\Repositories\BaseRepository;
 
 class FeriadoRepository extends BaseRepository
