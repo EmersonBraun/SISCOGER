@@ -90,5 +90,4 @@ class SuspensoController extends Controller
         toast()->warning('erro ao apagar suspenso');
         return redirect()->route('suspenso.index');
     }
-
 }
