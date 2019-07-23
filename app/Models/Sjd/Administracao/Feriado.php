@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Administracao;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Feriado
  * 
@@ -42,6 +44,9 @@ class Feriado extends Eloquent
 		'data',
 		'feriado'
     ];
+
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\administracao\FeriadoPresenter';
     
     public function getDataAttribute($value)
     {

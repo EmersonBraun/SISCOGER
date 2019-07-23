@@ -3,34 +3,33 @@
 namespace App\Repositories\administracao;
 
 use Cache;
-use App\Models\Sjd\Administracao\Role;
+use App\Models\User;
 use App\Repositories\BaseRepository;
 
-class RoleRepository extends BaseRepository
+class UserRepository extends BaseRepository
 {
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
     protected $expiration = 60 * 24;//um dia; 
 
-	public function __construct(Role $model)
+	public function __construct(User $model)
 	{
         $this->model = $model;      
     }
 
     public function cleanCache()
 	{
-        Cache::tags('role')->flush();
+        Cache::tags('user')->flush();
     }
     
     public function all()
 	{
 
-        $registros = Cache::tags('role')->remember('todos_role', $this->expiration, function() {
+        $registros = Cache::tags('user')->remember('todos_user', $this->expiration, function() {
             return $this->model->all();
         });
 
         return $registros;
     }  
 }
-

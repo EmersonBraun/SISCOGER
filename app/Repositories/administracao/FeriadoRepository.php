@@ -1,5 +1,5 @@
 <?php
-//Aqui ficam as consultas de banco de dados dos processos e procedimentos
+//Aqui ficam as consultas de banco de dados
 namespace App\Repositories\administracao;
 
 use Cache;

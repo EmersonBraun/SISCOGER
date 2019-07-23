@@ -618,7 +618,6 @@ Route::group(['as'=>'pendencias.','prefix' =>'pendencias'],function(){
 	Route::get('comportamento',['as' =>'comportamento','uses'=>'Relatorios\PendenciasController@comportamento','middleware' => ['permission:listar-relatorio-comportamento']]);
 	Route::get('punicoes',['as' =>'punicoes','uses'=>'Relatorios\PendenciasController@punicoes','middleware' => ['permission:listar-relatorio-punicoes']]);
 	Route::get('quantidade',['as' =>'quantidade','uses'=>'Relatorios\PendenciasController@quantidade','middleware' => ['permission:listar-relatorio-quantidade']]);
-	Route::get('prioritarios',['as' =>'prioritarios','uses'=>'Relatorios\PendenciasController@prioritarios','middleware' => ['permission:listar-relatorio-prioritarios']]);
 	Route::get('sobrestamentos',['as' =>'sobrestamentos','uses'=>'Relatorios\PendenciasController@sobrestamentos','middleware' => ['permission:listar-relatorio-sobrestamentos']]);
 	Route::get('processos',['as' =>'processos','uses'=>'Relatorios\PendenciasController@processos','middleware' => ['permission:listar-relatorio-processos']]);
 	Route::get('postograd',['as' =>'postograd','uses'=>'Relatorios\PendenciasController@postograd','middleware' => ['permission:listar-relatorio-postograd']]);
@@ -626,6 +625,11 @@ Route::group(['as'=>'pendencias.','prefix' =>'pendencias'],function(){
 	Route::get('defensores',['as' =>'defensores','uses'=>'Relatorios\PendenciasController@defensores','middleware' => ['permission:listar-relatorio-defensores']]);
 	Route::get('ofendidos',['as' =>'ofendidos','uses'=>'Relatorios\PendenciasController@ofendidos','middleware' => ['permission:listar-relatorio-ofendidos']]);
 });
+
+Route::group(['as'=>'relatorios.','prefix' =>'relatorios'],function(){
+    Route::get('prioritarios/{proc}',['as' =>'prioritarios','uses'=>'Relatorios\PrioritarioController@index','middleware' => ['permission:listar-relatorio-prioritarios']]);
+});
+
 Route::group(['as'=>'sobrestamento.','prefix' =>'sobrestamento','middleware' => ['permission:listar-relatorio-sobrestamento']],function(){
 	Route::get('',['as' =>'index','uses'=>'Relatorios\SobrestamentoController@index']);
 	Route::get('adl',['as' =>'adl','uses'=>'Relatorios\SobrestamentoController@adl']);

@@ -58,6 +58,7 @@
             "app/Helpers/date/tempo_svc.php",
             "app/Helpers/date/data_bd.php",
             "app/Helpers/date/data_br.php",
+            "app/Helpers/date/dayOfWeek.php",
             "app/Helpers/date/dias_feriados.php",
             "app/Helpers/formatacao/special_ucwords.php",
             "app/Helpers/formatacao/mask.php",

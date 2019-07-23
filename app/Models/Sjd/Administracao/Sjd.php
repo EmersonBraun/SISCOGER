@@ -12,7 +12,7 @@ class Sjd extends Eloquent
     use SoftDeletes;
 
     use PresentableTrait;
-    protected $presenter = 'App\Presenters\SjdPresenter';
+    protected $presenter = 'App\Presenters\administracao\SjdPresenter';
 
     protected $table = 'sjds';
     protected $primaryKey = 'id_sjds';

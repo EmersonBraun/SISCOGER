@@ -119,18 +119,19 @@ return [
     
     'procedimentosTipos' =>
     [
-        "IPM" => "Inquérito Policial Militar",
-        "SINDICANCIA" => "Sindicância",
-        "CJ" => "Conselho de Justificação",
-        "CD" => "Conselho de Disciplina",
-        "IT" => "Inquérito Técnico",
         "ADL" => "Apuração Disciplinar de Licenciamento",
         "APFD" => "Auto de Prisão em Flagrante Delito",
-        "FATD" => "Formulário de Apuração de Transgressão Disciplinar",
-        "ISO" => "Inquérito Sanitário de Origem",
+        "CD" => "Conselho de Disciplina",
+        "CJ" => "Conselho de Justificação",
         "DESERCAO" => "Deserção",
+        "FATD" => "Formulário de Apuração de Transgressão Disciplinar",
+        "IPM" => "Inquérito Policial Militar",
+        "IT" => "Inquérito Técnico",
+        "ISO" => "Inquérito Sanitário de Origem",
+        "SINDICANCIA" => "Sindicância",
         "SAI" => "Investigação Policial",
-        "PROCOUTROS" => "Procedimento Outros"
+        "PROCOUTROS" => "Procedimento Outros",
+        "PAD" => "Processo Administrativo"
     ],
 
     'pocedimentosOpcoes' =>

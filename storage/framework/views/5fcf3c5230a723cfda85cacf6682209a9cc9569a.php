@@ -77,7 +77,7 @@
     <ul class="treeview-menu">
         <li class=""><a href="<?php echo e(route('home')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Pendências</span></a></li>       
         <li class=""><a href="<?php echo e(route('pendencias.gerais')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Pendências - Geral</span></a></li>  
-        <li class=""><a href="<?php echo e(route('pendencias.prioritarios')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Processos Prioritários</span></a></li>
+        <li class=""><a href="<?php echo e(route('relatorios.prioritarios','adl')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Processos Prioritários</span></a></li>
         <li class=""><a href="<?php echo e(route('pendencias.sobrestamentos')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Sobrestamentos</span></a></li>
         <li class=""><a href="<?php echo e(route('pendencias.processos')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Processos</span></a></li>
         <li class=""><a href="<?php echo e(route('pendencias.postograd')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Postos/Graduações</span></a></li>
@@ -204,7 +204,7 @@
         
         <li class=""><a href="<?php echo e(route('terms.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Termos de compromisso</span></a></li>
         <li class=""><a href="<?php echo e(route('unidades.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Unidades</span></a></li>
-        <li class=""><a href="<?php echo e(route('feriados.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Feriados</span></a></li>
+        <li class=""><a href="<?php echo e(route('feriado.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Feriados</span></a></li>
         
     </ul>
 </li>

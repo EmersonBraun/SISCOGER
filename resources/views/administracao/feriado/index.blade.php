@@ -45,7 +45,7 @@
                             <tr>
                             <td style="display: none">{{$registro->id_feriado}}</td>
                             <td>{{$registro->data}}</td>
-                            <td>{{$registro->data}}</td>
+                            <td>{{$registro->present()->dayOfWeek}}</td>
                             <td>{{$registro->feriado}}</td>
                             <td>
                                 <span>
