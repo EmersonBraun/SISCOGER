@@ -10,6 +10,10 @@ namespace App\Models\Sjd\Policiais;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Sai
  * 
@@ -63,56 +67,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Sai extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'sai';
-    protected static $logAttributes = [
-		'rg',
-		'cargo',
-		'nome',
-		'rg_cadastro',
-		'data',
-		'docorigem',
-		'cdopm',
-		'cdopm_fato',
-		'cdopm_controle',
-		'opm_abreviatura',
-		'sintese_txt',
-		'digitador',
-		'arquivopasta',
-		'bou_ano1',
-		'bou_numero1',
-		'id_municipio',
-		'bairro',
-		'logradouro',
-		'numerodoc',
-		'motivo_principal',
-		'motivo_secundario',
-		'desc_outros',
-		'id_andamento',
-		'id_andamentocoger',
-		'sjd_ref',
-		'abertura_data',
-		'sjd_ref_ano',
-		'vtr1_placa',
-		'vtr1_prefixo',
-		'vtr2_placa',
-		'vtr2_prefixo',
-		'relatorio1',
-		'relatorio1_data',
-		'relatorio1_file',
-		'relatorio2',
-		'relatorio2_data',
-		'relatorio2_file',
-		'relatorio3',
-		'relatorio3_data',
-		'relatorio3_file',
-		'bou_ano2',
-		'bou_ano3',
-		'bou_numero2',
-		'bou_numero3'
-	];
+    use SoftDeletes;
 
 	protected $table = 'sai';
 	protected $primaryKey = 'id_sai';
@@ -179,5 +134,79 @@ class Sai extends Eloquent
 		'bou_ano3',
 		'bou_numero2',
 		'bou_numero3'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+    protected static $logName = 'sai';
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\policiais\SaiPresenter';
+
+    //mutators (para alterar na hora da exibição)
+    public function getDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setDataAttribute($value)
+    {
+        $this->attributes['data'] = data_bd($value);
+    }
+
+    //mutators (para alterar na hora da exibição)
+    public function getAberturaDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setAberturaDataAttribute($value)
+    {
+        $this->attributes['abertura_data'] = data_bd($value);
+    }
+
+    //mutators (para alterar na hora da exibição)
+    public function getRelatorio1DataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setRelatorio1DataAttribute($value)
+    {
+        $this->attributes['relatorio1_data'] = data_bd($value);
+    }
+
+    //mutators (para alterar na hora da exibição)
+    public function getRelatorio2DataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setRelatorio2DataAttribute($value)
+    {
+        $this->attributes['relatorio2_data'] = data_bd($value);
+    }
+
+    //mutators (para alterar na hora da exibição)
+    public function getRelatorio3DataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setRelatorio3DataAttribute($value)
+    {
+        $this->attributes['relatorio3_data'] = data_bd($value);
+    }
 }

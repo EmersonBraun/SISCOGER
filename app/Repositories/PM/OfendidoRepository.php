@@ -1,4 +1,6 @@
 <?php
+//Aqui ficam as consultas de banco de dados dos processos e procedimentos
+namespace App\Repositories\PM;
 
 use Cache;
 use App\Models\Sjd\Policiais\Ofendido;

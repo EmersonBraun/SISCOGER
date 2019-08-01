@@ -27,30 +27,27 @@ class RoleController extends Controller
  
     public function create()
     {
-        $permissions = Permission::paginate(10);//Pegar todas as permissões
+        $permissions = Permission::all();//Pegar todas as permissões
         return view('administracao.papeis.create', compact('permissions'));
     }
  
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'=>'required|unique:roles|max:10',
-            'permissions' =>'required',
-            ]
+            'name'=>'required|unique:roles|max:10']
         );
-
-        $dados = $request->all();
-        $create = Role::all($dados);
+        $dados = $request->except(['permissions']);
+        $create = Role::create($dados);
 
         if($create) {
-            $this->savePermissions($request['permissions'],$request->name);
+            if($request['permissions']) $this->savePermissions($request['permissions'],$request->name);
 
             toast()->success(''. $request->name.' adicionadas!', 'Papéis');
-            return redirect()->route('roles.index');
+            return redirect()->route('role.index');
         }
 
         toast()->warning('Erro ao adicionar', 'Papéis');
-        return redirect()->route('roles.index');
+        return redirect()->route('role.index');
     }
 
 
@@ -77,11 +74,11 @@ class RoleController extends Controller
             $this->revokePermission($role);
             if($request['permissions']) $this->savePermissions($request['permissions'], $role->name);
             toast()->success(''. $role->name.' atualizadas!', 'Papéis');
-            return redirect()->route('roles.index');
+            return redirect()->route('role.index');
         }
 
         toast()->warning('Problema em atualizar!', 'Papéis');
-        return redirect()->route('roles.index');
+        return redirect()->route('role.index');
     }
 
     public function destroy(Role $role,$id)
@@ -90,11 +87,11 @@ class RoleController extends Controller
 
         if($destroy) {
             toast()->success('apagados!', 'Papéis');
-            return redirect()->route('roles.index');
+            return redirect()->route('role.index');
         }
 
         toast()->warning('Problema em apagar!', 'Papéis');
-        return redirect()->route('roles.index');
+        return redirect()->route('role.index');
     }
 
     public function savePermissions($permissions, $name) {

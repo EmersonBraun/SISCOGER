@@ -3,7 +3,6 @@
 namespace App\Repositories\proc;
 
 use Cache;
-use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\DB;
 
 class ProcRepository

@@ -8,7 +8,12 @@
 namespace App\Models\Sjd\Policiais;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-
+//para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
+use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Saidiligencia
  * 
@@ -25,6 +30,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class Saidiligencia extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $primaryKey = 'id_saidiligencias';
 	public $timestamps = false;
 
@@ -44,5 +51,27 @@ class Saidiligencia extends Eloquent
 		'opm_abreviatura',
 		'diligencias_txt',
 		'digitador'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+    protected static $logName = 'saidiligencias';
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\policiais\SaidiligenciaPresenter';
+
+    //mutators (para alterar na hora da exibição)
+    public function getDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setDataAttribute($value)
+    {
+        $this->attributes['data'] = data_bd($value);
+    }
 }

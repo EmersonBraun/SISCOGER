@@ -107,6 +107,21 @@ class PolicialRepository extends BaseRepository
         return $militar_estadual;
     }
 
+    public static function dados($rg, $dado)
+    {
+        $dados = Cache::remember('dados:'.$rg, $this->expiration, function() use ($rg)
+        {
+            $ativo = (array) DB::connection('rhparana')->table('policial')->where('rg','=', $rg)->first();
+            if($ativo) return $ativo;
+            $inativo = (array) DB::connection('rhparana')->table('inativos')->where('CBR_NUM_RG','=', $rg)->first();
+            if($inativo) return $inativo;
+            $reserva = (array) DB::connection('rhparana')->table('RESERVA')->where('UserRG','=', $rg)->first();
+            if($reserva) return $reserva;
+            return 'Não Encontrado';
+        });
+        return $dados[$dado];
+    }
+
     public function pm($rg)
     {
         return DB::connection('rhparana')->table('policial')->where('rg','=', $rg)->first();

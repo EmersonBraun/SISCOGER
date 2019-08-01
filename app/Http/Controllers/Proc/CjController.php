@@ -6,51 +6,55 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\User;
 use App\Repositories\proc\CjRepository;
-use App\Models\Sjd\Proc\Cj;
 use App\Models\Sjd\Busca\Envolvido;
 
 class CjController extends Controller
 {
+    protected $repository;
+    public function __construct(CjRepository $repository)
+	{
+        $this->repository = $repository;
+    }
+
     public function index()
     {
         return redirect()->route('cj.lista');
     }
 
-    public function lista(CjRepository $repository)
+    public function lista()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.cj.list.index',compact('registros'));
     }
 
-    public function andamento(CjRepository $repository )
+    public function andamento( )
     {
-        $registros = $repository->andamento();
+        $registros = $this->repository->andamento();
         return view('procedimentos.cj.list.andamento',compact('registros'));
     }
 
-    public function prazos(CjRepository $repository)
+    public function prazos()
     {
-        $registros = $repository->prazos();
+        $registros = $this->repository->prazos();
         return view('procedimentos.cj.list.prazos',compact('registros'));
     }
 
-    public function rel_situacao(CjRepository $repository)
+    public function rel_situacao()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.cj.list.rel_situacao',compact('registros'));
     }
 
-    public function julgamento(CjRepository $repository)
+    public function julgamento()
     {
-        $registros = $repository->julgamento();
+        $registros = $this->repository->julgamento();
         return view('procedimentos.cj.list.julgamento',compact('registros'));
     }
 
-    public function apagados(CjRepository $repository)
+    public function apagados()
     {
-        $registros = $repository->apagados();
+        $registros = $this->repository->apagados();
         return view('procedimentos.cj.list.apagados',compact('registros'));
     }
 
@@ -77,11 +81,11 @@ class CjController extends Controller
         //dados do formulário
         $dados = $this->datesToCreate($request); 
 
-        $create = Cj::create($dados);
+        $create = $this->repository->create($dados);
 
         if($create)
         {
-            CjRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'CJ Inserido');
             return redirect()->route('cj.lista');
         }
@@ -94,7 +98,7 @@ class CjController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Cj::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -105,7 +109,7 @@ class CjController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Cj::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
         
         $this->canSee($proc);
@@ -134,11 +138,11 @@ class CjController extends Controller
         // dd(\Request::all());
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = Cj::findOrFail($id)->update($dados);
+        $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
-            CjRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('CJ atualizado!');
             return redirect()->route('cj.lista');
         }
@@ -151,10 +155,10 @@ class CjController extends Controller
     public function destroy($id)
     {
         //busca procedimento e apaga
-        $destroy = Cj::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
 
         if($destroy) {
-            CjRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('CJ Apagado');
             return redirect()->route('cj.lista');
         }
@@ -167,10 +171,10 @@ class CjController extends Controller
     public function restore($id)
     {
         // Recupera o post pelo ID
-        $restore = Cj::findOrFail($id)->restore();
+        $restore = $this->repository->findAndRestore($id);
     
         if($restore){
-            CjRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('CJ Recuperado!');
             return redirect()->route('cj.lista');  
         }
@@ -182,11 +186,11 @@ class CjController extends Controller
     public function forceDelete($id)
     {
         // Recupera o post pelo ID
-        $forceDelete = Cj::findOrFail($id)->forceDelete();
+        $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
-            CjRepository::cleanCache();
-            toast()->success('CJ Recuperado!');
+            $this->repository->cleanCache();
+            toast()->success('CJ apagado DEFINITIVO!');
             return redirect()->route('cj.lista');  
         }
 
@@ -199,7 +203,7 @@ class CjController extends Controller
         $dados = $request->all();
         $ano = (int) date('Y');
 
-        $ref = Cj::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        $ref = $this->repository->maxRef();
         //referência e ano
         $dados['sjd_ref'] = $ref+1;
         $dados['sjd_ref_ano'] = $ano;

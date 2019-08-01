@@ -10,6 +10,10 @@ namespace App\Models\Sjd\Policiais;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Restricao
  * 
@@ -33,26 +37,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Restricao extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'restricao';
-    protected static $logAttributes = [
-		'rg',
-		'cargo',
-		'nome',
-		'fardamento_bl',
-		'arma_bl',
-		'origem',
-		'cadastro_data',
-		'inicio_data',
-		'fim_data',
-		'retirada_data',
-		'proc',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'obs_txt'
-	];
+    use SoftDeletes;
 
 	protected $table = 'restricao';
 	protected $primaryKey = 'id_restricao';
@@ -85,5 +70,66 @@ class Restricao extends Eloquent
 		'sjd_ref',
 		'sjd_ref_ano',
 		'obs_txt'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+    protected static $logName = 'restricao';
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\policiais\RestricaoPresenter';
+
+     //mutators (para alterar na hora da exibição)
+     public function getCadastroDataAttribute($value)
+     {
+         if($value == '0000-00-00' || $value == null) return '';
+         else return date( 'd/m/Y' , strtotime($value));
+     }
+ 
+     //mutator para alterar na hora de salvar no bd
+     public function setCadastroDataAttribute($value)
+     {
+         $this->attributes['cadastro_data'] = data_bd($value);
+     }
+
+     //mutators (para alterar na hora da exibição)
+     public function getInicioDataAttribute($value)
+     {
+         if($value == '0000-00-00' || $value == null) return '';
+         else return date( 'd/m/Y' , strtotime($value));
+     }
+ 
+     //mutator para alterar na hora de salvar no bd
+     public function setInicioDataAttribute($value)
+     {
+         $this->attributes['inicio_data'] = data_bd($value);
+     }
+
+     //mutators (para alterar na hora da exibição)
+     public function getFimDataAttribute($value)
+     {
+         if($value == '0000-00-00' || $value == null) return '';
+         else return date( 'd/m/Y' , strtotime($value));
+     }
+ 
+     //mutator para alterar na hora de salvar no bd
+     public function setFimDataAttribute($value)
+     {
+         $this->attributes['fim_data'] = data_bd($value);
+     }
+
+     //mutators (para alterar na hora da exibição)
+     public function getRetiradaDataAttribute($value)
+     {
+         if($value == '0000-00-00' || $value == null) return '';
+         else return date( 'd/m/Y' , strtotime($value));
+     }
+ 
+     //mutator para alterar na hora de salvar no bd
+     public function setRetiradaDataAttribute($value)
+     {
+         $this->attributes['retirada_data'] = data_bd($value);
+     }
 }

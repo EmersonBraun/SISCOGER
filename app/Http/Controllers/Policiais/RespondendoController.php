@@ -90,4 +90,32 @@ class RespondendoController extends Controller
         toast()->warning('erro ao apagar respondendo');
         return redirect()->route('respondendo.index');
     }
+
+    public function restore($id)
+    {
+        $restore = $this->repository->findAndRestore($id);
+        
+        if($restore){
+            $this->repository->cleanCache();
+            toast()->success('Respondendo Recuperado!');
+            return redirect()->route('respondendo.index');  
+        }
+
+        toast()->warning('Houve um erro ao recuperar!');
+        return redirect()->route('respondendo.index'); 
+    }
+
+    public function forceDelete($id)
+    {
+        $forceDelete = $this->repository->findAndDestroy($id);
+    
+        if($forceDelete){
+            $this->repository->cleanCache();
+            toast()->success('Respondendo Apagado definitivo!');
+            return redirect()->route('respondendo.index');  
+        }
+
+        toast()->warning('Houve um erro ao Apagar definitivo!');
+        return redirect()->route('respondendo.index');
+    }
 }

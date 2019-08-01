@@ -79,5 +79,86 @@ class Email extends Eloquent
 		'dh_confirmacao_de_leitura',
 		'dh_cancelamento',
 		'usuario_rg_cancelamento'
-	];
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\policiais\EmailPresenter';
+
+    //mutators (para alterar na hora da exibição)
+    public function getDhAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y H:i:s' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setDhAttribute($value)
+    {
+        $this->attributes['dh'] = data_bd($value);
+    }
+
+    //mutators (para alterar na hora da exibição)
+    public function getDhAgendamentoAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y H:i:s' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setDhAgendamentoAttribute($value)
+    {
+        $this->attributes['dh_agendamento'] = data_bd($value);
+    }
+
+    //mutators (para alterar na hora da exibição)
+    public function getDhUltTentativaComErroAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y H:i:s' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setDhUltTentativaComErroAttribute($value)
+    {
+        $this->attributes['dh_ult_tentativa_com_erro'] = data_bd($value);
+    }
+
+    //mutators (para alterar na hora da exibição)
+    public function getDhEnvioAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y H:i:s' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setDhEnvioAttribute($value)
+    {
+        $this->attributes['dh_envio'] = data_bd($value);
+    }
+
+    //mutators (para alterar na hora da exibição)
+    public function getDhConfirmacaoDeLeituraAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y H:i:s' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setDhConfirmacaoDeLeituraAttribute($value)
+    {
+        $this->attributes['dh_confirmacao_de_leitura'] = data_bd($value);
+    }
+
+    //mutators (para alterar na hora da exibição)
+    public function getDhCancelamentoAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y H:i:s' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setDhCancelamentoAttribute($value)
+    {
+        $this->attributes['dh_cancelamento'] = data_bd($value);
+    }
 }

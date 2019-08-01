@@ -6,27 +6,31 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\User;
 use App\Repositories\proc\ExclusaoRepository;
-use App\Models\Sjd\Proc\Exclusaojudicial;
 use App\Models\Sjd\Busca\Envolvido;
 
 class ExclusaoController extends Controller
 {
+    protected $repository;
+    public function __construct(ExclusaoRepository $repository)
+	{
+        $this->repository = $repository;
+    }
+
     public function index()
     {
         return redirect()->route('exclusao.lista');
     }
 
-    public function lista(ExclusaoRepository $repository)
+    public function lista()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.exclusao.list.index',compact('registros'));
     }
 
-    public function apagados(ExclusaoRepository $repository)
+    public function apagados()
     {
-        $registros = $repository->apagados();
+        $registros = $this->repository->apagados();
         return view('procedimentos.exclusao.list.apagados',compact('registros'));
     }
 
@@ -53,11 +57,11 @@ class ExclusaoController extends Controller
         //dados do formulário
         $dados = $this->datesToCreate($request); 
 
-        $create = Exclusaojudicial::create($dados);
+        $create = $this->repository->create($dados);
 
         if($create)
         {
-            ExclusaoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'Exclusão Inserido');
             return redirect()->route('exclusao.lista');
         }
@@ -70,7 +74,7 @@ class ExclusaoController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Exclusaojudicial::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -81,7 +85,7 @@ class ExclusaoController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Exclusaojudicial::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
         
         $this->canSee($proc);
@@ -110,11 +114,11 @@ class ExclusaoController extends Controller
         // dd(\Request::all());
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = Exclusaojudicial::findOrFail($id)->update($dados);
+        $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
-            ExclusaoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Exclusão atualizado!');
             return redirect()->route('exclusao.lista');
         }
@@ -127,10 +131,10 @@ class ExclusaoController extends Controller
     public function destroy($id)
     {
         //busca procedimento e apaga
-        $destroy = Exclusaojudicial::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
 
         if($destroy) {
-            ExclusaoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Exclusão Apagado');
             return redirect()->route('exclusao.lista');
         }
@@ -143,10 +147,10 @@ class ExclusaoController extends Controller
     public function restore($id)
     {
         // Recupera o post pelo ID
-        $restore = Exclusaojudicial::findOrFail($id)->restore();
+        $restore = $this->repository->findAndRestore($id);
     
         if($restore){
-            ExclusaoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Exclusão Recuperado!');
             return redirect()->route('exclusao.lista');  
         }
@@ -158,11 +162,11 @@ class ExclusaoController extends Controller
     public function forceDelete($id)
     {
         // Recupera o post pelo ID
-        $forceDelete = Exclusaojudicial::findOrFail($id)->forceDelete();
+        $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
-            ExclusaoRepository::cleanCache();
-            toast()->success('Exclusão Recuperado!');
+            $this->repository->cleanCache();
+            toast()->success('Exclusão apagado DEFINITIVO!');
             return redirect()->route('exclusao.lista');  
         }
 
@@ -175,13 +179,14 @@ class ExclusaoController extends Controller
         $dados = $request->all();
         $ano = (int) date('Y');
 
-        $ref = Exclusaojudicial::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        $ref = $this->repository->maxRef();
         //referência e ano
         $dados['sjd_ref'] = $ref+1;
         $dados['sjd_ref_ano'] = $ano;
         
         return $dados;
     }
+
 
     public function canSee($proc) {
         ver_unidade($proc);//teste para verificar se pode ver outras unidades, caso não possa aborta

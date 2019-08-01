@@ -90,4 +90,32 @@ class SaiController extends Controller
         toast()->warning('erro ao apagar SAI');
         return redirect()->route('sai.index');
     }
+
+    public function restore($id)
+    {
+        $restore = $this->repository->findAndRestore($id);
+        
+        if($restore){
+            $this->repository->cleanCache();
+            toast()->success('Sai Recuperado!');
+            return redirect()->route('sai.index');  
+        }
+
+        toast()->warning('Houve um erro ao recuperar!');
+        return redirect()->route('sai.index'); 
+    }
+
+    public function forceDelete($id)
+    {
+        $forceDelete = $this->repository->findAndDestroy($id);
+    
+        if($forceDelete){
+            $this->repository->cleanCache();
+            toast()->success('Sai Apagado definitivo!');
+            return redirect()->route('sai.index');  
+        }
+
+        toast()->warning('Houve um erro ao Apagar definitivo!');
+        return redirect()->route('sai.index');
+    }
 }

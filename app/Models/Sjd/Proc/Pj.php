@@ -20,7 +20,7 @@ class Pj extends Eloquent
 
 	protected $table = 'pj';
 	protected $primaryKey = 'id_pj';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
 		'id_pad' => 'int'

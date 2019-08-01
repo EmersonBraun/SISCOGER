@@ -3,6 +3,7 @@ namespace App\Presenters;
 
 use Laracasts\Presenter\Presenter;
 use App\Repositories\OPM\OPMRepository;
+use App\Repositories\OPM\MunicipioRepository;
 
 class BasePresenter extends Presenter {
     
@@ -19,6 +20,11 @@ class BasePresenter extends Presenter {
     public function opm()
     {
         return OPMRepository::abreviatura($this->cdopm);
+    }
+
+    public function municipio()
+    {
+        return MunicipioRepository::nome($this->id_municipio);
     }
 
     public function refAno()

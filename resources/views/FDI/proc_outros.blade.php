@@ -33,7 +33,9 @@
         @endforelse
         </tbody>
     </table>
+    @can('criar-proc-outros')
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar Procedimento Outros
     </button>
+    @endcan
 </div>

@@ -6,27 +6,31 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\User;
 use App\Repositories\proc\PadRepository;
-use App\Models\Sjd\Proc\Pad;
 use App\Models\Sjd\Busca\Envolvido;
 
 class PadController extends Controller
 {
+    protected $repository;
+    public function __construct(PadRepository $repository)
+	{
+        $this->repository = $repository;
+    }
+
     public function index()
     {
         return redirect()->route('pad.lista');
     }
 
-    public function lista(PadRepository $repository)
+    public function lista()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.pad.list.index',compact('registros'));
     }
 
-    public function apagados(PadRepository $repository)
+    public function apagados()
     {
-        $registros = $repository->apagados();
+        $registros = $this->repository->apagados();
         return view('procedimentos.pad.list.apagados',compact('registros'));
     }
 
@@ -53,11 +57,11 @@ class PadController extends Controller
         //dados do formulário
         $dados = $this->datesToCreate($request); 
 
-        $create = Pad::create($dados);
+        $create = $this->repository->create($dados);
 
         if($create)
         {
-            PadRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'PAD Inserido');
             return redirect()->route('pad.lista');
         }
@@ -70,7 +74,7 @@ class PadController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Pad::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -81,7 +85,7 @@ class PadController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Pad::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
         
         $this->canSee($proc);
@@ -110,11 +114,11 @@ class PadController extends Controller
         // dd(\Request::all());
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = Pad::findOrFail($id)->update($dados);
+        $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
-            PadRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('PAD atualizado!');
             return redirect()->route('pad.lista');
         }
@@ -127,10 +131,10 @@ class PadController extends Controller
     public function destroy($id)
     {
         //busca procedimento e apaga
-        $destroy = Pad::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
 
         if($destroy) {
-            PadRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('PAD Apagado');
             return redirect()->route('pad.lista');
         }
@@ -143,10 +147,10 @@ class PadController extends Controller
     public function restore($id)
     {
         // Recupera o post pelo ID
-        $restore = Pad::findOrFail($id)->restore();
+        $restore = $this->repository->findAndRestore($id);
     
         if($restore){
-            PadRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('PAD Recuperado!');
             return redirect()->route('pad.lista');  
         }
@@ -158,11 +162,11 @@ class PadController extends Controller
     public function forceDelete($id)
     {
         // Recupera o post pelo ID
-        $forceDelete = Pad::findOrFail($id)->forceDelete();
+        $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
-            PadRepository::cleanCache();
-            toast()->success('PAD Recuperado!');
+            $this->repository->cleanCache();
+            toast()->success('PAD apagado DEFINITIVO!');
             return redirect()->route('pad.lista');  
         }
 
@@ -175,7 +179,7 @@ class PadController extends Controller
         $dados = $request->all();
         $ano = (int) date('Y');
 
-        $ref = Pad::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        $ref = $this->repository->maxRef();
         //referência e ano
         $dados['sjd_ref'] = $ref+1;
         $dados['sjd_ref_ano'] = $ano;

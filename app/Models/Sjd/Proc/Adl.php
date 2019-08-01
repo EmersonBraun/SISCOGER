@@ -20,7 +20,7 @@ class Adl extends Eloquent
 
 	protected $table = 'adl';
 	protected $primaryKey = 'id_adl';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
 		'id_andamento' => 'int',
@@ -120,14 +120,8 @@ class Adl extends Eloquent
       
     public function getFatoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     public function setFatoDataAttribute($value)
@@ -138,14 +132,8 @@ class Adl extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getAberturaDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutator para alterar na hora de salvar no bd
@@ -156,14 +144,8 @@ class Adl extends Eloquent
 
     public function getPortariaDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     public function setPortariaDataAttribute($value)
@@ -173,14 +155,8 @@ class Adl extends Eloquent
 
     public function getPrescricaoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     public function setPresecricaoDataAttribute($value)

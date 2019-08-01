@@ -1,10 +1,10 @@
 //função para campo de busca envia rg e retorn nome e posto
-function completaDados(rg,nome,posto)
+function completaDados(rg,nome,posto, quadro='')
 {
     //endereço do servidor
-    var url = window.location.origin;
+    let url = window.location.origin;
     //token
-    var _token = $('input[name="_token"]').val();
+    let _token = $('input[name="_token"]').val();
     
     $.ajax({
         url: url+"/siscoger/busca/completadados",
@@ -18,11 +18,13 @@ function completaDados(rg,nome,posto)
             {
                 $(nome).val(result.NOME);
                 $(posto).val(result.CARGO);
+                $(quadro).val(result.QUADRO);
             }
             else
             {
                 $(nome).val('Não encontrado');
                 $(posto).val('Não encontrado');
+                $(quadro).val('Não encontrado');
             }
         }
     });

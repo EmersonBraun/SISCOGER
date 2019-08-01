@@ -12,6 +12,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para 'apresentar' já formatado e tirar lógica das views
 use Laracasts\Presenter\PresentableTrait;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Sobrestamento
@@ -39,10 +41,12 @@ use Laracasts\Presenter\PresentableTrait;
  * @package App\Models
  */
 class Sobrestamento extends Eloquent
-{    
+{  
+    use SoftDeletes;
+      
 	protected $table = 'sobrestamento';
 	protected $primaryKey = 'id_sobrestamento';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
 		'id_cj' => 'int',
@@ -118,14 +122,8 @@ class Sobrestamento extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getInicioDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -137,14 +135,8 @@ class Sobrestamento extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getTerminoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)

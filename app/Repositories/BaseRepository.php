@@ -25,12 +25,39 @@ class BaseRepository
         return $proc;
     }
 
+    public function delete($id)
+    {
+        return $this->model->find($id)->delete();
+    }
+
     public function findAndDelete($id)
 	{
-        if(session('is_admin')) {
-            return $this->model->findOrFail($id)->delete();
-        }
-        return false;
+        return $this->model->findOrFail($id)->delete();
+    }
+
+    public function findAndRestore($id)
+	{
+        return $this->model->withTrashed()->findOrFail($id)->restore();
+    }
+
+    public function findAndDestroy($id)
+	{
+        return $this->model->withTrashed()->findOrFail($id)->forceDelete();
+    }
+
+    public function create(array $data)
+    {
+        return $this->model->create($data);
+    }
+
+    public function update(array $data, $id)
+    {
+        return $this->model->find($id)->update($data);
+    }
+
+    public function firstOrCreate(array $data)
+    {
+        return $this->model->firstOrCreate($data);
     }
 
     public function canSeeProc($proc)
@@ -63,8 +90,9 @@ class BaseRepository
 
     public function maxRef()
     {
-        $ano = (int) date('Y');
-        return $this->model->where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        $sjd_ref = $this->model->where('sjd_ref_ano','=',date('Y'))->max('sjd_ref');
+        $maxRef = (!$sjd_ref) ? 1 : $sjd_ref;
+        return $maxRef;
     }
 
     public function QtdProc($ano='')
@@ -134,10 +162,19 @@ class BaseRepository
 
     public function apagados()
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
-        $registros = ($verTodasUnidades) ? $this->model->onlyTrashed() : $this->model->onlyTrashed()->where('cdopm','like',$unidade.'%');
+        $registros = ($verTodasUnidades) ? $this->model->onlyTrashed() : $this->model->where('cdopm','like',$unidade.'%')->onlyTrashed();
+        return $registros->get();
+    }
+
+    public function apagadosAno($ano)
+	{
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
+
+        $registros = ($verTodasUnidades) ? $this->model->where('sjd_ref_ano',$ano)->onlyTrashed() : $this->model->where('sjd_ref_ano',$ano)->where('cdopm','like',$unidade.'%')->onlyTrashed();
         return $registros->get();
     }
 

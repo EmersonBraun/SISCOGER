@@ -21,13 +21,24 @@ class PermissionController extends Controller
 
     public function index()
     {
+       
         $permissions = Permission::all();
         return view('administracao.permissoes.index',compact('permissions'));
+    }
+
+    public function treeview()
+    {
+        $relateds = Permission::distinct()->orderBy('related')->get(['related']);
+        $permissions = [];
+        foreach ($relateds as $r) {
+            $permissions[$r->related] = Permission::where('related',$r->related)->get(['id','name'])->toArray();
+        }
+        return view('administracao.permissoes.treeview',compact('permissions'));
     }
  
     public function create()
     {
-        $roles = Role::paginate(10); //pega todos os papeis
+        $roles = Role::all(); //pega todos os papeis
         return view('administracao.permissoes.create',compact('roles'));
     }
 
@@ -47,11 +58,11 @@ class PermissionController extends Controller
                 $this->givePermission($request['roles'], $request['name']);
             }
             toast()->success(''.$permission->name.' adicionadas!', 'Permissões');
-            return redirect()->route('permissions.index');
+            return redirect()->route('permission.index');
         }
 
         toast()->warning('Erro ao adicionar!', 'Permissões');
-        return redirect()->route('permissions.index');
+        return redirect()->route('permission.index');
     }
  
     public function edit($id)
@@ -72,25 +83,24 @@ class PermissionController extends Controller
 
         if($update) {
             toast()->success(''. $permission->name.' atualizada!', 'Permissões');
-            return redirect()->route('permissions.index');
+            return redirect()->route('permission.index');
         }
 
         toast()->warning('Erro ao atualizar!', 'Permissões');
-        return redirect()->route('permissions.index');
+        return redirect()->route('permission.index');
     }
  
     public function destroy(Permission $permission, $id)
     {
-        $permission = Permission::findOrFail($id);
-        $destroy = $permission->delete();
+        $destroy = Permission::findOrFail($id)->delete();
         
         if($destroy) {
             toast()->success('apagadas com sucesso!', 'Permissões');
-            return redirect()->route('permissions.index');
+            return redirect()->route('permission.index');
         }
 
         toast()->warning('Erro ao apagar!', 'Permissões');
-        return redirect()->route('permissions.index');
+        return redirect()->route('permission.index');
     }
 
     public function givePermission($roles, $name) 

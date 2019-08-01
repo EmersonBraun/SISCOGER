@@ -34,8 +34,8 @@ class SobrestamentoRepository extends BaseRepository
     
     public function all()
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
         if($verTodasUnidades)
         {
@@ -55,8 +55,8 @@ class SobrestamentoRepository extends BaseRepository
 
     public function ano($ano)
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
         if($verTodasUnidades)
         {
@@ -75,8 +75,8 @@ class SobrestamentoRepository extends BaseRepository
 
     public function andamento()
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
         if($verTodasUnidades)
         {
@@ -105,8 +105,8 @@ class SobrestamentoRepository extends BaseRepository
 
     public function andamentoAno($ano)
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
         if($verTodasUnidades)
         {
@@ -136,8 +136,8 @@ class SobrestamentoRepository extends BaseRepository
 
     public function julgamento()
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
         if($verTodasUnidades)
         {
@@ -170,8 +170,8 @@ class SobrestamentoRepository extends BaseRepository
 
     public function julgamentoAno($ano)
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
         if($verTodasUnidades)
         {

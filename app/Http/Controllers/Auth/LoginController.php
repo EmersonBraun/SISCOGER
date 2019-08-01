@@ -103,7 +103,40 @@ class LoginController extends Controller
         { 
             $this->user->tentativas = ($this->user->sessao == session()->get('_token')) ? $this->user->tentativas + 1 : 1;
             $this->user->save();
-            $this->tentativas();   
+            switch ($this->user->tentativas) 
+            {
+                case '1':
+                    //salva o token no usuário para verificar as tentativas
+                    $this->user->sessao = session()->get('_token');
+                    $this->user->save();
+                   //mensagens
+                    toast()->warning('Tentativas Restantes!', 2);
+                    toast()->error('Dados inválidos!', 'ERRO!');
+                    return redirect()->route('login');
+                break;
+
+                case '2':
+                    //mensagens
+                    toast()->warning('Se acabarem as tentativas, o usuário será bloquado!');
+                    toast()->warning('Tentativas Restantes!', 1);
+                    toast()->error('Dados inválidos!', 'ERRO!');
+                    return redirect()->route('login');
+                break;
+
+                case '3':
+                    //bloqueio do usuário
+                    $this->user->block = 1;
+                    $this->user->tentativas = 0;
+                    $this->user->save();
+                    //mensagens
+                    toast()->warning('Favor entrar em contato com o SJD');
+                    toast()->error('usuário BLOQUEADO!');
+                    toast()->warning('Tentativas Restantes!', 0);
+                    toast()->error('Dados inválidos!', 'ERRO!');
+
+                    return redirect()->route('login');
+                break;
+            }   
         }
                    
     }
@@ -127,6 +160,10 @@ class LoginController extends Controller
         $isAdmin = ($isAdmin > 0) ? true : false;
         session()->put('is_admin', $isAdmin);
         session()->put('nivel',sistema('posto',$this->user->cargo));
+        // todos papéis que o usuário possui
+        session()->put('roles', $this->user->getRoleNames());
+        // todas permissões que o usuário possui
+        session()->put('permissions', $this->user->getAllPermissions()->pluck('name')->toArray());
     }
 
     public function logAcesso()
@@ -140,44 +177,6 @@ class LoginController extends Controller
         ];
 
         LogAcesso::create($dados);
-    }
-
-    public function tentativas()
-    {
-        switch ($this->user->tentativas) 
-            {
-                case '1':
-                    //salva o token no usuário para verificar as tentativas
-                    $this->user->sessao = session()->get('_token');
-                    $this->user->save();
-                   //mensagens
-                    toast()->warning('Tentativas Restantes!', 2);
-                    toast()->error('Dados inválidos!', 'ERRO!');
-                    return redirect()->back();
-                break;
-
-                case '2':
-                    //mensagens
-                    toast()->warning('Se acabarem as tentativas, o usuário será bloquado!');
-                    toast()->warning('Tentativas Restantes!', 1);
-                    toast()->error('Dados inválidos!', 'ERRO!');
-                    return redirect()->back();
-                break;
-
-                case '3':
-                    //bloqueio do usuário
-                    $this->user->block = 1;
-                    $this->user->tentativas = 0;
-                    $this->user->save();
-                    //mensagens
-                    toast()->warning('Favor entrar em contato com o SJD');
-                    toast()->error('usuário BLOQUEADO!');
-                    toast()->warning('Tentativas Restantes!', 0);
-                    toast()->error('Dados inválidos!', 'ERRO!');
-
-                    return redirect()->back();
-                break;
-            }
     }
 
     public function logout(User $user)

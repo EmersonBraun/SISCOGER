@@ -36,7 +36,7 @@
 
             <div class="box-body">
             {!! Form::open(['url' => route('exclusao.store')]) !!}
-                <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                <v-prioritario admin="session('is_admin')"></v-prioritario>
                 <v-label label="rg" title="RG" lg="3" md="3" error="{{$errors->first('rg')}}">
                     {{ Form::text('rg', null, ['class' => 'form-control ','onchange' => 'completaDados(this,nome,cargo)','onkeyup' => 'completaDados(this,nome,cargo)']) }}
                 </v-label>
@@ -50,7 +50,7 @@
                     {{ Form::text('situacao', sistema('procSituacao','desercao'), ['class' => 'form-control ','readonly']) }}
                 </v-label>
                 <v-label label="cdopm_quandoexcluido" title="OPM em que estava servindo quando excluído" error="{{$errors->first('cdopm_quandoexcluido')}}">
-                    <v-opm cdopm="{{$proc['cdopm_quandoexcluido']}}"></v-opm>
+                    <v-opm></v-opm>
                 </v-label>
                 <v-label label="id_motivoconselho" title="Motivo">
                     {!! Form::select('id_motivoconselho', config('sistema.motivoConselho'),null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}

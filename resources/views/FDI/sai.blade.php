@@ -31,7 +31,9 @@
         @endforelse
         </tbody>
     </table>
+    @can('criar-sai')
     <button type="button" class="btn btn-primary btn-block">
-        <i class="fa fa-plus"></i>Adicionar SAI
+        <i class="fa fa-plus"></i>Adicionar Sai
     </button>
+    @endcan
 </div>

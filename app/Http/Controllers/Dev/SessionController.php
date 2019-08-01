@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Dev;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Auth;
 
 class SessionController extends Controller
 {
@@ -23,8 +21,8 @@ class SessionController extends Controller
             'ver_todas_unidades' => session('ver_todas_unidades'),
             'is_admin' => session('is_admin'),
             'nivel' => session('nivel'),
-            'roles' => Auth::user()->getRoleNames(),
-            'permissions' => Auth::user()->getAllPermissions()->pluck('name')
+            'roles' => session('roles'),
+            'permissions' => session('permissions')
         ];
 
         return $session;

@@ -325,9 +325,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 // import $ from './utils/NodeList.js'
+// import {TheMask} from 'vue-the-mask'
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // components: {TheMask},
   props: {
     value: { type: String, default: '' },
     format: { default: 'dd/MM/yyyy' },
@@ -1623,6 +1626,7 @@ var render = function() {
                     _c(
                       "span",
                       {
+                        key: m,
                         class: {
                           "datepicker-dateRange-item-active":
                             _vm.text.months[_vm.parse(_vm.val).getMonth()] ===
@@ -1697,6 +1701,7 @@ var render = function() {
                     _c(
                       "span",
                       {
+                        key: decade,
                         class: {
                           "datepicker-dateRange-item-active":
                             _vm.parse(this.val).getFullYear() === decade.text

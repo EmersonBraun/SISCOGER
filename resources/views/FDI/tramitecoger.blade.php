@@ -32,10 +32,12 @@
                         <tr><td>Não há trâmite.</td></tr>   
                         @endforelse
                         </tbody>
-                    </table>   
+                    </table>  
+                    @can('criar-tramite-coger')
                     <button type="button" class="btn btn-primary btn-block">
-                        <i class="fa fa-plus"></i>Adicionar trâmite
-                    </button> 
+                        <i class="fa fa-plus"></i>Adicionar Trâmite COGER
+                    </button>
+                    @endcan 
                 </div> 
             </div>   
         </div>

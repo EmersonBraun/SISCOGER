@@ -5,12 +5,16 @@ namespace App\Models\Sjd\Proc;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Arquivo extends Eloquent
-{    
+{ 
+    use SoftDeletes;
+
 	protected $table = 'arquivo';
 	protected $primaryKey = 'id_arquivo';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
         'id_arquivo' => 'int',
@@ -97,14 +101,8 @@ class Arquivo extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getArquivoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -116,14 +114,8 @@ class Arquivo extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getRetornoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)

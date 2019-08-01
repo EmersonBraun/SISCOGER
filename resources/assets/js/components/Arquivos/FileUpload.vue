@@ -39,10 +39,7 @@
                     </div>
                     <div class="col-sm-3">
                         <label for="data">Nome Original:</label>
-                        <span v-if="file.name">{{ file.name }}</span><br>
-                        <v-checkbox v-model="nome_original" name="nome_original" true-value="1" false-value="0"
-                        text="Manter nome do arquivo">
-                        </v-checkbox>
+                        <span v-if="file.name">{{ file.name }}</span>
                     </div>
                     <div class="col-sm-3">
                         <label for="data">Ações</label><br>
@@ -141,9 +138,9 @@
                                                 <a type="button" @click="showFile(a.hash)" target="_black" class="btn btn-primary" style="color: white">
                                                     <i class="fa fa-eye"></i> Ver
                                                 </a>
-                                                <a type="button" @click="removeFile(a.id)" class="btn btn-danger" style="color: white">
+                                                <!-- <a type="button" @click="removeFile(a.id)" class="btn btn-danger" style="color: white">
                                                     <i class="fa fa-trash"></i> Destruir
-                                                </a>
+                                                </a> -->
                                             </div>
                                         </td>
                                     </tr>

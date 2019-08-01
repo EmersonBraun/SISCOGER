@@ -35,9 +35,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                @can('criar-tramite-op')
                 <button type="button" class="btn btn-primary btn-block">
-                    <i class="fa fa-plus"></i>Adicionar trâmite
-                </button> 
+                    <i class="fa fa-plus"></i>Adicionar Trâmite OPM
+                </button>
+                @endcan
                 </div> 
             </div>   
         </div>

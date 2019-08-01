@@ -11,7 +11,7 @@
     <h1><i class='fa fa-key'></i> Adicionar permissão</h1>
     <br>
 
-    {{ Form::open(array('url' => 'permissoes/salvar')) }}
+    {{ Form::open(array('url' => route('permission.store'))) }}
 
     <div class="form-group">
         {{ Form::label('name', 'Nome') }}

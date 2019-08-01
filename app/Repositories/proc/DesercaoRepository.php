@@ -32,15 +32,15 @@ class DesercaoRepository extends BaseRepository
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
 
-    public static function cleanCache()
+    public function cleanCache()
 	{
         Cache::tags('desercao')->flush();
     }
     
     public function all()
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
         if($verTodasUnidades)
         {
@@ -60,8 +60,8 @@ class DesercaoRepository extends BaseRepository
 
     public function ano($ano)
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
         if($verTodasUnidades)
         {
@@ -82,8 +82,8 @@ class DesercaoRepository extends BaseRepository
 
     public function andamento()
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
         if($verTodasUnidades)
         {
@@ -112,8 +112,8 @@ class DesercaoRepository extends BaseRepository
 
     public function andamentoAno($ano)
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
         if($verTodasUnidades)
         {
@@ -143,8 +143,8 @@ class DesercaoRepository extends BaseRepository
 
     public function julgamento()
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
         if($verTodasUnidades)
         {
@@ -177,8 +177,8 @@ class DesercaoRepository extends BaseRepository
 
     public function julgamentoAno($ano)
 	{
-        $unidade = $this->unidade;
-        $verTodasUnidades = $this->verTodasUnidades;
+        $unidade = session('cdopmbase');
+        $verTodasUnidades = session('ver_todas_unidades');
 
         if($verTodasUnidades)
         {

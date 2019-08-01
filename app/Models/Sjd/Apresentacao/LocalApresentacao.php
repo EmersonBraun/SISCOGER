@@ -10,6 +10,8 @@ namespace App\Models\Sjd\Apresentacao;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Localdeapresentacao
  * 
@@ -29,22 +31,13 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class LocalApresentacao extends Eloquent
 {
+    use SoftDeletes;
 	//Activitylog
 	use LogsActivity;
 
     protected static $logName = 'localdeapresentacao';
-    protected static $logAttributes = [
-		'localdeapresentacao',
-		'id_municipio',
-		'bairro',
-		'uf',
-		'logradouro',
-		'numero',
-		'complemento',
-		'cep',
-		'telefone',
-		'id_genero'
-	];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
 
 	protected $table = 'localdeapresentacao';
 	protected $primaryKey = 'id_localdeapresentacao';

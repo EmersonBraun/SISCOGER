@@ -14,10 +14,12 @@
             <a class="btn @if($page == 'prazos') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('notacoger.prazos',['ano' => $ano])}}">Prazos</a>
             <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('notacoger.apagados',['ano' => $ano])}}">Apagados</a>
         </div>
-        <div class="col-md-2 col-xs-12 litlepadding">
-            <a class="btn btn-block btn-primary" href="{{route('notacoger.create')}}">
-            <i class="fa fa-plus"></i> Adicionar Nota Coger</a>
-        </div>
+        @can('criar-nota-coger')    
+            <div class="col-md-2 col-xs-12 litlepadding">
+                <a class="btn btn-block btn-primary" href="{{route('notacoger.create')}}">
+                <i class="fa fa-plus"></i> Adicionar Nota Coger</a>
+            </div>
+        @endcan
         <div class='col-md-2 col-xs-6  pull-right'>
             <div class="pull-right">
                 <label for="navegaco">Listar ano: </label>

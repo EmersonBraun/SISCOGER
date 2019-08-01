@@ -4,11 +4,11 @@ namespace App\Presenters\apresentacao;
 use Laracasts\Presenter\Presenter;
 use App\Repositories\OPMRepository;
 
-class AdlPresenter extends Presenter {
+class NotaCogerPresenter extends Presenter {
     
     public function tiponotacomparecimento()
     {
-        return array_get(config('sistema.tiponotacomparecimento','Não Há'), $this->id_tiponotacomparecimento);
+        return sistema('tipoNotaComparecimento',$this->id_tiponotacomparecimento);
     }
 
     public function pm()
@@ -24,11 +24,9 @@ class AdlPresenter extends Presenter {
         }
         else
         {
-            return "<i class='fa fa fa-ban' style='color: red'></i>"; 
+            return "<i class='fa fa fa-ban' style='color: red'></i> Não há arquivo"; 
         }
     }
-
-
 }
 /*
 protected $fillable = [

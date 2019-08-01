@@ -20,7 +20,7 @@ class Exclusaojudicial extends Eloquent
 
 	protected $table = 'exclusaojudicial';
 	protected $primaryKey = 'id_exclusaojudicial';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
 		'origem_sjd_ref' => 'int',
@@ -94,14 +94,8 @@ class Exclusaojudicial extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -113,14 +107,8 @@ class Exclusaojudicial extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getExclusaoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)

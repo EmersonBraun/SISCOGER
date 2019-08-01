@@ -5,11 +5,15 @@
  * Date: Fri, 27 Apr 2018 00:27:03 +0000.
  */
 
-namespace App\Models\Sjd\Busca;
+namespace App\Models\Sjd\Policiais;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Tramitacaoopm
  * 
@@ -28,21 +32,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Tramitacaoopm extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'tramitacaoopm';
-    protected static $logAttributes = [
-		'rg',
-		'cargo',
-		'nome',
-		'rg_cadastro',
-		'data',
-		'cdopm',
-		'opm_abreviatura',
-		'descricao_txt',
-		'digitador'
-	];
+    use SoftDeletes;
 	
 	protected $table = 'tramitacaoopm';
 	protected $primaryKey = 'id_tramitacaoopm';
@@ -62,5 +52,27 @@ class Tramitacaoopm extends Eloquent
 		'opm_abreviatura',
 		'descricao_txt',
 		'digitador'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+    protected static $logName = 'tramitacaoopm';
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\policiais\TramitacaoopmPresenter';
+
+    //mutators (para alterar na hora da exibição)
+    public function getDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setDataAttribute($value)
+    {
+        $this->attributes['data'] = data_bd($value);
+    }
 }

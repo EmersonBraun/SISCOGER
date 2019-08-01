@@ -20,7 +20,7 @@ class Recurso extends Eloquent
 
 	protected $table = 'recurso';
 	protected $primaryKey = 'id_recurso';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
 		'sjd_ref' => 'int',
@@ -80,14 +80,8 @@ class Recurso extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getDatahoraAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)

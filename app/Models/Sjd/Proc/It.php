@@ -20,7 +20,7 @@ class It extends Eloquent
 
 	protected $table = 'it';
 	protected $primaryKey = 'id_it';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
 		'id_andamento' => 'int',
@@ -47,57 +47,15 @@ class It extends Eloquent
 		'solucao_unidade_file',
 		'solucao_complementar_file',
     ];
-
-	protected static $logAttributes = ['*'];
-	protected static $logOnlyDirty = true;
-    
     //Activitylog
 	use LogsActivity;
 
-    protected static $logName = 'iso';
-    protected static $logAttributes = [
-		'id_andamento',
-		'id_andamentocoger',
-		'cdopm',
-		'sjd_ref',
-		'sjd_ref_ano',
-		'fato_data',
-		'abertura_data',
-		'vtr_placa',
-		'vtr_prefixo',
-		'vtr_propriedade',
-		'portaria_numero',
-		'boletiminterno_numero',
-		'boletiminterno_data',
-		'tipo_acidente',
-		'avarias',
-		'situacao_objeto',
-		'sintese_txt',
-		'br_numero',
-		'situacaoviatura',
-		'acordoamigavel',
-		'id_causa_acidente',
-		'id_resp_civil',
-		'arquivo_numero',
-		'protocolo_numero',
-		'acaojudicial',
-		'danoestimado_rs',
-		'danoreal_rs',
-		'opm_meta4',
-		'objetoprocedimento',
-		'identificacao_arma',
-		'identificacao_municao',
-		'identificacao_semovente',
-		'outros',
-		'relatorio_data',
-		'solucao_unidade_data',
-		'solucao_complementar_data',
-		'relatorio_file',
-		'solucao_unidade_file',
-		'solucao_complementar_file',
-		'prioridade'
-    ];
+    protected static $logName = 'it';
+	protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
     
+
+     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\proc\ItPresenter';
 
@@ -126,14 +84,8 @@ class It extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getFatoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -145,14 +97,8 @@ class It extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getAberturaDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -164,14 +110,8 @@ class It extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getBoletiminternoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -183,14 +123,8 @@ class It extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getRelatorioDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -202,14 +136,8 @@ class It extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getSolucaoUnidadeDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -221,14 +149,8 @@ class It extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getSolucaoComplementarDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)

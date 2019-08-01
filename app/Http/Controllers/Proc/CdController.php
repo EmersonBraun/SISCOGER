@@ -6,51 +6,55 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\User;
 use App\Repositories\proc\CdRepository;
-use App\Models\Sjd\Proc\Cd;
 use App\Models\Sjd\Busca\Envolvido;
 
 class CdController extends Controller
 {
+    protected $repository;
+    public function __construct(CdRepository $repository)
+	{
+        $this->repository = $repository;
+    }
+
     public function index()
     {
         return redirect()->route('cd.lista');
     }
 
-    public function lista(CdRepository $repository)
+    public function lista()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.cd.list.index',compact('registros'));
     }
 
-    public function andamento(CdRepository $repository )
+    public function andamento( )
     {
-        $registros = $repository->andamento();
+        $registros = $this->repository->andamento();
         return view('procedimentos.cd.list.andamento',compact('registros'));
     }
 
-    public function prazos(CdRepository $repository)
+    public function prazos()
     {
-        $registros = $repository->prazos();
+        $registros = $this->repository->prazos();
         return view('procedimentos.cd.list.prazos',compact('registros'));
     }
 
-    public function rel_situacao(CdRepository $repository)
+    public function rel_situacao()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.cd.list.rel_situacao',compact('registros'));
     }
 
-    public function julgamento(CdRepository $repository)
+    public function julgamento()
     {
-        $registros = $repository->julgamento();
+        $registros = $this->repository->julgamento();
         return view('procedimentos.cd.list.julgamento',compact('registros'));
     }
 
-    public function apagados(CdRepository $repository)
+    public function apagados()
     {
-        $registros = $repository->apagados();
+        $registros = $this->repository->apagados();
         return view('procedimentos.cd.list.apagados',compact('registros'));
     }
 
@@ -77,11 +81,11 @@ class CdController extends Controller
         //dados do formulário
         $dados = $this->datesToCreate($request); 
 
-        $create = Cd::create($dados);
+        $create = $this->repository->create($dados);
 
         if($create)
         {
-            CdRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'CD Inserido');
             return redirect()->route('cd.lista');
         }
@@ -94,7 +98,7 @@ class CdController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Cd::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -105,7 +109,7 @@ class CdController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Cd::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
         
         $this->canSee($proc);
@@ -134,11 +138,11 @@ class CdController extends Controller
         // dd(\Request::all());
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = Cd::findOrFail($id)->update($dados);
+        $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
-            CdRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('CD atualizado!');
             return redirect()->route('cd.lista');
         }
@@ -151,10 +155,10 @@ class CdController extends Controller
     public function destroy($id)
     {
         //busca procedimento e apaga
-        $destroy = Cd::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
 
         if($destroy) {
-            CdRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('CD Apagado');
             return redirect()->route('cd.lista');
         }
@@ -167,10 +171,10 @@ class CdController extends Controller
     public function restore($id)
     {
         // Recupera o post pelo ID
-        $restore = Cd::findOrFail($id)->restore();
+        $restore = $this->repository->findAndRestore($id);
     
         if($restore){
-            CdRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('CD Recuperado!');
             return redirect()->route('cd.lista');  
         }
@@ -182,11 +186,11 @@ class CdController extends Controller
     public function forceDelete($id)
     {
         // Recupera o post pelo ID
-        $forceDelete = Cd::findOrFail($id)->forceDelete();
+        $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
-            CdRepository::cleanCache();
-            toast()->success('CD Recuperado!');
+            $this->repository->cleanCache();
+            toast()->success('CD apagado DEFINITIVO!');
             return redirect()->route('cd.lista');  
         }
 
@@ -199,7 +203,7 @@ class CdController extends Controller
         $dados = $request->all();
         $ano = (int) date('Y');
 
-        $ref = Cd::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        $ref = $this->repository->maxRef();
         //referência e ano
         $dados['sjd_ref'] = $ref+1;
         $dados['sjd_ref_ano'] = $ano;

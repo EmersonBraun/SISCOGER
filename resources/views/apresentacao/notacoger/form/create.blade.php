@@ -1,14 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'ADL - Criar')
+@section('title', 'Nota COGER - Criar')
 
 @section('content_header')
 <section class="content-header">   
-  <h1>ADL - Criar</h1>
+  <h1>Nota COGER - Criar</h1>
   <ol class="breadcrumb">
   <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li><a href="{{route('adl.lista')}}">ADL - Lista</a></li>
-  <li class="active">ADL - Criar</li>
+  <li><a href="{{route('notacoger.index')}}">Nota COGER - Lista</a></li>
+  <li class="active">Nota COGER - Criar</li>
   </ol>
 </section>
 
@@ -16,68 +16,47 @@
 @stop
 
 @section('content')
-     <!-- Content Wrapper. Contains page content -->
-  <div class="">
-    <!-- Content Header (Page header) -->
 <section class="">
     <div class="tab-content">
         <v-tab-item title="Formulário principal" idp="principal" cls="active show">
-            {!! Form::open(['url' => route('adl.store')]) !!}
-            <v-prioritario admin="session('is_admin')"></v-prioritario>
-            <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
-                {!! Form::select('id_andamento',config('sistema.andamentoADL'),null, ['class' => 'form-control','required']) !!}
+            {!! Form::open(['url' => route('notacoger.store')]) !!}
+            <v-label label="sjd_ref" title="Referência" error="{{$errors->first('sjd_ref')}}">
+                {{ Form::text('sjd_ref', $ref, ['class' => 'form-control ','required']) }}
             </v-label>
-            <v-label label="id_andamentocoger" title="Andamento COGER" error="{{$errors->first('id_andamentocoger')}}">
-                {!! Form::select('id_andamentocoger',config('sistema.andamentocogerADL'),null, ['class' => 'form-control','required']) !!}
+            <v-label label="sjd_ref_ano" title="Ano" error="{{$errors->first('sjd_ref_ano')}}">
+                {{ Form::text('sjd_ref_ano', date('Y'), ['class' => 'form-control ','required']) }}
             </v-label>
-            <v-label label="id_motivoconselho" title="Motivo ADL (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">
-                {!! Form::select('id_motivoconselho', config('sistema.motivoConselho'),null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
+            <v-label label="status" title="Estatus" error="{{$errors->first('status')}}">
+                {!! Form::select('status',['pendente' => 'Pendente','publicada' => 'Publicada'],null, ['class' => 'form-control','required']) !!}
             </v-label>
-            <v-label label="check" title="Selecione: " md="12" lg="12">
-                <v-checkbox name="ac_desempenho_bl" true-value="S" false-value="0"
-                text="Procedido incorretamente no desempenho do cargo ou função.">
-                </v-checkbox>
-                <v-checkbox name="ac_conduta_bl" true-value="S" false-value="0"
-                text="Conduta irregular ou ato que venha a denegrir a imagem da Corporação.">
-                </v-checkbox>
-                <v-checkbox name="ac_honra_bl" true-value="S" false-value="0"
-                text="Praticado ato que afete a honra pessoal, o pundonor militar ou o decoro da classe.">
-                </v-checkbox>
+            <v-label label="expedicao_data" title="Data" icon="fa fa-calendar" error="{{$errors->first('expedicao_data')}}">
+                <v-datepicker name="expedicao_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['expedicao_data'] ?? ''}}"></v-datepicker>
             </v-label>
-            <v-label label="outromotivo" title="Especificar (no caso de outros motivos)">
-                {{ Form::text('outromotivo', null, ['class' => 'form-control ']) }}
+            <v-label label="id_tiponotacomparecimento" title="Andamento COGER" error="{{$errors->first('id_tiponotacomparecimento')}}">
+                {!! Form::select('id_tiponotacomparecimento',config('sistema.tipoNotaComparecimento'),null, ['class' => 'form-control','required']) !!}
             </v-label>
-            <v-label label="id_situacaoconselho" title="Situação">
-                {!! Form::select('id_situacaoconselho',config('sistema.situacaoConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+            <v-label label="nota_file" title="Arquivo PDF" error="{{$errors->first('nota_file')}}">
+                <h5>Ficará disponível após inserção</h5>
             </v-label>
-            <v-label label="id_decorrenciaconselho" title="Em decorrência de">
-                {!! Form::select('id_decorrenciaconselho',config('sistema.decorrenciaConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+            <v-label label="observacao_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('observacao_txt')}}">
+                {!! Form::textarea('observacao_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
+            </v-label> 
+            <v-label label="autoridade_rg" title="RG" lg="3" md="3" error="{{$errors->first('autoridade_rg')}}">
+                {{ Form::text('autoridade_rg', null, ['class' => 'form-control ','onchange' => 'completaDados(this,nome,cargo,quadro)','onkeyup' => 'completaDados(this,nome,cargo)']) }}
             </v-label>
-            <v-label label="portaria_numero" title="N° Portaria">
-                {{ Form::text('portaria_numero', null, ['class' => 'form-control ']) }}
+            <v-label label="autoridade_nome" title="Nome" lg="3" md="3" error="{{$errors->first('autoridade_nome')}}">
+                {{ Form::text('autoridade_nome', null, ['class' => 'form-control ','readonly','id' => 'nome']) }}
             </v-label>
-            <v-label label="portaria_data" title="Data da Portaria" icon="fa fa-calendar">
-                <v-datepicker name="portaria_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['portaria_data'] ?? ''}}"></v-datepicker>
-            </v-label>
-            <v-label label="doc_tipo" title="Tipo de boletim">
-                {!! Form::select('doc_tipo',config('sistema.tipoBoletim'),null, ['class' => 'form-control ']) !!}
-            </v-label>
-            <v-label label="doc_numero" title="N° Boletim">
-                {{ Form::text('doc_numero', null, ['class' => 'form-control ']) }}
-            </v-label>
-            <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
-                <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>
-            </v-label>
-            <v-label label="abertura_data" title="Data da abertura" icon="fa fa-calendar">
-                <v-datepicker name="abertura_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['abertura_data'] ?? ''}}"></v-datepicker>
-            </v-label>
-            <v-label label="prescricao_data" title="Data da prescricao" icon="fa fa-calendar">
-                <v-datepicker name="prescricao_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['prescricao_data'] ?? ''}}"></v-datepicker>
-            </v-label>
-            <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
-                {!! Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
-            </v-label>
-            {!! Form::submit('Inserir ADL',['class' => 'btn btn-primary btn-block']) !!}
+            <v-label label="autoridade_cargo" title="Posto/Graduação" lg="2" md="2" error="{{$errors->first('autoridade_cargo')}}">
+                {{ Form::text('autoridade_cargo', null, ['class' => 'form-control ','readonly','id' => 'cargo']) }}
+            </v-label>    
+            <v-label label="autoridade_quadro" title="Quadro" lg="2" md="2" error="{{$errors->first('autoridade_quadro')}}">
+                {{ Form::text('autoridade_quadro', null, ['class' => 'form-control ','readonly','id' => 'quadro']) }}
+            </v-label> 
+            <v-label label="autoridade_funcao" title="Função" lg="2" md="2" error="{{$errors->first('autoridade_funcao')}}">
+                {{ Form::text('autoridade_funcao', 'Corregedor-Geral', ['class' => 'form-control ','readonly','id' => 'funcao']) }}
+            </v-label>      
+            {!! Form::submit('Inserir Nota COGER',['class' => 'btn btn-primary btn-block']) !!}
             {!! Form::close() !!}
         </v-tab-item>
     </div>

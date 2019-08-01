@@ -173,9 +173,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 
@@ -573,9 +570,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 // import $ from './utils/NodeList.js'
+// import {TheMask} from 'vue-the-mask'
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // components: {TheMask},
   props: {
     value: { type: String, default: '' },
     format: { default: 'dd/MM/yyyy' },
@@ -1310,37 +1310,15 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "col-sm-3" },
-                      [
-                        _c("label", { attrs: { for: "data" } }, [
-                          _vm._v("Nome Original:")
-                        ]),
-                        _vm._v(" "),
-                        _vm.file.name
-                          ? _c("span", [_vm._v(_vm._s(_vm.file.name))])
-                          : _vm._e(),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("v-checkbox", {
-                          attrs: {
-                            name: "nome_original",
-                            "true-value": "1",
-                            "false-value": "0",
-                            text: "Manter nome do arquivo"
-                          },
-                          model: {
-                            value: _vm.nome_original,
-                            callback: function($$v) {
-                              _vm.nome_original = $$v
-                            },
-                            expression: "nome_original"
-                          }
-                        })
-                      ],
-                      1
-                    ),
+                    _c("div", { staticClass: "col-sm-3" }, [
+                      _c("label", { attrs: { for: "data" } }, [
+                        _vm._v("Nome Original:")
+                      ]),
+                      _vm._v(" "),
+                      _vm.file.name
+                        ? _c("span", [_vm._v(_vm._s(_vm.file.name))])
+                        : _vm._e()
+                    ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-sm-3" }, [
                       _c("label", { attrs: { for: "data" } }, [
@@ -1640,28 +1618,6 @@ var render = function() {
                                             " Ver\n                                            "
                                           )
                                         ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass: "btn btn-danger",
-                                          staticStyle: { color: "white" },
-                                          attrs: { type: "button" },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.removeFile(a.id)
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass: "fa fa-trash"
-                                          }),
-                                          _vm._v(
-                                            " Destruir\n                                            "
-                                          )
-                                        ]
                                       )
                                     ]
                                   )
@@ -1917,6 +1873,7 @@ var render = function() {
                     _c(
                       "span",
                       {
+                        key: m,
                         class: {
                           "datepicker-dateRange-item-active":
                             _vm.text.months[_vm.parse(_vm.val).getMonth()] ===
@@ -1991,6 +1948,7 @@ var render = function() {
                     _c(
                       "span",
                       {
+                        key: decade,
                         class: {
                           "datepicker-dateRange-item-active":
                             _vm.parse(this.val).getFullYear() === decade.text

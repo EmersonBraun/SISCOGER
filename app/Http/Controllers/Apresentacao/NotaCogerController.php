@@ -5,40 +5,57 @@ namespace App\Http\Controllers\Apresentacao;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\apresentacao\NotaCogerRepository;
-use App\Model\Apresentacao\Notacomparecimento;
 
 class NotaCogerController extends Controller
 {
-    public function index(NotaCogerRepository $repository, $ano=date('Y'))
-    {
-        $registros = $repository->ano($ano);
-        return view('apresentacao.notacoger.index', compact('registros','ano'));
+    protected $repository;
+    public function __construct(NotaCogerRepository $repository)
+	{
+        $this->repository = $repository;
     }
 
+    public function index(NotaCogerRepository $repository, $ano="")
+    {
+        if(!$ano) $ano = (int) date('Y');
+        $registros = $this->repository->ano($ano);
+        $page = 'index';
+        return view('apresentacao.notacoger.list.index', compact('registros','ano','page'));
+    }
+
+    public function apagados(NotaCogerRepository $repository, $ano="")
+    {
+        if(!$ano) $ano = (int) date('Y');
+        $registros = $this->repository->apagadosAno($ano);
+        $page = 'apagados';
+        return view('apresentacao.notacoger.list.apagados', compact('registros','ano','page'));
+    }
 
     public function create()
     {
-        return view('apresentacao.notacoger.form.create');
+        $ref = $this->repository->maxRef();
+        return view('apresentacao.notacoger.form.create',compact('ref'));
     }
 
     public function store(Request $request)
     {
 
         $this->validate($request, [
-            'id_andamento' => 'required',
+            'sjd_ref' => 'required',
+            'sjd_ref_ano' => 'required',
+            'status' => 'required',
             'sintese_txt' => 'required',
         ]);
 
         //dados do formulário
         $dados = $this->datesToCreate($request); 
 
-        $create = Notacomparecimento::create($dados);
+        $create = $this->repository->create($dados);
 
         if($create)
         {
-            NotaCogerRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'Nota COGER Inserido');
-            return redirect()->route('notacoger.lista');
+            return redirect()->route('notacoger.edit', ['ref' => $create->sjd_ref, 'ano' => $create->sjd_ref_ano]);
         }
 
         toast()->warning('Houve um erro na inserção');
@@ -47,7 +64,7 @@ class NotaCogerController extends Controller
 
     public function show($ref,$ano)
     {
-        $proc = Notacomparecimento::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
 
         return view('apresentacao.notacoger.form.show', compact('proc'));
@@ -55,7 +72,7 @@ class NotaCogerController extends Controller
 
     public function edit($ref,$ano)
     {
-        $proc = Notacomparecimento::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
         
         return view('apresentacao.notacoger.form.edit', compact('proc'));
@@ -64,17 +81,19 @@ class NotaCogerController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'id_andamento' => 'required',
+            'sjd_ref' => 'required',
+            'sjd_ref_ano' => 'required',
+            'status' => 'required',
             'sintese_txt' => 'required',
         ]);
 
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = Notacomparecimento::findOrFail($id)->update($dados);
+        $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
-            NotaCogerRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Nota COGER atualizada!');
             return redirect()->route('notacoger.lista');
         }
@@ -85,10 +104,10 @@ class NotaCogerController extends Controller
 
     public function destroy($id)
     {
-        $destroy = Notacomparecimento::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
 
         if($destroy) {
-            NotaCogerRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Nota COGER Apagada');
             return redirect()->route('notacoger.lista');
         }
@@ -117,7 +136,7 @@ class NotaCogerController extends Controller
         $dados = $request->all();
         $ano = (int) date('Y');
 
-        $ref = Notacomparecimento::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        $ref = $this->repository->maxRef();
         //referência e ano
         $dados['sjd_ref'] = $ref+1;
         $dados['sjd_ref_ano'] = $ano;

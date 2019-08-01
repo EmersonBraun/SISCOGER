@@ -5,7 +5,7 @@
  * Date: Thu, 26 Apr 2018 20:05:42 +0000.
  */
 
-namespace App\Models;
+namespace App\Models\rhparana;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 

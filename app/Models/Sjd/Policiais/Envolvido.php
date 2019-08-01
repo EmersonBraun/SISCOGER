@@ -8,7 +8,12 @@
 namespace App\Models\Sjd\Policiais;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-
+//para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
+use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Envolvido
  * 
@@ -55,6 +60,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class Envolvido extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $table = 'envolvido';
 	protected $primaryKey = 'id_envolvido';
 	public $timestamps = false;
@@ -125,7 +132,42 @@ class Envolvido extends Eloquent
 		'exclusaoopm',
 		'id_punicao',
 		'id_proc_outros'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+    protected static $logName = 'comportamentopm';
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\policiais\EnvolvidoPresenter';
+
+    //mutators (para alterar na hora da exibição)
+    public function getExclusaoportariaDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setExclusaoportariaDataAttribute($value)
+    {
+        $this->attributes['exclusaoportaria_data'] = data_bd($value);
+    }
+
+     //mutators (para alterar na hora da exibição)
+     public function getExclusaobgDataAttribute($value)
+     {
+         if($value == '0000-00-00' || $value == null) return '';
+         else return date( 'd/m/Y' , strtotime($value));
+     }
+ 
+     //mutator para alterar na hora de salvar no bd
+     public function setExclusaobgDataAttribute($value)
+     {
+         $this->attributes['exclusaobg_data'] = data_bd($value);
+     }
 
 	public function scopeSituacao($query, $situacao)
 	{

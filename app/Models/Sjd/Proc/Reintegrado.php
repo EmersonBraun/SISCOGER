@@ -20,7 +20,7 @@ class Reintegrado extends Eloquent
 
 	protected $table = 'reintegrado';
 	protected $primaryKey = 'id_reintegrado';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
 		'sjd_ref' => 'int',
@@ -82,14 +82,8 @@ class Reintegrado extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getRetornoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)

@@ -32,10 +32,12 @@
                         <tr><td>Não há trâmite.</td></tr>   
                         <?php endif; ?>
                         </tbody>
-                    </table>   
+                    </table>  
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-tramite-coger')): ?>
                     <button type="button" class="btn btn-primary btn-block">
-                        <i class="fa fa-plus"></i>Adicionar trâmite
-                    </button> 
+                        <i class="fa fa-plus"></i>Adicionar Trâmite COGER
+                    </button>
+                    <?php endif; ?> 
                 </div> 
             </div>   
         </div>

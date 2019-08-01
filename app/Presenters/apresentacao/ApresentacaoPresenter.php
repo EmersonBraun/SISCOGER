@@ -15,8 +15,6 @@ class ApresentacaoPresenter extends Presenter {
     {
         return OPMRepository::abreviatura($this->rg);
     }
-
-
 }
 /*
 protected $fillable = [

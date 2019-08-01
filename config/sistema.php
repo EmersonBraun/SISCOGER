@@ -691,9 +691,9 @@ return [
 
     'situacaoOCOR' =>
     [	
-        ""  => "SELECIONE",				
-		"Em serviço ou atendimento de ocorrência" => "Em serviço ou atendimento de ocorrência",
-		"Fora de serviço ou outras circunstâncias" => "Fora de serviço ou outras circunstâncias",
+        "0"  => "SELECIONE",				
+		"1" => "Em serviço ou atendimento de ocorrência",
+		"2" => "Fora de serviço ou outras circunstâncias",
     ],
 
     'tipoBoletim' =>
@@ -951,6 +951,14 @@ return [
         "15" => "Poder Judiciário ",
         "16" => "Inquérito Policial",
         "17" => "VAJME"
+    ],
+
+    'tipoNotaComparecimento' =>
+    [
+        '1' => 'Apresentação em Juízo/Delegacias',
+        '2' => 'VAJME - Conselho Especial',
+        '3' => 'VAJME - Conselho Permanente',
+        '4' => 'VAJME - Audiências'
     ],
 
     // ---- TIPO DE PRESO -------------------------------------------------------------------------------

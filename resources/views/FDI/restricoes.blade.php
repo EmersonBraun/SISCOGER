@@ -23,13 +23,11 @@
                 <td> Não há registros.</td>
             </tr> 
         @endforelse
-        <tr>
-            <td>
-                <button type="button" class="btn btn-primary btn-block">
-                    <i class="fa fa-plus"></i>Adicionar Restrição
-                </button>
-            </td>
-        </tr>
         </tbody>
     </table>
+    @can('criar-restricoes')
+    <button type="button" class="btn btn-primary btn-block">
+        <i class="fa fa-plus"></i>Adicionar Procedimento Outros
+    </button>
+    @endcan
 </div>

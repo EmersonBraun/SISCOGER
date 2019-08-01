@@ -1,55 +1,115 @@
 
 <li ><div class="row " style="background-color: white"></div></li>
-@hasanyrole('admin')
+@if(hasAnyPermission([
+    'listar-adl',
+    'listar-cd',
+    'listar-cj',
+    'listar-fatd',
+    'listar-pad',
+    'listar-apfd',
+    'listar-desercao',
+    'listar-exclusao',
+    'listar-ipm',
+    'listar-iso',
+    'listar-it',
+    'listar-proc-outros',
+    'listar-recurso',
+    'listar-exclusao'
+]))
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-balance-scale "></i><span>Processos e Procedimentos</span>
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-    @hasanyrole('admin')
+    @if(hasAnyPermission([
+        'listar-adl',
+        'listar-cd',
+        'listar-cj',
+        'listar-fatd',
+        'listar-pad'
+    ]))
     <li class="treeview">
         <a href="#"><i class="fa fa-fw fa-file-text-o "></i><span>Processos</span>
             <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
         </a>
-        <ul class="treeview-menu">     
-            @hasrole('admin')
+        <ul class="treeview-menu"> 
+            @can('listar-adl')   
             <li class=""><a href="{{route('adl.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>ADL</span></a></li>
+            @endcan    
+            @can('listar-cd')   
             <li class=""><a href="{{route('cd.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>CD</span></a></li>
+            @endcan  
+            @can('listar-cj')   
             <li class=""><a href="{{route('cj.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>CJ</span></a></li>
+            @endcan  
+            @can('listar-fatd')   
             <li class=""><a href="{{route('fatd.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>FATD</span></a></li>
+            @endcan  
+            @can('listar-pad')   
             <li class=""><a href="{{route('pad.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>PAD</span></a></li>
-            @endrole
+            @endcan  
         </ul>
     </li>
-    @endhasanyrole
-    @hasanyrole('admin')
+    @endif
+    @if(hasAnyPermission([
+        'listar-apfd',
+        'listar-desercao',
+        'listar-exclusao',
+        'listar-ipm',
+        'listar-iso',
+        'listar-it',
+        'listar-proc-outros',
+        'listar-recurso',
+        'listar-exclusao'
+    ]))
     <li class="treeview">
         <a href="#">
             <i class="fa fa-fw fa-file-text "></i><span>Procedimentos</span>
             <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
         </a>
         <ul class="treeview-menu">
+            @can('listar-apfd')   
             <li class=""><a href="{{route('apfd.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>APFD</span></a></li>
+            @endcan  
+            @can('listar-desercao')   
             <li class=""><a href="{{route('desercao.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Deserção</span></a></li>
+            @endcan  
+            @can('listar-exclusao')   
             <li class=""><a href="{{route('exclusao.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Exclusão</span></a></li>
+            @endcan  
+            @can('listar-ipm')   
             <li class=""><a href="{{route('ipm.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>IPM</span></a></li>
+            @endcan  
+            @can('listar-iso')   
             <li class=""><a href="{{route('iso.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>ISO</span></a></li>
+            @endcan  
+            @can('listar-it')   
             <li class=""><a href="{{route('it.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>IT</span></a></li>
-            <li class=""><a href="{{route('procoutros.index')}}">
-<i class="fa fa-fw fa-circle-o "></i>
-<span>Proced. Outros</span></a></li>
+            @endcan  
+            @can('listar-proc-outros')   
+            <li class=""><a href="{{route('procoutro.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Proced. Outros</span></a></li>
+            @endcan   
+            @can('listar-recurso') 
             <li class=""><a href="{{route('recurso.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Recursos</span></a></li>
-            <li class=""><a href="{{route('sindicancia.index')}}">
-<i class="fa fa-fw fa-circle-o "></i><span>Sindicância</span></a></li>
+            @endcan  
+            @can('listar-sindicancia') 
+            <li class=""><a href="{{route('sindicancia.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Sindicância</span></a></li>
+            @endcan
         </ul>
     </li> 
-    @endhasanyrole 
+    @endif 
     </ul>
 </li>
-@endhasanyrole 
+@endif 
 
-@hasrole('admin')
+@if(hasAnyPermission([
+        'listar-nota-coger',
+        'listar-apresentacoes',
+        'listar-locais',
+        'criar-apresentacao',
+        'listar-dados-unidade'
+    ]))
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-legal "></i><span>Apresentação em Juízo</span>
@@ -57,18 +117,31 @@
     </a>
     <ul class="treeview-menu">
         {{-- <li class=""><a href="{{route('mail.sent')}}"><i class="fa fa-fw fa-circle-o "></i><span>Emails Agendados</span></a></li> --}}
-        <li class=""><a href="{{route('notacoger.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Notas COGER</span></a></li>
+        @can('listar-nota-coger')
+        <li class=""><a href="{{route('notacoger.index',date('Y'))}}"><i class="fa fa-fw fa-circle-o "></i><span>Notas COGER</span></a></li>
+        @endcan
+        @can('listar-apresentacoes')
         <li class=""><a href="{{route('apresentacao.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Lista apresentações</span></a></li>
+        @endcan
+        @can('listar-apresentacoes')
         <li class=""><a href="{{route('apresentacao.buscar')}}"><i class="fa fa-fw fa-circle-o "></i><span>Buscar Apresentação</span></a></li>
-        <li class=""><a href="{{route('locais.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Locais</span></a></li>
+        @endcan
+        @can('listar-locais')
+        <li class=""><a href="{{route('local.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Locais</span></a></li>
+        @endcan
+        @can('criar-apresentacao')
         <li class=""><a href="{{route('excel.create')}}"><i class="fa fa-fw fa-circle-o "></i><span>inserir via Excel</span></a></li>
+        @endcan
+        @can('criar-apresentacao')
         <li class=""><a href="{{route('memorando.create')}}"><i class="fa fa-fw fa-circle-o "></i><span>Gerar Memorando</span></a></li>
-        <li class=""><a href="{{route('unidades.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Dados Unidade</span></a></li>
+        @endcan
+        @can('listar-dados-unidade')
+        <li class=""><a href="{{route('unidade.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Dados Unidade</span></a></li>
+        @endcan
     </ul>
 </li>
-@endrole
+@endif
 
-@hasanyrole('admin')
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-line-chart "></i><span>Relatórios</span>
@@ -76,88 +149,144 @@
     </a>
     <ul class="treeview-menu">
         <li class=""><a href="{{route('home')}}"><i class="fa fa-fw fa-circle-o "></i><span>Pendências</span></a></li>       
-        <li class=""><a href="{{route('pendencias.gerais')}}"><i class="fa fa-fw fa-circle-o "></i><span>Pendências - Geral</span></a></li>  
-        <li class=""><a href="{{route('relatorios.prioritarios','adl')}}"><i class="fa fa-fw fa-circle-o "></i><span>Processos Prioritários</span></a></li>
-        <li class=""><a href="{{route('pendencias.sobrestamentos')}}"><i class="fa fa-fw fa-circle-o "></i><span>Sobrestamentos</span></a></li>
-        <li class=""><a href="{{route('pendencias.processos')}}"><i class="fa fa-fw fa-circle-o "></i><span>Processos</span></a></li>
-        <li class=""><a href="{{route('pendencias.postograd')}}"><i class="fa fa-fw fa-circle-o "></i><span>Postos/Graduações</span></a></li>
-        <li class=""><a href="{{route('pendencias.encarregados')}}"><i class="fa fa-fw fa-circle-o "></i><span>Encarregados</span></a></li>
-        <li class=""><a href="{{route('pendencias.defensores')}}"><i class="fa fa-fw fa-circle-o "></i><span>Defensores</span></a></li>
-        <li class=""><a href="{{route('pendencias.ofendidos')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ofendidos</span></a></li>
+        @can('listar-relatorio-geral')
+        <li class=""><a href="{{route('pendencia.gerais')}}"><i class="fa fa-fw fa-circle-o "></i><span>Pendências - Geral</span></a></li>  
+        @endcan
+        @can('listar-prioritarios')
+        <li class=""><a href="{{route('relatorio.prioritarios','adl')}}"><i class="fa fa-fw fa-circle-o "></i><span>Processos Prioritários</span></a></li>
+        @can('listar-relatorio-sobrestamentos')
+        <li class=""><a href="{{route('pendencia.sobrestamentos')}}"><i class="fa fa-fw fa-circle-o "></i><span>Sobrestamentos</span></a></li>
+        @endcan
+        @can('listar-relatorio-processos')
+        <li class=""><a href="{{route('pendencia.processos')}}"><i class="fa fa-fw fa-circle-o "></i><span>Processos</span></a></li>
+        @endcan
+        @can('listar-relatorio-postograd')
+        <li class=""><a href="{{route('pendencia.postograd')}}"><i class="fa fa-fw fa-circle-o "></i><span>Postos/Graduações</span></a></li>
+        @endcan
+        @can('listar-relatorio-encarregados')
+        <li class=""><a href="{{route('pendencia.encarregados')}}"><i class="fa fa-fw fa-circle-o "></i><span>Encarregados</span></a></li>
+        @endcan
+        @can('listar-relatorio-defensores')
+        <li class=""><a href="{{route('pendencia.defensores')}}"><i class="fa fa-fw fa-circle-o "></i><span>Defensores</span></a></li>
+        @endcan
+        @can('listar-relatorio-ofendidos')
+        <li class=""><a href="{{route('pendencia.ofendidos')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ofendidos</span></a></li>
+        @endcan
     </ul>
 </li>
-@endhasanyrole
 
-@hasanyrole('admin')
+
+@if(hasAnyPermission([
+        'listar-correicao-ordinaria',
+        'listar-correicao-extraordinaria'
+    ]))
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-folder "></i><span>Correições</span>
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        {{-- @hasrole('listar-correicao-ordinaria') --}}
+        @can('listar-correicao-ordinaria')
         <li class=""><a href="{{route('correicao.ordinaria.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ordinária</span></a></li>
-        {{-- @endrole --}}
-        {{-- @hasrole('listar-correicao-extraordinaria') --}}
+        @endcan
+        @can('listar-correicao-extraordinaria')
         <li class=""><a href="{{route('correicao.extraordinaria.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Extraordinária</span></a></li>
-        {{-- @endrole --}}
+        @endcan
     </ul>
 </li>
-@endhasanyrole
+@endif
 
-@hasanyrole('admin')
+@if(hasAnyPermission([
+        'busca-pm',
+        'buscar-ofendido',
+        'buscar-envolvido',
+        'buscar-documentacao',
+        'buscar-tramitacao-coger'
+    ]))
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-search "></i><span>Busca</span>
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        {{--@hasrole('buscar-pm')--}}
+        @can('buscar-pm')
         <li class=""><a href="{{route('busca.pm')}}"><i class="fa fa-fw fa-circle-o "></i><span>PM</span></a></li>
-        {{--@endrole
-        @hasrole('buscar-ofendido')--}}
+        @endcan
+        @can('buscar-ofendido')
         <li class=""><a href="{{route('busca.ofendido')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ofendido</span></a></li>
-        {{--@endrole
-        @hasrole('buscar-envolvido')--}}
+        @endcan
+        @can('buscar-envolvido')
         <li class=""><a href="{{route('busca.envolvido')}}"><i class="fa fa-fw fa-circle-o "></i><span>envolvido</span></a></li>
-        {{--@endrole
-        @hasrole('buscar-documentacao')--}}
+        @endcan
+        @can('buscar-documentacao')
         <li class=""><a href="{{route('busca.documentacao')}}"><i class="fa fa-fw fa-circle-o "></i><span>Documentacão</span></a></li>
-        {{--@endrole
-        @hasrole('buscar-tramitacao-coger')--}}
+        @endcan
+        @can('buscar-tramitacao-coger')
         <li class=""><a href="{{route('busca.tramitacao')}}"><i class="fa fa-fw fa-circle-o "></i><span>Tramitação COGER</span></a></li>
-        {{--@endrole--}}
+        @endcan
     </ul>
 </li>
-@endhasanyrole
+@endif
 
-@hasanyrole('admin')
+@if(hasAnyPermission([
+        'listar-nota-coger',
+    ]))
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-cab "></i><span>Policiais</span>
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
+        @can('buscar-pm')
         <li class=""><a href="{{route('busca.pm')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ficha de Tramitação</span></a></li>
-        <li class=""><a href="{{route('medalhas.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Medalhas</span></a></li>
-        <li class=""><a href="{{route('elogios.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Elogios</span></a></li>
-        <li class=""><a href="{{route('excluidos.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Excluídos</span></a></li>
-        <li class=""><a href="{{route('punidos.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Punidos</span></a></li>
-        <li class=""><a href="{{route('reintegrados.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Reintegrados</span></a></li>
-        <li class=""><a href="{{route('denunciados.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Denunciados</span></a></li>
-        <li class=""><a href="{{route('presos.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Presos</span></a></li>
+        @endcan
+        @can('listar-medalhas')
+        <li class=""><a href="{{route('medalha.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Medalhas</span></a></li>
+        @endcan
+        @can('listar-elogios')
+        <li class=""><a href="{{route('elogio.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Elogios</span></a></li>
+        @endcan
+        @can('listar-excluidos')
+        <li class=""><a href="{{route('excluido.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Excluídos</span></a></li>
+        @endcan
+        @can('listar-punidos')
+        <li class=""><a href="{{route('punido.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Punidos</span></a></li>
+        @endcan
+        @can('listar-reintegrados')
+        <li class=""><a href="{{route('reintegrado.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Reintegrados</span></a></li>
+        @endcan
+        @can('listar-denunciados')
+        <li class=""><a href="{{route('denunciado.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Denunciados</span></a></li>
+        @endcan
+        @can('listar-presos')
+        <li class=""><a href="{{route('preso.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Presos</span></a></li>
+        @endcan
+        @can('listar-procedimentos')
         <li class=""><a href="{{route('procedimento.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Procedimentos</span></a></li>
+        @endcan
+        @can('listar-comportamentos')
         <li class=""><a href="{{route('comportamento.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Comportamento</span></a></li>
+        @endcan
+        @can('listar-')
         <li class=""><a href="{{route('respondendo.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Respondendo</span></a></li>
-        <li class=""><a href="{{route('restricoes.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Restrições</span></a></li>
-        <li class=""><a href="{{route('suspensos.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Suspensos</span></a></li>
-        <li class=""><a href="{{route('obitoslesoes.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Obitos e Lesões</span></a></li>
-        <li class=""><a href="{{route('mortosferidos.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Mortos e feridos</span></a></li>
+        @endcan
+        @can('listar-')
+        <li class=""><a href="{{route('restricao.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Restrições</span></a></li>
+        @endcan
+        @can('listar-')
+        <li class=""><a href="{{route('suspenso.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Suspensos</span></a></li>
+        @endcan
+        @can('listar-')
+        <li class=""><a href="{{route('obitolesao.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Obitos e Lesões</span></a></li>
+        @endcan
+        @can('listar-')
+        <li class=""><a href="{{route('mortoferido.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Mortos e feridos</span></a></li>
+        @endcan
     </ul>
 </li>
-@endhasanyrole
+@endif
 
-@hasrole('sai')
+@can('listar-sai')
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-cab "></i><span>SAI</span>
@@ -167,9 +296,9 @@
         <li class=""><a href="{{route('sai.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Policiais - Investigação</span></a></li>
     </ul>
 </li>
-@endhasrole
+@endcan
 
-@hasrole('bi')
+@can('bi')
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-cab "></i><span>BI</span>
@@ -179,7 +308,7 @@
         <li class=""><a href="#"><i class="fa fa-fw fa-circle-o "></i><span>Gráfico...</span></a></li>
     </ul>
 </li>
-@endhasrole
+@endcan
 
 <li class="treeview">
     <a href="#">
@@ -187,32 +316,32 @@
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        <li class=""><a href="{{route('users.manual')}}"><i class="fa fa-fw fa-circle-o "></i><span>Manual do usuário</span></a></li>
-        <li class=""><a href="{{route('users.pass',Auth::id())}}"><i class="fa fa-fw fa-circle-o "></i><span>Modificar senha</span></a></li>
+        <li class=""><a href="{{route('user.manual')}}"><i class="fa fa-fw fa-circle-o "></i><span>Manual do usuário</span></a></li>
+        <li class=""><a href="{{route('user.pass',Auth::id())}}"><i class="fa fa-fw fa-circle-o "></i><span>Modificar senha</span></a></li>
         <li class=""><a href="{{route('it.documentacao')}}"><i class="fa fa-fw fa-circle-o "></i><span>Documentação para IT</span></a></li>
     </ul>
 </li>
 
-@hasanyrole('admin')
+{{-- @if('admin') --}}
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-gears "></i><span>Administração</span>
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        <li class="active"><a href="{{route('users.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Usuários</span></a></li>
-        {{--@hasrole('admin-coger')--}}
-        <li class=""><a href="{{route('roles.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Papéis</span></a></li>
-        <li class=""><a href="{{route('permissions.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Permissões</span></a></li>
+        <li class="active"><a href="{{route('user.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Usuários</span></a></li>
+        {{--@if('admin-coger')--}}
+        <li class=""><a href="{{route('role.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Papéis</span></a></li>
+        <li class=""><a href="{{route('permission.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Permissões</span></a></li>
         <li class=""><a href="{{route('sjd.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Controle SJD</span></a></li>
-        {{--@endhasrole --}}
-        <li class=""><a href="{{route('terms.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Termos de compromisso</span></a></li>
-        <li class=""><a href="{{route('unidades.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Unidades</span></a></li>
+        {{--@endif --}}
+        <li class=""><a href="{{route('term.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Termos de compromisso</span></a></li>
+        <li class=""><a href="{{route('unidade.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Unidades</span></a></li>
         <li class=""><a href="{{route('feriado.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Feriados</span></a></li>
         {{-- <li class=""><a href="{{route('mail.sent')}}"><i class="fa fa-fw fa-circle-o "></i><span>E-mails agendados</span></a></li> --}}
     </ul>
 </li>
-@endhasanyrole
+{{-- @endif --}}
 
 <li class="">
     <a href="{{route('historia.ver')}}">
@@ -221,7 +350,7 @@
     </a>
 </li>
 
-@hasrole('admin')
+{{-- @if('admin') --}}
 <li class="treeview">
     <a href="#"><i class="fa fa fa-refresh "></i>
         <span>Ver outra OPM</span>
@@ -229,12 +358,12 @@
     </a>
     <ul class="treeview-menu">
         <li class=""><a href="{{route('trocaropm')}}"><i class="fa fa-fw fa-circle-o "></i><span>Dashboard</span></a></li>
-        <li class=""><a href="{{route('pendencias.gerais')}}"><i class="fa fa-fw fa-circle-o "></i><span>Pendências Gerais</span></a></li>
+        <li class=""><a href="{{route('pendencia.gerais')}}"><i class="fa fa-fw fa-circle-o "></i><span>Pendências Gerais</span></a></li>
     </ul>
 </li>
-@endhasrole
+{{-- @endif --}}
 
-@hasanyrole('admin|supervisao')
+{{-- @if('admin|supervisao') --}}
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-bug "></i><span>LOGS</span>
@@ -299,7 +428,7 @@
         </li>
     </ul>
 </li>
-@endhasanyrole
+@endif
 
 <li class="treeview">
     <a href="#">

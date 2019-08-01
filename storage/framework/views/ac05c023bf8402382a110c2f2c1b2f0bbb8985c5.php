@@ -23,13 +23,11 @@
                 <td> Não há registros.</td>
             </tr> 
         <?php endif; ?>
-        <tr>
-            <td>
-                <button type="button" class="btn btn-primary btn-block">
-                    <i class="fa fa-plus"></i>Adicionar Restrição
-                </button>
-            </td>
-        </tr>
         </tbody>
     </table>
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-restricoes')): ?>
+    <button type="button" class="btn btn-primary btn-block">
+        <i class="fa fa-plus"></i>Adicionar Procedimento Outros
+    </button>
+    <?php endif; ?>
 </div>

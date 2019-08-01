@@ -6,27 +6,31 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\User;
-use App\Models\Sjd\Proc\Recurso;
 use App\Repositories\proc\RecursoRepository;
 use App\Models\Sjd\Busca\Envolvido;
 
 class RecursoController extends Controller
 {
+    protected $repository;
+    public function __construct(RecursoRepository $repository)
+	{
+        $this->repository = $repository;
+    }
+
     public function index()
     {
         return redirect()->route('recurso.lista');
     }
 
-    public function lista(RecursoRepository $repository)
+    public function lista()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.recurso.list.index',compact('registros'));
     }
 
-    public function apagados(RecursoRepository $repository)
+    public function apagados()
     {
-        $registros = $repository->apagados();
+        $registros = $this->repository->apagados();
         return view('procedimentos.recurso.list.apagados',compact('registros'));
     }
 
@@ -53,11 +57,11 @@ class RecursoController extends Controller
         //dados do formulário
         $dados = $this->datesToCreate($request); 
 
-        $create = Recurso::create($dados);
+        $create = $this->repository->create($dados);
 
         if($create)
         {
-            RecursoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'Recurso Inserido');
             return redirect()->route('recurso.lista');
         }
@@ -70,7 +74,7 @@ class RecursoController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Recurso::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -81,7 +85,7 @@ class RecursoController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Recurso::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
         
         $this->canSee($proc);
@@ -110,11 +114,11 @@ class RecursoController extends Controller
         // dd(\Request::all());
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = Recurso::findOrFail($id)->update($dados);
+        $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
-            RecursoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Recurso atualizado!');
             return redirect()->route('recurso.lista');
         }
@@ -127,10 +131,10 @@ class RecursoController extends Controller
     public function destroy($id)
     {
         //busca procedimento e apaga
-        $destroy = Recurso::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
 
         if($destroy) {
-            RecursoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Recurso Apagado');
             return redirect()->route('recurso.lista');
         }
@@ -143,10 +147,10 @@ class RecursoController extends Controller
     public function restore($id)
     {
         // Recupera o post pelo ID
-        $restore = Recurso::findOrFail($id)->restore();
+        $restore = $this->repository->findAndRestore($id);
     
         if($restore){
-            RecursoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Recurso Recuperado!');
             return redirect()->route('recurso.lista');  
         }
@@ -158,11 +162,11 @@ class RecursoController extends Controller
     public function forceDelete($id)
     {
         // Recupera o post pelo ID
-        $forceDelete = Recurso::findOrFail($id)->forceDelete();
+        $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
-            RecursoRepository::cleanCache();
-            toast()->success('Recurso Recuperado!');
+            $this->repository->cleanCache();
+            toast()->success('Recurso apagado DEFINITIVO!');
             return redirect()->route('recurso.lista');  
         }
 
@@ -175,7 +179,7 @@ class RecursoController extends Controller
         $dados = $request->all();
         $ano = (int) date('Y');
 
-        $ref = Recurso::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        $ref = $this->repository->maxRef();
         //referência e ano
         $dados['sjd_ref'] = $ref+1;
         $dados['sjd_ref_ano'] = $ano;

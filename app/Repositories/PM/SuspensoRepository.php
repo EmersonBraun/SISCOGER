@@ -27,7 +27,7 @@ class SuspensoRepository extends BaseRepository
 	{
 
         $registros = Cache::tags('suspenso')->remember('todos_suspenso', $this->expiration, function() {
-            return $this->model->all();
+           return $this->model->all();
         });
 
         return $registros;

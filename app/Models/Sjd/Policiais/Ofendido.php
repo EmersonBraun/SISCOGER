@@ -10,6 +10,10 @@ namespace App\Models\Sjd\Policiais;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Ofendido
  * 
@@ -41,35 +45,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Ofendido extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
+    use SoftDeletes;
 
-    protected static $logName = 'ofendido';
-    protected static $logAttributes = [
-		'nome',
-		'rg',
-		'situacao',
-		'resultado',
-		'sexo',
-		'idade',
-		'escolaridade',
-		'id_ipm',
-		'id_cj',
-		'id_cd',
-		'id_adl',
-		'id_sindicancia',
-		'id_fatd',
-		'id_desercao',
-		'id_apfd',
-		'id_iso',
-		'id_it',
-		'id_pad',
-		'id_sai',
-		'id_proc_outros',
-		'fone',
-		'email'
-	];
-	
 	protected $table = 'ofendido';
 	protected $primaryKey = 'id_ofendido';
 	public $timestamps = false;
@@ -113,7 +90,16 @@ class Ofendido extends Eloquent
 		'id_proc_outros',
 		'fone',
 		'email'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+    protected static $logName = 'ofendido';
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\policiais\OfendidoPresenter';
 
 	public function scopeOfendido($query, $id_proc, $id)
 	{

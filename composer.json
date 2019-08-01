@@ -68,6 +68,8 @@
             "app/Helpers/opm/corta_zeros.php",
             "app/Helpers/opm/completa_zeros.php",
             "app/Helpers/opm/opm.php",
+            "app/Helpers/validacao/hasAnyPermission.php",
+            "app/Helpers/validacao/hasAnyRole.php",
             "app/Helpers/validacao/hasPermission.php",
             "app/Helpers/validacao/hasRole.php",
             "app/Helpers/validacao/ver_superior.php",

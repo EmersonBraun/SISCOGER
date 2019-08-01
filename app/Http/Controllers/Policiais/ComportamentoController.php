@@ -9,6 +9,10 @@ use App\Repositories\PM\ComportamentoRepository;
 class ComportamentoController extends Controller
 {
     protected $repository;
+    protected $proc = 'comportamento';
+    protected $nome = 'Comportamento';
+    protected $index = 'comportamento.index';
+
     public function __construct(ComportamentoRepository $repository)
 	{
         $this->repository = $repository;
@@ -31,7 +35,6 @@ class ComportamentoController extends Controller
 
         $this->validate($request, [
             'data' => 'required',
-            'comportamento' => 'required',
         ]);
         
         $dados = $request->all();
@@ -40,8 +43,8 @@ class ComportamentoController extends Controller
         if($create)
         {
             $this->repository->cleanCache();
-            toast()->success('N° ','comportamento Inserido');
-            return redirect()->route('comportamento.index');
+            toast()->success('N° ',$this->name.' Inserido');
+            return redirect()->route($this->index);
         }
 
         toast()->warning('Houve um erro na inserção');
@@ -60,7 +63,6 @@ class ComportamentoController extends Controller
     {
         $this->validate($request, [
             'data' => 'required',
-            'comportamento' => 'required',
         ]);
 
         $dados = $request->all();
@@ -69,12 +71,12 @@ class ComportamentoController extends Controller
         if($update)
         {
             $this->repository->cleanCache();
-            toast()->success('comportamento atualizado!');
-            return redirect()->route('comportamento.index');
+            toast()->success($this->name.' atualizado!');
+            return redirect()->route($this->index);
         }
 
-        toast()->warning('comportamento NÃO atualizado!');
-        return redirect()->route('comportamento.index');
+        toast()->warning($this->name.' NÃO atualizado!');
+        return redirect()->route($this->index);
     }
 
     public function destroy($id)
@@ -83,11 +85,39 @@ class ComportamentoController extends Controller
 
         if($destroy) {
             $this->repository->cleanCache();
-            toast()->success('comportamento Apagado');
-            return redirect()->route('comportamento.index');
+            toast()->success($this->name.' Apagado');
+            return redirect()->route($this->index);
         }
 
         toast()->warning('erro ao apagar comportamento');
-        return redirect()->route('comportamento.index');
+        return redirect()->route($this->index);
+    }
+
+    public function restore($id)
+    {
+        $restore = $this->repository->findAndRestore($id);
+        
+        if($restore){
+            $this->repository->cleanCache();
+            toast()->success($this->name.' Recuperado!');
+            return redirect()->route($this->index);  
+        }
+
+        toast()->warning('Houve um erro ao recuperar!');
+        return redirect()->route($this->index); 
+    }
+
+    public function forceDelete($id)
+    {
+        $forceDelete = $this->repository->findAndDestroy($id);
+    
+        if($forceDelete){
+            $this->repository->cleanCache();
+            toast()->success($this->name.' Apagado definitivo!');
+            return redirect()->route($this->index);  
+        }
+
+        toast()->warning('Houve um erro ao Apagar definitivo!');
+        return redirect()->route($this->index);
     }
 }

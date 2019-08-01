@@ -6,39 +6,43 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\User;
 use App\Repositories\proc\IsoRepository;
-use App\Models\Sjd\Proc\Iso;
 use App\Models\Sjd\Busca\Envolvido;
 
 class IsoController extends Controller
 {
+    protected $repository;
+    public function __construct(IsoRepository $repository)
+	{
+        $this->repository = $repository;
+    }
+
     public function index()
     {
         return redirect()->route('iso.lista');
     }
 
-    public function lista(IsoRepository $repository)
+    public function lista()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.iso.list.index',compact('registros'));
     }
 
-    public function andamento(IsoRepository $repository)
+    public function andamento()
     {
-        $registros = $repository->andamento();
+        $registros = $this->repository->andamento();
         return view('procedimentos.iso.list.andamento',compact('registros'));
     }
 
-    public function prazos(IsoRepository $repository)
+    public function prazos()
     {
-        $registros = $repository->prazos();
+        $registros = $this->repository->prazos();
         return view('procedimentos.iso.list.prazos',compact('registros'));
     }
 
-    public function apagados(IsoRepository $repository)
+    public function apagados()
     {
-        $registros = $repository->apagados();
+        $registros = $this->repository->apagados();
         return view('procedimentos.iso.list.apagados',compact('registros'));
     }
 
@@ -65,11 +69,11 @@ class IsoController extends Controller
         //dados do formulário
         $dados = $this->datesToCreate($request); 
 
-        $create = Iso::create($dados);
+        $create = $this->repository->create($dados);
 
         if($create)
         {
-            IsoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'ISO Inserido');
             return redirect()->route('iso.lista');
         }
@@ -82,7 +86,7 @@ class IsoController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Iso::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -93,7 +97,7 @@ class IsoController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Iso::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
         
         $this->canSee($proc);
@@ -122,11 +126,11 @@ class IsoController extends Controller
         // dd(\Request::all());
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = Iso::findOrFail($id)->update($dados);
+        $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
-            IsoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('ISO atualizado!');
             return redirect()->route('iso.lista');
         }
@@ -139,10 +143,10 @@ class IsoController extends Controller
     public function destroy($id)
     {
         //busca procedimento e apaga
-        $destroy = Iso::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
 
         if($destroy) {
-            IsoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('ISO Apagado');
             return redirect()->route('iso.lista');
         }
@@ -155,10 +159,10 @@ class IsoController extends Controller
     public function restore($id)
     {
         // Recupera o post pelo ID
-        $restore = Iso::findOrFail($id)->restore();
+        $restore = $this->repository->findAndRestore($id);
     
         if($restore){
-            IsoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('ISO Recuperado!');
             return redirect()->route('iso.lista');  
         }
@@ -170,11 +174,11 @@ class IsoController extends Controller
     public function forceDelete($id)
     {
         // Recupera o post pelo ID
-        $forceDelete = Iso::findOrFail($id)->forceDelete();
+        $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
-            IsoRepository::cleanCache();
-            toast()->success('ISO Recuperado!');
+            $this->repository->cleanCache();
+            toast()->success('ISO apagado DEFINITIVO!');
             return redirect()->route('iso.lista');  
         }
 
@@ -187,7 +191,7 @@ class IsoController extends Controller
         $dados = $request->all();
         $ano = (int) date('Y');
 
-        $ref = Iso::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        $ref = $this->repository->maxRef();
         //referência e ano
         $dados['sjd_ref'] = $ref+1;
         $dados['sjd_ref_ano'] = $ano;

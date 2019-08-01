@@ -6,33 +6,37 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\User;
 use App\Repositories\proc\DesercaoRepository;
-use App\Models\Sjd\Proc\Desercao;
 use App\Models\Sjd\Busca\Envolvido;
 
 class DesercaoController extends Controller
 {
+    protected $repository;
+    public function __construct(DesercaoRepository $repository)
+	{
+        $this->repository = $repository;
+    }
+
     public function index()
     {
         return redirect()->route('desercao.lista');
     }
 
-    public function lista(DesercaoRepository $repository)
+    public function lista()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.desercao.list.index',compact('registros'));
     }
 
-    public function rel_situacao(DesercaoRepository $repository)
+    public function rel_situacao()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.desercao.list.rel_situacao',compact('registros'));
     }
 
-    public function apagados(DesercaoRepository $repository)
+    public function apagados()
     {
-        $registros = $repository->apagados();
+        $registros = $this->repository->apagados();
         return view('procedimentos.desercao.list.apagados',compact('registros'));
     }
 
@@ -59,11 +63,11 @@ class DesercaoController extends Controller
         //dados do formulário
         $dados = $this->datesToCreate($request); 
 
-        $create = Desercao::create($dados);
+        $create = $this->repository->create($dados);
 
         if($create)
         {
-            DesercaoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'Deserção Inserido');
             return redirect()->route('desercao.lista');
         }
@@ -76,7 +80,7 @@ class DesercaoController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Desercao::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -87,7 +91,7 @@ class DesercaoController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Desercao::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
         
         $this->canSee($proc);
@@ -116,11 +120,11 @@ class DesercaoController extends Controller
         // dd(\Request::all());
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = Desercao::findOrFail($id)->update($dados);
+        $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
-            DesercaoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Deserção atualizado!');
             return redirect()->route('desercao.lista');
         }
@@ -133,10 +137,10 @@ class DesercaoController extends Controller
     public function destroy($id)
     {
         //busca procedimento e apaga
-        $destroy = Desercao::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
 
         if($destroy) {
-            DesercaoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Deserção Apagado');
             return redirect()->route('desercao.lista');
         }
@@ -149,10 +153,10 @@ class DesercaoController extends Controller
     public function restore($id)
     {
         // Recupera o post pelo ID
-        $restore = Desercao::findOrFail($id)->restore();
+        $restore = $this->repository->findAndRestore($id);
     
         if($restore){
-            DesercaoRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Deserção Recuperado!');
             return redirect()->route('desercao.lista');  
         }
@@ -164,11 +168,11 @@ class DesercaoController extends Controller
     public function forceDelete($id)
     {
         // Recupera o post pelo ID
-        $forceDelete = Desercao::findOrFail($id)->forceDelete();
+        $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
-            DesercaoRepository::cleanCache();
-            toast()->success('Deserção Recuperado!');
+            $this->repository->cleanCache();
+            toast()->success('Deserção apagado DEFINITIVO!');
             return redirect()->route('desercao.lista');  
         }
 
@@ -181,7 +185,7 @@ class DesercaoController extends Controller
         $dados = $request->all();
         $ano = (int) date('Y');
 
-        $ref = Desercao::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        $ref = $this->repository->maxRef();
         //referência e ano
         $dados['sjd_ref'] = $ref+1;
         $dados['sjd_ref_ano'] = $ano;

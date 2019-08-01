@@ -10,6 +10,10 @@ namespace App\Models\Sjd\Policiais;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Suspenso
  * 
@@ -28,22 +32,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Suspenso extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
+    use SoftDeletes;
 
-    protected static $logName = 'suspenso';
-    protected static $logAttributes = [
-		'rg',
-		'cargo',
-		'nome',
-		'processo',
-		'infracao',
-		'numerounico',
-		'inicio_data',
-		'fim_data',
-		'obs_txt'
-	];
-	
 	protected $table = 'suspenso';
 	protected $primaryKey = 'id_suspenso';
 	public $timestamps = false;
@@ -63,5 +53,40 @@ class Suspenso extends Eloquent
 		'inicio_data',
 		'fim_data',
 		'obs_txt'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+    protected static $logName = 'suspenso';
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\policiais\SuspensoPresenter';
+
+    //mutators (para alterar na hora da exibição)
+    public function getInicioDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setInicioDataAttribute($value)
+    {
+        $this->attributes['inicio_data'] = data_bd($value);
+    }
+
+    //mutators (para alterar na hora da exibição)
+    public function getFimDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setFimDataAttribute($value)
+    {
+        $this->attributes['fim_data'] = data_bd($value);
+    }
 }

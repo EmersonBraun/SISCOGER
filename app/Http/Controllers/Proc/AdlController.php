@@ -7,49 +7,54 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\Repositories\proc\AdlRepository;
-use App\Models\Sjd\Proc\Adl;
 use App\Models\Sjd\Busca\Envolvido;
 
 class AdlController extends Controller
 {
+    protected $repository;
+    public function __construct(AdlRepository $repository)
+	{
+        $this->repository = $repository;
+    }
+
     public function index()
     {
         return redirect()->route('adl.lista');
     }
 
-    public function lista(AdlRepository $repository)
+    public function lista()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.adl.list.index',compact('registros'));
     }
 
-    public function andamento(AdlRepository $repository)
+    public function andamento()
     {
-        $registros = $repository->andamento();
+        $registros = $this->repository->andamento();
         return view('procedimentos.adl.list.andamento',compact('registros'));
     }
 
-    public function prazos(AdlRepository $repository)
+    public function prazos()
     {
-        $registros = $repository->prazos();
+        $registros = $this->repository->prazos();
         return view('procedimentos.adl.list.prazos',compact('registros'));
     }
 
-    public function rel_situacao(AdlRepository $repository)
+    public function rel_situacao()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.adl.list.rel_situacao',compact('registros'));
     }
 
-    public function julgamento(AdlRepository $repository)
+    public function julgamento()
     {
-        $registros = $repository->julgamento();
+        $registros = $this->repository->julgamento();
         return view('procedimentos.adl.list.julgamento',compact('registros'));
     }
 
-    public function apagados(AdlRepository $repository)
+    public function apagados()
     {
-        $registros = $repository->apagados();
+        $registros = $this->repository->apagados();
         return view('procedimentos.adl.list.apagados',compact('registros'));
     }
 
@@ -76,11 +81,11 @@ class AdlController extends Controller
         //dados do formulário
         $dados = $this->datesToCreate($request); 
 
-        $create = Adl::create($dados);
+        $create = $this->repository->create($dados);
 
         if($create)
         {
-            AdlRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'adl Inserido');
             return redirect()->route('adl.lista');
         }
@@ -93,7 +98,7 @@ class AdlController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Adl::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -104,7 +109,7 @@ class AdlController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Adl::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
         
         $this->canSee($proc);
@@ -133,11 +138,11 @@ class AdlController extends Controller
         // dd(\Request::all());
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = Adl::findOrFail($id)->update($dados);
+        $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
-            AdlRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('adl atualizado!');
             return redirect()->route('adl.lista');
         }
@@ -150,10 +155,10 @@ class AdlController extends Controller
     public function destroy($id)
     {
         //busca procedimento e apaga
-        $destroy = Adl::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
 
         if($destroy) {
-            AdlRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Adl Apagado');
             return redirect()->route('adl.lista');
         }
@@ -166,10 +171,10 @@ class AdlController extends Controller
     public function restore($id)
     {
         // Recupera o post pelo ID
-        $restore = Adl::findOrFail($id)->restore();
+        $restore = $this->repository->findAndRestore($id);
     
         if($restore){
-            AdlRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('Adl Recuperado!');
             return redirect()->route('adl.lista');  
         }
@@ -181,11 +186,11 @@ class AdlController extends Controller
     public function forceDelete($id)
     {
         // Recupera o post pelo ID
-        $forceDelete = Adl::findOrFail($id)->forceDelete();
+        $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
-            AdlRepository::cleanCache();
-            toast()->success('Adl Recuperado!');
+            $this->repository->cleanCache();
+            toast()->success('Adl apagado DEFINITIVO!');
             return redirect()->route('adl.lista');  
         }
 
@@ -198,7 +203,7 @@ class AdlController extends Controller
         $dados = $request->all();
         $ano = (int) date('Y');
 
-        $ref = Adl::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        $ref = $this->repository->maxRef();
         //referência e ano
         $dados['sjd_ref'] = $ref+1;
         $dados['sjd_ref_ano'] = $ano;

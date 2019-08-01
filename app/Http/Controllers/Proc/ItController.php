@@ -6,51 +6,55 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\User;
 use App\Repositories\proc\ItRepository;
-use App\Models\Sjd\Proc\It;
 use App\Models\Sjd\Busca\Envolvido;
 
 class ItController extends Controller
 {
+    protected $repository;
+    public function __construct(ItRepository $repository)
+	{
+        $this->repository = $repository;
+    }
+
     public function index()
     {
         return redirect()->route('it.lista',['ano' => date('Y')]);
     }
 
-    public function lista($ano, ItRepository $repository)
+    public function lista($ano)
     {
-        $registros = $repository->ano($ano);
+        $registros = $this->repository->ano($ano);
         return view('procedimentos.it.list.index',compact('registros','ano'));
     }
 
-    public function andamento($ano, ItRepository $repository)
+    public function andamento($ano)
     {
-        $registros = $repository->andamentoAno($ano);
+        $registros = $this->repository->andamentoAno($ano);
         return view('procedimentos.it.list.andamento',compact('registros','ano'));
     }
 
-    public function prazos($ano, ItRepository $repository)
+    public function prazos($ano)
     {
-        $registros = $repository->prazosAno($ano);
+        $registros = $this->repository->prazosAno($ano);
         return view('procedimentos.it.list.prazos',compact('registros','ano'));
     }
 
-    public function rel_valores($ano, ItRepository $repository)
+    public function rel_valores($ano)
     {
-        $registros = $repository->relValoresAno($ano);
+        $registros = $this->repository->relValoresAno($ano);
         return view('procedimentos.it.list.rel_valores',compact('registros','ano'));
     }
 
-    public function julgamento($ano, ItRepository $repository)
+    public function julgamento($ano)
     {
-        $registros = $repository->julgamentoAno($ano);
+        $registros = $this->repository->julgamentoAno($ano);
         return view('procedimentos.it.list.julgamento',compact('registros','ano'));
     }
 
-    public function apagados($ano, ItRepository $repository)
+    public function apagados($ano)
     {
-        $registros = $repository->apagados();
+        $registros = $this->repository->apagados();
         return view('procedimentos.it.list.apagados',compact('registros','ano'));
     }
 
@@ -77,11 +81,11 @@ class ItController extends Controller
         //dados do formulário
         $dados = $this->datesToCreate($request); 
 
-        $create = It::create($dados);
+        $create = $this->repository->create($dados);
 
         if($create)
         {
-            ItRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'IT Inserido');
             return redirect()->route('it.lista');
         }
@@ -94,7 +98,7 @@ class ItController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = It::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -105,7 +109,7 @@ class ItController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = It::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
         
         $this->canSee($proc);
@@ -134,11 +138,11 @@ class ItController extends Controller
         // dd(\Request::all());
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = It::findOrFail($id)->update($dados);
+        $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
-            ItRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('IT atualizado!');
             return redirect()->route('it.lista');
         }
@@ -151,10 +155,10 @@ class ItController extends Controller
     public function destroy($id)
     {
         //busca procedimento e apaga
-        $destroy = It::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
 
         if($destroy) {
-            ItRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('IT Apagado');
             return redirect()->route('it.lista');
         }
@@ -167,10 +171,10 @@ class ItController extends Controller
     public function restore($id)
     {
         // Recupera o post pelo ID
-        $restore = It::findOrFail($id)->restore();
+        $restore = $this->repository->findAndRestore($id);
     
         if($restore){
-            ItRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('IT Recuperado!');
             return redirect()->route('it.lista');  
         }
@@ -182,11 +186,11 @@ class ItController extends Controller
     public function forceDelete($id)
     {
         // Recupera o post pelo ID
-        $forceDelete = It::findOrFail($id)->forceDelete();
+        $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
-            ItRepository::cleanCache();
-            toast()->success('IT Recuperado!');
+            $this->repository->cleanCache();
+            toast()->success('IT apagado DEFINITIVO!');
             return redirect()->route('it.lista');  
         }
 
@@ -199,7 +203,7 @@ class ItController extends Controller
         $dados = $request->all();
         $ano = (int) date('Y');
 
-        $ref = It::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        $ref = $this->repository->maxRef();
         //referência e ano
         $dados['sjd_ref'] = $ref+1;
         $dados['sjd_ref_ano'] = $ano;

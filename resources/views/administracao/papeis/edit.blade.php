@@ -24,7 +24,7 @@
                 </button> 
             </div>             
         </div>
-        {{ Form::model($role, array('route' => array('roles.update', $role->id), 'method' => 'PUT')) }}
+        {{ Form::model($role, array('route' => array('role.update', $role->id), 'method' => 'PUT')) }}
 
         {{ Form::label('name', 'Papel nome') }}
         {{ Form::text('name', null, array('class' => 'form-control')) }}

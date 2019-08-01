@@ -10,7 +10,7 @@
 <div class='col-lg-12'>
     <h1><i class='fa fa-key'></i> Criar papéis</h1>
     <hr>
-    {{ Form::open(array('url' => 'roles')) }}
+    {{ Form::open(array('url' => route('role.store'))) }}
 
     <div class="form-group">
         {{ Form::label('name', 'Nome') }}

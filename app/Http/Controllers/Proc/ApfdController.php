@@ -6,32 +6,36 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\User;
 use App\proc\Repositories\ApfdRepository;
-use App\Models\Sjd\Proc\Apfd;
 
 class ApfdController extends Controller
 {
+    protected $repository;
+    public function __construct(ApfdRepository $repository)
+	{
+        $this->repository = $repository;
+    }
+
     public function index()
     {
         return redirect()->route('apfd.lista');
     }
 
-    public function lista(ApfdRepository $repository)
+    public function lista()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.apfd.list.index',compact('registros'));
     }
 
-    public function rel_situacao(ApfdRepository $repository)
+    public function rel_situacao()
     {
-        $registros = $repository->all();
+        $registros = $this->repository->all();
         return view('procedimentos.apfd.list.rel_situacao',compact('registros'));
     }
 
-    public function apagados(ApfdRepository $repository)
+    public function apagados()
     {
-        $registros = $repository->apagados();
+        $registros = $this->repository->apagados();
         return view('procedimentos.apfd.list.apagados',compact('registros'));
     }
 
@@ -60,11 +64,11 @@ class ApfdController extends Controller
         //dados do formulário
         $dados = $this->datesToCreate($request); 
 
-        $create = Apfd::create($dados);
+        $create = $this->repository->create($dados);
 
         if($create)
         {
-            ApfdRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'APFD Inserido');
             return redirect()->route('apfd.lista');
         }
@@ -77,7 +81,7 @@ class ApfdController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Apfd::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -88,7 +92,7 @@ class ApfdController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = Apfd::ref_ano($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano)->first();
         if(!$proc) abort('404');
         
         $this->canSee($proc);
@@ -117,11 +121,11 @@ class ApfdController extends Controller
         // dd(\Request::all());
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = Apfd::findOrFail($id)->update($dados);
+        $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
-            ApfdRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('APFD atualizado!');
             return redirect()->route('apfd.lista');
         }
@@ -134,10 +138,10 @@ class ApfdController extends Controller
     public function destroy($id)
     {
         //busca procedimento e apaga
-        $destroy = Apfd::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
 
         if($destroy) {
-            ApfdRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('APFD Apagado');
             return redirect()->route('apfd.lista');
         }
@@ -150,10 +154,10 @@ class ApfdController extends Controller
     public function restore($id)
     {
         // Recupera o post pelo ID
-        $restore = Apfd::findOrFail($id)->restore();
+        $restore = $this->repository->findAndRestore($id);
     
         if($restore){
-            ApfdRepository::cleanCache();
+            $this->repository->cleanCache();
             toast()->success('APFD Recuperado!');
             return redirect()->route('apfd.lista');  
         }
@@ -165,11 +169,11 @@ class ApfdController extends Controller
     public function forceDelete($id)
     {
         // Recupera o post pelo ID
-        $forceDelete = Apfd::findOrFail($id)->forceDelete();
+        $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
-            ApfdRepository::cleanCache();
-            toast()->success('APFD Recuperado!');
+            $this->repository->cleanCache();
+            toast()->success('APFD apagado DEFINITIVO!');
             return redirect()->route('apfd.lista');  
         }
 
@@ -182,7 +186,7 @@ class ApfdController extends Controller
         $dados = $request->all();
         $ano = (int) date('Y');
 
-        $ref = Apfd::where('sjd_ref_ano','=',$ano)->max('sjd_ref');
+        $ref = $this->repository->maxRef();
         //referência e ano
         $dados['sjd_ref'] = $ref+1;
         $dados['sjd_ref_ano'] = $ano;

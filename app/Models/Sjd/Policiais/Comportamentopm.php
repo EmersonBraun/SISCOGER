@@ -10,6 +10,10 @@ namespace App\Models\Sjd\Policiais;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Comportamentopm
  * 
@@ -27,20 +31,13 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Comportamentopm extends Eloquent
 {
+    use SoftDeletes;
+
 	//Activitylog
 	use LogsActivity;
-
     protected static $logName = 'comportamentopm';
-    protected static $logAttributes = [
-		'data',
-		'motivo_txt',
-		'publicacao',
-		'id_comportamento',
-		'rg',
-		'rg_cadastro',
-		'cdopm',
-		'opm_abreviatura'
-	];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
 
 	protected $table = 'comportamentopm';
 	protected $primaryKey = 'id_comportamentopm';
@@ -63,5 +60,21 @@ class Comportamentopm extends Eloquent
 		'rg_cadastro',
 		'cdopm',
 		'opm_abreviatura'
-	];
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\policiais\ComportamentopmPresenter';
+
+    //mutators (para alterar na hora da exibição)
+    public function getDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setDataAttribute($value)
+    {
+        $this->attributes['data'] = data_bd($value);
+    }
 }

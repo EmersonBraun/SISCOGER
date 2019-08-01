@@ -20,7 +20,7 @@ class Ipm extends Eloquent
 
 	protected $table = 'ipm';
 	protected $primaryKey = 'id_ipm';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
 		'id_andamento' => 'int',
@@ -136,14 +136,8 @@ class Ipm extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getAberturaDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -155,14 +149,8 @@ class Ipm extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getFatoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -174,14 +162,8 @@ class Ipm extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getAutuacaoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -193,14 +175,8 @@ class Ipm extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getRelatoEncDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -212,14 +188,8 @@ class Ipm extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getRelatoCmtopmDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -231,14 +201,8 @@ class Ipm extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getRelcomplementarDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)

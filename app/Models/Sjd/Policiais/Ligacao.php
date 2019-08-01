@@ -8,7 +8,12 @@
 namespace App\Models\Sjd\Busca;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-
+//para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
+use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Ligacao
  * 
@@ -39,6 +44,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class Ligacao extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $table = 'ligacao';
 	protected $primaryKey = 'id_ligacao';
 	public $timestamps = false;
@@ -86,7 +93,16 @@ class Ligacao extends Eloquent
 		'id_falecimento',
 		'id_sai',
 		'id_proc_outros'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+    protected static $logName = 'ligacao';
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\policiais\LigacaoPresenter';
 
 	public function scopeRef_ano($query, $ref, $ano)
 	{

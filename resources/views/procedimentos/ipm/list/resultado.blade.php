@@ -3,84 +3,62 @@
 @section('title', 'IPM - Resultado')
 
 @section('content_header')
-    @include('procedimentos.ipm.list.menu', ['title' => 'Resultado','page' => 'resultado'])
+@include('procedimentos.ipm.list.menu', ['title' => 'Resultado','page' => 'resultado'])
 @stop
 
 @section('content')
-     <!-- Content Wrapper. Contains page content -->
-  <div class="">
-    <!-- Content Header (Page header) -->
-   
-
-    <!-- Main content -->
-    <section class="">
-        <div class="row">
-          <div class="col-xs-12">
-            <!-- /.box -->
-  
-            <div class="box">
-              <div class="box-header">
+<section class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
                 <h3 class="box-title">Listagem de Inquérito Policial Militar</h3>
-              </div>
-              <!-- /.box-header -->
-              <div class="box-body">
-                <table id="datable" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th style="display: none">#</th>
-                    <th class='col-xs-2 col-md-2'>N°/Ano</th>
-                    <th class='col-xs-2 col-md-2'>OPM</th>
-                    <th class='col-xs-2 col-md-2'>Abertura</th>
-                    <th class='col-xs-2 col-md-2'>Andamento</th> 
-                    <th class='col-xs-2 col-md-2'>Andamento COGER</th> 
-                    <th class='col-xs-2 col-md-2'>Resultado</th> 
-                  </tr>
-                  </thead>
-  
-                  <tbody>
-                     @foreach($registros as $registro)
-                  <tr>
-                    <td style="display: none">{{$registro['id_ipm']}}</td>
-                    <td>{{$registro['sjd_ref']}}/{{$registro['sjd_ref_ano']}}</td>
-                    <td>{{opm($registro['cdopm'])}}</td>
-                    <td>{{data_br($registro['abertura_data'])}}</td>
-                    <td>{{sistema('andamento',$registro['id_andamento'])}}</td>  
-                    <td>{{sistema('andamentocoger',$registro['id_andamentocoger'])}}</td>
-                    <td>{{$registro['resultado']}}</td>
-                  </tr>
-                  @endforeach
-                  </tbody>
-                  <tfoot>
-                  <tr>
-                      <th style="display: none">#</th>
-                      <th class='col-xs-2 col-md-2'>N°/Ano</th>
-                      <th class='col-xs-2 col-md-2'>OPM</th>
-                      <th class='col-xs-2 col-md-2'>Abertura</th>
-                      <th class='col-xs-2 col-md-2'>Andamento</th> 
-                      <th class='col-xs-2 col-md-2'>Andamento COGER</th> 
-                      <th class='col-xs-2 col-md-2'>Resultado</th> 
-                  </tr>
-                  </tfoot>
-                </table>
-              </div>
-              <!-- /.box-body -->
             </div>
-            <!-- /.box -->
-          </div>
-          <!-- /.col -->
+            <div class="box-body">
+                <table id="datable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="display: none">#</th>
+                            <th class='col-xs-2 col-md-2'>N°/Ano</th>
+                            <th class='col-xs-2 col-md-2'>OPM</th>
+                            <th class='col-xs-2 col-md-2'>Abertura</th>
+                            <th class='col-xs-2 col-md-2'>Andamento</th>
+                            <th class='col-xs-2 col-md-2'>Andamento COGER</th>
+                            <th class='col-xs-2 col-md-2'>Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($registros as $registro)
+                        <tr>
+                            <td style="display: none">{{$registro['id_ipm']}}</td>
+                            <td>{{$registro['sjd_ref']}}/{{$registro['sjd_ref_ano']}}</td>
+                            <td>{{opm($registro['cdopm'])}}</td>
+                            <td>{{data_br($registro['abertura_data'])}}</td>
+                            <td>{{sistema('andamento',$registro['id_andamento'])}}</td>
+                            <td>{{sistema('andamentocoger',$registro['id_andamentocoger'])}}</td>
+                            <td>{{$registro['resultado']}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th style="display: none">#</th>
+                            <th class='col-xs-2 col-md-2'>N°/Ano</th>
+                            <th class='col-xs-2 col-md-2'>OPM</th>
+                            <th class='col-xs-2 col-md-2'>Abertura</th>
+                            <th class='col-xs-2 col-md-2'>Andamento</th>
+                            <th class='col-xs-2 col-md-2'>Andamento COGER</th>
+                            <th class='col-xs-2 col-md-2'>Resultado</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
-        <!-- /.row -->
-      </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+    </div>
+</section>
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
 @section('js')
-  @include('vendor.adminlte.includes.tabelas')
- 
 @stop

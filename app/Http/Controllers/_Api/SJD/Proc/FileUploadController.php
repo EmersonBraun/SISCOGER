@@ -56,13 +56,13 @@ class FileUploadController extends Controller
         $path = storage_path($search->path);
         if (!File::exists($path)) {
 
-            $fileAntigo = DB::table($dados['proc'])
-                ->where('id_'.$dados['proc'], $dados['id_proc'])
+            $fileAntigo = DB::table($proc)
+                ->where('id_'.$proc, $procid)
                 ->value();
             
             if(!$fileAntigo) abort(404);
 
-            $path = $config.'/'.$filename;
+            $path = $config.'/'.$arquivo;
         }
         
         $file = File::get($path);
@@ -83,14 +83,10 @@ class FileUploadController extends Controller
         $file = $request->file('file');
 
         // nome do arquivo
-        if($dados['nome_original']) 
-        {
-            $filename = $file->getClientOriginalName();
-        }
-        else
-        { 
-            $filename = $dados['proc'].$dados['id_proc'].'_'.$dados['name'].'.'.$dados['ext'];
-        }
+        //if($dados['nome_original']) 
+        $filename = tira_acentos($file->getClientOriginalName());
+        
+        //else $filename = $dados['proc'].$dados['id_proc'].'_'.$dados['name'].'.'.$dados['ext'];
 
         //data_arquivo
         $data_arquivo = (!$dados['data_arquivo']) ? date('Y-m-d'): $dados['data_arquivo'];

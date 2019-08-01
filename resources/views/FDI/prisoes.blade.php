@@ -10,13 +10,11 @@
                 <td>Não há registros. </td>
             </tr>
         @endforelse
-        <tr>
-            <td>
-                <button type="button" class="btn btn-primary btn-block">
-                    <i class="fa fa-plus"></i>Adicionar prisão
-                </button>
-            </td>
-        </tr>
         </tbody>
     </table>
+    @can('criar-prisoes')
+    <button type="button" class="btn btn-primary btn-block">
+        <i class="fa fa-plus"></i>Adicionar prisão
+    </button>
+    @endcan
 </div>

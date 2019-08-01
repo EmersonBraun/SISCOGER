@@ -20,7 +20,7 @@ class Apfd extends Eloquent
 
 	protected $table = 'apfd';
 	protected $primaryKey = 'id_apfd';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
 		'id_andamento' => 'int',
@@ -90,14 +90,8 @@ class Apfd extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getFatoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null)
-        {
-            return '';
-        }
-        else
-        {
-            return date( 'd/m/Y' , strtotime($value));
-        }
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
     }
 
     //mutators (para alterar na hora de salvar no banco)

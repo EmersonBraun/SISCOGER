@@ -43,15 +43,19 @@
             <div class="timeline-footer">
                 <small class="text-muted"><i class="fa fa-calendar"></i> {{data_br($h['data'])}}</small>
                 @if ($h['rodape']) {{$h['rodape']}} @endif
+                @hasrole('admin')
                 <span>
                     <a class="btn btn-primary btn-xs" onclick="openModal('m-{{$h['id_historia']}}')">Editar</a>
                     <a class="btn btn-danger btn-xs" onclick="apagarHistoria({{$h['id_historia']}})">Apagar</a>
                 </span> 
+                @endhasrole
             </div>
         </div>
     </li>
     {{-- modal editar --}}
+    @hasrole('admin')
     @include('historia.edit')
+    @endhasrole
     @empty
     <li>Não há histórias</li> 
     @endforelse
@@ -59,7 +63,9 @@
 </section> 
 
 {{-- Formulário no modal --}}
+@hasrole('admin')
 @include('historia.create')
+@endhasrole
 {{-- /Formulário no modal --}}
 @stop
 

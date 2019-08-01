@@ -10,6 +10,10 @@ namespace App\Models\Sjd\Policiais;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Denunciacivil
  * 
@@ -34,27 +38,14 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Denunciacivil extends Eloquent
 {
+    use SoftDeletes;
+
 	//Activitylog
 	use LogsActivity;
 
     protected static $logName = 'denunciacivil';
-    protected static $logAttributes = [
-		'rg',
-		'rg_cadastro',
-		'cargo',
-		'nome',
-		'processo',
-		'infracao',
-		'processocrime',
-		'julgamento',
-		'tipodapena',
-		'pena_anos',
-		'pena_meses',
-		'pena_dias',
-		'transitojulgado_bl',
-		'restritiva_bl',
-		'obs_txt'
-	];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
 
 	protected $table = 'denunciacivil';
 	protected $primaryKey = 'id_denunciacivil';
@@ -82,5 +73,8 @@ class Denunciacivil extends Eloquent
 		'transitojulgado_bl',
 		'restritiva_bl',
 		'obs_txt'
-	];
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\policiais\DenunciacivilPresenter';
 }

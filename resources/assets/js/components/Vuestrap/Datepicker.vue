@@ -1,6 +1,7 @@
 <template>
     <div >
         <div class=" input-group" style="width: 86%">
+            <!-- <the-mask mask="##/##/####" /> -->
             <input class="form-control" :class="{'with-reset-button': clearButton}" type="text" :placeholder="placeholder"
                 :value="val"
                 :name="name"
@@ -42,7 +43,7 @@
                 <span   :class="{'datepicker-dateRange-item-active':
                     (text.months[parse(val).getMonth()]  === m) &&
                     currDate.getFullYear() === parse(val).getFullYear()}"
-                    @click="monthSelect(index)"
+                    @click="monthSelect(index)" :key="m"
                     >{{m.substr(0,3)}}</span>
                 </template>
             </div>
@@ -61,7 +62,7 @@
                 <template v-for="decade in decadeRange">
                 <span :class="{'datepicker-dateRange-item-active':parse(this.val).getFullYear() === decade.text}"
                     @click.stop="yearSelect(decade.text)"
-                >{{decade.text}}</span>
+                :key="decade">{{decade.text}}</span>
                 </template>
             </div>
             </div>
@@ -73,7 +74,9 @@
 
 <script>
 // import $ from './utils/NodeList.js'
+// import {TheMask} from 'vue-the-mask'
 export default {
+    // components: {TheMask},
     props: {
         value: {type: String, default: ''},
         format: {default: 'dd/MM/yyyy'},

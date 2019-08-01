@@ -10,7 +10,7 @@
 <div class='col-md-12'>
     <h1><i class='fa fa-key'></i> Editar {{$permission->name}}</h1>
     <br>
-    {{ Form::model($permission, array('route' => array('permissions.update', $permission->id), 'method' => 'PUT')) }}
+    {{ Form::model($permission, array('route' => array('permission.update', $permission->id), 'method' => 'PUT')) }}
     {{-- Vinculação de modelo de formulário para preencher automaticamente nossos campos com dados de permissão --}}
 
     <div class="form-group">

@@ -40,11 +40,19 @@
                 </div>
             </div>
             <!-- /.tab-content -->
-          </div>
-        @include('FDI.afastamentos')
-        @include('FDI.dependentes')
-        @include('FDI.tramitecoger')
-        @include('FDI.tramiteopm')
+        </div>
+        @can('ver-afastamentos')
+            @include('FDI.afastamentos')
+        @endcan
+        @can('ver-dependentes')
+            @include('FDI.dependentes')
+        @endcan
+        @can('ver-tramite-coger')
+            @include('FDI.tramitecoger')
+        @endcan
+        @can('ver-tramite-opm')
+            @include('FDI.tramiteopm')
+        @endcan
     <div>
         <input type="button" onclick="cont();" value="Imprimir">
     </div>
@@ -57,6 +65,9 @@
 
 @section('js')
 <script type="text/javascript">
+$( document ).ready(function() {
+    $('.a').first().addClass('active');
+});
 
 function mudaTab(id)
 {

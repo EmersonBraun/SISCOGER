@@ -157,13 +157,16 @@ class OPMRepository
     {
         //tempo de cahe
         $expiration = 60 * 24 * 7; //uma semana
-
         $opmCodigo = Cache::tags('opm')->remember('abreviatura:'.$cdopm, $expiration, function() use($cdopm){
-             $opm = Opmpmpr::where('CODIGO','like',$cdopm.'%')->first();
-             return $opm->ABREVIATURA;
+                $opm = Opmpmpr::where('CODIGO','like',$cdopm.'%')->first();
+                if($opm) return $opm->ABREVIATURA;
+                return 'Não encontrado';
         });
 
         return $opmCodigo;
+
+
+        
     }
     
     public static function uabreviatura($cdopm)

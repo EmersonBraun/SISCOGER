@@ -105,7 +105,7 @@
         },
         mounted(){
             this.verifyOnly
-            this.dadosSession
+            this.dadosSession()
             this.listMovimento()
         },
         computed:{
@@ -129,7 +129,7 @@
         methods: {
             listMovimento(){
                 this.clear(true)
-                let urlIndex = `${this.getBaseUrl}api/movimento/list/${this.dprocl}/${this.idp}`;
+                let urlIndex = `${this.getBaseUrl}api/movimento/list/${this.dproc}/${this.idp}`;
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)

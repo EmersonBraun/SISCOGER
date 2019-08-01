@@ -10,6 +10,10 @@ namespace App\Models\Sjd\Policiais;
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
 use Spatie\Activitylog\Traits\LogsActivity;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
+// para não apagar diretamente, inserir data em "deleted_at"
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Preso
  * 
@@ -40,33 +44,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Preso extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'preso';
-    protected static $logAttributes = [
-		'rg',
-		'nome',
-		'cargo',
-		'cdopm_quandopreso',
-		'cdopm_prisao',
-		'localreclusao',
-		'local',
-		'processo',
-		'natureza',
-		'complemento',
-		'numeromandado',
-		'id_presotipo',
-		'origem_proc',
-		'origem_sjd_ref',
-		'origem_sjd_ref_ano',
-		'origem_opm',
-		'inicio_data',
-		'fim_data',
-		'vara',
-		'comarca',
-		'obs_txt'
-	];
+    use SoftDeletes;
 
 	protected $table = 'preso';
 	protected $primaryKey = 'id_preso';
@@ -105,5 +83,40 @@ class Preso extends Eloquent
 		'vara',
 		'comarca',
 		'obs_txt'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+    protected static $logName = 'preso';
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\policiais\PresoPresenter';
+
+    //mutators (para alterar na hora da exibição)
+    public function getInicioDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setInicioDataAttribute($value)
+    {
+        $this->attributes['inicio_data'] = data_bd($value);
+    }
+
+    //mutators (para alterar na hora da exibição)
+    public function getFimDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setFimDataAttribute($value)
+    {
+        $this->attributes['fim_data'] = data_bd($value);
+    }
 }
