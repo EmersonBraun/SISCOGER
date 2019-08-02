@@ -170,7 +170,7 @@
         },
         methods: {
             listSobrestamento(){
-                let urlIndex = `${this.getBaseUrl}api/sobrestamento/list/${this.dprocl}/${this.idp}`;
+                let urlIndex = `${this.getBaseUrl}api/sobrestamento/list/${this.dproc}/${this.idp}`;
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)

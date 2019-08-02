@@ -44,7 +44,7 @@ Route::group(['as'=>'fileupload.','prefix' =>'fileupload'],function(){
 });
 // rotas componente SubForm/ProcedOrigem.vue
 Route::group(['as'=>'ligacao.','prefix' =>'ligacao'],function(){
-    Route::get('list/{proc}/{ref}/{ano}',['as' =>'index','uses'=>'_Api\SJD\Proc\LigacaoApiController@list']);
+    Route::get('list/{proc}/{ref}/{ano?}',['as' =>'index.refano','uses'=>'_Api\SJD\Proc\LigacaoApiController@list']);
     Route::post('store',['as' =>'store','uses'=>'_Api\SJD\Proc\LigacaoApiController@store']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'_Api\SJD\Proc\LigacaoApiController@destroy']);
 });

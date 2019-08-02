@@ -12,9 +12,9 @@
         @endforelse
         </tbody>
     </table>
-    @can('criar-prisoes')
+    @if(hasPermissionTo('criar-prisoes'))
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar prisão
     </button>
-    @endcan
+    @endif
 </div>

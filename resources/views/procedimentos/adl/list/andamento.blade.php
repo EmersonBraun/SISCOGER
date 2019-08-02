@@ -39,21 +39,21 @@
                             <td>{{ $registro->present()->andamentocoger }}</td>
                             <td>
                                 <span>
-                                    @can('ver-adl') 
+                                    @if(hasPermissionTo('ver-adl'))
                                     <a class="btn btn-default"
                                         href="{{route('adl.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
-                                    @endcan
-                                    @can('editar-adl') 
+                                    @endif
+                                    @if(hasPermissionTo('editar-adl')) 
                                     <a class="btn btn-info"
                                         href="{{route('adl.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endcan
-                                    @can('apagar-adl') 
+                                    @endif
+                                    @if(hasPermissionTo('apagar-adl'))
                                     <a class="btn btn-danger" href="{{route('adl.destroy',$registro['id_adl'])}}"
                                         onclick="return confirmApagar('adl',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
-                                    @endcan
+                                    @endif
                                 </span>
                             </td>
                         </tr>

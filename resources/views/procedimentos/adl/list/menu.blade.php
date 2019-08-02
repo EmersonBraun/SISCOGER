@@ -18,9 +18,11 @@
             <span class="col-md-2 col-xs-2"></span>
             @endif
         </div>
+        @if(hasPermissionTo('criar-adl'))
         <div class="col-md-2 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('adl.create')}}">
             <i class="fa fa-plus"></i> Adicionar ADL</a>
         </div>
+        @endif
     <div>
 </section>

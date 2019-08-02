@@ -39,20 +39,20 @@
                             <td>{{sistema('andamentocoger',$registro['id_andamentocoger'])}}</td>
                             <td>
                                 <span>
-                                    @can('ver-ipm') 
+                                    @if(hasPermissionTo('ver-ipm'))
                                     <a class="btn btn-default"
                                         href="{{route('ipm.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
-                                    @endcan
-                                    @can('editar-ipm') 
+                                    @endif
+                                    @if(hasPermissionTo('editar-ipm'))
                                     <a class="btn btn-info"
                                         href="{{route('ipm.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endcan
-                                    @can('apagar-ipm') 
+                                    @endif
+                                    @if(hasPermissionTo('apagar-ipm'))
                                     <a class="btn btn-danger" href="{{route('ipm.destroy',$registro['id_ipm'])}}"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
-                                    @endcan
+                                    @endif
                                 </span>
                             </td>
                         </tr>

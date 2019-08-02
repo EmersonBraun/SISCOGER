@@ -28,6 +28,9 @@ Vue.component('v-cautelas', () => import(/* webpackChunkName: "v-cautelas" */'./
 // Layout
 Vue.component('v-tab-item', () => import(/* webpackChunkName: "v-tab-item" */'./components/Layout/TabItem.vue'));
 Vue.component('v-tab-menu', () => import(/* webpackChunkName: "v-tab-menu" */'./components/Layout/TabMenu.vue'));
+Vue.component('v-messages', () => import(/* webpackChunkName: "v-messages" */'./components/Layout/TopMenu/Messages.vue'));
+Vue.component('v-notifications', () => import(/* webpackChunkName: "v-notifications" */'./components/Layout/TopMenu/Notifications.vue'));
+Vue.component('v-tasks', () => import(/* webpackChunkName: "v-tasks" */'./components/Layout/TopMenu/Tasks.vue'));
 //VUESTRAP
 // Revisados
 Vue.component('v-datepicker', () => import(/* webpackChunkName: "v-datepicker" */'./components/Vuestrap/Datepicker.vue'));

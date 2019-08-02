@@ -25,13 +25,22 @@ class RecursoController extends Controller
     public function lista()
     {
         $registros = $this->repository->all();
-        return view('procedimentos.recurso.list.index',compact('registros'));
+        $procs = $this->repository->distinctProcs();
+        return view('procedimentos.recurso.list.index',compact('registros','procs'));
+    }
+
+    public function proc($proc)
+    {
+        $registros = $this->repository->proc($proc);
+        $procs = $this->repository->distinctProcs();
+        return view('procedimentos.recurso.list.proc',compact('registros','procs','proc'));
     }
 
     public function apagados()
     {
         $registros = $this->repository->apagados();
-        return view('procedimentos.recurso.list.apagados',compact('registros'));
+        $procs = $this->repository->distinctProcs();
+        return view('procedimentos.recurso.list.apagados',compact('registros','procs'));
     }
 
     public function create()

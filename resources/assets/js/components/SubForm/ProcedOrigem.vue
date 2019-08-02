@@ -182,7 +182,9 @@
             },
             // listagem dos arquivos existentes
             listProc(){
-                let urlIndex = `${this.getBaseUrl}api/ligacao/list/${this.dprocl}/${this.dref}/${this.dano}`
+                const urlIndex = (this.dano) 
+                ? `${this.getBaseUrl}api/ligacao/list/${this.dproc}/${this.dref}/${this.dano}`
+                : `${this.getBaseUrl}api/ligacao/list/${this.dproc}/${this.dref}`
                 axios
                 .get(urlIndex)
                 .then((response) => {

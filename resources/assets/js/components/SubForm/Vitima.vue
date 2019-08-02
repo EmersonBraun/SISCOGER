@@ -206,7 +206,7 @@
         },
         methods: {
              listVitima(){
-                let urlIndex = `${this.getBaseUrl}api/vitima/list/${this.dprocl}/${this.idp}`;
+                let urlIndex = `${this.getBaseUrl}api/vitima/list/${this.dproc}/${this.idp}`;
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)

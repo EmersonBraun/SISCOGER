@@ -37,21 +37,21 @@
                             <td class='col-xs-6 col-md-6'>{{$registro['sintese_txt']}}</td>
                             <td class='col-xs-3 col-md-3'>
                                 <span>
-                                    @can('ver-cj') 
+                                    @if(hasPermissionTo('ver-cj'))
                                     <a class="btn btn-default"
                                         href="{{route('cj.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
-                                    @endcan
-                                    @can('editar-cj') 
+                                    @endif
+                                    @if(hasPermissionTo('editar-cj'))
                                     <a class="btn btn-info"
                                         href="{{route('cj.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endcan
-                                    @can('apagar-cj') 
+                                    @endif
+                                    @if(hasPermissionTo('apagar-cj')) 
                                     <a class="btn btn-danger" href="{{route('cj.destroy',$registro['id_cj'])}}"
                                         onclick="return  confirmApagar('cj',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
-                                    @endcan
+                                    @endif
                                 </span>
                             </td>
                         </tr>

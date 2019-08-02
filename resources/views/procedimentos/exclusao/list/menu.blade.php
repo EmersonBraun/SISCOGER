@@ -14,9 +14,11 @@
             <span class="col-md-6 col-xs-6"></span>
             @endif
         </div>
+        @if(hasPermissionTo('criar-exclusao'))
         <div class="col-md-6 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('exclusao.create')}}">
             <i class="fa fa-plus"></i> Adicionar Exclusão</a>
         </div>
+        @endif
     <div>
 </section>

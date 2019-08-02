@@ -12,9 +12,11 @@
             <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-xs-6" href="{{route('suspenso.apagados')}}">Apagados</a>
             @endif
         </div>
+        @if(hasPermissionTo('criar-suspensos'))
         <div class="col-md-4 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('suspenso.create')}}">
             <i class="fa fa-plus"></i> Adicionar Suspenso</a>
         </div>
+        @endif
     <div>
 </section>

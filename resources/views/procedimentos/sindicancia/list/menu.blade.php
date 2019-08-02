@@ -18,10 +18,12 @@
             <span class="col-md-2 col-xs-2"></span>
             @endif
         </div>
+        @if(hasPermissionTo('criar-sindicancia'))
         <div class="col-md-2 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('sindicancia.create')}}">
             <i class="fa fa-plus"></i> Adicionar Sindicância</a>
         </div>
+        @endif
         <div class='col-md-2 col-xs-6  pull-right'>
             <div class="pull-right">
                 <label for="navegaco">Listar ano: </label>

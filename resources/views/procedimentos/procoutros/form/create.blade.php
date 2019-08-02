@@ -7,7 +7,7 @@
   <h1>Proc. Outros - Criar</h1>
   <ol class="breadcrumb">
   <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li><a href="{{route('procoutros.lista')}}">Proc. Outros - Lista</a></li>
+  <li><a href="{{route('procoutro.lista')}}">Proc. Outros - Lista</a></li>
   <li class="active">Proc. Outros - Criar</li>
   </ol>
 </section>
@@ -36,7 +36,7 @@
 
             <div class="box-body">
 
-            {!! Form::open(['url' => route('procoutros.store')]) !!}
+            {!! Form::open(['url' => route('procoutro.store')]) !!}
                 <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
                 <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
                     {{-- {!! Form::select('id_andamento',config('sistema.andamentoPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}

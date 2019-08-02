@@ -3,7 +3,7 @@
 @section('title', 'RECURSOS - Lista')
 
 @section('content_header')
-@include('procedimentos.recurso.list.menu', ['title' => 'Apagados','page' => 'apagados'])
+@include('procedimentos.recurso.list.menu', ['title' => 'Apagados','page' => 'apagados','procs' => $procs])
 @stop
 
 @section('content')

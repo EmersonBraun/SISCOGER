@@ -41,18 +41,18 @@
             </div>
             <!-- /.tab-content -->
         </div>
-        @can('ver-afastamentos')
+        @if(hasPermissionTo('ver-afastamentos'))
             @include('FDI.afastamentos')
-        @endcan
-        @can('ver-dependentes')
+        @endif
+        @if(hasPermissionTo('ver-dependentes'))
             @include('FDI.dependentes')
-        @endcan
-        @can('ver-tramite-coger')
+        @endif
+        @if(hasPermissionTo('ver-tramite-coger'))
             @include('FDI.tramitecoger')
-        @endcan
-        @can('ver-tramite-opm')
+        @endif
+        @if(hasPermissionTo('ver-tramite-opm'))
             @include('FDI.tramiteopm')
-        @endcan
+        @endif
     <div>
         <input type="button" onclick="cont();" value="Imprimir">
     </div>

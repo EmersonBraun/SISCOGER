@@ -25,9 +25,9 @@
         @endforelse
         </tbody>
     </table>
-    @can('criar-restricoes')
+    @if(hasPermissionTo('criar-restricoes'))
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar Procedimento Outros
     </button>
-    @endcan
+    @endif
 </div>

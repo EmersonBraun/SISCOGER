@@ -71,6 +71,7 @@
             "app/Helpers/validacao/hasAnyPermission.php",
             "app/Helpers/validacao/hasAnyRole.php",
             "app/Helpers/validacao/hasPermission.php",
+            "app/Helpers/validacao/hasPermissionTo.php",
             "app/Helpers/validacao/hasRole.php",
             "app/Helpers/validacao/ver_superior.php",
             "app/Helpers/validacao/ver_unidade.php"

@@ -233,7 +233,7 @@
                 }
             },
             listPM(){
-                let urlIndex = `${this.getBaseUrl}api/dados/membros/${this.dprocl}/${this.idp}`;
+                let urlIndex = `${this.getBaseUrl}api/dados/membros/${this.dproc}/${this.idp}`;
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)

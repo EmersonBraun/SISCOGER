@@ -3,7 +3,7 @@
 @section('title', 'notacoger')
 
 @section('content_header')
-@include('procedimentos.notacoger.list.menu', ['title' => 'Consultas','page' => 'lista'])
+@include('apresentacao.notacoger.list.menu', ['title' => 'Consultas','page' => $page])
 @stop
 
 @section('content')
@@ -13,10 +13,8 @@
             <div class="box-header">
                 <h3 class="box-title">Listagem de Nota COGER</h3>
             </div>
-            <!-- /.box-header -->
             <div class="box-body">
                 <table id="datable" class="table table-bordered table-striped">
-
                     <thead>
                         <tr>
                             <th style="display: none">#</th>
@@ -28,7 +26,6 @@
                             <th class='col-xs-3 col-md-3'>Ações</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         @foreach($registros as $registro)
                         <tr>
@@ -41,24 +38,25 @@
                             <td>{{$registro->expedicao_data}}</td>
                             <td>{{$registro->status}}</td>
                             <td>{{$registro->present()->tiponotacomparecimento}}</td>
-                            <td>{{$registro->present()->nota_file}}</td>
+                            <td>{!!$registro->present()->nota_file!!}</td>
                             <td>
                                 <span>
-                                    @can('ver-xx') 
+                                    {{-- @if(hasPermissionTo('ver-nota-coger'))
                                     <a class="btn btn-default"
-                                        href="{{route('adl.show',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i
+                                        href="{{route('notacoger.show',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
-                                    @endcan
-                                    @can('editar-xx') 
+                                    @endif --}}
+                                    @if(hasPermissionTo('editar-nota-coger'))
                                     <a class="btn btn-info"
-                                        href="{{route('adl.edit',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i
+                                        href="{{route('notacoger.edit',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endcan
-                                    @can('apagar-xx') 
-                                    <a class="btn btn-danger" href="{{route('adl.destroy',$registro['id_adl'])}}"
-                                        onclick="return confirm('Tem certeza que quer apagar o ADL?')"><i
+                                    @endif
+                                    @if(hasPermissionTo('apagar-nota-coger'))
+                                    <a class="btn btn-danger"
+                                        href="{{route('notacoger.destroy',$registro['id_notacoger'])}}"
+                                        onclick="return confirm('Tem certeza que quer apagar o notacoger?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
-                                    @endcan
+                                    @endif
                                 </span>
                             </td>
                         </tr>

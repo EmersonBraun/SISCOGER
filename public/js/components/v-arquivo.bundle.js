@@ -1504,12 +1504,12 @@ var render = function() {
               "div",
               { staticClass: "datepicker-monthRange" },
               [
-                _vm._l(_vm.text.months, function(m) {
+                _vm._l(_vm.text.months, function(m, index) {
                   return [
                     _c(
                       "span",
                       {
-                        key: m,
+                        key: index,
                         class: {
                           "datepicker-dateRange-item-active":
                             _vm.text.months[_vm.parse(_vm.val).getMonth()] ===
@@ -1519,7 +1519,7 @@ var render = function() {
                         },
                         on: {
                           click: function($event) {
-                            return _vm.monthSelect(_vm.index)
+                            return _vm.monthSelect(index)
                           }
                         }
                       },
@@ -1579,12 +1579,12 @@ var render = function() {
               "div",
               { staticClass: "datepicker-monthRange decadeRange" },
               [
-                _vm._l(_vm.decadeRange, function(decade) {
+                _vm._l(_vm.decadeRange, function(decade, index) {
                   return [
                     _c(
                       "span",
                       {
-                        key: decade,
+                        key: index,
                         class: {
                           "datepicker-dateRange-item-active":
                             _vm.parse(this.val).getFullYear() === decade.text
@@ -2068,7 +2068,7 @@ module.exports = Component.exports
             this.action = pathname[3];
             this.dproc = pathname[2];
             this.dref = pathname[4];
-            this.dano = pathname[5];
+            this.dano = pathname[5] || false;
 
             var baseUrl = getUrl.protocol + '//' + getUrl.host + '/' + pathname[1] + '/';
 

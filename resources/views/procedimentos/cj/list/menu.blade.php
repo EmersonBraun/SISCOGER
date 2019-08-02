@@ -18,9 +18,11 @@
             <span class="col-md-2 col-xs-2"></span>
             @endif
         </div>
+        @if(hasPermissionTo('criar-cj'))
         <div class="col-md-2 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('cj.create')}}">
             <i class="fa fa-plus"></i> Adicionar CJ</a>
         </div>
+        @endif
     <div>
 </section>

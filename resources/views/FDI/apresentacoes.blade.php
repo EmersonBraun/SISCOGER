@@ -35,9 +35,9 @@
         @endforelse
         </tbody>
     </table>
-    @can('criar-apresentacao')
+    @if(hasPermissionTo('criar-apresentacao'))
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar Apresentação
     </button>
-    @endcan
+    @endif
 </div>

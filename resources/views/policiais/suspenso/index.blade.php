@@ -45,21 +45,21 @@
                             <td>{{$registro->fim_data}}</td>
                             <td>
                                 <span>
-                                    {{-- @can('ver-suspensos') 
+                                    {{-- @if(hasPermissionTo('ver-suspensos')) 
                                     <a class="btn btn-default" href="{{route('suspenso.show',$registro['id_suspenso'])}}"><i
                                         class="fa fa-fw fa-eye "></i></a>
-                                    @endcan --}}
-                                    @can('editar-suspensos') 
+                                    @endif --}}
+                                    @if(hasPermissionTo('editar-suspensos'))
                                     <a class="btn btn-info"
                                         href="{{route('suspenso.edit',$registro['id_suspenso'])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endcan
-                                    @can('apagar-suspensos') 
+                                    @endif
+                                    @if(hasPermissionTo('apagar-suspensos'))
                                     <a class="btn btn-danger"
                                         href="{{route('suspenso.destroy',$registro['id_suspenso'])}}"
                                         onclick="return confirm('Tem certeza que quer apagar o Suspenso?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
-                                    @endcan
+                                    @endif
                                 </span>
                             </td>
                         </tr>

@@ -9,18 +9,18 @@
         <div class="btn-group col-md-10 col-xs-12 nopadding">
             <a class="btn @if($page == 'lista') btn-success @else btn-default @endif col-md-3 col-xs-3" href="{{route('permission.index')}}">Listar Permissões</a>
             <a class="btn @if($page == 'treeview') btn-success @else btn-default @endif col-md-3 col-xs-3" href="{{route('permission.treeview')}}">Árvore Permissões</a>
-            @can('listar-usuarios')
+            @if(hasPermissionTo('listar-usuarios'))
             <a class="btn btn-default col-md-3 col-xs-3" href="{{route('user.index')}}">Listar Usuários</a>
-            @endcan
-            @can('listar-papeis')
+            @endif
+            @if(hasPermissionTo('listar-papeis'))
             <a class="btn btn-default col-md-3 col-xs-3" href="{{route('role.index')}}">Listar Papéis</a>
-            @endcan
+            @endif
         </div>
-        @can('criar-permissoes')
+        @if(hasPermissionTo('criar-permissoes'))
         <div class='col-md-2 col-xs-12 litlepadding'>
             <a href="{{ route('permission.create') }}" class="btn btn-success btn-block">
                 <i class="fa fa-plus "></i> Adicionar Permissões</a>
         </div>
-        @endcan
+        @endif
     <div>
 </section>

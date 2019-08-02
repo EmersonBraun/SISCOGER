@@ -14,9 +14,11 @@
             <span class="col-md-6 col-xs-6"></span>
             @endif
         </div>
+        @if(hasPermissionTo('criar-pad'))
         <div class="col-md-4 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('pad.create')}}">
             <i class="fa fa-plus"></i> Adicionar PAD</a>
         </div>
+        @endif
     <div>
 </section>

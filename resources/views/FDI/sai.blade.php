@@ -31,9 +31,9 @@
         @endforelse
         </tbody>
     </table>
-    @can('criar-sai')
+    @if(hasPermissionTo('criar-sai'))
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar Sai
     </button>
-    @endcan
+    @endif
 </div>

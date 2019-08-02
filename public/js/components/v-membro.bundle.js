@@ -246,7 +246,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         listPM: function listPM() {
             var _this2 = this;
 
-            var urlIndex = this.getBaseUrl + 'api/dados/membros/' + this.dprocl + '/' + this.idp;
+            var urlIndex = this.getBaseUrl + 'api/dados/membros/' + this.dproc + '/' + this.idp;
             if (this.dproc && this.idp) {
                 axios.get(urlIndex).then(function (response) {
                     _this2.pms = response.data.membros;
@@ -1451,7 +1451,7 @@ module.exports = Component.exports
             this.action = pathname[3];
             this.dproc = pathname[2];
             this.dref = pathname[4];
-            this.dano = pathname[5];
+            this.dano = pathname[5] || false;
 
             var baseUrl = getUrl.protocol + '//' + getUrl.host + '/' + pathname[1] + '/';
 

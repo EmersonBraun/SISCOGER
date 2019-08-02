@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"file-upload","1":"v-acusado","2":"v-sobrestamento","3":"v-movimento","4":"v-arquivo","5":"v-prioritario","6":"v-select","7":"v-vitima","8":"v-reus","9":"v-proced-origem","10":"v-membro","11":"v-acusado-unico","12":"v-acusado-rg","13":"v-datepicker","14":"v-checkbox","15":"v-defensor","16":"v-tab-item","17":"vue-simple-suggest","18":"v-show","19":"v-opm","20":"v-municipio","21":"v-label","22":"v-item-unique","23":"v-it-objeto-procedimento","24":"v-ano","25":"v-cautelas","26":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
+/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"file-upload","1":"v-acusado","2":"v-sobrestamento","3":"v-movimento","4":"v-arquivo","5":"v-prioritario","6":"v-select","7":"v-vitima","8":"v-reus","9":"v-proced-origem","10":"v-membro","11":"v-acusado-unico","12":"v-acusado-rg","13":"v-datepicker","14":"v-checkbox","15":"v-defensor","16":"v-tab-item","17":"vue-simple-suggest","18":"v-show","19":"v-opm","20":"v-municipio","21":"v-label","22":"v-item-unique","23":"v-it-objeto-procedimento","24":"v-ano","25":"v-cautelas","26":"v-tab-menu","28":"v-notifications","29":"v-messages","30":"v-tasks"}[chunkId]||chunkId) + ".bundle.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -50651,6 +50651,15 @@ Vue.component('v-tab-item', function () {
 });
 Vue.component('v-tab-menu', function () {
   return __webpack_require__.e/* import() */(26).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabMenu.vue"));
+});
+Vue.component('v-messages', function () {
+  return __webpack_require__.e/* import() */(29).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TopMenu/Messages.vue"));
+});
+Vue.component('v-notifications', function () {
+  return __webpack_require__.e/* import() */(28).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TopMenu/Notifications.vue"));
+});
+Vue.component('v-tasks', function () {
+  return __webpack_require__.e/* import() */(30).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TopMenu/Tasks.vue"));
 });
 //VUESTRAP
 // Revisados

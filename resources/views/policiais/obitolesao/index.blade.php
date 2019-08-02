@@ -3,7 +3,7 @@
 @section('title', 'Óbitos e lesões | Lista')
 
 @section('content_header')
-@include('policiais.obitolesao.menu', ['title' => 'Consultas','page' => $page])
+@include('policiais.obitolesao.menu', ['title' => 'Consultas','page' => 'lista'])
 @stop
 
 @section('content')
@@ -43,21 +43,21 @@
                             <td>{{$registro->present()->situacao}}</td>
                             <td>
                                 <span>
-                                    {{-- @can('ver-obitos-lesoes') 
+                                    {{-- @if(hasPermissionTo('ver-obitos-lesoes'))
                                     <a class="btn btn-default" href="{{route('obitolesao.show',$registro['id_falecimento'])}}"><i
                                         class="fa fa-fw fa-eye "></i></a>
-                                    @endcan --}}
-                                    @can('editar-obitos-lesoes') 
+                                    @endif --}}
+                                    @if(hasPermissionTo('editar-obitos-lesoes'))
                                     <a class="btn btn-info"
                                         href="{{route('obitolesao.edit',$registro['id_falecimento'])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endcan
-                                    @can('apagar-obitos-lesoes') 
+                                    @endif
+                                    @if(('apagar-obitos-lesoes'))
                                     <a class="btn btn-danger"
                                         href="{{route('obitolesao.destroy',$registro['id_falecimento'])}}"
                                         onclick="return confirm('Tem certeza que quer apagar o obitolesao?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
-                                    @endcan
+                                    @endif
                                 </span>
                             </td>
                         </tr>

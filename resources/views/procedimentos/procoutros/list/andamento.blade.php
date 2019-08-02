@@ -42,21 +42,21 @@
                             <td>{{$registro['andamentocoger']}}</td>
                             <td>
                                 <span>
-                                    @can('ver-proc-outros') 
+                                    @if(hasPermissionTo('ver-proc-outros')) 
                                     <a class="btn btn-default"
-                                        href="{{route('procoutros.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
+                                        href="{{route('procoutro.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
-                                    @endcan
-                                    @can('editar-proc-outros') 
+                                    @endif
+                                    @if(hasPermissionTo('editar-proc-outros')) 
                                     <a class="btn btn-info"
-                                        href="{{route('procoutros.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
+                                        href="{{route('procoutro.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endcan
-                                    @can('apagar-proc-outros') 
+                                    @endif
+                                    @if(hasPermissionTo('apagar-proc-outros')) 
                                     <a class="btn btn-danger"
-                                        href="{{route('procoutros.destroy',$registro['id_proc_outros'])}}"><i
+                                        href="{{route('procoutro.destroy',$registro['id_proc_outros'])}}"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
-                                    @endcan
+                                    @endif
                                 </span>
                             </td>
                         </tr>

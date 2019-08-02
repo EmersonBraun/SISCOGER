@@ -21,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
         // $gate->before(function ($user, $ability) {
         //     if(in_array($user->rg, config('sistema.super-users')))
         //     {
+                
         //         return true;
         //     }
         // });

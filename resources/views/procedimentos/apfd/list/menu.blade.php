@@ -15,9 +15,11 @@
             <span class="col-md-4 col-xs-4"></span>
             @endif
         </div>
+        @if(hasPermissionTo('criar-apfd'))
         <div class="col-md-4 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('apfd.create')}}">
             <i class="fa fa-plus"></i> Adicionar APFD</a>
         </div>
+        @endif
     <div>
 </section>

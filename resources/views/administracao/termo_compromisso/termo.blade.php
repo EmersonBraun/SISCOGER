@@ -1,19 +1,3 @@
-<!--<div class="col-md-2">
-  <div id="list-example" class="list-group">
-    <a class="list-group-item list-group-item-action" href="#list-item-1">Item A</a>
-    <a class="list-group-item list-group-item-action" href="#list-item-2">Item B</a>
-    <a class="list-group-item list-group-item-action" href="#list-item-3">Item C</a>
-    <a class="list-group-item list-group-item-action" href="#list-item-4">Item D</a>
-    <a class="list-group-item list-group-item-action" href="#list-item-5">Item E</a>
-    <a class="list-group-item list-group-item-action" href="#list-item-6">Item F</a>
-    <a class="list-group-item list-group-item-action" href="#list-item-7">Item G</a>
-    <a class="list-group-item list-group-item-action" href="#list-item-8">Item H</a>
-    <a class="list-group-item list-group-item-action" href="#list-item-9">Item I</a>
-    <a class="list-group-item list-group-item-action" href="#list-item-10">Item J</a>
-    <a class="list-group-item list-group-item-action" href="#list-item-11">Item K</a>
-    <a class="list-group-item list-group-item-action" href="#list-item-12">Item L</a>
-  </div>
-</div>-->
 <div class="col-md-12" style="max-height: 450px; overflow-y:scroll;">
   <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
     <p><b>DECLARO</b> estar ciente da habilitação que me foi conferida, 

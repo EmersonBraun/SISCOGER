@@ -7,16 +7,21 @@
     <br>   
     <div class="form-group col-md-12 col-xs-12 nopadding">
         <div class="btn-group col-md-10 col-xs-12 nopadding">
-            <a class="btn @if($page == 'lista') btn-success @else btn-default @endif col-md-6 col-xs-6" href="{{route('recurso.lista')}}">Consulta</a>
+            @foreach ($procs as $proc)
+            <a class="btn @if($page == $proc['procedimento']) btn-success @else btn-default @endif col-md-1 col-xs-1" href="{{route('recurso.proc',$proc['procedimento'])}}">{{$proc['procedimento']}}</a>  
+            @endforeach
+            <a class="btn @if($page == 'lista') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('recurso.lista')}}">Consulta</a>
             @if(session('is_admin'))
-            <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-6 col-xs-6" href="{{route('recurso.apagados')}}">Apagados</a>
+            <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('recurso.apagados')}}">Apagados</a>
             @else 
             <span class="col-md-6 col-xs-6"></span>
             @endif
         </div>
+        @if(hasPermissionTo('criar-recurso'))
         <div class="col-md-2 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('recurso.create')}}">
             <i class="fa fa-plus"></i> Adicionar Recurso</a>
         </div>
+        @endif
     <div>
 </section>

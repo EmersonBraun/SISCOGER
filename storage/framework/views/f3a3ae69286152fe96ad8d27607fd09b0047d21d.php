@@ -26,11 +26,11 @@
                             <td style="display: none"><?php echo e($permission->id); ?></td>
                             <td><?php echo e($permission->name); ?></td>
                             <td>
-                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('editar-permissoes')): ?> 
+                                <?php if(hasPermissionTo('editar-permissoes')): ?>
                                 <a href="<?php echo e(route('permission.edit',$permission->id)); ?>" class="btn btn-info pull-left"
                                     style="margin-right: 3px;">Edit</a>
                                 <?php endif; ?>
-                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('apagar-permissoes')): ?> 
+                                <?php if(hasPermissionTo('apagar-permissoes')): ?>
                                 <?php echo Form::open(['method' => 'DELETE', 'route' => ['permission.destroy',
                                 $permission->id] ]); ?>
 

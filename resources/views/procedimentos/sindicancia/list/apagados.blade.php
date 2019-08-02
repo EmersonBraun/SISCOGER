@@ -31,15 +31,9 @@
                         <td>{{$registro['sintese_txt']}}</td>
                         <td>
                             <span>
-                                @can('ver-sindicancia')
-                                    <a class="btn btn-default" href="{{route('sindicancia.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-eye "></i></a>
-                                @endcan
-                                @can('editar-sindicancia')
-                                    <a class="btn btn-info" href="{{route('sindicancia.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-edit "></i></a>
-                                @endcan
-                                @can('apagar-sindicancia')
-                                    <a class="btn btn-danger"  href="{{route('sindicancia.destroy',$registro['id_sindicancia'])}}" onclick="return confirmApagar('SINDICÂNCIA',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i class="fa fa-fw fa-trash-o "></i></a>
-                                @endcan
+                                {{-- <a class="btn btn-default" href="{{route('sindicancia.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-eye "></i></a> --}}
+                                <a class="btn btn-info" href="{{route('sindicancia.restore',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-recycle "></i></a>
+                                <a class="btn btn-danger"  href="{{route('sindicancia.forceDelete',$registro['id_sindicancia'])}}" onclick="return confirmApagar('SINDICÂNCIA',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i class="fa fa-fw fa-trash-o "></i></a>
                             </span>
                             </td>   
                         </tr>

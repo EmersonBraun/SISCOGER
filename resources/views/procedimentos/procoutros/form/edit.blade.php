@@ -7,7 +7,7 @@
   <h1>Proc. Outros - Editar</h1>
   <ol class="breadcrumb">
   <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li><a href="{{route('procoutros.lista',['ano' => date('Y')])}}">Proc. Outros - Lista</a></li>
+  <li><a href="{{route('procoutro.lista',['ano' => date('Y')])}}">Proc. Outros - Lista</a></li>
   <li class="active">Proc. Outros - Editar</li>
   </ol>
   <br>
@@ -38,7 +38,7 @@
        
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
-                {!! Form::model($proc,['url' => route('procoutros.update',$proc['id_proc_outros']),'method' => 'put']) !!}
+                {!! Form::model($proc,['url' => route('procoutro.update',$proc['id_proc_outros']),'method' => 'put']) !!}
                     <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
                     <v-label label="id_andamento" title="Andamento">
                         {{-- {!! Form::select('id_andamento',config('sistema.andamentoPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}

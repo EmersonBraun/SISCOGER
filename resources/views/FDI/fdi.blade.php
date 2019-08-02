@@ -1,5 +1,5 @@
 <div class="tab-pane" id="fdi">
-    @can('ver-mudanca-comportamento')
+    @if(hasPermissionTo('ver-mudanca-comportamento'))
     <table class="table table-striped">
         <h4 class="text-center text-bold">Mudanças de Comportamento</h4>
         <tbody>
@@ -23,13 +23,13 @@
             @endforelse
         </tbody>
     </table>
-    @endcan
-    @can('criar-mudanca-comportamento')
+    @endif
+    @if(hasPermissionTo('criar-mudanca-comportamento'))
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar mudança de comportamento
     </button>
-    @endcan
-    @can('ver-elogios')
+    @endif
+    @if(hasPermissionTo('ver-elogios'))
     <table class="table table-striped">
         <h4 class="text-center text-bold">Elogios</h4>
         <tbody>
@@ -51,10 +51,10 @@
             @endforelse
         </tbody>
     </table>
-    @endcan
-    @can('criar-elogio')
+    @endif
+    @if(hasPermissionTo('criar-elogio'))
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar elogio
     </button>
-    @endcan
+    @endif
 </div>

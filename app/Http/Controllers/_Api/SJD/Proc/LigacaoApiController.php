@@ -10,12 +10,18 @@ use App\Models\Sjd\Busca\Ligacao;
 
 class LigacaoApiController extends Controller
 {
-    public function list($proc, $ref, $ano)
+    public function list($proc, $ref, $ano='')
     {
-        $result = Ligacao::where('destino_proc','=',$proc)
-            ->where('destino_sjd_ref','=',$ref)
-            ->where('destino_sjd_ref_ano','=',$ano)
+        if($ano){
+            $result = Ligacao::where('destino_proc','=',$proc)
+                ->where('destino_sjd_ref','=',$ref)
+                ->where('destino_sjd_ref_ano','=',$ano)
+                ->get();
+        } else {
+            $result = Ligacao::where('destino_proc','=',$proc)
+            ->where('id_'.$proc,'=',$ref)
             ->get();
+        }
         
         return response()->json(
             $result, 200);

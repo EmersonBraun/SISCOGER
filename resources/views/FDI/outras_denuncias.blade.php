@@ -16,9 +16,9 @@
             @endforelse
         </tbody>
     </table>
-    @can('criar-outras-denuncias')
+    @if(hasPermissionTo('criar-outras-denuncias'))
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar Denúncia
     </button>
-    @endcan
+    @endif
 </div>

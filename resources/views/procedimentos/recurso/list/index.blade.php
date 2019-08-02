@@ -3,7 +3,7 @@
 @section('title', 'RECURSOS - Lista')
 
 @section('content_header')
-@include('procedimentos.recurso.list.menu', ['title' => 'Consulta','page' => 'lista'])
+@include('procedimentos.recurso.list.menu', ['title' => 'Consulta','page' => 'lista','procs' => $procs])
 @stop
 
 @section('content')
@@ -35,23 +35,23 @@
                             <td>{{date( 'd/m/Y H:i:s' , strtotime($registro['datahora']))}}</td>
                             <td>
                                 <span>
-                                    @can('ver-recurso') 
+                                    @if(hasPermissionTo('ver-recursos'))
                                     <a class="btn btn-default"
                                         href="{{route('recurso.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
-                                    @endcan
-                                    @can('editar-recurso') 
+                                    @endif
+                                    @if(hasPermissionTo('editar-recursos')) 
                                     <a class="btn btn-info"
                                         href="{{route('recurso.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endcan
-                                    @can('apagar-recurso') 
+                                    @endif
+                                    @if(hasPermissionTo('apagar-recursos')) 
                                     <a class="btn btn-danger"
                                         href="{{route('recurso.destroy',$registro['id_recursos'])}}"
                                         onclick="return  confirmApagar('recursos',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                 </span>
-                                    @endcan
+                                    @endif
                             </td>
                         </tr>
                         @endforeach

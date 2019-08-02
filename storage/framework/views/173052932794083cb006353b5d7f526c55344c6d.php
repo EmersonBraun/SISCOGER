@@ -4,11 +4,9 @@
 
 <script src="<?php echo e(asset('public/vendor/plugins/bootstrap/js/bootstrap.bundle.js')); ?>"></script>
 <script src="<?php echo e(asset('public/vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js')); ?>"></script>
-<script src="<?php echo e(asset('public/vendor/plugins/jQueryUI/jquery-ui.min.js')); ?>"></script>
+
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-$.widget.bridge('uibutton', $.ui.button)
-</script>
+
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
@@ -70,23 +68,21 @@ table.columns().every( function () {
 <script src="<?php echo e(asset('public/vendor/plugins/toastr/toastr.js')); ?>"></script>
 <!-- =========== /GERAIS ========== -->
 <!-- =========== FORM ========== -->
-<!-- InputMask 
+<!-- InputMask -->
+
+
+<script src="<?php echo e(asset('public/vendor/plugins/mask/dist/jquery.mask.js')); ?>"></script>
 
 
 
 
 
 
-
-
-
-
-
-
+<!--funções criadas -->
 <script src="<?php echo e(asset('public/js/funcoes.js')); ?>"></script>
-<script src="<?php echo e(asset('public/js/ajax.js')); ?>"></script> -->
+<script src="<?php echo e(asset('public/js/ajax.js')); ?>"></script> 
 <!-- para mascarar os inputs adionar apenas as classes abaixo -->
-<script type="text/javascript">
+<script>
 $(document).ready(function($){
   $('.numero').mask('00000000');
   $('.cnh').mask('000000000000000');
@@ -128,6 +124,16 @@ $(document).ready(function($){
   $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
 });
 </script>
+<?php if(!session('is_admin')): ?>
+<script>
+$(document).ready(function($){
+   $('.phpdebugbar-openhandler-overlay').hide();
+   $('.phpdebugbar-restore-btn').hide();
+});
+</script>
+<?php endif; ?>
+
+
 <!-- Easy Autocomplete -->
 
 

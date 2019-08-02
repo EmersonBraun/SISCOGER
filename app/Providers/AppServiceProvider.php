@@ -37,10 +37,10 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Way\Generators\GeneratorsServiceProvider::class);
             $this->app->register(\Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);
         }*/
-        if ($this->app->environment() == 'local') {
-            \Debugbar::disable();
+        // if (in_array(Auth::user()->rg, config('sistema.super-users'))) {
+            \Debugbar::enable();
             $this->app->register(\Reliese\Coders\CodersServiceProvider::class);
-        }
+        // }
 
     }
 }

@@ -35,11 +35,11 @@
                         @endforelse
                     </tbody>
                 </table>
-                @can('criar-tramite-op')
+                @if(hasPermissionTo('criar-tramite-opm'))
                 <button type="button" class="btn btn-primary btn-block">
                     <i class="fa fa-plus"></i>Adicionar Trâmite OPM
                 </button>
-                @endcan
+                @endif
                 </div> 
             </div>   
         </div>

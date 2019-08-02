@@ -44,22 +44,22 @@
                             <td>{{$registro->bg_numero}}/{{$registro->bg_ano}}</td>
                             <td>
                                 <span>
-                                    @can('ver-exclusao') 
+                                    @if(hasPermissionTo('ver-exclusao'))
                                     <a class="btn btn-default"
                                         href="{{route('exclusao.show',$registro->id_exclusaojudicialjudicial)}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
-                                    @endcan
-                                    @can('editar-exclusao') 
+                                    @endif
+                                    @if(hasPermissionTo('editar-exclusao')) 
                                     <a class="btn btn-info"
                                         href="{{route('exclusao.edit',$registro->id_exclusaojudicial)}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endcan
-                                    @can('apagar-exclusao') 
+                                    @endif
+                                    @if(hasPermissionTo('apagar-exclusao'))
                                     <a class="btn btn-danger"
                                         href="{{route('exclusao.destroy',$registro->id_exclusaojudicial)}}"
                                         onclick="return  confirmApagar('exclusao',$registro->id_exclusaojudicial)"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
-                                    @endcan
+                                    @endif
                                 </span>
                             </td>
                         </tr>

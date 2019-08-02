@@ -11,24 +11,24 @@
     </ol>
     <br>
     <div class='form-group col-md-12 col-xs-12' style='padding-left: 0px'>
-        @can('listar-papeis')
+        @if(hasPermissionTo('listar-papeis'))
         <div class='btn-group col-md-4 col-xs-12 '>
             <a href="{{ route('role.index') }}" class="btn btn-default btn-block">
                 Listar Papéis</a>
         </div>  
-        @endcan
-        @can('listar-permissoes')  
+        @endif
+        @if(hasPermissionTo('listar-permissoes'))
         <div class='btn-group col-md-4 col-xs-12 '>
             <a href="{{ route('permission.index') }}" class="btn btn-default btn-block">
                 Listar Permissões</a>
         </div>
-        @endcan
-        @can('criar-usuarios')
+        @endif
+        @if(hasPermissionTo('criar-usuarios'))
         <div class='btn-group col-md-4 col-xs-12 '>
             <a href="{{ route('user.create') }}" class="btn btn-success btn-block">
                 <i class="fa fa-plus "></i> Adicionar Usuários</a>
         </div>
-        @endcan
+        @endif
     <div>
 </section>
 @stop
@@ -62,28 +62,28 @@
                             <td>{{ $user->roles()->pluck('name')->implode('/') }}</td>
                             <td>
                                 <div class="btn-group">
-                                    @can('editar-usuarios')
+                                    @if(hasPermissionTo('editar-usuarios'))
                                     <a href="{{ route('user.edit', $user->id) }}" class="btn btn-info pull-left"
                                         style="margin-right: 3px;">Editar</a>
-                                    @endcan
-                                    @can('apagar-usuarios')
+                                    @endif
+                                    @if(hasPermissionTo('apagar-usuarios'))
                                     {!! Form::open(['method' => 'DELETE', 'route' => ['user.destroy',
                                     $user->id],'style' => 'display: inline' ]) !!}
                                     {!! Form::submit('Apagar', ['class' => 'btn btn-danger', 'onclick' => 'return
                                     confirm("Você tem certeza?");','style' => 'display: inline']) !!}
                                     {!! Form::close() !!}
-                                    @endcan
+                                    @endif
                                    
                                     @if($user->block == '0')
-                                        @can('bloquear-usuarios')     
+                                        @if(hasPermissionTo('bloquear-usuarios'))     
                                         <a href="{{ route('user.block', $user->id) }}" class="btn btn-warning"
                                             style="">Bloquear</a>
-                                        @endcan
+                                        @endif
                                     @else
-                                        @can('desbloquear-usuarios')
+                                        @if(hasPermissionTo('desbloquear-usuarios'))
                                         <a href="{{ route('user.unblock', $user->id) }}" class="btn btn-success"
                                             style="">Desbloquear</a>
-                                        @endcan
+                                        @endif
                                     @endif
                                 </div>
                             </td>

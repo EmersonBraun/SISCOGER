@@ -16,9 +16,11 @@
             <span class="col-md-3 col-xs-3"></span>
             @endif
         </div>
+        @if(hasPermissionTo('criar-iso'))
         <div class="col-md-2 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('iso.create')}}">
             <i class="fa fa-plus"></i> Adicionar ISO</a>
         </div>
+        @endif
     <div>
 </section>

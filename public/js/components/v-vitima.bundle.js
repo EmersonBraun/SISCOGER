@@ -220,7 +220,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         listVitima: function listVitima() {
             var _this = this;
 
-            var urlIndex = this.getBaseUrl + 'api/vitima/list/' + this.dprocl + '/' + this.idp;
+            var urlIndex = this.getBaseUrl + 'api/vitima/list/' + this.dproc + '/' + this.idp;
             if (this.dproc && this.idp) {
                 axios.get(urlIndex).then(function (response) {
                     _this.vitimas = response.data;
@@ -1639,7 +1639,7 @@ module.exports = Component.exports
             this.action = pathname[3];
             this.dproc = pathname[2];
             this.dref = pathname[4];
-            this.dano = pathname[5];
+            this.dano = pathname[5] || false;
 
             var baseUrl = getUrl.protocol + '//' + getUrl.host + '/' + pathname[1] + '/';
 

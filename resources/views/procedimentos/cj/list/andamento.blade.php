@@ -41,23 +41,23 @@
                             <td>{{sistema('andamentocoger',$registro['id_andamentocoger'])}}</td>
                             <td>
                                 <span>
-                                    @can('ver-cj') 
+                                    @if(hasPermissionTo('ver-cj')) 
                                     <a class="btn btn-default"
                                         href="{{route('cj.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-eye "></i>
                                     </a>
-                                    @endcan
-                                    @can('editar-cj') 
+                                    @endif
+                                    @if(hasPermissionTo('editar-cj'))
                                     <a class="btn btn-info"
                                         href="{{route('cj.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-edit "></i>
                                     </a>
-                                    @endcan
-                                    @can('apagar-cj') 
+                                    @endif
+                                    @if(hasPermissionTo('apagar-cj'))
                                     <a class="btn btn-danger" href="{{route('cj.destroy',$registro['id_cj'])}}"><i
                                             class="fa fa-fw fa-trash-o "></i>
                                     </a>
-                                    @endcan
+                                    @endif
                                 </span>
                             </td>
                         </tr>

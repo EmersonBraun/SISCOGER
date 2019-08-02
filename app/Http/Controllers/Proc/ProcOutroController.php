@@ -19,7 +19,7 @@ class ProcOutroController extends Controller
 
     public function index()
     {
-        return redirect()->route('procoutros.lista');
+        return redirect()->route('procoutro.lista');
     }
 
     public function lista()
@@ -87,7 +87,7 @@ class ProcOutroController extends Controller
         {
             $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'Proc. Outros Inserido');
-            return redirect()->route('procoutros.lista');
+            return redirect()->route('procoutro.lista');
         }
 
         toast()->warning('Houve um erro na inserção');
@@ -144,11 +144,11 @@ class ProcOutroController extends Controller
         {
             $this->repository->cleanCache();
             toast()->success('Proc. Outros atualizado!');
-            return redirect()->route('procoutros.lista');
+            return redirect()->route('procoutro.lista');
         }
 
         toast()->warning('Proc. Outros NÃO atualizado!');
-        return redirect()->route('procoutros.lista');
+        return redirect()->route('procoutro.lista');
 
     }
 
@@ -160,11 +160,11 @@ class ProcOutroController extends Controller
         if($destroy) {
             $this->repository->cleanCache();
             toast()->success('Proc. Outros Apagado');
-            return redirect()->route('procoutros.lista');
+            return redirect()->route('procoutro.lista');
         }
 
         toast()->warning('erro ao apagar Proc. Outros');
-        return redirect()->route('procoutros.lista');
+        return redirect()->route('procoutro.lista');
 
     }
 
@@ -176,11 +176,11 @@ class ProcOutroController extends Controller
         if($restore){
             $this->repository->cleanCache();
             toast()->success('Proc. Outros Recuperado!');
-            return redirect()->route('procoutros.lista');  
+            return redirect()->route('procoutro.lista');  
         }
 
         toast()->warning('Houve um erro ao recuperar!');
-        return redirect()->route('procoutros.lista'); 
+        return redirect()->route('procoutro.lista'); 
     }
 
     public function forceDelete($id)
@@ -191,11 +191,11 @@ class ProcOutroController extends Controller
         if($forceDelete){
             $this->repository->cleanCache();
             toast()->success('Proc. Outros apagado DEFINITIVO!');
-            return redirect()->route('procoutros.lista');  
+            return redirect()->route('procoutro.lista');  
         }
 
         toast()->warning('Houve um erro ao Apagar definitivo!');
-        return redirect()->route('procoutros.lista');
+        return redirect()->route('procoutro.lista');
     }
 
     public function datesToCreate($request) {

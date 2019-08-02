@@ -3,7 +3,7 @@
 @section('title', 'notacoger')
 
 @section('content_header')
-@include('procedimentos.notacoger.list.menu', ['title' => 'Consultas','page' => 'lista'])
+@include('apresentacao.notacoger.list.menu', ['title' => 'Consultas','page' => $page])
 @stop
 
 @section('content')
@@ -38,25 +38,25 @@
                             <td>{{$registro->expedicao_data}}</td>
                             <td>{{$registro->status}}</td>
                             <td>{{$registro->present()->tiponotacomparecimento}}</td>
-                            <td>{{$registro->present()->nota_file}}</td>
+                            <td>{!!$registro->present()->nota_file!!}</td>
                             <td>
                                 <span>
-                                    @can('ver-nota-coger') 
+                                    {{-- @if(hasPermissionTo('ver-nota-coger'))
                                     <a class="btn btn-default"
                                         href="{{route('notacoger.show',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
-                                    @endcan
-                                    @can('editar-nota-coger') 
+                                    @endif --}}
+                                    @if(hasPermissionTo('editar-nota-coger'))
                                     <a class="btn btn-info"
                                         href="{{route('notacoger.edit',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endcan
-                                    @can('apagar-nota-coger') 
+                                    @endif
+                                    @if(hasPermissionTo('apagar-nota-coger'))
                                     <a class="btn btn-danger"
                                         href="{{route('notacoger.destroy',$registro['id_notacoger'])}}"
-                                        onclick="return  confirm('Tem certeza que quer apagar o notacoger?')"><i
+                                        onclick="return confirm('Tem certeza que quer apagar o notacoger?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
-                                    @endcan
+                                    @endif
                                 </span>
                             </td>
                         </tr>

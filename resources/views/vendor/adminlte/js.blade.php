@@ -4,11 +4,11 @@
 {{-- <script src="{{ asset('public/vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script> --}}
 <script src="{{ asset('public/vendor/plugins/bootstrap/js/bootstrap.bundle.js') }}"></script>
 <script src="{{ asset('public/vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('public/vendor/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
+{{-- <script src="{{ asset('public/vendor/plugins/jQueryUI/jquery-ui.min.js') }}"></script> --}}
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
+{{-- <script>
 $.widget.bridge('uibutton', $.ui.button)
-</script>
+</script> --}}
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
@@ -70,23 +70,23 @@ table.columns().every( function () {
 <script src="{{ asset('public/vendor/plugins/toastr/toastr.js') }}"></script>
 <!-- =========== /GERAIS ========== -->
 <!-- =========== FORM ========== -->
-<!-- InputMask 
-{{-- <script src="{{ asset('public/vendor/plugins/input-mask/jquery.inputmask.js') }}"></script> --}}
-{{-- <script src="{{ asset('public/vendor/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script> --}}
-{{-- <script src="{{ asset('public/vendor/plugins/input-mask/jquery.inputmask.extensions.js') }}"></script>--> --}}
+<!-- InputMask -->
+{{-- <script src="{{ asset('public/vendor/plugins/input-mask/jquery.inputmask.js') }}"></script>
+<script src="{{ asset('public/vendor/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
+<script src="{{ asset('public/vendor/plugins/input-mask/jquery.inputmask.extensions.js') }}"></script>--> --}}
 {{-- <!-- InputMask --> --}}
-{{-- <script src="{{ asset('public/vendor/plugins/mask/dist/jquery.mask.js') }}"></script> --}}
+<script src="{{ asset('public/vendor/plugins/mask/dist/jquery.mask.js') }}"></script>
 {{-- <!-- file upload  --}}
 {{-- <script src="{{ asset('public/vendor/plugins/File-Upload/js/vendor/jquery.ui.widget.js') }}"></script> --}}
 {{-- <script src="{{ asset('public/vendor/plugins/File-Upload/js/jquery.fileupload.js') }}"></script>--> --}}
 {{-- <!-- =========== /FORM ========== --> --}}
 {{-- <!-- =========== INDEX ========== --> --}}
 
-{{-- <!-- funções criadas --> --}}
+<!--funções criadas -->
 <script src="{{ asset('public/js/funcoes.js') }}"></script>
-<script src="{{ asset('public/js/ajax.js') }}"></script> -->
+<script src="{{ asset('public/js/ajax.js') }}"></script> 
 <!-- para mascarar os inputs adionar apenas as classes abaixo -->
-<script type="text/javascript">
+<script>
 $(document).ready(function($){
   $('.numero').mask('00000000');
   $('.cnh').mask('000000000000000');
@@ -128,6 +128,16 @@ $(document).ready(function($){
   $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
 });
 </script>
+@if(!session('is_admin')) {{--  para esconder a debugbar de quem não for administrador --}}
+<script>
+$(document).ready(function($){
+   $('.phpdebugbar-openhandler-overlay').hide();
+   $('.phpdebugbar-restore-btn').hide();
+});
+</script>
+@endif
+
+{{-- <script src="{{ asset('public/js/app.js') }}"></script> --}}
 <!-- Easy Autocomplete -->
 {{-- <script src="{{ asset('public/vendor/plugins/EasyAutocomplete/jquery.easy-autocomplete.min.js') }}"></script> --}}
 

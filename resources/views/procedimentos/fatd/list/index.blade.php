@@ -33,21 +33,21 @@
                             <td>{{$registro['sintese_txt']}}</td>
                             <td>
                                 <span>
-                                    @can('ver-fatd') 
+                                    @if(hasPermissionTo('ver-fatd'))
                                     <a class="btn btn-default"
                                         href="{{route('fatd.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
-                                    @endcan
-                                    @can('editar-fatd') 
+                                    @endif
+                                    @if(hasPermissionTo('editar-fatd'))
                                     <a class="btn btn-info"
                                         href="{{route('fatd.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endcan
-                                    @can('apagar-fatd') 
+                                    @endif
+                                    @if(hasPermissionTo('apagar-fatd'))
                                     <a class="btn btn-danger" href="{{route('fatd.destroy',$registro['id_fatd'])}}"
                                         onclick="return  confirmApagar('fatd',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
-                                    @endcan
+                                    @endif
                                 </span>
                             </td>
                         </tr>

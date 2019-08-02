@@ -895,7 +895,7 @@ module.exports = Component.exports
             this.action = pathname[3];
             this.dproc = pathname[2];
             this.dref = pathname[4];
-            this.dano = pathname[5];
+            this.dano = pathname[5] || false;
 
             var baseUrl = getUrl.protocol + '//' + getUrl.host + '/' + pathname[1] + '/';
 

@@ -18,10 +18,12 @@
             <span class="col-md-2 col-xs-2"></span>
             @endif
         </div>
+        @if(hasPermissionTo('criar-cd'))
         <div class="col-md-2 col-xs-12 litlepadding">
             <a class="btn btn-block btn-primary" href="{{route('cd.create')}}">
             <i class="fa fa-plus"></i> Adicionar CD</a>
         </div>
+        @endif
     <div>
 </section>
   

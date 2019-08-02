@@ -34,19 +34,19 @@
             <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
         </a>
         <ul class="treeview-menu"> 
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-adl')): ?>   
+            <?php if(hasPermissionTo('listar-adl')): ?>  
             <li class=""><a href="<?php echo e(route('adl.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>ADL</span></a></li>
             <?php endif; ?>    
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-cd')): ?>   
+            <?php if(hasPermissionTo('listar-cd')): ?>  
             <li class=""><a href="<?php echo e(route('cd.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>CD</span></a></li>
             <?php endif; ?>  
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-cj')): ?>   
+            <?php if(hasPermissionTo('listar-cj')): ?>  
             <li class=""><a href="<?php echo e(route('cj.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>CJ</span></a></li>
             <?php endif; ?>  
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-fatd')): ?>   
+            <?php if(hasPermissionTo('listar-fatd')): ?>  
             <li class=""><a href="<?php echo e(route('fatd.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>FATD</span></a></li>
             <?php endif; ?>  
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-pad')): ?>   
+            <?php if(hasPermissionTo('listar-pad')): ?>  
             <li class=""><a href="<?php echo e(route('pad.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>PAD</span></a></li>
             <?php endif; ?>  
         </ul>
@@ -60,8 +60,8 @@
         'listar-iso',
         'listar-it',
         'listar-proc-outros',
-        'listar-recurso',
-        'listar-exclusao'
+        'listar-recursos',
+        'listar-sindicancia'
     ])): ?>
     <li class="treeview">
         <a href="#">
@@ -69,31 +69,31 @@
             <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
         </a>
         <ul class="treeview-menu">
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-apfd')): ?>   
+            <?php if(hasPermissionTo('listar-apfd')): ?>  
             <li class=""><a href="<?php echo e(route('apfd.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>APFD</span></a></li>
             <?php endif; ?>  
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-desercao')): ?>   
+            <?php if(hasPermissionTo('listar-desercao')): ?>  
             <li class=""><a href="<?php echo e(route('desercao.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Deserção</span></a></li>
             <?php endif; ?>  
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-exclusao')): ?>   
+            <?php if(hasPermissionTo('listar-exclusao')): ?>  
             <li class=""><a href="<?php echo e(route('exclusao.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Exclusão</span></a></li>
             <?php endif; ?>  
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-ipm')): ?>   
+            <?php if(hasPermissionTo('listar-ipm')): ?>  
             <li class=""><a href="<?php echo e(route('ipm.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>IPM</span></a></li>
             <?php endif; ?>  
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-iso')): ?>   
+            <?php if(hasPermissionTo('listar-iso')): ?>  
             <li class=""><a href="<?php echo e(route('iso.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>ISO</span></a></li>
             <?php endif; ?>  
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-it')): ?>   
+            <?php if(hasPermissionTo('listar-it')): ?>  
             <li class=""><a href="<?php echo e(route('it.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>IT</span></a></li>
             <?php endif; ?>  
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-proc-outros')): ?>   
+            <?php if(hasPermissionTo('listar-proc-outros')): ?>  
             <li class=""><a href="<?php echo e(route('procoutro.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Proced. Outros</span></a></li>
             <?php endif; ?>   
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-recurso')): ?> 
+            <?php if(hasPermissionTo('listar-recursos')): ?>
             <li class=""><a href="<?php echo e(route('recurso.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Recursos</span></a></li>
             <?php endif; ?>  
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-sindicancia')): ?> 
+            <?php if(hasPermissionTo('listar-sindicancia')): ?>
             <li class=""><a href="<?php echo e(route('sindicancia.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Sindicância</span></a></li>
             <?php endif; ?>
         </ul>
@@ -117,25 +117,25 @@
     </a>
     <ul class="treeview-menu">
         
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-nota-coger')): ?>
+        <?php if(hasPermissionTo('listar-nota-coger')): ?>
         <li class=""><a href="<?php echo e(route('notacoger.index',date('Y'))); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Notas COGER</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-apresentacoes')): ?>
+        <?php if(hasPermissionTo('listar-apresentacoes')): ?>
         <li class=""><a href="<?php echo e(route('apresentacao.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Lista apresentações</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-apresentacoes')): ?>
+        <?php if(hasPermissionTo('listar-apresentacoes')): ?>
         <li class=""><a href="<?php echo e(route('apresentacao.buscar')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Buscar Apresentação</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-locais')): ?>
+        <?php if(hasPermissionTo('listar-locais')): ?>
         <li class=""><a href="<?php echo e(route('local.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Locais</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-apresentacao')): ?>
+        <?php if(hasPermissionTo('criar-apresentacao')): ?>
         <li class=""><a href="<?php echo e(route('excel.create')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>inserir via Excel</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-apresentacao')): ?>
+        <?php if(hasPermissionTo('criar-apresentacao')): ?>
         <li class=""><a href="<?php echo e(route('memorando.create')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Gerar Memorando</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-dados-unidade')): ?>
+        <?php if(hasPermissionTo('listar-dados-unidade')): ?>
         <li class=""><a href="<?php echo e(route('unidade.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Dados Unidade</span></a></li>
         <?php endif; ?>
     </ul>
@@ -149,27 +149,27 @@
     </a>
     <ul class="treeview-menu">
         <li class=""><a href="<?php echo e(route('home')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Pendências</span></a></li>       
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-relatorio-geral')): ?>
+        <?php if(hasPermissionTo('listar-relatorio-geral')): ?>
         <li class=""><a href="<?php echo e(route('pendencia.gerais')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Pendências - Geral</span></a></li>  
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-prioritarios')): ?>
+        <?php if(hasPermissionTo('listar-prioritarios')): ?>
         <li class=""><a href="<?php echo e(route('relatorio.prioritarios','adl')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Processos Prioritários</span></a></li>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-relatorio-sobrestamentos')): ?>
+        <?php if(hasPermissionTo('listar-relatorio-sobrestamentos')): ?>
         <li class=""><a href="<?php echo e(route('pendencia.sobrestamentos')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Sobrestamentos</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-relatorio-processos')): ?>
+        <?php if(hasPermissionTo('listar-relatorio-processos')): ?>
         <li class=""><a href="<?php echo e(route('pendencia.processos')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Processos</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-relatorio-postograd')): ?>
+        <?php if(hasPermissionTo('listar-relatorio-postograd')): ?>
         <li class=""><a href="<?php echo e(route('pendencia.postograd')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Postos/Graduações</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-relatorio-encarregados')): ?>
+        <?php if(hasPermissionTo('listar-relatorio-encarregados')): ?>
         <li class=""><a href="<?php echo e(route('pendencia.encarregados')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Encarregados</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-relatorio-defensores')): ?>
+        <?php if(hasPermissionTo('listar-relatorio-defensores')): ?>
         <li class=""><a href="<?php echo e(route('pendencia.defensores')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Defensores</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-relatorio-ofendidos')): ?>
+        <?php if(hasPermissionTo('listar-relatorio-ofendidos')): ?>
         <li class=""><a href="<?php echo e(route('pendencia.ofendidos')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ofendidos</span></a></li>
         <?php endif; ?>
     </ul>
@@ -186,10 +186,10 @@
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-correicao-ordinaria')): ?>
+        <?php if(hasPermissionTo('listar-correicao-ordinaria')): ?>
         <li class=""><a href="<?php echo e(route('correicao.ordinaria.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ordinária</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-correicao-extraordinaria')): ?>
+        <?php if(hasPermissionTo('listar-correicao-extraordinaria')): ?>
         <li class=""><a href="<?php echo e(route('correicao.extraordinaria.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Extraordinária</span></a></li>
         <?php endif; ?>
     </ul>
@@ -209,19 +209,19 @@
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('buscar-pm')): ?>
+        <?php if(hasPermissionTo('buscar-pm')): ?>
         <li class=""><a href="<?php echo e(route('busca.pm')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>PM</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('buscar-ofendido')): ?>
+        <?php if(hasPermissionTo('buscar-ofendido')): ?>
         <li class=""><a href="<?php echo e(route('busca.ofendido')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ofendido</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('buscar-envolvido')): ?>
+        <?php if(hasPermissionTo('buscar-envolvido')): ?>
         <li class=""><a href="<?php echo e(route('busca.envolvido')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>envolvido</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('buscar-documentacao')): ?>
+        <?php if(hasPermissionTo('buscar-documentacao')): ?>
         <li class=""><a href="<?php echo e(route('busca.documentacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Documentacão</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('buscar-tramitacao-coger')): ?>
+        <?php if(hasPermissionTo('buscar-tramitacao-coger')): ?>
         <li class=""><a href="<?php echo e(route('busca.tramitacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Tramitação COGER</span></a></li>
         <?php endif; ?>
     </ul>
@@ -237,56 +237,56 @@
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('buscar-pm')): ?>
+        <?php if(hasPermissionTo('buscar-pm')): ?>
         <li class=""><a href="<?php echo e(route('busca.pm')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ficha de Tramitação</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-medalhas')): ?>
+        <?php if(hasPermissionTo('listar-medalhas')): ?>
         <li class=""><a href="<?php echo e(route('medalha.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Medalhas</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-elogios')): ?>
+        <?php if(hasPermissionTo('listar-elogios')): ?>
         <li class=""><a href="<?php echo e(route('elogio.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Elogios</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-excluidos')): ?>
+        <?php if(hasPermissionTo('listar-excluidos')): ?>
         <li class=""><a href="<?php echo e(route('excluido.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Excluídos</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-punidos')): ?>
+        <?php if(hasPermissionTo('listar-punidos')): ?>
         <li class=""><a href="<?php echo e(route('punido.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Punidos</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-reintegrados')): ?>
+        <?php if(hasPermissionTo('listar-reintegrados')): ?>
         <li class=""><a href="<?php echo e(route('reintegrado.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Reintegrados</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-denunciados')): ?>
+        <?php if(hasPermissionTo('listar-denunciados')): ?>
         <li class=""><a href="<?php echo e(route('denunciado.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Denunciados</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-presos')): ?>
+        <?php if(hasPermissionTo('listar-presos')): ?>
         <li class=""><a href="<?php echo e(route('preso.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Presos</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-procedimentos')): ?>
+        <?php if(hasPermissionTo('listar-procedimentos')): ?>
         <li class=""><a href="<?php echo e(route('procedimento.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Procedimentos</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-comportamentos')): ?>
+        <?php if(hasPermissionTo('listar-comportamentos')): ?>
         <li class=""><a href="<?php echo e(route('comportamento.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Comportamento</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-')): ?>
+        <?php if(hasPermissionTo('listar-')): ?>
         <li class=""><a href="<?php echo e(route('respondendo.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Respondendo</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-')): ?>
+        <?php if(hasPermissionTo('listar-')): ?>
         <li class=""><a href="<?php echo e(route('restricao.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Restrições</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-')): ?>
+        <?php if(hasPermissionTo('listar-')): ?>
         <li class=""><a href="<?php echo e(route('suspenso.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Suspensos</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-')): ?>
+        <?php if(hasPermissionTo('listar-')): ?>
         <li class=""><a href="<?php echo e(route('obitolesao.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Obitos e Lesões</span></a></li>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-')): ?>
+        <?php if(hasPermissionTo('listar-')): ?>
         <li class=""><a href="<?php echo e(route('mortoferido.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Mortos e feridos</span></a></li>
         <?php endif; ?>
     </ul>
 </li>
 <?php endif; ?>
 
-<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('listar-sai')): ?>
+<?php if(hasPermissionTo('listar-sai')): ?>
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-cab "></i><span>SAI</span>
@@ -298,7 +298,7 @@
 </li>
 <?php endif; ?>
 
-<?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('bi')): ?>
+<?php if(hasPermissionTo('bi')): ?>
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-cab "></i><span>BI</span>

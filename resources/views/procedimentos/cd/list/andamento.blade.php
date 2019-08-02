@@ -44,20 +44,20 @@
                             <td>{{sistema('andamentocoger',$registro['id_andamentocoger'])}}</td>
                             <td>
                                 <span>
-                                    @can('ver-cd') 
+                                    @if(hasPermissionTo('ver-cd')) 
                                     <a class="btn btn-default"
                                         href="{{route('cd.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
-                                    @endcan
-                                    @can('editar-cd') 
+                                    @endif
+                                    @if(hasPermissionTo('editar-cd'))
                                     <a class="btn btn-info"
                                         href="{{route('cd.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endcan
-                                    @can('apagar-cd') 
+                                    @endif
+                                    @if(hasPermissionTo('apagar-cd'))
                                     <a class="btn btn-danger" href="{{route('cd.destroy',$registro['id_cd'])}}"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
-                                    @endcan
+                                    @endif
                                 </span>
                             </td>
                         </tr>

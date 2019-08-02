@@ -1,5 +1,5 @@
 <section class="content-header nopadding">  
-    <h1>Nota COGER - {{$title}}</h1>
+    <h1>Nota COGER - {{$title}} {{$ano}}</h1>
     <ol class="breadcrumb">
         <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Nota COGER - {{$title}}</li>
@@ -7,19 +7,15 @@
     <br>   
     <div class="form-group col-md-12 col-xs-12 nopadding">
         <div class="btn-group col-md-8 col-xs-12 nopadding">
-            <a class="btn @if($page == 'lista') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('notacoger.lista',['ano' => $ano])}}">Consulta</a>
-            <a class="btn @if($page == 'andamento') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('notacoger.andamento',['ano' => $ano])}}">Andamento</a>
-            <a class="btn @if($page == 'julgamento') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('notacoger.julgamento',['ano' => $ano])}}">Julgamento</a>
-            <a class="btn @if($page == 'rel_situacao') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('notacoger.rel_situacao',['ano' => $ano])}}">Rel. Situação</a>
-            <a class="btn @if($page == 'prazos') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('notacoger.prazos',['ano' => $ano])}}">Prazos</a>
-            <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-2 col-xs-2" href="{{route('notacoger.apagados',['ano' => $ano])}}">Apagados</a>
+            <a class="btn @if($page == 'index') btn-success @else btn-default @endif col-md-6 col-xs-6" href="{{route('notacoger.index',['ano' => $ano])}}">Consulta</a>
+            <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-6 col-xs-6" href="{{route('notacoger.apagados',['ano' => $ano])}}">Apagados</a>
         </div>
-        @can('criar-nota-coger')    
+        @if(hasPermissionTo('criar-nota-coger'))  
             <div class="col-md-2 col-xs-12 litlepadding">
                 <a class="btn btn-block btn-primary" href="{{route('notacoger.create')}}">
                 <i class="fa fa-plus"></i> Adicionar Nota Coger</a>
             </div>
-        @endcan
+        @endif
         <div class='col-md-2 col-xs-6  pull-right'>
             <div class="pull-right">
                 <label for="navegaco">Listar ano: </label>
