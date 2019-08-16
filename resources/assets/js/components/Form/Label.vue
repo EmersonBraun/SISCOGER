@@ -21,11 +21,12 @@
             lg: {default: '4'},
             md: {default: '6'},
             xs: {default: '12'},
-            error: {type: String,default: ''}
+            error: {type: String,default: ''},
+            slim: {type: Boolean, default: false}
         },
         computed:{
             classform(){
-                let form = 'form-group '
+                let form = (this.slim) ? 'form-group2 form-group ' : 'form-group '
                 let lg = 'col-lg-' + this.lg + ' '
                 let md = 'col-md-' + this.md + ' '
                 let xs = 'col-xs-' + this.xs + ' '
@@ -37,7 +38,9 @@
 </script>
 
 <style scoped>
-
+.form-group2 {
+    margin-bottom: 2px;
+}
 </style>
 
 

@@ -22,12 +22,16 @@ Vue.component('v-defensor', () => import(/* webpackChunkName: "v-defensor" */'./
 Vue.component('v-movimento', () => import(/* webpackChunkName: "v-movimento" */'./components/SubForm/Movimento.vue'));
 Vue.component('v-sobrestamento', () => import(/* webpackChunkName: "v-sobrestamento" */'./components/SubForm/Sobrestamento.vue'));
 Vue.component('v-arquivo', () => import(/* webpackChunkName: "v-arquivo" */'./components/SubForm/Arquivo.vue'));
-
+// gráficos
+Vue.component('efetivo-chart', () => import(/* webpackChunkName: "efetivo-chart" */'./components/Charts/Home/Efetivo.vue'));
+Vue.component('procedimentos-chart', () => import(/* webpackChunkName: "procedimentos-chart" */'./components/Charts/Home/Procedimentos.vue'));
+Vue.component('crpms-chart', () => import(/* webpackChunkName: "crpms-chart" */'./components/Charts/Pendencias/Crpms.vue'));
 // FDI
 Vue.component('v-cautelas', () => import(/* webpackChunkName: "v-cautelas" */'./components/FDI/Cautelas.vue'));
 // Layout
 Vue.component('v-tab-item', () => import(/* webpackChunkName: "v-tab-item" */'./components/Layout/TabItem.vue'));
 Vue.component('v-tab-menu', () => import(/* webpackChunkName: "v-tab-menu" */'./components/Layout/TabMenu.vue'));
+Vue.component('v-info-box', () => import(/* webpackChunkName: "v-info-box" */'./components/Layout/Home/InfoBox.vue'));
 Vue.component('v-messages', () => import(/* webpackChunkName: "v-messages" */'./components/Layout/TopMenu/Messages.vue'));
 Vue.component('v-notifications', () => import(/* webpackChunkName: "v-notifications" */'./components/Layout/TopMenu/Notifications.vue'));
 Vue.component('v-tasks', () => import(/* webpackChunkName: "v-tasks" */'./components/Layout/TopMenu/Tasks.vue'));
@@ -36,30 +40,30 @@ Vue.component('v-tasks', () => import(/* webpackChunkName: "v-tasks" */'./compon
 Vue.component('v-datepicker', () => import(/* webpackChunkName: "v-datepicker" */'./components/Vuestrap/Datepicker.vue'));
 Vue.component('v-select', () => import(/* webpackChunkName: "v-select" */'./components/Vuestrap/Select.vue'));
 Vue.component('v-checkbox', () => import(/* webpackChunkName: "v-checkbox" */'./components/Vuestrap/Checkbox.vue'));
+Vue.component('v-tab', () => import(/* webpackChunkName: "v-tab" */'./components/Vuestrap/Tab.vue'));
+Vue.component('v-tab-group', () => import(/* webpackChunkName: "v-tab-group" */'./components/Vuestrap/TabGroup.vue'));
+Vue.component('v-tabs', () => import(/* webpackChunkName: "v-tabs" */'./components/Vuestrap/Tabs.vue'));
 // Não revisados
-/*Vue.component('v-accordion', function (resolve) {require(['vue-strap']).accordion});
-Vue.component('v-affix', function (resolve) {require(['vue-strap']).affix});
-Vue.component('v-alert', function (resolve) {require(['vue-strap']).alert});
-Vue.component('v-aside', function (resolve) {require(['vue-strap']).aside});
-Vue.component('v-button-group', function (resolve) {require(['vue-strap']).buttonGroup});
-Vue.component('v-carousel', function (resolve) {require(['vue-strap']).carousel});
-Vue.component('v-dropdown', function (resolve) {require(['vue-strap']).dropdown});
-Vue.component('v-form-group', function (resolve) {require(['vue-strap']).formGroup});
-Vue.component('v-form-validator', function (resolve) {require(['vue-strap']).formValidator});
-Vue.component('v-input', function (resolve) {require(['vue-strap']).input});
-Vue.component('v-modal', function (resolve) {require(['vue-strap']).modal});
-Vue.component('v-navbar', function (resolve) {require(['vue-strap']).navbar});
-Vue.component('v-option', function (resolve) {require(['vue-strap']).option});
-Vue.component('v-panel', function (resolve) {require(['vue-strap']).panel});
-Vue.component('v-popover', function (resolve) {require(['vue-strap']).popover});
-Vue.component('v-progressbar', function (resolve) {require(['vue-strap']).progressbar});
-Vue.component('v-radio', function (resolve) {require(['vue-strap']).radio});
-Vue.component('v-slider', function (resolve) {require(['vue-strap']).slider});
-Vue.component('v-spinner', function (resolve) {require(['vue-strap']).spinner});
-Vue.component('v-tab', function (resolve) {require(['vue-strap']).tab});
-Vue.component('v-tab-group', function (resolve) {require(['vue-strap']).tabGroup});
-Vue.component('v-tabs', function (resolve) {require(['vue-strap']).tabs});
-Vue.component('v-toggle-button', function (resolve) {require(['vue-strap']).toggleButton});
-Vue.component('v-tooltip', function (resolve) {require(['vue-strap']).tooltip});
-Vue.component('v-typeahead', function (resolve) {require(['vue-strap']).typeahead});*/
+Vue.component('v-accordion', () => import(/* webpackChunkName: "v-accordion" */'./components/Vuestrap/Accordion.vue'));
+Vue.component('v-affix', () => import(/* webpackChunkName: "v-affix" */'./components/Vuestrap/Affix.vue'));
+Vue.component('v-alert', () => import(/* webpackChunkName: "v-alert" */'./components/Vuestrap/Alert.vue'));
+Vue.component('v-aside', () => import(/* webpackChunkName: "v-aside" */'./components/Vuestrap/Aside.vue'));
+// Vue.component('v-button-group', () => import(/* webpackChunkName: "v-button-group" */'./components/Vuestrap/ButtonGroup.vue'));
+Vue.component('v-carousel', () => import(/* webpackChunkName: "v-carousel" */'./components/Vuestrap/Carousel.vue'));
+Vue.component('v-dropdown', () => import(/* webpackChunkName: "v-dropdown" */'./components/Vuestrap/Dropdown.vue'));
+Vue.component('v-form-group', () => import(/* webpackChunkName: "v-form-group" */'./components/Vuestrap/FormGroup.vue'));
+Vue.component('v-form-validator', () => import(/* webpackChunkName: "v-form-validator" */'./components/Vuestrap/FormValidator.vue'));
+Vue.component('v-input', () => import(/* webpackChunkName: "v-input" */'./components/Vuestrap/Input.vue'));
+Vue.component('v-modal', () => import(/* webpackChunkName: "v-modal" */'./components/Vuestrap/Modal.vue'));
+Vue.component('v-navbar', () => import(/* webpackChunkName: "v-navbar" */'./components/Vuestrap/Navbar.vue'));
+Vue.component('v-option', () => import(/* webpackChunkName: "v-option" */'./components/Vuestrap/Option.vue'));
+Vue.component('v-panel', () => import(/* webpackChunkName: "v-panel" */'./components/Vuestrap/Panel.vue'));
+Vue.component('v-popover', () => import(/* webpackChunkName: "v-popover" */'./components/Vuestrap/Popover.vue'));
+Vue.component('v-progressbar', () => import(/* webpackChunkName: "v-progressbar" */'./components/Vuestrap/Progressbar.vue'));
+Vue.component('v-radio', () => import(/* webpackChunkName: "v-radio" */'./components/Vuestrap/Radio.vue'));
+Vue.component('v-slider', () => import(/* webpackChunkName: "v-slider" */'./components/Vuestrap/Slider.vue'));
+Vue.component('v-spinner', () => import(/* webpackChunkName: "v-spinner" */'./components/Vuestrap/Spinner.vue'));
+Vue.component('v-toggle-button', () => import(/* webpackChunkName: "v-toggle-button" */'./components/Vuestrap/ToggleButton.vue'));
+Vue.component('v-tooltip', () => import(/* webpackChunkName: "v-tooltip" */'./components/Vuestrap/Tooltip.vue'));
+Vue.component('v-typeahead', () => import(/* webpackChunkName: "v-typeahead" */'./components/Vuestrap/Typeahead.vue'));
 

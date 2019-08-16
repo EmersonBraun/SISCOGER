@@ -18,11 +18,12 @@ export default {
     readonly: {type: Boolean, default: false},
     trueValue: {default: true},
     type: {type: String, default: null},
-    value: {default: false}
+    value: {default: false},
+    check: {type: Boolean, default: false}
   },
   data () {
     return {
-      checked: (this.value === this.trueValue)
+      checked: (this.value === this.trueValue || this.check)
     }
   },
   computed: {

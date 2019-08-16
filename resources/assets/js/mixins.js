@@ -7,7 +7,9 @@ export default{
             dano: '',
             add: false,
             admin: false,
-            rg: ''
+            rg: '',
+            roles: [],
+            permissions: []
         }
     },
     computed:{
@@ -31,6 +33,8 @@ export default{
             let session = this.$root.getSessionData()
             this.admin = session.is_admin
             this.rg = session.rg
+            this.permissions = session.permissions
+            this.roles = session.roles
         },
     }
 }

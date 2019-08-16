@@ -35,7 +35,7 @@
         <?php endif; ?>
         </tbody>
     </table>
-    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-apresentacao')): ?>
+    <?php if(hasPermissionTo('criar-apresentacao')): ?>
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar Apresentação
     </button>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\OPM\Repositories;
+namespace App\Repositories\OPM;
 
 use App\Http\Controllers\Controller;
 use App\Models\rhparana\Opmpmpr;
@@ -13,7 +13,7 @@ class OPM extends Controller
         //tempo de cahe
         $expiration = 60 * 24 * 7; //uma semana
 
-        //$opms = Cache::remember('cg', $expiration, function(){
+        $opms = Cache::remember('cg', $expiration, function(){
             $opmscg = Opmpmpr::where('CODIGO','like','00%')
             ->where('CODIGO','like', '%0000000')
             ->orWhere('CODIGO','=','0010130000')  // AJ GER COMPANHIA DE COMANDO E SERVICOS
@@ -95,7 +95,7 @@ class OPM extends Controller
                 
                 $ccb = $opmsccb->pluck('ABREVIATURA','CODIGO')->toArray();
 
-            $opms = [
+            return [
                 'CG' => $cg, 
                 'SUBCG' => $subcg, 
                 'EM' => $em, 
@@ -108,7 +108,7 @@ class OPM extends Controller
                 'CCB' => $ccb
             ];
 
-        //});
+        });
 
         return $opms;
     }

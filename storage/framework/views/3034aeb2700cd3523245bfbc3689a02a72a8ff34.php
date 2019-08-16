@@ -12,7 +12,7 @@
         <?php endif; ?>
         </tbody>
     </table>
-    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-prisoes')): ?>
+    <?php if(hasPermissionTo('criar-prisoes')): ?>
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar prisão
     </button>

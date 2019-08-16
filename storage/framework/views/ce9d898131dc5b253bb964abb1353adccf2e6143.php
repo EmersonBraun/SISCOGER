@@ -9,19 +9,25 @@
     </ol>
     <br>
     <div class='form-group col-md-12 col-xs-12' style='padding-left: 0px'>
+        <?php if(hasPermissionTo('listar-papeis')): ?>
+        <div class='btn-group col-md-4 col-xs-12 '>
+            <a href="<?php echo e(route('role.index')); ?>" class="btn btn-default btn-block">
+                Listar Papéis</a>
+        </div>  
+        <?php endif; ?>
+        <?php if(hasPermissionTo('listar-permissoes')): ?>
+        <div class='btn-group col-md-4 col-xs-12 '>
+            <a href="<?php echo e(route('permission.index')); ?>" class="btn btn-default btn-block">
+                Listar Permissões</a>
+        </div>
+        <?php endif; ?>
+        <?php if(hasPermissionTo('criar-usuarios')): ?>
         <div class='btn-group col-md-4 col-xs-12 '>
             <a href="<?php echo e(route('user.create')); ?>" class="btn btn-success btn-block">
                 <i class="fa fa-plus "></i> Adicionar Usuários</a>
         </div>
-        <div class='btn-group col-md-4 col-xs-12 '>
-            <a href="<?php echo e(route('role.index')); ?>" class="btn btn-default btn-block">
-                Papéis</a>
-        </div>
-        <div class='btn-group col-md-4 col-xs-12 '>
-            <a href="<?php echo e(route('permission.index')); ?>" class="btn btn-default btn-block">
-                Permissões</a>
-        </div>
-        <div>
+        <?php endif; ?>
+    <div>
 </section>
 <?php $__env->stopSection(); ?>
 
@@ -54,8 +60,11 @@
                             <td><?php echo e($user->roles()->pluck('name')->implode('/')); ?></td>
                             <td>
                                 <div class="btn-group">
+                                    <?php if(hasPermissionTo('editar-usuarios')): ?>
                                     <a href="<?php echo e(route('user.edit', $user->id)); ?>" class="btn btn-info pull-left"
                                         style="margin-right: 3px;">Editar</a>
+                                    <?php endif; ?>
+                                    <?php if(hasPermissionTo('apagar-usuarios')): ?>
                                     <?php echo Form::open(['method' => 'DELETE', 'route' => ['user.destroy',
                                     $user->id],'style' => 'display: inline' ]); ?>
 
@@ -64,12 +73,18 @@
 
                                     <?php echo Form::close(); ?>
 
+                                    <?php endif; ?>
+                                   
                                     <?php if($user->block == '0'): ?>
-                                    <a href="<?php echo e(route('user.block', $user->id)); ?>" class="btn btn-warning"
-                                        style="">Bloquear</a>
+                                        <?php if(hasPermissionTo('bloquear-usuarios')): ?>     
+                                        <a href="<?php echo e(route('user.block', $user->id)); ?>" class="btn btn-warning"
+                                            style="">Bloquear</a>
+                                        <?php endif; ?>
                                     <?php else: ?>
-                                    <a href="<?php echo e(route('user.unblock', $user->id)); ?>" class="btn btn-success"
-                                        style="">Desbloquear</a>
+                                        <?php if(hasPermissionTo('desbloquear-usuarios')): ?>
+                                        <a href="<?php echo e(route('user.unblock', $user->id)); ?>" class="btn btn-success"
+                                            style="">Desbloquear</a>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </div>
                             </td>

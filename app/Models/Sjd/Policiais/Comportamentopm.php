@@ -41,7 +41,7 @@ class Comportamentopm extends Eloquent
 
 	protected $table = 'comportamentopm';
 	protected $primaryKey = 'id_comportamentopm';
-	public $timestamps = false;
+	public $timestamps = true;
 
 	protected $casts = [
 		'id_comportamento' => 'int'

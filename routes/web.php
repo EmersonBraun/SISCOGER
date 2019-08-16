@@ -29,9 +29,8 @@ if ( !App::runningUnitTests() ) {
 /* -------------- ROTAS HOME/DASHBOARD -------------- */
 // Route::get('/home', ['as' =>'home','uses'=>'Relatorios\PendenciasController@index']);
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('home/{opm}', ['as' =>'home.opm','uses'=>'Relatorios\PendenciasController@index', 'middleware' => ['permission:todas-unidades']]);
+Route::get('home/{opm}', ['as' =>'home.opm','uses'=>'HomeController@index', 'middleware' => ['permission:todas-unidades']]);
 
-Route::match(['get'],'trocaropm', ['as' =>'trocaropm','uses'=>'Relatorios\PendenciasController@trocaropm', 'middleware' => ['permission:todas-unidades']]);
 Route::get('logout', 'HomeController@logout')->middleware('auth.unique.user');
 
 /* -------------- ROTAS ADMINISTRAÇÃO -------------- */
@@ -591,7 +590,7 @@ Route::group(['as'=>'procedimento.','prefix' =>'procedimento'],function(){
 }); 
 //Rotas do módulo comportamento 
 Route::group(['as'=>'comportamento.','prefix' =>'comportamento'],function(){
-    Route::get('',['as' =>'index','uses'=>'Policiais\ComportamentoController@index','middleware' => ['permission:listar-comportamento']]);
+    Route::get('{posto}/{parte?}',['as' =>'index','uses'=>'Policiais\ComportamentoController@index','middleware' => ['permission:listar-comportamento']]);
     Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\ComportamentoController@apagados','middleware' => ['role:admin']]);
     Route::get('criar',['as' =>'create','uses'=>'Policiais\ComportamentoController@create','middleware' => ['permission:criar-comportamento']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\ComportamentoController@store','middleware' => ['permission:criar-comportamento']]);
@@ -604,6 +603,7 @@ Route::group(['as'=>'comportamento.','prefix' =>'comportamento'],function(){
 //Rotas do módulo respondendo 
 Route::group(['as'=>'respondendo.','prefix' =>'respondendo'],function(){
     Route::get('',['as' =>'index','uses'=>'Policiais\RespondendoController@index','middleware' => ['permission:listar-respondendo']]);
+    Route::post('busca',['as' =>'search','uses'=>'Policiais\RespondendoController@search','middleware' => ['permission:listar-respondendo']]);
     Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\RespondendoController@apagados','middleware' => ['role:admin']]);
 	Route::get('criar',['as' =>'create','uses'=>'Policiais\RespondendoController@create','middleware' => ['permission:criar-respondendo']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\RespondendoController@store','middleware' => ['permission:criar-respondendo']]);
@@ -615,7 +615,7 @@ Route::group(['as'=>'respondendo.','prefix' =>'respondendo'],function(){
 }); 
 //Rotas do módulo restricoes 
 Route::group(['as'=>'restricao.','prefix' =>'restricao'],function(){
-	Route::get('',['as' =>'index','uses'=>'Policiais\RestricaoController@index','middleware' => ['permission:listar-restricoes']]);
+	Route::get('lista/{ano?}',['as' =>'index','uses'=>'Policiais\RestricaoController@index','middleware' => ['permission:listar-restricoes']]);
 	Route::get('criar',['as' =>'create','uses'=>'Policiais\RestricaoController@create','middleware' => ['permission:criar-restricoes']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\RestricaoController@store','middleware' => ['permission:criar-restricoes']]);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\RestricaoController@edit','middleware' => ['permission:editar-restricoes']]);
@@ -682,7 +682,11 @@ Route::group(['as'=>'arma.','prefix' =>'arma'],function(){
 });
 // pendências
 Route::group(['as'=>'pendencia.','prefix' =>'pendencia'],function(){
+	Route::get('trocaropm', ['as' =>'trocaropm','uses'=>'Relatorios\PendenciaController@trocaropm', 'middleware' => ['permission:todas-unidades']]);
+	Route::post('homeoutraom', ['as' =>'homeoutraom','uses'=>'Relatorios\PendenciaController@homeOutraOM', 'middleware' => ['permission:todas-unidades']]);
+
 	Route::get('gerais',['as' =>'gerais','uses'=>'Relatorios\PendenciaController@geral','middleware' => ['permission:listar-relatorio-geral']]);
+	Route::get('graficos',['as' =>'graficos','uses'=>'Relatorios\PendenciaController@graficos','middleware' => ['permission:listar-relatorio-geral']]);
 	Route::get('comportamento',['as' =>'comportamento','uses'=>'Relatorios\PendenciaController@comportamento','middleware' => ['permission:listar-relatorio-comportamento']]);
 	Route::get('punicoes',['as' =>'punicoes','uses'=>'Relatorios\PendenciaController@punicoes','middleware' => ['permission:listar-relatorio-punicoes']]);
 	Route::get('quantidade',['as' =>'quantidade','uses'=>'Relatorios\PendenciaController@quantidade','middleware' => ['permission:listar-relatorio-quantidade']]);

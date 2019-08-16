@@ -16,9 +16,6 @@
 @stop
 
 @section('content')
-     <!-- Content Wrapper. Contains page content -->
-  <div class="">
-    <!-- Content Header (Page header) -->
 <section class="">
     <div class="tab-content">
         <v-tab-item title="Formulário principal" idp="principal" cls="active show">

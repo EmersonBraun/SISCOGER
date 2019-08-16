@@ -232,10 +232,10 @@
                                             <a type="button" @click="showPM(pm.rg)" target="_blanck" class="btn btn-primary" style="color: white">
                                                 <i class="fa fa-eye"></i>
                                             </a>
-                                            <a type="button" @click="replacePM(pm)" target="_blanck" class="btn btn-success" style="color: white">
+                                            <a v-if="canEdit" type="button" @click="replacePM(pm)" target="_blanck" class="btn btn-success" style="color: white">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a type="button"  @click="removePM(pm.id_envolvido, index)" class="btn btn-danger" style="color: white">
+                                            <a v-if="canDelete" type="button"  @click="removePM(pm.id_envolvido, index)" class="btn btn-danger" style="color: white">
                                                 <i class="fa fa-trash"></i> 
                                             </a>
                                         </div>
@@ -292,7 +292,7 @@
                 only: false,
                 edit: '',
                 verReus: false,
-                confirmModal: false
+                confirmModal: false,
             }
         },
         filters: {
@@ -312,6 +312,7 @@
             this.verifyOnly
         },
         created() {
+            this.dadosSession()
             let name = `${this.dproc}${this.idp}acusados` 
             const json = sessionStorage.getItem(name)
             const array = JSON.parse(json)
@@ -330,6 +331,12 @@
         computed:{
             verifyOnly(){     
                 this.only = (this.unique == true) ? true : false     
+            },
+            canEdit(){
+                return this.permissions.includes('editar-acusado')
+            },
+            canDelete(){
+                return this.permissions.includes('apagar-acusado')
             },
         },
         methods: {

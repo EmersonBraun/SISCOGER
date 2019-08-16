@@ -1,4 +1,4 @@
-webpackJsonp([21],{
+webpackJsonp([40],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Form/Label.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -28,11 +28,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         lg: { default: '4' },
         md: { default: '6' },
         xs: { default: '12' },
-        error: { type: String, default: '' }
+        error: { type: String, default: '' },
+        slim: { type: Boolean, default: false }
     },
     computed: {
         classform: function classform() {
-            var form = 'form-group ';
+            var form = this.slim ? 'form-group2 form-group ' : 'form-group ';
             var lg = 'col-lg-' + this.lg + ' ';
             var md = 'col-md-' + this.md + ' ';
             var xs = 'col-xs-' + this.xs + ' ';
@@ -52,7 +53,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.form-group2[data-v-438bfec0] {\n    margin-bottom: 2px;\n}\n", ""]);
 
 // exports
 

@@ -33,7 +33,7 @@
         <?php endif; ?>
         </tbody>
     </table>
-    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-proc-outros')): ?>
+    <?php if(hasPermissionTo('criar-proc-outros')): ?>
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar Procedimento Outros
     </button>

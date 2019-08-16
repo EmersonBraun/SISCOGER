@@ -38,8 +38,8 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);
         }*/
         // if (in_array(Auth::user()->rg, config('sistema.super-users'))) {
-            \Debugbar::enable();
-            $this->app->register(\Reliese\Coders\CodersServiceProvider::class);
+            // \Debugbar::enable();
+            // $this->app->register(\Reliese\Coders\CodersServiceProvider::class);
         // }
 
     }

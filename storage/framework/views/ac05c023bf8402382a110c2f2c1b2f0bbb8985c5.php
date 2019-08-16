@@ -25,7 +25,7 @@
         <?php endif; ?>
         </tbody>
     </table>
-    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-restricoes')): ?>
+    <?php if(hasPermissionTo('criar-restricoes')): ?>
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar Procedimento Outros
     </button>

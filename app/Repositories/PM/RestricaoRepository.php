@@ -32,4 +32,14 @@ class RestricaoRepository extends BaseRepository
 
         return $registros;
     } 
+
+    public function ano($ano)
+	{
+
+        $registros = Cache::tags('restricao')->remember('restricao:ano:'.$ano, $this->expiration, function() use ($ano){
+            return $this->model->whereYear('cadastro_data',$ano)->get();
+        });
+
+        return $registros;
+    }
 }

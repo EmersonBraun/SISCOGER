@@ -90,7 +90,8 @@ export const coerce = {
       months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       notSelected: 'Nothing Selected',
       required: 'Required',
-      search: 'Search'
+      search: 'Search',
+      selected: '{{count}} selected'
     }
     return window.VueStrapLang ? window.VueStrapLang(lang) : text
   }

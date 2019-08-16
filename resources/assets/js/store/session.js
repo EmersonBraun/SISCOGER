@@ -4,11 +4,11 @@ export default{
         session: [],
     },
     getters:{
-        async getSession(state){
+        getSession(state){
             if(state.session.length) return state.session
             else{
-                await this.$store.putSessionData
-                console.log(state.session)
+                // this.$store.putSessionData
+                // console.log(state.session)
                 return state.session
             }
             

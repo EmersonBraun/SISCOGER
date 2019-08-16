@@ -1,35 +1,36 @@
 <!-- =========== GERAIS ========== -->
 <!-- Bootstrap 4 -->
 <script src="{{ asset('public/vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
-{{-- <script src="{{ asset('public/vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script> --}}
 <script src="{{ asset('public/vendor/plugins/bootstrap/js/bootstrap.bundle.js') }}"></script>
 <script src="{{ asset('public/vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-{{-- <script src="{{ asset('public/vendor/plugins/jQueryUI/jquery-ui.min.js') }}"></script> --}}
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-{{-- <script>
-$.widget.bridge('uibutton', $.ui.button)
-</script> --}}
+
+
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="https:////cdn.datatables.net/plug-ins/1.10.19/features/searchHighlight/dataTables.searchHighlight.css">
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/features/searchHighlight/dataTables.searchHighlight.min.js"></script>
+<script src="https://bartaz.github.io/sandbox.js/jquery.highlight.js"></script>
+
+
 <script type="text/javascript">
-// Setup - add a text input to each footer cell
-$('#datable tfoot th').each( function () {
-    var title = $(this).text();
-    $(this).html( '<input type="text" style="max-width:100px" placeholder="'+title+'" />' );
-} );
+$(document).ready(function () {
+    // Setup - add a text input to each footer cell
+    $('#datable tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" style="max-width:100px" placeholder="'+title+'" />' );
+    } );
 
-// DataTable
-var table =  $('#datable').DataTable({
-    'ajax' : false,
-    'paging'      : true,
-    'lengthChange': false,
-    'searching'   : true,
-    'ordering'    : true,
-    'info'        : true,
-    'autoWidth'   : false,
-    "order": [[ 0, "desc" ]],
-
-        "language": {
+    var lang = {
         "sEmptyTable":   "Nenhum registro encontrado",
         "sProcessing":   "A processar...",
         "sLengthMenu":   "Mostrar _MENU_ registos",
@@ -49,38 +50,54 @@ var table =  $('#datable').DataTable({
         "oAria": {
             "sSortAscending":  ": Ordenar colunas de forma ascendente",
             "sSortDescending": ": Ordenar colunas de forma descendente"
+        },
+        'buttons': {
+            'copy': 'Copiar',
+            'print': 'Imprimir',
+            'copyTitle': 'Adicionado à área de transferência',
+            'copyKeys': 'Pressione <i> ctrl </i> ou <i> \u2318 </i> + <i>C</i> para copiar os dados da tabela para a área de transferência. <br> <br> Para cancelar, clique nesta mensagem ou pressione Esc.',
+            'copySuccess': {
+                _: '%d linhas copiadas',
+                1: '1 linha copiada'
+            }
         }
-        }
-    });
+    };
 
-// Apply the search
-table.columns().every( function () {
-    var that = this;
+    var config = {
+        'ajax' : false,
+        'paging'      : true,
+        'lengthChange': false,
+        'searching'   : true,
+        'ordering'    : true,
+        'info'        : true,
+        'autoWidth'   : true,
+        "language": lang,
+        "order": [[ 0, "desc" ]],
+        "dom": 'Bflrtip',
+        "buttons": [
+            'copy', 'excel', 'pdf', 'print'
+        ],
+        'searchHighlight': true
+    };
 
-    $( 'input', this.footer() ).on( 'keyup change', function () {
-        if ( that.search() !== this.value ) {
-            that
-                .search( this.value )
-                .draw();
-        }
-    } );
-} );  
+    // DataTable
+    var table =  $('#datable').DataTable(config);
+
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            if ( that.search() !== this.value ) {
+                that.search( this.value ).draw();
+            }
+        } );
+    } ); 
+});
 </script>
 <!-- toaster -->
 <script src="{{ asset('public/vendor/plugins/toastr/toastr.js') }}"></script>
-<!-- =========== /GERAIS ========== -->
-<!-- =========== FORM ========== -->
-<!-- InputMask -->
-{{-- <script src="{{ asset('public/vendor/plugins/input-mask/jquery.inputmask.js') }}"></script>
-<script src="{{ asset('public/vendor/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
-<script src="{{ asset('public/vendor/plugins/input-mask/jquery.inputmask.extensions.js') }}"></script>--> --}}
-{{-- <!-- InputMask --> --}}
 <script src="{{ asset('public/vendor/plugins/mask/dist/jquery.mask.js') }}"></script>
-{{-- <!-- file upload  --}}
-{{-- <script src="{{ asset('public/vendor/plugins/File-Upload/js/vendor/jquery.ui.widget.js') }}"></script> --}}
-{{-- <script src="{{ asset('public/vendor/plugins/File-Upload/js/jquery.fileupload.js') }}"></script>--> --}}
-{{-- <!-- =========== /FORM ========== --> --}}
-{{-- <!-- =========== INDEX ========== --> --}}
 
 <!--funções criadas -->
 <script src="{{ asset('public/js/funcoes.js') }}"></script>
@@ -128,16 +145,4 @@ $(document).ready(function($){
   $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
 });
 </script>
-@if(!session('is_admin')) {{--  para esconder a debugbar de quem não for administrador --}}
-<script>
-$(document).ready(function($){
-   $('.phpdebugbar-openhandler-overlay').hide();
-   $('.phpdebugbar-restore-btn').hide();
-});
-</script>
-@endif
-
-{{-- <script src="{{ asset('public/js/app.js') }}"></script> --}}
-<!-- Easy Autocomplete -->
-{{-- <script src="{{ asset('public/vendor/plugins/EasyAutocomplete/jquery.easy-autocomplete.min.js') }}"></script> --}}
 

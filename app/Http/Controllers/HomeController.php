@@ -5,7 +5,13 @@ use App\Models\Sjd\Relatorios\Pendencia as Pendencia;
 // dados via API
 use Auth;
 use ApiTransferencias;
+use App\Repositories\PM\TransferidosRepository;
 use App\Repositories\PM\ComportamentoRepository;
+use App\Repositories\PM\PolicialRepository;
+use App\Repositories\proc\FatdRepository;
+use App\Repositories\proc\IpmRepository;
+use App\Repositories\proc\SindicanciaRepository;
+use App\Repositories\proc\CdRepository;
 use ApiFatd;
 use ApiIpm;
 use ApiSindicancia;
@@ -13,9 +19,32 @@ use ApiCd;
 use ApiPM;
 class HomeController extends Controller
 {
-    public function __construct()
+    protected $transferidos;
+    protected $comportamentos;
+    protected $fatd;
+    protected $ipm;
+    protected $cd;
+    protected $sindicancia;
+    protected $pm;
+
+    public function __construct(
+        TransferidosRepository $transferidos,
+        ComportamentoRepository $comportamentos,
+        PolicialRepository $pm,
+        FatdRepository $fatd,
+        IpmRepository $ipm,
+        SindicanciaRepository $sindicancia,
+        CdRepository $cd
+    )
     {
         $this->middleware('auth');
+        $this->transferidos = $transferidos;
+        $this->comportamentos = $comportamentos;
+        $this->fatd = $fatd;
+        $this->ipm = $ipm;
+        $this->cd = $cd;
+        $this->sindicancia = $sindicancia;
+        $this->pm = $pm;
     }
 
     public function isLoged($unidade) {
@@ -24,50 +53,6 @@ class HomeController extends Controller
             Auth::logout();
             return redirect()->intended('login');
         }
-    }
-
-    public function transferidos($unidade) { //PENDENCIA #0: TRANSFERIDOS obs: arrumar a pesquisa
-        return ApiTransferencias::transferencias($unidade);
-    }
-
-    public function comportamentos($unidade) { //PENDENCIA #1: COMPORTAMENTO
-        return ComportamentoRepository::comportamentos($unidade);
-    }
-
-    public function FATDpunidos($unidade) { //PENDENCIA #2: CADASTRO DE PUNICAO NO FATD MARCADO COMO PUNIDO
-        return ApiFatd::punidos($unidade);
-    }
-
-    public function FATDPrazos($unidade) { //PENDENCIA #2.1: PRAZO DO FATD
-        return ApiFatd::prazos($unidade);
-    }
-
-    public function FATDaberturas($unidade) { //PENDENCIA #2.2: FATD SEM DATA DE ABERTURA
-        return ApiFatd::aberturas($unidade);
-    }
-
-    public function IPMprazos($unidade) { //PENDENCIA #3: PERDA DE PRAZO EM IPM
-        return ApiIpm::prazos($unidade);
-    }
-
-    public function IPMaberturas($unidade) { //PENDENCIA #3.1: ipm SEM DATA DE ABERTURA
-        return ApiIpm::aberturas($unidade);
-    }
-
-    public function SindicanciaPrazos($unidade) { //PENDENCIA #4: PRAZO DAS SINDICANCIAS
-        return ApiSindicancia::prazos($unidade);
-    }
-
-    public function SindicanciaAberturas($unidade) { //PENDENCIA #4.1: SINDICANCIA SEM DATA DE ABERTURA
-        return ApiSindicancia::aberturas($unidade);
-    }
-
-    public function CDaberturas($unidade) { //PENDENCIA #5: CONSELHOS DE DISCIPLINA SEM DATA DE ABERTURA
-        return ApiCd::aberturas($unidade);
-    }
-
-    public function CDprazos($unidade) { //PENDENCIA #5.1: CONSELHOS DE DISCIPLINA - PRAZO
-        return ApiCd::prazos($unidade);
     }
 
     public function index()
@@ -82,82 +67,79 @@ class HomeController extends Controller
         $this->isLoged($unidade);
 
         // pendências
-        $transferidos = $this->transferidos($unidade);
-        $comportamentos = $this->comportamentos($unidade);
-        $fatd_punidos = $this->FATDpunidos($unidade);
-        $fatd_prazos = $this->FATDPrazos($unidade);
-        $fatd_aberturas = $this->FATDaberturas($unidade);
-        $ipm_prazos = $this->IPMprazos($unidade);
-        $ipm_aberturas = $this->IPMaberturas($unidade);
-        $sindicancia_prazos = $this->SindicanciaPrazos($unidade);
-        $sindicancia_aberturas = $this->SindicanciaAberturas($unidade);
-        $cd_aberturas = $this->CDaberturas($unidade);
-        $cd_prazos = $this->CDprazos($unidade);
+        //PENDENCIA #0: TRANSFERIDOS obs: arrumar a pesquisa
+        $pendencias['transferidos'] = $this->transferidos->semana($unidade);
+        //PENDENCIA #1: COMPORTAMENTO
+        $pendencias['comportamentos'] = $this->comportamentos->comportamentos($unidade);
+        //PENDENCIA #2: CADASTRO DE PUNICAO NO FATD MARCADO COMO PUNIDO
+        $pendencias['fatd_punidos'] = $this->fatd->punidos($unidade);
+        //PENDENCIA #2.1: PRAZO DO FATD
+        $pendencias['fatd_prazos'] = $this->fatd->foraDoPrazo($unidade);
+        //PENDENCIA #2.2: FATD SEM DATA DE ABERTURA
+        $pendencias['fatd_aberturas'] = $this->fatd->aberturas($unidade);
+        //PENDENCIA #3: PERDA DE PRAZO EM IPM
+        $pendencias['ipm_prazos'] = $this->ipm->foraDoPrazo($unidade);
+        //PENDENCIA #3.1: ipm SEM DATA DE ABERTURA
+        $pendencias['ipm_aberturas'] = $this->ipm->instauracao($unidade);
+        //PENDENCIA #4: PRAZO DAS SINDICANCIAS
+        $pendencias['sindicancia_prazos'] = $this->sindicancia->foraDoPrazo($unidade);
+        //PENDENCIA #4.1: SINDICANCIA SEM DATA DE ABERTURA
+        $pendencias['sindicancia_aberturas'] = $this->sindicancia->foraDoPrazo($unidade);
+        //PENDENCIA #5: CONSELHOS DE DISCIPLINA SEM DATA DE ABERTURA
+        $pendencias['cd_aberturas'] = $this->cd->aberturas($unidade);
+        //PENDENCIA #5.1: CONSELHOS DE DISCIPLINA - PRAZO
+        $pendencias['cd_prazos'] = $this->cd->foraDoPrazo($unidade);
 
         //contagens
-        $ttransferidos = count($transferidos);
-        $tfatd_punidos = count($fatd_punidos);
-        $tfatd_prazos = count($fatd_prazos);
-        $tfatd_aberturas = count($fatd_aberturas);
-        $tipm_prazos = count($ipm_prazos);
-        $tipm_aberturas = count($ipm_aberturas);
-        $tsindicancia_prazos = count($sindicancia_prazos);
-        $tsindicancia_aberturas = count($sindicancia_aberturas);
-        $tcd_aberturas = count($cd_aberturas);
-        $tcd_prazos = count($cd_prazos);
+        $totais = [
+            'cdopm' => completa_zeros($unidade),
+            'comportamento' => count($pendencias['comportamentos']),
+            'fatd_punicao' => count($pendencias['fatd_punidos']),
+            'fatd_prazo' => count($pendencias['fatd_prazos']),
+            'fatd_abertura' => count($pendencias['fatd_aberturas']),
+            'ipm_abertura' => count($pendencias['ipm_aberturas']),
+            'ipm_prazo' => count($pendencias['ipm_prazos']),
+            'sindicancia_abertura' => count($pendencias['sindicancia_aberturas']),
+            'sindicancia_prazo' => count($pendencias['sindicancia_prazos']),
+            'cd_abertura' => count($pendencias['cd_aberturas']),
+            'cd_prazo' => count($pendencias['cd_prazos'])
+        ];
 
-        // totais para as infobox
-        $fatd_total = $tfatd_punidos + $tfatd_prazos + $tfatd_aberturas;
-        $ipm_total = $tipm_prazos + $tipm_aberturas;
-        $sindicancia_total = $tsindicancia_prazos + $tsindicancia_aberturas;
-        $cd_total = $tcd_aberturas + $tcd_prazos;
-        $total_efetivo =  ApiPM::totalEfetivoOPM($unidade);
-        
+        // somatórios
+        $totais_proc = [
+            'fatd' => $totais['fatd_punicao'] + $totais['fatd_prazo'] + $totais['fatd_abertura'],
+            'ipm' => $totais['ipm_prazo'] + $totais['ipm_abertura'],
+            'sindicancia' => $totais['sindicancia_prazo'] + $totais['sindicancia_abertura'],
+            'cd' => $totais['cd_prazo'] + $totais['cd_abertura'],
+        ];
+
         // gráficos
-        $efetivo_chartjs = HomeController::graficoEfetivo($unidade);
-        $chartjs = HomeController::graficoProcAnos($unidade);
+        $efetivo = $this->graficoEfetivo($unidade);
+        $procedimentos = $this->graficoProcAnos($unidade);
+
         //ATUALIZAR PENDÊNCIAS GERAIS
         //aproveita que já tem as somas de pendências para inserir na tabela de pendências gerais
-        $pendencia = Pendencia::where('cdopm','=',$unidade)->first();
-        $pendencia->fatd_punicao = $tfatd_punidos; 
-        $pendencia->fatd_prazo = $tfatd_prazos;
-        $pendencia->fatd_abertura = $tfatd_aberturas;
-        $pendencia->ipm_prazo = $tipm_prazos;
-        $pendencia->ipm_abertura = $tipm_aberturas;
-        $pendencia->sindicancia_prazo = $tsindicancia_prazos; 
-        $pendencia->sindicancia_abertura = $tsindicancia_aberturas; 
-        $pendencia->save();
+        $this->atualizaPendencias($totais);
 
-        return view('home',compact('transferidos', 'comportamentos','fatd_punidos','fatd_prazos','fatd_aberturas','fatd_total','ipm_prazos','ipm_aberturas','ipm_total','sindicancia_prazos','sindicancia_aberturas','sindicancia_total','cd_aberturas','cd_prazos','cd_total','efetivo_chartjs','chartjs','total_efetivo','ttransferidos',
-        'tfatd_punidos','tfatd_punidos','tfatd_prazos','tfatd_aberturas','tfatd_total','tipm_prazos','tipm_aberturas','tipm_total','tsindicancia_prazos','tsindicancia_aberturas','tsindicancia_total','tcd_aberturas','tcd_prazos','tcd_total','nome_unidade', 'unidade' ));
+        return view('home',compact(
+            'efetivo', // gráfico efetivo
+            'procedimentos', // grafico procedimentos
+            'pendencias' ,  // listagens de pendências
+            'totais', // quantidade de pendencias
+            'totais_proc', // somatório das pendencias
+            'nome_unidade', 
+            'unidade' 
+        ));
     }
     public function graficoEfetivo($unidade)
     {
-        $efetivo = ApiPM::efetivoOPM($unidade);
+        $e = ApiPM::efetivoOPM($unidade);
         //formatar array para o gráfico
-        $qtd = array_pluck($efetivo, 'qtd');
-        $cargo = array_pluck($efetivo, 'cargo');
-        //criar dados do gráfico
-        $efetivo_chartjs = app()->chartjs
-            ->name('efetivo')
-            ->type('pie')
-            ->size(['width' => 600, 'height' => 200])
-            ->labels($cargo)
-            ->datasets([
-                [
-                    'backgroundColor' => config('sistema.default_colors'),
-                    'hoverBackgroundColor' => config('sistema.default_colors'),
-                    'data' => $qtd
-                ]
-            ])
-            ->options([
-                'animationEasing' => 'easeOutCirc',
-                'legend' => [
-                    'display' => true,
-                    'position' => 'left'
-                ]
-            ]);
-        return $efetivo_chartjs;
+        $efetivo['qtd'] = array_pluck($e, 'qtd');
+        $efetivo['cargos'] = array_pluck($e, 'cargo');
+
+        return $efetivo;
+        // dd($efetivo_chartjs);
     }
     public function graficoProcAnos($unidade)
     {
@@ -171,55 +153,25 @@ class HomeController extends Controller
         [$anos, $sindicancia_ano] = array_divide($sindicancia_ano);
         [$anos, $cd_ano] = array_divide($cd_ano);
             
-            $chartjs = app()->chartjs
-            ->name('lineChartTest')
-            ->type('line')
-            ->size(['width' => 500, 'height' => 200])
-            ->labels($anos)
-            ->datasets([
-                [
-                    "label" => "FATD",
-                    'backgroundColor' => "rgba(0, 0, 0, 0.05)",
-                    'borderColor' => "rgba(51, 102, 204, 0.5)",
-                    "pointBorderColor" => "rgba(51, 102, 204, 0.5)",
-                    "pointBackgroundColor" => "rgba(51, 102, 204, 0.5)",
-                    "pointHoverBackgroundColor" => "rgba(51, 102, 204, 0.5)",
-                    "pointHoverBorderColor" => "rgba(220,220,220,1)",
-                    'data' => $fatd_ano,
-                ],
-                [
-                    "label" => "IPM",
-                    'backgroundColor' => "rgba(0, 0, 0, 0.05)",
-                    'borderColor' => "rgba(220, 57, 18, 0.5)",
-                    "pointBorderColor" => "rgba(220, 57, 18, 0.5)",
-                    "pointBackgroundColor" => "rgba(220, 57, 18, 0.5)",
-                    "pointHoverBackgroundColor" => "rgba(220, 57, 18, 0.5)",
-                    "pointHoverBorderColor" => "rgba(220,220,220,1)",
-                    'data' => $ipm_ano,
-                ],
-                [
-                    "label" => "Sindicância",
-                    'backgroundColor' => "rgba(0, 0, 0, 0.05)",
-                    'borderColor' => "rgba(255, 153, 0, 0.5)",
-                    "pointBorderColor" => "rgba(255, 153, 0, 0.5)",
-                    "pointBackgroundColor" => "rgba(255, 153, 0, 0.5)",
-                    "pointHoverBackgroundColor" => "rgba(255, 153, 0, 0.5)",
-                    "pointHoverBorderColor" => "rgba(220,220,220,1)",
-                    'data' => $sindicancia_ano,
-                ],
-                [
-                    "label" => "CD",
-                    'backgroundColor' => "rgba(0, 0, 0, 0.05)",
-                    'borderColor' => "rgba(16, 150, 24, 0.5)",
-                    "pointBorderColor" => "rgba(16, 150, 24, 0.5)",
-                    "pointBackgroundColor" => "rgba(16, 150, 24, 0.5)",
-                    "pointHoverBackgroundColor" => "rgba(16, 150, 24, 0.5)",
-                    "pointHoverBorderColor" => "rgba(220,220,220,1)",
-                    'data' => $cd_ano,
-                ]
-            ])
-            ->options([]);
-            return $chartjs;
+        $procedimentos['fatd_ano'] = $fatd_ano;
+        $procedimentos['ipm_ano'] = $ipm_ano;
+        $procedimentos['sindicancia_ano'] = $sindicancia_ano;
+        $procedimentos['cd_ano'] = $cd_ano;
+        $procedimentos['anos'] = $anos;
+
+        return $procedimentos;
+    }
+
+    public function atualizaPendencias($totais)
+    {
+        // dd($totais);
+        /*$pendencia = Pendencia::where('cdopm',$totais['cdopm'])->first();
+        if($pendencia) {
+            unset($totais['cdopm']);
+            $pendencia->update($totais);
+        }
+        Pendencia::create($totais);*/
+        return true;
     }
 
     public function logout(User $user)

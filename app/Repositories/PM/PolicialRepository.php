@@ -109,7 +109,7 @@ class PolicialRepository extends BaseRepository
 
     public static function dados($rg, $dado)
     {
-        $dados = Cache::remember('dados:'.$rg, $this->expiration, function() use ($rg)
+        $dados = Cache::remember('pm:dados:'.$rg, 60, function() use ($rg)
         {
             $ativo = (array) DB::connection('rhparana')->table('policial')->where('rg','=', $rg)->first();
             if($ativo) return $ativo;
@@ -120,6 +120,29 @@ class PolicialRepository extends BaseRepository
             return 'Não Encontrado';
         });
         return $dados[$dado];
+    }
+
+    public static function opm($rg, $tipo='')
+    {
+        $dados = Cache::remember('pm:unidade:'.$rg, 60, function() use ($rg)
+        {
+            return Policial::where('rg','=', $rg)->first();
+        });
+        if($dados) {
+            if($tipo == 'cod' || $tipo == 'cdopm') {
+                if(isset($dados['CDOPM'])) return $dados['CDOPM'];
+                return false;
+            }
+            if($tipo == 'base' || $tipo == 'cdopm_base') {
+                if(isset($dados['CDOPM'])) return corta_zeros($dados['CDOPM']);
+                return false;
+            }
+            if(!$tipo) {
+                if(isset($dados['OPM_DESCRICAO'])) return $dados['OPM_DESCRICAO'];
+                return 'Não encontado';
+            }
+        }
+        return 'Não encontado';
     }
 
     public function pm($rg)

@@ -33,7 +33,7 @@
                         <?php endif; ?>
                         </tbody>
                     </table>  
-                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-tramite-coger')): ?>
+                    <?php if(hasPermissionTo('criar-tramite-coger')): ?>
                     <button type="button" class="btn btn-primary btn-block">
                         <i class="fa fa-plus"></i>Adicionar Trâmite COGER
                     </button>

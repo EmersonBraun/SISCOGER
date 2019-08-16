@@ -18,10 +18,15 @@ class ComportamentoController extends Controller
         $this->repository = $repository;
     }
 
-    public function index()
+    public function index($posto, $parte=1)
     {
-        $registros = $this->repository->all();
-        return view('policiais.comportamento.index', compact('registros'));
+        $registros = $this->repository->posto($posto, $parte);
+        return view('policiais.comportamento.index', compact('registros','posto','parte'));
+    }
+
+    public function comportamentos($copm)
+    {
+        return $this->repository->comportamentos($copm);
     }
 
 

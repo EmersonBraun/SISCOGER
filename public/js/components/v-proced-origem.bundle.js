@@ -1,4 +1,4 @@
-webpackJsonp([9],{
+webpackJsonp([17],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/ProcedOrigem.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -157,6 +157,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             return Array.from({ length: year - 2008 }, function (value, index) {
                 return 2009 + index;
             });
+        },
+        canDelete: function canDelete() {
+            return this.permissions.includes('apagar-procedimento-origem');
         }
     },
     methods: {
@@ -254,7 +257,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -901,22 +904,24 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-eye" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-danger",
-                                staticStyle: { color: "white" },
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.removeProc(
-                                      procedimento.id_ligacao
-                                    )
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash" })]
-                            )
+                            _vm.canDelete
+                              ? _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-danger",
+                                    staticStyle: { color: "white" },
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.removeProc(
+                                          procedimento.id_ligacao
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash" })]
+                                )
+                              : _vm._e()
                           ]
                         )
                       ])
@@ -1331,7 +1336,9 @@ module.exports = Component.exports
             dano: '',
             add: false,
             admin: false,
-            rg: ''
+            rg: '',
+            roles: [],
+            permissions: []
         };
     },
 
@@ -1356,6 +1363,8 @@ module.exports = Component.exports
             var session = this.$root.getSessionData();
             this.admin = session.is_admin;
             this.rg = session.rg;
+            this.permissions = session.permissions;
+            this.roles = session.roles;
         }
     }
 });

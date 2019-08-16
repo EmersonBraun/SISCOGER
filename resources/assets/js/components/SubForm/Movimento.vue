@@ -46,7 +46,7 @@
                             <tr>
                                 <th class="col-sm-2">#</th>
                                 <th class="col-sm-2">Data</th>
-                                <template v-if="admin">
+                                <template v-if="canDelete">
                                     <th class="col-sm-2">Descrição</th>
                                 </template>
                                 <template v-else>
@@ -54,7 +54,7 @@
                                 </template>
                                 <th class="col-sm-2">OPM</th>
                                 <th class="col-sm-2">RG</th>
-                                <th v-if="admin" class="col-sm-2">Ações</th>
+                                <th v-if="canDelete" class="col-sm-2">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,7 +64,7 @@
                                 <td>{{ movimento.descricao }}</td>
                                 <td>{{ movimento.opm }}</td>
                                 <td>{{ movimento.rg }}</td>
-                                <td v-if="admin">
+                                <td v-if="canDelete">
                                     <div class="btn-group" role="group" aria-label="First group">
                                         <a type="button"  @click="removeMovimento(movimento, index)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
@@ -124,6 +124,9 @@
                 }else{
                     this.only = false
                 }      
+            },
+            canDelete(){
+                return this.permissions.includes('apagar-movimento')
             },
         },
         methods: {

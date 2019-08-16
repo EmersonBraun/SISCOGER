@@ -1,4 +1,4 @@
-webpackJsonp([24],{
+webpackJsonp([43],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Form/Ano.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -13,30 +13,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    created: function created() {
+        var start = !this.fim ? new Date().getFullYear() : this.fim;
+        var end = !this.inicio ? 2007 : this.inicio;
+        var tam = start - end;
+        var y = Array.from({ length: tam }, function (value, index) {
+            return start - index;
+        });
+
+        this.years = y;
+        if (!this.year) this.year = start;
+    },
+
     props: {
         name: { type: String, default: 'ano' },
+        todos: { type: Boolean, default: false },
         ano: { type: String, default: '' },
-        inicio: { type: String, default: '' },
-        fim: { type: String, default: this.currentYear }
+        inicio: { type: Number, default: 2007 },
+        fim: { type: Number, default: function _default() {
+                return new Date().getFullYear();
+            } }
     },
     data: function data() {
         return {
             year: this.ano
         };
-    },
-
-    computed: {
-        years: function years() {
-            var end = !this.fim ? new Date().getFullYear() : this.fim;
-            var start = !this.inicio ? 2007 : this.inicio;
-            var tam = end - start;
-            var y = Array.from({ length: tam }, function (value, index) {
-                return start + 1 + index;
-            });
-            return y;
-        }
     }
 });
 
@@ -50,7 +54,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -285,12 +289,18 @@ var render = function() {
           }
         }
       },
-      _vm._l(_vm.years, function(year) {
-        return _c("option", { key: year, domProps: { value: year } }, [
-          _vm._v(_vm._s(year))
-        ])
-      }),
-      0
+      [
+        _vm.todos
+          ? _c("option", { attrs: { value: "" } }, [_vm._v("Todos")])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._l(_vm.years, function(y) {
+          return _c("option", { key: y, domProps: { value: y } }, [
+            _vm._v(_vm._s(y))
+          ])
+        })
+      ],
+      2
     )
   ])
 }

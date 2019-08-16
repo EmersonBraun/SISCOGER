@@ -31,13 +31,13 @@
                         <td><?php echo e($registro['sintese_txt']); ?></td>
                         <td>
                             <span>
-                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('ver-sindicancia')): ?>
+                                <?php if(hasPermissionTo('ver-sindicancia')): ?>
                                     <a class="btn btn-default" href="<?php echo e(route('sindicancia.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])); ?>"><i class="fa fa-fw fa-eye "></i></a>
                                 <?php endif; ?>
-                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('editar-sindicancia')): ?>
+                                <?php if(hasPermissionTo('editar-sindicancia')): ?>
                                     <a class="btn btn-info" href="<?php echo e(route('sindicancia.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])); ?>"><i class="fa fa-fw fa-edit "></i></a>
                                 <?php endif; ?>
-                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('apagar-sindicancia')): ?>
+                                <?php if(hasPermissionTo('apagar-sindicancia')): ?>
                                     <a class="btn btn-danger"  href="<?php echo e(route('sindicancia.destroy',$registro['id_sindicancia'])); ?>" onclick="confirmApagar('SINDICÂNCIA',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i class="fa fa-fw fa-trash-o "></i></a>
                                 <?php endif; ?>
                             </span>

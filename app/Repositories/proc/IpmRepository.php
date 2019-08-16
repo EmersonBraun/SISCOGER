@@ -3,6 +3,7 @@
 namespace App\Repositories\proc;
 
 use Cache;
+use Illuminate\Support\Facades\DB;
 use App\Models\Sjd\Proc\Ipm;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Route;
@@ -12,7 +13,7 @@ class IpmRepository extends BaseRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60 * 24;//um dia 
+    protected $expiration = 60 * 24;//um dia 
 
 	public function __construct(Ipm $model)
 	{
@@ -294,6 +295,68 @@ class IpmRepository extends BaseRepository
             });   
         }
         return $registros;
+    }
+
+    public function foraDoPrazo($unidade)
+     {
+         $ipm_prazos = Cache::remember('ipm_prazos'.$unidade, 60, function() use ($unidade){
+ 
+         return DB::table('view_ipm_prazo')
+             ->where('cdopm', 'LIKE', $unidade.'%') 
+             ->where('diasuteis','>','60')
+             ->get();
+             
+         });
+ 
+         return $ipm_prazos;
+     }
+ 
+     public function instauracao($unidade)
+     {
+         $ipm_instauracao = Cache::remember('ipm_instauracao'.$unidade, 60, function() use ($unidade){
+ 
+         return DB::table('ipm')
+             ->where('cdopm', 'LIKE', $unidade.'%') 
+             ->where('autuacao_data','=','0000-00-00')
+             ->get();
+ 
+         });
+ 
+         return $ipm_instauracao;
+    }
+
+    public function QtdOMAnos($unidade, $ano='')
+    {
+        //inicializar a variável
+        $ipm_ano = [];
+        if($ano != '')
+        {
+            $ipm_ano = DB::connection('sjd')
+            ->table('ipm')
+            ->select(DB::raw('count(sjd_ref) AS qtd'))
+            ->where('sjd_ref_ano','=',$ano)
+            ->where('cdopm','like',$unidade.'%')
+            ->groupBy('sjd_ref_ano')
+            ->first();
+        }
+        else
+        {
+            for($i = 2008; $i <= date('Y'); $i++)
+            {
+                //Quantidade de ipm por ano
+                $qtd_ipm_ano = DB::connection('sjd')
+                ->table('ipm')
+                ->select(DB::raw('count(sjd_ref) AS qtd'))
+                ->where('sjd_ref_ano','=',$i)
+                ->where('cdopm','like',$unidade.'%')
+                ->groupBy('sjd_ref_ano')
+                ->first();
+                //insere no array para ficar 'ano' => 'qtd'
+                $ipm_ano = array_add($ipm_ano,$i, $qtd_ipm_ano['qtd']);
+            }
+        }
+        
+        return $ipm_ano;
     }
 
 

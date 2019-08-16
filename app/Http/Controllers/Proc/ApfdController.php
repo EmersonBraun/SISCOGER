@@ -7,13 +7,16 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\proc\Repositories\ApfdRepository;
+use App\Services\ProcedService;
 
 class ApfdController extends Controller
 {
     protected $repository;
-    public function __construct(ApfdRepository $repository)
+    protected $service;
+    public function __construct(ApfdRepository $repository, ProcedService $service)
 	{
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     public function index()
@@ -81,10 +84,10 @@ class ApfdController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
 
-        $this->canSee($proc);
+        $this->service->canSee($proc, 'apfd');
 
         return view('procedimentos.apfd.form.show', compact('proc'));
     }
@@ -92,10 +95,10 @@ class ApfdController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
         
-        $this->canSee($proc);
+        $this->service->canSee($proc, 'apfd');
 
         return view('procedimentos.apfd.form.edit', compact('proc'));
 

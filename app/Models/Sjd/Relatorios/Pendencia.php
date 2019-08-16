@@ -38,10 +38,13 @@ class Pendencia extends Eloquent
 		'ipm_prazo' => 'int',
 		'ipm_abertura' => 'int',
 		'sindicancia_prazo' => 'int',
-		'sindicancia_abertura' => 'int'
+        'sindicancia_abertura' => 'int',
+        'cd_prazo' => 'int',
+		'cd_abertura' => 'int'
 	];
 
 	protected $fillable = [
+        'cdopm',
 		'comportamento',
 		'fatd_punicao',
 		'fatd_prazo',
@@ -49,6 +52,8 @@ class Pendencia extends Eloquent
 		'ipm_prazo',
 		'ipm_abertura',
 		'sindicancia_prazo',
-		'sindicancia_abertura'
+        'sindicancia_abertura',
+        'cd_prazo',
+		'cd_abertura'
 	];
 }

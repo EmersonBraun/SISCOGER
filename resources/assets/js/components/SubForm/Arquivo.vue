@@ -86,10 +86,10 @@
                                 <td>{{ arquivo.rg }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="First group">
-                                        <a type="button"  @click="replaceArquivo(arquivo)" class="btn btn-success" style="color: white">
+                                        <a v-if="canEdit" type="button"  @click="replaceArquivo(arquivo)" class="btn btn-success" style="color: white">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a type="button"  @click="removeArquivo(arquivo.id_arquivo, index)" class="btn btn-danger" style="color: white">
+                                        <a v-if="canDelete" type="button"  @click="removeArquivo(arquivo.id_arquivo, index)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
                                         </a>
                                     </div>
@@ -152,6 +152,12 @@
                 }else{
                     this.only = false
                 }      
+            },
+            canEdit(){
+                return this.permissions.includes('editar-arquivamento')
+            },
+            canDelete(){
+                return this.permissions.includes('apagar-arquivamento')
             },
         },
         methods: {

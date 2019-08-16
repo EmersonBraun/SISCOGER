@@ -39,16 +39,16 @@
             </div>
             <!-- /.tab-content -->
         </div>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('ver-afastamentos')): ?>
+        <?php if(hasPermissionTo('ver-afastamentos')): ?>
             <?php echo $__env->make('FDI.afastamentos', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('ver-dependentes')): ?>
+        <?php if(hasPermissionTo('ver-dependentes')): ?>
             <?php echo $__env->make('FDI.dependentes', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('ver-tramite-coger')): ?>
+        <?php if(hasPermissionTo('ver-tramite-coger')): ?>
             <?php echo $__env->make('FDI.tramitecoger', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('ver-tramite-opm')): ?>
+        <?php if(hasPermissionTo('ver-tramite-opm')): ?>
             <?php echo $__env->make('FDI.tramiteopm', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <?php endif; ?>
     <div>

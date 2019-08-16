@@ -1,4 +1,4 @@
-webpackJsonp([4,13],{
+webpackJsonp([7,28],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Arquivo.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -163,6 +163,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 this.only = false;
             }
+        },
+        canEdit: function canEdit() {
+            return this.permissions.includes('editar-arquivamento');
+        },
+        canDelete: function canDelete() {
+            return this.permissions.includes('apagar-arquivamento');
         }
     },
     methods: {
@@ -619,7 +625,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1234,38 +1240,42 @@ var render = function() {
                             }
                           },
                           [
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-success",
-                                staticStyle: { color: "white" },
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.replaceArquivo(arquivo)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-edit" })]
-                            ),
+                            _vm.canEdit
+                              ? _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-success",
+                                    staticStyle: { color: "white" },
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.replaceArquivo(arquivo)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-edit" })]
+                                )
+                              : _vm._e(),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-danger",
-                                staticStyle: { color: "white" },
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.removeArquivo(
-                                      arquivo.id_arquivo,
-                                      index
-                                    )
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash" })]
-                            )
+                            _vm.canDelete
+                              ? _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-danger",
+                                    staticStyle: { color: "white" },
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.removeArquivo(
+                                          arquivo.id_arquivo,
+                                          index
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash" })]
+                                )
+                              : _vm._e()
                           ]
                         )
                       ])
@@ -2055,7 +2065,9 @@ module.exports = Component.exports
             dano: '',
             add: false,
             admin: false,
-            rg: ''
+            rg: '',
+            roles: [],
+            permissions: []
         };
     },
 
@@ -2080,6 +2092,8 @@ module.exports = Component.exports
             var session = this.$root.getSessionData();
             this.admin = session.is_admin;
             this.rg = session.rg;
+            this.permissions = session.permissions;
+            this.roles = session.roles;
         }
     }
 });

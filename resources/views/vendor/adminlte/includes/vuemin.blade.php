@@ -1,0 +1,1 @@
+<script defer src="{{ asset('public/js/app.min.js') }}"></script>

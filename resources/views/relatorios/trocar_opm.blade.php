@@ -14,61 +14,34 @@
 @stop
 
 @section('content')
-     <!-- Content Wrapper. Contains page content -->
-  <div class="">
-    <!-- Content Header (Page header) -->
-   
-
-    <!-- Main content -->
-    <section class="">
-        <div class="row">
-          <div class="col-xs-12">
-            <!-- /.box -->
-  
+<section class="">
+    <div class="row">
+        <div class="col-xs-12">
             <div class="box">
-              <!-- /.box-header -->
-
                 <div class='col-md-12 col-xs-12'>
+                    {!! Form::open(['url' => route('pendencia.homeoutraom')]) !!}
                     <div class="col-lg-12 col-md-12 col-xs-12 form-group @if ($errors->has('opm')) has-error @endif">
                         {!! Form::label('opm', 'OPM') !!}
-                        {{ Form::select('opm', $opms, session('cdopm'), ['class'=>'form-control select2 ', 'id' => 'opm']) }}                
+                        {{ Form::select('opm', $opms, session('cdopm'), ['class'=>'form-control ', 'id' => 'opm']) }}                
                         @if ($errors->has('opm'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('opm') }}</strong>
                             </span>
                         @endif
                     </div>
+                    {!! Form::submit('Ver outra OM',['class' => 'btn btn-primary btn-block']) !!}
+                    {!! Form::close() !!}
                 </div>
-
-              
-              <!-- /.box-body -->
             </div>
-            <!-- /.box -->
-          </div>
-          <!-- /.col -->
         </div>
-        <!-- /.row -->
-      </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+    </div>
+</section>
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
 @section('js')
-@include('vendor.adminlte.includes.select2')
-  {{-- 'onclick' => 'javascript:location.href={{route('home',['opm' => 'opm'])}}'   --}}
-<script>
-$(document).ready( function() {
-    $('#opm').on('change',function () {
-        var codigo = $(this).val();
-        // console.log(corta_zeros(codigo));
-        $(location).attr("href", '/siscoger/home/' + codigo);
-    });
-});
-</script>
+
 @stop
 

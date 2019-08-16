@@ -11029,5 +11029,11 @@ html {
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem; */
 }
+
+.btn-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
   
   

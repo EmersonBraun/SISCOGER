@@ -1,31 +1,31 @@
 @extends('adminlte::page')
 
-@section('title_postfix', '| Criar permissões')
+@section('title_postfix', '| Editar permissões')
 
 @section('content_header')
- 
+<h1><i class='fa fa-key'></i> Editar {{$permission->name}}</h1>
 @stop
 
 @section('content')
-<div class='col-md-12'>
-    <h1><i class='fa fa-key'></i> Editar {{$permission->name}}</h1>
-    <br>
-    {{ Form::model($permission, array('route' => array('permission.update', $permission->id), 'method' => 'PUT')) }}
-    {{-- Vinculação de modelo de formulário para preencher automaticamente nossos campos com dados de permissão --}}
+<section class="">
+    <div class="tab-content">
+        <v-tab-item title="Editar Permissão" idp="principal" cls="active show">
+            {{ Form::model($permission, array('route' => array('permission.update', $permission->id), 'method' => 'PUT')) }}
+            <v-label label="name" lg='12' md='12' title="Nome" error="{{$errors->first('name')}}">
+                {!! Form::text('name',null, ['class' => 'form-control','required']) !!}
+            </v-label>
 
-    <div class="form-group">
-        {{ Form::label('name', 'Permission Name') }}
-        {{ Form::text('name', null, array('class' => 'form-control')) }}
+            {!! Form::submit('Editar Permissão',['class' => 'btn btn-primary btn-block']) !!}
+            {!! Form::close() !!}
+        </v-tab-item>
     </div>
-    <br>
-    {{ Form::submit('Editar', array('class' => 'btn btn-primary')) }}
+</section>
 
-    {{ Form::close() }}
-</div>
 @stop
 
 @section('css')
 @stop
 
 @section('js')
+@include('vendor.adminlte.includes.vue')
 @stop

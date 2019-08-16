@@ -90,7 +90,7 @@
                                         <a type="button" @click="showProc(procedimento.origem_proc, procedimento.origem_sjd_ref, procedimento.origem_sjd_ref_ano)" target="_blanck" class="btn btn-primary" style="color: white">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a type="button"  @click="removeProc(procedimento.id_ligacao)" class="btn btn-danger" style="color: white">
+                                        <a v-if="canDelete" type="button"  @click="removeProc(procedimento.id_ligacao)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
                                         </a>
                                     </div>
@@ -149,6 +149,9 @@
             years () {
                 const year = new Date().getFullYear()
                 return Array.from({length: year - 2008}, (value, index) => 2009 + index)
+            },
+            canDelete(){
+                return this.permissions.includes('apagar-procedimento-origem')
             },
             
         },

@@ -31,7 +31,7 @@
         <?php endif; ?>
         </tbody>
     </table>
-    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-sai')): ?>
+    <?php if(hasPermissionTo('criar-sai')): ?>
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar Sai
     </button>

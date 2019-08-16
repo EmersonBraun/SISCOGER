@@ -7,14 +7,17 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\Repositories\proc\AdlRepository;
+use App\Services\ProcedService;
 use App\Models\Sjd\Busca\Envolvido;
 
 class AdlController extends Controller
 {
     protected $repository;
-    public function __construct(AdlRepository $repository)
+    protected $service;
+    public function __construct(AdlRepository $repository, ProcedService $service)
 	{
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     public function index()
@@ -98,10 +101,10 @@ class AdlController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
 
-        $this->canSee($proc);
+        $this->service->canSee($proc, 'adl');
 
         return view('procedimentos.adl.form.show', compact('proc'));
     }
@@ -109,10 +112,10 @@ class AdlController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
         
-        $this->canSee($proc);
+        $this->service->canSee($proc, 'adl');
 
         return view('procedimentos.adl.form.edit', compact('proc'));
 

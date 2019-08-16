@@ -86,7 +86,7 @@ class IsoController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -97,7 +97,7 @@ class IsoController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
         
         $this->canSee($proc);

@@ -1,5 +1,5 @@
 <div class="tab-pane" id="fdi">
-    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('ver-mudanca-comportamento')): ?>
+    <?php if(hasPermissionTo('ver-mudanca-comportamento')): ?>
     <table class="table table-striped">
         <h4 class="text-center text-bold">Mudanças de Comportamento</h4>
         <tbody>
@@ -24,12 +24,12 @@
         </tbody>
     </table>
     <?php endif; ?>
-    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-mudanca-comportamento')): ?>
+    <?php if(hasPermissionTo('criar-mudanca-comportamento')): ?>
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar mudança de comportamento
     </button>
     <?php endif; ?>
-    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('ver-elogios')): ?>
+    <?php if(hasPermissionTo('ver-elogios')): ?>
     <table class="table table-striped">
         <h4 class="text-center text-bold">Elogios</h4>
         <tbody>
@@ -52,7 +52,7 @@
         </tbody>
     </table>
     <?php endif; ?>
-    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-elogio')): ?>
+    <?php if(hasPermissionTo('criar-elogio')): ?>
     <button type="button" class="btn btn-primary btn-block">
         <i class="fa fa-plus"></i>Adicionar elogio
     </button>

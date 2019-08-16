@@ -23,7 +23,7 @@
 
 @section('content')
 <div class='col-lg-12'>
-    {{ Form::model($user, array('route' => array('users.update', $user->id), 'method' => 'PUT')) }}
+    {{ Form::model($user, array('route' => array('user.update', $user->id), 'method' => 'PUT')) }}
     <div class="form-group col-lg-12 @if ($errors->has('rg')) has-error @endif">
         {{ Form::label('rg', 'rg') }}
         {{ Form::text('rg', null, array('class' => 'form-control')) }}

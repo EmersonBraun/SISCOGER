@@ -1,4 +1,4 @@
-webpackJsonp([10],{
+webpackJsonp([18],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Membro.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -214,6 +214,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 this.only = false;
             }
+        },
+        canReplace: function canReplace() {
+            return this.permissions.includes('substituir-membros');
+        },
+        canDelete: function canDelete() {
+            return this.permissions.includes('apagar-membros');
         }
     },
     methods: {
@@ -337,7 +343,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -882,39 +888,43 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-eye" })]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-success",
-                                staticStyle: { color: "white" },
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.replacePM(pm, index)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-retweet" })]
-                            ),
+                            _vm.canReplace
+                              ? _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-success",
+                                    staticStyle: { color: "white" },
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.replacePM(pm, index)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-retweet" })]
+                                )
+                              : _vm._e(),
                             _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-danger",
-                                staticStyle: { color: "white" },
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.removePM(
-                                      pm.id_envolvido,
-                                      pm.situacao,
-                                      index
-                                    )
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-trash" })]
-                            )
+                            _vm.canDelete
+                              ? _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-danger",
+                                    staticStyle: { color: "white" },
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.removePM(
+                                          pm.id_envolvido,
+                                          pm.situacao,
+                                          index
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash" })]
+                                )
+                              : _vm._e()
                           ]
                         )
                       ])
@@ -1438,7 +1448,9 @@ module.exports = Component.exports
             dano: '',
             add: false,
             admin: false,
-            rg: ''
+            rg: '',
+            roles: [],
+            permissions: []
         };
     },
 
@@ -1463,6 +1475,8 @@ module.exports = Component.exports
             var session = this.$root.getSessionData();
             this.admin = session.is_admin;
             this.rg = session.rg;
+            this.permissions = session.permissions;
+            this.roles = session.roles;
         }
     }
 });

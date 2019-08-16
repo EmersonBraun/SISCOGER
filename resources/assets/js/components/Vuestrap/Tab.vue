@@ -6,7 +6,8 @@
 export default {
   props: {
     disabled: {type: Boolean, default: false},
-    header: {type: String}
+    header: {type: String},
+    badge: {type: Number, default: 0}
   },
   data () {
     return {

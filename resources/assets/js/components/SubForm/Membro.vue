@@ -85,10 +85,10 @@
                                         <a type="button" @click="showPM(pm.rg)" target="_blanck" class="btn btn-primary" style="color: white">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a type="button" @click="replacePM(pm, index)" class="btn btn-success" style="color: white">
+                                        <a v-if="canReplace" type="button" @click="replacePM(pm, index)" class="btn btn-success" style="color: white">
                                             <i class="fa fa-retweet"></i>
                                         </a>
-                                        <a type="button"  @click="removePM(pm.id_envolvido, pm.situacao, index)" class="btn btn-danger" style="color: white">
+                                        <a v-if="canDelete" type="button"  @click="removePM(pm.id_envolvido, pm.situacao, index)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
                                         </a>
                                     </div>
@@ -203,6 +203,12 @@
                 }else{
                     this.only = false
                 }      
+            },
+            canReplace(){
+                return this.permissions.includes('substituir-membros')
+            },
+            canDelete(){
+                return this.permissions.includes('apagar-membros')
             },
         },
         methods: {

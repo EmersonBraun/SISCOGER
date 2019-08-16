@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {coerce, delayer} from './resources/assets/js/utils/utils.js'
+import {coerce, delayer} from './utils/utils.js'
 
 var DURATION = 0
 export default {

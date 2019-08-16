@@ -6,7 +6,8 @@ if (! function_exists('idade'))
 	{   
                 if($data) 
                 {
-                        $inicio =  \Carbon\Carbon::createFromTimeString($data);
+                        $inicio = \Carbon\Carbon::parse($data);;
+                        // $inicio =  \Carbon\Carbon::createFromTimeString($data);
                         $dataFinal = \Carbon\Carbon::now();
                         return $inicio->diffInYears($dataFinal);
                 }

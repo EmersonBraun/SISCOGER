@@ -1,7 +1,7 @@
 <template>
-  <div :class="['panel',panelType]">
+  <div :class="['panel',panelType]" style="margin-bottom: 20px">
     <div :class="['panel-heading',{'accordion-toggle':inAccordion}]" @click.prevent="inAccordion&&toggle()">
-      <slot name="header"><h4 class="panel-title">{{ header }}</h4></slot>
+      <slot name="header"><h4 class="panel-title">{{ header }}&MediumSpace;<span v-if="badge > 0" class="label label-danger">{{badge}}</span></h4></slot>
     </div>
     <transition
       name="collapse"
@@ -23,7 +23,8 @@ export default {
   props: {
     header: {type: String},
     isOpen: {type: Boolean, default: null},
-    type: {type: String, default : null}
+    type: {type: String, default : null},
+    badge: {type: Number, default: 0}
   },
   data() {
     return {
@@ -82,6 +83,11 @@ export default {
 .collapse-enter,
 .collapse-leave-active {
 
+}
+
+.panel-border-top {
+    border-top: 3px solid #00c0ef;
+    background: #ffffff;
 }
 
 </style>

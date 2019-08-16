@@ -45,7 +45,7 @@
                     {!! Form::select('id_andamentocoger',config('sistema.andamentocogerIPM'),null, ['class' => 'form-control ']) !!}
                 </v-label>
                 <v-label label="cdopm" title="OPM" error="{{$errors->first('cdopm')}}">
-                    <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
+                    <v-opm cdopm="{{$proc['cdopm'] ?? ''}}"></v-opm>
                 </v-label>
                 <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
                     <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>

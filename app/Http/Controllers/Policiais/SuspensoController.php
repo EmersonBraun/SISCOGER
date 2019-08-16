@@ -18,20 +18,20 @@ class SuspensoController extends Controller
     {
         $registros = $this->repository->all();
         $page = 'lista';
-        return view('policiais.suspenso.index', compact('registros','page'));
+        return view('policiais.suspenso.list.index', compact('registros','page'));
     }
 
     public function apagados()
     {
         $registros = $this->repository->apagados();
         $page = 'apagados';
-        return view('policiais.suspenso.apagados',compact('registros','page'));
+        return view('policiais.suspenso.list.apagados',compact('registros','page'));
     }
 
 
     public function create()
     {
-        return view('policiais.suspenso.create');
+        return view('policiais.suspenso.form.create');
     }
 
     public function store(Request $request)
@@ -63,7 +63,7 @@ class SuspensoController extends Controller
         $proc = $this->repository->findOrFail($id);
         if(!$proc) abort('404');
         
-        return view('policiais.suspenso.edit', compact('proc'));
+        return view('policiais.suspenso.form.edit', compact('proc'));
     }
 
     public function update(Request $request, $id)

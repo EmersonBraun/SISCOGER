@@ -154,6 +154,7 @@
         @endif
         @if(hasPermissionTo('listar-prioritarios'))
         <li class=""><a href="{{route('relatorio.prioritarios','adl')}}"><i class="fa fa-fw fa-circle-o "></i><span>Processos Prioritários</span></a></li>
+        @endif
         @if(hasPermissionTo('listar-relatorio-sobrestamentos'))
         <li class=""><a href="{{route('pendencia.sobrestamentos')}}"><i class="fa fa-fw fa-circle-o "></i><span>Sobrestamentos</span></a></li>
         @endif
@@ -229,7 +230,21 @@
 @endif
 
 @if(hasAnyPermission([
-        'listar-nota-coger',
+        'buscar-pm',
+        'listar-medalhas',
+        'listar-elogios',
+        'listar-excluidos',
+        'listar-punidos',
+        'listar-reintegrados',
+        'listar-denunciados',
+        'listar-presos',
+        'listar-procedimentos',
+        'listar-comportamentos',
+        'listar-respondendo',
+        'listar-restricoes',
+        'listar-suspensos',
+        'listar-obitos-lesoes',
+        'listar-mortos-feridos'
     ]))
 <li class="treeview">
     <a href="#">
@@ -265,23 +280,23 @@
         <li class=""><a href="{{route('procedimento.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Procedimentos</span></a></li>
         @endif
         @if(hasPermissionTo('listar-comportamentos'))
-        <li class=""><a href="{{route('comportamento.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Comportamento</span></a></li>
+        <li class=""><a href="{{route('comportamento.index','SD2C')}}"><i class="fa fa-fw fa-circle-o "></i><span>Comportamento</span></a></li>
         @endif
-        @if(hasPermissionTo('listar-'))
+        @if(hasPermissionTo('listar-respondendo'))
         <li class=""><a href="{{route('respondendo.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Respondendo</span></a></li>
         @endif
-        @if(hasPermissionTo('listar-'))
+        @if(hasPermissionTo('listar-restricoes'))
         <li class=""><a href="{{route('restricao.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Restrições</span></a></li>
         @endif
-        @if(hasPermissionTo('listar-'))
+        @if(hasPermissionTo('listar-suspensos'))
         <li class=""><a href="{{route('suspenso.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Suspensos</span></a></li>
         @endif
-        @if(hasPermissionTo('listar-'))
+        @if(hasPermissionTo('listar-obitos-lesoes'))
         <li class=""><a href="{{route('obitolesao.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Obitos e Lesões</span></a></li>
         @endif
-        @if(hasPermissionTo('listar-'))
+        {{-- @if(hasPermissionTo('listar-mortos-feridos'))
         <li class=""><a href="{{route('mortoferido.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Mortos e feridos</span></a></li>
-        @endif
+        @endif --}}
     </ul>
 </li>
 @endif
@@ -322,48 +337,72 @@
     </ul>
 </li>
 
-{{-- @if('admin'))--}}
+@if(hasAnyPermission([
+        'listar-usuarios',
+        'listar-papeis',
+        'listar-permissoes',
+        'listar-sjds',
+        'listar-termos',
+        'listar-dados-unidade',
+        'listar-feriados'
+    ]))
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-gears "></i><span>Administração</span>
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
+        @if(hasPermissionTo('listar-usuarios'))
         <li class="active"><a href="{{route('user.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Usuários</span></a></li>
-        {{--@if('admin-coger'))--}}
+        @endif
+        @if(hasPermissionTo('listar-papeis'))
         <li class=""><a href="{{route('role.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Papéis</span></a></li>
+        @endif
+        @if(hasPermissionTo('listar-permissoes'))
         <li class=""><a href="{{route('permission.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Permissões</span></a></li>
+        @endif
+        @if(hasPermissionTo('listar-sjds'))
         <li class=""><a href="{{route('sjd.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Controle SJD</span></a></li>
-        {{--@endif --}}
+        @endif
+        @if(hasPermissionTo('listar-termos'))
         <li class=""><a href="{{route('term.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Termos de compromisso</span></a></li>
+        @endif
+        @if(hasPermissionTo('listar-dados-unidade'))
         <li class=""><a href="{{route('unidade.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Unidades</span></a></li>
+        @endif
+        @if(hasPermissionTo('listar-feriados'))
         <li class=""><a href="{{route('feriado.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Feriados</span></a></li>
+        @endif
         {{-- <li class=""><a href="{{route('mail.sent')}}"><i class="fa fa-fw fa-circle-o "></i><span>E-mails agendados</span></a></li> --}}
     </ul>
 </li>
-{{-- @endif --}}
+@endif
 
+@if(hasPermissionTo('listar-historias'))
 <li class="">
     <a href="{{route('historia.ver')}}">
         <i class="fa fa-quote-left "></i><span>História SISCOGER</span>
         <span class="pull-right-container"></span>
     </a>
 </li>
+@endif
 
-{{-- @if('admin'))--}}
+@if(hasPermissionTo('listar-pendencia-outras-unidades'))
 <li class="treeview">
     <a href="#"><i class="fa fa fa-refresh "></i>
         <span>Ver outra OPM</span>
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        <li class=""><a href="{{route('trocaropm')}}"><i class="fa fa-fw fa-circle-o "></i><span>Dashboard</span></a></li>
+        <li class=""><a href="{{route('pendencia.trocaropm')}}"><i class="fa fa-fw fa-circle-o "></i><span>Dashboard</span></a></li>
+        @if(hasPermissionTo('listar-pendencia-outras-unidades'))
         <li class=""><a href="{{route('pendencia.gerais')}}"><i class="fa fa-fw fa-circle-o "></i><span>Pendências Gerais</span></a></li>
+        @endif
     </ul>
 </li>
-{{-- @endif --}}
+@endif
 
-{{-- @if('admin|supervisao'))--}}
+@if(hasPermissionTo('listar-logs'))
 <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-bug "></i><span>LOGS</span>
@@ -430,7 +469,7 @@
 </li>
 @endif
 
-<li class="treeview">
+{{-- <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-code "></i><span>DEV</span>
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
@@ -438,5 +477,5 @@
     <ul class="treeview-menu">
         <li class=""><a href="#"><i class="fa fa-fw fa-circle-o "></i><span>Ligar Debugbar</span></a></li>
     </ul>
-</li>
+</li> --}}
 

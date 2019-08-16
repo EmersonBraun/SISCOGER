@@ -1,12 +1,15 @@
 <template>
   <div tabs>
     <ul :class="navStyleClass" role="tablist">
-      <template v-for="header in headers">
-        <li v-if="header._isTab" :class="{active:header.active, disabled:header.disabled}" @click.prevent="select(header)">
-          <slot name="header"><a href="#" v-html="header.header"></a></slot>
+      <template v-for="(header, index) in headers">
+        <li v-if="header._isTab" :class="{active:header.active, disabled:header.disabled}" @click.prevent="select(header)" :key="index">
+          <slot name="header">
+            <a href="#" v-html="header.header"></a>
+            <span v-if="header.badge && header.badge > 0" class="label label-danger">{{header.badge}}</span>
+          </slot>
         </li>
-        <dropdown v-if="header._isTabGroup" :text="header.header" :class="{active:header.active}" :disabled="header.disabled">
-          <li v-for="tab in header.tabs" :class="{disabled:tab.disabled}"><a href="#" @click.prevent="select(tab)">{{tab.header}}</a></li>
+        <dropdown v-if="header._isTabGroup" :text="header.header" :class="{active:header.active}" :disabled="header.disabled" :key="index">
+          <li v-for="(tab, index) in header.tabs" :class="{disabled:tab.disabled}" :key="index"><a href="#" @click.prevent="select(tab)">{{tab.header}}</a></li>
         </dropdown>
       </template>
     </ul>
@@ -15,7 +18,7 @@
 </template>
 
 <script>
-import {coerce} from './utils/utils.js'
+import {coerce} from '../../utils/utils.js'
 import dropdown from './Dropdown.vue'
 
 export default {
@@ -74,5 +77,14 @@ export default {
 <style>
 [tabs] > .tab-content {
   margin: 15px 0;
+}
+.label {
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    text-align: center;
+    font-size: 9px;
+    padding: 2px 3px;
+    line-height: .9;
 }
 </style>

@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Suspensos | Lista')
+@section('title', 'Suspenso | Apagados')
 
 @section('content_header')
-@include('policiais.suspenso.menu', ['title' => 'Consultas','page' => $page])
+@include('policiais.suspenso.list.menu', ['title' => 'Consultas','page' => $page])
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Listagem de Suspensos</h3>
+                <h3 class="box-title">Listagem de Suspensos - Apagados</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -22,7 +22,6 @@
                             <th style="display: none">#</th>
                             <th class='col-xs-1 col-md-1'>RG</th>
                             <th class='col-xs-1 col-md-1'>Cargo</th>
-                            <th class='col-xs-1 col-md-1'>Nome</th>
                             <th class='col-xs-1 col-md-1'>OM atual</th>
                             <th class='col-xs-1 col-md-1'>Processo</th>
                             <th class='col-xs-2 col-md-2'>Art. da Infração Penal</th>
@@ -45,21 +44,15 @@
                             <td>{{$registro->fim_data}}</td>
                             <td>
                                 <span>
-                                    {{-- @if(hasPermissionTo('ver-suspensos')) 
-                                    <a class="btn btn-default" href="{{route('suspenso.show',$registro['id_suspenso'])}}"><i
-                                        class="fa fa-fw fa-eye "></i></a>
-                                    @endif --}}
-                                    @if(hasPermissionTo('editar-suspensos'))
+                                    {{-- <a class="btn btn-default" href="{{route('suspenso.show',$registro['id_suspenso'])}}"><i
+                                        class="fa fa-fw fa-eye "></i></a> --}}
                                     <a class="btn btn-info"
-                                        href="{{route('suspenso.edit',$registro['id_suspenso'])}}"><i
-                                            class="fa fa-fw fa-edit "></i></a>
-                                    @endif
-                                    @if(hasPermissionTo('apagar-suspensos'))
+                                        href="{{route('suspenso.restore',$registro['id_suspenso'])}}"><i
+                                            class="fa fa-fw fa-recycle "></i></a>
                                     <a class="btn btn-danger"
-                                        href="{{route('suspenso.destroy',$registro['id_suspenso'])}}"
-                                        onclick="return confirm('Tem certeza que quer apagar o Suspenso?')"><i
-                                            class="fa fa-fw fa-trash-o "></i></a>
-                                    @endif
+                                        href="{{route('suspenso.forceDelete',$registro['id_suspenso'])}}"
+                                        onclick="return confirm('Tem certeza que quer apagar o DEFINITIVO o Suspenso?')"><i
+                                            class="fa fa-fw fa-trash"></i></a>
                                 </span>
                             </td>
                         </tr>
@@ -70,7 +63,6 @@
                             <th style="display: none">#</th>
                             <th class='col-xs-1 col-md-1'>RG</th>
                             <th class='col-xs-1 col-md-1'>Cargo</th>
-                            <th class='col-xs-1 col-md-1'>Nome</th>
                             <th class='col-xs-1 col-md-1'>OM atual</th>
                             <th class='col-xs-1 col-md-1'>Processo</th>
                             <th class='col-xs-2 col-md-2'>Art. da Infração Penal</th>
@@ -87,6 +79,7 @@
 @stop
 
 @section('css')
+<link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
 @section('js')

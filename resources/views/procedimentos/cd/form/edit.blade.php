@@ -16,9 +16,6 @@
 @stop
 
 @section('content')
-     <!-- Content Wrapper. Contains page content -->
-  <div class="">
-    <!-- Content Header (Page header) -->
 <section>
     <div class="nav-tabs-custom">
         <v-tab-menu

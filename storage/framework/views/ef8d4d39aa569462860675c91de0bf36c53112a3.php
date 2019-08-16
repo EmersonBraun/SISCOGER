@@ -63,6 +63,5 @@
 <?php endif; ?>
 <?php echo $__env->yieldContent('adminlte_js'); ?>
 
-
 </body>
 </html>

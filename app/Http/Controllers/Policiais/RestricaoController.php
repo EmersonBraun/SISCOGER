@@ -14,26 +14,29 @@ class RestricaoController extends Controller
         $this->repository = $repository;
     }
 
-    public function index()
+    public function index($ano='')
     {
-        $registros = $this->repository->all();
-        return view('policiais.restricao.index', compact('registros'));
+        if(!$ano) $ano = date('Y');
+        $registros = $this->repository->ano($ano);
+        return view('policiais.restricao.list.index', compact('registros','ano'));
     }
 
 
     public function create()
     {
-        return view('policiais.restricao.create');
+        return view('policiais.restricao.form.create');
     }
 
     public function store(Request $request)
     {
 
         $this->validate($request, [
-            'data' => 'required'
+            'inicio_data' => 'required',
+            'obs_txt' => 'required'
         ]);
         
         $dados = $request->all();
+        $dados['cadastro_data'] = date('Y-m-d');
         $create = $this->repository->create($dados);
 
         if($create)
@@ -52,16 +55,18 @@ class RestricaoController extends Controller
         $proc = $this->repository->findOrFail($id);
         if(!$proc) abort('404');
         
-        return view('policiais.restricao.edit', compact('proc'));
+        return view('policiais.restricao.form.edit', compact('proc'));
     }
 
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'data' => 'required'
+            'inicio_data' => 'required',
+            'obs_txt' => 'required'
         ]);
 
         $dados = $request->all();
+        if($dados['fim_data']) $dados['retirada_data'] = date('Y-m-d');
         $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)

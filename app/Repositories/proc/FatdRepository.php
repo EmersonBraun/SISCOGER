@@ -14,7 +14,7 @@ class FatdRepository extends BaseRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60 * 24;//um dia  
+    protected $expiration = 60 * 24;//um dia  
 
 	public function __construct(Fatd $model)
 	{
@@ -32,7 +32,7 @@ class FatdRepository extends BaseRepository
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
 
-    public static function cleanCache()
+    public function cleanCache()
 	{
         Cache::tags('fatd')->flush();
     }
@@ -44,13 +44,13 @@ class FatdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('fatd')->remember('todos_fatd', self::$expiration, function() {
+            $registros = Cache::tags('fatd')->remember('todos_fatd', $this->expiration, function() {
                 return $this->model->all();
             });
         }
         else 
         {
-            $registros = Cache::tags('fatd')->remember('todos_fatd:'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('fatd')->remember('todos_fatd:'.$unidade, $this->expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')->get();
             });
         }
@@ -65,13 +65,13 @@ class FatdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('fatd')->remember('todos_fatd:'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('fatd')->remember('todos_fatd:'.$ano, $this->expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         else 
         {
-            $registros = Cache::tags('fatd')->remember('todos_fatd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('fatd')->remember('todos_fatd:'.$ano.':'.$unidade, $this->expiration, function() use ($unidade, $ano) {
                 return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
@@ -85,7 +85,7 @@ class FatdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('fatd')->remember('andamento_fatd', self::$expiration, function() {
+            $registros = Cache::tags('fatd')->remember('andamento_fatd', $this->expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
@@ -96,7 +96,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('fatd')->remember('andamento_fatd:'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('fatd')->remember('andamento_fatd:'.$unidade, $this->expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
@@ -115,7 +115,7 @@ class FatdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('fatd')->remember('andamento_fatd:'.$ano, self::$expiration, function() use ($ano){
+            $registros = Cache::tags('fatd')->remember('andamento_fatd:'.$ano, $this->expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
@@ -126,7 +126,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('fatd')->remember('andamento_fatd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('fatd')->remember('andamento_fatd:'.$ano.':'.$unidade, $this->expiration, function() use ($unidade, $ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -146,7 +146,7 @@ class FatdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('fatd')->remember('julgamento_fatd', self::$expiration, function() {
+            $registros = Cache::tags('fatd')->remember('julgamento_fatd', $this->expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
@@ -159,7 +159,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('fatd')->remember('julgamento_fatd:'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('fatd')->remember('julgamento_fatd:'.$unidade, $this->expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
@@ -180,7 +180,7 @@ class FatdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('fatd')->remember('julgamento_fatd:'.$ano, self::$expiration, function() use ($ano){
+            $registros = Cache::tags('fatd')->remember('julgamento_fatd:'.$ano, $this->expiration, function() use ($ano){
                 return $this->model->where('fatd.sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
@@ -193,7 +193,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('fatd')->remember('julgamento_fatd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('fatd')->remember('julgamento_fatd:'.$ano.':'.$unidade, $this->expiration, function() use ($unidade,$ano) {
                 return $this->model->where('fatd.sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -216,7 +216,7 @@ class FatdRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::tags('fatd')->remember('prazo_fatd', self::$expiration, function() {
+            $registros = Cache::tags('fatd')->remember('prazo_fatd', $this->expiration, function() {
                 return $this->model
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -239,7 +239,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('fatd')->remember('prazo_fatd:'.$unidade, self::$expiration, function() use ($unidade){
+            $registros = Cache::tags('fatd')->remember('prazo_fatd:'.$unidade, $this->expiration, function() use ($unidade){
                 return $this->model
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -272,7 +272,7 @@ class FatdRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::tags('fatd')->remember('prazo_fatd:'.$ano, self::$expiration, function() use ($ano) {
+            $registros = Cache::tags('fatd')->remember('prazo_fatd:'.$ano, $this->expiration, function() use ($ano) {
                 return $this->model
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -298,7 +298,7 @@ class FatdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('fatd')->remember('prazo_fatd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('fatd')->remember('prazo_fatd:'.$ano.':'.$unidade, $this->expiration, function() use ($unidade, $ano){
                 return $this->model
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -332,57 +332,75 @@ class FatdRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::tags('fatd')->remember('fora_prazo_fatd', self::$expiration, function() {
-                return $this->model
-                    ->selectRaw('DISTINCT fatd.*,
-                    (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
-                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
-                    b.dusobrestado, 
-                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
-                    ->leftJoin(
-                        DB::raw("(SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data != '0000-00-00' AND id_fatd!= '' GROUP BY id_fatd) b"),
-                        'b.id_fatd', '=', 'fatd.id_fatd')
-                    ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
-                            ->where('envolvido.situacao', '=', 'Encarregado')
-                            ->where('envolvido.rg_substituto', '=', '');
-                    })
-                    ->where('diasuteis', '>', 30)
-                    ->get();
+            $registros = Cache::tags('fatd')->remember('fora_prazo_fatd:todos', 60, function(){
+                return DB::connection('sjd')->select('SELECT * FROM
+                (SELECT fatd.id_fatd, envolvido.cargo, envolvido.nome, cdopm, 
+                    sjd_ref, sjd_ref_ano, abertura_data, 
+                    DIASUTEIS(abertura_data,DATE(NOW()))+1 AS dutotal,
+                    b.dusobrestado,
+                    (DIASUTEIS(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis 
+                    FROM fatd
+                    LEFT JOIN
+                    (SELECT id_fatd, SUM(DIASUTEIS(inicio_data, termino_data)+1) AS dusobrestado 
+                    FROM sobrestamento
+                        WHERE termino_data != :termino_data AND id_fatd != :id_fatd
+                        GROUP BY id_fatd) b
+                        ON b.id_fatd = fatd.id_fatd
+                    LEFT JOIN envolvido ON
+                        envolvido.id_fatd = fatd.id_fatd 
+                        AND envolvido.situacao = :situacao 
+                        AND rg_substituto = :rg_substituto
+                    WHERE fatd.id_andamento = :id_andamento) 
+                    AS dt WHERE dt.diasuteis > :diasuteis', 
+                    [
+                        'termino_data' => '0000-00-00',
+                        'id_fatd' => '',
+                        'situacao' => 'Encarregado',
+                        'rg_substituto' => '',
+                        'id_andamento' => '1',
+                        'diasuteis' => '30'
+                    ]);
             });
                     
         }
         else 
         {
-            $registros = Cache::tags('fatd')->remember('fora_prazo_fatd:'.$unidade, self::$expiration, function() use ($unidade){
-                return $this->model
-                    ->selectRaw('DISTINCT fatd.*,
-                    (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
-                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
-                    b.dusobrestado, 
-                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
-                    ->leftJoin(
-                        DB::raw("(SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data != '0000-00-00' AND id_fatd!= '' GROUP BY id_fatd) b"),
-                        'b.id_fatd', '=', 'fatd.id_fatd')
-                    ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
-                            ->where('envolvido.situacao', '=', 'Encarregado')
-                            ->where('envolvido.rg_substituto', '=', '');
-                    })
-                    ->where('fatd.cdopm','like',$unidade.'%')
-                    ->where('diasuteis', '>', 30)
-                    ->get();
-
+            $registros = Cache::tags('fatd')->remember('fora_prazo_fatd:'.$unidade, 60, function() use ($unidade){
+                return DB::connection('sjd')->select('SELECT * FROM
+                (SELECT fatd.id_fatd, envolvido.cargo, envolvido.nome, cdopm, 
+                    sjd_ref, sjd_ref_ano, abertura_data, 
+                    DIASUTEIS(abertura_data,DATE(NOW()))+1 AS dutotal,
+                    b.dusobrestado,
+                    (DIASUTEIS(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis 
+                    FROM fatd
+                    LEFT JOIN
+                    (SELECT id_fatd, SUM(DIASUTEIS(inicio_data, termino_data)+1) AS dusobrestado 
+                    FROM sobrestamento
+                        WHERE termino_data != :termino_data AND id_fatd != :id_fatd
+                        GROUP BY id_fatd) b
+                        ON b.id_fatd = fatd.id_fatd
+                    LEFT JOIN envolvido ON
+                        envolvido.id_fatd = fatd.id_fatd 
+                        AND envolvido.situacao = :situacao 
+                        AND rg_substituto = :rg_substituto
+                    WHERE fatd.id_andamento = :id_andamento 
+                    AND fatd.cdopm LIKE :opm) 
+                    AS dt WHERE dt.diasuteis > :diasuteis', 
+                    [
+                        'termino_data' => '0000-00-00',
+                        'id_fatd' => '',
+                        'situacao' => 'Encarregado',
+                        'rg_substituto' => '',
+                        'id_andamento' => '1',
+                        'opm' => $unidade.'%',
+                        'diasuteis' => '30'
+                    ]);
             });   
         }
         return $registros;
     }
 
-    public static function punidos($unidade)
+    public function punidos($unidade)
     {
         $registros = Cache::tags('fatd')->remember('punidos_fatd:'.$unidade, 60, function() use ($unidade){
             return DB::connection('sjd')
@@ -394,6 +412,7 @@ class FatdRepository extends BaseRepository
         
         return $registros;
     }
+
  
     public function aberturas($unidade){    
         $registros = Cache::tags('fatd')->remember('aberturas_fatd:'.$unidade, 60, function() use ($unidade){
@@ -405,7 +424,8 @@ class FatdRepository extends BaseRepository
         return $registros;
     }
 
-    public static function QtdOMAnos($unidade, $ano='')
+
+    public function QtdOMAnos($unidade, $ano='')
     {
         //inicializar a variável
         $registros = [];
@@ -436,6 +456,5 @@ class FatdRepository extends BaseRepository
         
         return $registros;
     }
-
 }
 

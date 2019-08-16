@@ -7,16 +7,19 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\Repositories\proc\CdRepository;
-use App\Models\Sjd\Busca\Envolvido;
+use App\Services\ProcedService;
 
 class CdController extends Controller
 {
     protected $repository;
-    public function __construct(CdRepository $repository)
+    protected $service;
+    public function __construct(CdRepository $repository, ProcedService $service)
 	{
         $this->repository = $repository;
+        $this->service = $service;
     }
 
+    // listagem 
     public function index()
     {
         return redirect()->route('cd.lista');
@@ -56,6 +59,23 @@ class CdController extends Controller
     {
         $registros = $this->repository->apagados();
         return view('procedimentos.cd.list.apagados',compact('registros'));
+    }
+
+    // api
+    public function foradoprazo($cdopm)
+    {
+        return $this->repository->foraDoPrazo($cdopm);
+    }
+
+    public function abertura($cdopm)
+    {
+        return $this->repository->aberturas($cdopm);
+    }
+
+    public function qtdOMAnos($cdopm, $ano='')
+    {
+        if($ano == '') $ano = date('Y');
+        return $this->repository->QtdOMAnos($cdopm, $ano);
     }
 
     public function create()
@@ -98,10 +118,10 @@ class CdController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
 
-        $this->canSee($proc);
+        $this->service->canSee($proc, 'cd');
 
         return view('procedimentos.cd.form.show', compact('proc'));
     }
@@ -109,10 +129,10 @@ class CdController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
         
-        $this->canSee($proc);
+        $this->service->canSee($proc, 'cd');
 
         return view('procedimentos.cd.form.edit', compact('proc'));
 

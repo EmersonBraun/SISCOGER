@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Policiais;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\PM\RespondendoRepository;
-
+use Illuminate\Support\Collection;
 class RespondendoController extends Controller
 {
     protected $repository;
+    protected $cargos;
+
     public function __construct(RespondendoRepository $repository)
 	{
         $this->repository = $repository;
@@ -16,106 +18,89 @@ class RespondendoController extends Controller
 
     public function index()
     {
-        $registros = $this->repository->all();
-        return view('policiais.respondendo.index', compact('registros'));
+        return view('policiais.respondendo.index');
     }
 
-
-    public function create()
+    public function search(Request $request)
     {
-        return view('policiais.respondendo.create');
-    }
-
-    public function store(Request $request)
-    {
-
-        $this->validate($request, [
-            'data' => 'required',
-            'respondendo' => 'required',
-        ]);
-        
         $dados = $request->all();
-        $create = $this->repository->create($dados);
+        // postos/graduações
+        $this->cargos($dados['cargo']);
+        if(!$this->cargos) return redirect()->back();
 
-        if($create)
-        {
-            $this->repository->cleanCache();
-            toast()->success('N° ','respondendo Inserido');
-            return redirect()->route('respondendo.index');
+        if ($dados['tipo_relatorio'] == 'lista') {
+
+            $registros = $this->lista($dados['proc'], $dados);
+            return view('policiais.respondendo.search', compact('registros'));
+        } 
+
+        if ($dados['tipo_relatorio'] == 'relatorio') {
+
+            $registros = $this->relatorio($dados['proc'], $dados);
+            return view('policiais.respondendo.relatorio', compact('registros'));
         }
 
-        toast()->warning('Houve um erro na inserção');
-        return redirect()->back();
-    }
-
-    public function edit($id)
-    {
-        $proc = $this->repository->findOrFail($id);
-        if(!$proc) abort('404');
-        
-        return view('policiais.respondendo.edit', compact('proc'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'data' => 'required',
-            'respondendo' => 'required',
-        ]);
-
-        $dados = $request->all();
-        $update = $this->repository->findOrFail($id)->update($dados);
-        
-        if($update)
-        {
-            $this->repository->cleanCache();
-            toast()->success('respondendo atualizado!');
-            return redirect()->route('respondendo.index');
-        }
-
-        toast()->warning('respondendo NÃO atualizado!');
         return redirect()->route('respondendo.index');
     }
 
-    public function destroy($id)
+    public function lista($proc, $dados)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
-
-        if($destroy) {
-            $this->repository->cleanCache();
-            toast()->success('respondendo Apagado');
-            return redirect()->route('respondendo.index');
+        $registros = [];
+        foreach ($proc as $p => $vf) {
+            if($vf) {
+                $registros[$p] = $this->query($dados, $p, false);
+            }
         }
 
-        toast()->warning('erro ao apagar respondendo');
-        return redirect()->route('respondendo.index');
+        return $registros;
     }
 
-    public function restore($id)
+    public function relatorio($proc, $dados)
     {
-        $restore = $this->repository->findAndRestore($id);
-        
-        if($restore){
-            $this->repository->cleanCache();
-            toast()->success('Respondendo Recuperado!');
-            return redirect()->route('respondendo.index');  
+        $registros = new Collection();
+        foreach ($proc as $p => $vf) {
+            if($vf) {
+                $result = $this->query($dados, $p, true);
+                $registros = $registros->merge($result);
+            }
         }
 
-        toast()->warning('Houve um erro ao recuperar!');
-        return redirect()->route('respondendo.index'); 
+        return $registros;
     }
 
-    public function forceDelete($id)
+    public function baseQuery($dados)
     {
-        $forceDelete = $this->repository->findAndDestroy($id);
-    
-        if($forceDelete){
-            $this->repository->cleanCache();
-            toast()->success('Respondendo Apagado definitivo!');
-            return redirect()->route('respondendo.index');  
-        }
+        $query = [];
+        if($dados['cdopm']) array_push($query,['cdopm','=',$dados['cdopm']]);
+        if($dados['sjd_ref_ano_ini']) array_push($query,['sjd_ref_ano','>=',$dados['sjd_ref_ano_ini']]);
+        if($dados['sjd_ref_ano_fim']) array_push($query,['sjd_ref_ano','<=',$dados['sjd_ref_ano_fim']]);
+        return $query;
+    }
 
-        toast()->warning('Houve um erro ao Apagar definitivo!');
-        return redirect()->route('respondendo.index');
+    public function query($dados, $proc, $tipo)
+    {
+        $query = $this->baseQuery($dados);
+        if($dados['andamento']) array_push($query,['id_andamento','=',array_search($this->andamento,config('sistema.andamento'))]);
+        array_push($query,['situacao','=',sistema('procSituacao',$proc)]);
+
+        return $this->repository->busca($proc, $query, $this->cargos);
+    }
+
+    public function cargos($cargos)
+    {
+        $cargo = [];
+        $count = 0;
+        foreach ($cargos as $key => $value) {
+            if($value !== '0') {
+                array_push($cargo,$key);
+                $count++;
+            }
+        } 
+        if(!$count) {
+            toast()->warning('Deve ter ao menos um Posto/Graduação selecionado','ERRO!');
+            return redirect()->back();
+        }
+        $this->cargos = $cargo;
+        return true;
     }
 }

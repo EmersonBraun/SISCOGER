@@ -158,6 +158,7 @@ class LoginController extends Controller
         //verifica se o usuário é administrador
         $isAdmin = User::role('admin')->count();
         $isAdmin = ($isAdmin > 0) ? true : false;
+        if($isAdmin) \Debugbar::enable();
         session()->put('is_admin', $isAdmin);
         session()->put('nivel',sistema('posto',$this->user->cargo));
         // todos papéis que o usuário possui

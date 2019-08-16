@@ -1,4 +1,4 @@
-webpackJsonp([1],{
+webpackJsonp([3,24],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Acusado.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -323,6 +323,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.verifyOnly;
     },
     created: function created() {
+        this.dadosSession();
         var name = '' + this.dproc + this.idp + 'acusados';
         var json = sessionStorage.getItem(name);
         var array = JSON.parse(json);
@@ -342,6 +343,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     computed: {
         verifyOnly: function verifyOnly() {
             this.only = this.unique == true ? true : false;
+        },
+        canEdit: function canEdit() {
+            return this.permissions.includes('editar-acusado');
+        },
+        canDelete: function canDelete() {
+            return this.permissions.includes('apagar-acusado');
         }
     },
     methods: {
@@ -575,7 +582,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -2024,45 +2031,53 @@ var render = function() {
                                         [_c("i", { staticClass: "fa fa-eye" })]
                                       ),
                                       _vm._v(" "),
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass: "btn btn-success",
-                                          staticStyle: { color: "white" },
-                                          attrs: {
-                                            type: "button",
-                                            target: "_blanck"
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.replacePM(pm)
-                                            }
-                                          }
-                                        },
-                                        [_c("i", { staticClass: "fa fa-edit" })]
-                                      ),
+                                      _vm.canEdit
+                                        ? _c(
+                                            "a",
+                                            {
+                                              staticClass: "btn btn-success",
+                                              staticStyle: { color: "white" },
+                                              attrs: {
+                                                type: "button",
+                                                target: "_blanck"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.replacePM(pm)
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fa fa-edit"
+                                              })
+                                            ]
+                                          )
+                                        : _vm._e(),
                                       _vm._v(" "),
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass: "btn btn-danger",
-                                          staticStyle: { color: "white" },
-                                          attrs: { type: "button" },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.removePM(
-                                                pm.id_envolvido,
-                                                index
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass: "fa fa-trash"
-                                          })
-                                        ]
-                                      )
+                                      _vm.canDelete
+                                        ? _c(
+                                            "a",
+                                            {
+                                              staticClass: "btn btn-danger",
+                                              staticStyle: { color: "white" },
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.removePM(
+                                                    pm.id_envolvido,
+                                                    index
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fa fa-trash"
+                                              })
+                                            ]
+                                          )
+                                        : _vm._e()
                                     ]
                                   )
                                 ])
@@ -2828,7 +2843,9 @@ function VueFixer(vue) {
             dano: '',
             add: false,
             admin: false,
-            rg: ''
+            rg: '',
+            roles: [],
+            permissions: []
         };
     },
 
@@ -2853,6 +2870,8 @@ function VueFixer(vue) {
             var session = this.$root.getSessionData();
             this.admin = session.is_admin;
             this.rg = session.rg;
+            this.permissions = session.permissions;
+            this.roles = session.roles;
         }
     }
 });

@@ -228,6 +228,23 @@ return [
         "33" => "CJ"
     ],
 
+    'andamentoUnico' =>
+    [
+        "" => "Todos",
+        "ANDAMENTO" => "ANDAMENTO",
+        "CONCLUÍDO" => "CONCLUÍDO",
+        "SOBRESTADO" => "SOBRESTADO",
+        "ABERTURA" => "ABERTURA",
+        "ARQUIVO" => "ARQUIVO",
+        "FATD" => "FATD",
+        "SINDICÂNCIA" => "SINDICÂNCIA",
+        "IPM" => "IPM",
+        "CD" => "CD",
+        "ADL" => "ADL",
+        "CJ" => "CJ",
+        "ANÁLISE DO CMT" => "ANÁLISE DO CMT"
+    ],
+
     'andamentoFATD' =>
     [
         "1" => "ANDAMENTO",
@@ -971,6 +988,18 @@ return [
         "4" => "CONDENAÇÃO",
         "5" => "MENAGEM",
         "6" => "DESERCAO"
+    ],
+
+    // ---- RESTRICOES -------------------------------------------------------------------------------
+    'origemRestricao' =>
+    [
+        '' => 'Selecione',
+        'Laudo medico' => 'Laudo m&eacute;dico',
+        'Disciplinar/Criminal' => 'Sit. Disciplinar/Criminal',
+        'Disparo' => 'Disparo Imprudente/Negligente',
+        'Sob efeito alcool' => 'Porte sob efeito de alcool ou outra subst.',
+        'Condenacao Punicao Disciplinar' => 'Condenaçãoo ou Punição Disciplinar',
+        'Inapto Psicologico' => 'Inapto Avaliaçãoo Psicológica'
     ],
 
     // ---- RESPONSABILIDADE CíVIL ------------------------------------------------------------------------

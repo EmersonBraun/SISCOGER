@@ -32,4 +32,14 @@ class UserRepository extends BaseRepository
 
         return $registros;
     }  
+
+    public function getRg($rg)
+	{
+
+        $registros = Cache::remember('user:'.$rg, $this->expiration, function() use ($rg){
+            return $this->model->where('rg', '=', $rg)->first();
+        });
+
+        return $registros;
+    }
 }

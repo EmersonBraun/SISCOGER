@@ -1,4 +1,4 @@
-webpackJsonp([3,13],{
+webpackJsonp([6,28],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Movimento.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -135,6 +135,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 this.only = false;
             }
+        },
+        canDelete: function canDelete() {
+            return this.permissions.includes('apagar-movimento');
         }
     },
     methods: {
@@ -572,7 +575,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -983,7 +986,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("th", { staticClass: "col-sm-2" }, [_vm._v("Data")]),
                       _vm._v(" "),
-                      _vm.admin
+                      _vm.canDelete
                         ? [
                             _c("th", { staticClass: "col-sm-2" }, [
                               _vm._v("Descrição")
@@ -999,7 +1002,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("th", { staticClass: "col-sm-2" }, [_vm._v("RG")]),
                       _vm._v(" "),
-                      _vm.admin
+                      _vm.canDelete
                         ? _c("th", { staticClass: "col-sm-2" }, [
                             _vm._v("Ações")
                           ])
@@ -1023,7 +1026,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(movimento.rg))]),
                       _vm._v(" "),
-                      _vm.admin
+                      _vm.canDelete
                         ? _c("td", [
                             _c(
                               "div",
@@ -1820,7 +1823,9 @@ module.exports = Component.exports
             dano: '',
             add: false,
             admin: false,
-            rg: ''
+            rg: '',
+            roles: [],
+            permissions: []
         };
     },
 
@@ -1845,6 +1850,8 @@ module.exports = Component.exports
             var session = this.$root.getSessionData();
             this.admin = session.is_admin;
             this.rg = session.rg;
+            this.permissions = session.permissions;
+            this.roles = session.roles;
         }
     }
 });

@@ -53,7 +53,7 @@ class UserController extends Controller
         if (!$pm) 
         {
             toast()->warning('esse RG não existe no Meta4!', 'ERRO!');
-            return redirect()->route('users.index');
+            return redirect()->route('user.index');
         }
         
         $create = $this->createUser($pm, $request);
@@ -64,11 +64,11 @@ class UserController extends Controller
             Cache::forget('user');
     
             toast()->success('adicionado com sucesso!', 'Usuário');
-            return redirect()->route('users.index');
+            return redirect()->route('user.index');
         }
         
         toast()->warning('problema ao adicionar!', 'Usuário');
-        return redirect()->route('users.index');
+        return redirect()->route('user.index');
     }
 
     public function createUser($pm, $request)
@@ -125,11 +125,11 @@ class UserController extends Controller
             else  $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
     
             toast()->success('atualizado com sucesso!', 'Usuário');
-            return redirect()->route('users.index');
+            return redirect()->route('user.index');
         }
 
         toast()->warning('Erro ao atualizar','Usuário');
-        return redirect()->route('users.index');
+        return redirect()->route('user.index');
     }
 
     public function destroy($id)
@@ -137,11 +137,11 @@ class UserController extends Controller
         $destroy = User::findOrFail($id)->delete();
         if($destroy) {
             toast()->success('apagado com sucesso!', 'Usuário');
-            return redirect()->route('users.index');
+            return redirect()->route('user.index');
         }
 
         toast()->warning('não apagado', 'Usuário');
-        return redirect()->route('users.index');
+        return redirect()->route('user.index');
 
     }
 

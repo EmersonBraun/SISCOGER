@@ -35,7 +35,7 @@
                         <?php endif; ?>
                     </tbody>
                 </table>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('criar-tramite-op')): ?>
+                <?php if(hasPermissionTo('criar-tramite-opm')): ?>
                 <button type="button" class="btn btn-primary btn-block">
                     <i class="fa fa-plus"></i>Adicionar Trâmite OPM
                 </button>

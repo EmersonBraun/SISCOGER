@@ -1,11 +1,11 @@
 <?php
 //Aqui ficam as consultas de banco de dados dos processos e procedimentos
-namespace App\PM\Repositories;
+namespace App\Repositories\PM;
 
 use Illuminate\Support\Facades\DB;
 
 use Cache;
-use App\Models\Sjd\Proc\Adl;
+use App\Models\pass\Movimentos;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +16,7 @@ class TransferidosRepository extends BaseRepository
     protected $verTodasUnidades;
     protected static $expiration = 60; 
 
-	public function __construct(Adl $model)
+	public function __construct(Movimentos $model)
 	{
 		$this->model = $model;
         
@@ -32,7 +32,7 @@ class TransferidosRepository extends BaseRepository
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
     
-    public static function semana($unidade)
+    public function semana($unidade)
     {
         //buscar dados do cache
         $transferidos = Cache::tags('transferido')->remember('transferidos'.$unidade, self::$expiration, function() use ($unidade){

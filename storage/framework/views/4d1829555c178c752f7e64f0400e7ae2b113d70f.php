@@ -37,17 +37,17 @@
                             <td><?php echo e($registro->present()->andamentocoger); ?></td>
                             <td>
                                 <span>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('ver-adl')): ?> 
+                                    <?php if(hasPermissionTo('ver-adl')): ?>
                                     <a class="btn btn-default"
                                         href="<?php echo e(route('adl.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])); ?>"><i
                                             class="fa fa-fw fa-eye "></i></a>
                                     <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('editar-adl')): ?> 
+                                    <?php if(hasPermissionTo('editar-adl')): ?> 
                                     <a class="btn btn-info"
                                         href="<?php echo e(route('adl.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])); ?>"><i
                                             class="fa fa-fw fa-edit "></i></a>
                                     <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('apagar-adl')): ?> 
+                                    <?php if(hasPermissionTo('apagar-adl')): ?>
                                     <a class="btn btn-danger" href="<?php echo e(route('adl.destroy',$registro['id_adl'])); ?>"
                                         onclick="return confirmApagar('adl',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
                                             class="fa fa-fw fa-trash-o "></i></a>

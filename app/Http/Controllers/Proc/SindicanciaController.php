@@ -16,7 +16,7 @@ class SindicanciaController extends Controller
 	{
         $this->repository = $repository;
     }
-
+    // listagem
     public function index()
     {
         return redirect()->route('sindicancia.lista',['ano' => date('Y')]);
@@ -57,6 +57,22 @@ class SindicanciaController extends Controller
     {
         $registros = $this->repository->apagados();
         return view('procedimentos.sindicancia.list.apagados',compact('registros','ano'));
+    }
+    // api
+    public function foradoprazo($cdopm)
+    {
+        return $this->repository->foraDoPrazo($cdopm);
+    }
+
+    public function abertura($cdopm)
+    {
+        return $this->repository->aberturas($cdopm);
+    }
+
+    public function qtdOMAnos($cdopm, $ano='')
+    {
+        if($ano == '') $ano = date('Y');
+        return $this->repository->QtdOMAnos($cdopm, $ano);
     }
 
     public function create()
@@ -99,7 +115,7 @@ class SindicanciaController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -110,7 +126,7 @@ class SindicanciaController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
         
         $this->canSee($proc);

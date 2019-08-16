@@ -1,33 +1,35 @@
 <template>
     <div>
         <select :name="name" v-model="year" class="form-control">
-            <option v-for="year in years" :value="year" :key="year">{{ year }}</option>
+            <option v-if="todos" value="">Todos</option>
+            <option v-for="y in years" :value="y" :key="y">{{ y }}</option>
         </select>
     </div>
 </template>
 
 <script>
     export default {
+        created(){
+            const start = !this.fim ? new Date().getFullYear() : this.fim
+            const end = !this.inicio ? 2007 : this.inicio
+            const tam = start - end
+            const y = Array.from({length: tam}, (value, index) => start - index)
+
+            this.years = y
+            if(!this.year) this.year = start
+        },
         props: {
             name: {type: String, default: 'ano'},
+            todos: {type: Boolean, default: false},
             ano: {type: String, default: ''},
-            inicio: {type: String, default: ''},
-            fim: {type: String, default: this.currentYear}
+            inicio: {type: Number, default: 2007},
+            fim: {type: Number, default: () => new Date().getFullYear()}
         },
         data(){
             return {
                 year: this.ano
             }
         },
-        computed: {
-            years () {
-            const end = !this.fim ? new Date().getFullYear() : this.fim
-            const start = !this.inicio ? 2007 : this.inicio
-            const tam = end - start
-            const y = Array.from({length: tam}, (value, index) => (start + 1) + index)
-                return y
-            },
-        }
     }
 </script>
 

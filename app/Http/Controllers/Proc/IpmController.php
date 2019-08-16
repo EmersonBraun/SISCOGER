@@ -16,7 +16,7 @@ class IpmController extends Controller
 	{
         $this->repository = $repository;
     }
-
+    // listagem
     public function index()
     {
         return redirect()->route('ipm.lista',['ano' => date('Y')]);
@@ -56,6 +56,22 @@ class IpmController extends Controller
     {
         $registros = $this->repository->apagados();
         return view('procedimentos.ipm.list.apagados',compact('registros','ano'));
+    }
+    // api
+    public function foradoprazo($cdopm)
+    {
+        return $this->repository->foraDoPrazo($cdopm);
+    }
+
+    public function instauracao($cdopm)
+    {
+        return $this->repository->instauracao($cdopm);
+    }
+
+    public function qtdOMAnos($cdopm, $ano='')
+    {
+        if($ano == '') $ano = date('Y');
+        return $this->repository->QtdOMAnos($cdopm, $ano);
     }
 
     public function create()
@@ -98,7 +114,7 @@ class IpmController extends Controller
     public function show($ref, $ano)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -109,7 +125,7 @@ class IpmController extends Controller
     public function edit($ref, $ano)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
         
         $this->canSee($proc);

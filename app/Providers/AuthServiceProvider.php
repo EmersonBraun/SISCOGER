@@ -18,12 +18,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // $gate->before(function ($user, $ability) {
-        //     if(in_array($user->rg, config('sistema.super-users')))
-        //     {
-                
-        //         return true;
-        //     }
-        // });
+        $gate->before(function ($user, $ability) {
+            if(in_array($user->rg, config('sistema.super-users')))
+            {
+                return true;
+            }
+        });
     }
 }

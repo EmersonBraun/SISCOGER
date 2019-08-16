@@ -3,55 +3,39 @@
 @section('title_postfix', '| Criar permissões')
 
 @section('content_header')
- 
+<h1><i class='fa fa-key'></i> Adicionar permissão</h1>
 @stop
 
 @section('content')
-<div class='col-md-12'>
-    <h1><i class='fa fa-key'></i> Adicionar permissão</h1>
-    <br>
+<section class="">
+    <div class="tab-content">
+        <v-tab-item title="Formulário Adicionar permissão" idp="principal" cls="active show">
+            {!! Form::open(['url' => route('permission.store')]) !!}
+            <v-label label="name" lg='12' md='12' title="Nome" error="{{$errors->first('name')}}">
+                {!! Form::text('name',null, ['class' => 'form-control','required']) !!}
+            </v-label>
 
-    {{ Form::open(array('url' => route('permission.store'))) }}
+            <v-label label="roles" lg='12' md='12' title="Atribuir Permissão a Funções">
+                @if(!$roles->isEmpty())
+                    @foreach ($roles as $role)
+                        <v-label label="roles" lg='2' md='2' slim>
+                            {{ Form::checkbox('roles[]',  $role->id ) }}
+                            {{ Form::label($role->name, ucfirst($role->name)) }}
+                        </v-label>
+                    @endforeach
+                @endif
+            </v-label>
 
-    <div class="form-group">
-        {{ Form::label('name', 'Nome') }}
-        {{ Form::text('name', '', array('class' => 'form-control')) }}
-    </div><br>
-    @if(!$roles->isEmpty())
-        <h4>Atribuir Permissão a Funções</h4>
-         <table id="example1" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nome</th>
-                </tr>
-            </thead>
-            <tbody>
-               @foreach ($roles as $role)
-                <tr>
-                    <td>{{ Form::checkbox('roles[]',  $role->id ) }}</td>
-                    <td>{{ Form::label($role->name, ucfirst($role->name)) }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-            <tfoot>
-              <tr>
-                  <th>#</th>
-                  <th>Nome</th>
-              </tr>
-            </tfoot>
-        </table>
-    @endif
-    <br>
-    {{ Form::submit('Adicionar', array('class' => 'btn btn-primary')) }}
-
-    {{ Form::close() }}
-</div>
+            {!! Form::submit('Inserir Permissão',['class' => 'btn btn-primary btn-block']) !!}
+            {!! Form::close() !!}
+        </v-tab-item>
+    </div>
+</section>
 @stop
 
 @section('css')
 @stop
 
 @section('js')
-    @include('vendor.adminlte.includes.tabelas')
+@include('vendor.adminlte.includes.vue')
 @stop
