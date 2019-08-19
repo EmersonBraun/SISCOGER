@@ -130,26 +130,18 @@ function ajaxLigacao(indice) {
 
 	//Exibe o texto carregando no campo ID opm+indice
 	//document.getElementById(IdCampoAlvo).value='...carregando...';
-	
     $.ajax({
-        url: url+'ajax/ligacao',
-        method: "POST",
+        url: url + 'api/dados/proc/' + proc + '/' + ref + '/' + ano,
         data: 
         {
             _token: _token,
-            proc: proc,
-            ref: ref,
-            ano: ano
         },
-        success: function(texto){
-            
-            // var texto=xmlhttp.responseText;
-            texto=texto.replace(/\+/g," ");
-            texto=unescape(texto);
-
-            //Exibe o texto no opm+indice
-            document.getElementById(IdCampoAlvo).value=texto;
-            //aguardando=false;
+        success: function(response){
+            console.log('response',response.opm);
+            texto = response.opm
+            if(texto) {
+                document.getElementById(IdCampoAlvo).value=texto;
+            }
         }
         
     });

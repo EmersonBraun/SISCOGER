@@ -3,6 +3,9 @@
         <i v-if="icon && !link" :class="icon"></i>
         <label :for="label">{{ title }}</label>
         <a v-if="link" :href="link" target="_blank"><i :class="icon"></i></a>
+        <tooltip v-if="tooltip" effect="scale" placement="top" :content="tooltip">
+            <i class="fa fa-question-circle"></i>
+        </tooltip>
         <br>
         <slot></slot>
         <span v-if="error" class="help-block">
@@ -12,7 +15,9 @@
 </template>
 
 <script>
+    import tooltip from '../Vuestrap/Tooltip'
     export default {
+        components: {tooltip},
         props:{
             title: '',
             label: '',
@@ -22,7 +27,8 @@
             md: {default: '6'},
             xs: {default: '12'},
             error: {type: String,default: ''},
-            slim: {type: Boolean, default: false}
+            slim: {type: Boolean, default: false},
+            tooltip: {type: String,default: ''}
         },
         computed:{
             classform(){

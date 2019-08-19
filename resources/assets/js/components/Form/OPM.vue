@@ -1,6 +1,6 @@
 <template>
     <div>
-        <select name="cdopm" v-model="cdopm" class="form-control">
+        <select :name="name" v-model="cdopm" class="form-control">
             <option value="">Todas as OPM</option>
             <optgroup label="CG">
                 <option value="0">CG (sede)</option>
@@ -124,7 +124,10 @@
 
 <script>
     export default {
-        props: ['cdopm'],
+        props: {
+            cdopm: {type: String, default: ''},
+            name: {type: String, default: 'cdopm'}
+        },
         data(){
             return {
                 opm: this.cdopm

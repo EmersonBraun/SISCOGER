@@ -30,6 +30,19 @@ function completaDados(rg,nome,posto, quadro='')
     });
 }
 
+
+
+function toogleOpt(opt,toogle){
+    if(opt == toogle[0]){
+        $('#'+toogle[0]).show();
+        $('#'+toogle[1]).hide();
+    }
+    if(opt == toogle[1]){
+        $('#'+toogle[1]).show();
+        $('#'+toogle[0]).hide();
+    }
+}
+
 //toogle dos cards
 function expandirTudo(){
     $( ".box" ).removeClass( "collapsed-box" );

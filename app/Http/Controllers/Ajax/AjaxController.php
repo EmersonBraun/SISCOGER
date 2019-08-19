@@ -13,6 +13,8 @@ class AjaxController extends Controller
     public function ligacao(Request $request)
     {
         $proc = $request->proc;
+        
+
         $ref = $request->ref;
         $ano = $request->ano;
 

@@ -5,13 +5,15 @@ namespace App\Http\Controllers\_Api\SJD\Proc;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use App\proc\Repositories\OPMRepository;
+use App\Repositories\OPM\OPMRepository;
 use App\Models\Sjd\Busca\Ligacao;
 
 class ProcApiController extends Controller
 {
     public function dados($proc, $ref, $ano)
     {
+        if(is_numeric($proc)) $proc = sistema('pocedimentosOpcoes',$proc);
+        
         // validações
         if(!in_array($proc,config('sistema.pocedimentosOpcoes'))) 
         {
@@ -44,8 +46,9 @@ class ProcApiController extends Controller
                 'success' => false,
             ], 200);
         }
+        
 
-        $opm = OPMRepository::uabreviatura(completa_zeros($result['cdopm']));
+        $opm = OPMRepository::abreviatura(completa_zeros($result['cdopm']));
 
         if(!$opm)
         {

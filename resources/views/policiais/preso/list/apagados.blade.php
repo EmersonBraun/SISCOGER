@@ -34,9 +34,11 @@
                         @foreach($registros as $registro)
                         <tr>
                             <td style="display: none">{{$registro->id_preso}}</td>
+                            <td><a href="{{route('fdi.show',$registro->rg)}}" target="_blanck">{{$registro->nome}}</a></td>
                             <td>{{$registro->present()->opmatual}}</td>
+                            <td>{{$registro->local}}</td>
                             <td>{{$registro->local}} {{$registro->localreclusao}}</td>
-                            <td>{{$registro->presotipo}}</td>
+                            <td>{{$registro->present()->presotipo}}</td>
                             <td>{{$registro->inicio_data}}</td>
                             <td>{{$registro->fim_data}}</td>
                             <td>{{$registro->vara}}</td>

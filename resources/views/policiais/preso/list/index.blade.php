@@ -34,7 +34,7 @@
                         @foreach($registros as $registro)
                         <tr>
                             <td style="display: none">{{$registro->id_preso}}</td>
-                            <td><a href="{{route('fdi.show',$registro->rg)}}">{{$registro->nome}}</a></td>
+                            <td><a href="{{route('fdi.show',$registro->rg)}}" target="_blanck">{{$registro->nome}}</a></td>
                             <td>{{$registro->present()->opmatual}}</td>
                             <td>{{$registro->local}}</td>
                             <td>{{$registro->local}} {{$registro->localreclusao}}</td>
