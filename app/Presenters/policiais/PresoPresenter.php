@@ -7,24 +7,24 @@ use App\Repositories\OPM\OPMRepository;
 
 class PresoPresenter extends Presenter {
     
-    public function tiponotacomparecimento()
+    public function presotipo()
     {
-        return array_get(config('sistema.tiponotacomparecimento','Não Há'), $this->id_tiponotacomparecimento);
+        return array_get(config('sistema.presotipo','Não Há'), $this->id_presotipo);
     }
 
-    public function opm()
+    public function opm_quando_preso()
     {
-        return OPMRepository::abreviatura($this->cdopm);
+        return OPMRepository::abreviatura($this->cdopm_quandopreso);
     }
 
-    public function nome()
+    public function opm_prisao()
     {
-        return PolicialRepository::dados($this->rg,'nome');
+        return OPMRepository::abreviatura($this->cdopm_prisao);
     }
 
-    public function nomeCadastro()
+    public function opmatual()
     {
-        return PolicialRepository::dados($this->rg_cadastro,'nome');
+        return PolicialRepository::opm($this->rg);
     }
 }
 /*

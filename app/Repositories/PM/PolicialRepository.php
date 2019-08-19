@@ -111,15 +111,20 @@ class PolicialRepository extends BaseRepository
     {
         $dados = Cache::remember('pm:dados:'.$rg, 60, function() use ($rg)
         {
-            $ativo = (array) DB::connection('rhparana')->table('policial')->where('rg','=', $rg)->first();
-            if($ativo) return $ativo;
-            $inativo = (array) DB::connection('rhparana')->table('inativos')->where('CBR_NUM_RG','=', $rg)->first();
-            if($inativo) return $inativo;
-            $reserva = (array) DB::connection('rhparana')->table('RESERVA')->where('UserRG','=', $rg)->first();
-            if($reserva) return $reserva;
-            return 'Não Encontrado';
+            $ativo = DB::connection('rhparana')->table('policial')->where('rg','=', $rg)->first();
+            if($ativo) $dados = $ativo;
+            $inativo = DB::connection('rhparana')->table('inativos')->where('CBR_NUM_RG','=', $rg)->first();
+            if($inativo) $dados = $inativo;
+            $reserva = DB::connection('rhparana')->table('RESERVA')->where('UserRG','=', $rg)->first();
+            if($reserva) $dados = $reserva;
+            $dados = [];
+
+            return $dados;
         });
-        return $dados[$dado];
+        if(!$dados) return 'Não encontrado';
+        if(array_key_exists($dado,$dados)) return $dados[$dado];
+        return 'Não encontrado';
+        
     }
 
     public static function opm($rg, $tipo='')

@@ -17,13 +17,19 @@ class PresoController extends Controller
     public function index()
     {
         $registros = $this->repository->all();
-        return view('policiais.preso.index', compact('registros'));
+        return view('policiais.preso.list.index', compact('registros'));
+    }
+
+    public function apagados()
+    {
+        $registros = $this->repository->apagados();
+        return view('policiais.preso.list.apagados', compact('registros'));
     }
 
 
     public function create()
     {
-        return view('policiais.preso.create');
+        return view('policiais.preso.form.create');
     }
 
     public function store(Request $request)
@@ -53,7 +59,7 @@ class PresoController extends Controller
         $proc = $this->repository->findOrFail($id);
         if(!$proc) abort('404');
         
-        return view('policiais.preso.edit', compact('proc'));
+        return view('policiais.preso.form.edit', compact('proc'));
     }
 
     public function update(Request $request, $id)

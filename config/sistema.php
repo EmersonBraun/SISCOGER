@@ -1134,6 +1134,17 @@ return [
         'Outros' => 'Outros'
     ],
 
+    // ---- Prisões -----------------------------------------------------------------
+
+    'presotipo' => [
+        '1' => 'Flagrante',
+        '2' => 'Preventiva',
+        '3' => 'Temporária',
+        '4' => 'Condenação',
+        '5' => 'Menagem',
+        '6' => 'Deserção',
+    ],
+
     //nome das tabelas que tinham no sistema antigo e 
     //foram susbstituidos pelos arrays contidos neste arquivo
     //e alguns que eram reduntantes também e foram excluídos

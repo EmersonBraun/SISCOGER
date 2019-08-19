@@ -576,6 +576,18 @@ Route::group(['as'=>'preso.','prefix' =>'preso'],function(){
     Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\PresoController@restore','middleware' => ['role:admin']]);
     Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\PresoController@forceDelete','middleware' => ['role:admin']]);
 });
+//Rotas do módulo Presos outros
+Route::group(['as'=>'presooutro.','prefix' =>'presooutro'],function(){
+    Route::get('',['as' =>'index','uses'=>'Policiais\PresoOutroController@index','middleware' => ['permission:listar-presos-outros']]);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\PresoOutroController@apagados','middleware' => ['role:admin']]);
+	Route::get('criar',['as' =>'create','uses'=>'Policiais\PresoOutroController@create','middleware' => ['permission:criar-presos-outros']]);
+	Route::post('salvar',['as' =>'store','uses'=>'Policiais\PresoOutroController@store','middleware' => ['permission:criar-presos-outros']]);
+	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\PresoOutroController@edit','middleware' => ['permission:editar-presos-outros']]);
+	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\PresoOutroController@update','middleware' => ['permission:editar-presos-outros']]);
+    Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\PresoOutroController@destroy','middleware' => ['permission:apagar-presos-outros']]);
+    Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\PresoOutroController@restore','middleware' => ['role:admin']]);
+    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\PresoOutroController@forceDelete','middleware' => ['role:admin']]);
+});
 //Rotas do módulo procedimento 
 Route::group(['as'=>'procedimento.','prefix' =>'procedimento'],function(){
     Route::get('',['as' =>'index','uses'=>'Policiais\ProcedimentoController@index','middleware' => ['permission:listar-procedimentos']]);
