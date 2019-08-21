@@ -271,10 +271,13 @@
         <li class=""><a href="<?php echo e(route('reintegrado.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Reintegrados</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-denunciados')): ?>
-        <li class=""><a href="<?php echo e(route('denunciado.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Denunciados</span></a></li>
+        <li class=""><a href="<?php echo e(route('denunciado.denunciados')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Denunciados</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-presos')): ?>
-        <li class=""><a href="<?php echo e(route('preso.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Presos</span></a></li>
+        <li class=""><a href="<?php echo e(route('preso.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Presos PM/BM</span></a></li>
+        <?php endif; ?>
+        <?php if(hasPermissionTo('listar-presos-outros')): ?>
+        <li class=""><a href="<?php echo e(route('presooutro.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Presos Outros</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-procedimentos')): ?>
         <li class=""><a href="<?php echo e(route('procedimento.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Procedimentos</span></a></li>

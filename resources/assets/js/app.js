@@ -14,6 +14,7 @@ require ('./filters')
 import VueTheMask from 'vue-the-mask'
 Vue.use(VueTheMask)
 
+// colocar dados na sessão
 if(localStorage.getItem("session")==null){
     let urlIndex = 'http://10.47.1.90/siscoger/session/dados';
         axios

@@ -4,6 +4,7 @@ Vue.component('file-upload', () => import(/* webpackChunkName: "file-upload" */'
 Vue.component('v-label', () => import(/* webpackChunkName: "v-label" */'./components/Form/Label.vue'));
 Vue.component('v-toogle', () => import(/* webpackChunkName: "v-toogle" */'./components/Form/ToogleForm.vue'));
 Vue.component('v-opm', () => import(/* webpackChunkName: "v-opm" */'./components/Form/OPM.vue'));
+Vue.component('v-estado', () => import(/* webpackChunkName: "v-estado" */'./components/Form/Estados.vue'));
 Vue.component('v-it-objeto-procedimento', () => import(/* webpackChunkName: "v-it-objeto-procedimento" */'./components/Form/ItObjetoProcedimento.vue'));
 Vue.component('v-prioritario', () => import(/* webpackChunkName: "v-prioritario" */'./components/Form/Prioritario.vue'));
 Vue.component('v-municipio', () => import(/* webpackChunkName: "v-municipio" */'./components/Form/Municipio.vue'));

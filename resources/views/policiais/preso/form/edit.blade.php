@@ -7,7 +7,7 @@
   <h1>Preso - Editar</h1>
   <ol class="breadcrumb">
   <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li><a href="{{route('preso.lista')}}">Preso - Lista</a></li>
+  <li><a href="{{route('preso.index')}}">Preso - Lista</a></li>
   <li class="active">Preso - Editar</li>
   </ol>
   <br>
@@ -21,7 +21,7 @@
 <section>
     <div class="nav-tabs-custom">      
         <div class="tab-content">
-            <v-tab-item title="Editar preso - {{$registro['nome']}}" idp="principal" cls="active show">
+            <v-tab-item title="Editar preso - {{$proc['nome']}}" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('preso.update',$proc['id_preso']),'method' => 'put']) !!}
                 <v-label label="rg" title="RG" lg="4" md="4" error="{{$errors->first('rg')}}">
                     {{ Form::text('rg', null, ['class' => 'form-control ','onchange' => 'completaDados(this,nome,cargo)','onkeyup' => 'completaDados(this,nome,cargo)']) }}
@@ -35,18 +35,18 @@
                 <v-label label="cdopm_quandopreso" title="OPM" error="{{$errors->first('cdopm')}}">
                     <v-opm name='cdopm_quandopreso' cdopm="{{$proc['cdopm'] ?? ''}}"></v-opm>
                 </v-label>
-                <v-label label="local" title="Local de reclusão/detenção">
+                <v-label label="local" title="Local de reclusão/detenção" error="{{$errors->first('local')}}">
                     {!! Form::select('local',['quartel' => 'Quartel','civil' => 'Órgãos civis'],'quartel', 
                     ['class' => 'form-control ', 'id' => 'local',
                     "onchange" => "toogleOpt(this.value,['quartel','civil'])"]) !!}
                 </v-label>
                 <div id='quartel' style="display:none">
-                    <v-label label="cdopm_prisao" title="Quartel onde o policial está preso">
+                    <v-label label="cdopm_prisao" title="Quartel onde o policial está preso" error="{{$errors->first('cdopm_prisao')}}">
                         <v-opm name='cdopm_prisao' cdopm="{{$proc['cdopm_prisao'] ?? ''}}"></v-opm>
                     </v-label>
                 </div>
                 <div id='civil' style="display:none">
-                    <v-label label="localreclusao" title="Local onde o policial est&aacute; preso (Ex: COCT II)">
+                    <v-label label="localreclusao" title="Local onde o policial est&aacute; preso (Ex: COCT II)" error="{{$errors->first('localreclusao')}}">
                         {{ Form::text('localreclusao', null, ['class' => 'form-control ']) }}
                     </v-label>
                 </div>
@@ -60,7 +60,7 @@
                 <v-label label="origem_sjd_ref_ano" md='3' lg='3' title="Ano">
                     {{ Form::text('origem_sjd_ref_ano', null, ['class' => 'form-control ','id'=>'ano1','onblur' => "ajaxLigacao('1')", 'maxlength' => '4']) }}
                 </v-label>
-                <v-label label="origem_opm" md='3' lg='3' title="OPM">
+                <v-label label="origem_opm" md='3' lg='3' title="OPM de origem">
                     {{ Form::text('origem_opm', null, ['class' => 'form-control ','id'=>'opm1', 'readonly']) }}
                 </v-label>
                 <v-label label="processo" title="Processo, Nº do processo - Comarca." tooltip="Ex: Ação Penal Militar nº 2010.0000XXX-X - Curitiba" error="{{$errors->first('processo')}}">

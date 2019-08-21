@@ -36,8 +36,10 @@ class PresoController extends Controller
     {
 
         $this->validate($request, [
-            'data' => 'required',
-            'preso' => 'required',
+            'rg' => 'required',
+            'local' => 'required',
+            'cdopm_quandopreso' => 'required',
+            'inicio_data' => 'required',
         ]);
         
         $dados = $request->all();
@@ -46,7 +48,7 @@ class PresoController extends Controller
         if($create)
         {
             $this->repository->cleanCache();
-            toast()->success('N° ','preso Inserido');
+            toast()->success('N° '.$create->id_preso,'Inserido');
             return redirect()->route('preso.index');
         }
 
@@ -65,8 +67,10 @@ class PresoController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'data' => 'required',
-            'preso' => 'required',
+            'rg' => 'required',
+            'local' => 'required',
+            'cdopm_quandopreso' => 'required',
+            'inicio_data' => 'required',
         ]);
 
         $dados = $request->all();

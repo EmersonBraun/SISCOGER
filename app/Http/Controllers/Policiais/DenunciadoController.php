@@ -5,19 +5,31 @@ namespace App\Http\Controllers\Policiais;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\PM\DenunciacivilRepository;
+use App\Repositories\PM\EnvolvidoRepository;
 
 class DenunciadoController extends Controller
 {
     protected $repository;
-    public function __construct(DenunciacivilRepository $repository)
+    protected $envolvido;
+    public function __construct(
+        DenunciacivilRepository $repository,
+        EnvolvidoRepository $envolvido
+    )
 	{
         $this->repository = $repository;
+        $this->envolvido = $envolvido;
     }
 
     public function index()
     {
         $registros = $this->repository->all();
         return view('policiais.denunciacivil.index', compact('registros'));
+    }
+
+    public function listaDenunciados()
+    {
+        $registros = $this->envolvido->denunciado();
+        return view('policiais.denunciado.index', compact('registros'));
     }
 
 

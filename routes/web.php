@@ -554,7 +554,8 @@ Route::group(['as'=>'reintegrado.','prefix' =>'reintegrado'],function(){
 });
 //Rotas do módulo denunciados 
 Route::group(['as'=>'denunciado.','prefix' =>'denunciado'],function(){
-    Route::get('',['as' =>'index','uses'=>'Policiais\DenunciadoController@index','middleware' => ['permission:listar-denunciados']]);
+	Route::get('',['as' =>'index','uses'=>'Policiais\DenunciadoController@index','middleware' => ['permission:listar-denunciados']]);
+	Route::get('denunciados',['as' =>'denunciados','uses'=>'Policiais\DenunciadoController@listaDenunciados','middleware' => ['permission:listar-denunciados']]);
     Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\DenunciadoController@apagados','middleware' => ['role:admin']]);
 	Route::get('criar',['as' =>'create','uses'=>'Policiais\DenunciadoController@create','middleware' => ['permission:criar-denunciados']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\DenunciadoController@store','middleware' => ['permission:criar-denunciados']]);

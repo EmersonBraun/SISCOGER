@@ -1,4 +1,3 @@
-
 <?php
 //Aqui ficam as consultas de banco de dados dos processos e procedimentos
 namespace App\Repositories\PM;

@@ -3,7 +3,7 @@
 @section('title', 'Presos')
 
 @section('content_header')
-@include('policiais.preso.list.menu', ['title' => 'Preso','page' => 'lista'])
+@include('policiais.preso.list.menu', ['title' => 'Lista','page' => 'lista'])
 @stop
 
 @section('content')

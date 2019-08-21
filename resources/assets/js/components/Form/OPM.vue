@@ -123,6 +123,7 @@
 </template>
 
 <script>
+
     export default {
         props: {
             cdopm: {type: String, default: ''},

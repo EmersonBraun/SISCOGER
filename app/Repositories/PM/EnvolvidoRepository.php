@@ -5,6 +5,7 @@ namespace App\Repositories\PM;
 use Cache;
 use App\Models\Sjd\Policiais\Envolvido;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\DB;
 
 class EnvolvidoRepository extends BaseRepository
 {
@@ -41,7 +42,7 @@ class EnvolvidoRepository extends BaseRepository
 
 	public function acusado()
 	{
-        $registros = Cache::tags('envolvido')->remember('todos_envolvido', $this->expiration, function() {
+        $registros = Cache::tags('envolvido')->remember('envolvido:acusado', $this->expiration, function() {
             return $this->model->where('situacao','=','Acusado')->get();
         });
 		return $registros;
@@ -49,7 +50,7 @@ class EnvolvidoRepository extends BaseRepository
 
 	public function ofendido()
 	{
-        $registros = Cache::tags('envolvido')->remember('todos_envolvido', $this->expiration, function() {
+        $registros = Cache::tags('envolvido')->remember('envolvido:ofendido', $this->expiration, function() {
             return $this->model->where('situacao','=','Ofendido')->get();
         });
 		return $registros;
@@ -57,7 +58,7 @@ class EnvolvidoRepository extends BaseRepository
 
 	public function encarregado()
 	{
-        $registros = Cache::tags('envolvido')->remember('todos_envolvido', $this->expiration, function() {
+        $registros = Cache::tags('envolvido')->remember('envolvido:encarregado', $this->expiration, function() {
             return $this->model->where('rg_substituto', '=','')->where('situacao','=','Encarregado')->get();
         });
 		return $registros;
@@ -65,7 +66,7 @@ class EnvolvidoRepository extends BaseRepository
 
 	public function acusador()
 	{
-        $registros = Cache::tags('envolvido')->remember('todos_envolvido', $this->expiration, function() {
+        $registros = Cache::tags('envolvido')->remember('envolvido:acusador', $this->expiration, function() {
             return $this->model->where('rg_substituto', '=','')->where('situacao','=','Acusador')->get();
         });
 		return $registros;
@@ -73,7 +74,7 @@ class EnvolvidoRepository extends BaseRepository
 
 	public function defensor()
 	{
-        $registros = Cache::tags('envolvido')->remember('todos_envolvido', $this->expiration, function() {
+        $registros = Cache::tags('envolvido')->remember('envolvido:defensor', $this->expiration, function() {
             return $this->model->where('rg_substituto', '=','')->where('situacao','=','Defensor')->get();
         });
 		return $registros;
@@ -81,7 +82,7 @@ class EnvolvidoRepository extends BaseRepository
 
 	public function presidente()
 	{
-        $registros = Cache::tags('envolvido')->remember('todos_envolvido', $this->expiration, function() {
+        $registros = Cache::tags('envolvido')->remember('envolvido:presidente', $this->expiration, function() {
             return $this->model->where('rg_substituto', '=','')->where('situacao','=','Presidente')->get();
         });
 		return $registros;
@@ -89,8 +90,16 @@ class EnvolvidoRepository extends BaseRepository
 
 	public function escrivao()
 	{
-        $registros = Cache::tags('envolvido')->remember('todos_envolvido', $this->expiration, function() {
+        $registros = Cache::tags('envolvido')->remember('envolvido:escrivao', $this->expiration, function() {
             return $this->model->where('rg_substituto', '=','')->where('situacao','=','Escrivao')->get();
+        });
+		return $registros;
+    }
+    
+    public function denunciado()
+	{
+        $registros = Cache::tags('envolvido')->remember('envolvido:denunciad', $this->expiration, function() {
+            return DB::table('denunciado')->get();
         });
 		return $registros;
 	}

@@ -11,6 +11,7 @@
         "fideloper/proxy": "^4.0",
         "grimthorr/laravel-toast": "^1.1",
         "guzzlehttp/guzzle": "^6.3",
+        "hhxsv5/laravel-s": "~3.0",
         "ixudra/curl": "^6.16",
         "jeroennoten/laravel-adminlte": "^1.24",
         "laracasts/presenter": "^0.2.1",

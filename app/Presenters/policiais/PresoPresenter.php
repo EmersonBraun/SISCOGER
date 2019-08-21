@@ -24,7 +24,12 @@ class PresoPresenter extends Presenter {
 
     public function opmatual()
     {
-        return PolicialRepository::opm($this->rg);
+        $opmatual = PolicialRepository::opm($this->rg);
+        if ($opmatual == 'Não encontado') {
+            if ($this->exclusao) return 'EXCLUÍDO BG '.$$this->bg_numero.'/'.$this->bg_ano;
+            else return 'INATIVO RR/REF' ;
+        }
+        return $opmatual;
     }
 }
 /*

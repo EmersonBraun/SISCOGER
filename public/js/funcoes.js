@@ -31,7 +31,7 @@ function completaDados(rg,nome,posto, quadro='')
 }
 
 
-
+// para alterar opções do formulário
 function toogleOpt(opt,toogle){
     if(opt == toogle[0]){
         $('#'+toogle[0]).show();
@@ -53,91 +53,6 @@ function recolherTudo(){
     $( ".box" ).addClass( "collapsed-box" );
     $( ".box-body" ).hide();
     $( ".fa-minus" ).removeClass( "fa-minus" ).addClass( "fa-plus" );
-}
-
-function removerArquivo(content){
-    //endereço do servidor
-    var url = window.location.origin;
-    //token
-    var _token = $('input[name="_token"]').val();
-
-    //conteúdo enviado (proced-nome)
-    var res = content.name;
-    var divide = res.split('-');
-
-    //separar em variáveis
-    proced = divide[0];
-    nome = divide[1];
-
-    //pegar o id
-    var str = divide[2];
-    var id = str.replace(/[^\d]+/g,'');
-    
-    //extenção
-    var exte = str.split('.');
-    var ext = exte[1];
-
-    $.confirm({
-        icon: 'fa fa-warning',
-        title: 'Remover o arquivo',
-        content: 'Tem certeza que quer remover?',
-        //type: 'red',
-        typeAnimated: true,
-        buttons: {
-            confirmar: function () {
-
-                $.ajax({
-                    url: url+"/siscoger/upload/remover",
-                    method: "POST",
-                    type: "json",
-                    data: {
-                    _token: _token,
-                    'proced': proced,
-                    'id': id,
-                    'nome': nome,
-                    'ext': ext
-                    },
-                    success: function(data){
-                        //$.alert(data.objeto);
-                        $("#remove-"+nome).hide();
-                        $("#add-"+nome).show();  
-                        $.alert('Apagado!');
-                        window.location.reload(true);
-                    }
-                });
-
-            },
-            cancelar: function () {
-
-                $.alert('Canceledo!');
-
-            },
-        }
-    }); 
-    
-}
-
-// Confirmar apagar procedimento
-function removerProcedimento(proced, ref, ano){
-
-    $.confirm({
-        icon: 'fa fa-warning',
-        title: 'Apagar '+proced+' '+ref+'/'+ano,
-        content: 'Tem certeza que quer remover?',
-        //type: 'red',
-        typeAnimated: true,
-        buttons: {
-            confirmar: function () {
-
-                $.alert('apagado!');
-            },
-            cancelar: function () {
-
-                $.alert('Canceledo!');
-
-            },
-        }
-    });   
 }
 
 // Confirmar apagar GERAL
@@ -177,17 +92,7 @@ function corta_zeros(codigo){
                 break;
             }
         console.log(opmRetorno);
-        }
-        // $.each(Zopm, function(key, value)){
-        //     if (item != '0'){
-        //         object.splice(index, 1);
-        //     }else{
-        //         break;
-        //     }
-        //     console.log(Zopm);
-        // });
-        //if (opmRetorno=="") return "0";
-        
+        }        
     }
 }
 
@@ -200,6 +105,118 @@ function mudaTab(id)
     $('#'+id).addClass('active');
     $('#'+id).addClass('show');
 }
+
+$(document).ready(function () {
+    // inicialição do datatable
+    $('#datable tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" style="max-width:100px" placeholder="'+title+'" />' );
+    } );
+
+    var lang = {
+        "sEmptyTable":   "Nenhum registro encontrado",
+        "sProcessing":   "A processar...",
+        "sLengthMenu":   "Mostrar _MENU_ registos",
+        "sZeroRecords":  "Não foram encontrados resultados",
+        "sInfo":         "Mostrando de _START_ até _END_ de _TOTAL_ registos",
+        "sInfoEmpty":    "Mostrando de 0 até 0 de 0 registos",
+        "sInfoFiltered": "(filtrado de _MAX_ registos no total)",
+        "sInfoPostFix":  "",
+        "sSearch":       "Procurar:",
+        "sUrl":          "",
+        "oPaginate": {
+            "sFirst":    "Primeiro",
+            "sPrevious": "Anterior",
+            "sNext":     "Seguinte",
+            "sLast":     "Último"
+        },
+        "oAria": {
+            "sSortAscending":  ": Ordenar colunas de forma ascendente",
+            "sSortDescending": ": Ordenar colunas de forma descendente"
+        },
+        'buttons': {
+            'copy': 'Copiar',
+            'print': 'Imprimir',
+            'copyTitle': 'Adicionado à área de transferência',
+            'copyKeys': 'Pressione <i> ctrl </i> ou <i> \u2318 </i> + <i>C</i> para copiar os dados da tabela para a área de transferência. <br> <br> Para cancelar, clique nesta mensagem ou pressione Esc.',
+            'copySuccess': {
+                _: '%d linhas copiadas',
+                1: '1 linha copiada'
+            }
+        }
+    };
+
+    var config = {
+        'ajax' : false,
+        'paging'      : true,
+        'lengthChange': false,
+        'searching'   : true,
+        'ordering'    : true,
+        'info'        : true,
+        'autoWidth'   : true,
+        "language": lang,
+        "order": [[ 0, "desc" ]],
+        "dom": 'Bflrtip',
+        "buttons": [
+            'copy', 'excel', 'pdf', 'print'
+        ],
+        'searchHighlight': true
+    };
+
+    // DataTable
+    var table =  $('#datable').DataTable(config);
+
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            if ( that.search() !== this.value ) {
+                that.search( this.value ).draw();
+            }
+        } );
+    } ); 
+
+    // input mask
+    // $('.numero').mask('00000000');
+    // $('.cnh').mask('000000000000000');
+    // $('.placa').mask('AAA-9999');
+    // $('.despacho').mask('00000/0000',{reverse: true});
+    // $('.date').mask('00/00/0000');
+    // $('.time').mask('00:00:00');
+    // $('.date_time').mask('00/00/0000 00:00:00');
+    // $('.cep').mask('00000-000');
+    // $('.fone').mask('0000-0000');
+    // $('.fone_com_ddd').mask('(00) 0000-0000');
+    // $('.celular').mask('(00) 00000-0000');
+    // $('.mixed').mask('AAA 000-S0S');
+    // $('.rg').mask("#.##0-0", {reverse: true});
+    // $('.cpf').mask('000.000.000-00', {reverse: true});
+    // $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+    // $('.dinheiro').mask('000.000.000.000.000,00', {reverse: true});
+    // $('.dinheiro2').mask("#.##0,00", {reverse: true});
+    // $('.ip').mask('0ZZ.0ZZ.0ZZ.0ZZ', {
+    //     translation: {
+    //     'Z': {
+    //         pattern: /[0-9]/, optional: true
+    //     }
+    //     }
+    // });
+    // $('.ip_address').mask('099.099.099.099');
+    // $('.porcento').mask('##0,00%', {reverse: true});
+    // $('.clear-if-not-match').mask("00/00/0000", {clearIfNotMatch: true});
+    // $('.placeholder').mask("00/00/0000", {placeholder: "__/__/____"});
+    // $('.fallback').mask("00r00r0000", {
+    //     translation: {
+    //         'r': {
+    //         pattern: /[\/]/,
+    //         fallback: '/'
+    //         },
+    //         placeholder: "__/__/____"
+    //     }
+    //     });
+    // $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
+});
 
 
 

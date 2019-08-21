@@ -15,7 +15,7 @@ class PresoRepository extends BaseRepository
 
 	public function __construct(Preso $model)
 	{
-        $this->model = $model;      
+        $this->model = $model;    
     }
 
     public function cleanCache()
@@ -32,4 +32,5 @@ class PresoRepository extends BaseRepository
 
         return $registros;
     } 
+
 }
