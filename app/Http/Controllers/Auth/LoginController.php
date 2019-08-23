@@ -155,6 +155,9 @@ class LoginController extends Controller
         //verifica se o usuário tem permissão para ver todas unidades
         $verTodasUnidades = (boolean) User::permission('todas-unidades')->count();
         session()->put('ver_todas_unidades', $verTodasUnidades);
+        //verifica se o usuário tem permissão para ver superior
+        $verSuperior = (boolean) User::permission('ver-superior')->count();
+        session()->put('ver-superior', $verSuperior);
         //verifica se o usuário é administrador
         $isAdmin = User::role('admin')->count();
         $isAdmin = ($isAdmin > 0) ? true : false;

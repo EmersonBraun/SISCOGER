@@ -110,7 +110,7 @@ $(document).ready(function () {
     // inicialição do datatable
     $('#datable tfoot th').each( function () {
         var title = $(this).text();
-        $(this).html( '<input type="text" style="max-width:100px" placeholder="'+title+'" />' );
+        $(this).html( '<input type="text" class="form-control" placeholder="'+title+'" />' );
     } );
 
     var lang = {

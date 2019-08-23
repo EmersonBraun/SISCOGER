@@ -17,21 +17,27 @@ class ReintegradoController extends Controller
     public function index()
     {
         $registros = $this->repository->all();
-        return view('policiais.reintegrado.index', compact('registros'));
+        return view('policiais.reintegrado.list.index', compact('registros'));
+    }
+
+    public function apagados()
+    {
+        $registros = $this->repository->apagados();
+        return view('policiais.reintegrado.list.apagados', compact('registros'));
     }
 
 
     public function create()
     {
-        return view('policiais.reintegrado.create');
+        return view('policiais.reintegrado.form.create');
     }
 
     public function store(Request $request)
     {
 
         $this->validate($request, [
-            'data' => 'required',
-            'reintegrado' => 'required',
+            'rg' => 'required',
+            'motivo' => 'required',
         ]);
         
         $dados = $request->all();
@@ -40,7 +46,7 @@ class ReintegradoController extends Controller
         if($create)
         {
             $this->repository->cleanCache();
-            toast()->success('N° ','reintegrado Inserido');
+            toast()->success(special_ucwords($create->nome),'reintegrado Inserido');
             return redirect()->route('reintegrado.index');
         }
 
@@ -53,14 +59,14 @@ class ReintegradoController extends Controller
         $proc = $this->repository->findOrFail($id);
         if(!$proc) abort('404');
         
-        return view('policiais.reintegrado.edit', compact('proc'));
+        return view('policiais.reintegrado.form.edit', compact('proc'));
     }
 
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'data' => 'required',
-            'reintegrado' => 'required',
+            'rg' => 'required',
+            'motivo' => 'required',
         ]);
 
         $dados = $request->all();
@@ -69,7 +75,7 @@ class ReintegradoController extends Controller
         if($update)
         {
             $this->repository->cleanCache();
-            toast()->success('reintegrado atualizado!');
+            toast()->success(special_ucwords($update->nome),'reintegrado atualizado!');
             return redirect()->route('reintegrado.index');
         }
 

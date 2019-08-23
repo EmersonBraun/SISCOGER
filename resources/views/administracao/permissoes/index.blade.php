@@ -19,6 +19,8 @@
                         <tr>
                             <th style="display: none">#</th>
                             <th class='col'>Permissões</th>
+                            <th class='col'>Relação</th>
+                            <th class='col'>Descrição</th>
                             <th class='col'>Ações</th>
                         </tr>
                     </thead>
@@ -27,6 +29,8 @@
                         <tr>
                             <td style="display: none">{{$permission->id}}</td>
                             <td>{{ $permission->name }}</td>
+                            <td>{{ $permission->related }}</td>
+                            <td>{{ $permission->description }}</td>
                             <td>
                                 @if(hasPermissionTo('editar-permissoes'))
                                 <a href="{{ route('permission.edit',$permission->id) }}" class="btn btn-info pull-left"
@@ -47,6 +51,8 @@
                         <tr>
                             <th style="display: none">#</th>
                             <th class='col'>Permissões</th>
+                            <th class='col'>Relação</th>
+                            <th class='col'>Descrição</th>
                             <th class='col'>Ações</th>
                         </tr>
                     </tfoot>

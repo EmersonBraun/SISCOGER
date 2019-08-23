@@ -226,7 +226,7 @@ if (!$opcaoGeral2) {
 }
 ?>
 		
-</table>
+</table
 <!-- -->
 </form>
 

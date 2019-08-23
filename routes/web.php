@@ -531,7 +531,8 @@ Route::group(['as'=>'excluido.','prefix' =>'excluido'],function(){
 });
 //Rotas do módulo punidos 
 Route::group(['as'=>'punido.','prefix' =>'punido'],function(){
-	Route::get('',['as' =>'index','uses'=>'Policiais\PunidoController@index','middleware' => ['permission:listar-punidos']]);
+    Route::get('',['as' =>'index','uses'=>'Policiais\PunidoController@index','middleware' => ['permission:listar-punidos']]);
+    Route::get('conselho',['as' =>'conselho','uses'=>'Policiais\PunidoController@conselho','middleware' => ['permission:listar-punidos']]);
 	Route::get('criar',['as' =>'create','uses'=>'Policiais\PunidoController@create','middleware' => ['permission:criar-punidos']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\PunidoController@store','middleware' => ['permission:criar-punidos']]);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\PunidoController@edit','middleware' => ['permission:editar-punidos']]);

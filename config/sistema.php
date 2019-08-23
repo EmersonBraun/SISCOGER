@@ -112,7 +112,8 @@ return [
         "2" => "Ótimo",
         "3" => "Bom",
         "4" => "Insuficiente",
-        "5" => "Mau"
+        "5" => "Mau",
+        "0" => "Não se Aplica"
     ],
 
     // ---- TIPOS DE PROCEDIMENTOS -----------------------------------------------------------------

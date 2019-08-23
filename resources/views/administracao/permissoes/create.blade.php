@@ -11,10 +11,15 @@
     <div class="tab-content">
         <v-tab-item title="Formulário Adicionar permissão" idp="principal" cls="active show">
             {!! Form::open(['url' => route('permission.store')]) !!}
-            <v-label label="name" lg='12' md='12' title="Nome" error="{{$errors->first('name')}}">
+            <v-label label="name" lg='6' md='6' title="Nome" error="{{$errors->first('name')}}">
                 {!! Form::text('name',null, ['class' => 'form-control','required']) !!}
             </v-label>
-
+            <v-label label="related" lg='6' md='6' title="Relacionado a outras permissões?" error="{{$errors->first('related')}}">
+                {!! Form::text('related',null, ['class' => 'form-control']) !!}
+            </v-label>
+            <v-label label="description" title="Descrição" lg="12" md="12" error="{{$errors->first('description')}}">
+                {!! Form::textarea('description',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}
+            </v-label>
             <v-label label="roles" lg='12' md='12' title="Atribuir Permissão a Funções">
                 @if(!$roles->isEmpty())
                     @foreach ($roles as $role)

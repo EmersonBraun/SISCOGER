@@ -1,4 +1,4 @@
-webpackJsonp([39],{
+webpackJsonp([40],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Form/SugestRg.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -732,13 +732,14 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticClass: "btn btn-success btn-block",
-                      on: { click: _vm.reset }
+                      staticClass: "btn btn-primary btn-block",
+                      on: {
+                        click: function($event) {
+                          return _vm.goToFdi(_vm.found.rg)
+                        }
+                      }
                     },
-                    [
-                      _c("i", { staticClass: "fa fa-search" }),
-                      _vm._v(" Procurar outra ficha")
-                    ]
+                    [_vm._v("Ir para ficha")]
                   )
                 ])
               : _vm._e(),
@@ -748,14 +749,13 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticClass: "btn btn-primary btn-block",
-                      on: {
-                        click: function($event) {
-                          return _vm.goToFdi(_vm.found.rg)
-                        }
-                      }
+                      staticClass: "btn btn-success btn-block",
+                      on: { click: _vm.reset }
                     },
-                    [_vm._v("Ir para ficha")]
+                    [
+                      _c("i", { staticClass: "fa fa-search" }),
+                      _vm._v(" Procurar outra ficha")
+                    ]
                   )
                 ])
               : _vm._e()

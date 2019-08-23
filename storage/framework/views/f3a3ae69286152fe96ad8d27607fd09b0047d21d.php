@@ -17,6 +17,8 @@
                         <tr>
                             <th style="display: none">#</th>
                             <th class='col'>Permissões</th>
+                            <th class='col'>Relação</th>
+                            <th class='col'>Descrição</th>
                             <th class='col'>Ações</th>
                         </tr>
                     </thead>
@@ -25,6 +27,8 @@
                         <tr>
                             <td style="display: none"><?php echo e($permission->id); ?></td>
                             <td><?php echo e($permission->name); ?></td>
+                            <td><?php echo e($permission->related); ?></td>
+                            <td><?php echo e($permission->description); ?></td>
                             <td>
                                 <?php if(hasPermissionTo('editar-permissoes')): ?>
                                 <a href="<?php echo e(route('permission.edit',$permission->id)); ?>" class="btn btn-info pull-left"
@@ -48,6 +52,8 @@
                         <tr>
                             <th style="display: none">#</th>
                             <th class='col'>Permissões</th>
+                            <th class='col'>Relação</th>
+                            <th class='col'>Descrição</th>
                             <th class='col'>Ações</th>
                         </tr>
                     </tfoot>

@@ -37,6 +37,8 @@ Vue.component('v-info-box', () => import(/* webpackChunkName: "v-info-box" */'./
 Vue.component('v-messages', () => import(/* webpackChunkName: "v-messages" */'./components/Layout/TopMenu/Messages.vue'));
 Vue.component('v-notifications', () => import(/* webpackChunkName: "v-notifications" */'./components/Layout/TopMenu/Notifications.vue'));
 Vue.component('v-tasks', () => import(/* webpackChunkName: "v-tasks" */'./components/Layout/TopMenu/Tasks.vue'));
+// Punicao
+Vue.component('v-classificacao', () => import(/* webpackChunkName: "v-classificacao" */'./components/Punicao/Classificacao.vue'));
 //VUESTRAP
 // Revisados
 Vue.component('v-datepicker', () => import(/* webpackChunkName: "v-datepicker" */'./components/Vuestrap/Datepicker.vue'));
