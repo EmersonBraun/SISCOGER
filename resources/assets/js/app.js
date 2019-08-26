@@ -28,6 +28,14 @@ if(localStorage.getItem("session")==null){
 new Vue({
     store,
     el: '#app',
+    data() {
+        return {
+            spinner: true
+        }
+    },
+    mounted() {
+        this.spinner = false
+    },
     methods: {
         getSessionData() {
             return JSON.parse(sessionStorage.getItem("session"))

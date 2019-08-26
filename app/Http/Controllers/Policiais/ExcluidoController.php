@@ -5,33 +5,44 @@ namespace App\Http\Controllers\Policiais;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\PM\ExcluidoRepository;
+use App\Repositories\PM\EnvolvidoRepository;
 
 class ExcluidoController extends Controller
 {
     protected $repository;
-    public function __construct(ExcluidoRepository $repository)
+    protected $excluido;
+
+    public function __construct(
+        EnvolvidoRepository $repository,
+        ExcluidoRepository $excluido
+    )
 	{
         $this->repository = $repository;
+        $this->excluido = $excluido;
     }
 
-    public function index()
+    public function conselho()
     {
-        $registros = $this->repository->all();
-        return view('policiais.excluido.index', compact('registros'));
+        $registros = $this->excluido->conselhos();
+        return view('policiais.excluido.list.conselhos',compact('registros'));
     }
 
+    public function judicial()
+    {
+        $registros = $this->excluido->judicial();
+        return view('policiais.excluido.list.judicial',compact('registros'));
+    }
 
     public function create()
     {
-        return view('policiais.excluido.create');
+        return view('policiais.excluido.form.create');
     }
 
     public function store(Request $request)
     {
 
         $this->validate($request, [
-            'data' => 'required',
-            'excluido' => 'required',
+            'rg' => 'required'
         ]);
         
         $dados = $request->all();
@@ -53,14 +64,13 @@ class ExcluidoController extends Controller
         $proc = $this->repository->findOrFail($id);
         if(!$proc) abort('404');
         
-        return view('policiais.excluido.edit', compact('proc'));
+        return view('policiais.excluido.form.edit', compact('proc'));
     }
 
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'data' => 'required',
-            'excluido' => 'required',
+            'rg' => 'required'
         ]);
 
         $dados = $request->all();
@@ -97,12 +107,12 @@ class ExcluidoController extends Controller
         
         if($restore){
             $this->repository->cleanCache();
-            toast()->success('Suspenso Recuperado!');
-            return redirect()->route('suspenso.index');  
+            toast()->success('excluido Recuperado!');
+            return redirect()->route('excluido.index');  
         }
 
         toast()->warning('Houve um erro ao recuperar!');
-        return redirect()->route('suspenso.index'); 
+        return redirect()->route('excluido.index'); 
     }
 
     public function forceDelete($id)
@@ -111,11 +121,11 @@ class ExcluidoController extends Controller
     
         if($forceDelete){
             $this->repository->cleanCache();
-            toast()->success('Suspenso Apagado definitivo!');
-            return redirect()->route('suspenso.index');  
+            toast()->success('excluido Apagado definitivo!');
+            return redirect()->route('excluido.index');  
         }
 
         toast()->warning('Houve um erro ao Apagar definitivo!');
-        return redirect()->route('suspenso.index');
+        return redirect()->route('excluido.index');
     }
 }

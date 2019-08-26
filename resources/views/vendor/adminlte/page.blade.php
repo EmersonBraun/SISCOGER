@@ -13,6 +13,7 @@
 
 @section('body')
 <div class="wrapper" id="app">
+    <v-spinner :value="spinner" size="xl" text="Carregando"></v-spinner>
     <header class="main-header">
         <!-- Logo -->
         <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}" class="logo">

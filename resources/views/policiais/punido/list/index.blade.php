@@ -3,7 +3,7 @@
 @section('title', 'Punidos')
 
 @section('content_header')
-@include('policiais.punido.list.menu', ['title' => 'Gerais','page' => 'geral'])
+@include('policiais.punido.list.menu', ['title' => strtoupper($proc),'page' => $proc])
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Punições - Gerais</h3>
+                <h3 class="box-title">Punições - {{$proc}}</h3>
             </div>
             <div class="box-body">
                 <table id="datable" class="table table-bordered table-striped">
@@ -39,8 +39,8 @@
                             <td>{{$registro->cargo}} {{$registro->nome}}</td>
                             <td>{{$registro->punicao_data}}</td>
                             <td>{{$registro->ultimodia_data}}</td>
-                            <td>{{$registro->present()->gradacao}}</td>
                             <td>{{$registro->present()->classpunicao}}</td>
+                            <td>{{$registro->present()->gradacao}}</td>
                             <td>{{$registro->dias}}</td>
                             <td>{{$registro->opm_abreviatura}}</td>
                             <td>{{$registro->present()->comportamento}}</td>

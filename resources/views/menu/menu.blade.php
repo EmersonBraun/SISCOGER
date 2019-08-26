@@ -261,11 +261,11 @@
         @if(hasPermissionTo('listar-elogios'))
         <li class=""><a href="{{route('elogio.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Elogios</span></a></li>
         @endif
-        @if(hasPermissionTo('listar-excluidos'))
-        <li class=""><a href="{{route('excluido.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Excluídos</span></a></li>
+        @if(hasPermissionTo('listar-exclusao'))
+        <li class=""><a href="{{route('excluido.conselho')}}"><i class="fa fa-fw fa-circle-o "></i><span>Excluídos</span></a></li>
         @endif
         @if(hasPermissionTo('listar-punidos'))
-        <li class=""><a href="{{route('punido.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Punidos</span></a></li>
+        <li class=""><a href="{{route('punido.index','cd')}}"><i class="fa fa-fw fa-circle-o "></i><span>Punidos</span></a></li>
         @endif
         @if(hasPermissionTo('listar-reintegrados'))
         <li class=""><a href="{{route('reintegrado.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Reintegrados</span></a></li>

@@ -24,27 +24,28 @@ class PunidoRepository extends BaseRepository
         Cache::tags('punido')->flush();
     }
     
-    public function all()
+    public function all($proc)
 	{
+        if($proc == 'conselho') $this->conselhos();
         $unidade = session('cdopmbase');
         $verTodasUnidades = session('ver_todas_unidades');
         $verSuperior = session('ver_superior');
         
         $nivel = session('nivel');
         if(!$verSuperior) $cargosPodeVer = $this->cargosQuePodeVer($nivel);
-
+        
         if($verTodasUnidades)
         {
             if($verSuperior)
             {
-                $registros = Cache::tags('punido')->remember('todos_punido', $this->expiration, function() {
-                    return $this->model->all();
+                $registros = Cache::tags('punido:'.$proc)->remember('todos_punido', $this->expiration, function() use ($proc){
+                    return $this->model->where('procedimento',$proc)->get();
                 });
             }
             else
             {
-                $registros = Cache::tags('punido')->remember('todos_punido:nivel'.$nivel, $this->expiration, function() use ($cargosPodeVer) {
-                    return $this->model->whereIn('cargo',$cargosPodeVer)->get();
+                $registros = Cache::tags('punido:'.$proc)->remember('todos_punido:nivel'.$nivel, $this->expiration, function() use ($cargosPodeVer, $proc) {
+                    return $this->model->where('procedimento',$proc)->whereIn('cargo',$cargosPodeVer)->get();
                 });
             }
         }
@@ -52,18 +53,18 @@ class PunidoRepository extends BaseRepository
         {
             if($verSuperior)
             {
-                $registros = Cache::tags('punido')->remember('punido:unidade'.$unidade, $this->expiration, function() use ($unidade){
-                    return $this->model->where('cdopm',$unidade)->get();
+                $registros = Cache::tags('punido:'.$proc)->remember('punido:unidade'.$unidade, $this->expiration, function() use ($unidade, $proc){
+                    return $this->model->where([['cdopm',$unidade],['procedimento',$proc]])->get();
                 });
             }
             else
             {
-                $registros = Cache::tags('punido')->remember('punido:unidade'.$unidade.':'.$nivel, $this->expiration, function() use ($cargosPodeVer, $unidade){
-                    return $this->model->whereIn('cargo',$cargosPodeVer)->where('cdopm',$unidade)->get();
+                $registros = Cache::tags('punido:'.$proc)->remember('punido:unidade'.$unidade.':'.$nivel, $this->expiration, function() use ($cargosPodeVer, $unidade, $proc){
+                    return $this->model->whereIn('cargo',$cargosPodeVer)->where([['cdopm',$unidade],['procedimento',$proc]])->get();
                 });
             }
         }
-
+        
         return $registros;
     } 
 
@@ -72,7 +73,7 @@ class PunidoRepository extends BaseRepository
         $unidade = session('cdopmbase');
         $verTodasUnidades = session('ver_todas_unidades');
         $verSuperior = session('ver_superior');
-        
+
         $nivel = session('nivel');
         if(!$verSuperior) $cargosPodeVer = $this->cargosQuePodeVer($nivel);
 
@@ -106,7 +107,6 @@ class PunidoRepository extends BaseRepository
                 });
             }
         }
-
         return $registros;
     } 
 

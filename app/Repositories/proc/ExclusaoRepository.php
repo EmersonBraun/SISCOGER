@@ -56,8 +56,8 @@ class ExclusaoRepository extends BaseRepository
         }
 
         return $registros;
-    } 
-
+    }
+    
     public function ano($ano)
 	{
         $unidade = session('cdopmbase');

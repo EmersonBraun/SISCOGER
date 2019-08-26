@@ -261,11 +261,11 @@
         <?php if(hasPermissionTo('listar-elogios')): ?>
         <li class=""><a href="<?php echo e(route('elogio.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Elogios</span></a></li>
         <?php endif; ?>
-        <?php if(hasPermissionTo('listar-excluidos')): ?>
-        <li class=""><a href="<?php echo e(route('excluido.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Excluídos</span></a></li>
+        <?php if(hasPermissionTo('listar-exclusao')): ?>
+        <li class=""><a href="<?php echo e(route('excluido.conselho')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Excluídos</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-punidos')): ?>
-        <li class=""><a href="<?php echo e(route('punido.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Punidos</span></a></li>
+        <li class=""><a href="<?php echo e(route('punido.index','cd')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Punidos</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-reintegrados')): ?>
         <li class=""><a href="<?php echo e(route('reintegrado.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Reintegrados</span></a></li>

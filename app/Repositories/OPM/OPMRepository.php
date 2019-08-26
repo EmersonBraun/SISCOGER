@@ -141,6 +141,18 @@ class OPMRepository
         return $opms;
     }
 
+    public function all()
+    {
+        //tempo de cahe
+        $expiration = 60 * 24 * 7; //uma semana
+
+        $registros = Cache::tags('opm')->remember('todas_unidade', $expiration, function(){
+            return $this->model->all();
+        });
+
+        return $registros;
+    }
+
     public static function codigo($cdopm)
     {
         //tempo de cahe

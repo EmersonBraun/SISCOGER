@@ -520,8 +520,10 @@ Route::group(['as'=>'elogio.','prefix' =>'elogio'],function(){
 });
 //Rotas do módulo Excluidos
 Route::group(['as'=>'excluido.','prefix' =>'excluido'],function(){
-	Route::get('',['as' =>'index','uses'=>'Policiais\ExcluidoController@index','middleware' => ['permission:listar-excluidos']]);
-	Route::get('criar',['as' =>'create','uses'=>'Policiais\ExcluidoController@create','middleware' => ['permission:criar-excluidos']]);
+    Route::get('conselho',['as' =>'conselho','uses'=>'Policiais\ExcluidoController@conselho','middleware' => ['permission:listar-excluidos']]);
+    Route::get('judicial',['as' =>'judicial','uses'=>'Policiais\ExcluidoController@judicial','middleware' => ['permission:listar-excluidos']]);
+    
+    Route::get('criar',['as' =>'create','uses'=>'Policiais\ExcluidoController@create','middleware' => ['permission:criar-excluidos']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\ExcluidoController@store','middleware' => ['permission:criar-excluidos']]);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\ExcluidoController@edit','middleware' => ['permission:editar-excluidos']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\ExcluidoController@update','middleware' => ['permission:editar-excluidos']]);
@@ -531,8 +533,8 @@ Route::group(['as'=>'excluido.','prefix' =>'excluido'],function(){
 });
 //Rotas do módulo punidos 
 Route::group(['as'=>'punido.','prefix' =>'punido'],function(){
-    Route::get('',['as' =>'index','uses'=>'Policiais\PunidoController@index','middleware' => ['permission:listar-punidos']]);
     Route::get('conselho',['as' =>'conselho','uses'=>'Policiais\PunidoController@conselho','middleware' => ['permission:listar-punidos']]);
+    Route::get('{proc?}',['as' =>'index','uses'=>'Policiais\PunidoController@index','middleware' => ['permission:listar-punidos']]);
 	Route::get('criar',['as' =>'create','uses'=>'Policiais\PunidoController@create','middleware' => ['permission:criar-punidos']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\PunidoController@store','middleware' => ['permission:criar-punidos']]);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\PunidoController@edit','middleware' => ['permission:editar-punidos']]);
@@ -786,6 +788,10 @@ Route::group(['as'=>'session.','prefix' =>'session'],function(){
     Route::get('dados',['as' =>'dados','uses'=>'Dev\SessionController@dados']);
 });
 
+//Rotas do módulo User
+Route::group(['as'=>'om.','prefix' =>'om','middleware' => ['role:admin']],function(){
+	Route::get('',['as' =>'index','uses'=>'OM\OMController@index']);
+});
 /*
 |EXEMPLO DE TÍTULO DE MÓDULO
 */

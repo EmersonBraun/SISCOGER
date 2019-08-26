@@ -1,4 +1,4 @@
-webpackJsonp([3,6,15],{
+webpackJsonp([4,7,16],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Form/Label.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -88,43 +88,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: { Label: __WEBPACK_IMPORTED_MODULE_0__Form_Label___default.a, TheMask: __WEBPACK_IMPORTED_MODULE_1_vue_the_mask__["TheMask"] },
     props: {
-        id_gradacao: { type: String, default: '' },
-        id_classpunicao: { type: String, default: '' },
-        dias: { type: String, default: '' },
+        id_gradacao: { type: Number },
+        id_classpunicao: { type: Number },
+        dias: { type: String },
         error: false
     },
     data: function data() {
         return {
             punicao: [{
-                id: 0,
-                name: 'Leve',
-                options: [{ id: 0, name: 'Advertência' }, { id: 1, name: 'Impedimento Disciplinar' }]
-            }, {
                 id: 1,
-                name: 'Média',
-                options: [{ id: 2, name: 'Repreensão' }, { id: 3, name: 'Detenção' }]
+                name: 'Leve',
+                options: [{ id: 1, name: 'Advertência' }, { id: 2, name: 'Impedimento Disciplinar' }]
             }, {
                 id: 2,
+                name: 'Média',
+                options: [{ id: 3, name: 'Repreensão' }, { id: 4, name: 'Detenção' }]
+            }, {
+                id: 3,
                 name: 'Grave',
-                options: [{ id: 4, name: 'Prisão' }]
+                options: [{ id: 5, name: 'Prisão' }]
             }],
-            selectedGradacao: this.id_gradacao,
-            selectedPunicao: this.id_classpunicao,
-            qtdDias: this.dias,
+            selectedClassificacao: '',
             options: [],
-            selectedGradacaoLabel: '',
+            selectedPunicao: '',
+            qtdDias: this.dias,
             hasDias: false
         };
     },
+    created: function created() {
+        if (this.id_classpunicao) {
+            this.selectedClassificacao = this.id_classpunicao;
+            console.log(this.selectedClassificacao);
+            this.options = this.punicao[this.selectedClassificacao - 1].options;
+        }
+        if (this.id_gradacao) this.selectedPunicao = this.id_gradacao;
+    },
 
     methods: {
-        selectGradacao: function selectGradacao() {
+        selectClassificacao: function selectClassificacao() {
             this.selectedPunicao = '';
             this.hasDias = 0;
-            this.options = this.punicao[this.selectedGradacao].options;
+            this.options = this.punicao[this.selectedClassificacao - 1].options;
         },
         selectDias: function selectDias() {
-            if ([1, 3, 4].includes(this.selectedPunicao)) this.hasDias = true;else this.hasDias = false;
+            if ([1, 3, 4].includes(this.selectedPunicao - 1)) this.hasDias = true;else this.hasDias = false;
         }
     }
 });
@@ -202,7 +209,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -532,12 +539,12 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.selectedGradacao,
-                  expression: "selectedGradacao"
+                  value: _vm.selectedClassificacao,
+                  expression: "selectedClassificacao"
                 }
               ],
               staticClass: "form-control",
-              attrs: { name: "id_gradacao", required: "" },
+              attrs: { name: "id_classpunicao", required: "" },
               on: {
                 change: [
                   function($event) {
@@ -549,11 +556,11 @@ var render = function() {
                         var val = "_value" in o ? o._value : o.value
                         return val
                       })
-                    _vm.selectedGradacao = $event.target.multiple
+                    _vm.selectedClassificacao = $event.target.multiple
                       ? $$selectedVal
                       : $$selectedVal[0]
                   },
-                  _vm.selectGradacao
+                  _vm.selectClassificacao
                 ]
               }
             },
@@ -567,7 +574,7 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _vm.options.length || _vm.id_classpunicao
+      _vm.options.length || _vm.id_gradacao
         ? _c(
             "Label",
             { attrs: { label: "id_gradacao", title: "Gradação da punição" } },
@@ -585,7 +592,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { name: "id_classpunicao" },
+                      attrs: { name: "id_gradacao" },
                       on: {
                         change: [
                           function($event) {

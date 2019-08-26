@@ -71,10 +71,10 @@ class ExclusaoController extends Controller
         
     }
     
-    public function show($ref, $ano)
+    public function show($id)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano);
+        $proc = $this->repository->findOrFail($id);
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -82,10 +82,10 @@ class ExclusaoController extends Controller
         return view('procedimentos.exclusao.form.show', compact('proc'));
     }
 
-    public function edit($ref, $ano)
+    public function edit($id)
     {
         //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano);
+        $proc = $this->repository->findOrFail($id);
         if(!$proc) abort('404');
         
         $this->canSee($proc);
@@ -191,8 +191,8 @@ class ExclusaoController extends Controller
     public function canSee($proc) {
         ver_unidade($proc);//teste para verificar se pode ver outras unidades, caso não possa aborta
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_exclusao','=',$proc->id_exclusao)->get();
+        // $envolvido = Envolvido::acusado()->where('id_exclusaojudicial','=',$proc->id_exclusaojudicial)->get();
         //teste para verificar se pode ver superior, caso não possa aborta
-        ver_superior($envolvido, Auth::user());
+        // ver_superior($envolvido, Auth::user());
     }
 }

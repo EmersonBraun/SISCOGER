@@ -72,8 +72,8 @@
                 <v-datepicker name="punicao_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['punicao_data'] ?? ''}}"></v-datepicker>
             </v-label>
             <v-classificacao 
-            id_gradacao="{{$proc['id_gradacao'] ?? ''}}"
-            id_classpunicao="{{$proc['id_classpunicao'] ?? ''}}"
+            :id_gradacao="{{$proc['id_gradacao'] ?? ''}}"
+            :id_classpunicao="{{$proc['id_classpunicao'] ?? ''}}"
             dias="{{$proc['dias'] ?? ''}}"
             error="{{$errors->first('id_classpunicao')}}"
             ></v-classificacao>

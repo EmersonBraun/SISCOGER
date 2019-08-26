@@ -22,10 +22,10 @@ class PunidoController extends Controller
         $this->proc = $proc;
     }
 
-    public function index()
+    public function index($proc='cd')
     {
-        $registros = $this->repository->all();
-        return view('policiais.punido.list.index', compact('registros'));
+        $registros = $this->repository->all($proc);
+        return view('policiais.punido.list.index', compact('registros','proc'));
     }
 
     public function conselho()
@@ -59,8 +59,10 @@ class PunidoController extends Controller
         ]);
         
         $dados = $request->all();
+        $dados['opm_abreviatura'] = opm($dados['cdopm']);
+
         $create = $this->repository->create($dados);
-        
+
         if($create)
         {
             $this->repository->cleanCache();
@@ -76,7 +78,6 @@ class PunidoController extends Controller
     {
         $proc = $this->repository->findOrFail($id);
         if(!$proc) abort('404');
-        
         return view('policiais.punido.form.edit', compact('proc'));
     }
 
@@ -91,12 +92,13 @@ class PunidoController extends Controller
         ]);
 
         $dados = $request->all();
+        $dados['opm_abreviatura'] = opm($dados['cdopm']);
         $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
             $this->repository->cleanCache();
-            toast()->success($update->nome,'punido atualizado!');
+            toast()->success('punido atualizado!');
             return redirect()->route('punido.index');
         }
 
