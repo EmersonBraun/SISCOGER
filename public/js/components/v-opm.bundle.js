@@ -1,4 +1,4 @@
-webpackJsonp([43],{
+webpackJsonp([42],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Form/OPM.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -368,12 +368,12 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.cdopm,
-            expression: "cdopm"
+            value: _vm.opm,
+            expression: "opm"
           }
         ],
         staticClass: "form-control",
-        attrs: { name: _vm.name },
+        attrs: { name: _vm.name, id: "cdopm" },
         on: {
           change: function($event) {
             var $$selectedVal = Array.prototype.filter
@@ -384,9 +384,7 @@ var render = function() {
                 var val = "_value" in o ? o._value : o.value
                 return val
               })
-            _vm.cdopm = $event.target.multiple
-              ? $$selectedVal
-              : $$selectedVal[0]
+            _vm.opm = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
           }
         }
       },

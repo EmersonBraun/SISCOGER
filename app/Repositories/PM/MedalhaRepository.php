@@ -6,7 +6,7 @@ use Cache;
 use App\Models\Sjd\Policiais\Medalha;
 use App\Repositories\BaseRepository;
 
-class MortosFeridosRepository extends BaseRepository
+class MedalhaRepository extends BaseRepository
 {
     protected $model;
     protected $expiration = 60 * 24;//um dia; 

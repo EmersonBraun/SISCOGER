@@ -1,6 +1,6 @@
 <template>
     <div>
-        <select :name="name" v-model="cdopm" class="form-control">
+        <select :name="name" v-model="opm" class="form-control" id='cdopm'>
             <option value="">Todas as OPM</option>
             <optgroup label="CG">
                 <option value="0">CG (sede)</option>

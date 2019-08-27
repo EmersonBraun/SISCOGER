@@ -23,14 +23,12 @@ class ElogioRepository extends BaseRepository
         Cache::tags('elogio')->flush();
     }
     
-    public function all()
+    public function search($query)
 	{
-
-        $registros = Cache::tags('elogio')->remember('todos_elogio', $this->expiration, function() {
-            return $this->model->all();
-        });
-
-        return $registros;
+        return $this->model
+            ->where($query)
+            ->orderBy('rg','DESC')
+            ->get();
     } 
 
 }

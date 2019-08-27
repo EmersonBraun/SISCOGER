@@ -17,21 +17,26 @@ class MedalhaController extends Controller
     public function index()
     {
         $registros = $this->repository->all();
-        return view('policiais.medalha.index', compact('registros'));
+        return view('policiais.medalha.list.index', compact('registros'));
+    }
+
+    public function apagados()
+    {
+        $registros = $this->repository->apagados();
+        return view('policiais.medalha.list.apagados', compact('registros'));
     }
 
 
     public function create()
     {
-        return view('policiais.medalha.create');
+        return view('policiais.medalha.form.create');
     }
 
     public function store(Request $request)
     {
 
         $this->validate($request, [
-            'data' => 'required',
-            'medalha' => 'required',
+            'rg' => 'required',
         ]);
         
         $dados = $request->all();
@@ -53,14 +58,13 @@ class MedalhaController extends Controller
         $proc = $this->repository->findOrFail($id);
         if(!$proc) abort('404');
         
-        return view('policiais.medalha.edit', compact('proc'));
+        return view('policiais.medalha.form.edit', compact('proc'));
     }
 
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'data' => 'required',
-            'medalha' => 'required',
+            'rg' => 'required',
         ]);
 
         $dados = $request->all();
@@ -83,7 +87,7 @@ class MedalhaController extends Controller
 
         if($destroy) {
             $this->repository->cleanCache();
-            toast()->success('medalha Apagado');
+            toast()->success('Apagado');
             return redirect()->route('medalha.index');
         }
 
@@ -97,12 +101,12 @@ class MedalhaController extends Controller
         
         if($restore){
             $this->repository->cleanCache();
-            toast()->success('Suspenso Recuperado!');
-            return redirect()->route('suspenso.index');  
+            toast()->success('Recuperado!');
+            return redirect()->route('medalha.index');  
         }
 
         toast()->warning('Houve um erro ao recuperar!');
-        return redirect()->route('suspenso.index'); 
+        return redirect()->route('medalha.index'); 
     }
 
     public function forceDelete($id)
@@ -111,11 +115,11 @@ class MedalhaController extends Controller
     
         if($forceDelete){
             $this->repository->cleanCache();
-            toast()->success('Suspenso Apagado definitivo!');
-            return redirect()->route('suspenso.index');  
+            toast()->success('Apagado definitivo!');
+            return redirect()->route('medalha.index');  
         }
 
         toast()->warning('Houve um erro ao Apagar definitivo!');
-        return redirect()->route('suspenso.index');
+        return redirect()->route('medalha.index');
     }
 }

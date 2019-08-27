@@ -499,7 +499,8 @@ Route::group(['as'=>'fdi.','prefix' =>'fdi'],function(){
 //Rotas do módulo medalhas
 Route::group(['as'=>'medalha.','prefix' =>'medalha'],function(){
 	Route::get('',['as' =>'index','uses'=>'Policiais\MedalhaController@index','middleware' => ['permission:listar-medalhas']]);
-	Route::get('criar',['as' =>'create','uses'=>'Policiais\MedalhaController@create','middleware' => ['permission:criar-medalhas']]);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\MedalhaController@apagados','middleware' => ['role:admin']]);
+    Route::get('criar',['as' =>'create','uses'=>'Policiais\MedalhaController@create','middleware' => ['permission:criar-medalhas']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\MedalhaController@store','middleware' => ['permission:criar-medalhas']]);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\MedalhaController@edit','middleware' => ['permission:editar-medalhas']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\MedalhaController@update','middleware' => ['permission:editar-medalhas']]);
@@ -509,8 +510,9 @@ Route::group(['as'=>'medalha.','prefix' =>'medalha'],function(){
 });
 //Rotas do módulo elogio
 Route::group(['as'=>'elogio.','prefix' =>'elogio'],function(){
-	Route::get('',['as' =>'index','uses'=>'Policiais\ElogioController@index','middleware' => ['permission:listar-elogios']]);
-	Route::get('criar',['as' =>'create','uses'=>'Policiais\ElogioController@create','middleware' => ['permission:criar-elogios']]);
+	Route::get('busca',['as' =>'index','uses'=>'Policiais\ElogioController@index','middleware' => ['permission:listar-elogios']]);
+    Route::post('resultado',['as' =>'search','uses'=>'Policiais\ElogioController@search','middleware' => ['permission:listar-elogios']]);
+    Route::get('criar',['as' =>'create','uses'=>'Policiais\ElogioController@create','middleware' => ['permission:criar-elogios']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\ElogioController@store','middleware' => ['permission:criar-elogios']]);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\ElogioController@edit','middleware' => ['permission:editar-elogios']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\ElogioController@update','middleware' => ['permission:editar-elogios']]);
