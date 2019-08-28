@@ -16,14 +16,37 @@ class SaiController extends Controller
 
     public function index()
     {
-        $registros = $this->repository->all();
-        return view('policiais.sai.index', compact('registros'));
+        return redirect()->route('sai.lista',['ano' => date('Y')]);
+    }
+
+    public function lista($ano)
+    {
+        $registros = $this->repository->ano($ano);
+        return view('policiais.sai.list.index', compact('registros','ano'));
+    }
+
+    public function andamento($ano)
+    {
+        $registros = $this->repository->andamentoAno($ano);
+        return view('policiais.sai.list.andamento', compact('registros','ano'));
+    }
+
+    public function prazo($ano)
+    {
+        $registros = $this->repository->prazoAno($ano);
+        return view('policiais.sai.list.prazos', compact('registros','ano'));
+    }
+
+    public function resultado($ano)
+    {
+        $registros = $this->repository->resultado($ano);
+        return view('policiais.sai.list.resultado', compact('registros','ano'));
     }
 
 
     public function create()
     {
-        return view('policiais.sai.create');
+        return view('policiais.sai.form.create');
     }
 
     public function store(Request $request)
@@ -31,7 +54,6 @@ class SaiController extends Controller
 
         $this->validate($request, [
             'data' => 'required',
-            'sai' => 'required',
         ]);
         
         $dados = $request->all();
@@ -53,14 +75,13 @@ class SaiController extends Controller
         $proc = $this->repository->findOrFail($id);
         if(!$proc) abort('404');
         
-        return view('policiais.sai.edit', compact('proc'));
+        return view('policiais.sai.form.edit', compact('proc'));
     }
 
     public function update(Request $request, $id)
     {
         $this->validate($request, [
             'data' => 'required',
-            'sai' => 'required',
         ]);
 
         $dados = $request->all();

@@ -470,5 +470,11 @@
 </li>
 <?php endif; ?>
 
+<li class="">
+    <a href="<?php echo e(route('link.index')); ?>">
+        <i class="fa fa-link "></i><span>Links Úteis</span>
+        <span class="pull-right-container"></span>
+    </a>
+</li>
 
 

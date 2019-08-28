@@ -465,16 +465,43 @@ Route::group(['as'=>'busca.','prefix' =>'busca'],function(){
 });
 /* -------------- ROTAS SAI -------------- */
 Route::group(['as'=>'sai.','prefix' =>'sai','middleware' => ['permission:sai']],function(){
-	Route::get('',['as' =>'index','uses'=>'Policiais\SaiController@index']);
-	Route::get('criar',['as' =>'create','uses'=>'Policiais\SaiController@create']);
-	Route::post('salvar',['as' =>'store','uses'=>'Policiais\SaiController@store']);
-	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Policiais\SaiController@edit']);
-	Route::put('atualizar/{ref}/{ano}',['as' =>'update','uses'=>'Policiais\SaiController@update']);
-    Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Policiais\SaiController@destroy']);
+    Route::get('',['as' =>'index','uses'=>'Policiais\SaiController@index','middleware' => ['permission:listar-sai']]);
+    //listagem
+    Route::get('lista/{ano}',['as' =>'lista','uses'=>'Policiais\SaiController@lista','middleware' => ['permission:listar-sai']]);
+	Route::get('andamento/{ano}',['as' =>'andamento','uses'=>'Policiais\SaiController@andamento','middleware' => ['permission:listar-sai']]);
+	Route::get('prazos/{ano}',['as' =>'prazos','uses'=>'Policiais\SaiController@prazos','middleware' => ['permission:listar-sai']]);
+	Route::get('resultado/{ano}',['as' =>'resultado','uses'=>'Policiais\SaiController@resultado','middleware' => ['permission:listar-sai']]);
+    Route::get('apagados/{ano}',['as' =>'apagados','uses'=>'Policiais\SaiController@apagados','middleware' => ['role:admin']]);
+    //formulários
+    Route::get('criar',['as' =>'create','uses'=>'Policiais\SaiController@create','middleware' => ['permission:criar-sai']]);
+	Route::post('salvar',['as' =>'store','uses'=>'Policiais\SaiController@store','middleware' => ['permission:criar-sai']]);
+	Route::get('ver/{ref}/{ano?}',['as' =>'show','uses'=>'Policiais\SaiController@show','middleware' => ['permission:ver-sai']]);
+	Route::get('editar/{ref}/{ano?}',['as' =>'edit','uses'=>'Policiais\SaiController@edit','middleware' => ['permission:editar-sai']]);
+	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\SaiController@update','middleware' => ['permission:editar-sai']]);
+    Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\SaiController@destroy','middleware' => ['permission:apagar-sai']]);
     Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\SaiController@restore','middleware' => ['role:admin']]);
     Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\SaiController@forceDelete','middleware' => ['role:admin']]);
 });
 
+Route::group(['as'=>'fatd.','prefix' =>'fatd'],function(){
+	Route::get('',['as' =>'index','uses'=>'Proc\FatdController@index','middleware' => ['permission:listar-fatd']]);
+	//listagem
+	Route::get('lista/{ano}',['as' =>'lista','uses'=>'Proc\FatdController@lista','middleware' => ['permission:listar-fatd']]);
+	Route::get('andamento/{ano}',['as' =>'andamento','uses'=>'Proc\FatdController@andamento','middleware' => ['permission:listar-fatd']]);
+	Route::get('prazos/{ano}',['as' =>'prazos','uses'=>'Proc\FatdController@prazos','middleware' => ['permission:listar-fatd']]);
+	Route::get('rel_situacao/{ano}',['as' =>'rel_situacao','uses'=>'Proc\FatdController@rel_situacao','middleware' => ['permission:listar-fatd']]);
+    Route::get('julgamento/{ano}',['as' =>'julgamento','uses'=>'Proc\FatdController@julgamento','middleware' => ['permission:listar-fatd']]);
+    Route::get('apagados/{ano}',['as' =>'apagados','uses'=>'Proc\FatdController@apagados','middleware' => ['role:admin']]);
+	//formulários
+	Route::get('criar',['as' =>'create','uses'=>'Proc\FatdController@create','middleware' => ['permission:criar-fatd']]);
+	Route::post('salvar',['as' =>'store','uses'=>'Proc\FatdController@store','middleware' => ['permission:criar-fatd']]);
+	Route::get('ver/{ref}/{ano}',['as' =>'show','uses'=>'Proc\FatdController@show','middleware' => ['permission:ver-fatd']]);
+	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Proc\FatdController@edit','middleware' => ['permission:editar-fatd']]);
+	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Proc\FatdController@update','middleware' => ['permission:editar-fatd']]);
+    Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\FatdController@destroy','middleware' => ['permission:apagar-fatd']]);
+    Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Proc\FatdController@restore','middleware' => ['role:admin']]);
+    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Proc\FatdController@forceDelete','middleware' => ['role:admin']]);
+});
 /* -------------- ROTAS FICHA DISCIPLINAR INDIVIDUAL -------------- */
 Route::group(['as'=>'fdi.','prefix' =>'fdi'],function(){
 	//Route::get('',['as' =>'index','uses'=>'FDI\FdiController@index']);
@@ -790,9 +817,19 @@ Route::group(['as'=>'session.','prefix' =>'session'],function(){
     Route::get('dados',['as' =>'dados','uses'=>'Dev\SessionController@dados']);
 });
 
-//Rotas do módulo User
+//Rotas do módulo OPM
 Route::group(['as'=>'om.','prefix' =>'om','middleware' => ['role:admin']],function(){
 	Route::get('',['as' =>'index','uses'=>'OM\OMController@index']);
+});
+
+//Rotas do módulo link
+Route::group(['as'=>'link.','prefix' =>'link'],function(){
+	Route::get('',['as' =>'index','uses'=>'Link\LinkController@index']);
+	Route::get('criar',['as' =>'create','uses'=>'Link\LinkController@create','middleware' => ['role:admin']]);
+	Route::post('salvar',['as' =>'store','uses'=>'Link\LinkController@store','middleware' => ['role:admin']]);
+	Route::get('editar/{id}',['as' =>'edit','uses'=>'Link\LinkController@edit','middleware' => ['role:admin']]);
+	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Link\LinkController@update','middleware' => ['role:admin']]);
+	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Link\LinkController@destroy','middleware' => ['role:admin']]);
 });
 /*
 |EXEMPLO DE TÍTULO DE MÓDULO

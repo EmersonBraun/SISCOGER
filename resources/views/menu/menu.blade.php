@@ -472,6 +472,12 @@
 </li>
 @endif
 
+<li class="">
+    <a href="{{route('link.index')}}">
+        <i class="fa fa-link "></i><span>Links Úteis</span>
+        <span class="pull-right-container"></span>
+    </a>
+</li>
 {{-- <li class="treeview">
     <a href="#">
         <i class="fa fa-fw fa-code "></i><span>DEV</span>
