@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'ADL - Apagados')
+@section('title', 'SAI - Apagados')
 
 @section('content_header')
-@include('procedimentos.adl.list.menu', ['title' => 'Apagados','page' => 'apagados'])
+@include('policiais.sai.list.menu', ['title' => 'Apagados','page' => 'apagados'])
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Listagem de Apuração Disciplinar de Licenciamento</h3>
+                <h3 class="box-title">Listagem de SAI</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -30,20 +30,20 @@
                     <tbody>
                         @foreach($registros as $registro)
                         <tr>
-                            <td style="display: none">{{$registro->id_adl}}</td>
+                            <td style="display: none">{{$registro->id_sai}}</td>
                             @if ($registro->sjd_ref != '')
                             <td>{{$registro->sjd_ref}}/{{$registro->sjd_ref_ano}}</td>
                             @else
-                            <td>{{$registro->id_adl}}</td>
+                            <td>{{$registro->id_sai}}</td>
                             @endif
-                            <td>{{$registro->present()->opm}}</td>
+                            <td>{{$registro->opm_abreviatura}}</td>
                             <td>{{$registro->sintese_txt}}</td>
                             <td>
                                 <span>
-                                    <a class="btn btn-info" href="{{route('adl.restore',$registro['id_adl'])}}"><i
+                                    <a class="btn btn-info" href="{{route('sai.restore',$registro['id_sai'])}}"><i
                                             class="fa fa-recycle"></i></a>
-                                    <a class="btn btn-danger" href="{{route('adl.forceDelete',$registro['id_adl'])}}"
-                                        onclick="return confirm('Tem certeza que quer apagar DEFINITIVO o ADL?')"><i
+                                    <a class="btn btn-danger" href="{{route('sai.forceDelete',$registro['id_sai'])}}"
+                                        onclick="return confirm('Tem certeza que quer apagar DEFINITIVO o sai?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                 </span>
                             </td>
@@ -67,7 +67,6 @@
 @stop
 
 @section('css')
-<link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
 @section('js')

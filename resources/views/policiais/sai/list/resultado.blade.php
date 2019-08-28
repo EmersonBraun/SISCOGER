@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'ADL - Julgamento')
+@section('title', 'SAI - Resultado')
 
 @section('content_header')
-@include('procedimentos.adl.list.menu', ['title' => 'Julgamento','page' => 'julgamento'])
+@include('policiais.sai.list.menu', ['title' => 'Resultado','page' => 'resultado'])
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Listagem de Apuração Disciplinar de Licenciamento</h3>
+                <h3 class="box-title">Listagem de SAI</h3>
             </div>
             <div class="box-body">
                 <table id="datable" class="table table-bordered table-striped">
@@ -19,35 +19,35 @@
                         <tr>
                             <th style="display: none">#</th>
                             <th class='col-xs-2 col-md-2'>N°/Ano</th>
-                            <th class='col-xs-2 col-md-2'>Acusado</th>
-                            <th class='col-xs-2 col-md-2'>Andamento</th>
-                            <th class='col-xs-2 col-md-2'>Comissão</th>
-                            <th class='col-xs-2 col-md-2'>CMT Geral</th>
-                            <th class='col-xs-2 col-md-2'>Julgamento</th>
+                            <th class='col-xs-2 col-md-2'>OPM</th>
+                            <th class='col-xs-2 col-md-2'>Motivo Principal</th>
+                            <th class='col-xs-2 col-md-2'>Cidade</th>
+                            <th class='col-xs-2 col-md-2'>Data do fato</th>
+                            <th class='col-xs-2 col-md-2'>Resultado</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($registros as $registro)
                         <tr>
                             <td style="display: none">{{$registro->id_adl }}</td>
-                            <td>{{ $registro->present()->refAno}}</td>
-                            <td>{{$registro->present()->cargoENome}}</td>
-                            <td>{{ $registro->present()->andamento }}</td>
-                            <td>{{$registro->parecer_comissao }}</td>
-                            <td>{{$registro->parecer_cmtgeral }}</td>
-                            <td>{{$registro->resultado }}</td>
+                            <td>{{$registro->present()->refAno}}</td>
+                            <td>{{$registro->opm_abreviatura}}</td>
+                            <td>{{$registro->motivo_principal }}</td>
+                            <td>{{$registro->present()->municipio }}</td>
+                            <td>{{$registro->fato_data }}</td>
+                            <td>{{ $registro->present()->resultado }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
                             <th style="display: none">#</th>
-                            <th>N°/Ano</th>
-                            <th>Acusado</th>
-                            <th>Andamento</th>
-                            <th>Comissão</th>
-                            <th>CMT Geral</th>
-                            <th>Julgamento</th>
+                            <th class='col-xs-2 col-md-2'>N°/Ano</th>
+                            <th class='col-xs-2 col-md-2'>OPM</th>
+                            <th class='col-xs-2 col-md-2'>Motivo Principal</th>
+                            <th class='col-xs-2 col-md-2'>Cidade</th>
+                            <th class='col-xs-2 col-md-2'>Data do fato</th>
+                            <th class='col-xs-2 col-md-2'>Resultado</th>
                         </tr>
                     </tfoot>
                 </table>

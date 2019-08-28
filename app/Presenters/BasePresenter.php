@@ -33,7 +33,6 @@ class BasePresenter extends Presenter {
         return $this->sjd_ref.'/'.$this->sjd_ref_ano;
     }
 
-
     public function cargoENome()
     {
         return $this->cargo.' '.special_ucwords($this->nome);

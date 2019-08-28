@@ -1,30 +1,17 @@
 <?php
 namespace App\Presenters\policiais;
 
-use Laracasts\Presenter\Presenter;
-use App\Repositories\PM\PolicialRepository;
-use App\Repositories\OPM\OPMRepository;
+use App\Presenters\BasePresenter;
 
-class SaiPresenter extends Presenter {
-    
-    public function tiponotacomparecimento()
-    {
-        return array_get(config('sistema.tiponotacomparecimento','Não Há'), $this->id_tiponotacomparecimento);
-    }
+class SaiPresenter extends BasePresenter {
 
-    public function opm()
+    public function resultado()
     {
-        return OPMRepository::abreviatura($this->cdopm);
-    }
-
-    public function nome()
-    {
-        return PolicialRepository::dados($this->rg,'nome');
-    }
-
-    public function nomeCadastro()
-    {
-        return PolicialRepository::dados($this->rg_cadastro,'nome');
+        if($this->origem_proc) {
+            return $this->origem_proc.' - '.$this->origem_sjd_ref.' / '.$this->origem_sjd_ref_ano;
+        } else {
+            return 'Não há';
+        }
     }
 }
 /*

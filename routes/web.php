@@ -468,15 +468,16 @@ Route::group(['as'=>'sai.','prefix' =>'sai','middleware' => ['permission:sai']],
     Route::get('',['as' =>'index','uses'=>'Policiais\SaiController@index','middleware' => ['permission:listar-sai']]);
     //listagem
     Route::get('lista/{ano}',['as' =>'lista','uses'=>'Policiais\SaiController@lista','middleware' => ['permission:listar-sai']]);
-	Route::get('andamento/{ano}',['as' =>'andamento','uses'=>'Policiais\SaiController@andamento','middleware' => ['permission:listar-sai']]);
+    Route::get('andamento/{ano}',['as' =>'andamento','uses'=>'Policiais\SaiController@andamento','middleware' => ['permission:listar-sai']]);
+    Route::get('motivo/{ano}',['as' =>'motivo','uses'=>'Policiais\SaiController@motivo','middleware' => ['permission:listar-sai']]);
 	Route::get('prazos/{ano}',['as' =>'prazos','uses'=>'Policiais\SaiController@prazos','middleware' => ['permission:listar-sai']]);
 	Route::get('resultado/{ano}',['as' =>'resultado','uses'=>'Policiais\SaiController@resultado','middleware' => ['permission:listar-sai']]);
     Route::get('apagados/{ano}',['as' =>'apagados','uses'=>'Policiais\SaiController@apagados','middleware' => ['role:admin']]);
     //formulários
     Route::get('criar',['as' =>'create','uses'=>'Policiais\SaiController@create','middleware' => ['permission:criar-sai']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\SaiController@store','middleware' => ['permission:criar-sai']]);
-	Route::get('ver/{ref}/{ano?}',['as' =>'show','uses'=>'Policiais\SaiController@show','middleware' => ['permission:ver-sai']]);
-	Route::get('editar/{ref}/{ano?}',['as' =>'edit','uses'=>'Policiais\SaiController@edit','middleware' => ['permission:editar-sai']]);
+	Route::get('ver/{id}',['as' =>'show','uses'=>'Policiais\SaiController@show','middleware' => ['permission:ver-sai']]);
+	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\SaiController@edit','middleware' => ['permission:editar-sai']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\SaiController@update','middleware' => ['permission:editar-sai']]);
     Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\SaiController@destroy','middleware' => ['permission:apagar-sai']]);
     Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\SaiController@restore','middleware' => ['role:admin']]);

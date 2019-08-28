@@ -27,20 +27,32 @@ class SaiController extends Controller
 
     public function andamento($ano)
     {
-        $registros = $this->repository->andamentoAno($ano);
+        $registros = $this->repository->ano($ano);
         return view('policiais.sai.list.andamento', compact('registros','ano'));
     }
 
-    public function prazo($ano)
+    public function prazos($ano)
     {
         $registros = $this->repository->prazoAno($ano);
         return view('policiais.sai.list.prazos', compact('registros','ano'));
+    }
+
+    public function motivo($ano)
+    {
+        $registros = $this->repository->ano($ano);
+        return view('policiais.sai.list.motivo', compact('registros','ano'));
     }
 
     public function resultado($ano)
     {
         $registros = $this->repository->resultado($ano);
         return view('policiais.sai.list.resultado', compact('registros','ano'));
+    }
+
+    public function apagados($ano)
+    {
+        $registros = $this->repository->apagados();
+        return view('policiais.sai.list.apagados', compact('registros','ano'));
     }
 
 
@@ -53,21 +65,35 @@ class SaiController extends Controller
     {
 
         $this->validate($request, [
-            'data' => 'required',
+            'cdopm_fato' => 'required',
+            'sintese_txt' => 'required',
         ]);
         
-        $dados = $request->all();
+        $dados = $this->datesToCreate($request);
         $create = $this->repository->create($dados);
 
         if($create)
         {
             $this->repository->cleanCache();
-            toast()->success('N° ','SAI Inserido');
-            return redirect()->route('sai.index');
+            toast()->success('N° '.$create->sjd_ref.'/'.$create->sjd_ref_ano,'SAI Inserido');
+            return redirect()->route('sai.lista',$create->sjd_ref_ano);
         }
 
         toast()->warning('Houve um erro na inserção');
         return redirect()->back();
+    }
+
+    public function datesToCreate($request) {
+        //dados do formulário
+        $dados = $request->all();
+        $ano = (int) date('Y');
+
+        $ref = $this->repository->maxRef();
+        //referência e ano
+        $dados['sjd_ref'] = $ref+1;
+        $dados['sjd_ref_ano'] = $ano;
+        
+        return $dados;
     }
 
     public function edit($id)
@@ -81,12 +107,12 @@ class SaiController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'data' => 'required',
+            'cdopm_fato' => 'required',
+            'sintese_txt' => 'required',
         ]);
 
         $dados = $request->all();
         $update = $this->repository->findOrFail($id)->update($dados);
-        
         if($update)
         {
             $this->repository->cleanCache();

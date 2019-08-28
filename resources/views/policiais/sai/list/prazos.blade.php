@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'ADL - Andamento')
+@section('title', 'SAI - Prazos')
 
 @section('content_header')
-@include('procedimentos.adl.list.menu', ['title' => 'Prazos','page' => 'prazos'])
+@include('policiais.sai.list.menu', ['title' => 'Prazos','page' => 'prazos'])
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Listagem de Apuração Disciplinar de Licenciamento</h3>
+                <h3 class="box-title">Listagem de SAI</h3>
             </div>
             <div class="box-body">
                 <table id="datable" class="table table-bordered table-striped">
@@ -19,63 +19,29 @@
                         <tr>
                             <th style="display: none">#</th>
                             <th class='col-xs-1 col-md-1'>N°/Ano</th>
-                            <th class='col-xs-1 col-md-1'>Data</th>
-                            <th class='col-xs-2 col-md-2'>Presidente</th>
-                            <th class='col-xs-2 col-md-2'>Andamento</th>
+                            <th class='col-xs-2 col-md-2'>OPM</th>
+                            <th class='col-xs-2 col-md-2'>Abertura</th>
+                            <th class='col-xs-2 col-md-2'>Dias Úteis</th>
                             <th class='col-xs-2 col-md-2'>Andamento COGER</th>
                             <th class='col-xs-1 col-md-1'>Sobrestamento</th>
-                            <th class='col-xs-2 col-md-2'>Motivo Sobrestamento</th>
-                            <th class='col-xs-1 col-md-1'>Prazo</th>
+                            <th class='col-xs-2 col-md-2'>Dias Totais</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($registros as $registro)
                         <tr>
-                            <td style="display: none">{{$registro['id_adl']}}</td>
-                            <td>{{$registro->present()->refAno}}</td>
+                            <td style="display: none">{{$registro['id_sai']}}</td>
+                            @if ($registro->sjd_ref != '')
+                            <td>{{$registro->sjd_ref}}/{{$registro->sjd_ref_ano}}</td>
+                            @else
+                            <td>{{$registro->id_sai}}</td>
+                            @endif
+                            <td>{{ $registro->opm_abreviatura }}</td>
                             <td>{{ $registro->abertura_data }}</td>
-                            <td>{{$registro->present()->cargoENome}}</td>
-                            <td>{{$registro->present()->andamento}}</td>
-                            <td>{{$registro->present()->andamentocoger}}</td>
-                            <td>
-                                @if($registro['dusobrestado'] == '' || $registro['dusobrestado'] == NULL)
-                                <span class='label label-success'>0</span>
-                                @else
-                                <span class='label label-info'>{{$registro['dusobrestado']}}</span>
-                                @endif
-                            </td>
-                            {{--motivo do sobrestamento--}}
-                            <td>
-                                @if ( sistema('andamento',$registro['id_andamento']) == 'SOBRESTADO')
-                                @if ($registro['motivo']=='' || $registro['motivo']=='outros')
-                                {{$registro['motivo_outros']}}
-                                @else
-                                {{$registro['motivo']}}
-                                @endif
-                                @else
-                                <span class='label label-success'>Não Sobrest.</span>
-                                @endif
-                            </td>
-                            {{--andamento--}}
-                            <td>
-                                @if ( sistema('andamento',$registro["id_andamento"]) == 'ANDAMENTO')
-                                @if ($registro['dutotal'])
-                                @if ($registro["diasuteis"]>30)
-                                {{$registro['diasuteis']}}
-                                @else
-                                {{$registro['diasuteis']}}
-                                @endif
-                                @else
-                                <span class='label label-error'>S/Data abertura</span>
-                                @endif
-                                @elseif ( sistema('andamento',$registro["id_andamento"]) == 'CONCLUÍDO')
-                                <span class='label label-success'>Concluido</span>
-                                @elseif (sistema('andamento',$registro['id_andamento']) == '')
-                                <span class='label label-danger'>S/Andamento</span>
-                                @elseif ( sistema('andamento',$registro['id_andamento']) == 'SOBRESTADO')
-                                <span class='label label-error'>Sobrestado</span>
-                                @endif
-                            </td>
+                            <td>{{ $registro->dutotal }}</td>
+                            <td>{{ $registro->present()->andamento}}</td>
+                            <td>{{ $registro->dusobrestado }}</td>
+                            <td>{{ $registro->dutotal }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -83,13 +49,12 @@
                         <tr>
                             <th style="display: none">#</th>
                             <th class='col-xs-1 col-md-1'>N°/Ano</th>
-                            <th class='col-xs-1 col-md-1'>Data</th>
-                            <th class='col-xs-2 col-md-2'>Presidente</th>
-                            <th class='col-xs-2 col-md-2'>Andamento</th>
+                            <th class='col-xs-2 col-md-2'>OPM</th>
+                            <th class='col-xs-2 col-md-2'>Abertura</th>
+                            <th class='col-xs-2 col-md-2'>Dias Úteis</th>
                             <th class='col-xs-2 col-md-2'>Andamento COGER</th>
                             <th class='col-xs-1 col-md-1'>Sobrestamento</th>
-                            <th class='col-xs-2 col-md-2'>Motivo Sobrestamento</th>
-                            <th class='col-xs-1 col-md-1'>Prazo</th>
+                            <th class='col-xs-2 col-md-2'>Dias Totais</th>
                         </tr>
                     </tfoot>
                 </table>

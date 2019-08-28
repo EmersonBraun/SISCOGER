@@ -134,7 +134,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
         cdopm: { type: String, default: '' },
-        name: { type: String, default: 'cdopm' }
+        name: { type: String, default: 'cdopm' },
+        todas: { type: Boolean, default: false }
     },
     data: function data() {
         return {
@@ -153,7 +154,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -373,7 +374,7 @@ var render = function() {
           }
         ],
         staticClass: "form-control",
-        attrs: { name: _vm.name, id: "cdopm" },
+        attrs: { name: _vm.name },
         on: {
           change: function($event) {
             var $$selectedVal = Array.prototype.filter
@@ -389,7 +390,9 @@ var render = function() {
         }
       },
       [
-        _c("option", { attrs: { value: "" } }, [_vm._v("Todas as OPM")]),
+        _vm.todas
+          ? _c("option", { attrs: { value: "" } }, [_vm._v("Todas as OPM")])
+          : _vm._e(),
         _vm._v(" "),
         _vm._m(0),
         _vm._v(" "),
