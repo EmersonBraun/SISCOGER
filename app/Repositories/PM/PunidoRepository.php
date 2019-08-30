@@ -142,4 +142,19 @@ class PunidoRepository extends BaseRepository
         return array_keys($podeVer);
     }
 
+    public function punicoes($rg)
+    {
+        $registros = Cache::tags('punido')->remember('punido:rg'.$rg, $this->expiration, function() use ($rg){
+            return DB::table('punicao')
+                ->leftJoin('gradacao', 'gradacao.id_gradacao', '=', 'punicao.id_gradacao')
+                ->leftJoin('classpunicao', 'classpunicao.id_classpunicao', '=', 'punicao.id_classpunicao')
+                ->leftJoin('comportamento', 'comportamento.id_comportamento', '=', 'punicao.id_comportamento')
+                ->where('rg','=', $rg)
+                ->orderByRaw('ultimodia_data - id_punicao DESC')
+                ->get();
+        });
+
+        return $registros;
+    }
+
 }

@@ -57,5 +57,14 @@ class ApresentacaoRepository extends BaseRepository
         return $registros;
     } 
 
+    public function apresentacoesPM($rg)
+    {
+        $registros = Cache::tags('apresentacao')->remember('apresentacao:rg'.$rg, self::$expiration, function() use ($rg) {
+            return $this->model->where('pessoa_rg','=', $rg)->get();
+        });
+
+        return $registros;
+    }
+
 }
 

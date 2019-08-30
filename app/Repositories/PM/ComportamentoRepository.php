@@ -160,6 +160,47 @@ class ComportamentoRepository extends BaseRepository
 
     }
 
+    public function comportamentoAtual($pm)
+    {
+        /*verificar se é oficial
+        Se o id_posto for menor ou igual a 6, nao tem comportamento
+        1-CEL 2-TENCEL 3-MAJ 4-CAP 5-1TEN 6-2TEN*/
 
+        //$posto = array_get(config('sistema.posto'), $pm->CARGO);
+        $posto = sistema('posto', $pm->CARGO);
+        if (($posto <=6 && $posto >=1) || ($posto == 0 and substr($posto,0,3)=="CEL")) return "OFICIAL";
+        //verifica se é da Reserva
+        elseif (trim($posto)=="" AND substr($posto,0,3)!="CEL") return "RESERVA";
+        else {
+            //PARA AS PRACAS Pega a ultima mudanca de comportamento
+            $comportamentopm = $this->model->join('comportamento', 'comportamentopm.id_comportamento', '=', 'comportamento.id_comportamento')
+                                ->where('rg','=', $pm->RG)
+                                ->get()
+                                ->first();
+
+            if (!$comportamentopm) return "Nada encontrado";  
+            return $comportamentopm->comportamento;
+        }
+    }
+
+    public function comportamentoPM($rg)
+    {
+        $comportamentos = DB::table('comportamentopm')
+            ->leftJoin('comportamento', 'comportamento.id_comportamento', '=', 'comportamentopm.id_comportamento')
+            ->where('rg','=', $rg)
+            ->orderBy('data','DESC')
+            ->get();
+
+        $comportamentos = (is_null($comportamentos) || !count($comportamentos)) ? false : (object) $comportamentos;
+        return $comportamentos;
+
+    }
+
+    public function comportamentogeral()
+    {
+        return DB::table('comportamentopm')
+        ->leftJoin('comportamento', 'comportamento.id_comportamento', '=', 'comportamentopm.id_comportamento')
+        ->get();
+    }
 }
 

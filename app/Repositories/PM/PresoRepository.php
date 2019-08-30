@@ -33,4 +33,42 @@ class PresoRepository extends BaseRepository
         return $registros;
     } 
 
+    public function estaPreso($rg)
+    {
+        if(!$rg) return 'falta RG';
+
+        $registros = Cache::tags('preso')->remember('preso:rg'.$rg, $this->expiration, function() use ($rg){
+            return $this->model->where('inicio_data','<=', date("Y-m-d"))
+                        ->where('fim_data','=', '')
+                        ->where('rg','=', $rg)
+                        ->first();
+        });
+
+        $registros = (is_null($registros)) ? false : (object) $registros;
+        return $registros;
+    }
+
+    public function estaoPresos()
+    {
+        $registros = Cache::tags('preso')->remember('preso:atual', $this->expiration, function(){
+            return $this->model->where('inicio_data','<=', date("Y-m-d"))
+                        ->where('fim_data','=', '')
+                        ->first();
+        });
+
+        $registros = (is_null($registros)) ? false : (object) $registros;
+        return $registros;
+    }
+
+    
+    public function prisoes($rg)
+    {
+        $registros = Cache::tags('preso')->remember('prisoes:rg'.$rg, $this->expiration, function() use ($rg){
+            return $this->model->where('rg','=', $rg)->get();
+        });
+
+        $registros = (is_null($registros)) ? false : (object) $registros;
+        return $registros;
+    }
+
 }

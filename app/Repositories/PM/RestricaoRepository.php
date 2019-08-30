@@ -42,4 +42,14 @@ class RestricaoRepository extends BaseRepository
 
         return $registros;
     }
+
+    public function restricoes($rg)
+	{
+
+        $registros = Cache::tags('restricao')->remember('restricao:rg'.$rg, $this->expiration, function() use ($rg){
+            return $this->model->where('rg','=', $rg)->get();
+        });
+
+        return $registros;
+    }
 }

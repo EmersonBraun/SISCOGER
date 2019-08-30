@@ -1,7 +1,7 @@
 <?php $__env->startSection('title_postfix', '| FDI'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<section class="content-header">   
+<section class="content-header noppading">   
 <h1><i class='fa fa-user'></i> Ficha Individual:</h1>
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="<?php echo e(route('home')); ?>"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -9,53 +9,72 @@
     <li class="breadcrumb-item active">FDI - Visualizar</li>
 </ol>
 </section>
-<div class="form-group col-md-4"> 
-    <a class="btn btn-default col-md-6 col-xs-6"  href="#" onclick="expandirTudo()">Expandir tudo</a>
-    <a class="btn btn-default col-md-6 col-xs-6"  href="#" onclick="recolherTudo()">Recolher Tudo</a>
-</div>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-<div class="row">
-    <div class="col-xs-12">
-        <?php echo $__env->make('FDI.principal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-
-    <div class="nav-tabs-custom">
-        <?php echo $__env->make('FDI.tabs', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-            <div class="tab-content">
-                <?php echo $__env->make('FDI.denuncias', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php echo $__env->make('FDI.outras_denuncias', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php echo $__env->make('FDI.prisoes', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php echo $__env->make('FDI.restricoes', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php echo $__env->make('FDI.sai', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php echo $__env->make('FDI.fdi', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php echo $__env->make('FDI.objeto', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php echo $__env->make('FDI.membro', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php echo $__env->make('FDI.apresentacoes', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <?php echo $__env->make('FDI.proc_outros', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                <div class="tab-pane" id="cautelas">
-                    <v-cautelas rg="<?php echo e($pm->RG); ?>"></v-cautelas>
-                </div>
+<section class="noppading">
+    <div class="row">
+        <div class="col-xs-12">
+            
+            <v-principal rg="<?php echo e($rg); ?>"></v-principal>
+        </div>     
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <v-tabs nav-style="pills" justified>
+                        <v-denuncias rg="<?php echo e($rg); ?>"></v-denuncias>
+                        <v-tab header="outras_denuncias">
+                            <?php echo $__env->make('FDI.outras_denuncias', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        </v-tab>
+                        <v-tab header="prisoes">
+                            <?php echo $__env->make('FDI.prisoes', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        </v-tab>
+                        <v-tab header="restricoes">
+                            <?php echo $__env->make('FDI.restricoes', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        </v-tab>
+                        <v-tab header="sai">
+                            <?php echo $__env->make('FDI.sai', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        </v-tab>
+                        <v-tab header="fdi">
+                            <?php echo $__env->make('FDI.fdi', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        </v-tab>
+                        <v-tab header="objeto">
+                            <?php echo $__env->make('FDI.objeto', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        </v-tab>
+                        <v-tab header="membro">
+                            <?php echo $__env->make('FDI.membro', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        </v-tab>
+                        <v-apresentacoes rg="<?php echo e($rg); ?>"></v-apresentacoes>
+                        <v-tab header="proc_outros">
+                            <?php echo $__env->make('FDI.proc_outros', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                        </v-tab>
+                        <v-tab header="cautelas">
+                            <v-cautelas rg="<?php echo e($rg); ?>"></v-cautelas>
+                        </v-tab>
+                    </v-tabs>
+                </div>   
             </div>
-            <!-- /.tab-content -->
-        </div>
-        <?php if(hasPermissionTo('ver-afastamentos')): ?>
-            <?php echo $__env->make('FDI.afastamentos', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-        <?php endif; ?>
-        <?php if(hasPermissionTo('ver-dependentes')): ?>
-            <?php echo $__env->make('FDI.dependentes', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-        <?php endif; ?>
-        <?php if(hasPermissionTo('ver-tramite-coger')): ?>
-            <?php echo $__env->make('FDI.tramitecoger', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-        <?php endif; ?>
-        <?php if(hasPermissionTo('ver-tramite-opm')): ?>
-            <?php echo $__env->make('FDI.tramiteopm', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-        <?php endif; ?>
+        </div>     
+    </div>      
+
+    <?php if(hasPermissionTo('ver-afastamentos')): ?>
+        <v-afastamentos rg="<?php echo e($rg); ?>"></v-afastamentos>
+    <?php endif; ?>
+    <?php if(hasPermissionTo('ver-dependentes')): ?>
+        <v-dependentes rg="<?php echo e($rg); ?>"></v-dependentes>
+    <?php endif; ?>
+    <?php if(hasPermissionTo('ver-tramite-coger')): ?>
+        <v-tramite-coger rg="<?php echo e($rg); ?>"></v-tramite-coger>
+    <?php endif; ?>
+    <?php if(hasPermissionTo('ver-tramite-opm')): ?>
+        <v-tramite-opm rg="<?php echo e($rg); ?>"></v-tramite-opm>
+    <?php endif; ?>
     <div>
         <input type="button" onclick="cont();" value="Imprimir">
     </div>
-
-
+</section>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('css'); ?>

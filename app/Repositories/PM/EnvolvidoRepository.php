@@ -104,4 +104,183 @@ class EnvolvidoRepository extends BaseRepository
 		return $registros;
 	}
 
+    public function estaSubjudice($rg)
+    {
+        $registros = Cache::tags('envolvido')->remember('envolvido:subjudice:rg'.$rg, $this->expiration, function() use($rg){
+            return DB::table('envolvido')
+                    ->join('ipm','ipm.id_ipm','=','envolvido.id_ipm')
+                    ->join('apfd','apfd.id_apfd','=','envolvido.id_apfd')
+                    ->join('desercao','desercao.id_desercao','=','envolvido.id_desercao')
+                    ->where('ipm_processocrime','=', 'Denunciado')
+                    ->where('rg','=', $rg)
+                    ->get();
+        });
+
+        $registros = (is_null($registros) || !count($registros)) ? false : (object) $registros;
+        return $registros;
+        
+    }
+
+    public function subJudice()
+    {
+        $registros = Cache::tags('envolvido')->remember('envolvido:subjudice:geral', $this->expiration, function() {
+            return DB::table('envolvido')
+                    ->where('ipm_processocrime','=', 'Denunciado')
+                    ->get();
+        });
+
+        if(!count($registros)) return [];
+        return $registros;
+    }
+
+    public function sai($rg)
+    {
+        $registros = Cache::tags('envolvido')->remember('envolvido:sai:rg'.$rg, $this->expiration, function() use ($rg){
+            return DB::table('envolvido')
+                    ->leftJoin('sai', 'sai.id_sai', '=', 'envolvido.id_sai')
+                    ->leftJoin('ligacao', 'ligacao.id_sai', '=', 'envolvido.id_sai')
+                    ->where('envolvido.rg','=', $rg)
+                    ->where('envolvido.id_sai','<>', 0)
+                    ->get();
+        });
+
+        return $registros;
+    }
+
+    public function objetos($rg)
+    {
+        $situacao = ['Acusado', 'Indiciado', 'Sindicado','Paciente'];
+        $envolvido = $this->envolvidos($rg, $situacao);
+                
+        $objetos = array();
+        if(count($envolvido) > 0){
+        $i=0;
+            foreach ($envolvido as $e) {
+                $procedimento = $this->procedimento($e);
+                $proc = $this->envolvido($procedimento, $e);
+                //correções de possíveis erros
+                $subs = ($e['rg_substituto']) ? $e['rg_substituto'] : null;
+                
+                $objetos[$i] =  [
+                    'rg_sustituto' =>  $subs,
+                    'nome' => $e['nome'],
+                    'rg' => $e['rg'],
+                    'situacao' => $e['situacao'],
+                    'resultado' => $e['resultado'],
+                    'procedimento' => $procedimento,
+                    'sjd_ref' => $proc['sjd_ref'],
+                    'sjd_ref_ano' => $proc['sjd_ref_ano'],
+                    'sintese_txt' => $proc['sintese_txt'],
+                    'id_andamento' => $proc['id_andamento'],
+                    'id_andamentocoger' => $proc['id_andamentocoger'],
+                    'cdopm' => $proc['cdopm']
+                ];
+                $i++;     
+            }
+            return $objetos;
+        }
+        return $objetos;
+    
+    }
+
+    public function membros($rg)
+    {
+        $situacao = ['Encarregado', 'Presidente', 'Acusador'];
+        $envolvido = $this->envolvidos($rg, $situacao);
+        $membros = array();
+        if(count($envolvido) > 0){
+        $i=0;
+            foreach ($envolvido as $e) {
+                $procedimento = $this->procedimento($e);
+                $proc = $this->envolvido($procedimento, $e);
+                //correções de possíveis erros
+                $subs = ($e['rg_substituto']) ? $e['rg_substituto'] : null;
+    
+                $membros[$i] =  [
+                    'rg_sustituto' =>  $subs,
+                    'nome' => $e['nome'],
+                    'rg' => $e['rg'],
+                    'situacao' => $e['situacao'],
+                    'resultado' => $e['resultado'],
+                    'procedimento' => $procedimento,
+                    'sjd_ref' => $proc['sjd_ref'],
+                    'sjd_ref_ano' => $proc['sjd_ref_ano'],
+                    'sintese_txt' => $proc['sintese_txt'],
+                    'id_andamento' => $proc['id_andamento'],
+                    'id_andamentocoger' => $proc['id_andamentocoger'],
+                    'cdopm' => $proc['cdopm']
+                ];
+                $i++;
+
+                
+            }
+            return $membros;
+        }
+        return $membros;
+    }
+
+    public function envolvidos($rg, $situacao)
+    {
+        return DB::table('envolvido')
+                ->whereIn('situacao', $situacao)
+                ->where('rg','=', $rg)
+                ->get();
+    }
+
+    public function envolvido($procedimento, $e)
+    {
+        if($procedimento == 'Apagado') {
+            return [
+                'sjd_ref' => 'Apagado',
+                'sjd_ref_ano' => 'Apagado',
+                'sintese_txt' => 'Apagado',
+                'id_andamento' => 'Apagado',
+                'id_andamentocoger' => 'Apagado',
+                'cdopm' => 'Apagado',
+            ];
+        }
+
+        $proc = DB::table($procedimento)->where('id_'.$procedimento,'=', $e['id_'.$procedimento])->first();
+        $proc = $this->procedimentoFormatadoParaRetorno($proc);
+        return $proc;
+    }
+
+    public function procedimento($e)
+    {
+        if ($e['id_ipm'] !== 0) return 'ipm';
+        elseif ($e['id_cj'] !== 0) return 'cj';
+        elseif ($e['id_cd'] !== 0) return 'cd';
+        elseif ($e['id_adl'] !== 0) return 'adl';
+        elseif ($e['id_sindicancia'] !== 0) return 'sindicancia';
+        elseif ($e['id_fatd'] !== 0) return 'fatd';
+        elseif ($e['id_desercao'] !== 0) return 'desercao';
+        elseif ($e['id_apfd'] !== 0) return 'apfd';
+        elseif ($e['id_iso'] !== 0) return 'iso';
+        elseif ($e['id_it'] !== 0) return 'it';
+        elseif ($e['id_pad'] !== 0) return 'pad';
+        elseif ($e['id_sai'] !== 0) return 'sai';
+        elseif ($e['id_proc_outros'] !== 0) return 'proc_outros';
+        else return 'Apagado';
+    }
+
+    public function procedimentoFormatadoParaRetorno($proc)
+    {
+        if(isset($proc['id_andamento'])) $proc['id_andamento'] = ($proc['id_andamento'] == 'Apagado') ? 'Apagado' : sistema('andamento',$proc['id_andamento']);
+        if(isset($proc['id_andamentocoger'])) $proc['id_andamentocoger'] = ($proc['id_andamentocoger'] == 'Apagado') ? 'Apagado' : sistema('andamentocoger',$proc['id_andamentocoger']);
+        if(isset($proc['cdopm'])) $proc['cdopm'] = ($proc['cdopm'] == 'Apagado') ? 'Apagado' : opm($proc['cdopm']);
+
+        return $proc;
+    }
+
+    public function procOutros($rg)
+    {
+        $outros =  DB::table('proc_outros')
+        ->leftJoin('envolvido', 'envolvido.id_proc_outros', '=', 'proc_outros.id_proc_outros')
+        ->leftJoin('ligacao', 'ligacao.id_proc_outros', '=', 'envolvido.id_proc_outros')
+        ->where('rg','=', $rg)
+        ->where('envolvido.id_proc_outros','<>', 0)
+        ->get();
+
+        return $outros;
+    }
 }

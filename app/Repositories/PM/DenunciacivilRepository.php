@@ -33,4 +33,16 @@ class DenunciacivilRepository extends BaseRepository
         return $registros;
     } 
 
+    public function estaDenunciado($rg)
+    {
+        $registros = Cache::tags('denunciacivil')->remember('denunciacivil:rg'.$rg, $this->expiration, function() use ($rg){
+            return $this->model
+                ->where('rg','=', $rg)
+                ->get();
+        });
+
+        $registros = (is_null($registros) || !count($registros)) ? false : (object) $registros;
+        return $registros;
+    }
+
 }

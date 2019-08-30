@@ -30,7 +30,8 @@ new Vue({
     el: '#app',
     data() {
         return {
-            spinner: true
+            spinner: true,
+            baseUrl: 'http://10.47.1.90/siscoger/'
         }
     },
     mounted() {

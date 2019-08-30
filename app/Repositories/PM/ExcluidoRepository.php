@@ -45,11 +45,37 @@ class ExcluidoRepository extends BaseRepository
 
     public function judicial()
 	{
-
         $registros = Cache::tags('pm_excluido')->remember('todos_exclusao_judicial', $this->expiration, function() {
             return DB::table('exclusaojudicial')->get();
         });
 
+        return $registros;
+    }
+
+    public function estaExcluido($rg)
+    {
+        $registros = Cache::tags('pm_excluido')->remember('esta_excluido:rg'.$rg, $this->expiration, function() use($rg){
+            return DB::table('envolvido')
+                    ->where('resultado','=', 'Excluído')
+                    ->where('exclusaobg_numero','>', 0)
+                    ->where('rg','=', $rg)
+                    ->first();
+        });
+        
+        $registros = (is_null($registros)) ? false : (object) $registros;
+
+        return $registros;
+    }
+
+    public function excluidoGeral()
+    {
+        $registros = Cache::tags('pm_excluido')->remember('esta_excluido:geral', $this->expiration, function() {
+            return DB::table('envolvido')
+                    ->where('resultado','=', 'Excluído')
+                    ->where('exclusaobg_numero','>', 0)
+                    ->get();
+        });
+    
         return $registros;
     }
 

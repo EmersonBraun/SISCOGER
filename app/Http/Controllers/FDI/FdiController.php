@@ -22,7 +22,6 @@ class FdiController extends Controller
         $denunciaCivil = $this->denunciaCivil($policial);
         $prisoes = $this->prisoes($policial);
         $restricoes = $this->restricoes($policial);
-        $afastamentos = $this->afastamentos($policial);
         $dependentes = $this->dependentes($policial);
         $sai = $this->sai($policial);
         $objetos = $this->objetos($policial);
@@ -40,11 +39,39 @@ class FdiController extends Controller
         if($suspenso && $suspenso !== 'n') $pm->SITUACAO = 'Suspenso';
         if($preso && $preso !== 'n') $pm->SITUACAO = 'Preso';
         if($excluido && $excluido !== 'n') $pm->SITUACAO = 'Excluído';
-        if(count($subJudice) > 0) $pm->SITUACAO = 'Sub Júdice';
-        if(count($denunciaCivil)) $pm->SITUACAO = 'Sub Júdice';
+        if($subJudice) {
+            $pm->SITUACAO = 'Sub Júdice';
+        } else {
+            $subJudice = [];
+        }
+        if($denunciaCivil) {
+            $pm->SITUACAO = 'Sub Júdice';
+        } else {
+            $denunciaCivil = [];
+        }
         //dd($membros);
-        return view('FDI.ficha', compact('pm','adc','preso','suspenso','excluido','subJudice','proc','denunciaCivil','prisoes','restricoes','afastamentos','dependentes','sai','tramitacao','tramitacaoopm',
-        'objetos','membros','comportamentos','elogios','punicoes','apresentacoes','proc_outros'
+        return view('FDI.ficha', compact('rg',
+        'pm',
+        'adc',
+        'preso',
+        'suspenso',
+        'excluido',
+        'subJudice',
+        'proc',
+        'denunciaCivil',
+        'prisoes',
+        'restricoes',
+        'dependentes',
+        'sai',
+        'tramitacao',
+        'tramitacaoopm',
+        'objetos',
+        'membros',
+        'comportamentos',
+        'elogios',
+        'punicoes',
+        'apresentacoes',
+        'proc_outros'
         ));
     }
 

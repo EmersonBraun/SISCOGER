@@ -31,4 +31,20 @@ class ElogioRepository extends BaseRepository
             ->get();
     } 
 
+    public function elogiosPM($rg)
+    {
+        $registros = Cache::tags('elogio')->remember('elogio:rg'.$rg, $this->expiration, function() use ($rg){
+            return $this->model->where('rg','=', $rg)
+            ->orderBy('elogio_data', 'DESC')
+            ->get();
+        });
+
+        return $registros;
+    }
+
+    public function elosgiosGerais()
+    {
+        return 'Muitos registros, use search';
+    }
+
 }

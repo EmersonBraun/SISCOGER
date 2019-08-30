@@ -15,23 +15,28 @@ use Illuminate\Http\Request;
 
 Route::get('acess/rhpr/{name?}', ['as' =>'api.opm','uses'=>'_Api\RHPR\OPMApiController@omsjd']);
 
-Route::group(['as'=>'sjd.','prefix' =>'sjd'],function(){
-    Route::group(['as'=>'proc.','prefix' =>'proc'],function(){
-        Route::group(['as'=>'adl.','prefix' =>'adl'],function(){
-            Route::get('search/{id}', ['as' =>'api.adl','uses'=>'_Api\SJD\Proc\AdlApiController@find']);
-            Route::get('refano/{ref}/{ano}', ['as' =>'api.adlref','uses'=>'_Api\SJD\Proc\AdlApiController@refAno']);
-            Route::get('all', ['as' =>'api.adlall','uses'=>'_Api\SJD\Proc\AdlApiController@all']);
-            Route::get('ano/{ano}', ['as' =>'api.adlano','uses'=>'_Api\SJD\Proc\AdlApiController@ano']);
-            Route::get('andamento', ['as' =>'api.adland','uses'=>'_Api\SJD\Proc\AdlApiController@andamento']);
-            Route::get('andamentoano/{ano}', ['as' =>'api.adlandano','uses'=>'_Api\SJD\Proc\AdlApiController@andamentoAno']);
-            Route::get('prazos', ['as' =>'api.adlprazo','uses'=>'_Api\SJD\Proc\AdlApiController@prazos']);
-            Route::get('prazosano/{ano}', ['as' =>'api.adlprazoano','uses'=>'_Api\SJD\Proc\AdlApiController@prazosAno']);
-            Route::get('relsituacao', ['as' =>'api.adlrelsit','uses'=>'_Api\SJD\Proc\AdlApiController@relSituacao']);
-            Route::get('relsituacaoano/{ano}', ['as' =>'api.adlrelsituano','uses'=>'_Api\SJD\Proc\AdlApiController@relSituacaoAno']);
-            Route::get('julgamento', ['as' =>'api.adljulg','uses'=>'_Api\SJD\Proc\AdlApiController@julgamento']);
-            Route::get('julgamentoano/{ano}', ['as' =>'api.adljulgano','uses'=>'_Api\SJD\Proc\AdlApiController@julgamentoAno']);
-        });
-    });
+Route::group(['as'=>'fdi.','prefix' =>'fdi'],function(){
+    Route::get('dadosGerais/{rg}',['as' =>'dadosGerais','uses'=>'_Api\SJD\PM\FDIApiController@dadosGerais']);
+    Route::get('dadosAdicionais/{rg}',['as' =>'dadosAdicionais','uses'=>'_Api\SJD\PM\FDIApiController@dadosAdicionais']);
+    Route::get('comportamento/{rg}',['as' =>'comportamento','uses'=>'_Api\SJD\PM\FDIApiController@comportamento']);
+    Route::get('preso/{rg}',['as' =>'preso','uses'=>'_Api\SJD\PM\FDIApiController@preso']);
+    Route::get('suspenso/{rg}',['as' =>'suspenso','uses'=>'_Api\SJD\PM\FDIApiController@suspenso']);
+    Route::get('excluido/{rg}',['as' =>'excluido','uses'=>'_Api\SJD\PM\FDIApiController@excluido']);
+    Route::get('subJudice/{rg}',['as' =>'subJudice','uses'=>'_Api\SJD\PM\FDIApiController@subJudice']);
+    Route::get('denunciaCivil/{rg}',['as' =>'denunciaCivil','uses'=>'_Api\SJD\PM\FDIApiController@denunciaCivil']);
+    Route::get('prisoes/{rg}',['as' =>'prisoes','uses'=>'_Api\SJD\PM\FDIApiController@prisoes']);
+    Route::get('restricoes/{rg}',['as' =>'restricoes','uses'=>'_Api\SJD\PM\FDIApiController@restricoes']);
+    Route::get('afastamentos/{rg}',['as' =>'afastamentos','uses'=>'_Api\SJD\PM\FDIApiController@afastamentos']);
+    Route::get('dependentes/{rg}',['as' =>'dependentes','uses'=>'_Api\SJD\PM\FDIApiController@dependentes']);
+    Route::get('sai/{rg}',['as' =>'sai','uses'=>'_Api\SJD\PM\FDIApiController@sai']);
+    Route::get('objetos/{rg}',['as' =>'objetos','uses'=>'_Api\SJD\PM\FDIApiController@objetos']);
+    Route::get('membros/{rg}',['as' =>'membros','uses'=>'_Api\SJD\PM\FDIApiController@membros']);
+    Route::get('comportamentos/{rg}',['as' =>'comportamentos','uses'=>'_Api\SJD\PM\FDIApiController@comportamentos']);
+    Route::get('elogios/{rg}',['as' =>'elogios','uses'=>'_Api\SJD\PM\FDIApiController@elogios']);
+    Route::get('punicoes/{rg}',['as' =>'punicoes','uses'=>'_Api\SJD\PM\FDIApiController@punicoes']);
+    Route::get('tramitacao/{rg}',['as' =>'tramitacao','uses'=>'_Api\SJD\PM\FDIApiController@tramitacao']);
+    Route::get('apresentacoes/{rg}',['as' =>'apresentacoes','uses'=>'_Api\SJD\PM\FDIApiController@apresentacoes']);
+    Route::get('procOutros/{rg}',['as' =>'procOutros','uses'=>'_Api\SJD\PM\FDIApiController@procOutros']);
 });
 // rotas componente Arquivos/FileUpload.vue
 Route::group(['as'=>'fileupload.','prefix' =>'fileupload'],function(){
