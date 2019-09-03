@@ -29,6 +29,7 @@ use App\Repositories\PM\TramitacaoopmRepository;
 
 use App\Repositories\apresentacao\ApresentacaoRepository;
 use App\Repositories\proc\ProcRepository;
+use App\Repositories\log\logRepository;
 
 class PolicialRepository extends BaseRepository
 {
@@ -51,6 +52,7 @@ class PolicialRepository extends BaseRepository
     protected $tramitacaoopm;
     protected $proc;
     protected $apresentacao;
+    protected $log;
 
     protected $unidade;
     protected $verTodasUnidades;
@@ -75,7 +77,8 @@ class PolicialRepository extends BaseRepository
         TramitacaoRepository $tramitacao,
         TramitacaoopmRepository $tramitacaoopm,
         ProcRepository $proc,
-        ApresentacaoRepository $apresentacao
+        ApresentacaoRepository $apresentacao,
+        logRepository $log
     )
 	{
         $this->policial = $policial;
@@ -97,6 +100,7 @@ class PolicialRepository extends BaseRepository
         $this->tramitacaoopm = $tramitacaoopm;
         $this->proc = $proc;
         $this->apresentacao = $apresentacao;
+        $this->log = $log;
 
         // ver se vem da api (não logada)
         $proc = Route::currentRouteName(); //listar.algo
@@ -410,6 +414,11 @@ class PolicialRepository extends BaseRepository
     public function proc_outros($rg)
     {
         return $this->envolvido->procOutros($rg);
+    }
+
+    public function log($rg)
+    {
+        return $this->log->LogFdiRG($rg);
     }
 }
 

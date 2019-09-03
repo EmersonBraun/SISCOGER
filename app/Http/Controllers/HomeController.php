@@ -74,7 +74,7 @@ class HomeController extends Controller
         //PENDENCIA #2: CADASTRO DE PUNICAO NO FATD MARCADO COMO PUNIDO
         $pendencias['fatd_punidos'] = $this->fatd->punidos($unidade);
         //PENDENCIA #2.1: PRAZO DO FATD
-        $pendencias['fatd_prazos'] = $this->fatd->foraDoPrazo($unidade);
+        $pendencias['fatd_prazos'] = $this->fatd->foraDoPrazoUnidade($unidade);
         //PENDENCIA #2.2: FATD SEM DATA DE ABERTURA
         $pendencias['fatd_aberturas'] = $this->fatd->aberturas($unidade);
         //PENDENCIA #3: PERDA DE PRAZO EM IPM

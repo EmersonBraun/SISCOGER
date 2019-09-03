@@ -15,7 +15,6 @@
 <section class="noppading">
     <div class="row">
         <div class="col-xs-12">
-            
             <v-principal rg="<?php echo e($rg); ?>"></v-principal>
         </div>     
     </div>
@@ -24,35 +23,39 @@
             <div class="box">
                 <div class="box-body">
                     <v-tabs nav-style="pills" justified>
-                        <v-denuncias rg="<?php echo e($rg); ?>"></v-denuncias>
-                        <v-tab header="outras_denuncias">
-                            <?php echo $__env->make('FDI.outras_denuncias', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                        </v-tab>
-                        <v-tab header="prisoes">
-                            <?php echo $__env->make('FDI.prisoes', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                        </v-tab>
-                        <v-tab header="restricoes">
-                            <?php echo $__env->make('FDI.restricoes', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                        </v-tab>
-                        <v-tab header="sai">
-                            <?php echo $__env->make('FDI.sai', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                        </v-tab>
-                        <v-tab header="fdi">
-                            <?php echo $__env->make('FDI.fdi', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                        </v-tab>
-                        <v-tab header="objeto">
-                            <?php echo $__env->make('FDI.objeto', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                        </v-tab>
-                        <v-tab header="membro">
-                            <?php echo $__env->make('FDI.membro', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                        </v-tab>
-                        <v-apresentacoes rg="<?php echo e($rg); ?>"></v-apresentacoes>
-                        <v-tab header="proc_outros">
-                            <?php echo $__env->make('FDI.proc_outros', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                        </v-tab>
-                        <v-tab header="cautelas">
+                        <?php if(hasPermissionTo('ver-denuncias')): ?>
+                            <v-denuncias rg="<?php echo e($rg); ?>"></v-denuncias>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('ver-outras-denuncias')): ?>
+                            <v-outras-denuncias rg="<?php echo e($rg); ?>"></v-outras-denuncias>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('ver-prisoes')): ?>
+                            <v-prisoes rg="<?php echo e($rg); ?>"></v-prisoes>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('ver-restricoes')): ?>
+                            <v-restricoes rg="<?php echo e($rg); ?>"></v-restricoes>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('listar-sai')): ?>
+                            <v-sai rg="<?php echo e($rg); ?>"></v-sai>
+                        <?php endif; ?>
+                        <?php if(hasAnyPermission(['ver-mudanca-comportamento','ver-elogios'])): ?>
+                            <v-fdi rg="<?php echo e($rg); ?>"></v-fdi>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('ver-objetos')): ?>
+                            <v-objeto rg="<?php echo e($rg); ?>"></v-objeto>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('ver-membros')): ?>
+                            <v-membro rg="<?php echo e($rg); ?>"></v-membro>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('ver-aprestacoes')): ?>
+                            <v-apresentacoes rg="<?php echo e($rg); ?>"></v-apresentacoes>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('ver-proc-outros')): ?>
+                            <v-proc-outros rg="<?php echo e($rg); ?>"></v-proc-outros>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('ver-cautelas')): ?>
                             <v-cautelas rg="<?php echo e($rg); ?>"></v-cautelas>
-                        </v-tab>
+                        <?php endif; ?>
                     </v-tabs>
                 </div>   
             </div>
@@ -71,9 +74,10 @@
     <?php if(hasPermissionTo('ver-tramite-opm')): ?>
         <v-tramite-opm rg="<?php echo e($rg); ?>"></v-tramite-opm>
     <?php endif; ?>
-    <div>
-        <input type="button" onclick="cont();" value="Imprimir">
-    </div>
+    <?php if(session('is_admin')): ?>
+        <v-log-fdi rg="<?php echo e($rg); ?>"></v-log-fdi>
+    <?php endif; ?>
+    
 </section>
 <?php $__env->stopSection(); ?>
 
@@ -81,21 +85,6 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>
-<script type="text/javascript">
-$( document ).ready(function() {
-    $('.a').first().addClass('active');
-});
-
-function mudaTab(id)
-{
-    $('.a').removeClass('active');
-    $('.'+id).addClass('active');
-    $('.tab-pane').removeClass('show');
-    $('.tab-pane').removeClass('active');
-    $('#'+id).addClass('active');
-    $('#'+id).addClass('show');
-}
-</script>
 <?php echo $__env->make('vendor.adminlte.includes.vue', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('adminlte::page', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,16 +1,10 @@
-webpackJsonp([61],{
+webpackJsonp([60],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FDI/Cautelas.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -63,27 +57,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.listPatrimonio();
     },
 
-    computed: {
-        getBaseUrl: function getBaseUrl() {
-            // URL completa
-            var getUrl = window.location;
-            // dividir em array
-            var pathname = getUrl.pathname.split('/');
-            var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + pathname[1] + "/";
-
-            return baseUrl;
-        }
-    },
     methods: {
         listPatrimonio: function listPatrimonio() {
             var _this = this;
 
-            var urlIndex = this.getBaseUrl + 'api/dados/cautelas/' + this.rg;
-            axios.get(urlIndex).then(function (response) {
-                _this.patrimonios = response.data;
-            }).catch(function (error) {
-                return console.log(error);
-            });
+            var urlIndex = this.$root.baseUrl + 'api/dados/cautelas/' + this.rg;
+            if (this.rg) {
+                axios.get(urlIndex).then(function (response) {
+                    _this.patrimonios = response.data;
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
         }
     }
 });
@@ -98,7 +83,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -305,82 +290,67 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _vm.patrimonios.length
-        ? _c("div", { staticClass: "row bordaform" }, [
-            _c("div", { staticClass: "col-sm-12" }, [
-              _c("table", { staticClass: "table table-hover" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  [
-                    _vm._l(_vm.patrimonios, function(patrimonio) {
-                      return _vm._l(patrimonio, function(p, index) {
-                        return _c("tr", { key: index }, [
-                          _c("td", [_vm._v(_vm._s(index + 1))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(p["patrimonio"]))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(p["tipo"]))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(p["serie"]))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(p["marca"]))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(p["modelo"]))])
-                        ])
+  return _c(
+    "v-tab",
+    { attrs: { header: "Cautelas", badge: _vm.patrimonios.length } },
+    [
+      _c("table", { staticClass: "table table-striped" }, [
+        _c(
+          "tbody",
+          [
+            _vm.patrimonios.length
+              ? [
+                  _c("thead", [
+                    _c("tr", [
+                      _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "col-sm-2" }, [
+                        _vm._v("N° Patrimônio")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "col-sm-2" }, [_vm._v("Tipo")]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "col-sm-2" }, [_vm._v("Série")]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "col-sm-2" }, [_vm._v("Marca")]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "col-sm-2" }, [_vm._v("Modelo")])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    [
+                      _vm._l(_vm.patrimonios, function(patrimonio) {
+                        return _vm._l(patrimonio, function(p, index) {
+                          return _c("tr", { key: index }, [
+                            _c("td", [_vm._v(_vm._s(index + 1))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(p["patrimonio"]))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(p["tipo"]))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(p["serie"]))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(p["marca"]))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(p["modelo"]))])
+                          ])
+                        })
                       })
-                    })
-                  ],
-                  2
-                )
-              ])
-            ])
-          ])
-        : _c("div", [_vm._m(2)])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-head" }, [
-      _c("h5", [_c("b", [_vm._v("Cautelas")])])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("N° Patrimônio")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Tipo")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Série")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Marca")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Modelo")])
+                    ],
+                    2
+                  )
+                ]
+              : [_c("tr", [_c("td", [_vm._v("Nada encontrado")])])]
+          ],
+          2
+        )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h5", [_c("b", [_vm._v("Não há registtros")])])
-  }
-]
+    ]
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

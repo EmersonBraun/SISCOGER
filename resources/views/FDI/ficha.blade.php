@@ -17,7 +17,6 @@
 <section class="noppading">
     <div class="row">
         <div class="col-xs-12">
-            {{-- @include('FDI.principal') --}}
             <v-principal rg="{{$rg}}"></v-principal>
         </div>     
     </div>
@@ -26,35 +25,39 @@
             <div class="box">
                 <div class="box-body">
                     <v-tabs nav-style="pills" justified>
-                        <v-denuncias rg="{{$rg}}"></v-denuncias>
-                        <v-tab header="outras_denuncias">
-                            @include('FDI.outras_denuncias')
-                        </v-tab>
-                        <v-tab header="prisoes">
-                            @include('FDI.prisoes')
-                        </v-tab>
-                        <v-tab header="restricoes">
-                            @include('FDI.restricoes')
-                        </v-tab>
-                        <v-tab header="sai">
-                            @include('FDI.sai')
-                        </v-tab>
-                        <v-tab header="fdi">
-                            @include('FDI.fdi')
-                        </v-tab>
-                        <v-tab header="objeto">
-                            @include('FDI.objeto')
-                        </v-tab>
-                        <v-tab header="membro">
-                            @include('FDI.membro')
-                        </v-tab>
-                        <v-apresentacoes rg="{{$rg}}"></v-apresentacoes>
-                        <v-tab header="proc_outros">
-                            @include('FDI.proc_outros')
-                        </v-tab>
-                        <v-tab header="cautelas">
+                        @if(hasPermissionTo('ver-denuncias'))
+                            <v-denuncias rg="{{$rg}}"></v-denuncias>
+                        @endif
+                        @if(hasPermissionTo('ver-outras-denuncias'))
+                            <v-outras-denuncias rg="{{$rg}}"></v-outras-denuncias>
+                        @endif
+                        @if(hasPermissionTo('ver-prisoes'))
+                            <v-prisoes rg="{{$rg}}"></v-prisoes>
+                        @endif
+                        @if(hasPermissionTo('ver-restricoes'))
+                            <v-restricoes rg="{{$rg}}"></v-restricoes>
+                        @endif
+                        @if(hasPermissionTo('listar-sai'))
+                            <v-sai rg="{{$rg}}"></v-sai>
+                        @endif
+                        @if(hasAnyPermission(['ver-mudanca-comportamento','ver-elogios']))
+                            <v-fdi rg="{{$rg}}"></v-fdi>
+                        @endif
+                        @if(hasPermissionTo('ver-objetos'))
+                            <v-objeto rg="{{$rg}}"></v-objeto>
+                        @endif
+                        @if(hasPermissionTo('ver-membros'))
+                            <v-membro rg="{{$rg}}"></v-membro>
+                        @endif
+                        @if(hasPermissionTo('ver-aprestacoes'))
+                            <v-apresentacoes rg="{{$rg}}"></v-apresentacoes>
+                        @endif
+                        @if(hasPermissionTo('ver-proc-outros'))
+                            <v-proc-outros rg="{{$rg}}"></v-proc-outros>
+                        @endif
+                        @if(hasPermissionTo('ver-cautelas'))
                             <v-cautelas rg="{{$rg}}"></v-cautelas>
-                        </v-tab>
+                        @endif
                     </v-tabs>
                 </div>   
             </div>
@@ -73,9 +76,12 @@
     @if(hasPermissionTo('ver-tramite-opm'))
         <v-tramite-opm rg="{{$rg}}"></v-tramite-opm>
     @endif
-    <div>
+    @if(session('is_admin'))
+        <v-log-fdi rg="{{$rg}}"></v-log-fdi>
+    @endif
+    {{-- <div>
         <input type="button" onclick="cont();" value="Imprimir">
-    </div>
+    </div> --}}
 </section>
 @stop
 
@@ -83,20 +89,5 @@
 @stop
 
 @section('js')
-<script type="text/javascript">
-$( document ).ready(function() {
-    $('.a').first().addClass('active');
-});
-
-function mudaTab(id)
-{
-    $('.a').removeClass('active');
-    $('.'+id).addClass('active');
-    $('.tab-pane').removeClass('show');
-    $('.tab-pane').removeClass('active');
-    $('#'+id).addClass('active');
-    $('#'+id).addClass('show');
-}
-</script>
 @include('vendor.adminlte.includes.vue')
 @stop

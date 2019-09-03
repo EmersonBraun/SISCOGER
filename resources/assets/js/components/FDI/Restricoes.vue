@@ -1,45 +1,42 @@
 <template>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box collapsed-box">
-                <div class="box-header">
-                    <h2 class="box-title">Afastamentos
-                    &emsp;
-                    <i class="fa fa-info-circle text-info" data-toggle="tooltip" data-placement="bottom" title="O campo poderá ser suprimido nos casos de certidão da Ficha Disciplinar Individual do militar estadual."></i>
-                    <span v-if="afastamentos.length" class="badge bg-red">{{afastamentos.length}}</span></h2>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-plus"></i>
-                        </button> 
-                    </div>             
-                </div>
-                <div class="box-body">
-                    <div class="col-md-12 col-xs-12">   
-                        <table class="table table-striped">
-                            <tbody> 
-                                <template v-if="afastamentos.length">
-                                    <tr v-for="(afastamento, index) in afastamentos" :key="index">
-                                        <td>
-                                            {{afastamento.DESC_INCIDENTE}}, 
-                                            <b>
-                                                De {{afastamento.DT_INIC | date_br}} a 
-                                                {{afastamento.DT_FIM | date_br}}
-                                            ({{afastamento.UNITS}} Dias)</b>     
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template v-else>
-                                    <tr>
-                                        <td>Não há registros.</td>
-                                    </tr>
-                                </template> 
-                            </tbody>
-                        </table>   
-                    </div> 
-                </div>   
-            </div>
-        </div>     
-    </div>
+    <v-tab header="Restrições" :badge="restricoes.lenght">
+        <table class="table table-striped">
+        <tbody>
+            <template v-if="restricoes.lenght">
+                <tr>
+                    <td v-if="restricao.arma_bl"><b>Restricao de porte de arma de fogo.</b></td>
+                    <td v-if="restricao.fardamento_bl"><b>Restricao de uso de fardamento.</b></td>
+                    <td> <b>Inicio</b>: {{data_br(restricao.inicio_data )}} / 
+                        <b>Fim</b>:
+                        <template v-if="restricao.retirada_data =='0000-00-00' && restricao.fim_data =='0000-00-00'">
+                            <b>Vigente</b>
+                        </template>
+                        <template v-else>
+                            {{data_br(restricao.retirada_data )}}
+                        </template>
+                    </td>
+                    <template v-if="canRemove">
+                        <td v-if="restricao.retirada_data =='0000-00-00' && restricao.fim_data =='0000-00-00'">
+                            <button type="button" class="btn btn-default pull-right">
+                                <i class="fa fa-minus"></i>Retirar restricao
+                            </button>
+                        </td>
+                    </template>
+                </tr>
+            </template>
+            <template v-else>
+                <tr>
+                    <td>Nada encontrado</td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+    <template v-if="canCreate">
+        <button type="button" class="btn btn-primary btn-block">
+            <i class="fa fa-plus"></i>Adicionar Restrição
+        </button>
+    </template>
+    </v-tab>
 </template>
 
 <script>
@@ -47,24 +44,28 @@
         props:['rg'],
         data() {
             return {
-                afastamentos: []
+                restricoes: [],
+                canCreate: false,
+                canRemove: false
             }
         },
         mounted(){
-            this.listAfastamentos()
+            this.listrestricoes()
+            this.canCreate = this.$root.hasPermission('criar-restricoes')
+            this.canRemove = this.$root.hasPermission('editar-restricoes')
         },
         methods: {
-            listAfastamentos(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/afastamentos/${this.rg}`;
+            listrestricoes(){
+                let urlIndex = `${this.$root.baseUrl}api/fdi/restricaoCivil/${this.rg}`;
                 if(this.rg){
                     axios
                     .get(urlIndex)
                     .then((response) => {
-                        this.afastamentos = response.data
+                        this.restricoes = response.data
                     })
                     .catch(error => console.log(error));
                 }
-            }
+            },
         }
     }
 </script>

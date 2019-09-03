@@ -35,8 +35,10 @@ Route::group(['as'=>'fdi.','prefix' =>'fdi'],function(){
     Route::get('elogios/{rg}',['as' =>'elogios','uses'=>'_Api\SJD\PM\FDIApiController@elogios']);
     Route::get('punicoes/{rg}',['as' =>'punicoes','uses'=>'_Api\SJD\PM\FDIApiController@punicoes']);
     Route::get('tramitacao/{rg}',['as' =>'tramitacao','uses'=>'_Api\SJD\PM\FDIApiController@tramitacao']);
+    Route::get('tramitacaoopm/{rg}',['as' =>'tramitacaoopm','uses'=>'_Api\SJD\PM\FDIApiController@tramitacaoopm']);
     Route::get('apresentacoes/{rg}',['as' =>'apresentacoes','uses'=>'_Api\SJD\PM\FDIApiController@apresentacoes']);
     Route::get('procOutros/{rg}',['as' =>'procOutros','uses'=>'_Api\SJD\PM\FDIApiController@procOutros']);
+    Route::get('log/{rg}',['as' =>'log','uses'=>'_Api\SJD\PM\FDIApiController@log']);
 });
 // rotas componente Arquivos/FileUpload.vue
 Route::group(['as'=>'fileupload.','prefix' =>'fileupload'],function(){

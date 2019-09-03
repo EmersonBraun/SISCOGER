@@ -16,13 +16,13 @@
                     <div class="col-md-12 col-xs-12">   
                         <table class="table table-striped">
                             <tbody> 
-                                <tr>
-                                    <th>Data</th>
-                                    <th>Descrição</th>
-                                    <th>Digitador</th>
-                                    <th>OM</th>
-                                </tr>
                                 <template v-if="tramites.length">
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Descrição</th>
+                                        <th>Digitador</th>
+                                        <th>OM</th>
+                                    </tr>
                                     <tr v-for="(tramite, index) in tramites" :key="index">
                                         <td>{{tramite.data | date_br}}</td>
                                         <td>{{tramite.descricao_txt}}</td>
@@ -37,11 +37,11 @@
                                 </template> 
                             </tbody>
                         </table>  
-                        <!-- @if(hasPermissionTo('criar-tramite-opm')) -->
-                        <button type="button" class="btn btn-primary btn-block">
-                            <i class="fa fa-plus"></i>Adicionar Trâmite OPM
-                        </button>
-                        <!-- @endif  -->
+                        <template v-if="canCreate">
+                            <button type="button" class="btn btn-primary btn-block">
+                                <i class="fa fa-plus"></i>Adicionar Trâmite OPM
+                            </button>
+                        </template>
                     </div> 
                 </div>   
             </div>
@@ -54,11 +54,13 @@
         props:['rg'],
         data() {
             return {
-                tramites: []
+                tramites: [],
+                canCreate: false
             }
         },
         mounted(){
             this.listTramites()
+            this.canCreate = this.$root.hasPermission('criar-tramite-opm')
         },
         methods: {
             listTramites(){

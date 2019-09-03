@@ -1,45 +1,31 @@
 <template>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box collapsed-box">
-                <div class="box-header">
-                    <h2 class="box-title">Afastamentos
-                    &emsp;
-                    <i class="fa fa-info-circle text-info" data-toggle="tooltip" data-placement="bottom" title="O campo poderá ser suprimido nos casos de certidão da Ficha Disciplinar Individual do militar estadual."></i>
-                    <span v-if="afastamentos.length" class="badge bg-red">{{afastamentos.length}}</span></h2>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-plus"></i>
-                        </button> 
-                    </div>             
-                </div>
-                <div class="box-body">
-                    <div class="col-md-12 col-xs-12">   
-                        <table class="table table-striped">
-                            <tbody> 
-                                <template v-if="afastamentos.length">
-                                    <tr v-for="(afastamento, index) in afastamentos" :key="index">
-                                        <td>
-                                            {{afastamento.DESC_INCIDENTE}}, 
-                                            <b>
-                                                De {{afastamento.DT_INIC | date_br}} a 
-                                                {{afastamento.DT_FIM | date_br}}
-                                            ({{afastamento.UNITS}} Dias)</b>     
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template v-else>
-                                    <tr>
-                                        <td>Não há registros.</td>
-                                    </tr>
-                                </template> 
-                            </tbody>
-                        </table>   
-                    </div> 
-                </div>   
-            </div>
-        </div>     
-    </div>
+    <v-tab header="Prisões" :badge="prisoes.lenght">
+        <table class="table table-striped">
+        <tbody>
+            <template v-if="prisoes.lenght">
+                <tr v-for="prisao in prisoes" :key="prisao.id_prisao">
+                    <td>
+                        <b>Inicio</b>: {{ prisao.inicio_data | date_br)}} 
+                        <b>Fim</b>: 
+                            <template v-if="prisao.fim_data">{{ prisao.fim_data | date_br}}</template>
+                            <template v-else>Atual</template>
+                        ({{ prisao.comarca }}-{{ prisao.vara }}) 
+                    </td>
+                </tr>
+            </template>
+            <template v-else>
+                <tr>
+                    <td>Nada encontrado</td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+    <template v-if="canCreate">
+        <button type="button" class="btn btn-primary btn-block">
+            <i class="fa fa-plus"></i>Adicionar Prisão
+        </button>
+    </template>
+    </v-tab>
 </template>
 
 <script>
@@ -47,24 +33,26 @@
         props:['rg'],
         data() {
             return {
-                afastamentos: []
+                prisoes: [],
+                canCreate: false
             }
         },
         mounted(){
-            this.listAfastamentos()
+            this.listPrisoes()
+            this.canCreate = this.$root.hasPermission('criar-prisoes')
         },
         methods: {
-            listAfastamentos(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/afastamentos/${this.rg}`;
+            listPrisoes(){
+                let urlIndex = `${this.$root.baseUrl}api/fdi/prisoes/${this.rg}`;
                 if(this.rg){
                     axios
                     .get(urlIndex)
                     .then((response) => {
-                        this.afastamentos = response.data
+                        this.prisoes = response.data
                     })
                     .catch(error => console.log(error));
                 }
-            }
+            },
         }
     }
 </script>

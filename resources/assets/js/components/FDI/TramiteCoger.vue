@@ -37,11 +37,11 @@
                                 </template> 
                             </tbody>
                         </table>  
-                        <!-- @if(hasPermissionTo('criar-tramite-coger')) -->
-                        <button type="button" class="btn btn-primary btn-block">
-                            <i class="fa fa-plus"></i>Adicionar Trâmite COGER
-                        </button>
-                        <!-- @endif  -->
+                        <template v-if="canCreate">
+                            <button type="button" class="btn btn-primary btn-block">
+                                <i class="fa fa-plus"></i>Adicionar Trâmite COGER
+                            </button>
+                        </template>
                     </div> 
                 </div>   
             </div>
@@ -54,11 +54,13 @@
         props:['rg'],
         data() {
             return {
-                tramites: []
+                tramites: [],
+                canCreate: false
             }
         },
         mounted(){
             this.listTramites()
+            this.canCreate = this.$root.hasPermission('criar-tramite-coger')
         },
         methods: {
             listTramites(){

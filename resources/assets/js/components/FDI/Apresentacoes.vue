@@ -38,11 +38,11 @@
                 </template>
             </tbody>
         </table>
-        <!-- @if(hasPermissionTo('criar-apresentacao')) -->
-        <button type="button" class="btn btn-primary btn-block">
-            <i class="fa fa-plus"></i>Adicionar Apresentação
-        </button>
-        <!-- @endif -->
+        <template v-if="canCreate">
+            <button type="button" class="btn btn-primary btn-block">
+                <i class="fa fa-plus"></i>Adicionar Apresentação
+            </button>
+        </template>
     </v-tab>
 </template>
 
@@ -52,6 +52,7 @@
         data() {
             return {
                 apresentacoes: [],
+                canCreate: false,
                 apCondicao:
                 [
                     { id: 1, name: "Testemunha"},
@@ -103,6 +104,7 @@
         },
         mounted(){
             this.listApresentacoes()
+            this.canCreate = this.$root.hasPermission('criar-apresentacao')
         },
         methods: {
             listApresentacoes(){

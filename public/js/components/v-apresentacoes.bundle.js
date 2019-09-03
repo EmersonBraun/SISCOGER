@@ -1,4 +1,4 @@
-webpackJsonp([62],{
+webpackJsonp([61],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FDI/Apresentacoes.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -59,6 +59,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             apresentacoes: [],
+            canCreate: false,
             apCondicao: [{ id: 1, name: "Testemunha" }, { id: 2, name: "Juiz Militar - Conselho Permanente" }, { id: 3, name: "Juiz Militar - Conselho Especial" }, { id: 4, name: "Réu" }, { id: 5, name: "Testemunha de Defesa" }, { id: 6, name: "Testemunha da Denúncia" }, { id: 7, name: "Testemunha de Acusação" }, { id: 8, name: "Testemunha do Juízo" }, { id: 9, name: "Outro" }, { id: 10, name: "Não informado" }],
             apSituacao: [{ id: 1, name: "Prevista" }, { id: 2, name: "Compareceu/Realizada" }, { id: 3, name: "Compareceu/Cancelada" }, { id: 4, name: "Compareceu/Redesignada" }, { id: 5, name: "Não compareceu" }, { id: 6, name: "Não compareceu/Justificado" }, { id: 7, name: "Redesignada" }, { id: 8, name: "Substituído (Cons. VAJME)" }, { id: 9, name: "Ag. Publicação" }, { id: 10, name: "Apagada" }],
 
@@ -67,6 +68,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.listApresentacoes();
+        this.canCreate = this.$root.hasPermission('criar-apresentacao');
     },
 
     methods: {
@@ -107,7 +109,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -434,15 +436,23 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary btn-block", attrs: { type: "button" } },
-        [
-          _c("i", { staticClass: "fa fa-plus" }),
-          _vm._v("Adicionar Apresentação\n    ")
-        ]
-      )
-    ]
+      _vm.canCreate
+        ? [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary btn-block",
+                attrs: { type: "button" }
+              },
+              [
+                _c("i", { staticClass: "fa fa-plus" }),
+                _vm._v("Adicionar Apresentação\n        ")
+              ]
+            )
+          ]
+        : _vm._e()
+    ],
+    2
   )
 }
 var staticRenderFns = []

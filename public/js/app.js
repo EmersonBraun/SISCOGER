@@ -29,7 +29,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		76: 0
+/******/ 		75: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-membro","1":"v-classificacao","2":"v-toogle","3":"file-upload","4":"v-label","5":"v-acusado","6":"v-tabs","7":"v-sobrestamento","8":"v-movimento","9":"v-arquivo","10":"v-prioritario","11":"v-input","12":"v-aside","13":"v-tooltip","14":"v-popover","15":"v-select","16":"v-carousel","17":"crpms-chart","18":"procedimentos-chart","19":"efetivo-chart","20":"v-vitima","21":"v-reus","22":"v-proced-origem","23":"v-acusado-unico","24":"v-acusado-rg","25":"v-typeahead","26":"v-spinner","27":"v-alert","28":"v-modal","29":"v-tab-group","30":"v-radio","31":"v-panel","32":"v-datepicker","33":"v-checkbox","34":"v-defensor","35":"v-tasks","36":"v-notifications","37":"v-messages","38":"v-tab-item","39":"v-info-box","40":"vue-simple-suggest","41":"v-show","42":"v-opm","43":"v-municipio","44":"v-item-unique","45":"v-it-objeto-procedimento","46":"v-estado","47":"v-ano","48":"v-tramite-opm","49":"v-tramite-coger","50":"v-sai","51":"v-restricoes","52":"v-proc-outros","53":"v-prisoes","54":"v-principal","55":"v-outras-denuncias","56":"v-objeto","57":"v-elogios","58":"v-dependentes","59":"v-denuncias","60":"v-comportamentos","61":"v-cautelas","62":"v-apresentacoes","63":"v-afastamentos","64":"v-dropdown","65":"v-navbar","66":"v-form-validator","67":"v-form-group","68":"v-toggle-button","69":"v-progressbar","70":"v-affix","71":"v-tab","72":"v-slider","73":"v-option","74":"v-accordion","75":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
+/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-membro","1":"v-classificacao","2":"v-toogle","3":"file-upload","4":"v-label","5":"v-acusado","6":"v-tabs","7":"v-sobrestamento","8":"v-movimento","9":"v-arquivo","10":"v-prioritario","11":"v-input","12":"v-aside","13":"v-tooltip","14":"v-popover","15":"v-select","16":"v-carousel","17":"crpms-chart","18":"procedimentos-chart","19":"efetivo-chart","20":"v-vitima","21":"v-reus","22":"v-proced-origem","23":"v-acusado-unico","24":"v-acusado-rg","25":"v-typeahead","26":"v-spinner","27":"v-alert","28":"v-modal","29":"v-tab-group","30":"v-radio","31":"v-panel","32":"v-datepicker","33":"v-checkbox","34":"v-defensor","35":"v-tasks","36":"v-notifications","37":"v-messages","38":"v-tab-item","39":"v-info-box","40":"vue-simple-suggest","41":"v-show","42":"v-opm","43":"v-municipio","44":"v-item-unique","45":"v-it-objeto-procedimento","46":"v-estado","47":"v-ano","48":"v-tramite-opm","49":"v-tramite-coger","50":"v-sai","51":"v-restricoes","52":"v-proc-outros","53":"v-prisoes","54":"v-principal","55":"v-outras-denuncias","56":"v-objeto","57":"v-fdi","58":"v-dependentes","59":"v-denuncias","60":"v-cautelas","61":"v-apresentacoes","62":"v-afastamentos","63":"v-dropdown","64":"v-navbar","65":"v-form-validator","66":"v-form-group","67":"v-toggle-button","68":"v-progressbar","69":"v-affix","70":"v-tab","71":"v-slider","72":"v-option","73":"v-accordion","74":"v-tab-menu","76":"v-log-fdi"}[chunkId]||chunkId) + ".bundle.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -66940,6 +66940,14 @@ new Vue({
     methods: {
         getSessionData: function getSessionData() {
             return JSON.parse(sessionStorage.getItem("session"));
+        },
+        hasPermission: function hasPermission(permission) {
+            var session = this.getSessionData();
+            if (!session) return false;
+            var has = Object.values(session.permissions).filter(function (s) {
+                return s == permission;
+            });
+            return has;
         }
     }
 });
@@ -67094,17 +67102,26 @@ Vue.component('crpms-chart', function () {
   return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/Charts/Pendencias/Crpms.vue"));
 });
 // FDI
+Vue.component('v-afastamentos', function () {
+  return __webpack_require__.e/* import() */(62).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Afastamentos.vue"));
+});
 Vue.component('v-apresentacoes', function () {
-  return __webpack_require__.e/* import() */(62).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Apresentacoes.vue"));
+  return __webpack_require__.e/* import() */(61).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Apresentacoes.vue"));
+});
+Vue.component('v-cautelas', function () {
+  return __webpack_require__.e/* import() */(60).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Cautelas.vue"));
 });
 Vue.component('v-denuncias', function () {
   return __webpack_require__.e/* import() */(59).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Denuncias.vue"));
 });
-Vue.component('v-comportamentos', function () {
-  return __webpack_require__.e/* import() */(60).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Comportamentos.vue"));
+Vue.component('v-dependentes', function () {
+  return __webpack_require__.e/* import() */(58).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Dependentes.vue"));
 });
-Vue.component('v-elogios', function () {
-  return __webpack_require__.e/* import() */(57).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Elogios.vue"));
+Vue.component('v-fdi', function () {
+  return __webpack_require__.e/* import() */(57).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/FDI.vue"));
+});
+Vue.component('v-log-fdi', function () {
+  return __webpack_require__.e/* import() */(76).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Log.vue"));
 });
 Vue.component('v-membro', function () {
   return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Membro.vue"));
@@ -67136,22 +67153,12 @@ Vue.component('v-tramite-coger', function () {
 Vue.component('v-tramite-opm', function () {
   return __webpack_require__.e/* import() */(48).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/TramiteOpm.vue"));
 });
-
-Vue.component('v-cautelas', function () {
-  return __webpack_require__.e/* import() */(61).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Cautelas.vue"));
-});
-Vue.component('v-afastamentos', function () {
-  return __webpack_require__.e/* import() */(63).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Afastamentos.vue"));
-});
-Vue.component('v-dependentes', function () {
-  return __webpack_require__.e/* import() */(58).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Dependentes.vue"));
-});
 // Layout
 Vue.component('v-tab-item', function () {
   return __webpack_require__.e/* import() */(38).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabItem.vue"));
 });
 Vue.component('v-tab-menu', function () {
-  return __webpack_require__.e/* import() */(75).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabMenu.vue"));
+  return __webpack_require__.e/* import() */(74).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabMenu.vue"));
 });
 Vue.component('v-info-box', function () {
   return __webpack_require__.e/* import() */(39).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/Home/InfoBox.vue"));
@@ -67181,7 +67188,7 @@ Vue.component('v-checkbox', function () {
   return __webpack_require__.e/* import() */(33).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Checkbox.vue"));
 });
 Vue.component('v-tab', function () {
-  return __webpack_require__.e/* import() */(71).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Tab.vue"));
+  return __webpack_require__.e/* import() */(70).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Tab.vue"));
 });
 Vue.component('v-tab-group', function () {
   return __webpack_require__.e/* import() */(29).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/TabGroup.vue"));
@@ -67191,10 +67198,10 @@ Vue.component('v-tabs', function () {
 });
 // Não revisados
 Vue.component('v-accordion', function () {
-  return __webpack_require__.e/* import() */(74).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Accordion.vue"));
+  return __webpack_require__.e/* import() */(73).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Accordion.vue"));
 });
 Vue.component('v-affix', function () {
-  return __webpack_require__.e/* import() */(70).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Affix.vue"));
+  return __webpack_require__.e/* import() */(69).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Affix.vue"));
 });
 Vue.component('v-alert', function () {
   return __webpack_require__.e/* import() */(27).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Alert.vue"));
@@ -67207,13 +67214,13 @@ Vue.component('v-carousel', function () {
   return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Carousel.vue"));
 });
 Vue.component('v-dropdown', function () {
-  return __webpack_require__.e/* import() */(64).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Dropdown.vue"));
+  return __webpack_require__.e/* import() */(63).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Dropdown.vue"));
 });
 Vue.component('v-form-group', function () {
-  return __webpack_require__.e/* import() */(67).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/FormGroup.vue"));
+  return __webpack_require__.e/* import() */(66).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/FormGroup.vue"));
 });
 Vue.component('v-form-validator', function () {
-  return __webpack_require__.e/* import() */(66).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/FormValidator.vue"));
+  return __webpack_require__.e/* import() */(65).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/FormValidator.vue"));
 });
 Vue.component('v-input', function () {
   return __webpack_require__.e/* import() */(11).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Input.vue"));
@@ -67222,10 +67229,10 @@ Vue.component('v-modal', function () {
   return __webpack_require__.e/* import() */(28).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Modal.vue"));
 });
 Vue.component('v-navbar', function () {
-  return __webpack_require__.e/* import() */(65).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Navbar.vue"));
+  return __webpack_require__.e/* import() */(64).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Navbar.vue"));
 });
 Vue.component('v-option', function () {
-  return __webpack_require__.e/* import() */(73).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Option.vue"));
+  return __webpack_require__.e/* import() */(72).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Option.vue"));
 });
 Vue.component('v-panel', function () {
   return __webpack_require__.e/* import() */(31).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Panel.vue"));
@@ -67234,19 +67241,19 @@ Vue.component('v-popover', function () {
   return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Popover.vue"));
 });
 Vue.component('v-progressbar', function () {
-  return __webpack_require__.e/* import() */(69).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Progressbar.vue"));
+  return __webpack_require__.e/* import() */(68).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Progressbar.vue"));
 });
 Vue.component('v-radio', function () {
   return __webpack_require__.e/* import() */(30).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Radio.vue"));
 });
 Vue.component('v-slider', function () {
-  return __webpack_require__.e/* import() */(72).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Slider.vue"));
+  return __webpack_require__.e/* import() */(71).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Slider.vue"));
 });
 Vue.component('v-spinner', function () {
   return __webpack_require__.e/* import() */(26).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Spinner.vue"));
 });
 Vue.component('v-toggle-button', function () {
-  return __webpack_require__.e/* import() */(68).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/ToggleButton.vue"));
+  return __webpack_require__.e/* import() */(67).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/ToggleButton.vue"));
 });
 Vue.component('v-tooltip', function () {
   return __webpack_require__.e/* import() */(13).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Tooltip.vue"));
@@ -67274,7 +67281,7 @@ Vue.filter('date_br', function (value) {
 
 Vue.filter('date_br_hr', function (value) {
     if (value) {
-        return __WEBPACK_IMPORTED_MODULE_0_moment___default()(String(value)).format('MM/DD/YYYY H:i');
+        return __WEBPACK_IMPORTED_MODULE_0_moment___default()(String(value)).format('MM/DD/YYYY H:mm:ss');
     }
 });
 
@@ -67319,6 +67326,11 @@ Vue.filter('tempo_em_anos', function (value) {
     var anos = tempo_anos > 0 ? tempo_anos + ' ' + ano_plural : '';
 
     return '' + anos;
+});
+
+Vue.filter('toUpper', function (value) {
+    if (!value) return '';
+    return value.toUpperCase();
 });
 
 /***/ }),

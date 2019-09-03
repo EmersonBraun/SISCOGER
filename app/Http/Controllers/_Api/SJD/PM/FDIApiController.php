@@ -146,6 +146,12 @@ class FDIApiController extends Controller
         $data = $this->repository->proc_outros($rg);
         return response()->json($data);
     }
+
+    public function log($rg) 
+    {
+        $data = $this->repository->log($rg);
+        return response()->json($data);
+    }
     
 }
 

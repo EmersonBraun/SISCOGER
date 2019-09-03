@@ -29,10 +29,13 @@ Vue.component('efetivo-chart', () => import(/* webpackChunkName: "efetivo-chart"
 Vue.component('procedimentos-chart', () => import(/* webpackChunkName: "procedimentos-chart" */'./components/Charts/Home/Procedimentos.vue'));
 Vue.component('crpms-chart', () => import(/* webpackChunkName: "crpms-chart" */'./components/Charts/Pendencias/Crpms.vue'));
 // FDI
+Vue.component('v-afastamentos', () => import(/* webpackChunkName: "v-afastamentos" */'./components/FDI/Afastamentos.vue'));
 Vue.component('v-apresentacoes', () => import(/* webpackChunkName: "v-apresentacoes" */'./components/FDI/Apresentacoes.vue'));
+Vue.component('v-cautelas', () => import(/* webpackChunkName: "v-cautelas" */'./components/FDI/Cautelas.vue'));
 Vue.component('v-denuncias', () => import(/* webpackChunkName: "v-denuncias" */'./components/FDI/Denuncias.vue'));
-Vue.component('v-comportamentos', () => import(/* webpackChunkName: "v-comportamentos" */'./components/FDI/Comportamentos.vue'));
-Vue.component('v-elogios', () => import(/* webpackChunkName: "v-elogios" */'./components/FDI/Elogios.vue'));
+Vue.component('v-dependentes', () => import(/* webpackChunkName: "v-dependentes" */'./components/FDI/Dependentes.vue'));
+Vue.component('v-fdi', () => import(/* webpackChunkName: "v-fdi" */'./components/FDI/FDI.vue'));
+Vue.component('v-log-fdi', () => import(/* webpackChunkName: "v-log-fdi" */'./components/FDI/Log.vue'));
 Vue.component('v-membro', () => import(/* webpackChunkName: "v-membro" */'./components/FDI/Membro.vue'));
 Vue.component('v-objeto', () => import(/* webpackChunkName: "v-objeto" */'./components/FDI/Objeto.vue'));
 Vue.component('v-outras-denuncias', () => import(/* webpackChunkName: "v-outras-denuncias" */'./components/FDI/OutrasDenuncias.vue'));
@@ -43,10 +46,6 @@ Vue.component('v-restricoes', () => import(/* webpackChunkName: "v-restricoes" *
 Vue.component('v-sai', () => import(/* webpackChunkName: "v-sai" */'./components/FDI/Sai.vue'));
 Vue.component('v-tramite-coger', () => import(/* webpackChunkName: "v-tramite-coger" */'./components/FDI/TramiteCoger.vue'));
 Vue.component('v-tramite-opm', () => import(/* webpackChunkName: "v-tramite-opm" */'./components/FDI/TramiteOpm.vue'));
-
-Vue.component('v-cautelas', () => import(/* webpackChunkName: "v-cautelas" */'./components/FDI/Cautelas.vue'));
-Vue.component('v-afastamentos', () => import(/* webpackChunkName: "v-afastamentos" */'./components/FDI/Afastamentos.vue'));
-Vue.component('v-dependentes', () => import(/* webpackChunkName: "v-dependentes" */'./components/FDI/Dependentes.vue'));
 // Layout
 Vue.component('v-tab-item', () => import(/* webpackChunkName: "v-tab-item" */'./components/Layout/TabItem.vue'));
 Vue.component('v-tab-menu', () => import(/* webpackChunkName: "v-tab-menu" */'./components/Layout/TabMenu.vue'));

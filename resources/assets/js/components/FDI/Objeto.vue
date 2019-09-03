@@ -1,45 +1,38 @@
 <template>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box collapsed-box">
-                <div class="box-header">
-                    <h2 class="box-title">Afastamentos
-                    &emsp;
-                    <i class="fa fa-info-circle text-info" data-toggle="tooltip" data-placement="bottom" title="O campo poderá ser suprimido nos casos de certidão da Ficha Disciplinar Individual do militar estadual."></i>
-                    <span v-if="afastamentos.length" class="badge bg-red">{{afastamentos.length}}</span></h2>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-plus"></i>
-                        </button> 
-                    </div>             
-                </div>
-                <div class="box-body">
-                    <div class="col-md-12 col-xs-12">   
-                        <table class="table table-striped">
-                            <tbody> 
-                                <template v-if="afastamentos.length">
-                                    <tr v-for="(afastamento, index) in afastamentos" :key="index">
-                                        <td>
-                                            {{afastamento.DESC_INCIDENTE}}, 
-                                            <b>
-                                                De {{afastamento.DT_INIC | date_br}} a 
-                                                {{afastamento.DT_FIM | date_br}}
-                                            ({{afastamento.UNITS}} Dias)</b>     
-                                        </td>
-                                    </tr>
-                                </template>
-                                <template v-else>
-                                    <tr>
-                                        <td>Não há registros.</td>
-                                    </tr>
-                                </template> 
-                            </tbody>
-                        </table>   
-                    </div> 
-                </div>   
-            </div>
-        </div>     
-    </div>
+    <v-tab header="Objeto" :badge="objetos.length">
+    <h4 class="text-center text-bold">Marcado em procedimentos como Acusado, Indiciado, Sindicado ou Paciente</h4>
+        <table class="table table-striped">
+        <tbody>
+            <template v-if="objetos.length">
+                <tr>
+                    <th>Proc.</th>
+                    <th>CDOPM</th>
+                    <th>Situação</th>
+                    <th>Andamento</th>
+                    <th>Ações</th>
+                </tr>
+                <tr v-for="(objeto, index) in objetos" :key="index">
+                    <td>{{ objeto.procedimento | toUpper }} {{ objeto.sjd_ref }} / {{ objeto.sjd_ref_ano }}</td>
+                    <td>{{ objeto.cdopm }}</td>
+                    <td>{{ objeto.situacao }} <template v-if="objeto.rg_sustituto">Substituído</template></td>
+                    <td>{{ objeto.id_andamento }}</td>
+                    <td>
+                        <span>
+                            <a class="btn btn-info" :href="urlEdit(objeto.procedimento, objeto.sjd_ref, objeto.sjd_ref_ano)">
+                                <i class="fa fa-fw fa-edit "></i>
+                            </a>
+                        </span>
+                    </td> 
+                </tr>
+            </template>
+            <template v-else>
+                <tr>
+                    <td>Nada encontrado</td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+    </v-tab>
 </template>
 
 <script>
@@ -47,23 +40,27 @@
         props:['rg'],
         data() {
             return {
-                afastamentos: []
+                objetos: []
             }
         },
         mounted(){
-            this.listAfastamentos()
+            this.listObjetos()
         },
         methods: {
-            listAfastamentos(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/afastamentos/${this.rg}`;
+            listObjetos(){
+                let urlIndex = `${this.$root.baseUrl}api/fdi/objetos/${this.rg}`;
                 if(this.rg){
                     axios
                     .get(urlIndex)
                     .then((response) => {
-                        this.afastamentos = response.data
+                        this.objetos = response.data
                     })
                     .catch(error => console.log(error));
                 }
+            },
+            urlEdit(proc, ref, ano) {
+                let urlBase = this.$root.baseUrl
+                return `${urlBase}${proc}/editar/${ref}/${ano}`
             }
         }
     }

@@ -41,5 +41,11 @@ new Vue({
         getSessionData() {
             return JSON.parse(sessionStorage.getItem("session"))
         },
+        hasPermission(permission) {
+            let session = this.getSessionData()
+            if(!session) return false
+            let has = Object.values(session.permissions).filter(s => s == permission)
+            return has
+        }
     },
 });

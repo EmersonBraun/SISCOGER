@@ -61,11 +61,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['rg'],
     data: function data() {
         return {
-            tramites: []
+            tramites: [],
+            canCreate: false
         };
     },
     mounted: function mounted() {
         this.listTramites();
+        this.canCreate = this.$root.hasPermission('criar-tramite-opm');
     },
 
     methods: {
@@ -94,7 +96,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -328,35 +330,44 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "box-body" }, [
-          _c("div", { staticClass: "col-md-12 col-xs-12" }, [
-            _c("table", { staticClass: "table table-striped" }, [
-              _c(
-                "tbody",
-                [
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _vm.tramites.length
-                    ? _vm._l(_vm.tramites, function(tramite, index) {
-                        return _c("tr", { key: index }, [
-                          _c("td", [
-                            _vm._v(_vm._s(_vm._f("date_br")(tramite.data)))
-                          ]),
+          _c(
+            "div",
+            { staticClass: "col-md-12 col-xs-12" },
+            [
+              _c("table", { staticClass: "table table-striped" }, [
+                _c(
+                  "tbody",
+                  [
+                    _vm.tramites.length
+                      ? [
+                          _vm._m(1),
                           _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(tramite.descricao_txt))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(tramite.digitador))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(tramite.opm_abreviatura))])
-                        ])
-                      })
-                    : [_vm._m(2)]
-                ],
-                2
-              )
-            ]),
-            _vm._v(" "),
-            _vm._m(3)
-          ])
+                          _vm._l(_vm.tramites, function(tramite, index) {
+                            return _c("tr", { key: index }, [
+                              _c("td", [
+                                _vm._v(_vm._s(_vm._f("date_br")(tramite.data)))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(tramite.descricao_txt))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(tramite.digitador))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(tramite.opm_abreviatura))
+                              ])
+                            ])
+                          })
+                        ]
+                      : [_vm._m(2)]
+                  ],
+                  2
+                )
+              ]),
+              _vm._v(" "),
+              _vm.canCreate ? [_vm._m(3)] : _vm._e()
+            ],
+            2
+          )
         ])
       ])
     ])
@@ -407,7 +418,7 @@ var staticRenderFns = [
       { staticClass: "btn btn-primary btn-block", attrs: { type: "button" } },
       [
         _c("i", { staticClass: "fa fa-plus" }),
-        _vm._v("Adicionar Trâmite OPM\n                    ")
+        _vm._v("Adicionar Trâmite OPM\n                        ")
       ]
     )
   }

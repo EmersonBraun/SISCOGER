@@ -49,26 +49,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['rg'],
     data: function data() {
         return {
-            afastamentos: []
+            sai: [],
+            canCreate: false,
+            canEdit: false
         };
     },
     mounted: function mounted() {
-        this.listAfastamentos();
+        this.listsai();
+        this.canCreate = this.$root.hasPermission('criar-sai');
+        this.canEdit = this.$root.hasPermission('editar-sai');
     },
 
+    computed: {
+        urlCreate: function urlCreate() {
+            var urlBase = this.$root.baseUrl;
+            return urlBase + 'sai/criar';
+        },
+        urlEdit: function urlEdit(id) {
+            var urlBase = this.$root.baseUrl;
+            return urlBase + 'sai/editar/' + id;
+        }
+    },
     methods: {
-        listAfastamentos: function listAfastamentos() {
+        listsai: function listsai() {
             var _this = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/afastamentos/' + this.rg;
+            var urlIndex = this.$root.baseUrl + 'api/fdi/sai/' + this.rg;
             if (this.rg) {
                 axios.get(urlIndex).then(function (response) {
-                    _this.afastamentos = response.data;
+                    _this.sai = response.data;
                 }).catch(function (error) {
                     return console.log(error);
                 });
@@ -87,7 +105,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -294,99 +312,110 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-xs-12" }, [
-      _c("div", { staticClass: "box collapsed-box" }, [
-        _c("div", { staticClass: "box-header" }, [
-          _c("h2", { staticClass: "box-title" }, [
-            _vm._v("Afastamentos\n                 \n                "),
-            _c("i", {
-              staticClass: "fa fa-info-circle text-info",
-              attrs: {
-                "data-toggle": "tooltip",
-                "data-placement": "bottom",
-                title:
-                  "O campo poderá ser suprimido nos casos de certidão da Ficha Disciplinar Individual do militar estadual."
-              }
-            }),
-            _vm._v(" "),
-            _vm.afastamentos.length
-              ? _c("span", { staticClass: "badge bg-red" }, [
-                  _vm._v(_vm._s(_vm.afastamentos.length))
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm._m(0)
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
-          _c("div", { staticClass: "col-md-12 col-xs-12" }, [
-            _c("table", { staticClass: "table table-striped" }, [
-              _c(
-                "tbody",
-                [
-                  _vm.afastamentos.length
-                    ? _vm._l(_vm.afastamentos, function(afastamento, index) {
-                        return _c("tr", { key: index }, [
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(afastamento.DESC_INCIDENTE) +
-                                ", \n                                        "
-                            ),
-                            _c("b", [
-                              _vm._v(
-                                "\n                                            De " +
-                                  _vm._s(
-                                    _vm._f("date_br")(afastamento.DT_INIC)
-                                  ) +
-                                  " a \n                                            " +
-                                  _vm._s(
-                                    _vm._f("date_br")(afastamento.DT_FIM)
-                                  ) +
-                                  "\n                                        (" +
-                                  _vm._s(afastamento.UNITS) +
-                                  " Dias)"
-                              )
-                            ])
-                          ])
+  return _c(
+    "v-tab",
+    { attrs: { header: "SAI", badge: _vm.sai.lenght } },
+    [
+      _c("table", { staticClass: "table table-striped" }, [
+        _c(
+          "tbody",
+          [
+            _vm.sai.lenght
+              ? [
+                  _c("tr", [
+                    _c("th", [_vm._v("N° SAI")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Motivo abertura")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Síntese do fato")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Situação")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Resultado")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Digitaror")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Ações")])
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.sai, function(s) {
+                    return _c("tr", { key: s.id_sai }, [
+                      _c(
+                        "td",
+                        [
+                          s.sjd_ref !== 0
+                            ? [
+                                _vm._v(
+                                  _vm._s(s.sjd_ref) +
+                                    "/" +
+                                    _vm._s(s.sjd_ref_ano)
+                                )
+                              ]
+                            : [_vm._v(_vm._s(s.id_sai))]
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(s.motivo_principal) + " ")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(s.sintese_txt) + " ")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(s.situacao) + " ")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(s.origem_proc) +
+                            "-" +
+                            _vm._s(s.origem_sjd_ref) +
+                            "/" +
+                            _vm._s(s.origem_sjd_ref_ano) +
+                            " "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(s.digitador) + " ")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("span", [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "btn btn-info",
+                              attrs: { href: _vm.urlEdit(s.id_sai) }
+                            },
+                            [_c("i", { staticClass: "fa fa-fw fa-edit " })]
+                          )
                         ])
-                      })
-                    : [_vm._m(1)]
-                ],
-                2
-              )
-            ])
-          ])
-        ])
-      ])
-    ])
-  ])
+                      ])
+                    ])
+                  })
+                ]
+              : [_c("tr", [_c("td", [_vm._v("Nada encontrado")])])]
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _vm.canCreate
+        ? [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-primary btn-block",
+                attrs: { href: _vm.urlCreate }
+              },
+              [
+                _c("i", { staticClass: "fa fa-fw fa-plus " }),
+                _vm._v("Adicionar SAI\n    ")
+              ]
+            )
+          ]
+        : _vm._e()
+    ],
+    2
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-tools pull-right" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-box-tool",
-          attrs: { type: "button", "data-widget": "collapse" }
-        },
-        [_c("i", { staticClass: "fa fa-plus" })]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [_c("td", [_vm._v("Não há registros.")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

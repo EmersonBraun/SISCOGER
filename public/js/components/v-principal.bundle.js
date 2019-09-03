@@ -496,13 +496,11 @@ var render = function() {
             _c(
               "p",
               [
-                _vm._v(
-                  _vm._s(_vm.pm.CARGO) + " " + _vm._s(_vm.pm.QUADRO) + " "
-                ),
+                _vm._v(_vm._s(_vm.pm.CARGO) + " " + _vm._s(_vm.pm.QUADRO)),
                 _vm.pm.SUBQUADRO !== "NA"
                   ? [_vm._v("-" + _vm._s(_vm.pm.SUBQUADRO))]
                   : _vm._e(),
-                _vm._v(_vm._s(_vm.pm.NOME) + " ")
+                _vm._v(" " + _vm._s(_vm.pm.NOME) + " ")
               ],
               2
             )
@@ -544,7 +542,7 @@ var render = function() {
                 _vm._s(_vm._f("date_br")(_vm.pm.ADMISSAO_REAL)) +
                   " (" +
                   _vm._s(
-                    _vm._f("tempo_em_anos")(
+                    _vm._f("tempo_em_anos_e_meses")(
                       _vm._f("date_bd")(_vm.pm.ADMISSAO_REAL)
                     )
                   ) +

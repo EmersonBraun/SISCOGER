@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-md-5 border" >
                         <p><strong>Nome:</strong><br></p>
-                        <p>{{ pm.CARGO }} {{ pm.QUADRO }} <template v-if="pm.SUBQUADRO !== 'NA'">-{{ pm.SUBQUADRO }}</template>{{ pm.NOME }} </p>
+                        <p>{{ pm.CARGO }} {{ pm.QUADRO }}<template v-if="pm.SUBQUADRO !== 'NA'">-{{ pm.SUBQUADRO }}</template> {{ pm.NOME }} </p>
                     </div>
                     <div class="col-md-5 border">
                         <p><strong>RG:</strong></p>
@@ -40,7 +40,7 @@
                             <template v-if="pm.STATUS == 'Inativo'"><b>Data Inatividade:</b></template>
                             <template v-if="pm.STATUS == 'Reserva'"><b>Data Reserva:</b></template>
                         </p>
-                        <p>{{ pm.ADMISSAO_REAL | date_br }} ({{ pm.ADMISSAO_REAL | date_bd | tempo_em_anos }})</p>
+                        <p>{{ pm.ADMISSAO_REAL | date_br }} ({{ pm.ADMISSAO_REAL | date_bd | tempo_em_anos_e_meses }})</p>
                     </div>
                     <div class="col-md-5 border">
                         <p><strong>Cidade:</strong></p>

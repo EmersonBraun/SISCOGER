@@ -8,7 +8,7 @@ Vue.filter('date_br', function(value) {
 
 Vue.filter('date_br_hr', function(value) {
     if (value) {
-      return moment(String(value)).format('MM/DD/YYYY H:i')
+      return moment(String(value)).format('MM/DD/YYYY H:mm:ss')
     }
   })
  
@@ -52,4 +52,9 @@ Vue.filter('tempo_em_anos', function (value) { //data vem yyyy-mm-dd
     let anos = (tempo_anos > 0 ) ? `${tempo_anos} ${ano_plural}` : '' 
 
     return `${anos}`
+})
+
+Vue.filter('toUpper', function (value) {
+    if (!value) return ''
+    return value.toUpperCase()
 })

@@ -64,6 +64,8 @@ class ComportamentoRepository extends BaseRepository
                 ->table('comportamento_pracas')
                 ->whereIn('rg',$rgs)
                 ->where('cdopm','like',$unidade.'%')
+                ->max('data')
+                ->groupBy('rg')
                 ->get();
             });
 
