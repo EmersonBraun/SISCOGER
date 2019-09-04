@@ -25,6 +25,9 @@
             <div class="box">
                 <div class="box-body">
                     <v-tabs nav-style="pills" justified>
+                        @if(hasPermissionTo('ver-protocolo-fdi'))
+                            <v-protocolo rg="{{$rg}}"></v-protocolo>
+                        @endif
                         @if(hasPermissionTo('ver-denuncias'))
                             <v-denuncias rg="{{$rg}}"></v-denuncias>
                         @endif

@@ -13,7 +13,7 @@
 
 @section('body')
 <div class="wrapper" id="app">
-    <v-spinner :value="spinner" size="xl" text="Carregando"></v-spinner>
+    <v-app></v-app>
     <header class="main-header">
         <!-- Logo -->
         <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}" class="logo">
@@ -66,9 +66,9 @@
         </div>
         <strong>SISCOGER - 2008-{{date('Y')}}.</strong>
     </footer>
+    
 </div>
 <!-- ./wrapper -->
-
 @stop
 @section('adminlte_js')
 

@@ -23,6 +23,9 @@
             <div class="box">
                 <div class="box-body">
                     <v-tabs nav-style="pills" justified>
+                        <?php if(hasPermissionTo('ver-protocolo-fdi')): ?>
+                            <v-protocolo rg="<?php echo e($rg); ?>"></v-protocolo>
+                        <?php endif; ?>
                         <?php if(hasPermissionTo('ver-denuncias')): ?>
                             <v-denuncias rg="<?php echo e($rg); ?>"></v-denuncias>
                         <?php endif; ?>

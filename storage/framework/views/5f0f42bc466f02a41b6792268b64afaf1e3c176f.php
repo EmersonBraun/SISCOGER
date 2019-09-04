@@ -11,7 +11,7 @@
 
 <?php $__env->startSection('body'); ?>
 <div class="wrapper" id="app">
-    <v-spinner :value="spinner" size="xl" text="Carregando"></v-spinner>
+    <v-app></v-app>
     <header class="main-header">
         <!-- Logo -->
         <a href="<?php echo e(url(config('adminlte.dashboard_url', 'home'))); ?>" class="logo">
@@ -65,9 +65,9 @@
         </div>
         <strong>SISCOGER - 2008-<?php echo e(date('Y')); ?>.</strong>
     </footer>
+    
 </div>
 <!-- ./wrapper -->
-
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('adminlte_js'); ?>
 

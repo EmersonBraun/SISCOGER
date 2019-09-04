@@ -51,7 +51,7 @@
         },
         methods: {
              listPatrimonio(){
-                let urlIndex = `${this.$root.baseUrl}api/dados/cautelas/${this.rg}`;
+                let urlIndex = `${this.$root.baseUrl}api/fdi/cautelas/${this.rg}`;
                 if(this.rg){
                     axios
                     .get(urlIndex)

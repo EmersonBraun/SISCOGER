@@ -12,11 +12,7 @@ use App\Repositories\proc\FatdRepository;
 use App\Repositories\proc\IpmRepository;
 use App\Repositories\proc\SindicanciaRepository;
 use App\Repositories\proc\CdRepository;
-use ApiFatd;
-use ApiIpm;
-use ApiSindicancia;
-use ApiCd;
-use ApiPM;
+
 class HomeController extends Controller
 {
     protected $transferidos;
@@ -133,7 +129,7 @@ class HomeController extends Controller
     }
     public function graficoEfetivo($unidade)
     {
-        $e = ApiPM::efetivoOPM($unidade);
+        $e = $this->pm->efetivoOPM($unidade);
         //formatar array para o gráfico
         $efetivo['qtd'] = array_pluck($e, 'qtd');
         $efetivo['cargos'] = array_pluck($e, 'cargo');
@@ -143,10 +139,10 @@ class HomeController extends Controller
     }
     public function graficoProcAnos($unidade)
     {
-        $fatd_ano = ApiFatd::QtdOMAnos($unidade);
-        $ipm_ano = ApiIpm::QtdOMAnos($unidade);
-        $sindicancia_ano = ApiSindicancia::QtdOMAnos($unidade);
-        $cd_ano = ApiCd::QtdOMAnos($unidade);
+        $fatd_ano = $this->fatd->QtdOMAnos($unidade);
+        $ipm_ano = $this->ipm->QtdOMAnos($unidade);
+        $sindicancia_ano = $this->sindicancia->QtdOMAnos($unidade);
+        $cd_ano = $this->cd->QtdOMAnos($unidade);
         //divide o array para usar no gráfico
         [$anos, $fatd_ano] = array_divide($fatd_ano);
         [$anos, $ipm_ano] = array_divide($ipm_ano);

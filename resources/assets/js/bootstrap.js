@@ -54,3 +54,14 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+// colocar dados na sessão
+if(localStorage.getItem("session")==null){
+    let urlIndex = 'http://10.47.1.90/siscoger/session/dados';
+        axios
+        .get(urlIndex)
+        .then((response) => {
+            sessionStorage.setItem("session", JSON.stringify(response.data))
+        })
+        .catch(error => console.log(error));
+}

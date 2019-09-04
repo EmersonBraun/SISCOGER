@@ -1,3 +1,4 @@
+Vue.component('v-app', require('./components/App.vue'));
 // upload de arquivos
 Vue.component('file-upload', () => import(/* webpackChunkName: "file-upload" */'./components/Arquivos/FileUpload.vue'));
 // formularios
@@ -41,6 +42,7 @@ Vue.component('v-objeto', () => import(/* webpackChunkName: "v-objeto" */'./comp
 Vue.component('v-outras-denuncias', () => import(/* webpackChunkName: "v-outras-denuncias" */'./components/FDI/OutrasDenuncias.vue'));
 Vue.component('v-principal', () => import(/* webpackChunkName: "v-principal" */'./components/FDI/Principal.vue'));
 Vue.component('v-prisoes', () => import(/* webpackChunkName: "v-prisoes" */'./components/FDI/Prisoes.vue'));
+Vue.component('v-protocolo', () => import(/* webpackChunkName: "v-protocolo" */'./components/FDI/Protocolo.vue'));
 Vue.component('v-proc-outros', () => import(/* webpackChunkName: "v-proc-outros" */'./components/FDI/ProcOutros.vue'));
 Vue.component('v-restricoes', () => import(/* webpackChunkName: "v-restricoes" */'./components/FDI/Restricoes.vue'));
 Vue.component('v-sai', () => import(/* webpackChunkName: "v-sai" */'./components/FDI/Sai.vue'));

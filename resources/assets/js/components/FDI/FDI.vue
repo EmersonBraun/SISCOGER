@@ -1,11 +1,11 @@
 <template>
-    <v-tab header="FDI" :badge="elogios.lenght">
+    <v-tab header="FDI" :badge="elogiosLenght">
         <!-- Mudanças de comportamento -->
         <template v-if="canSeeComportamentos">
             <table class="table table-striped">
                 <h4 class="text-center text-bold">Mudanças de Comportamento</h4>
                 <tbody>
-                    <!-- <template v-if="comportamentos.lenght > 0"> -->
+                    <template v-if="comportamentosLenght">
                         <tr>
                             <th><b>Data:</b></th>
                             <th><b>Novo comportamento:</b></th>
@@ -18,12 +18,12 @@
                             <td>{{ comportamento.motivo_txt }}</td>
                             <td>{{ comportamento.publicacao }}</td>
                         </tr>
-                    <!-- </template>
+                    </template>
                     <template v-else>
                         <tr>
                             <td>Não há mudanças de comportamento.</td>
                         </tr>
-                    </template> -->
+                    </template>
                 </tbody>
             </table>
             <template v-if="canCreateComportamento">
@@ -37,7 +37,7 @@
             <table class="table table-striped">
                 <h4 class="text-center text-bold">Elogios</h4>
                 <tbody>
-                    <!-- <template v-if="elogios.lenght"> -->
+                    <template v-if="elogiosLenght">
                         <tr>
                             <th><b>Data:</b></th>
                             <th><b>OPM:</b></th>
@@ -48,12 +48,12 @@
                             <td>{{ elogio.opm_abreviatura }}</td>
                             <td>{{ elogio.descricao_txt }}</td>
                         </tr>
-                    <!-- </template>
+                    </template>
                     <template v-else>
                         <tr>
                             <td>Não há Elogios.</td>
                         </tr>
-                    </template> -->
+                    </template>
                 </tbody>
             </table>
             <template v-if="canCreateElogio">
@@ -85,6 +85,14 @@
             this.canCreateComportamento = this.$root.hasPermission('criar-mudanca-comportamento')
             this.canSeeElogios = this.$root.hasPermission('ver-elogios')
             this.canCreateElogio = this.$root.hasPermission('criar-elogio')
+        },
+         computed:{
+            elogiosLenght(){
+                return Object.keys(this.elogios).length
+            },
+            comportamentosLenght(){
+                return Object.keys(this.comportamentos).length
+            }
         },
         methods: {
             listComportamentos(){
