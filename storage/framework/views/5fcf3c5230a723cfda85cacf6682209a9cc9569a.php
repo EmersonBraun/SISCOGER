@@ -120,10 +120,10 @@
         <?php if(hasPermissionTo('listar-nota-coger')): ?>
         <li class=""><a href="<?php echo e(route('notacoger.index',date('Y'))); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Notas COGER</span></a></li>
         <?php endif; ?>
-        <?php if(hasPermissionTo('listar-apresentacoes')): ?>
+        <?php if(hasPermissionTo('listar-apresentacao')): ?>
         <li class=""><a href="<?php echo e(route('apresentacao.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Lista apresentações</span></a></li>
         <?php endif; ?>
-        <?php if(hasPermissionTo('listar-apresentacoes')): ?>
+        <?php if(hasPermissionTo('listar-apresentacao')): ?>
         <li class=""><a href="<?php echo e(route('apresentacao.buscar')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Buscar Apresentação</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-locais')): ?>

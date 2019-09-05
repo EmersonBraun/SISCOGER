@@ -37,9 +37,9 @@ class ProtocoloRepository extends BaseRepository
     {
         if(!$rg) return 'falta RG';
 
-        // $registros = Cache::tags('protocolo')->remember('protocolo:rg'.$rg, $this->expiration, function() use ($rg){
+        $registros = Cache::tags('protocolo')->remember('protocolo:rg'.$rg, $this->expiration, function() use ($rg){
             return $this->model->where('rg','=', $rg)->get();
-        // });
+        });
 
         return $registros;
     }

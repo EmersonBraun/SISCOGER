@@ -106,7 +106,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         listComportamentos: function listComportamentos() {
             var _this = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/comportamentos/' + this.rg;
+            var urlIndex = this.$root.baseUrl + 'api/comportamento/list/' + this.rg;
             if (this.rg) {
                 axios.get(urlIndex).then(function (response) {
                     _this.comportamentos = response.data;

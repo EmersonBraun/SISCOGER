@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-spinner :value="spinner" size="xl" text="Carregando"></v-spinner>
-        <v-alert v-model="show" placement="top-right" duration="3000" :type="type" width="400px" dismissable>
+        <v-alert v-model="show" placement="top-right" duration="3000" :type="type" width="400px">
             <span class="icon-info-circled alert-icon-float-left"></span>
             {{ text}}
         </v-alert>
@@ -10,12 +10,10 @@
 
 <script>
     export default {
-        data() {
-            return {
-                spinner: false,
-            }
-        },
         computed: {
+            spinner(){
+                return this.$store.state.dashboard.spinner
+            },
             show(){
                 return this.$store.state.dashboard.alert.show
             },

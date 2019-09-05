@@ -175,7 +175,7 @@ class FDIListController extends Controller
         {
             return response()->json([
                 'success' => false,
-            ], $response['status_code']);
+            ], 500);
         } 
 
         return response()->json([

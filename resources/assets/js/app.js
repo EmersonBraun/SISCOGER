@@ -18,10 +18,4 @@ new Vue({
     store, 
     el: '#app',
     mixins: [functions],
-    mounted() {
-        this.alertMsg('asdasdasd', 'success')
-        // this.$store.state.alert = {
-        //     show: true, text: 'teste', type: 'success'
-        // }
-    },
 });

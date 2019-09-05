@@ -120,10 +120,10 @@
         @if(hasPermissionTo('listar-nota-coger'))
         <li class=""><a href="{{route('notacoger.index',date('Y'))}}"><i class="fa fa-fw fa-circle-o "></i><span>Notas COGER</span></a></li>
         @endif
-        @if(hasPermissionTo('listar-apresentacoes'))
+        @if(hasPermissionTo('listar-apresentacao'))
         <li class=""><a href="{{route('apresentacao.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Lista apresentações</span></a></li>
         @endif
-        @if(hasPermissionTo('listar-apresentacoes'))
+        @if(hasPermissionTo('listar-apresentacao'))
         <li class=""><a href="{{route('apresentacao.buscar')}}"><i class="fa fa-fw fa-circle-o "></i><span>Buscar Apresentação</span></a></li>
         @endif
         @if(hasPermissionTo('listar-locais'))

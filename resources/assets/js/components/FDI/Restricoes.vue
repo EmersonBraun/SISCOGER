@@ -56,7 +56,7 @@
         },
         methods: {
             listrestricoes(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/restricaoCivil/${this.rg}`;
+                let urlIndex = `${this.$root.baseUrl}api/fdi/restricoes/${this.rg}`;
                 if(this.rg){
                     axios
                     .get(urlIndex)

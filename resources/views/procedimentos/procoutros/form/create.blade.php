@@ -37,7 +37,7 @@
             <div class="box-body">
 
             {!! Form::open(['url' => route('procoutro.store')]) !!}
-                <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
                 <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
                     {{-- {!! Form::select('id_andamento',config('sistema.andamentoPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}
                 </v-label>
@@ -57,7 +57,7 @@
                     <v-datepicker name="limite_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['limite_data'] ?? ''}}"></v-datepicker>
                 </v-label>
                 <v-label label="cdopm" title="OPM">
-                    <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
+                    <v-opm cdopm="{{$proc['cdopm'] ?? ''}}"></v-opm>
                 </v-label>
                 <v-label label="doc_origem" title="Doc. Origem">---arrumar---
                     {!! Form::select('doc_origem',[],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
@@ -72,7 +72,7 @@
                     {{ Form::text('desc_outros', null, ['class' => 'form-control ']) }}
                 </v-label>
                 <v-label label="id_municipio" title="Municipio">
-                    <v-municipio id_municipio="{{$proc['id_municipio']}}"></v-municipio>
+                    <v-municipio id_municipio="{{$proc['id_municipio'] ?? ''}}"></v-municipio>
                 </v-label>
                 --subform viaturas--
                 <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
@@ -90,7 +90,6 @@
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
 @section('js')

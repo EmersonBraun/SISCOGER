@@ -6,6 +6,7 @@ export default{
         }
     },
     methods: {
+        ...mapActions('dashboard',['changeAlert','toogleSpinner']),
         getSessionData() {
             return JSON.parse(sessionStorage.getItem("session"))
         },
@@ -19,25 +20,20 @@ export default{
             let session = this.getSessionData()
             return session[dado]
         },
-        ...mapActions('dashboard',['changeAlert']),
-            alertMsg(text, type) {
-                let dados = {
-                    show: true,
-                    text: text,
-                    type: type
-                }
-                this.changeAlert(dados)
+        msg(text, type) {
 
-                let vazio = {}
-                setTimeout(() => this.changeAlert(vazio), 3000)
+            let dados = {
+                show: true,
+                text: text,
+                type: type
             }
-        // alertMsg(text, type){
-        //     this.alert = {
-        //         show: true,
-        //         text: text,
-        //         type: type
-        //     } 
-        //     setTimeout(this.alert.show = false, 3000);
-        // },
-    },
+            this.changeAlert(dados)
+
+            let vazio = {}
+            setTimeout(() => this.changeAlert(vazio), 3000)
+        },
+        load(){
+            this.toogleSpinner()
+        }
+    }
 }

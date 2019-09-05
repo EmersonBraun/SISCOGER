@@ -44,7 +44,7 @@ class FdiController extends Controller
 
         $this->service->registerAcesso($pm);
 
-        return view('FDI.ficha', compact('rg'));
+        return view('FDI.ficha', compact('pm'));
     }
   
 }

@@ -14,16 +14,37 @@ use Illuminate\Http\Request;
 */
 
 Route::get('acess/rhpr/{name?}', ['as' =>'api.opm','uses'=>'_Api\RHPR\OPMApiController@omsjd']);
+// Comportamento
+Route::group(['as'=>'comportamento.','prefix' =>'comportamento'],function(){
+    Route::get('atual/{rg}',['as' =>'atual','uses'=>'Policiais\ComportamentoController@atual']);
+    Route::get('list/{rg}',['as' =>'list','uses'=>'Policiais\ComportamentoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Policiais\ComportamentoController@store']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Policiais\ComportamentoController@update']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Policiais\ComportamentoController@destroy']);
+});
+// e-protocolo
+Route::group(['as'=>'protocolo.','prefix' =>'protocolo'],function(){
+    Route::get('list/{rg}',['as' =>'list','uses'=>'Policiais\ProtocoloController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Policiais\ProtocoloController@store']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Policiais\ProtocoloController@update']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Policiais\ProtocoloController@destroy']);
+});
+// Denuncia civil (Outras denúncias do fdi)
+Route::group(['as'=>'denuncia.','prefix' =>'denuncia'],function(){
+    Route::get('list/{rg}',['as' =>'list','uses'=>'Policiais\DenunciadoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Policiais\DenunciadoController@store']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Policiais\DenunciadoController@update']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Policiais\DenunciadoController@destroy']);
+});
+Route::get('denunciaCivil/{rg}',['as' =>'denunciaCivil','uses'=>'FDI\FDIListController@denunciaCivil']);
 
 Route::group(['as'=>'fdi.','prefix' =>'fdi'],function(){
     Route::get('dadosGerais/{rg}',['as' =>'dadosGerais','uses'=>'FDI\FDIListController@dadosGerais']);
     Route::get('dadosAdicionais/{rg}',['as' =>'dadosAdicionais','uses'=>'FDI\FDIListController@dadosAdicionais']);
-    Route::get('comportamento/{rg}',['as' =>'comportamento','uses'=>'FDI\FDIListController@comportamento']);
     Route::get('preso/{rg}',['as' =>'preso','uses'=>'FDI\FDIListController@preso']);
     Route::get('suspenso/{rg}',['as' =>'suspenso','uses'=>'FDI\FDIListController@suspenso']);
     Route::get('excluido/{rg}',['as' =>'excluido','uses'=>'FDI\FDIListController@excluido']);
     Route::get('subJudice/{rg}',['as' =>'subJudice','uses'=>'FDI\FDIListController@subJudice']);
-    Route::get('denunciaCivil/{rg}',['as' =>'denunciaCivil','uses'=>'FDI\FDIListController@denunciaCivil']);
     Route::get('prisoes/{rg}',['as' =>'prisoes','uses'=>'FDI\FDIListController@prisoes']);
     Route::get('restricoes/{rg}',['as' =>'restricoes','uses'=>'FDI\FDIListController@restricoes']);
     Route::get('afastamentos/{rg}',['as' =>'afastamentos','uses'=>'FDI\FDIListController@afastamentos']);
@@ -31,7 +52,6 @@ Route::group(['as'=>'fdi.','prefix' =>'fdi'],function(){
     Route::get('sai/{rg}',['as' =>'sai','uses'=>'FDI\FDIListController@sai']);
     Route::get('objetos/{rg}',['as' =>'objetos','uses'=>'FDI\FDIListController@objetos']);
     Route::get('membros/{rg}',['as' =>'membros','uses'=>'FDI\FDIListController@membros']);
-    Route::get('comportamentos/{rg}',['as' =>'comportamentos','uses'=>'FDI\FDIListController@comportamentos']);
     Route::get('elogios/{rg}',['as' =>'elogios','uses'=>'FDI\FDIListController@elogios']);
     Route::get('punicoes/{rg}',['as' =>'punicoes','uses'=>'FDI\FDIListController@punicoes']);
     Route::get('tramitacao/{rg}',['as' =>'tramitacao','uses'=>'FDI\FDIListController@tramitacao']);
@@ -40,15 +60,7 @@ Route::group(['as'=>'fdi.','prefix' =>'fdi'],function(){
     Route::get('procOutros/{rg}',['as' =>'procOutros','uses'=>'FDI\FDIListController@procOutros']);
     Route::get('log/{rg}',['as' =>'log','uses'=>'FDI\FDIListController@log']);
     // pegar cautelas do PM pelo RG
-    Route::get('cautelas/{rg}',['as' =>'cautelas','uses'=>'FDI\FDIListController@@cautelas']);
-    Route::group(['as'=>'protocolo.','prefix' =>'protocolo'],function(){
-        Route::get('list/{rg}',['as' =>'list','uses'=>'Policiais\ProtocoloController@list']);
-        Route::post('store',['as' =>'store','uses'=>'Policiais\ProtocoloController@store']);
-        Route::delete('delete/{id}',['as' =>'delete','uses'=>'Policiais\ProtocoloController@delete']);
-        Route::get('list/{proc}/{id}/{arquivo}',['as' =>'index','uses'=>'Policiais\ProtocoloController@index']);
-        //Route::post('remover',['as' =>'remover','uses'=>'UploadController@remover']);
-    });
-
+    Route::get('cautelas/{rg}',['as' =>'cautelas','uses'=>'FDI\FDIListController@cautelas']);
 });
 // rotas componente Arquivos/FileUpload.vue
 Route::group(['as'=>'fileupload.','prefix' =>'fileupload'],function(){

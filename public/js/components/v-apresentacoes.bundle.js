@@ -71,6 +71,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.canCreate = this.$root.hasPermission('criar-apresentacao');
     },
 
+    computed: {
+        urlCreate: function urlCreate() {
+            return this.$root.baseUrl + "apresentacao/criar";
+        }
+    },
     methods: {
         listApresentacoes: function listApresentacoes() {
             var _this = this;
@@ -109,7 +114,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -246,10 +251,10 @@ var render = function() {
       _vm.canCreate
         ? [
             _c(
-              "button",
+              "a",
               {
                 staticClass: "btn btn-primary btn-block",
-                attrs: { type: "button" }
+                attrs: { href: _vm.urlCreate }
               },
               [
                 _c("i", { staticClass: "fa fa-plus" }),

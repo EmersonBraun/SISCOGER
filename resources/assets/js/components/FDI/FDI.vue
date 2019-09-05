@@ -96,7 +96,7 @@
         },
         methods: {
             listComportamentos(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/comportamentos/${this.rg}`;
+                let urlIndex = `${this.$root.baseUrl}api/comportamento/list/${this.rg}`;
                 if(this.rg){
                     axios
                     .get(urlIndex)

@@ -1,6 +1,5 @@
 <template>
     <v-tab header="Proc. Outros" :badge="procoutros.length">
-    <h4 class="text-center text-bold">Marcado em procedimentos como Acusado, Indiciado, Sindicado ou Paciente</h4>
         <table class="table table-striped">
         <tbody>
             <template v-if="procoutros.length">
@@ -43,6 +42,11 @@
             </template>
         </tbody>
     </table>
+    <template v-if="canCreate">
+        <a :href="urlCreate" class="btn btn-primary btn-block">
+            <i class="fa fa-plus"></i>Adicionar Proc. Outros
+        </a>
+    </template>
     </v-tab>
 </template>
 
@@ -51,11 +55,18 @@
         props:['rg'],
         data() {
             return {
-                procoutros: []
+                procoutros: [],
+                canCreate: false
             }
         },
         mounted(){
             this.listprocoutros()
+            this.canCreate = this.$root.hasPermission('criar-proc-outros')
+        },
+        computed: {
+            urlCreate() {
+                return `${this.$root.baseUrl}procoutro/criar`;
+            }
         },
         methods: {
             listprocoutros(){

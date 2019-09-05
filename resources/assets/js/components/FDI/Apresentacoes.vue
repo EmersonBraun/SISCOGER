@@ -39,9 +39,9 @@
             </tbody>
         </table>
         <template v-if="canCreate">
-            <button type="button" class="btn btn-primary btn-block">
+            <a :href="urlCreate" class="btn btn-primary btn-block">
                 <i class="fa fa-plus"></i>Adicionar Apresentação
-            </button>
+            </a>
         </template>
     </v-tab>
 </template>
@@ -105,6 +105,11 @@
         mounted(){
             this.listApresentacoes()
             this.canCreate = this.$root.hasPermission('criar-apresentacao')
+        },
+        computed: {
+            urlCreate() {
+                return `${this.$root.baseUrl}apresentacao/criar`;
+            }
         },
         methods: {
             listApresentacoes(){

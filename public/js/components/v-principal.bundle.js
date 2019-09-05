@@ -102,10 +102,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['rg'],
+    props: {
+        pm: { type: Object }
+    },
     data: function data() {
         return {
-            pm: '',
             adc: '',
             comportamento: '',
             preso: '',
@@ -115,7 +116,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
     mounted: function mounted() {
-        this.listDadosGerais();
+        // this.listDadosGerais()
         this.listDadosAdicionais();
         this.listComportamento();
         this.estaPreso();
@@ -130,85 +131,84 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        listDadosGerais: function listDadosGerais() {
+        // listDadosGerais(){
+        //     let urlIndex = `${this.$root.baseUrl}api/fdi/dadosGerais/${this.pm.RG}`;
+        //     if(this.pm.RG){
+        //         axios
+        //         .get(urlIndex)
+        //         .then((response) => {
+        //             this.pm = response.data
+        //         })
+        //         .catch(error => console.log(error));
+        //     }
+        // },
+        listDadosAdicionais: function listDadosAdicionais() {
             var _this = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/dadosGerais/' + this.rg;
-            if (this.rg) {
+            var urlIndex = this.$root.baseUrl + 'api/fdi/dadosAdicionais/' + this.pm.RG;
+            if (this.pm.RG) {
                 axios.get(urlIndex).then(function (response) {
-                    _this.pm = response.data;
-                }).catch(function (error) {
-                    return console.log(error);
-                });
-            }
-        },
-        listDadosAdicionais: function listDadosAdicionais() {
-            var _this2 = this;
-
-            var urlIndex = this.$root.baseUrl + 'api/fdi/dadosAdicionais/' + this.rg;
-            if (this.rg) {
-                axios.get(urlIndex).then(function (response) {
-                    _this2.adc = response.data;
+                    _this.adc = response.data;
                 }).catch(function (error) {
                     return console.log(error);
                 });
             }
         },
         listComportamento: function listComportamento() {
-            var _this3 = this;
+            var _this2 = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/comportamento/' + this.rg;
-            if (this.rg) {
+            var urlIndex = this.$root.baseUrl + 'api/comportamento/atual/' + this.pm.RG;
+            if (this.pm.RG) {
                 axios.get(urlIndex).then(function (response) {
-                    _this3.comportamento = response.data;
+                    _this2.comportamento = response.data;
                 }).catch(function (error) {
                     return console.log(error);
                 });
             }
         },
         estaPreso: function estaPreso() {
-            var _this4 = this;
+            var _this3 = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/preso/' + this.rg;
-            if (this.rg) {
+            var urlIndex = this.$root.baseUrl + 'api/fdi/preso/' + this.pm.RG;
+            if (this.pm.RG) {
                 axios.get(urlIndex).then(function (response) {
-                    _this4.preso = response.data;
+                    _this3.preso = response.data;
                 }).catch(function (error) {
                     return console.log(error);
                 });
             }
         },
         estaSuspenso: function estaSuspenso() {
-            var _this5 = this;
+            var _this4 = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/suspenso/' + this.rg;
-            if (this.rg) {
+            var urlIndex = this.$root.baseUrl + 'api/fdi/suspenso/' + this.pm.RG;
+            if (this.pm.RG) {
                 axios.get(urlIndex).then(function (response) {
-                    _this5.suspenso = response.data;
+                    _this4.suspenso = response.data;
                 }).catch(function (error) {
                     return console.log(error);
                 });
             }
         },
         estaExcluido: function estaExcluido() {
-            var _this6 = this;
+            var _this5 = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/excluido/' + this.rg;
-            if (this.rg) {
+            var urlIndex = this.$root.baseUrl + 'api/fdi/excluido/' + this.pm.RG;
+            if (this.pm.RG) {
                 axios.get(urlIndex).then(function (response) {
-                    _this6.excluido = response.data;
+                    _this5.excluido = response.data;
                 }).catch(function (error) {
                     return console.log(error);
                 });
             }
         },
         estaSubJudice: function estaSubJudice() {
-            var _this7 = this;
+            var _this6 = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/subJudice/' + this.rg;
-            if (this.rg) {
+            var urlIndex = this.$root.baseUrl + 'api/fdi/subJudice/' + this.pm.RG;
+            if (this.pm.RG) {
                 axios.get(urlIndex).then(function (response) {
-                    _this7.subJudice = response.data;
+                    _this6.subJudice = response.data;
                 }).catch(function (error) {
                     return console.log(error);
                 });
@@ -291,7 +291,6 @@ var render = function() {
             _c("a", { attrs: { href: _vm.foto } }, [
               _c("img", {
                 staticClass: "img-responsive",
-                staticStyle: { "max-height": "350px", "max-width": "250px" },
                 attrs: { src: _vm.foto }
               })
             ])

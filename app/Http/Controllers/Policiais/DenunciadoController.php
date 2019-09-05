@@ -32,19 +32,13 @@ class DenunciadoController extends Controller
         return view('policiais.denunciado.index', compact('registros'));
     }
 
-
-    public function create()
+    public function list($rg)
     {
-        return view('policiais.denunciacivil.create');
+        return $this->repository->estaDenunciado($rg);
     }
 
     public function store(Request $request)
     {
-
-        $this->validate($request, [
-            'data' => 'required',
-            'denunciacivil' => 'required',
-        ]);
         
         $dados = $request->all();
         $create = $this->repository->create($dados);
@@ -52,41 +46,24 @@ class DenunciadoController extends Controller
         if($create)
         {
             $this->repository->cleanCache();
-            toast()->success('N° ','denunciacivil Inserido');
-            return redirect()->route('denunciacivil.index');
+            return response()->json(['success' => true,200]);
         }
-
-        toast()->warning('Houve um erro na inserção');
-        return redirect()->back();
+        return response()->json(['success' => false,200]);
     }
 
-    public function edit($id)
-    {
-        $proc = $this->repository->findOrFail($id);
-        if(!$proc) abort('404');
-        
-        return view('policiais.denunciacivil.edit', compact('proc'));
-    }
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'data' => 'required',
-            'denunciacivil' => 'required',
-        ]);
-
         $dados = $request->all();
         $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
             $this->repository->cleanCache();
-            toast()->success('denunciacivil atualizado!');
-            return redirect()->route('denunciacivil.index');
+            return response()->json(['success' => true,200]);
         }
 
-        toast()->warning('denunciacivil NÃO atualizado!');
-        return redirect()->route('denunciacivil.index');
+        return response()->json(['success' => false,200]);
     }
 
     public function destroy($id)
@@ -95,12 +72,10 @@ class DenunciadoController extends Controller
 
         if($destroy) {
             $this->repository->cleanCache();
-            toast()->success('denunciacivil Apagado');
-            return redirect()->route('denunciacivil.index');
+            return response()->json(['success' => true,200]);
         }
 
-        toast()->warning('erro ao apagar denunciacivil');
-        return redirect()->route('denunciacivil.index');
+        return response()->json(['success' => false,200]);
     }
 
     public function restore($id)
@@ -109,12 +84,10 @@ class DenunciadoController extends Controller
         
         if($restore){
             $this->repository->cleanCache();
-            toast()->success('Suspenso Recuperado!');
-            return redirect()->route('suspenso.index');  
+            return response()->json(['success' => true,200]);  
         }
 
-        toast()->warning('Houve um erro ao recuperar!');
-        return redirect()->route('suspenso.index'); 
+        return response()->json(['success' => false,200]); 
     }
 
     public function forceDelete($id)
@@ -123,11 +96,10 @@ class DenunciadoController extends Controller
     
         if($forceDelete){
             $this->repository->cleanCache();
-            toast()->success('Suspenso Apagado definitivo!');
-            return redirect()->route('suspenso.index');  
+            return response()->json(['success' => true,200]);  
         }
 
-        toast()->warning('Houve um erro ao Apagar definitivo!');
-        return redirect()->route('suspenso.index');
+        return response()->json(['success' => false,200]);
     }
+
 }

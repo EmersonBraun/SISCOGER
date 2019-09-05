@@ -15,7 +15,7 @@
 <section class="noppading">
     <div class="row">
         <div class="col-xs-12">
-            <v-principal rg="<?php echo e($rg); ?>"></v-principal>
+            <v-principal :pm="<?php echo e($pm); ?>"></v-principal>
         </div>     
     </div>
     <div class="row">
@@ -24,40 +24,40 @@
                 <div class="box-body">
                     <v-tabs nav-style="pills" justified>
                         <?php if(hasPermissionTo('ver-protocolo-fdi')): ?>
-                            <v-protocolo rg="<?php echo e($rg); ?>"></v-protocolo>
+                            <v-protocolo :pm="<?php echo e($pm->RG); ?>"></v-protocolo>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-denuncias')): ?>
-                            <v-denuncias rg="<?php echo e($rg); ?>"></v-denuncias>
+                            <v-denuncias rg="<?php echo e($pm->RG); ?>"></v-denuncias>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-outras-denuncias')): ?>
-                            <v-outras-denuncias rg="<?php echo e($rg); ?>"></v-outras-denuncias>
+                            <v-outras-denuncias :pm="<?php echo e($pm); ?>"></v-outras-denuncias>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-prisoes')): ?>
-                            <v-prisoes rg="<?php echo e($rg); ?>"></v-prisoes>
+                            <v-prisoes rg="<?php echo e($pm->RG); ?>"></v-prisoes>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-restricoes')): ?>
-                            <v-restricoes rg="<?php echo e($rg); ?>"></v-restricoes>
+                            <v-restricoes rg="<?php echo e($pm->RG); ?>"></v-restricoes>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('listar-sai')): ?>
-                            <v-sai rg="<?php echo e($rg); ?>"></v-sai>
+                            <v-sai rg="<?php echo e($pm->RG); ?>"></v-sai>
                         <?php endif; ?>
                         <?php if(hasAnyPermission(['ver-mudanca-comportamento','ver-elogios'])): ?>
-                            <v-fdi rg="<?php echo e($rg); ?>"></v-fdi>
+                            <v-fdi rg="<?php echo e($pm->RG); ?>"></v-fdi>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-objetos')): ?>
-                            <v-objeto rg="<?php echo e($rg); ?>"></v-objeto>
+                            <v-objeto rg="<?php echo e($pm->RG); ?>"></v-objeto>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-membros')): ?>
-                            <v-membro rg="<?php echo e($rg); ?>"></v-membro>
+                            <v-membro rg="<?php echo e($pm->RG); ?>"></v-membro>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-aprestacoes')): ?>
-                            <v-apresentacoes rg="<?php echo e($rg); ?>"></v-apresentacoes>
+                            <v-apresentacoes rg="<?php echo e($pm->RG); ?>"></v-apresentacoes>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-proc-outros')): ?>
-                            <v-proc-outros rg="<?php echo e($rg); ?>"></v-proc-outros>
+                            <v-proc-outros rg="<?php echo e($pm->RG); ?>"></v-proc-outros>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-cautelas')): ?>
-                            <v-cautelas rg="<?php echo e($rg); ?>"></v-cautelas>
+                            <v-cautelas rg="<?php echo e($pm->RG); ?>"></v-cautelas>
                         <?php endif; ?>
                     </v-tabs>
                 </div>   
@@ -66,19 +66,19 @@
     </div>      
 
     <?php if(hasPermissionTo('ver-afastamentos')): ?>
-        <v-afastamentos rg="<?php echo e($rg); ?>"></v-afastamentos>
+        <v-afastamentos rg="<?php echo e($pm->RG); ?>"></v-afastamentos>
     <?php endif; ?>
     <?php if(hasPermissionTo('ver-dependentes')): ?>
-        <v-dependentes rg="<?php echo e($rg); ?>"></v-dependentes>
+        <v-dependentes rg="<?php echo e($pm->RG); ?>"></v-dependentes>
     <?php endif; ?>
     <?php if(hasPermissionTo('ver-tramite-coger')): ?>
-        <v-tramite-coger rg="<?php echo e($rg); ?>"></v-tramite-coger>
+        <v-tramite-coger rg="<?php echo e($pm->RG); ?>"></v-tramite-coger>
     <?php endif; ?>
     <?php if(hasPermissionTo('ver-tramite-opm')): ?>
-        <v-tramite-opm rg="<?php echo e($rg); ?>"></v-tramite-opm>
+        <v-tramite-opm rg="<?php echo e($pm->RG); ?>"></v-tramite-opm>
     <?php endif; ?>
     <?php if(session('is_admin')): ?>
-        <v-log-fdi rg="<?php echo e($rg); ?>"></v-log-fdi>
+        <v-log-fdi rg="<?php echo e($pm->RG); ?>"></v-log-fdi>
     <?php endif; ?>
     
 </section>

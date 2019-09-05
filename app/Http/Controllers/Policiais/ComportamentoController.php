@@ -29,6 +29,15 @@ class ComportamentoController extends Controller
         return $this->repository->comportamentos($copm);
     }
 
+    public function atual($rg)
+    {
+        return $this->repository->comportamentoAtual($rg);
+    }
+
+    public function list($rg)
+    {
+        return $this->repository->comportamentoPM($rg);
+    }
 
     public function create()
     {

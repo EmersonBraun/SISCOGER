@@ -66,7 +66,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         listrestricoes: function listrestricoes() {
             var _this = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/restricaoCivil/' + this.rg;
+            var urlIndex = this.$root.baseUrl + 'api/fdi/restricoes/' + this.rg;
             if (this.rg) {
                 axios.get(urlIndex).then(function (response) {
                     _this.restricoes = response.data;

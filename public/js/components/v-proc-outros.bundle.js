@@ -53,18 +53,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['rg'],
     data: function data() {
         return {
-            procoutros: []
+            procoutros: [],
+            canCreate: false
         };
     },
     mounted: function mounted() {
         this.listprocoutros();
+        this.canCreate = this.$root.hasPermission('criar-proc-outros');
     },
 
+    computed: {
+        urlCreate: function urlCreate() {
+            return this.$root.baseUrl + 'procoutro/criar';
+        }
+    },
     methods: {
         listprocoutros: function listprocoutros() {
             var _this = this;
@@ -95,7 +106,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -113,12 +124,6 @@ var render = function() {
     "v-tab",
     { attrs: { header: "Proc. Outros", badge: _vm.procoutros.length } },
     [
-      _c("h4", { staticClass: "text-center text-bold" }, [
-        _vm._v(
-          "Marcado em procedimentos como Acusado, Indiciado, Sindicado ou Paciente"
-        )
-      ]),
-      _vm._v(" "),
       _c("table", { staticClass: "table table-striped" }, [
         _c(
           "tbody",
@@ -207,8 +212,25 @@ var render = function() {
           ],
           2
         )
-      ])
-    ]
+      ]),
+      _vm._v(" "),
+      _vm.canCreate
+        ? [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-primary btn-block",
+                attrs: { href: _vm.urlCreate }
+              },
+              [
+                _c("i", { staticClass: "fa fa-plus" }),
+                _vm._v("Adicionar Proc. Outros\n    ")
+              ]
+            )
+          ]
+        : _vm._e()
+    ],
+    2
   )
 }
 var staticRenderFns = []

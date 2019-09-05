@@ -33,35 +33,19 @@ class ProtocoloController extends Controller
         return response()->json(['success' => false,200]);
     }
 
-    public function edit($id)
-    {
-        $proc = $this->repository->findOrFail($id);
-        if(!$proc) abort('404');
-        
-        return view('policiais.preso_outro.form.edit', compact('proc'));
-    }
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'rg' => 'required',
-            'nome' => 'required',
-            'cdopm_prisao' => 'required',
-            'inicio_data' => 'required',
-        ]);
-
         $dados = $request->all();
         $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
             $this->repository->cleanCache();
-            toast()->success('preso atualizado!');
-            return redirect()->route('presooutro.index');
+            return response()->json(['success' => true,200]);
         }
 
-        toast()->warning('preso NÃO atualizado!');
-        return redirect()->route('presooutro.index');
+        return response()->json(['success' => false,200]);
     }
 
     public function destroy($id)
@@ -70,12 +54,10 @@ class ProtocoloController extends Controller
 
         if($destroy) {
             $this->repository->cleanCache();
-            toast()->success('preso Apagado');
-            return redirect()->route('presooutro.index');
+            return response()->json(['success' => true,200]);
         }
 
-        toast()->warning('erro ao apagar preso');
-        return redirect()->route('presooutro.index');
+        return response()->json(['success' => false,200]);
     }
 
     public function restore($id)
@@ -84,12 +66,10 @@ class ProtocoloController extends Controller
         
         if($restore){
             $this->repository->cleanCache();
-            toast()->success('Preso Recuperado!');
-            return redirect()->route('presooutro.index');  
+            return response()->json(['success' => true,200]);  
         }
 
-        toast()->warning('Houve um erro ao recuperar!');
-        return redirect()->route('presooutro.index'); 
+        return response()->json(['success' => false,200]); 
     }
 
     public function forceDelete($id)
@@ -98,11 +78,9 @@ class ProtocoloController extends Controller
     
         if($forceDelete){
             $this->repository->cleanCache();
-            toast()->success('Preso Apagado definitivo!');
-            return redirect()->route('presooutro.index');  
+            return response()->json(['success' => true,200]);  
         }
 
-        toast()->warning('Houve um erro ao Apagar definitivo!');
-        return redirect()->route('presooutro.index');
+        return response()->json(['success' => false,200]);
     }
 }

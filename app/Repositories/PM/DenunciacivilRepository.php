@@ -41,7 +41,6 @@ class DenunciacivilRepository extends BaseRepository
                 ->get();
         });
 
-        $registros = (is_null($registros) || !count($registros)) ? false : (object) $registros;
         return $registros;
     }
 

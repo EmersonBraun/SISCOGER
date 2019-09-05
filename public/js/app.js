@@ -1730,13 +1730,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            spinner: false
-        };
-    },
-
     computed: {
+        spinner: function spinner() {
+            return this.$store.state.dashboard.spinner;
+        },
         show: function show() {
             return this.$store.state.dashboard.alert.show;
         },
@@ -6201,7 +6198,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -54197,8 +54194,7 @@ var render = function() {
             placement: "top-right",
             duration: "3000",
             type: _vm.type,
-            width: "400px",
-            dismissable: ""
+            width: "400px"
           },
           model: {
             value: _vm.show,
@@ -67507,13 +67503,7 @@ __webpack_require__("./resources/assets/js/filters.js");
 new Vue({
     store: __WEBPACK_IMPORTED_MODULE_1__store_store__["a" /* default */],
     el: '#app',
-    mixins: [__WEBPACK_IMPORTED_MODULE_2__functions__["a" /* default */]],
-    mounted: function mounted() {
-        this.alertMsg('asdasdasd', 'success');
-        // this.$store.state.alert = {
-        //     show: true, text: 'teste', type: 'success'
-        // }
-    }
+    mixins: [__WEBPACK_IMPORTED_MODULE_2__functions__["a" /* default */]]
 });
 
 /***/ }),
@@ -67980,7 +67970,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         };
     },
 
-    methods: _extends({
+    methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])('dashboard', ['changeAlert', 'toogleSpinner']), {
         getSessionData: function getSessionData() {
             return JSON.parse(sessionStorage.getItem("session"));
         },
@@ -67995,9 +67985,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         dadoSession: function dadoSession(dado) {
             var session = this.getSessionData();
             return session[dado];
-        }
-    }, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])('dashboard', ['changeAlert']), {
-        alertMsg: function alertMsg(text, type) {
+        },
+        msg: function msg(text, type) {
             var _this = this;
 
             var dados = {
@@ -68011,16 +68000,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             setTimeout(function () {
                 return _this.changeAlert(vazio);
             }, 3000);
+        },
+        load: function load() {
+            this.toogleSpinner();
         }
-        // alertMsg(text, type){
-        //     this.alert = {
-        //         show: true,
-        //         text: text,
-        //         type: type
-        //     } 
-        //     setTimeout(this.alert.show = false, 3000);
-        // },
-
     })
 });
 
@@ -68033,6 +68016,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["a"] = ({
     namespaced: true,
     state: {
+        spinner: false,
         alert: {}
     },
     getters: {
@@ -68043,11 +68027,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     mutations: {
         changeAlert: function changeAlert(state, payload) {
             state.alert = payload;
+        },
+        toogleSpinner: function toogleSpinner(state) {
+            state.spinner = true ? false : true;
         }
     },
     actions: {
         changeAlert: function changeAlert(context, payload) {
             context.commit('changeAlert', payload);
+        },
+        toogleSpinner: function toogleSpinner(context) {
+            context.commit('toogleSpinner');
         }
     }
 });

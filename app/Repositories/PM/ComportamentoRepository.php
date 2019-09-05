@@ -160,8 +160,9 @@ class ComportamentoRepository extends BaseRepository
 
     }
 
-    public function comportamentoAtual($pm)
+    public function comportamentoAtual($rg)
     {
+        $pm = $this->policial->where('rg',$rg)->first();
         /*verificar se é oficial
         Se o id_posto for menor ou igual a 6, nao tem comportamento
         1-CEL 2-TENCEL 3-MAJ 4-CAP 5-1TEN 6-2TEN*/

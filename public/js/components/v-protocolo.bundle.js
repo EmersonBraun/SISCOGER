@@ -1,4 +1,4 @@
-webpackJsonp([1,5,14,28,29],{
+webpackJsonp([1,5,14,29],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FDI/Protocolo.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -7,18 +7,10 @@ webpackJsonp([1,5,14,28,29],{
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Vuestrap_Modal_vue__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Modal.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Vuestrap_Modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Vuestrap_Modal_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Alert_vue__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Alert.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Alert_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Vuestrap_Alert_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Form_Label_vue__ = __webpack_require__("./resources/assets/js/components/Form/Label.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Form_Label_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Form_Label_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_the_mask__ = __webpack_require__("./node_modules/vue-the-mask/dist/vue-the-mask.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_the_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_the_mask__);
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Form_Label_vue__ = __webpack_require__("./resources/assets/js/components/Form/Label.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Form_Label_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Form_Label_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_the_mask__ = __webpack_require__("./node_modules/vue-the-mask/dist/vue-the-mask.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_the_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_the_mask__);
 //
 //
 //
@@ -108,79 +100,106 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { Modal: __WEBPACK_IMPORTED_MODULE_0__Vuestrap_Modal_vue___default.a, Label: __WEBPACK_IMPORTED_MODULE_2__Form_Label_vue___default.a, TheMask: __WEBPACK_IMPORTED_MODULE_3_vue_the_mask__["TheMask"], Alert: __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Alert_vue___default.a },
+    components: { Modal: __WEBPACK_IMPORTED_MODULE_0__Vuestrap_Modal_vue___default.a, Label: __WEBPACK_IMPORTED_MODULE_1__Form_Label_vue___default.a, TheMask: __WEBPACK_IMPORTED_MODULE_2_vue_the_mask__["TheMask"] },
     props: ['rg'],
     data: function data() {
         return {
-            protocolos: [],
-            protocolo: {},
+            module: 'protocolo',
+            permission: 'protocolo',
+            registros: [],
+            registro: {},
             canCreate: false,
             canEdit: false,
             canDelete: false,
-            showModal: false,
-            confirmModal: false
+            showModal: false
         };
+    },
+    mounted: function mounted() {
+        this.list();
+        this.canCreate = this.$root.hasPermission('criar-' + this.permission);
+        this.canEdit = this.$root.hasPermission('editar-' + this.permission);
+        this.canDelete = this.$root.hasPermission('apagar-' + this.permission);
+        this.registro.rg_autor = this.$root.dadoSession('rg');
+        this.registro.rg = this.rg;
     },
 
     computed: {
         requireds: function requireds() {
-            if (this.protocolo.numero && this.protocolo.descricao_txt) return false;
+            if (this.registro.numero && this.registro.descricao_txt) return false;
             return true;
         },
         lenght: function lenght() {
-            return Object.keys(this.protocolos).length;
+            if (this.registros) return Object.keys(this.registros).length;
+            return 0;
         }
     },
-    mounted: function mounted() {
-        this.listProtocolo();
-        this.canCreate = this.$root.hasPermission('criar-protocolo');
-        this.canEdit = this.$root.hasPermission('editar-protocolo');
-        this.canDelete = this.$root.hasPermission('apagar-protocolo');
-        this.protocolo.rg_autor = this.$root.dadoSession('rg');
-        this.protocolo.rg = this.rg;
-        this.$root.alertMsg('Teste', 'success');
-    },
-
     methods: {
-        listProtocolo: function listProtocolo() {
+        list: function list() {
             var _this = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/protocolo/list/' + this.rg;
+            var urlIndex = this.$root.baseUrl + 'api/' + this.module + '/list/' + this.rg;
             if (this.rg) {
                 axios.get(urlIndex).then(function (response) {
-                    _this.protocolos = response.data;
+                    _this.registros = response.data;
                 }).catch(function (error) {
                     return console.log(error);
                 });
             }
         },
-        createProtocolo: function createProtocolo() {
+        create: function create() {
             var _this2 = this;
 
-            var urlSave = this.$root.baseUrl + 'api/fdi/protocolo/store';
-            axios.post(urlSave, this.protocolo).then(function (response) {
-                if (response.data.success) _this2.listProtocolo();
-            }).then(function () {
-                _this2.showModal = false;
-                _this2.$root.alertMsg('Inserido com Sucesso', 'success');
+            var urlCreate = this.$root.baseUrl + 'api/' + this.module + '/store';
+            axios.post(urlCreate, this.registro).then(function (response) {
+                _this2.transation(response.data.success, 'create');
             }).catch(function (error) {
                 return console.log(error);
             });
             this.showModal = false;
         },
-        editProtocolo: function editProtocolo(protocolo) {
-            this.protocolo = protocolo;
+        edit: function edit(registro) {
+            this.registro = registro;
             this.showModal = true;
         },
-        updateProtocolo: function updateProtocolo(id) {
+        update: function update(id) {
             var _this3 = this;
 
-            var urlSave = this.$root.baseUrl + 'api/fdi/protocolo/update/' + id;
-            axios.get(urlSave).then(function (response) {
-                if (response.data.success) _this3.listProtocolo();
+            var urlUpdate = this.$root.baseUrl + 'api/' + this.module + '/update/' + id;
+            axios.put(urlUpdate, this.registro).then(function (response) {
+                _this3.transation(response.data.success, 'edit');
             }).catch(function (error) {
                 return console.log(error);
             });
+        },
+        destroy: function destroy(id) {
+            var _this4 = this;
+
+            if (confirm('Você tem certeza?')) {
+                var urlDelete = this.$root.baseUrl + 'api/' + this.module + '/destroy/' + id;
+                axios.delete(urlDelete).then(function (response) {
+                    _this4.transation(response.data.success, 'delete');
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        transation: function transation(happen, type) {
+            var msg = this.words(type);
+            this.showModal = false;
+            if (happen) {
+                // se deu certo
+                this.list();
+                this.$root.msg(msg.success, 'success');
+                this.registro = [];
+            } else {
+                // se falhou
+                this.$root.msg(msg.fail, 'danger');
+            }
+        },
+        words: function words(type) {
+            if (type == 'create') return { success: 'Inserido com sucesso', fail: 'Erro ao inserir' };
+            if (type == 'edit') return { success: 'Editado com sucesso', fail: 'Erro ao editar' };
+            if (type == 'delete') return { success: 'Apagado com sucesso', fail: 'Erro ao apagar' };
         }
     }
 });
@@ -236,69 +255,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return form + lg + md + xs + error;
         }
     }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Vuestrap/Alert.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_utils_js__ = __webpack_require__("./resources/assets/js/components/Vuestrap/utils/utils.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-var DURATION = 0;
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    dismissable: { type: Boolean, default: false },
-    duration: { default: DURATION },
-    placement: { type: String },
-    type: { type: String },
-    value: { type: Boolean, default: true },
-    width: { type: String }
-  },
-  data: function data() {
-    return {
-      val: this.value
-    };
-  },
-
-  computed: {
-    durationNum: function durationNum() {
-      return __WEBPACK_IMPORTED_MODULE_0__utils_utils_js__["a" /* coerce */].number(this.duration, DURATION);
-    }
-  },
-  watch: {
-    val: function val(_val) {
-      if (_val && this.durationNum > 0) {
-        this._delayClose();
-      }
-      this.$emit('input', _val);
-    },
-    value: function value(val) {
-      if (this.val !== val) {
-        this.val = val;
-      }
-    }
-  },
-  created: function created() {
-    this._delayClose = Object(__WEBPACK_IMPORTED_MODULE_0__utils_utils_js__["b" /* delayer */])(function () {
-      this.val = false;
-    }, 'durationNum');
-  }
 });
 
 /***/ }),
@@ -454,21 +410,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-02e38c84\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Vuestrap/Alert.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.fade-enter-active,\n.fade-leave-active {\n  transition: opacity .3s ease;\n}\n.fade-enter,\n.fade-leave-active {\n  height: 0;\n  opacity: 0;\n}\n.alert.top {\n  position: fixed;\n  top: 30px;\n  margin: 0 auto;\n  left: 0;\n  right: 0;\n  z-index: 1050;\n}\n.alert.top-right {\n  position: fixed;\n  top: 30px;\n  right: 50px;\n  z-index: 1050;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3ab01cec\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/FDI/Protocolo.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -477,7 +418,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\ntd[data-v-3ab01cec] {\n  white-space: normal !important; \n  word-wrap: break-word;\n}\ntable[data-v-3ab01cec] {\n  table-layout: fixed;\n}\n", ""]);
 
 // exports
 
@@ -529,65 +470,6 @@ exports.push([module.i, "\n.modal {\n  transition: all 0.3s ease;\n}\n.modal.in 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-02e38c84\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Vuestrap/Alert.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("transition", { attrs: { name: "fade" } }, [
-    _c(
-      "div",
-      {
-        directives: [
-          { name: "show", rawName: "v-show", value: _vm.val, expression: "val" }
-        ],
-        class: ["alert", "alert-" + _vm.type, _vm.placement],
-        style: { width: _vm.width },
-        attrs: { role: "alert" }
-      },
-      [
-        _c(
-          "button",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.dismissable,
-                expression: "dismissable"
-              }
-            ],
-            staticClass: "close",
-            attrs: { type: "button" },
-            on: {
-              click: function($event) {
-                _vm.val = false
-              }
-            }
-          },
-          [_c("span", [_vm._v("×")])]
-        ),
-        _vm._v(" "),
-        _vm._t("default")
-      ],
-      2
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-02e38c84", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3ab01cec\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/FDI/Protocolo.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -599,63 +481,130 @@ var render = function() {
     "v-tab",
     { attrs: { header: "E-Protocolo", badge: _vm.lenght } },
     [
-      _c("table", { staticClass: "table table-striped" }, [
-        _c(
-          "tbody",
-          [
-            _vm.lenght
-              ? [
-                  _c("tr", [
-                    _c("th", [_vm._v("N° Documento")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Descrição")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("RG Autor")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("RG Analista")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Observações")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Ações")])
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.protocolos, function(protocolo) {
-                    return _c("tr", { key: protocolo.id_protocolo }, [
-                      _c("td", [_vm._v(_vm._s(protocolo.numero))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(protocolo.descricao_txt))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(protocolo.rg_autor))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(protocolo.rg_analista))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(protocolo.obs))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("Ações")])
-                    ])
-                  })
-                ]
-              : [_c("tr", [_c("td", [_vm._v("Nada encontrado")])])]
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
       _c(
-        "a",
-        {
-          staticClass: "btn btn-primary btn-block",
-          on: {
-            click: function($event) {
-              _vm.showModal = true
-            }
-          }
-        },
+        "table",
+        { staticClass: "table table-striped" },
         [
-          _c("i", { staticClass: "fa fa-plus" }),
-          _vm._v("Adicionar Protocolo\n    ")
-        ]
+          _vm.lenght
+            ? [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", { staticClass: "col-xs-1" }, [
+                      _vm._v("N° Documento")
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-xs-4" }, [
+                      _vm._v("Descrição")
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-xs-1" }, [_vm._v("RG Autor")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-xs-1" }, [
+                      _vm._v("RG Analista")
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-xs-3" }, [
+                      _vm._v("Observações")
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-xs-2" }, [_vm._v("Ações")])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.registros, function(registro) {
+                    return _c("tr", { key: registro.id_protocolo }, [
+                      _c("td", [_vm._v(_vm._s(registro.numero))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(registro.descricao_txt))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(registro.rg_autor))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(registro.rg_analista))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(registro.obs))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "span",
+                          [
+                            _vm.canEdit
+                              ? [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "btn btn-info",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.edit(registro)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fa fa-fw fa-edit "
+                                      })
+                                    ]
+                                  )
+                                ]
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.canDelete
+                              ? [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "btn btn-danger",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.destroy(
+                                            registro.id_protocolo
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fa fa-fw fa-trash-o "
+                                      })
+                                    ]
+                                  )
+                                ]
+                              : _vm._e()
+                          ],
+                          2
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              ]
+            : [_c("tr", [_c("td", [_vm._v("Nada encontrado")])])]
+        ],
+        2
       ),
+      _vm._v(" "),
+      _vm.canCreate
+        ? [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-primary btn-block",
+                on: {
+                  click: function($event) {
+                    _vm.showModal = true
+                  }
+                }
+              },
+              [
+                _c("i", { staticClass: "fa fa-plus" }),
+                _vm._v("Adicionar Protocolo\n        ")
+              ]
+            )
+          ]
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "Modal",
@@ -693,18 +642,18 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.protocolo.id_protocolo,
-                    expression: "protocolo.id_protocolo"
+                    value: _vm.registro.id_protocolo,
+                    expression: "registro.id_protocolo"
                   }
                 ],
-                attrs: { type: "hidden" },
-                domProps: { value: _vm.protocolo.id_protocolo },
+                attrs: { type: "hidden", name: "id" },
+                domProps: { value: _vm.registro.id_protocolo },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.protocolo, "id_protocolo", $event.target.value)
+                    _vm.$set(_vm.registro, "id_protocolo", $event.target.value)
                   }
                 }
               }),
@@ -728,11 +677,11 @@ var render = function() {
                       placeholder: "00.000.000-0"
                     },
                     model: {
-                      value: _vm.protocolo.numero,
+                      value: _vm.registro.numero,
                       callback: function($$v) {
-                        _vm.$set(_vm.protocolo, "numero", $$v)
+                        _vm.$set(_vm.registro, "numero", $$v)
                       },
-                      expression: "protocolo.numero"
+                      expression: "registro.numero"
                     }
                   })
                 ],
@@ -748,19 +697,19 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.protocolo.rg_autor,
-                        expression: "protocolo.rg_autor"
+                        value: _vm.registro.rg_autor,
+                        expression: "registro.rg_autor"
                       }
                     ],
                     staticClass: "form-control",
                     attrs: { type: "text", readonly: "" },
-                    domProps: { value: _vm.protocolo.rg_autor },
+                    domProps: { value: _vm.registro.rg_autor },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.protocolo, "rg_autor", $event.target.value)
+                        _vm.$set(_vm.registro, "rg_autor", $event.target.value)
                       }
                     }
                   })
@@ -781,11 +730,11 @@ var render = function() {
                       placeholder: "Só números"
                     },
                     model: {
-                      value: _vm.protocolo.rg_analista,
+                      value: _vm.registro.rg_analista,
                       callback: function($$v) {
-                        _vm.$set(_vm.protocolo, "rg_analista", $$v)
+                        _vm.$set(_vm.registro, "rg_analista", $$v)
                       },
-                      expression: "protocolo.rg_analista"
+                      expression: "registro.rg_analista"
                     }
                   })
                 ],
@@ -801,19 +750,19 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.protocolo.obs,
-                        expression: "protocolo.obs"
+                        value: _vm.registro.obs,
+                        expression: "registro.obs"
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text" },
-                    domProps: { value: _vm.protocolo.obs },
+                    attrs: { type: "text", maxlength: "50" },
+                    domProps: { value: _vm.registro.obs },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.protocolo, "obs", $event.target.value)
+                        _vm.$set(_vm.registro, "obs", $event.target.value)
                       }
                     }
                   })
@@ -835,8 +784,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.protocolo.descricao_txt,
-                        expression: "protocolo.descricao_txt"
+                        value: _vm.registro.descricao_txt,
+                        expression: "registro.descricao_txt"
                       }
                     ],
                     attrs: {
@@ -845,14 +794,14 @@ var render = function() {
                       cols: "105",
                       width: "100%"
                     },
-                    domProps: { value: _vm.protocolo.descricao_txt },
+                    domProps: { value: _vm.registro.descricao_txt },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
                         _vm.$set(
-                          _vm.protocolo,
+                          _vm.registro,
                           "descricao_txt",
                           $event.target.value
                         )
@@ -892,7 +841,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-xs-6" },
                 [
-                  _vm.protocolo.id_protocolo
+                  _vm.registro.id_protocolo
                     ? [
                         _c(
                           "a",
@@ -901,7 +850,7 @@ var render = function() {
                             attrs: { disabled: _vm.requireds },
                             on: {
                               click: function($event) {
-                                _vm.showModal = false
+                                return _vm.update(_vm.registro.id_protocolo)
                               }
                             }
                           },
@@ -914,7 +863,7 @@ var render = function() {
                           {
                             staticClass: "btn btn-success btn-block",
                             attrs: { disabled: _vm.requireds },
-                            on: { click: _vm.createProtocolo }
+                            on: { click: _vm.create }
                           },
                           [_vm._v("Inserir")]
                         )
@@ -925,79 +874,9 @@ var render = function() {
             ]
           )
         ]
-      ),
-      _vm._v(" "),
-      _c(
-        "Modal",
-        {
-          attrs: { effect: "fade" },
-          model: {
-            value: _vm.confirmModal,
-            callback: function($$v) {
-              _vm.confirmModal = $$v
-            },
-            expression: "confirmModal"
-          }
-        },
-        [
-          _c(
-            "div",
-            {
-              staticClass: "modal-header",
-              attrs: { slot: "modal-header" },
-              slot: "modal-header"
-            },
-            [
-              _c("h4", { staticClass: "modal-title" }, [
-                _c("b", [_vm._v("Tem certeza?")])
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "modal-footer",
-              attrs: { slot: "modal-footer" },
-              slot: "modal-footer"
-            },
-            [
-              _c("div", { staticClass: "col-xs-6" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-default btn-block",
-                    on: {
-                      click: function($event) {
-                        _vm.confirmModal = false
-                      }
-                    }
-                  },
-                  [_vm._v("Cancelar")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-xs-6" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-success btn-block",
-                    attrs: { disabled: _vm.requireds },
-                    on: {
-                      click: function($event) {
-                        _vm.confirmModal = false
-                      }
-                    }
-                  },
-                  [_vm._v("Apagar")]
-                )
-              ])
-            ]
-          )
-        ]
       )
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
@@ -1238,33 +1117,6 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-02e38c84\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Vuestrap/Alert.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-02e38c84\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Vuestrap/Alert.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("65b5bf3a", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-02e38c84\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Alert.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-02e38c84\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Alert.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3ab01cec\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/FDI/Protocolo.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1466,58 +1318,6 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-438bfec0", Component.options)
   } else {
     hotAPI.reload("data-v-438bfec0", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/Vuestrap/Alert.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-02e38c84\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Vuestrap/Alert.vue")
-}
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Vuestrap/Alert.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-02e38c84\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Vuestrap/Alert.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/Vuestrap/Alert.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-02e38c84", Component.options)
-  } else {
-    hotAPI.reload("data-v-02e38c84", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -2705,210 +2505,6 @@ if ("document" in self) {
     if (this._trigger) Object(__WEBPACK_IMPORTED_MODULE_0__NodeList_js__["a" /* default */])(this._trigger).off();
   }
 });
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/Vuestrap/utils/utils.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return coerce; });
-/* harmony export (immutable) */ __webpack_exports__["c"] = getJSON;
-/* harmony export (immutable) */ __webpack_exports__["d"] = getScrollBarWidth;
-/* harmony export (immutable) */ __webpack_exports__["e"] = translations;
-/* harmony export (immutable) */ __webpack_exports__["b"] = delayer;
-/* unused harmony export VueFixer */
-// coerce convert som types of data into another type
-var coerce = {
-  // Convert a string to booleam. Otherwise, return the value without modification, so if is not boolean, Vue throw a warning.
-  boolean: function boolean(val) {
-    return typeof val === 'string' ? val === '' || val === 'true' ? true : val === 'false' || val === 'null' || val === 'undefined' ? false : val : val;
-  },
-  // Attempt to convert a string value to a Number. Otherwise, return 0.
-  number: function number(val) {
-    var alt = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    return typeof val === 'number' ? val : val === undefined || val === null || isNaN(Number(val)) ? alt : Number(val);
-  },
-  // Attempt to convert to string any value, except for null or undefined.
-  string: function string(val) {
-    return val === undefined || val === null ? '' : val + '';
-  },
-  // Pattern accept RegExp, function, or string (converted to RegExp). Otherwise return null.
-  pattern: function pattern(val) {
-    return val instanceof Function || val instanceof RegExp ? val : typeof val === 'string' ? new RegExp(val) : null;
-  }
-};
-
-function getJSON(url) {
-  var request = new window.XMLHttpRequest();
-  var data = {};
-  // p (-simulated- promise)
-  var p = {
-    then: function then(fn1, fn2) {
-      return p.done(fn1).fail(fn2);
-    },
-    catch: function _catch(fn) {
-      return p.fail(fn);
-    },
-    always: function always(fn) {
-      return p.done(fn).fail(fn);
-    }
-  };
-  ['done', 'fail'].forEach(function (name) {
-    data[name] = [];
-    p[name] = function (fn) {
-      if (fn instanceof Function) data[name].push(fn);
-      return p;
-    };
-  });
-  p.done(JSON.parse);
-  request.onreadystatechange = function () {
-    if (request.readyState === 4) {
-      var e = { status: request.status };
-      if (request.status === 200) {
-        try {
-          var response = request.responseText;
-          for (var i in data.done) {
-            var value = data.done[i](response);
-            if (value !== undefined) {
-              response = value;
-            }
-          }
-        } catch (err) {
-          data.fail.forEach(function (fail) {
-            return fail(err);
-          });
-        }
-      } else {
-        data.fail.forEach(function (fail) {
-          return fail(e);
-        });
-      }
-    }
-  };
-  request.open('GET', url);
-  request.setRequestHeader('Accept', 'application/json');
-  request.send();
-  return p;
-}
-
-function getScrollBarWidth() {
-  if (document.documentElement.scrollHeight <= document.documentElement.clientHeight) {
-    return 0;
-  }
-  var inner = document.createElement('p');
-  inner.style.width = '100%';
-  inner.style.height = '200px';
-
-  var outer = document.createElement('div');
-  outer.style.position = 'absolute';
-  outer.style.top = '0px';
-  outer.style.left = '0px';
-  outer.style.visibility = 'hidden';
-  outer.style.width = '200px';
-  outer.style.height = '150px';
-  outer.style.overflow = 'hidden';
-  outer.appendChild(inner);
-
-  document.body.appendChild(outer);
-  var w1 = inner.offsetWidth;
-  outer.style.overflow = 'scroll';
-  var w2 = inner.offsetWidth;
-  if (w1 === w2) w2 = outer.clientWidth;
-
-  document.body.removeChild(outer);
-
-  return w1 - w2;
-}
-
-// return all the translations or the default language (english)
-function translations() {
-  var lang = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'en';
-
-  var text = {
-    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    limit: 'Limit reached ({{limit}} items max).',
-    loading: 'Loading...',
-    minLength: 'Min. Length',
-    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-    notSelected: 'Nothing Selected',
-    required: 'Required',
-    search: 'Search',
-    selected: '{{count}} selected'
-  };
-  return window.VueStrapLang ? window.VueStrapLang(lang) : text;
-}
-
-// delayer: set a function that execute after a delay
-// @params (function, delay_prop or value, default_value)
-function delayer(fn, varTimer) {
-  var ifNaN = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
-
-  function toInt(el) {
-    return (/^[0-9]+$/.test(el) ? Number(el) || 1 : null
-    );
-  }
-  var timerId;
-  return function () {
-    var _this = this;
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    if (timerId) clearTimeout(timerId);
-    timerId = setTimeout(function () {
-      fn.apply(_this, args);
-    }, toInt(varTimer) || toInt(this[varTimer]) || ifNaN);
-  };
-}
-
-// Fix a vue instance Lifecycle to vue 1/2 (just the basic elements, is not a real parser, so this work only if your code is compatible with both)
-// (Waiting for testing)
-function VueFixer(vue) {
-  var vue2 = !window.Vue || !window.Vue.partial;
-  var mixin = {
-    computed: {
-      vue2: function vue2() {
-        return !this.$dispatch;
-      }
-    }
-  };
-  if (!vue2) {
-    //translate vue2 attributes to vue1
-    if (vue.beforeCreate) {
-      mixin.create = vue.beforeCreate;
-      delete vue.beforeCreate;
-    }
-    if (vue.beforeMount) {
-      vue.beforeCompile = vue.beforeMount;
-      delete vue.beforeMount;
-    }
-    if (vue.mounted) {
-      vue.ready = vue.mounted;
-      delete vue.mounted;
-    }
-  } else {
-    //translate vue1 attributes to vue2
-    if (vue.beforeCompile) {
-      vue.beforeMount = vue.beforeCompile;
-      delete vue.beforeCompile;
-    }
-    if (vue.compiled) {
-      mixin.compiled = vue.compiled;
-      delete vue.compiled;
-    }
-    if (vue.ready) {
-      vue.mounted = vue.ready;
-      delete vue.ready;
-    }
-  }
-  if (!vue.mixins) {
-    vue.mixins = [];
-  }
-  vue.mixins.unshift(mixin);
-  return vue;
-}
 
 /***/ })
 

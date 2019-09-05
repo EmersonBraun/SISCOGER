@@ -20,7 +20,7 @@
                 <!-- principal -->
                 <div class="row">
                     <div class="col-md-2 ">
-                        <a :href="foto"><img class="img-responsive" :src="foto" style="max-height: 350px;  max-width: 250px"></a>
+                        <a :href="foto"><img class="img-responsive" :src="foto" ></a>
                     </div>
                     <div class="col-md-5 border" >
                         <p><strong>Nome:</strong><br></p>
@@ -95,10 +95,11 @@
 
 <script>
     export default {
-        props:['rg'],
+        props:{
+            pm: {type: Object}
+        },
         data() {
             return {
-                pm: '',
                 adc: '',
                 comportamento: '',
                 preso: '',
@@ -108,7 +109,7 @@
             }
         },
         mounted(){
-            this.listDadosGerais()
+            // this.listDadosGerais()
             this.listDadosAdicionais()
             this.listComportamento()
             this.estaPreso()
@@ -122,20 +123,20 @@
             }
         },
         methods: {
-            listDadosGerais(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/dadosGerais/${this.rg}`;
-                if(this.rg){
-                    axios
-                    .get(urlIndex)
-                    .then((response) => {
-                        this.pm = response.data
-                    })
-                    .catch(error => console.log(error));
-                }
-            },
+            // listDadosGerais(){
+            //     let urlIndex = `${this.$root.baseUrl}api/fdi/dadosGerais/${this.pm.RG}`;
+            //     if(this.pm.RG){
+            //         axios
+            //         .get(urlIndex)
+            //         .then((response) => {
+            //             this.pm = response.data
+            //         })
+            //         .catch(error => console.log(error));
+            //     }
+            // },
             listDadosAdicionais(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/dadosAdicionais/${this.rg}`;
-                if(this.rg){
+                let urlIndex = `${this.$root.baseUrl}api/fdi/dadosAdicionais/${this.pm.RG}`;
+                if(this.pm.RG){
                     axios
                     .get(urlIndex)
                     .then((response) => {
@@ -145,8 +146,8 @@
                 }
             },
             listComportamento(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/comportamento/${this.rg}`;
-                if(this.rg){
+                let urlIndex = `${this.$root.baseUrl}api/comportamento/atual/${this.pm.RG}`;
+                if(this.pm.RG){
                     axios
                     .get(urlIndex)
                     .then((response) => {
@@ -156,8 +157,8 @@
                 }
             },
             estaPreso(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/preso/${this.rg}`;
-                if(this.rg){
+                let urlIndex = `${this.$root.baseUrl}api/fdi/preso/${this.pm.RG}`;
+                if(this.pm.RG){
                     axios
                     .get(urlIndex)
                     .then((response) => {
@@ -167,8 +168,8 @@
                 }
             },
             estaSuspenso(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/suspenso/${this.rg}`;
-                if(this.rg){
+                let urlIndex = `${this.$root.baseUrl}api/fdi/suspenso/${this.pm.RG}`;
+                if(this.pm.RG){
                     axios
                     .get(urlIndex)
                     .then((response) => {
@@ -178,8 +179,8 @@
                 }
             },
             estaExcluido(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/excluido/${this.rg}`;
-                if(this.rg){
+                let urlIndex = `${this.$root.baseUrl}api/fdi/excluido/${this.pm.RG}`;
+                if(this.pm.RG){
                     axios
                     .get(urlIndex)
                     .then((response) => {
@@ -189,8 +190,8 @@
                 }
             },
             estaSubJudice(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/subJudice/${this.rg}`;
-                if(this.rg){
+                let urlIndex = `${this.$root.baseUrl}api/fdi/subJudice/${this.pm.RG}`;
+                if(this.pm.RG){
                     axios
                     .get(urlIndex)
                     .then((response) => {
