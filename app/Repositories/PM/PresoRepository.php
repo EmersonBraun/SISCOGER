@@ -39,12 +39,11 @@ class PresoRepository extends BaseRepository
 
         $registros = Cache::tags('preso')->remember('preso:rg'.$rg, $this->expiration, function() use ($rg){
             return $this->model->where('inicio_data','<=', date("Y-m-d"))
-                        ->where('fim_data','=', '')
+                        ->where('fim_data','=', '0000-00-00')
                         ->where('rg','=', $rg)
-                        ->first();
+                        ->count();
         });
 
-        $registros = (is_null($registros)) ? false : (object) $registros;
         return $registros;
     }
 

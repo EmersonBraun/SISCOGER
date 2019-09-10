@@ -101,13 +101,13 @@ class LoginController extends Controller
 
         else
         { 
-            $this->user->tentativas = ($this->user->sessao == session()->get('_token')) ? $this->user->tentativas + 1 : 1;
+            $this->user->tentativas = ($this->user->sessao == session('_token')) ? $this->user->tentativas + 1 : 1;
             $this->user->save();
             switch ($this->user->tentativas) 
             {
                 case '1':
                     //salva o token no usuário para verificar as tentativas
-                    $this->user->sessao = session()->get('_token');
+                    $this->user->sessao = session('_token');
                     $this->user->save();
                    //mensagens
                     toast()->warning('Tentativas Restantes!', 2);

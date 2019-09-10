@@ -176,9 +176,8 @@ class ComportamentoRepository extends BaseRepository
             //PARA AS PRACAS Pega a ultima mudanca de comportamento
             $comportamentopm = $this->model->join('comportamento', 'comportamentopm.id_comportamento', '=', 'comportamento.id_comportamento')
                                 ->where('rg','=', $pm->RG)
-                                ->get()
+                                ->orderBy('comportamentopm.data','DESC')
                                 ->first();
-
             if (!$comportamentopm) return "Nada encontrado";  
             return $comportamentopm->comportamento;
         }
@@ -189,10 +188,9 @@ class ComportamentoRepository extends BaseRepository
         $comportamentos = DB::table('comportamentopm')
             ->leftJoin('comportamento', 'comportamento.id_comportamento', '=', 'comportamentopm.id_comportamento')
             ->where('rg','=', $rg)
-            ->orderBy('data','DESC')
+            ->orderBy('comportamentopm.data','DESC')
             ->get();
 
-        $comportamentos = (is_null($comportamentos) || !count($comportamentos)) ? false : (object) $comportamentos;
         return $comportamentos;
 
     }

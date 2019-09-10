@@ -8,6 +8,7 @@ use App\Repositories\BaseRepository;
 use App\Models\meta4\Ausencia;
 use App\Models\rhparana\DependentesAtiva;
 use App\Models\rhparana\DependentesInativo;
+use Illuminate\Support\Facades\DB;
 
 class DependenteRepository extends BaseRepository
 {
@@ -37,8 +38,8 @@ class DependenteRepository extends BaseRepository
 
     public function ativaPM($rg)
 	{
-        $registros = Cache::tags('dependente')->remember('todos_dependente:ativa:rg'.$rg, $this->expiration, function() use($rg){
-            return $this->ativa->where('rg','=', $rg)->get();
+        $registros = Cache::tags('dependente')->remember('dependente:ativa:rg'.$rg, $this->expiration, function() use($rg){
+            return $this->ativa->select(DB::raw('DISTINCT nome, sexo, data_nasc, parentesco'))->where('rg','=', $rg)->get();
         });
 
         return $registros;
@@ -55,8 +56,8 @@ class DependenteRepository extends BaseRepository
 
     public function inativoPM($rg)
 	{
-        $registros = Cache::tags('dependente')->remember('todos_dependente:inativo:rg'.$rg, $this->expiration, function() use($rg){
-            return $this->inativo->where('rg','=', $rg)->get();
+        $registros = Cache::tags('dependente')->remember('dependente:inativo:rg'.$rg, $this->expiration, function() use($rg){
+            return $this->inativo->select(DB::raw('DISTINCT nome, sexo, data_nasc, parentesco'))->where('rg','=', $rg)->get();
         });
 
         return $registros;

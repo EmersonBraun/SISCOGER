@@ -46,7 +46,7 @@
                 </v-label>
             </div>
             <div id='civil' style="display:none">
-                <v-label label="localreclusao" title="Local onde o policial est&aacute; preso (Ex: COCT II)">
+                <v-label label="localreclusao" title="Local onde o policial está preso" tooltip="Ex: COCT II">
                     {{ Form::text('localreclusao', null, ['class' => 'form-control ']) }}
                 </v-label>
             </div>
@@ -75,17 +75,17 @@
             <v-label label="id_presotipo" title="Tipo da prisão">
                 {!! Form::select('id_presotipo',config('sistema.presoTipo'),null, ['class' => 'form-control ']) !!}
             </v-label>
-            <v-label label="Vara" title="Vara (Ex: 3ª Vara Criminal)" error="{{$errors->first('Vara')}}">
-                {{ Form::text('Vara', null, ['class' => 'form-control ']) }}
+            <v-label label="vara" title="Vara (Ex: 3ª vara Criminal)" error="{{$errors->first('vara')}}">
+                {{ Form::text('vara', null, ['class' => 'form-control ']) }}
             </v-label>
             <v-label label="comarca" title="Comarca (Ex: Curitiba)" error="{{$errors->first('comarca')}}">
                 {{ Form::text('comarca', null, ['class' => 'form-control ']) }}
             </v-label>
-            <v-label label="inicio_data" title="Data de entrada na prisão" icon="fa fa-calendar">
+            <v-label label="fim_data" title="Data de entrada na prisão" icon="fa fa-calendar">
                 <v-datepicker name="inicio_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['inicio_data'] ?? ''}}"></v-datepicker>
             </v-label>
-            <v-label label="inicio_data" title="Data da saída da prisão" icon="fa fa-calendar">
-                <v-datepicker name="inicio_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['inicio_data'] ?? ''}}"></v-datepicker>
+            <v-label label="fim_data" title="Data da saída da prisão" icon="fa fa-calendar">
+                <v-datepicker name="fim_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fim_data'] ?? ''}}"></v-datepicker>
             </v-label>
             <v-label label="obs_txt" title="Observações" lg="12" md="12" error="{{$errors->first('obs_txt')}}">
                 {!! Form::textarea('obs_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}

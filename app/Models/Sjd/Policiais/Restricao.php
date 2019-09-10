@@ -110,8 +110,7 @@ class Restricao extends Eloquent
      //mutators (para alterar na hora da exibição)
      public function getFimDataAttribute($value)
      {
-         if($value == '0000-00-00' || $value == null) return '';
-         else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
      }
  
      //mutator para alterar na hora de salvar no bd

@@ -1,4 +1,4 @@
-webpackJsonp([44],{
+webpackJsonp([47],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Form/OPM.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -136,11 +136,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         cdopm: { type: String, default: '' },
         name: { type: String, default: 'cdopm' },
         todas: { type: Boolean, default: false }
-    },
-    data: function data() {
-        return {
-            opm: this.cdopm
-        };
     }
 });
 
@@ -154,7 +149,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -172,27 +167,12 @@ var render = function() {
     _c(
       "select",
       {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.opm,
-            expression: "opm"
-          }
-        ],
         staticClass: "form-control",
         attrs: { name: _vm.name },
+        domProps: { value: _vm.cdopm },
         on: {
-          change: function($event) {
-            var $$selectedVal = Array.prototype.filter
-              .call($event.target.options, function(o) {
-                return o.selected
-              })
-              .map(function(o) {
-                var val = "_value" in o ? o._value : o.value
-                return val
-              })
-            _vm.opm = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+          click: function($event) {
+            return _vm.$emit("input", $event.target.value)
           }
         }
       },

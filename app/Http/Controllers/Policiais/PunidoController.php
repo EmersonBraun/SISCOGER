@@ -147,4 +147,56 @@ class PunidoController extends Controller
         toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('punido.index');
     }
+
+    // Api
+
+    public function list($rg)
+    {
+        $data = $this->repository->punicoes($rg);
+        return response()->json($data);
+    }
+
+    public function storeAPI(Request $request)
+    {
+        
+        $dados = $request->all();
+        $dados['opm_abreviatura'] = opm($dados['cdopm']);
+        $create = $this->repository->create($dados);
+
+        if($create)
+        {
+            $this->repository->cleanCache();
+            return response()->json(['success' => true,200]);
+        }
+        return response()->json(['success' => false,200]);
+    }
+
+
+    public function updateAPI(Request $request, $id)
+    {
+        $dados = $request->all();
+        $dados['opm_abreviatura'] = opm($dados['cdopm']);
+        $update = $this->repository->findOrFail($id)->update($dados);
+        
+        if($update)
+        {
+            $this->repository->cleanCache();
+            return response()->json(['success' => true,200]);
+        }
+
+        return response()->json(['success' => false,200]);
+    }
+
+    public function destroyAPI($id)
+    {
+        $destroy = $this->repository->findOrFail($id)->delete();
+
+        if($destroy) {
+            $this->repository->cleanCache();
+            return response()->json(['success' => true,200]);
+        }
+
+        return response()->json(['success' => false,200]);
+    }
+
 }

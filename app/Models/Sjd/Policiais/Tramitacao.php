@@ -5,7 +5,7 @@
  * Date: Thu, 29 Aug 2019 13:22:32 +0000.
  */
 
-namespace App\Models\Sjd\Busca;
+namespace App\Models\Sjd\Policiais;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -45,5 +45,18 @@ class Tramitacao extends Eloquent
 		'opm_abreviatura',
 		'descricao_txt',
 		'digitador'
-	];
+    ];
+    
+    //mutators (para alterar na hora da exibição)
+    public function getDataAttribute($value)
+    {
+        if($value == '0000-00-00' || $value == null) return '';
+        else return date( 'd/m/Y' , strtotime($value));
+    }
+
+    //mutator para alterar na hora de salvar no bd
+    public function setDataAttribute($value)
+    {
+        $this->attributes['data'] = data_bd($value);
+    }
 }

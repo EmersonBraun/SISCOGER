@@ -24,7 +24,7 @@
                 <div class="box-body">
                     <v-tabs nav-style="pills" justified>
                         <?php if(hasPermissionTo('ver-protocolo-fdi')): ?>
-                            <v-protocolo :pm="<?php echo e($pm->RG); ?>"></v-protocolo>
+                            <v-protocolo rg="<?php echo e($pm->RG); ?>"></v-protocolo>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-denuncias')): ?>
                             <v-denuncias rg="<?php echo e($pm->RG); ?>"></v-denuncias>
@@ -33,16 +33,19 @@
                             <v-outras-denuncias :pm="<?php echo e($pm); ?>"></v-outras-denuncias>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-prisoes')): ?>
-                            <v-prisoes rg="<?php echo e($pm->RG); ?>"></v-prisoes>
+                            <v-prisoes :pm="<?php echo e($pm); ?>"></v-prisoes>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-restricoes')): ?>
-                            <v-restricoes rg="<?php echo e($pm->RG); ?>"></v-restricoes>
+                            <v-restricoes :pm="<?php echo e($pm); ?>"></v-restricoes>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('listar-sai')): ?>
                             <v-sai rg="<?php echo e($pm->RG); ?>"></v-sai>
                         <?php endif; ?>
                         <?php if(hasAnyPermission(['ver-mudanca-comportamento','ver-elogios'])): ?>
-                            <v-fdi rg="<?php echo e($pm->RG); ?>"></v-fdi>
+                            <v-fdi :pm="<?php echo e($pm); ?>"></v-fdi>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('listar-punidos')): ?>
+                            <v-punicao :pm="<?php echo e($pm); ?>"></v-punicao>
                         <?php endif; ?>
                         <?php if(hasPermissionTo('ver-objetos')): ?>
                             <v-objeto rg="<?php echo e($pm->RG); ?>"></v-objeto>
@@ -56,30 +59,37 @@
                         <?php if(hasPermissionTo('ver-proc-outros')): ?>
                             <v-proc-outros rg="<?php echo e($pm->RG); ?>"></v-proc-outros>
                         <?php endif; ?>
+                    </v-tabs>
+                </div>   
+            </div>
+        </div>  
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <v-tabs nav-style="pills" justified>
+                        <?php if(hasPermissionTo('ver-afastamentos')): ?>
+                            <v-afastamentos rg="<?php echo e($pm->RG); ?>"></v-afastamentos>
+                        <?php endif; ?>
                         <?php if(hasPermissionTo('ver-cautelas')): ?>
                             <v-cautelas rg="<?php echo e($pm->RG); ?>"></v-cautelas>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('ver-dependentes')): ?>
+                            <v-dependentes rg="<?php echo e($pm->RG); ?>"></v-dependentes>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('ver-tramite-coger')): ?>
+                            <v-tramite-coger :pm="<?php echo e($pm); ?>"></v-tramite-coger>
+                        <?php endif; ?>
+                        <?php if(hasPermissionTo('ver-tramite-opm')): ?>
+                            <v-tramite-opm :pm="<?php echo e($pm); ?>"></v-tramite-opm>
                         <?php endif; ?>
                     </v-tabs>
                 </div>   
             </div>
-        </div>     
+            <?php if(session('is_admin')): ?>
+                <v-log-fdi rg="<?php echo e($pm->RG); ?>"></v-log-fdi>
+            <?php endif; ?>   
+        </div> 
     </div>      
-
-    <?php if(hasPermissionTo('ver-afastamentos')): ?>
-        <v-afastamentos rg="<?php echo e($pm->RG); ?>"></v-afastamentos>
-    <?php endif; ?>
-    <?php if(hasPermissionTo('ver-dependentes')): ?>
-        <v-dependentes rg="<?php echo e($pm->RG); ?>"></v-dependentes>
-    <?php endif; ?>
-    <?php if(hasPermissionTo('ver-tramite-coger')): ?>
-        <v-tramite-coger rg="<?php echo e($pm->RG); ?>"></v-tramite-coger>
-    <?php endif; ?>
-    <?php if(hasPermissionTo('ver-tramite-opm')): ?>
-        <v-tramite-opm rg="<?php echo e($pm->RG); ?>"></v-tramite-opm>
-    <?php endif; ?>
-    <?php if(session('is_admin')): ?>
-        <v-log-fdi rg="<?php echo e($pm->RG); ?>"></v-log-fdi>
-    <?php endif; ?>
     
 </section>
 <?php $__env->stopSection(); ?>

@@ -12,8 +12,6 @@ require ('./filters')
 // funções
 import functions from './functions'
 
-
-
 new Vue({
     store, 
     el: '#app',

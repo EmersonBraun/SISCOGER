@@ -112,19 +112,6 @@ export default {
     }
   },
   methods: {
-    // translations (lang = 'en') {
-    //     let text = {
-    //     daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    //     limit: 'Limit reached ({{limit}} items max).',
-    //     loading: 'Loading...',
-    //     minLength: 'Min. Length',
-    //     months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-    //     notSelected: 'Nothing Selected',
-    //     required: 'Required',
-    //     search: 'Search'
-    //     }
-    //     return window.VueStrapLang ? window.VueStrapLang(lang) : text
-    // },
     translations (lang = 'en') {
         let text = {
         daysOfWeek: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sa'],
@@ -357,7 +344,7 @@ export default {
     window.addEventListener('click', this._blur);
   },
   beforeDestroy () {
-    // window.removeEventListner('click', this._blur)
+    window.removeEventListner('click', this._blur)
   }
 }
 

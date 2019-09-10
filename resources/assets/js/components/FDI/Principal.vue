@@ -8,9 +8,11 @@
                 <i v-if="pm.STATUS == 'Reserva'" class="fa fa-circle text-info"></i>
                 <strong>{{ pm.STATUS }}</strong>
                 <strong v-if="preso" class="text-danger">| Preso</strong>
-                <strong v-if="suspenso" class="text-danger">| Suspenso</strong>
+                <strong v-if="suspenso > 0" class="text-danger">| Suspenso</strong>
                 <strong v-if="excluido" class="text-danger">| Excluido</strong>
-                <strong v-if="subJudice" class="text-danger">| Sub Judice</strong>
+                <strong v-if="subJudice > 0" class="text-danger">| Sub Judice</strong>
+                <strong v-if="restricao.fardamento" class="text-danger">| Rest. Fardamento</strong>
+                <strong v-if="restricao.arma" class="text-danger">| Rest. Armamento</strong>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse">
                     <i class="fa fa-minus"></i>
                 </button> 
@@ -105,7 +107,8 @@
                 preso: '',
                 suspenso: '',
                 excluido: '',
-                subJudice: '',
+                subJudice: false,
+                restricao: ''
             }
         },
         mounted(){
@@ -116,6 +119,7 @@
             this.estaSuspenso()
             this.estaExcluido()
             this.estaSubJudice()
+            this.restricoes()
         },
         computed: {
             foto(){
@@ -157,12 +161,12 @@
                 }
             },
             estaPreso(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/preso/${this.pm.RG}`;
+                let urlIndex = `${this.$root.baseUrl}api/preso/estaPreso/${this.pm.RG}`;
                 if(this.pm.RG){
                     axios
                     .get(urlIndex)
                     .then((response) => {
-                        this.preso = response.data
+                        this.preso = response.data.preso
                     })
                     .catch(error => console.log(error));
                 }
@@ -190,12 +194,23 @@
                 }
             },
             estaSubJudice(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/subJudice/${this.pm.RG}`;
+                let urlIndex = `${this.$root.baseUrl}api/denuncia/estaDenunciado/${this.pm.RG}`;
                 if(this.pm.RG){
                     axios
                     .get(urlIndex)
                     .then((response) => {
-                        this.subJudice = response.data
+                        this.subJudice = response.data.denunciado
+                    })
+                    .catch(error => console.log(error));
+                }
+            },
+            restricoes(){
+                let urlIndex = `${this.$root.baseUrl}api/restricao/restricoes/${this.pm.RG}`;
+                if(this.pm.RG){
+                    axios
+                    .get(urlIndex)
+                    .then((response) => {
+                        this.restricao = response.data
                     })
                     .catch(error => console.log(error));
                 }

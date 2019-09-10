@@ -32,9 +32,15 @@ class DenunciadoController extends Controller
         return view('policiais.denunciado.index', compact('registros'));
     }
 
+    public function estaDenunciado($rg)
+    {
+        $response = $this->repository->estaDenunciado($rg);
+        return response()->json(['denunciado' => $response,200]);
+    }
+
     public function list($rg)
     {
-        return $this->repository->estaDenunciado($rg);
+        return $this->repository->listDenuncias($rg);
     }
 
     public function store(Request $request)

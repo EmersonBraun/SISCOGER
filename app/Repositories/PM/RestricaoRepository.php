@@ -43,7 +43,7 @@ class RestricaoRepository extends BaseRepository
         return $registros;
     }
 
-    public function restricoes($rg)
+    public function list($rg)
 	{
 
         $registros = Cache::tags('restricao')->remember('restricao:rg'.$rg, $this->expiration, function() use ($rg){
@@ -51,5 +51,45 @@ class RestricaoRepository extends BaseRepository
         });
 
         return $registros;
+    }
+
+    public function restricoes($rg)
+    {
+        $registros = (object) [
+            'arma' => $this->arma($rg),
+            'fardamento' => $this->fardamento($rg)
+        ];
+
+        return $registros;
+    }
+
+    public function arma($rg)
+    {
+        $registros = Cache::tags('restricao')->remember('restricao:arma'.$rg, $this->expiration, function() use ($rg){
+            return $this->model->where([
+                ['arma_bl', 'S'],
+                ['rg', $rg],
+                ['retirada_data','0000-00-00'],
+                ['fim_data','0000-00-00']
+            ])->count();
+        });
+
+        if($registros) return true;
+        return false;
+    }
+
+    public function fardamento($rg)
+    {
+        $registros = Cache::tags('restricao')->remember('restricao:fardamento'.$rg, $this->expiration, function() use ($rg){
+            return $this->model->where([
+                ['fardamento_bl', 'S'],
+                ['rg', $rg],
+                ['retirada_data','0000-00-00'],
+                ['fim_data','0000-00-00']
+            ])->count();
+        });
+
+        if($registros) return true;
+        return false;
     }
 }

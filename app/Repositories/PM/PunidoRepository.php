@@ -145,7 +145,7 @@ class PunidoRepository extends BaseRepository
     public function punicoes($rg)
     {
         $registros = Cache::tags('punido')->remember('punido:rg'.$rg, $this->expiration, function() use ($rg){
-            return DB::table('punicao')
+            return $this->model
                 ->leftJoin('gradacao', 'gradacao.id_gradacao', '=', 'punicao.id_gradacao')
                 ->leftJoin('classpunicao', 'classpunicao.id_classpunicao', '=', 'punicao.id_classpunicao')
                 ->leftJoin('comportamento', 'comportamento.id_comportamento', '=', 'punicao.id_comportamento')
@@ -155,6 +155,12 @@ class PunidoRepository extends BaseRepository
         });
 
         return $registros;
+    }
+
+
+    public function findOrFail($id)
+    {
+        return $this->model->findOrFail($id);
     }
 
 }

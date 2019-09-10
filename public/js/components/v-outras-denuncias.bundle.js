@@ -1,4 +1,4 @@
-webpackJsonp([57,5,14,29,35],{
+webpackJsonp([2,7,17,32,38],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FDI/OutrasDenuncias.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -13,6 +13,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_the_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_the_mask__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Vuestrap_Checkbox_vue__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Checkbox.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Vuestrap_Checkbox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Vuestrap_Checkbox_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -168,9 +184,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.canCreate = this.$root.hasPermission('criar-outras-denuncia');
         this.canEdit = this.$root.hasPermission('editar-outras-denuncia');
         this.canDelete = this.$root.hasPermission('apagar-outras-denuncia');
-        this.registro.rg = this.pm.RG;
-        this.registro.cargo = this.pm.CARGO;
-        this.registro.nome = this.pm.NOME;
     },
 
     computed: {
@@ -181,6 +194,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         lenght: function lenght() {
             if (this.registros) return Object.keys(this.registros).length;
             return 0;
+        },
+        msgRequired: function msgRequired() {
+            return 'Para liberar este bot\xE3o o campos OBSERVA\xC7\xD5ES deve estar preenchido';
         }
     },
     methods: {
@@ -196,16 +212,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             }
         },
+        toCreate: function toCreate() {
+            this.showModal = true;
+            this.registro.rg = this.pm.RG;
+            this.registro.cargo = this.pm.CARGO;
+            this.registro.nome = this.pm.NOME;
+        },
         create: function create() {
             var _this2 = this;
 
-            var urlCreate = this.$root.baseUrl + 'api/' + this.module + '/store';
-            axios.post(urlCreate, this.registro).then(function (response) {
-                _this2.transation(response.data.success, 'create');
-            }).catch(function (error) {
-                return console.log(error);
-            });
-            this.showModal = false;
+            if (!this.requireds) {
+                var urlCreate = this.$root.baseUrl + 'api/' + this.module + '/store';
+                axios.post(urlCreate, this.registro).then(function (response) {
+                    _this2.transation(response.data.success, 'create');
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+                this.showModal = false;
+            }
         },
         edit: function edit(registro) {
             this.registro = registro;
@@ -214,12 +238,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         update: function update(id) {
             var _this3 = this;
 
-            var urlUpdate = this.$root.baseUrl + 'api/' + this.module + '/update/' + id;
-            axios.put(urlUpdate, this.registro).then(function (response) {
-                _this3.transation(response.data.success, 'edit');
-            }).catch(function (error) {
-                return console.log(error);
-            });
+            if (!this.requireds) {
+                var urlUpdate = this.$root.baseUrl + 'api/' + this.module + '/update/' + id;
+                axios.put(urlUpdate, this.registro).then(function (response) {
+                    _this3.transation(response.data.success, 'edit');
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
         },
         destroy: function destroy(id) {
             var _this4 = this;
@@ -240,7 +266,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 // se deu certo
                 this.list();
                 this.$root.msg(msg.success, 'success');
-                this.registro = [];
+                this.registro = {};
             } else {
                 // se falhou
                 this.$root.msg(msg.fail, 'danger');
@@ -958,13 +984,15 @@ var render = function() {
                       _vm._v("N° Denúncia")
                     ]),
                     _vm._v(" "),
-                    _c("th", { staticClass: "col-xs-4" }, [
+                    _c("th", { staticClass: "col-xs-2" }, [
                       _vm._v("Processo crime")
                     ]),
                     _vm._v(" "),
                     _c("th", { staticClass: "col-xs-2" }, [
                       _vm._v("Julgamento")
                     ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-xs-2" }, [_vm._v("Tempo")]),
                     _vm._v(" "),
                     _c("th", { staticClass: "col-xs-2" }, [
                       _vm._v("Trânsito em julgado")
@@ -986,12 +1014,38 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [
                         registro.julgamento
-                          ? _c("b", [_vm._v(_vm._s(registro.julgamento))])
-                          : _c("b", [_vm._v(" Não cadastrado ")])
+                          ? _c("span", [
+                              _c("b", [_vm._v(_vm._s(registro.julgamento))])
+                            ])
+                          : _c("span", [_c("b", [_vm._v(" Não cadastrado ")])])
                       ]),
                       _vm._v(" "),
+                      _c(
+                        "td",
+                        [
+                          registro.julgamento == "Condenado"
+                            ? [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(registro.pena_anos) +
+                                    " Anos\n                            " +
+                                    _vm._s(registro.pena_meses) +
+                                    " Meses\n                            " +
+                                    _vm._s(registro.pena_dias) +
+                                    " Dias\n                        "
+                                )
+                              ]
+                            : [
+                                _vm._v(
+                                  "\n                            -\n                        "
+                                )
+                              ]
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
                       _c("td", [
-                        registro.transitojulgado_bl
+                        registro.transitojulgado_bl == "S"
                           ? _c("b", [_vm._v("Sim")])
                           : _c("b", [_vm._v(" Não ")])
                       ]),
@@ -1063,11 +1117,7 @@ var render = function() {
               "a",
               {
                 staticClass: "btn btn-primary btn-block",
-                on: {
-                  click: function($event) {
-                    _vm.showModal = true
-                  }
-                }
+                on: { click: _vm.toCreate }
               },
               [
                 _c("i", { staticClass: "fa fa-plus" }),
@@ -1099,7 +1149,9 @@ var render = function() {
             },
             [
               _c("h4", { staticClass: "modal-title" }, [
-                _c("b", [_vm._v("Inserir nova Denúncia")])
+                _vm.registro.id_denunciacivil
+                  ? _c("b", [_vm._v("Editar Denúncia")])
+                  : _c("b", [_vm._v("Inserir nova Denúncia")])
               ])
             ]
           ),
@@ -1625,35 +1677,45 @@ var render = function() {
                 "div",
                 { staticClass: "col-xs-6" },
                 [
-                  _vm.registro.id_denunciacivil
-                    ? [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-success btn-block",
-                            attrs: { disabled: _vm.requireds },
-                            on: {
-                              click: function($event) {
-                                return _vm.update(_vm.registro.id_denunciacivil)
+                  _c(
+                    "v-tooltip",
+                    {
+                      attrs: {
+                        effect: "scale",
+                        placement: "top",
+                        content: _vm.msgRequired
+                      }
+                    },
+                    [
+                      _vm.registro.id_denunciacivil
+                        ? _c(
+                            "a",
+                            {
+                              staticClass: "btn btn-success btn-block",
+                              attrs: { disabled: _vm.requireds },
+                              on: {
+                                click: function($event) {
+                                  return _vm.update(
+                                    _vm.registro.id_denunciacivil
+                                  )
+                                }
                               }
-                            }
-                          },
-                          [_vm._v("Editar")]
-                        )
-                      ]
-                    : [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-success btn-block",
-                            attrs: { disabled: _vm.requireds },
-                            on: { click: _vm.create }
-                          },
-                          [_vm._v("Inserir")]
-                        )
-                      ]
+                            },
+                            [_vm._v("Editar")]
+                          )
+                        : _c(
+                            "a",
+                            {
+                              staticClass: "btn btn-success btn-block",
+                              attrs: { disabled: _vm.requireds },
+                              on: { click: _vm.create }
+                            },
+                            [_vm._v("Inserir")]
+                          )
+                    ]
+                  )
                 ],
-                2
+                1
               )
             ]
           )
@@ -3090,7 +3152,7 @@ if ("document" in self) {
       var _this2 = this;
 
       this.$nextTick(function () {
-        var popover = _this2.$refs.popover;
+        var popover = _this2.$refs.popover || '';
         var trigger = _this2.$refs.trigger.children[0];
         switch (_this2.placement) {
           case 'top':

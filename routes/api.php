@@ -31,31 +31,70 @@ Route::group(['as'=>'protocolo.','prefix' =>'protocolo'],function(){
 });
 // Denuncia civil (Outras denúncias do fdi)
 Route::group(['as'=>'denuncia.','prefix' =>'denuncia'],function(){
+    Route::get('estaDenunciado/{rg}',['as' =>'estaDenunciado','uses'=>'Policiais\DenunciadoController@estaDenunciado']);
     Route::get('list/{rg}',['as' =>'list','uses'=>'Policiais\DenunciadoController@list']);
     Route::post('store',['as' =>'store','uses'=>'Policiais\DenunciadoController@store']);
     Route::put('update/{id}',['as' =>'update','uses'=>'Policiais\DenunciadoController@update']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Policiais\DenunciadoController@destroy']);
 });
-Route::get('denunciaCivil/{rg}',['as' =>'denunciaCivil','uses'=>'FDI\FDIListController@denunciaCivil']);
+// Preso
+Route::group(['as'=>'preso.','prefix' =>'preso'],function(){
+    Route::get('estaPreso/{rg}',['as' =>'estaPreso','uses'=>'Policiais\PresoController@estaPreso']);
+    Route::get('list/{rg}',['as' =>'list','uses'=>'Policiais\PresoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Policiais\PresoController@storeAPI']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Policiais\PresoController@updateAPI']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Policiais\PresoController@destroyAPI']);
+});
+// Restrições
+Route::group(['as'=>'restricao.','prefix' =>'restricao'],function(){
+    Route::get('restricoes/{rg}',['as' =>'restricoes','uses'=>'Policiais\RestricaoController@restricoes']);
+    Route::get('list/{rg}',['as' =>'list','uses'=>'Policiais\RestricaoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Policiais\RestricaoController@storeAPI']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Policiais\RestricaoController@updateAPI']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Policiais\RestricaoController@destroyAPI']);
+});
+// Elogios
+Route::group(['as'=>'elogio.','prefix' =>'elogio'],function(){
+    Route::get('list/{rg}',['as' =>'list','uses'=>'Policiais\ElogioController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Policiais\ElogioController@store']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Policiais\ElogioController@update']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Policiais\ElogioController@destroy']);
+});
+// Tramite
+Route::group(['as'=>'tramitecoger.','prefix' =>'tramitecoger'],function(){
+    Route::get('list/{rg}',['as' =>'list','uses'=>'Policiais\TramitacaoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Policiais\TramitacaoController@store']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Policiais\TramitacaoController@update']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Policiais\TramitacaoController@destroy']);
+});
+Route::get('tramitacao/{rg}',['as' =>'tramitacao','uses'=>'FDI\FDIListController@tramitacao']);
+// Tramiteopm
+Route::group(['as'=>'tramiteopm.','prefix' =>'tramiteopm'],function(){
+    Route::get('list/{rg}',['as' =>'list','uses'=>'Policiais\TramitacaoopmController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Policiais\TramitacaoopmController@store']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Policiais\TramitacaoopmController@update']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Policiais\TramitacaoopmController@destroy']);
+});
+// Punições
+Route::group(['as'=>'punicao.','prefix' =>'punicao'],function(){
+    Route::get('list/{rg}',['as' =>'list','uses'=>'Policiais\PunidoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Policiais\PunidoController@storeAPI']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Policiais\PunidoController@updateAPI']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Policiais\PunidoController@destroyAPI']);
+});
 
 Route::group(['as'=>'fdi.','prefix' =>'fdi'],function(){
     Route::get('dadosGerais/{rg}',['as' =>'dadosGerais','uses'=>'FDI\FDIListController@dadosGerais']);
     Route::get('dadosAdicionais/{rg}',['as' =>'dadosAdicionais','uses'=>'FDI\FDIListController@dadosAdicionais']);
-    Route::get('preso/{rg}',['as' =>'preso','uses'=>'FDI\FDIListController@preso']);
     Route::get('suspenso/{rg}',['as' =>'suspenso','uses'=>'FDI\FDIListController@suspenso']);
     Route::get('excluido/{rg}',['as' =>'excluido','uses'=>'FDI\FDIListController@excluido']);
     Route::get('subJudice/{rg}',['as' =>'subJudice','uses'=>'FDI\FDIListController@subJudice']);
-    Route::get('prisoes/{rg}',['as' =>'prisoes','uses'=>'FDI\FDIListController@prisoes']);
-    Route::get('restricoes/{rg}',['as' =>'restricoes','uses'=>'FDI\FDIListController@restricoes']);
     Route::get('afastamentos/{rg}',['as' =>'afastamentos','uses'=>'FDI\FDIListController@afastamentos']);
     Route::get('dependentes/{rg}',['as' =>'dependentes','uses'=>'FDI\FDIListController@dependentes']);
     Route::get('sai/{rg}',['as' =>'sai','uses'=>'FDI\FDIListController@sai']);
     Route::get('objetos/{rg}',['as' =>'objetos','uses'=>'FDI\FDIListController@objetos']);
     Route::get('membros/{rg}',['as' =>'membros','uses'=>'FDI\FDIListController@membros']);
-    Route::get('elogios/{rg}',['as' =>'elogios','uses'=>'FDI\FDIListController@elogios']);
     Route::get('punicoes/{rg}',['as' =>'punicoes','uses'=>'FDI\FDIListController@punicoes']);
-    Route::get('tramitacao/{rg}',['as' =>'tramitacao','uses'=>'FDI\FDIListController@tramitacao']);
-    Route::get('tramitacaoopm/{rg}',['as' =>'tramitacaoopm','uses'=>'FDI\FDIListController@tramitacaoopm']);
     Route::get('apresentacoes/{rg}',['as' =>'apresentacoes','uses'=>'FDI\FDIListController@apresentacoes']);
     Route::get('procOutros/{rg}',['as' =>'procOutros','uses'=>'FDI\FDIListController@procOutros']);
     Route::get('log/{rg}',['as' =>'log','uses'=>'FDI\FDIListController@log']);

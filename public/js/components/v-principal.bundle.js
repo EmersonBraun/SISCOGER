@@ -1,10 +1,12 @@
-webpackJsonp([56],{
+webpackJsonp([58],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FDI/Principal.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -112,7 +114,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             preso: '',
             suspenso: '',
             excluido: '',
-            subJudice: ''
+            subJudice: false,
+            restricao: ''
         };
     },
     mounted: function mounted() {
@@ -123,6 +126,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.estaSuspenso();
         this.estaExcluido();
         this.estaSubJudice();
+        this.restricoes();
     },
 
     computed: {
@@ -169,10 +173,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         estaPreso: function estaPreso() {
             var _this3 = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/preso/' + this.pm.RG;
+            var urlIndex = this.$root.baseUrl + 'api/preso/estaPreso/' + this.pm.RG;
             if (this.pm.RG) {
                 axios.get(urlIndex).then(function (response) {
-                    _this3.preso = response.data;
+                    _this3.preso = response.data.preso;
                 }).catch(function (error) {
                     return console.log(error);
                 });
@@ -205,10 +209,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         estaSubJudice: function estaSubJudice() {
             var _this6 = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/subJudice/' + this.pm.RG;
+            var urlIndex = this.$root.baseUrl + 'api/denuncia/estaDenunciado/' + this.pm.RG;
             if (this.pm.RG) {
                 axios.get(urlIndex).then(function (response) {
-                    _this6.subJudice = response.data;
+                    _this6.subJudice = response.data.denunciado;
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        restricoes: function restricoes() {
+            var _this7 = this;
+
+            var urlIndex = this.$root.baseUrl + 'api/restricao/restricoes/' + this.pm.RG;
+            if (this.pm.RG) {
+                axios.get(urlIndex).then(function (response) {
+                    _this7.restricao = response.data;
                 }).catch(function (error) {
                     return console.log(error);
                 });
@@ -264,7 +280,7 @@ var render = function() {
           ? _c("strong", { staticClass: "text-danger" }, [_vm._v("| Preso")])
           : _vm._e(),
         _vm._v(" "),
-        _vm.suspenso
+        _vm.suspenso > 0
           ? _c("strong", { staticClass: "text-danger" }, [_vm._v("| Suspenso")])
           : _vm._e(),
         _vm._v(" "),
@@ -272,9 +288,21 @@ var render = function() {
           ? _c("strong", { staticClass: "text-danger" }, [_vm._v("| Excluido")])
           : _vm._e(),
         _vm._v(" "),
-        _vm.subJudice
+        _vm.subJudice > 0
           ? _c("strong", { staticClass: "text-danger" }, [
               _vm._v("| Sub Judice")
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.restricao.fardamento
+          ? _c("strong", { staticClass: "text-danger" }, [
+              _vm._v("| Rest. Fardamento")
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.restricao.arma
+          ? _c("strong", { staticClass: "text-danger" }, [
+              _vm._v("| Rest. Armamento")
             ])
           : _vm._e(),
         _vm._v(" "),

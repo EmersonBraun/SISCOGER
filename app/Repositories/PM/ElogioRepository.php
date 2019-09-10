@@ -42,6 +42,11 @@ class ElogioRepository extends BaseRepository
         return $registros;
     }
 
+    public function findOrFail($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
     public function elosgiosGerais()
     {
         return 'Muitos registros, use search';

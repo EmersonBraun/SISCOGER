@@ -5,16 +5,16 @@ namespace App\Repositories\PM;
 use Cache;
 
 use App\Repositories\BaseRepository;
-use App\Models\Sjd\Busca\Tramitacao;
+use App\Models\Sjd\Policiais\Tramitacao;
 
 class TramitacaoRepository extends BaseRepository
 {
-    protected $geral;
+    protected $model;
     protected $expiration = 60 * 24 * 7;  //uma semana
 
-	public function __construct(Tramitacao $geral)
+	public function __construct(Tramitacao $model)
 	{  
-        $this->geral = $geral;  
+        $this->model = $model;  
     }
     
     public function cleanCache()
@@ -25,7 +25,7 @@ class TramitacaoRepository extends BaseRepository
     public function geral()
 	{
         $registros = Cache::tags('tramitacao_geral')->remember('todos_tramitacao_geral', $this->expiration, function() {
-            return $this->geral->all();
+            return $this->model->all();
         });
 
         return $registros;
@@ -34,13 +34,18 @@ class TramitacaoRepository extends BaseRepository
     public function tramitacaoPM($rg)
     {
         $registros = Cache::tags('tramitacao_geral')->remember('tramitacao_geral:rg'.$rg, $this->expiration, function() use ($rg){
-            return $this->geral
+            return $this->model
                 ->where('rg','=', $rg)
                 ->orderByRaw('data - id_tramitacao DESC')
                 ->get();
         });
 
         return $registros;
+    }
+
+    public function findOrFail($id)
+    {
+        return $this->model->findOrFail($id);
     }
 }
 

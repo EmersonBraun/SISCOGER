@@ -1,4 +1,4 @@
-webpackJsonp([9,34],{
+webpackJsonp([11,37],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Movimento.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -310,19 +310,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   methods: {
-    // translations (lang = 'en') {
-    //     let text = {
-    //     daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    //     limit: 'Limit reached ({{limit}} items max).',
-    //     loading: 'Loading...',
-    //     minLength: 'Min. Length',
-    //     months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-    //     notSelected: 'Nothing Selected',
-    //     required: 'Required',
-    //     search: 'Search'
-    //     }
-    //     return window.VueStrapLang ? window.VueStrapLang(lang) : text
-    // },
     translations: function translations() {
       var lang = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'en';
 
@@ -561,7 +548,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     window.addEventListener('click', this._blur);
   },
   beforeDestroy: function beforeDestroy() {
-    // window.removeEventListner('click', this._blur)
+    window.removeEventListner('click', this._blur);
   }
 });
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <select :name="name" v-model="opm" class="form-control">
+        <select :name="name" :value="cdopm" class="form-control" @click="$emit('input', $event.target.value)">
             <option v-if='todas' value="">Todas as OPM</option>
             <optgroup label="CG">
                 <option value="0">CG (sede)</option>
@@ -130,11 +130,6 @@
             name: {type: String, default: 'cdopm'},
             todas: {type: Boolean, default: false}
         },
-        data(){
-            return {
-                opm: this.cdopm
-            }
-        }
     }
 </script>
 

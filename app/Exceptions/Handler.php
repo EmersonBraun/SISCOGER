@@ -41,13 +41,13 @@ class Handler extends ExceptionHandler
 
     public function render($request, Exception $e)
     {   
+        //pega a rota 
+        // $rota = $request->path();
         // if($this->isHttpException($e))
         // {
         //     switch (intval($e->getStatusCode())) {
         //         //proibido
         //         case 403:
-        //             //pega a rota 
-        //             $rota = $request->path();
         //             toast()->warning('Foi registrada a tentativa de acesso', 'LOG!');
         //             toast()->error('Você não tem acesso a '.strtoupper($rota).'!', 'ERRO!');
         //             return redirect()->route('home');

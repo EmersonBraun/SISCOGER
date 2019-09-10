@@ -34,59 +34,37 @@ class ElogioController extends Controller
         return view('policiais.elogio.list.index', compact('registros','query'));
     }
 
-    public function create()
+    public function list($rg)
     {
-        return view('policiais.elogio.form.create');
+        $data = $this->repository->elogiosPM($rg);
+        return response()->json($data);
     }
 
     public function store(Request $request)
     {
-
-        $this->validate($request, [
-            'rg' => 'required',
-            'cdopm' => 'required'
-        ]);
-        
         $dados = $request->all();
         $create = $this->repository->create($dados);
 
         if($create)
         {
             $this->repository->cleanCache();
-            toast()->success('N° ','elogio Inserido');
-            return redirect()->route('elogio.index');
+            return response()->json(['success' => true,200]);
         }
-
-        toast()->warning('Houve um erro na inserção');
-        return redirect()->back();
-    }
-
-    public function edit($id)
-    {
-        $proc = $this->repository->findOrFail($id);
-        if(!$proc) abort('404');
-        return view('policiais.elogio.form.edit', compact('proc'));
+        return response()->json(['success' => false,200]);
     }
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'rg' => 'required',
-            'cdopm' => 'required'
-        ]);
-
         $dados = $request->all();
         $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)
         {
             $this->repository->cleanCache();
-            toast()->success('elogio atualizado!');
-            return redirect()->route('elogio.index');
+            return response()->json(['success' => true,200]);
         }
 
-        toast()->warning('elogio NÃO atualizado!');
-        return redirect()->route('elogio.index');
+        return response()->json(['success' => false,200]);
     }
 
     public function destroy($id)
@@ -95,39 +73,9 @@ class ElogioController extends Controller
 
         if($destroy) {
             $this->repository->cleanCache();
-            toast()->success('elogio Apagado');
-            return redirect()->route('elogio.index');
+            return response()->json(['success' => true,200]);
         }
 
-        toast()->warning('erro ao apagar elogio');
-        return redirect()->route('elogio.index');
-    }
-
-    public function restore($id)
-    {
-        $restore = $this->repository->findAndRestore($id);
-        
-        if($restore){
-            $this->repository->cleanCache();
-            toast()->success('Suspenso Recuperado!');
-            return redirect()->route('suspenso.index');  
-        }
-
-        toast()->warning('Houve um erro ao recuperar!');
-        return redirect()->route('suspenso.index'); 
-    }
-
-    public function forceDelete($id)
-    {
-        $forceDelete = $this->repository->findAndDestroy($id);
-    
-        if($forceDelete){
-            $this->repository->cleanCache();
-            toast()->success('Suspenso Apagado definitivo!');
-            return redirect()->route('suspenso.index');  
-        }
-
-        toast()->warning('Houve um erro ao Apagar definitivo!');
-        return redirect()->route('suspenso.index');
+        return response()->json(['success' => false,200]);
     }
 }

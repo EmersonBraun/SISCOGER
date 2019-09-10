@@ -128,4 +128,56 @@ class PresoController extends Controller
         toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('preso.index');
     }
+
+    // API
+    public function estaPreso($rg) //verificar se está preso
+    {
+        $response = $this->repository->estaPreso($rg);
+        return response()->json(['preso' => (int) $response,200]);
+    }
+
+    public function list($rg) //prisões
+    {
+        $data = $this->repository->prisoes($rg);
+        return response()->json($data);
+    }
+
+    public function storeAPI(Request $request)
+    {
+        $dados = $request->all();
+        $create = $this->repository->create($dados);
+
+        if($create)
+        {
+            $this->repository->cleanCache();
+            return response()->json(['success' => true,200]);
+        }
+        return response()->json(['success' => false,200]);
+    }
+
+    public function updateAPI(Request $request, $id)
+    {
+        $dados = $request->all();
+        $update = $this->repository->findOrFail($id)->update($dados);
+        
+        if($update)
+        {
+            $this->repository->cleanCache();
+            return response()->json(['success' => true,200]);
+        }
+
+        return response()->json(['success' => false,200]);
+    }
+
+    public function destroyAPI($id)
+    {
+        $destroy = $this->repository->findOrFail($id)->delete();
+
+        if($destroy) {
+            $this->repository->cleanCache();
+            return response()->json(['success' => true,200]);
+        }
+
+        return response()->json(['success' => false,200]);
+    }
 }

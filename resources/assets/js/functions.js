@@ -16,6 +16,12 @@ export default{
             let has = Object.values(session.permissions).filter(s => s == permission)
             return has
         },
+        hasRole(role) {
+            let session = this.getSessionData()
+            if(!session) return false
+            let has = Object.values(session.roles).filter(s => s == role)
+            return has
+        },
         dadoSession(dado){
             let session = this.getSessionData()
             return session[dado]

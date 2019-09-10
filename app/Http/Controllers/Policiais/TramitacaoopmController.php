@@ -4,44 +4,28 @@ namespace App\Http\Controllers\Policiais;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\PM\ComportamentoRepository;
+use App\Repositories\PM\TramitacaoopmRepository;
 
-class ComportamentoController extends Controller
+class TramitacaoopmController extends Controller
 {
     protected $repository;
-    protected $proc = 'comportamento';
-    protected $nome = 'Comportamento';
-    protected $index = 'comportamento.index';
-
-    public function __construct(ComportamentoRepository $repository)
+    public function __construct(
+        TramitacaoopmRepository $repository
+    )
 	{
         $this->repository = $repository;
     }
 
-    public function index($posto, $parte=1)
-    {
-        $registros = $this->repository->posto($posto, $parte);
-        return view('policiais.comportamento.index', compact('registros','posto','parte'));
-    }
-
-    public function comportamentos($copm)
-    {
-        return $this->repository->comportamentos($copm);
-    }
-
-    public function atual($rg)
-    {
-        return $this->repository->comportamentoAtual($rg);
-    }
-
     public function list($rg)
     {
-        return $this->repository->comportamentoPM($rg);
+        $data = $this->repository->tramitacaoopmPM($rg);
+        return response()->json($data);
     }
 
     public function store(Request $request)
     {
         $dados = $request->all();
+        $dados['data'] = data_bd($dados['data']);
         $create = $this->repository->create($dados);
 
         if($create)
@@ -55,6 +39,7 @@ class ComportamentoController extends Controller
     public function update(Request $request, $id)
     {
         $dados = $request->all();
+        $dados['data'] = data_bd($dados['data']);
         $update = $this->repository->findOrFail($id)->update($dados);
         
         if($update)

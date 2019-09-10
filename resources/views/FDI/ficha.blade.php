@@ -26,7 +26,7 @@
                 <div class="box-body">
                     <v-tabs nav-style="pills" justified>
                         @if(hasPermissionTo('ver-protocolo-fdi'))
-                            <v-protocolo :pm="{{$pm->RG}}"></v-protocolo>
+                            <v-protocolo rg="{{$pm->RG}}"></v-protocolo>
                         @endif
                         @if(hasPermissionTo('ver-denuncias'))
                             <v-denuncias rg="{{$pm->RG}}"></v-denuncias>
@@ -35,16 +35,19 @@
                             <v-outras-denuncias :pm="{{$pm}}"></v-outras-denuncias>
                         @endif
                         @if(hasPermissionTo('ver-prisoes'))
-                            <v-prisoes rg="{{$pm->RG}}"></v-prisoes>
+                            <v-prisoes :pm="{{$pm}}"></v-prisoes>
                         @endif
                         @if(hasPermissionTo('ver-restricoes'))
-                            <v-restricoes rg="{{$pm->RG}}"></v-restricoes>
+                            <v-restricoes :pm="{{$pm}}"></v-restricoes>
                         @endif
                         @if(hasPermissionTo('listar-sai'))
                             <v-sai rg="{{$pm->RG}}"></v-sai>
                         @endif
                         @if(hasAnyPermission(['ver-mudanca-comportamento','ver-elogios']))
-                            <v-fdi rg="{{$pm->RG}}"></v-fdi>
+                            <v-fdi :pm="{{$pm}}"></v-fdi>
+                        @endif
+                        @if(hasPermissionTo('listar-punidos'))
+                            <v-punicao :pm="{{$pm}}"></v-punicao>
                         @endif
                         @if(hasPermissionTo('ver-objetos'))
                             <v-objeto rg="{{$pm->RG}}"></v-objeto>
@@ -58,30 +61,37 @@
                         @if(hasPermissionTo('ver-proc-outros'))
                             <v-proc-outros rg="{{$pm->RG}}"></v-proc-outros>
                         @endif
+                    </v-tabs>
+                </div>   
+            </div>
+        </div>  
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <v-tabs nav-style="pills" justified>
+                        @if(hasPermissionTo('ver-afastamentos'))
+                            <v-afastamentos rg="{{$pm->RG}}"></v-afastamentos>
+                        @endif
                         @if(hasPermissionTo('ver-cautelas'))
                             <v-cautelas rg="{{$pm->RG}}"></v-cautelas>
+                        @endif
+                        @if(hasPermissionTo('ver-dependentes'))
+                            <v-dependentes rg="{{$pm->RG}}"></v-dependentes>
+                        @endif
+                        @if(hasPermissionTo('ver-tramite-coger'))
+                            <v-tramite-coger :pm="{{$pm}}"></v-tramite-coger>
+                        @endif
+                        @if(hasPermissionTo('ver-tramite-opm'))
+                            <v-tramite-opm :pm="{{$pm}}"></v-tramite-opm>
                         @endif
                     </v-tabs>
                 </div>   
             </div>
-        </div>     
+            @if(session('is_admin'))
+                <v-log-fdi rg="{{$pm->RG}}"></v-log-fdi>
+            @endif   
+        </div> 
     </div>      
-
-    @if(hasPermissionTo('ver-afastamentos'))
-        <v-afastamentos rg="{{$pm->RG}}"></v-afastamentos>
-    @endif
-    @if(hasPermissionTo('ver-dependentes'))
-        <v-dependentes rg="{{$pm->RG}}"></v-dependentes>
-    @endif
-    @if(hasPermissionTo('ver-tramite-coger'))
-        <v-tramite-coger rg="{{$pm->RG}}"></v-tramite-coger>
-    @endif
-    @if(hasPermissionTo('ver-tramite-opm'))
-        <v-tramite-opm rg="{{$pm->RG}}"></v-tramite-opm>
-    @endif
-    @if(session('is_admin'))
-        <v-log-fdi rg="{{$pm->RG}}"></v-log-fdi>
-    @endif
     {{-- <div>
         <input type="button" onclick="cont();" value="Imprimir">
     </div> --}}

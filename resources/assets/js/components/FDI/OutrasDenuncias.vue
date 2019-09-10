@@ -5,8 +5,9 @@
                 <thead>
                     <tr>
                         <th class="col-xs-2">N° Denúncia</th>
-                        <th class="col-xs-4">Processo crime</th>
+                        <th class="col-xs-2">Processo crime</th>
                         <th class="col-xs-2">Julgamento</th>
+                        <th class="col-xs-2">Tempo</th>
                         <th class="col-xs-2">Trânsito em julgado</th>
                         <th class="col-xs-2">Ações</th>
                     </tr>
@@ -16,11 +17,25 @@
                         <td>{{ registro.processo }}</td>
                         <td><b>{{ registro.processocrime }}</b></td>
                         <td> 
-                            <b v-if="registro.julgamento">{{ registro.julgamento }}</b> 
-                            <b v-else> Não cadastrado </b> 
+                            <span v-if="registro.julgamento">
+                                <b>{{ registro.julgamento }}</b>
+                            </span>
+                            <span v-else>
+                                <b> Não cadastrado </b> 
+                            </span> 
+                        </td>
+                        <td>
+                            <template v-if="registro.julgamento == 'Condenado'">
+                                {{ registro.pena_anos }} Anos
+                                {{ registro.pena_meses }} Meses
+                                {{ registro.pena_dias }} Dias
+                            </template>
+                            <template v-else>
+                                -
+                            </template>
                         </td>
                         <td> 
-                            <b v-if="registro.transitojulgado_bl">Sim</b> 
+                            <b v-if="registro.transitojulgado_bl == 'S'">Sim</b> 
                             <b v-else> Não </b> 
                         </td>
                         <td>
@@ -41,14 +56,17 @@
             </template>
         </table>
         <template v-if="canCreate">
-            <a class="btn btn-primary btn-block" @click="showModal = true">
+            <a class="btn btn-primary btn-block" @click="toCreate">
                 <i class="fa fa-plus"></i>Adicionar Denúncia
             </a>
         </template>
         <!-- form -->
         <Modal v-model="showModal" large effect="fade">
             <div slot="modal-header" class="modal-header">
-                <h4 class="modal-title"><b>Inserir nova Denúncia</b></h4>
+                <h4 class="modal-title">
+                    <b v-if="registro.id_denunciacivil">Editar Denúncia</b>
+                    <b v-else>Inserir nova Denúncia</b>
+                </h4>
             </div>
             <div slot="modal-body">
                 <input type="hidden" name="id" v-model="registro.id_denunciacivil">
@@ -116,12 +134,10 @@
                     <a class="btn btn-default btn-block" @click="showModal = false">Cancelar</a>
                 </div>
                 <div class="col-xs-6">
-                    <template v-if="registro.id_denunciacivil">
-                        <a class="btn btn-success btn-block" :disabled="requireds" @click="update(registro.id_denunciacivil)">Editar</a>
-                    </template>
-                    <template v-else>
-                        <a class="btn btn-success btn-block" :disabled="requireds" @click="create">Inserir</a>
-                    </template>
+                    <v-tooltip effect="scale" placement="top" :content="msgRequired">
+                        <a v-if="registro.id_denunciacivil" class="btn btn-success btn-block" :disabled="requireds" @click="update(registro.id_denunciacivil)">Editar</a>
+                        <a v-else class="btn btn-success btn-block" :disabled="requireds" @click="create">Inserir</a>
+                    </v-tooltip>
                 </div>
             </div>
         </Modal> 
@@ -153,9 +169,6 @@ export default {
         this.canCreate = this.$root.hasPermission('criar-outras-denuncia')
         this.canEdit = this.$root.hasPermission('editar-outras-denuncia')
         this.canDelete = this.$root.hasPermission('apagar-outras-denuncia')
-        this.registro.rg = this.pm.RG
-        this.registro.cargo = this.pm.CARGO
-        this.registro.nome = this.pm.NOME
     },
     computed:{
         requireds(){
@@ -165,7 +178,9 @@ export default {
         lenght(){
             if(this.registros) return Object.keys(this.registros).length
             return 0
-            
+        },
+        msgRequired(){
+            return `Para liberar este botão o campos OBSERVAÇÕES deve estar preenchido`           
         }
     },
     methods: {
@@ -180,15 +195,23 @@ export default {
                 .catch(error => console.log(error));
             }
         },
+        toCreate(){
+            this.showModal = true
+            this.registro.rg = this.pm.RG
+            this.registro.cargo = this.pm.CARGO
+            this.registro.nome = this.pm.NOME
+        },
         create(){
-            let urlCreate = `${this.$root.baseUrl}api/${this.module}/store`;
-            axios
-            .post(urlCreate, this.registro)
-            .then((response) => {
-                this.transation(response.data.success, 'create')
-            })
-            .catch(error => console.log(error));
-            this.showModal = false
+            if(!this.requireds){
+                let urlCreate = `${this.$root.baseUrl}api/${this.module}/store`;
+                axios
+                .post(urlCreate, this.registro)
+                .then((response) => {
+                    this.transation(response.data.success, 'create')
+                })
+                .catch(error => console.log(error));
+                this.showModal = false
+            }
             
         },
         edit(registro){
@@ -196,13 +219,15 @@ export default {
             this.showModal = true
         },
         update(id){
-            let urlUpdate = `${this.$root.baseUrl}api/${this.module}/update/${id}`;
-            axios
-            .put(urlUpdate, this.registro)
-            .then((response) => {
-                this.transation(response.data.success, 'edit')
-            })
-            .catch(error => console.log(error));
+            if(!this.requireds){
+                let urlUpdate = `${this.$root.baseUrl}api/${this.module}/update/${id}`;
+                axios
+                .put(urlUpdate, this.registro)
+                .then((response) => {
+                    this.transation(response.data.success, 'edit')
+                })
+                .catch(error => console.log(error));
+            }
         },
         destroy(id){
             if(confirm('Você tem certeza?')){
@@ -221,7 +246,7 @@ export default {
             if(happen) { // se deu certo
                     this.list()
                     this.$root.msg(msg.success,'success')
-                    this.registro = []
+                    this.registro = {}
             } else { // se falhou
                 this.$root.msg(msg.fail,'danger')
             }

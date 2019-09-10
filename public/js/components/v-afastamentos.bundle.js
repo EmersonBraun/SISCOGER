@@ -33,42 +33,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['rg'],
     data: function data() {
         return {
-            afastamentos: []
+            registros: [],
+            module: 'afastamentos'
         };
     },
     mounted: function mounted() {
-        this.listAfastamentos();
+        this.list();
     },
 
     methods: {
-        listAfastamentos: function listAfastamentos() {
+        list: function list() {
             var _this = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/fdi/afastamentos/' + this.rg;
+            var urlIndex = this.$root.baseUrl + 'api/fdi/' + this.module + '/' + this.rg;
             if (this.rg) {
                 axios.get(urlIndex).then(function (response) {
-                    _this.afastamentos = response.data;
+                    _this.registros = response.data;
                 }).catch(function (error) {
                     return console.log(error);
                 });
@@ -87,7 +72,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -101,99 +86,60 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-xs-12" }, [
-      _c("div", { staticClass: "box collapsed-box" }, [
-        _c("div", { staticClass: "box-header" }, [
-          _c("h2", { staticClass: "box-title" }, [
-            _vm._v("Afastamentos\n                 \n                "),
-            _c("i", {
-              staticClass: "fa fa-info-circle text-info",
-              attrs: {
-                "data-toggle": "tooltip",
-                "data-placement": "bottom",
-                title:
-                  "O campo poderá ser suprimido nos casos de certidão da Ficha Disciplinar Individual do militar estadual."
-              }
-            }),
-            _vm._v(" "),
-            _vm.afastamentos.length
-              ? _c("span", { staticClass: "badge bg-red" }, [
-                  _vm._v(_vm._s(_vm.afastamentos.length))
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm._m(0)
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "box-body" }, [
-          _c("div", { staticClass: "col-md-12 col-xs-12" }, [
-            _c("table", { staticClass: "table table-striped" }, [
-              _c(
-                "tbody",
-                [
-                  _vm.afastamentos.length
-                    ? _vm._l(_vm.afastamentos, function(afastamento, index) {
-                        return _c("tr", { key: index }, [
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(afastamento.DESC_INCIDENTE) +
-                                ", \n                                        "
-                            ),
-                            _c("b", [
-                              _vm._v(
-                                "\n                                            De " +
-                                  _vm._s(
-                                    _vm._f("date_br")(afastamento.DT_INIC)
-                                  ) +
-                                  " a \n                                            " +
-                                  _vm._s(
-                                    _vm._f("date_br")(afastamento.DT_FIM)
-                                  ) +
-                                  "\n                                        (" +
-                                  _vm._s(afastamento.UNITS) +
-                                  " Dias)"
-                              )
-                            ])
-                          ])
-                        ])
-                      })
-                    : [_vm._m(1)]
-                ],
-                2
-              )
-            ])
-          ])
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-tools pull-right" }, [
+  return _c(
+    "v-tab",
+    { attrs: { header: "Afastamentos", badge: _vm.registros.length } },
+    [
       _c(
-        "button",
-        {
-          staticClass: "btn btn-box-tool",
-          attrs: { type: "button", "data-widget": "collapse" }
-        },
-        [_c("i", { staticClass: "fa fa-plus" })]
+        "table",
+        { staticClass: "table table-striped" },
+        [
+          _vm.registros.length
+            ? [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", { staticClass: "col-xs-6" }, [
+                      _vm._v("Descrição")
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-xs-2" }, [_vm._v("Início")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-xs-2" }, [_vm._v("Fim")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-xs-2" }, [
+                      _vm._v("Tempo (dias)")
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.registros, function(registro, index) {
+                    return _c("tr", { key: index }, [
+                      _c("td", [_vm._v(_vm._s(registro.DESC_INCIDENTE))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(_vm._f("date_br")(registro.DT_INIC)))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(_vm._f("date_br")(registro.DT_FIM)))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(registro.UNITS))])
+                    ])
+                  }),
+                  0
+                )
+              ]
+            : [_c("tr", [_c("td", [_vm._v("Nada encontrado")])])]
+        ],
+        2
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [_c("td", [_vm._v("Não há registros.")])])
-  }
-]
+    ]
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
