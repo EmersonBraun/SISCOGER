@@ -3,54 +3,21 @@
 namespace App\Http\Controllers\Relatorios;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\proc\AdlRepository;
-use App\Repositories\proc\CdRepository;
-use App\Repositories\proc\CjRepository;
-use App\Repositories\proc\FatdRepository;
-use App\Repositories\proc\ItRepository;
-use App\Repositories\proc\SindicanciaRepository;
+use App\Repositories\proc\SobrestamentoRepository;
 
 class SobrestamentoController extends Controller
 {
+    protected $repository;
 
-    public function adl(AdlRepository $repository) 
+    public function __construct(SobrestamentoRepository $repository)
+	{
+        $this->repository = $repository;
+    }
+
+    public function index($proc) 
     {
-        $resistros = $repository->sobrestado();
-        $proc = 'adl';
+        $registros = $this->repository->sobrestados($proc);
         return view('relatorios.sobrestamento.index',compact('registros','proc'));
     }
 
-    public function cd(CdRepository $repository) 
-    {
-        $resistros = $repository->sobrestado();
-        $proc = 'cd';
-        return view('relatorios.sobrestamento.index',compact('registros','proc'));
-    }
-
-    public function cj(CjRepository $repository) 
-    {
-        $resistros = $repository->sobrestado();
-        $proc = 'cj';
-        return view('relatorios.sobrestamento.index',compact('registros','proc'));
-    }
-
-    public function fatd(FatdRepository $repository) 
-    {
-        $resistros = $repository->sobrestado();
-        $proc = 'fatd';
-        return view('relatorios.sobrestamento.index',compact('registros','proc'));
-    }
-
-    public function it(ItRepository $repository) 
-    {
-        $resistros = $repository->sobrestado();
-        $proc = 'it';
-        return view('relatorios.sobrestamento.index',compact('registros','proc'));
-    }
-
-    public function sindicancia(SindicanciaRepository $repository) {
-        $resistros = $repository->sobrestado();
-        $proc = 'sindicancia';
-        return view('relatorios.sobrestamento.index',compact('registros','proc'));
-    }
 }

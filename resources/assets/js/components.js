@@ -39,6 +39,7 @@ Vue.component('v-fdi', () => import(/* webpackChunkName: "v-fdi" */'./components
 Vue.component('v-punicao', () => import(/* webpackChunkName: "v-punicao" */'./components/FDI/Punicao.vue'));
 Vue.component('v-log-fdi', () => import(/* webpackChunkName: "v-log-fdi" */'./components/FDI/Log.vue'));
 Vue.component('v-membro', () => import(/* webpackChunkName: "v-membro" */'./components/FDI/Membro.vue'));
+Vue.component('v-medalha', () => import(/* webpackChunkName: "v-medalha" */'./components/FDI/Medalha.vue'));
 Vue.component('v-objeto', () => import(/* webpackChunkName: "v-objeto" */'./components/FDI/Objeto.vue'));
 Vue.component('v-outras-denuncias', () => import(/* webpackChunkName: "v-outras-denuncias" */'./components/FDI/OutrasDenuncias.vue'));
 Vue.component('v-principal', () => import(/* webpackChunkName: "v-principal" */'./components/FDI/Principal.vue'));

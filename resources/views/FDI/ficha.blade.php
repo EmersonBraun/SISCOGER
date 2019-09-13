@@ -69,6 +69,9 @@
             <div class="box">
                 <div class="box-body">
                     <v-tabs nav-style="pills" justified>
+                        @if(hasPermissionTo('ver-medalhas'))
+                            <v-medalha :pm="{{$pm}}"></v-medalha>
+                        @endif
                         @if(hasPermissionTo('ver-afastamentos'))
                             <v-afastamentos rg="{{$pm->RG}}"></v-afastamentos>
                         @endif

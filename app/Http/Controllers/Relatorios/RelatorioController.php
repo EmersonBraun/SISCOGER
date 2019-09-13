@@ -4,82 +4,31 @@ namespace App\Http\Controllers\Relatorios;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\PM\EnvolvidoRepository;
 
 class RelatorioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    protected $repository;
+    public function __construct(EnvolvidoRepository $repository)
+	{
+        $this->repository = $repository;
+    }
+    
+    public function defensor()
     {
-        //
+        $registros = $this->repository->situacao('defensor');
+        return view('relatorios.defensor.index',compact('registros'));   
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function ofendido()
     {
-        //
+        $registros = $this->repository->situacao('ofendido');
+        return view('relatorios.ofendido.index',compact('registros'));   
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function encarregado()
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $registros = $this->repository->situacao('encarregado');
+        return view('relatorios.encarregado.index',compact('registros'));   
     }
 }

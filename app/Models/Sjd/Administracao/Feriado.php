@@ -23,14 +23,11 @@ use Laracasts\Presenter\PresentableTrait;
  */
 class Feriado extends Eloquent
 {
-	//Activitylog
+    //Activitylog
 	use LogsActivity;
-
     protected static $logName = 'feriado';
-    protected static $logAttributes = [
-		'data',
-		'feriado'
-	];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
 	
 	protected $table = 'feriado';
 	protected $primaryKey = 'id_feriado';

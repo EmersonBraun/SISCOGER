@@ -1,6 +1,0 @@
-<? ?>
-
-<h2 align="center">Informações do usuário <?echo $login;?></h2>
-
-
-<? ?>

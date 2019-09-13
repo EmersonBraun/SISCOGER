@@ -156,23 +156,24 @@
         <li class=""><a href="<?php echo e(route('relatorio.prioritarios','adl')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Processos Prioritários</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-relatorio-sobrestamentos')): ?>
-        <li class=""><a href="<?php echo e(route('pendencia.sobrestamentos')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Sobrestamentos</span></a></li>
+        <li class=""><a href="<?php echo e(route('relatorio.sobrestamento','adl')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Sobrestamentos</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-relatorio-processos')): ?>
-        <li class=""><a href="<?php echo e(route('pendencia.processos')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Processos</span></a></li>
+        <li class=""><a href="<?php echo e(route('processo.search')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Processos</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-relatorio-postograd')): ?>
-        <li class=""><a href="<?php echo e(route('pendencia.postograd')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Postos/Graduações</span></a></li>
+        <li class=""><a href="<?php echo e(route('postograd.search')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Postos/Graduações</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-relatorio-encarregados')): ?>
-        <li class=""><a href="<?php echo e(route('pendencia.encarregados')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Encarregados</span></a></li>
+        <li class=""><a href="<?php echo e(route('relatorio.encarregado')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Encarregados</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-relatorio-defensores')): ?>
-        <li class=""><a href="<?php echo e(route('pendencia.defensores')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Defensores</span></a></li>
+        <li class=""><a href="<?php echo e(route('relatorio.defensor')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Defensores</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-relatorio-ofendidos')): ?>
-        <li class=""><a href="<?php echo e(route('pendencia.ofendidos')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ofendidos</span></a></li>
+        <li class=""><a href="<?php echo e(route('relatorio.ofendido')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ofendidos</span></a></li>
         <?php endif; ?>
+        <li class=""><a href="<?php echo e(route('relatorio.protocolo')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>E-Protocolo</span></a></li>
     </ul>
 </li>
 
@@ -413,59 +414,83 @@
         <li class="treeview"><a href="#"><i class="fa fa-fw fa-bug "></i><span>Processos/Procedimentos</span>
             <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
             <ul class="treeview-menu">
-                <li class=""><a href="<?php echo e(route('log.created','adl')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - ADL</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','apfd')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - APFD</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','cd')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - CD</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','cj')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - CJ</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','desercao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Deserção</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','exclusao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Exclusão</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','fatd')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - FATD</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','ipm')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - IPM</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','iso')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - ISO</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','it')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - IT</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','movimento')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Movimento</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','pad')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - PAD</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','procoutros')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Proc. Outros</span></a></li>                            
-                <li class=""><a href="<?php echo e(route('log.created','sindicancia')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Sindicância</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','recurso')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Recurso</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','adl')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>ADL</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','apfd')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>APFD</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','cd')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>CD</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','cj')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>CJ</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','desercao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Deserção</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','exclusao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Exclusão</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','fatd')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>FATD</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','ipm')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>IPM</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','iso')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>ISO</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','it')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>IT</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','movimento')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Movimento</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','pad')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>PAD</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','procoutros')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Proc. Outros</span></a></li>                            
+                <li class=""><a href="<?php echo e(route('log.created','sindicancia')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Sindicância</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','recurso')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Recurso</span></a></li>
             </ul>
         </li>
         <li class="treeview"><a href="#"><i class="fa fa-fw fa-bug "></i><span>Apresentações em juizo</span>
             <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
             <ul class="treeview-menu">
-                <li class=""><a href="<?php echo e(route('log.created','notacoger')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Notas COGER</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','apresentacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Apresentação</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','locaisapresentacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Locais</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','email')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Email</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','notacoger')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Notas COGER</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','apresentacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Apresentação</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','locaisapresentacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Locais</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','email')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Email</span></a></li>
             </ul></li>
         <li class="treeview"><a href="#"><i class="fa fa-fw fa-bug "></i><span>Administração</span>
             <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
             <ul class="treeview-menu">
-                <li class=""><a href="<?php echo e(route('log.created','acessos')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Acessos</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','apagados')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Apagado</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','bloqueios')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Bloqueios</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','papeis')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Papeis</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','permissoes')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Permissões</span></a></li> 
-                <li class=""><a href="<?php echo e(route('log.created','feriado')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Feriados</span></a></li>  
+                <li class=""><a href="<?php echo e(route('log.created','acessos')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Acessos</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','apagados')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Apagado</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','bloqueios')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Bloqueios</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','papeis')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Papeis</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','permissoes')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Permissões</span></a></li> 
+                <li class=""><a href="<?php echo e(route('log.created','cadastroopmcoger')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Cadastro OPM COGER</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','feriado')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Feriados</span></a></li> 
+                <li class=""><a href="<?php echo e(route('log.created','fileupload')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Upload de Arquivos</span></a></li> 
             </ul>
         </li>
-        <li class="treeview"><a href="#"><i class="fa fa-fw fa-bug "></i><span>Policiais</span>
-            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-            <ul class="treeview-menu">
-                <li class=""><a href="<?php echo e(route('log.created','fdi')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - FDI</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','cadastroopmcoger')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Cadastro OPM COGER</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','comportamentopm')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Comportamento PM</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','denunciacivil')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Denuncia Civil</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','elogio')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Elogio</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','reintegrado')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Reintegrado</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','falecimento')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Falecimento</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','preso')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Preso</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','restricao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Restrição</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','sai')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - SAI</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','suspenso')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Suspenso</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','tramitacaoopm')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Log - Tramitação OPM</span></a></li>
-            </ul>
-        </li>
+        
+        <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-fw fa-bug "></i><span>Policiais</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="treeview">
+                        <a href="#"><i class="fa fa-fw fa-bug"></i><span>FDI</span>
+                            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                        </a>
+                        <ul class="treeview-menu"> 
+                            <li class=""><a href="<?php echo e(route('log.created','fdi')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Acesso FDI</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','protocolo')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Protocolo</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','comportamentopm')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Comportamento PM</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','denunciacivil')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Denuncia Civil</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','elogio')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Elogio</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','restricao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Restrição</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','punicao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Punição</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','tramitacaoopm')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Tramitação OPM</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','tramitacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Tramitação COGER</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','medalha')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Medalha</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-fw fa-bug"></i><span>Geral</span>
+                            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class=""><a href="<?php echo e(route('log.created','reintegrado')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Reintegrado</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','falecimento')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Óbitos e lesões</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','preso')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Preso</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','sai')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>SAI</span></a></li>
+                            <li class=""><a href="<?php echo e(route('log.created','suspenso')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Suspenso</span></a></li>
+                        </ul>
+                    </li> 
+                </ul>
+            </li>
     </ul>
 </li>
 <?php endif; ?>
@@ -473,6 +498,13 @@
 <li class="">
     <a href="<?php echo e(route('link.index')); ?>">
         <i class="fa fa-link "></i><span>Links Úteis</span>
+        <span class="pull-right-container"></span>
+    </a>
+</li>
+
+<li class="">
+    <a href="<?php echo e(route('arquivamento.local','coger')); ?>">
+        <i class="fa fa-archive "></i><span>Arquivamento</span>
         <span class="pull-right-container"></span>
     </a>
 </li>

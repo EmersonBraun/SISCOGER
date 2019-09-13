@@ -153,6 +153,23 @@ return [
         "sai",
         "proc_outros"
     ],
+    
+    'procedimentos' => 
+    [
+        "ipm",
+        "sindicancia",
+        "cd",
+        "cj",
+        "apfd",
+        "fatd",
+        "iso",
+        "desercao",
+        "it",
+        "adl",
+        "pad",
+        "sai",
+        "proc_outros"
+    ],
 
     'procSituacao' =>
     [

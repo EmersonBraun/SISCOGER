@@ -15,7 +15,6 @@ class ComportamentoApiController extends Controller
     public static function comportamentos($unidade)
     {
         $comportamentos = CP::comportamentos($unidade);
-
         return $comportamentos;
     }
 }

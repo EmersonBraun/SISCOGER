@@ -62,21 +62,38 @@ class logRepository extends BaseRepository
 
     public function created($name)
     {
-        if($name == 'acessos') {
-            $registros = Cache::tags('log')->remember('log:acessos', 1, function() use ($name) {
-                return $this->acesso->all();
-            });
-        }
-        elseif($name == 'bloqueios') {
-            $registros = Cache::tags('log')->remember('log:bloqueios', 1, function() {
-                return $this->bloqueio->all();
-            });
-        }
-        else {
-            $registros = Cache::tags('log')->remember('log:created:'.$name, 1, function() use ($name) {
-                return $this->model->where('log_name' , $name)->where('description','created')->get();
-            }); 
-        }
+        if($name == 'acessos') $registros = $this->LogAcessos();
+        if($name == 'bloqueios') $registros = $this->LogBloqueios();
+        if($name == 'fdi') $registros = $this->LogFdi();
+
+        if($name !== 'acessos' && $name !== 'bloqueios' && $name !== 'fdi') $registros = $this->geral($name);
+
+        return $registros;
+    }
+
+    public function geral($name) 
+    {
+        $registros = Cache::tags('log')->remember('log:created:'.$name, 1, function() use ($name) {
+            return $this->model->where('log_name' , $name)->where('description','created')->get();
+        }); 
+
+        return $registros;
+    }
+
+    public function LogAcessos()
+    {
+        $registros = Cache::tags('log')->remember('log:acessos', 1, function() {
+            return $this->acesso->all();
+        });
+
+        return $registros;
+    }
+
+    public function LogBloqueios()
+    {
+        $registros = Cache::tags('log')->remember('log:bloqueios', 1, function() {
+            return $this->bloqueio->all();
+        });
 
         return $registros;
     }

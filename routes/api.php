@@ -82,6 +82,13 @@ Route::group(['as'=>'punicao.','prefix' =>'punicao'],function(){
     Route::put('update/{id}',['as' =>'update','uses'=>'Policiais\PunidoController@updateAPI']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Policiais\PunidoController@destroyAPI']);
 });
+// medalhas
+Route::group(['as'=>'medalha.','prefix' =>'medalha'],function(){
+    Route::get('list/{rg}',['as' =>'list','uses'=>'Policiais\MedalhaController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Policiais\MedalhaController@storeAPI']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Policiais\MedalhaController@updateAPI']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Policiais\MedalhaController@destroyAPI']);
+});
 
 Route::group(['as'=>'fdi.','prefix' =>'fdi'],function(){
     Route::get('dadosGerais/{rg}',['as' =>'dadosGerais','uses'=>'FDI\FDIListController@dadosGerais']);
@@ -151,10 +158,10 @@ Route::group(['as'=>'sobrestamento.','prefix' =>'sobrestamento'],function(){
 });
 // rotas componente SubForm/Arquivo.vue
 Route::group(['as'=>'arquivo.','prefix' =>'arquivo'],function(){
-    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'Subform\ArquivoApiController@list']);
-    Route::post('store',['as' =>'store','uses'=>'Subform\ArquivoApiController@store']);
-    Route::post('edit/{id}',['as' =>'edit','uses'=>'Subform\ArquivoApiController@edit']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\ArquivoApiController@destroy']);
+    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'Arquivo\ArquivoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Arquivo\ArquivoController@store']);
+    Route::post('edit/{id}',['as' =>'edit','uses'=>'Arquivo\ArquivoController@edit']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Arquivo\ArquivoController@destroy']);
 });
 
 Route::group(['as'=>'dados.','prefix' =>'dados'],function(){

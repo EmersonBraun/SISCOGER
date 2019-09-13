@@ -135,10 +135,10 @@ class Envolvido extends Eloquent
     ];
     
     //Activitylog
-	use LogsActivity;
-    protected static $logName = 'comportamentopm';
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
+	// use LogsActivity;
+    // protected static $logName = 'envolvido';
+    // protected static $logAttributes = ['*'];
+    // protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\policiais\EnvolvidoPresenter';

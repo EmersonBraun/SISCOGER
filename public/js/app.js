@@ -29,7 +29,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		77: 0
+/******/ 		79: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-membro","1":"v-prisoes","2":"v-outras-denuncias","3":"v-classificacao","4":"v-toogle","5":"v-fdi","6":"file-upload","7":"v-label","8":"v-acusado","9":"v-tabs","10":"v-sobrestamento","11":"v-movimento","12":"v-arquivo","13":"v-prioritario","14":"v-restricoes","15":"v-input","16":"v-aside","17":"v-tooltip","18":"v-popover","19":"v-select","20":"v-carousel","21":"crpms-chart","22":"procedimentos-chart","23":"efetivo-chart","24":"v-vitima","25":"v-reus","26":"v-proced-origem","27":"v-acusado-unico","28":"v-acusado-rg","29":"v-typeahead","30":"v-spinner","31":"v-alert","32":"v-modal","33":"v-dropdown","34":"v-tab-group","35":"v-radio","36":"v-panel","37":"v-datepicker","38":"v-checkbox","39":"v-defensor","40":"v-tasks","41":"v-notifications","42":"v-messages","43":"v-tab-item","44":"v-info-box","45":"vue-simple-suggest","46":"v-show","47":"v-opm","48":"v-municipio","49":"v-item-unique","50":"v-it-objeto-procedimento","51":"v-estado","52":"v-ano","53":"v-tramite-opm","54":"v-tramite-coger","55":"v-sai","56":"v-protocolo","57":"v-proc-outros","58":"v-principal","59":"v-objeto","60":"v-log-fdi","61":"v-dependentes","62":"v-denuncias","63":"v-cautelas","64":"v-apresentacoes","65":"v-afastamentos","66":"v-navbar","67":"v-form-validator","68":"v-form-group","69":"v-toggle-button","70":"v-progressbar","71":"v-affix","72":"v-tab","73":"v-slider","74":"v-option","75":"v-accordion","76":"v-tab-menu","78":"v-punicao"}[chunkId]||chunkId) + ".bundle.js";
+/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-membro","1":"v-prisoes","2":"v-outras-denuncias","3":"v-classificacao","4":"v-toogle","5":"v-fdi","6":"file-upload","7":"v-label","8":"v-acusado","9":"v-tabs","10":"v-sobrestamento","11":"v-movimento","12":"v-arquivo","13":"v-prioritario","14":"v-restricoes","15":"v-input","16":"v-aside","17":"v-tooltip","18":"v-popover","19":"v-select","20":"v-carousel","21":"crpms-chart","22":"procedimentos-chart","23":"efetivo-chart","24":"v-vitima","25":"v-reus","26":"v-proced-origem","27":"v-acusado-unico","28":"v-acusado-rg","29":"v-typeahead","30":"v-spinner","31":"v-alert","32":"v-modal","33":"v-dropdown","34":"v-tab-group","35":"v-radio","36":"v-panel","37":"v-datepicker","38":"v-checkbox","39":"v-defensor","40":"v-tasks","41":"v-notifications","42":"v-messages","43":"v-tab-item","44":"v-info-box","45":"vue-simple-suggest","46":"v-show","47":"v-opm","48":"v-municipio","49":"v-item-unique","50":"v-it-objeto-procedimento","51":"v-estado","52":"v-ano","53":"v-tramite-opm","54":"v-tramite-coger","55":"v-sai","56":"v-punicao","57":"v-protocolo","58":"v-proc-outros","59":"v-principal","60":"v-objeto","61":"v-medalha","62":"v-log-fdi","63":"v-dependentes","64":"v-denuncias","65":"v-cautelas","66":"v-apresentacoes","67":"v-afastamentos","68":"v-navbar","69":"v-form-validator","70":"v-form-group","71":"v-toggle-button","72":"v-progressbar","73":"v-affix","74":"v-tab","75":"v-slider","76":"v-option","77":"v-accordion","78":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -67668,49 +67668,52 @@ Vue.component('crpms-chart', function () {
 });
 // FDI
 Vue.component('v-afastamentos', function () {
-  return __webpack_require__.e/* import() */(65).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Afastamentos.vue"));
+  return __webpack_require__.e/* import() */(67).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Afastamentos.vue"));
 });
 Vue.component('v-apresentacoes', function () {
-  return __webpack_require__.e/* import() */(64).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Apresentacoes.vue"));
+  return __webpack_require__.e/* import() */(66).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Apresentacoes.vue"));
 });
 Vue.component('v-cautelas', function () {
-  return __webpack_require__.e/* import() */(63).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Cautelas.vue"));
+  return __webpack_require__.e/* import() */(65).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Cautelas.vue"));
 });
 Vue.component('v-denuncias', function () {
-  return __webpack_require__.e/* import() */(62).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Denuncias.vue"));
+  return __webpack_require__.e/* import() */(64).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Denuncias.vue"));
 });
 Vue.component('v-dependentes', function () {
-  return __webpack_require__.e/* import() */(61).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Dependentes.vue"));
+  return __webpack_require__.e/* import() */(63).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Dependentes.vue"));
 });
 Vue.component('v-fdi', function () {
   return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/FDI.vue"));
 });
 Vue.component('v-punicao', function () {
-  return __webpack_require__.e/* import() */(78).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Punicao.vue"));
+  return __webpack_require__.e/* import() */(56).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Punicao.vue"));
 });
 Vue.component('v-log-fdi', function () {
-  return __webpack_require__.e/* import() */(60).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Log.vue"));
+  return __webpack_require__.e/* import() */(62).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Log.vue"));
 });
 Vue.component('v-membro', function () {
   return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Membro.vue"));
 });
+Vue.component('v-medalha', function () {
+  return __webpack_require__.e/* import() */(61).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Medalha.vue"));
+});
 Vue.component('v-objeto', function () {
-  return __webpack_require__.e/* import() */(59).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Objeto.vue"));
+  return __webpack_require__.e/* import() */(60).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Objeto.vue"));
 });
 Vue.component('v-outras-denuncias', function () {
   return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/OutrasDenuncias.vue"));
 });
 Vue.component('v-principal', function () {
-  return __webpack_require__.e/* import() */(58).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Principal.vue"));
+  return __webpack_require__.e/* import() */(59).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Principal.vue"));
 });
 Vue.component('v-prisoes', function () {
   return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Prisoes.vue"));
 });
 Vue.component('v-protocolo', function () {
-  return __webpack_require__.e/* import() */(56).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Protocolo.vue"));
+  return __webpack_require__.e/* import() */(57).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Protocolo.vue"));
 });
 Vue.component('v-proc-outros', function () {
-  return __webpack_require__.e/* import() */(57).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/ProcOutros.vue"));
+  return __webpack_require__.e/* import() */(58).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/ProcOutros.vue"));
 });
 Vue.component('v-restricoes', function () {
   return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Restricoes.vue"));
@@ -67729,7 +67732,7 @@ Vue.component('v-tab-item', function () {
   return __webpack_require__.e/* import() */(43).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabItem.vue"));
 });
 Vue.component('v-tab-menu', function () {
-  return __webpack_require__.e/* import() */(76).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabMenu.vue"));
+  return __webpack_require__.e/* import() */(78).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabMenu.vue"));
 });
 Vue.component('v-info-box', function () {
   return __webpack_require__.e/* import() */(44).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/Home/InfoBox.vue"));
@@ -67759,7 +67762,7 @@ Vue.component('v-checkbox', function () {
   return __webpack_require__.e/* import() */(38).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Checkbox.vue"));
 });
 Vue.component('v-tab', function () {
-  return __webpack_require__.e/* import() */(72).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Tab.vue"));
+  return __webpack_require__.e/* import() */(74).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Tab.vue"));
 });
 Vue.component('v-tab-group', function () {
   return __webpack_require__.e/* import() */(34).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/TabGroup.vue"));
@@ -67769,10 +67772,10 @@ Vue.component('v-tabs', function () {
 });
 // Não revisados
 Vue.component('v-accordion', function () {
-  return __webpack_require__.e/* import() */(75).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Accordion.vue"));
+  return __webpack_require__.e/* import() */(77).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Accordion.vue"));
 });
 Vue.component('v-affix', function () {
-  return __webpack_require__.e/* import() */(71).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Affix.vue"));
+  return __webpack_require__.e/* import() */(73).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Affix.vue"));
 });
 Vue.component('v-alert', function () {
   return __webpack_require__.e/* import() */(31).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Alert.vue"));
@@ -67788,10 +67791,10 @@ Vue.component('v-dropdown', function () {
   return __webpack_require__.e/* import() */(33).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Dropdown.vue"));
 });
 Vue.component('v-form-group', function () {
-  return __webpack_require__.e/* import() */(68).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/FormGroup.vue"));
+  return __webpack_require__.e/* import() */(70).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/FormGroup.vue"));
 });
 Vue.component('v-form-validator', function () {
-  return __webpack_require__.e/* import() */(67).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/FormValidator.vue"));
+  return __webpack_require__.e/* import() */(69).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/FormValidator.vue"));
 });
 Vue.component('v-input', function () {
   return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Input.vue"));
@@ -67800,10 +67803,10 @@ Vue.component('v-modal', function () {
   return __webpack_require__.e/* import() */(32).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Modal.vue"));
 });
 Vue.component('v-navbar', function () {
-  return __webpack_require__.e/* import() */(66).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Navbar.vue"));
+  return __webpack_require__.e/* import() */(68).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Navbar.vue"));
 });
 Vue.component('v-option', function () {
-  return __webpack_require__.e/* import() */(74).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Option.vue"));
+  return __webpack_require__.e/* import() */(76).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Option.vue"));
 });
 Vue.component('v-panel', function () {
   return __webpack_require__.e/* import() */(36).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Panel.vue"));
@@ -67812,19 +67815,19 @@ Vue.component('v-popover', function () {
   return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Popover.vue"));
 });
 Vue.component('v-progressbar', function () {
-  return __webpack_require__.e/* import() */(70).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Progressbar.vue"));
+  return __webpack_require__.e/* import() */(72).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Progressbar.vue"));
 });
 Vue.component('v-radio', function () {
   return __webpack_require__.e/* import() */(35).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Radio.vue"));
 });
 Vue.component('v-slider', function () {
-  return __webpack_require__.e/* import() */(73).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Slider.vue"));
+  return __webpack_require__.e/* import() */(75).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Slider.vue"));
 });
 Vue.component('v-spinner', function () {
   return __webpack_require__.e/* import() */(30).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Spinner.vue"));
 });
 Vue.component('v-toggle-button', function () {
-  return __webpack_require__.e/* import() */(69).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/ToggleButton.vue"));
+  return __webpack_require__.e/* import() */(71).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/ToggleButton.vue"));
 });
 Vue.component('v-tooltip', function () {
   return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Tooltip.vue"));

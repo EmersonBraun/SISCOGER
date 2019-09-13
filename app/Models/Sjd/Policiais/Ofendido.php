@@ -93,10 +93,10 @@ class Ofendido extends Eloquent
     ];
     
     //Activitylog
-	use LogsActivity;
-    protected static $logName = 'ofendido';
-    protected static $logAttributes = ['*'];
-    protected static $logOnlyDirty = true;
+	// use LogsActivity;
+    // protected static $logName = 'ofendido';
+    // protected static $logAttributes = ['*'];
+    // protected static $logOnlyDirty = true;
     
     use PresentableTrait;
     protected $presenter = 'App\Presenters\policiais\OfendidoPresenter';

@@ -5,7 +5,7 @@ namespace App\Repositories\PM;
 use Cache;
 
 use App\Repositories\BaseRepository;
-use App\Models\Sjd\Busca\Tramitacaoopm;
+use App\Models\Sjd\Policiais\Tramitacaoopm;
 
 class TramitacaoopmRepository extends BaseRepository
 {

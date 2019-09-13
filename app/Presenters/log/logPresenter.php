@@ -19,12 +19,14 @@ class logPresenter extends Presenter {
 
     public function nome()
     {
+        if(!$this->causer_id) return '';
         $user = User::findOrFail($this->causer_id);
         return $user->nome;
     }
 
     public function rg()
     {
+        if(!$this->causer_id) return '';
         $user = User::findOrFail($this->causer_id);
         return $user->rg;
     }

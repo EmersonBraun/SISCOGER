@@ -6,7 +6,8 @@
  */
 
 namespace App\Models\Sjd\Policiais;
-
+//para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
+use Spatie\Activitylog\Traits\LogsActivity;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -38,5 +39,11 @@ class Protocolo extends Eloquent
 		'rg_autor',
 		'rg_analista',
 		'obs'
-	];
+    ];
+    
+    //Activitylog
+	use LogsActivity;
+    protected static $logName = 'protocolo';
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
 }

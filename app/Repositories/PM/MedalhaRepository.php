@@ -31,4 +31,14 @@ class MedalhaRepository extends BaseRepository
         return $registros;
     } 
 
+    public function medalhas($rg)
+	{
+
+        $registros = Cache::tags('medalha')->remember('medalha:'.$rg, $this->expiration, function() use ($rg){
+            return $this->model->where('rg',$rg)->get();
+        });
+
+        return $registros;
+    }
+
 }

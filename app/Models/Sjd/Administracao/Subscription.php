@@ -9,7 +9,7 @@ namespace App\Models\Sjd\Administracao;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 //para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
-use Spatie\Activitylog\Traits\LogsActivity;
+// use Spatie\Activitylog\Traits\LogsActivity;
 /**
  * Class Subscription
  * 
@@ -25,18 +25,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Subscription extends Eloquent
 {
-	//Activitylog
-	use LogsActivity;
-
-    protected static $logName = 'subscription';
-    protected static $logAttributes = [
-		'id_cadastroopmcoger',
-		'rg',
-		'funcao',
-		'ativado',
-		'dh',
-		'usuario_rg'
-	];
+    //Activitylog
+	// use LogsActivity;
+    // protected static $logName = 'subscription';
+    // protected static $logAttributes = ['*'];
+	// protected static $logOnlyDirty = true;
 	
 	protected $table = 'subscription';
 	protected $primaryKey = 'id_subscription';

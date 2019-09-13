@@ -16,7 +16,7 @@ class LogController extends Controller
     public function created($name)
     {
         $logs = $this->repository->created($name);
-        if($name == 'acessos' || $name == 'bloqueios') return view('logs.'.$name,compact('logs'));
+        if($name == 'acessos' || $name == 'bloqueios' || $name == 'fdi') return view('logs.'.$name,compact('logs'));
         $page = 'created';
         return view('logs.created',compact('logs','name','page'));
     }

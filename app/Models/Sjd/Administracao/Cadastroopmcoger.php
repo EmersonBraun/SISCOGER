@@ -33,26 +33,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Cadastroopmcoger extends Eloquent
 {
+    //Activitylog
 	use LogsActivity;
-
     protected static $logName = 'cadastroopmcoger';
-    protected static $logAttributes = [
-		'cdopm',
-		'opm_nome_por_extenso',
-		'id_municipio',
-		'opm_intermediaria_cdopm',
-		'opm_intermediaria_nome_por_extenso',
-		'opm_autoridade_rg',
-		'opm_autoridade_cargo',
-		'opm_autoridade_quadro',
-		'opm_autoridade_subquadro',
-		'opm_autoridade_nome',
-		'opm_autoridade_funcao',
-		'opm_autoridade_funcao_respondendo',
-		'memorando_sigla',
-		'dh',
-		'usuario_rg'
-	];
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
 
 	protected $table = 'cadastroopmcoger';
 	protected $primaryKey = 'id_cadastroopmcoger';

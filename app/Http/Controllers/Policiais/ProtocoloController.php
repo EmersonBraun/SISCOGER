@@ -14,6 +14,12 @@ class ProtocoloController extends Controller
         $this->repository = $repository;
     }
 
+    public function index()
+    {
+        $registros = $this->repository->all();
+        return view('relatorios.eprotocolo.index', compact('registros'));
+    }
+
     public function list($rg)
     {
         return $this->repository->protocolo($rg);

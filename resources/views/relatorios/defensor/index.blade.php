@@ -1,9 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'notacoger')
+@section('title', 'Relatório - Defensores')
 
 @section('content_header')
-@include('apresentacao.notacoger.list.menu', ['title' => 'Consultas','page' => $page])
+<section class="content-header">   
+  <h1>Relatório de Defensores</h1>
+  <ol class="breadcrumb">
+    <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+  </ol>
+</section>
 @stop
 
 @section('content')
@@ -11,66 +16,51 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Listagem de Nota COGER</h3>
+                <h3 class="box-title">Relatório de Defensores</b></h3>
             </div>
             <div class="box-body">
                 <table id="datable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th style="display: none">#</th>
-                            <th class='col-xs-1 col-md-1'>N°/Ano</th>
-                            <th class='col-xs-2 col-md-2'>Data</th>
-                            <th class='col-xs-2 col-md-2'>Situação</th>
-                            <th class='col-xs-2 col-md-2'>Descrição</th>
-                            <th class='col-xs-2 col-md-2'>Arquivo</th>
-                            <th class='col-xs-3 col-md-3'>Ações</th>
+                            <th>RG</th>
+                            <th>Posto/Grad</th>
+                            <th>Nome</th>
+                            <th>Processo/Procedimento</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($registros as $registro)
                         <tr>
-                            <td style="display: none">{{$registro->id_notacomparecimento}}</td>
-                            @if ($registro->sjd_ref != '')
-                            <td>{{$registro->sjd_ref}}/{{$registro->sjd_ref_ano}}</td>
-                            @else
-                            <td>{{$registro->id_notacomparecimento}}</td>
-                            @endif
-                            <td>{{$registro->expedicao_data}}</td>
-                            <td>{{$registro->status}}</td>
-                            <td>{{$registro->present()->tiponotacomparecimento}}</td>
-                            <td>{!!$registro->present()->nota_file!!}</td>
+                            <td style="display: none">{{ $registro->id_envolvido }}</td>
+                            <td>{{ $registro->rg }}</td>
+                            <td>{{ $registro->cargo }}</td>
+                            <td>{{ $registro->nome }}</td>
                             <td>
-                                <span>
-                                    {{-- @if(hasPermissionTo('ver-nota-coger'))
-                                    <a class="btn btn-default"
-                                        href="{{route('notacoger.show',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i
-                                            class="fa fa-fw fa-eye "></i></a>
-                                    @endif --}}
-                                    @if(hasPermissionTo('editar-nota-coger'))
-                                    <a class="btn btn-info"
-                                        href="{{route('notacoger.edit',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i
-                                            class="fa fa-fw fa-edit "></i></a>
-                                    @endif
-                                    @if(hasPermissionTo('apagar-nota-coger'))
-                                    <a class="btn btn-danger"
-                                        href="{{route('notacoger.destroy',$registro['id_notacoger'])}}"
-                                        onclick="return confirm('Tem certeza que quer apagar o notacoger?')"><i
-                                            class="fa fa-fw fa-trash-o "></i></a>
-                                    @endif
-                                </span>
-                            </td>
+                                @if($registro->id_ipm > 0) IPM @endif
+                                @if($registro->id_sindicancia > 0) Sindicância @endif
+                                @if($registro->id_cd > 0) CD @endif
+                                @if($registro->id_cj > 0) CJ @endif
+                                @if($registro->id_apfd > 0) APFD @endif
+                                @if($registro->id_fatd > 0) FATD @endif
+                                @if($registro->id_iso > 0) ISO @endif
+                                @if($registro->id_desercao > 0) Deserção @endif
+                                @if($registro->id_it > 0) IT @endif
+                                @if($registro->id_adl > 0) ADL @endif
+                                @if($registro->id_pad > 0) PAD @endif
+                                @if($registro->id_sai > 0) SAI @endif
+                                @if($registro->id_proc_outros > 0) Proc. Outros @endif
+                            </td>  
                         </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
                             <th style="display: none">#</th>
-                            <th class='col-xs-1 col-md-1'>N°/Ano</th>
-                            <th class='col-xs-2 col-md-2'>Data</th>
-                            <th class='col-xs-2 col-md-2'>Situação</th>
-                            <th class='col-xs-2 col-md-2'>Descrição</th>
-                            <th class='col-xs-2 col-md-2'>Arquivo</th>
-                            <th class='col-xs-3 col-md-3'>Ações</th>
+                            <th>RG</th>
+                            <th>Posto/Grad</th>
+                            <th>Nome</th>
+                            <th>Processo/Procedimento</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -81,8 +71,8 @@
 @stop
 
 @section('css')
-<link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
 @section('js')
+
 @stop

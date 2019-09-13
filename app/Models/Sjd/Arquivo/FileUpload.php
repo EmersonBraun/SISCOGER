@@ -4,7 +4,8 @@ namespace App\Models\Sjd\Arquivo;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+//para monitorar o CREATE, UPDATE e DELETE e salvar log automaticamente
+use Spatie\Activitylog\Traits\LogsActivity;
 class FileUpload extends Model
 {
     use SoftDeletes;
@@ -16,6 +17,12 @@ class FileUpload extends Model
     protected $casts = [
 		'id_proc' => 'int'
     ];
+
+    //Activitylog
+	use LogsActivity;
+    protected static $logName = 'fileupload';
+    protected static $logAttributes = ['*'];
+	protected static $logOnlyDirty = true;
 
     public function getDataArquivoAttribute($value)
     {

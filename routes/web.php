@@ -737,27 +737,34 @@ Route::group(['as'=>'pendencia.','prefix' =>'pendencia'],function(){
 	Route::get('punicoes',['as' =>'punicoes','uses'=>'Relatorios\PendenciaController@punicoes','middleware' => ['permission:listar-relatorio-punicoes']]);
 	Route::get('quantidade',['as' =>'quantidade','uses'=>'Relatorios\PendenciaController@quantidade','middleware' => ['permission:listar-relatorio-quantidade']]);
 	Route::get('sobrestamentos',['as' =>'sobrestamentos','uses'=>'Relatorios\PendenciaController@sobrestamentos','middleware' => ['permission:listar-relatorio-sobrestamentos']]);
-	Route::get('processos',['as' =>'processos','uses'=>'Relatorios\PendenciaController@processos','middleware' => ['permission:listar-relatorio-processos']]);
-	Route::get('postograd',['as' =>'postograd','uses'=>'Relatorios\PendenciaController@postograd','middleware' => ['permission:listar-relatorio-postograd']]);
-	Route::get('encarregados',['as' =>'encarregados','uses'=>'Relatorios\PendenciaController@encarregados','middleware' => ['permission:listar-relatorio-encarregados']]);
-	Route::get('defensores',['as' =>'defensores','uses'=>'Relatorios\PendenciaController@defensores','middleware' => ['permission:listar-relatorio-defensores']]);
-	Route::get('ofendidos',['as' =>'ofendidos','uses'=>'Relatorios\PendenciaController@ofendidos','middleware' => ['permission:listar-relatorio-ofendidos']]);
 });
 
 Route::group(['as'=>'relatorio.','prefix' =>'relatorio'],function(){
     Route::get('prioritarios/{proc}',['as' =>'prioritarios','uses'=>'Relatorios\PrioritarioController@index','middleware' => ['permission:listar-relatorio-prioritarios']]);
+    Route::get('sobrestamento/{proc}',['as' =>'sobrestamento','uses'=>'Relatorios\SobrestamentoController@index','middleware' => ['permission:listar-relatorio-sobrestamento']]);
+    Route::get('encarregado',['as' =>'encarregado','uses'=>'Relatorios\RelatorioController@encarregado','middleware' => ['permission:listar-relatorio-encarregados']]);
+	Route::get('defensor',['as' =>'defensor','uses'=>'Relatorios\RelatorioController@defensor','middleware' => ['permission:listar-relatorio-defensores']]);
+    Route::get('ofendido',['as' =>'ofendido','uses'=>'Relatorios\RelatorioController@ofendido','middleware' => ['permission:listar-relatorio-ofendidos']]);
+    Route::get('protocolo',['as' =>'protocolo','uses'=>'Policiais\ProtocoloController@index']);
 });
 
-Route::group(['as'=>'sobrestamento.','prefix' =>'sobrestamento','middleware' => ['permission:listar-relatorio-sobrestamento']],function(){
-	Route::get('',['as' =>'index','uses'=>'Relatorios\SobrestamentoController@index']);
-	Route::get('adl',['as' =>'adl','uses'=>'Relatorios\SobrestamentoController@adl']);
-	Route::get('cd',['as' =>'cd','uses'=>'Relatorios\SobrestamentoController@cd']);
-	Route::get('cj',['as' =>'cj','uses'=>'Relatorios\SobrestamentoController@cj']);
-	Route::get('fatd',['as' =>'fatd','uses'=>'Relatorios\SobrestamentoController@fatd']);
-	Route::get('it',['as' =>'it','uses'=>'Relatorios\SobrestamentoController@it']);
-	Route::get('sindicancia',['as' =>'sindicancia','uses'=>'Relatorios\SobrestamentoController@sindicancia']);
+Route::group(['as'=>'processo.','prefix' =>'processo'],function(){
+    Route::get('busca',['as' =>'search','uses'=>'Relatorios\ProcessoController@search','middleware' => ['permission:listar-relatorio-processos']]);   
+    Route::post('resultado',['as' =>'result','uses'=>'Relatorios\ProcessoController@result','middleware' => ['permission:listar-relatorio-processos']]);   
+});
+// arquivo
+Route::group(['as'=>'arquivamento.','prefix' =>'arquivamento'],function(){
+    Route::get('criar',['as' =>'create','uses'=>'Arquivamento\ArquivamentoController@create','middleware' => ['permission:criar-aquivamento']]);
+    Route::post('salvar',['as' =>'save','uses'=>'Arquivamento\ArquivamentoController@save','middleware' => ['permission:criar-aquivamento']]);
+    Route::get('prateleira/{numero}',['as' =>'prateleira','uses'=>'Arquivamento\ArquivamentoController@prateleira','middleware' => ['permission:ver-aquivamento']]);   
+    Route::get('{local}',['as' =>'local','uses'=>'Arquivamento\ArquivamentoController@local','middleware' => ['permission:ver-aquivamento']]);   
 });
 
+// Relatório quantitativo por posto/graduação
+Route::group(['as'=>'postograd.','prefix' =>'postograd'],function(){
+    Route::get('busca',['as' =>'search','uses'=>'Relatorios\PostoGradController@search','middleware' => ['permission:listar-relatorio-postograd']]);   
+    Route::post('resultado',['as' =>'result','uses'=>'Relatorios\PostoGradController@result','middleware' => ['permission:listar-relatorio-postograd']]);   
+});
 /* -------------- ROTAS CORREIÇÕES -------------- */
 Route::group(['as'=>'correicao.','prefix' =>'correicao'],function(){
     Route::group(['as'=>'ordinaria.','prefix' =>'ordinaria'],function(){

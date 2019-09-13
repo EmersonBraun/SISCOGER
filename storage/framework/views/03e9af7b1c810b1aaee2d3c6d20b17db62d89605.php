@@ -67,6 +67,9 @@
             <div class="box">
                 <div class="box-body">
                     <v-tabs nav-style="pills" justified>
+                        <?php if(hasPermissionTo('ver-medalhas')): ?>
+                            <v-medalha :pm="<?php echo e($pm); ?>"></v-medalha>
+                        <?php endif; ?>
                         <?php if(hasPermissionTo('ver-afastamentos')): ?>
                             <v-afastamentos rg="<?php echo e($pm->RG); ?>"></v-afastamentos>
                         <?php endif; ?>
