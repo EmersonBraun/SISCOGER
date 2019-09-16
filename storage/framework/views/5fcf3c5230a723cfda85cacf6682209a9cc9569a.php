@@ -165,13 +165,13 @@
         <li class=""><a href="<?php echo e(route('postograd.search')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Postos/Graduações</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-relatorio-encarregados')): ?>
-        <li class=""><a href="<?php echo e(route('relatorio.encarregado')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Encarregados</span></a></li>
+        <li class=""><a href="<?php echo e(route('relatorio.encarregado.search')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Encarregados</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-relatorio-defensores')): ?>
         <li class=""><a href="<?php echo e(route('relatorio.defensor')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Defensores</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-relatorio-ofendidos')): ?>
-        <li class=""><a href="<?php echo e(route('relatorio.ofendido')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ofendidos</span></a></li>
+        <li class=""><a href="<?php echo e(route('relatorio.ofendido.search')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ofendidos</span></a></li>
         <?php endif; ?>
         <li class=""><a href="<?php echo e(route('relatorio.protocolo')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>E-Protocolo</span></a></li>
     </ul>
@@ -214,17 +214,23 @@
         <?php if(hasPermissionTo('buscar-pm')): ?>
         <li class=""><a href="<?php echo e(route('busca.pm')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>PM</span></a></li>
         <?php endif; ?>
+        <?php if(hasPermissionTo('buscar-pm')): ?>
+        <li class=""><a href="<?php echo e(route('busca.pm')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Nominal</span></a></li>
+        <?php endif; ?>
         <?php if(hasPermissionTo('buscar-ofendido')): ?>
-        <li class=""><a href="<?php echo e(route('busca.ofendido')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ofendido</span></a></li>
+        <li class=""><a href="<?php echo e(route('busca.ofendido.search')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ofendido</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('buscar-envolvido')): ?>
-        <li class=""><a href="<?php echo e(route('busca.envolvido')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>envolvido</span></a></li>
+        <li class=""><a href="<?php echo e(route('busca.envolvido.search')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>envolvido</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('buscar-documentacao')): ?>
         <li class=""><a href="<?php echo e(route('busca.documentacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Documentacão</span></a></li>
         <?php endif; ?>
-        <?php if(hasPermissionTo('buscar-tramitacao-coger')): ?>
-        <li class=""><a href="<?php echo e(route('busca.tramitacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Tramitação COGER</span></a></li>
+        <?php if(hasPermissionTo('listar-tramitacao')): ?>
+        <li class=""><a href="<?php echo e(route('busca.tramitacao',date('Y'))); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Tramitação</span></a></li>
+        <?php endif; ?>
+        <?php if(hasPermissionTo('listar-tramitacao-coger')): ?>
+        <li class=""><a href="<?php echo e(route('busca.tramitacaocoger',date('Y'))); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Tramitação COGER</span></a></li>
         <?php endif; ?>
     </ul>
 </li>

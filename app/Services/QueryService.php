@@ -30,6 +30,7 @@ class QueryService
             if(in_array($key,$sistema)) {
                 $this->sistema($dados,$query);
             } else {
+                if(substr($key, -2, 2) == '_a') $key = substr_replace($key,'',-2,2);
                 if($val) array_push($query,[$key,$operator,$val]);
             }  
         }

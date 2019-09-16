@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Relatório - Elogio')
+@section('title', 'Busca Envolvidos')
 
 @section('content_header')
 <section class="content-header">   
-  <h1>Busca Envolvido</h1>
+  <h1>Busca Envolvidos</h1>
   <ol class="breadcrumb">
   <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
   </ol>
@@ -15,31 +15,63 @@
 <section class="">
     <div class="tab-content">
         <v-tab-item title="Formulário principal" idp="principal" cls="active show">
-            {!! Form::open(['url' => route('busca.envolvido')]) !!}
-            <v-label label="rg" title="RG" lg="3" md="3" error="{{$errors->first('rg')}}">
-                {{ Form::text('rg', null, ['class' => 'form-control ','onchange' => 'completaDados(this,nome,cargo)','onkeyup' => 'completaDados(this,nome,cargo)']) }}
+            {!! Form::open(['url' => route('busca.envolvido.result')]) !!}
+            <v-label label="sjd_ref_ano_ini" title="Ano Inicial" error="{{$errors->first('sjd_ref_ano_ini')}}">
+                <v-ano todos name="sjd_ref_ano_ini" ano="{{$proc['sjd_ref_ano_ini'] ?? ''}}"></v-ano>
             </v-label>
-            <v-label label="nome" title="Nome" lg="3" md="3" error="{{$errors->first('nome')}}">
-                {{ Form::text('nome', null, ['class' => 'form-control ','readonly','id' => 'nome']) }}
+            <v-label label="sjd_ref_ano_fim" title="Ano Final" error="{{$errors->first('sjd_ref_ano_fim')}}">
+                <v-ano todos name="sjd_ref_ano_fim" ano="{{$proc['sjd_ref_ano_fim'] ?? ''}}"></v-ano>
             </v-label>
-            <v-label label="cargo" title="Posto/Graduação" lg="3" md="3" error="{{$errors->first('cargo')}}">
-                {{ Form::text('cargo', null, ['class' => 'form-control ','readonly','id' => 'cargo']) }}
+            <v-label label="procedimento" title="Processo/Procedimento">
+                {!! Form::select('procedimento',
+                    [
+                    "adl" => "Apuração Disciplinar de Licenciamento",
+                    "apfd" => "Auto de Prisão em Flagrante Delito",
+                    "cd" => "Conselho de Disciplina",
+                    "cj" => "Conselho de Justificação",
+                    "desercao" => "Deserção",
+                    "fatd" => "Formulário de Apuração de Transgressão Disciplinar",
+                    "ipm" => "Inquérito Policial Militar",
+                    "it" => "Inquérito Técnico",
+                    "iso" => "Inquérito Sanitário de Origem",
+                    "saindicancia" => "Sindicância",
+                    "sai" => "Investigação Policial",
+                    "proc_outros" => "Procedimento Outros",
+                    "pad" => "Processo Administrativo"
+                ]
+                ,'adl', ['class' => 'form-control']) !!}
             </v-label>
-            <v-label label="check" title="Selecione: " md="12" lg="12">
-                <v-checkbox name="ipm" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
-                <v-checkbox name="iso" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
-                <v-checkbox name="it" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
-                <v-checkbox name="fatd" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
-                <v-checkbox name="cd" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
-                <v-checkbox name="cj" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
-                <v-checkbox name="ac_desempenho_bl" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
-                <v-checkbox name="ac_desempenho_bl" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
-                <v-checkbox name="ac_desempenho_bl" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
-                <v-checkbox name="ac_desempenho_bl" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
-                <v-checkbox name="ac_desempenho_bl" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
-                <v-checkbox name="ac_desempenho_bl" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
-                <v-checkbox name="ac_desempenho_bl" true-value="1" false-value="0" text="ac_desempenho_bl"></v-checkbox>
+            <v-label label="situacao_a" title="Situação">
+                {!! Form::select('situacao_a',
+                    [
+                        'Acusado' => 'Acusado',
+                        'Acusador' => ' Acusador',
+                        'Condutor' => ' Condutor',
+                        'Defensor' => ' Defensor',
+                        'Denunciado' => ' Denunciado',
+                        'Desertor' => ' Desertor',
+                        'Elogiado' => ' Elogiado',
+                        'Encarregado' => ' Encarregado',
+                        'Envolvido' => ' Envolvido',
+                        'Escrivão' => ' Escrivão',
+                        'Indiciado' => ' Indiciado',
+                        'Justificante' => ' Justificante',
+                        'Membro' => ' Membro',
+                        'Paciente' => ' Paciente',
+                        'Presidente' => ' Presidente',
+                        'Sindicado' => ' Sindicado',
+                        'Testemunha' => ' Testemunha',
+                        'Vítima' => ' Vítima'
+                ]
+                ,'Acusado', ['class' => 'form-control']) !!}
             </v-label>
+            @if(session('ver_todas_unidades'))
+            <v-label label="cdopm" title="OPM" error="{{$errors->first('cdopm')}}">
+                <v-opm todas cdopm="{{$proc['cdopm'] ?? ''}}"></v-opm>
+            </v-label>
+            @else 
+                <input type="hidden" name="cdopm" value="{{session('cdopm')}}">
+            @endif
             <v-label slim label="tipo" md="12" lg="12">
                 {!! Form::submit('Buscar',['class' => 'btn btn-primary btn-block']) !!}
             </v-label>

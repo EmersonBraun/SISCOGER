@@ -165,13 +165,13 @@
         <li class=""><a href="{{ route('postograd.search')}}"><i class="fa fa-fw fa-circle-o "></i><span>Postos/Graduações</span></a></li>
         @endif
         @if(hasPermissionTo('listar-relatorio-encarregados'))
-        <li class=""><a href="{{ route('relatorio.encarregado')}}"><i class="fa fa-fw fa-circle-o "></i><span>Encarregados</span></a></li>
+        <li class=""><a href="{{ route('relatorio.encarregado.search')}}"><i class="fa fa-fw fa-circle-o "></i><span>Encarregados</span></a></li>
         @endif
         @if(hasPermissionTo('listar-relatorio-defensores'))
         <li class=""><a href="{{ route('relatorio.defensor')}}"><i class="fa fa-fw fa-circle-o "></i><span>Defensores</span></a></li>
         @endif
         @if(hasPermissionTo('listar-relatorio-ofendidos'))
-        <li class=""><a href="{{ route('relatorio.ofendido')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ofendidos</span></a></li>
+        <li class=""><a href="{{ route('relatorio.ofendido.search')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ofendidos</span></a></li>
         @endif
         <li class=""><a href="{{ route('relatorio.protocolo')}}"><i class="fa fa-fw fa-circle-o "></i><span>E-Protocolo</span></a></li>
     </ul>
@@ -214,17 +214,23 @@
         @if(hasPermissionTo('buscar-pm'))
         <li class=""><a href="{{ route('busca.pm')}}"><i class="fa fa-fw fa-circle-o "></i><span>PM</span></a></li>
         @endif
+        @if(hasPermissionTo('buscar-pm'))
+        <li class=""><a href="{{ route('busca.pm')}}"><i class="fa fa-fw fa-circle-o "></i><span>Nominal</span></a></li>
+        @endif
         @if(hasPermissionTo('buscar-ofendido'))
-        <li class=""><a href="{{ route('busca.ofendido')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ofendido</span></a></li>
+        <li class=""><a href="{{ route('busca.ofendido.search')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ofendido</span></a></li>
         @endif
         @if(hasPermissionTo('buscar-envolvido'))
-        <li class=""><a href="{{ route('busca.envolvido')}}"><i class="fa fa-fw fa-circle-o "></i><span>envolvido</span></a></li>
+        <li class=""><a href="{{ route('busca.envolvido.search')}}"><i class="fa fa-fw fa-circle-o "></i><span>envolvido</span></a></li>
         @endif
         @if(hasPermissionTo('buscar-documentacao'))
         <li class=""><a href="{{ route('busca.documentacao')}}"><i class="fa fa-fw fa-circle-o "></i><span>Documentacão</span></a></li>
         @endif
-        @if(hasPermissionTo('buscar-tramitacao-coger'))
-        <li class=""><a href="{{ route('busca.tramitacao')}}"><i class="fa fa-fw fa-circle-o "></i><span>Tramitação COGER</span></a></li>
+        @if(hasPermissionTo('listar-tramitacao'))
+        <li class=""><a href="{{ route('busca.tramitacao',date('Y'))}}"><i class="fa fa-fw fa-circle-o "></i><span>Tramitação</span></a></li>
+        @endif
+        @if(hasPermissionTo('listar-tramitacao-coger'))
+        <li class=""><a href="{{ route('busca.tramitacaocoger',date('Y'))}}"><i class="fa fa-fw fa-circle-o "></i><span>Tramitação COGER</span></a></li>
         @endif
     </ul>
 </li>

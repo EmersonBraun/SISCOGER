@@ -32,6 +32,62 @@ class EnvolvidoRepository extends BaseRepository
         return $registros;
     } 
 
+    public function relatorioEncarregados($proc, $opm, $ano)
+	{
+        $registros = $this->model
+        ->select(DB::raw("COUNT(*) AS quantidade, CONCAT(envolvido.cargo, ' ',envolvido.nome) AS grupo, ".$proc.".cdopm"))
+        ->join($proc,$proc.'.id_'.$proc,'envolvido.id_'.$proc)
+        ->where([
+            ['situacao','like','%Encarregado%'],
+            ['envolvido.id_'.$proc,'<>','0'],
+            ['cdopm','like',$opm.'%'],
+            ['sjd_ref_ano','like',$ano.'%'],
+        ])
+        ->groupBy('nome')
+        ->orderBy('quantidade','DESC')
+        ->get();
+
+        return $registros;
+    }
+
+    public function resultSearch($query, $proc)
+	{
+        $adc = ['envolvido.id_'.$proc,'<>','0'];
+        array_push($query,$adc);
+
+        $registros = $this->model
+            ->join($proc,$proc.'.id_'.$proc,'envolvido.id_'.$proc)
+            ->where($query)
+            ->orderBy('id_envolvido','DESC')
+            ->get();
+
+        return $registros;
+    }
+
+    public function buscaNominal($nome)
+    {
+        $registros = $this->model
+            ->select(DB::raw("envolvido.*, 
+            CASE
+                WHEN id_ipm THEN 'ipm'
+                WHEN id_sindicancia THEN 'sindicancia'
+                WHEN id_cj THEN 'cj'
+                WHEN id_cd THEN 'cd'
+                WHEN id_it THEN 'it'
+                WHEN id_adl THEN 'adl'
+                WHEN id_apfd THEN 'apfd'
+                WHEN id_fatd THEN 'fatd'
+                WHEN id_iso THEN 'iso'
+                WHEN id_desercao THEN 'desercao'
+            END AS proc
+                    "))
+            ->where('nome','like','%'.$nome.'%')
+            ->orderBy('id_envolvido','DESC')
+            ->get();
+
+        return $registros;
+    }
+
     public function situacao($situacao)
 	{
         

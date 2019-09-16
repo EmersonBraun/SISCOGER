@@ -6,6 +6,7 @@ function completaDados(rg,nome,posto, quadro='')
     //token
     let _token = $('input[name="_token"]').val();
     
+
     $.ajax({
         url: url+"/siscoger/busca/completadados",
         method: "POST",

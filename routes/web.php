@@ -456,12 +456,25 @@ Route::group(['as'=>'busca.','prefix' =>'busca'],function(){
     // opções de dados para o componente Form/SugestRg
 	Route::post('opcoes/nome',['as' =>'opcoesnome','uses'=>'Busca\BuscaController@opcoesnome']);
     Route::post('opcoes/rg',['as' =>'opcoesrg','uses'=>'Busca\BuscaController@opcoesrg']);
-    //
-	Route::get('ofendido',['as' =>'ofendido','uses'=>'Busca\BuscaController@ofendido']);
-	Route::get('envolvido',['as' =>'envolvido','uses'=>'Busca\BuscaController@envolvido']);
+    // ofendido
+    Route::group(['as'=>'ofendido.','prefix' =>'ofendido'],function(){
+        Route::get('',['as' =>'search','uses'=>'Busca\BuscaController@searchOfendido','middleware' => ['permission:buscar-ofendido']]);   
+        Route::post('resultado',['as' =>'result','uses'=>'Busca\BuscaController@resultOfendido','middleware' => ['permission:buscar-ofendido']]);   
+    });
+    // envolvido
+    Route::group(['as'=>'envolvido.','prefix' =>'envolvido'],function(){
+        Route::get('',['as' =>'search','uses'=>'Busca\BuscaController@searchEnvolvido','middleware' => ['permission:buscar-envolvido']]);   
+        Route::post('resultado',['as' =>'result','uses'=>'Busca\BuscaController@resultEnvolvido','middleware' => ['permission:buscar-envolvido']]);   
+    });
+    // nominal
+    Route::group(['as'=>'nominal.','prefix' =>'nominal'],function(){
+        Route::get('',['as' =>'search','uses'=>'Busca\BuscaController@searchNominal','middleware' => ['permission:buscar-pm']]);   
+        Route::post('resultado',['as' =>'result','uses'=>'Busca\BuscaController@resultNominal','middleware' => ['permission:buscar-pm']]);   
+    });
 	Route::get('documentacao',['as' =>'documentacao','uses'=>'Busca\BuscaController@documentacao']);
 	Route::get('pdf',['as' =>'pdf','uses'=>'Busca\BuscaController@pdf']);
-	Route::get('tramitacao',['as' =>'tramitacao','uses'=>'Busca\BuscaController@tramitacao']);
+    Route::get('tramitacao/{ano}',['as' =>'tramitacao','uses'=>'Busca\BuscaController@tramitacao']);
+    Route::get('tramitacaocoger/{ano}',['as' =>'tramitacaocoger','uses'=>'Busca\BuscaController@tramitacaoCoger']);
 });
 /* -------------- ROTAS SAI -------------- */
 Route::group(['as'=>'sai.','prefix' =>'sai','middleware' => ['permission:sai']],function(){
@@ -742,12 +755,20 @@ Route::group(['as'=>'pendencia.','prefix' =>'pendencia'],function(){
 Route::group(['as'=>'relatorio.','prefix' =>'relatorio'],function(){
     Route::get('prioritarios/{proc}',['as' =>'prioritarios','uses'=>'Relatorios\PrioritarioController@index','middleware' => ['permission:listar-relatorio-prioritarios']]);
     Route::get('sobrestamento/{proc}',['as' =>'sobrestamento','uses'=>'Relatorios\SobrestamentoController@index','middleware' => ['permission:listar-relatorio-sobrestamento']]);
-    Route::get('encarregado',['as' =>'encarregado','uses'=>'Relatorios\RelatorioController@encarregado','middleware' => ['permission:listar-relatorio-encarregados']]);
+    // encarregado
+    Route::group(['as'=>'encarregado.','prefix' =>'encarregado'],function(){
+        Route::get('busca',['as' =>'search','uses'=>'Relatorios\RelatorioController@searchEncarregado','middleware' => ['permission:listar-relatorio-encarregados']]);   
+        Route::post('resultado',['as' =>'result','uses'=>'Relatorios\RelatorioController@resultEncarregado','middleware' => ['permission:listar-relatorio-encarregados']]);   
+    });
+    // ofendido
+    Route::group(['as'=>'ofendido.','prefix' =>'ofendido'],function(){
+        Route::get('busca',['as' =>'search','uses'=>'Relatorios\RelatorioController@searchOfendido','middleware' => ['permission:listar-relatorio-ofendidos']]);   
+        Route::post('resultado',['as' =>'result','uses'=>'Relatorios\RelatorioController@resultOfendido','middleware' => ['permission:listar-relatorio-ofendidos']]);   
+    });
 	Route::get('defensor',['as' =>'defensor','uses'=>'Relatorios\RelatorioController@defensor','middleware' => ['permission:listar-relatorio-defensores']]);
-    Route::get('ofendido',['as' =>'ofendido','uses'=>'Relatorios\RelatorioController@ofendido','middleware' => ['permission:listar-relatorio-ofendidos']]);
     Route::get('protocolo',['as' =>'protocolo','uses'=>'Policiais\ProtocoloController@index']);
 });
-
+// processo
 Route::group(['as'=>'processo.','prefix' =>'processo'],function(){
     Route::get('busca',['as' =>'search','uses'=>'Relatorios\ProcessoController@search','middleware' => ['permission:listar-relatorio-processos']]);   
     Route::post('resultado',['as' =>'result','uses'=>'Relatorios\ProcessoController@result','middleware' => ['permission:listar-relatorio-processos']]);   
@@ -759,7 +780,6 @@ Route::group(['as'=>'arquivamento.','prefix' =>'arquivamento'],function(){
     Route::get('prateleira/{numero}',['as' =>'prateleira','uses'=>'Arquivamento\ArquivamentoController@prateleira','middleware' => ['permission:ver-aquivamento']]);   
     Route::get('{local}',['as' =>'local','uses'=>'Arquivamento\ArquivamentoController@local','middleware' => ['permission:ver-aquivamento']]);   
 });
-
 // Relatório quantitativo por posto/graduação
 Route::group(['as'=>'postograd.','prefix' =>'postograd'],function(){
     Route::get('busca',['as' =>'search','uses'=>'Relatorios\PostoGradController@search','middleware' => ['permission:listar-relatorio-postograd']]);   

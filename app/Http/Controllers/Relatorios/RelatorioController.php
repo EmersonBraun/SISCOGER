@@ -5,30 +5,60 @@ namespace App\Http\Controllers\Relatorios;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\PM\EnvolvidoRepository;
+use App\Repositories\PM\OfendidoRepository;
+use App\Services\QueryService;
 
 class RelatorioController extends Controller
 {
-    protected $repository;
-    public function __construct(EnvolvidoRepository $repository)
+    protected $envolvido;
+    protected $ofendido;
+    protected $service;
+    public function __construct(
+        EnvolvidoRepository $envolvido,
+        OfendidoRepository $ofendido,
+        QueryService $service
+    )
 	{
-        $this->repository = $repository;
+        $this->envolvido = $envolvido;
+        $this->ofendido = $ofendido;
+        $this->service = $service;
     }
     
     public function defensor()
     {
-        $registros = $this->repository->situacao('defensor');
+        $registros = $this->envolvido->situacao('defensor');
         return view('relatorios.defensor.index',compact('registros'));   
     }
 
-    public function ofendido()
+    public function searchEncarregado()
     {
-        $registros = $this->repository->situacao('ofendido');
-        return view('relatorios.ofendido.index',compact('registros'));   
+        return view('relatorios.encarregado.search');   
     }
 
-    public function encarregado()
+    public function resultEncarregado(Request $request)
     {
-        $registros = $this->repository->situacao('encarregado');
-        return view('relatorios.encarregado.index',compact('registros'));   
+        $proc = $request->input('procedimento');
+        $opm = $request->input('cdopm');
+        $ano = $request->input('sjd_ref_ano');
+
+        $registros = $this->envolvido->relatorioEncarregados($proc, $opm, $ano);
+       
+        return view('relatorios.encarregado.result',compact('registros'));   
     }
+
+    public function searchOfendido()
+    {
+        return view('relatorios.ofendido.search');   
+    }
+
+    public function resultOfendido(Request $request)
+    {
+        $query = $this->service->mount($request->except(['_token','procedimento']));
+        $proc = $request->input(['procedimento']);
+
+        $registros = $this->ofendido->relatorio($query, $proc);
+       
+        return view('relatorios.ofendido.result',compact('registros','proc'));   
+    }
+
 }

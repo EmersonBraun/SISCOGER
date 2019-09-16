@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Tramitação')
+@section('title', 'Tramitação COGER')
 
 @section('content_header')
-    @include('busca.tramitacao.menu', ['title' => 'Lista','page' => $ano])
+    @include('busca.tramitacaocoger.menu', ['title' => 'Lista','page' => $ano])
 @stop
 
 @section('content')
@@ -12,7 +12,7 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="box-header">
-                <h3 class="box-title">Listagem de Tramitação</h3>
+                <h3 class="box-title">Listagem de Tramitação COGER</h3>
               </div>
               <div class="box-body">
                 <table id="datable" class="table table-bordered table-striped">
@@ -32,7 +32,7 @@
                   <tbody>
                   @foreach($registros as $registro)
                     <tr>
-                        <td style="display: none">{{$registro->id_tramitacaoopm}}</td>
+                        <td style="display: none">{{$registro->id_tramitacao}}</td>
                         <td>{{$registro->rg}}</td>
                         <td>{{$registro->cargo}}</td>
                         <td>{{$registro->nome}}</td>
