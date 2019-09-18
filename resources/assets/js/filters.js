@@ -58,3 +58,10 @@ Vue.filter('toUpper', function (value) {
     if (!value) return ''
     return value.toUpperCase()
 })
+
+Vue.filter('ucwords', function (value) {
+    if (!value) return ''
+    let str = value.toLowerCase()
+    let re = /(^([a-zA-Z\p{M}]))|([ -][a-zA-Z\p{M}])/g
+    return str.replace(re, s => s.toUpperCase())
+})

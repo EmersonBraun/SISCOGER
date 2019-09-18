@@ -50,6 +50,9 @@ Vue.component('v-restricoes', () => import(/* webpackChunkName: "v-restricoes" *
 Vue.component('v-sai', () => import(/* webpackChunkName: "v-sai" */'./components/FDI/Sai.vue'));
 Vue.component('v-tramite-coger', () => import(/* webpackChunkName: "v-tramite-coger" */'./components/FDI/TramiteCoger.vue'));
 Vue.component('v-tramite-opm', () => import(/* webpackChunkName: "v-tramite-opm" */'./components/FDI/TramiteOpm.vue'));
+// Apresentação
+Vue.component('v-dados-opm', () => import(/* webpackChunkName: "v-dados-opm" */'./components/Apresentacao/DadosOpm.vue'));
+Vue.component('v-outras-autoridades', () => import(/* webpackChunkName: "v-outras-autoridades" */'./components/Apresentacao/OutrasAutoridades.vue'));
 // Layout
 Vue.component('v-tab-item', () => import(/* webpackChunkName: "v-tab-item" */'./components/Layout/TabItem.vue'));
 Vue.component('v-tab-menu', () => import(/* webpackChunkName: "v-tab-menu" */'./components/Layout/TabMenu.vue'));

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <select name="id_municipio" v-model="municipio" class="form-control">
+        <select name="id_municipio" :value="id_municipio" class="form-control" @click="$emit('input', $event.target.value)">
             <option value="">Selecione</option>
             <option value="80024">ABATIA</option>
             <option value="80060">ADRIANOPOLIS</option>
@@ -408,12 +408,7 @@
 
 <script>
     export default {
-        props: ['id_municipio'],
-        data(){
-            return {
-                municipio: this.id_municipio
-            }
-        }
+        props: ['id_municipio']
     }
 </script>
 

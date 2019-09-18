@@ -44,13 +44,13 @@ class CdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('cd')->remember('todos_cd', $this->expiration, function() {
+            $registros = Cache::tags('cd')->remember('todos_cd', self::$expiration, function() {
                 return $this->model->all();
             });
         }
         else 
         {
-            $registros = Cache::tags('cd')->remember('todos_cd:'.$unidade, $this->expiration, function() use ($unidade) {
+            $registros = Cache::tags('cd')->remember('todos_cd:'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')->get();
             });
         }
@@ -65,13 +65,13 @@ class CdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('cd')->remember('todos_cd:'.$ano, $this->expiration, function() use ($ano) {
+            $registros = Cache::tags('cd')->remember('todos_cd:'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         else 
         {
-            $registros = Cache::tags('cd')->remember('todos_cd:'.$ano.':'.$unidade, $this->expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('cd')->remember('todos_cd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
@@ -85,7 +85,7 @@ class CdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('cd')->remember('andamento_cd', $this->expiration, function() {
+            $registros = Cache::tags('cd')->remember('andamento_cd', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_cd', '=', 'cd.id_cd')
@@ -96,7 +96,7 @@ class CdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('cd')->remember('andamento_cd:'.$unidade, $this->expiration, function() use ($unidade) {
+            $registros = Cache::tags('cd')->remember('andamento_cd:'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_cd', '=', 'cd.id_cd')
@@ -115,7 +115,7 @@ class CdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('cd')->remember('andamento_cd:'.$ano, $this->expiration, function() use ($ano){
+            $registros = Cache::tags('cd')->remember('andamento_cd:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_cd', '=', 'cd.id_cd')
@@ -126,7 +126,7 @@ class CdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('cd')->remember('andamento_cd:'.$ano.':'.$unidade, $this->expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('cd')->remember('andamento_cd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -146,7 +146,7 @@ class CdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('cd')->remember('julgamento_cd', $this->expiration, function() {
+            $registros = Cache::tags('cd')->remember('julgamento_cd', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_cd', '=', 'cd.id_cd')
@@ -159,7 +159,7 @@ class CdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('cd')->remember('julgamento_cd:'.$unidade, $this->expiration, function() use ($unidade) {
+            $registros = Cache::tags('cd')->remember('julgamento_cd:'.$unidade, self::$expiration, function() use ($unidade) {
                 return $this->model->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_cd', '=', 'cd.id_cd')
@@ -180,7 +180,7 @@ class CdRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('cd')->remember('julgamento_cd:'.$ano, $this->expiration, function() use ($ano){
+            $registros = Cache::tags('cd')->remember('julgamento_cd:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
                         $join->on('envolvido.id_cd', '=', 'cd.id_cd')
@@ -193,7 +193,7 @@ class CdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('cd')->remember('julgamento_cd:'.$ano.':'.$unidade, $this->expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('cd')->remember('julgamento_cd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade,$ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$unidade.'%')
                     ->leftJoin('envolvido', function ($join){
@@ -219,7 +219,7 @@ class CdRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::tags('cd')->remember('prazo_cd', $this->expiration, function() {
+            $registros = Cache::tags('cd')->remember('prazo_cd', self::$expiration, function() {
                 return $this->model
                     ->selectRaw('cd.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_cd=cd.id_cd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -241,7 +241,7 @@ class CdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('cd')->remember('prazo_cd:'.$unidade, $this->expiration, function() use ($unidade){
+            $registros = Cache::tags('cd')->remember('prazo_cd:'.$unidade, self::$expiration, function() use ($unidade){
                 return $this->model
                     ->selectRaw('cd.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_cd=cd.id_cd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -276,7 +276,7 @@ class CdRepository extends BaseRepository
         if($verTodasUnidades)
         {
 
-            $registros = Cache::tags('cd')->remember('prazo_cd:'.$ano, $this->expiration, function() use ($ano) {
+            $registros = Cache::tags('cd')->remember('prazo_cd:'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model
                     ->selectRaw('cd.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_cd=cd.id_cd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -299,7 +299,7 @@ class CdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('cd')->remember('prazo_cd:'.$ano.':'.$unidade, $this->expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('cd')->remember('prazo_cd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano){
                 return $this->model
                     ->selectRaw('cd.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_cd=cd.id_cd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  

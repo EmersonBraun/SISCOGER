@@ -164,6 +164,20 @@ Route::group(['as'=>'arquivo.','prefix' =>'arquivo'],function(){
     Route::post('edit/{id}',['as' =>'edit','uses'=>'Arquivo\ArquivoController@edit']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Arquivo\ArquivoController@destroy']);
 });
+// Comando OPM
+Route::group(['as'=>'cadastroopm.','prefix' =>'cadastroopm'],function(){
+    Route::get('get/{cdopm}',['as' =>'get','uses'=>'Apresentacao\CadastroOPMController@get']);
+    Route::post('store',['as' =>'store','uses'=>'Apresentacao\CadastroOPMController@store']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Apresentacao\CadastroOPMController@update']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Apresentacao\CadastroOPMController@destroy']);
+});
+// Outras autoridades OPM
+Route::group(['as'=>'cadastroopmautoridade.','prefix' =>'cadastroopmautoridade'],function(){
+    Route::get('list/{id}',['as' =>'get','uses'=>'Apresentacao\CadastroOPMAutoridadeController@get']);
+    Route::post('store',['as' =>'store','uses'=>'Apresentacao\CadastroOPMAutoridadeController@store']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Apresentacao\CadastroOPMAutoridadeController@update']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Apresentacao\CadastroOPMAutoridadeController@destroy']);
+});
 
 Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
     // pegar sugestões de RG e NOME

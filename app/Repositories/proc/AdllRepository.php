@@ -9,7 +9,7 @@ use App\Models\Sjd\Proc\Adl;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Route;
 
-class AdlRepository extends BaseRepository
+class AdllRepository extends BaseRepository
 {
     protected $model;
     protected $unidade;
@@ -284,7 +284,7 @@ class AdlRepository extends BaseRepository
 
         if($verTodasUnidades)
         {
-            $registros = Cache::tags('adl')->remember('prazo_adl:'.$ano, self::$expiration, function() {
+            $registros = Cache::tags('adl')->remember('prazo_adl:'.$ano, self::$expiration, function() use ($ano){
                 
                 return $this->model
                     ->selectRaw('adl.*, 

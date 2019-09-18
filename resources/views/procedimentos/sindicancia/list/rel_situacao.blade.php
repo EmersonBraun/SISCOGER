@@ -14,7 +14,7 @@
                 <h3 class="box-title">Listagem de SINDICÂNCIA</h3>
             </div>
             <div class="box-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="datable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th class='col-xs-2 col-md-2'>N°/Ano</th>

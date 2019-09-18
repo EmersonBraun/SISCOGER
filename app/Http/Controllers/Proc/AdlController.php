@@ -6,15 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\Repositories\proc\AdlRepository;
+use App\Repositories\proc\AdllRepository;
 use App\Services\ProcedService;
-use App\Models\Sjd\Busca\Envolvido;
+
 
 class AdlController extends Controller
 {
     protected $repository;
     protected $service;
-    public function __construct(AdlRepository $repository, ProcedService $service)
+    public function __construct(AdllRepository $repository, ProcedService $service)
 	{
         $this->repository = $repository;
         $this->service = $service;

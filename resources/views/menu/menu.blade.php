@@ -138,7 +138,7 @@
         <li class=""><a href="{{ route('memorando.create')}}"><i class="fa fa-fw fa-circle-o "></i><span>Gerar Memorando</span></a></li>
         @endif
         @if(hasPermissionTo('listar-dados-unidade'))
-        <li class=""><a href="{{ route('unidade.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Dados Unidade</span></a></li>
+        <li class=""><a href="{{ route('autoridadeom.comando')}}"><i class="fa fa-fw fa-circle-o "></i><span>Dados Unidade</span></a></li>
         @endif
     </ul>
 </li>
@@ -179,27 +179,6 @@
     </ul>
 </li>
 
-
-@if(hasAnyPermission([
-        'listar-correicao-ordinaria',
-        'listar-correicao-extraordinaria'
-    ]))
-<li class="treeview">
-    <a href="#">
-        <i class="fa fa-fw fa-folder "></i><span>Correições</span>
-        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-    </a>
-    <ul class="treeview-menu">
-        @if(hasPermissionTo('listar-correicao-ordinaria'))
-        <li class=""><a href="{{ route('correicao.ordinaria.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ordinária</span></a></li>
-        @endif
-        @if(hasPermissionTo('listar-correicao-extraordinaria'))
-        <li class=""><a href="{{ route('correicao.extraordinaria.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Extraordinária</span></a></li>
-        @endif
-    </ul>
-</li>
-@endif
-
 @if(hasAnyPermission([
         'busca-pm',
         'buscar-ofendido',
@@ -237,6 +216,26 @@
     </ul>
 </li>
 @endif
+
+{{-- @if(hasAnyPermission([
+        'listar-correicao-ordinaria',
+        'listar-correicao-extraordinaria'
+    ]))
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-fw fa-folder "></i><span>Correições</span>
+        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+    </a>
+    <ul class="treeview-menu">
+        @if(hasPermissionTo('listar-correicao-ordinaria'))
+        <li class=""><a href="{{ route('correicao.ordinaria.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ordinária</span></a></li>
+        @endif
+        @if(hasPermissionTo('listar-correicao-extraordinaria'))
+        <li class=""><a href="{{ route('correicao.extraordinaria.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Extraordinária</span></a></li>
+        @endif
+    </ul>
+</li>
+@endif --}}
 
 @if(hasAnyPermission([
         'buscar-pm',
@@ -328,11 +327,11 @@
 @if(hasPermissionTo('bi'))
 <li class="treeview">
     <a href="#">
-        <i class="fa fa-fw fa-chart-bar"></i><span>BI</span>
+        <i class="fa fa-fw fa-database"></i><span>Business Intelligence</span>
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        <li class=""><a href="#"><i class="fa fa-fw fa-circle-o "></i><span>Gráfico...</span></a></li>
+        <li class=""><a href="http://10.22.9.210/cogerti/"><i class="fa fa-fw fa-circle-o "></i><span>Atual</span></a></li>
     </ul>
 </li>
 @endif

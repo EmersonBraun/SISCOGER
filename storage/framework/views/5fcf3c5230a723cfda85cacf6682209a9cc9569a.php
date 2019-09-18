@@ -138,7 +138,7 @@
         <li class=""><a href="<?php echo e(route('memorando.create')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Gerar Memorando</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-dados-unidade')): ?>
-        <li class=""><a href="<?php echo e(route('unidade.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Dados Unidade</span></a></li>
+        <li class=""><a href="<?php echo e(route('autoridadeom.comando')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Dados Unidade</span></a></li>
         <?php endif; ?>
     </ul>
 </li>
@@ -179,27 +179,6 @@
     </ul>
 </li>
 
-
-<?php if(hasAnyPermission([
-        'listar-correicao-ordinaria',
-        'listar-correicao-extraordinaria'
-    ])): ?>
-<li class="treeview">
-    <a href="#">
-        <i class="fa fa-fw fa-folder "></i><span>Correições</span>
-        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-    </a>
-    <ul class="treeview-menu">
-        <?php if(hasPermissionTo('listar-correicao-ordinaria')): ?>
-        <li class=""><a href="<?php echo e(route('correicao.ordinaria.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ordinária</span></a></li>
-        <?php endif; ?>
-        <?php if(hasPermissionTo('listar-correicao-extraordinaria')): ?>
-        <li class=""><a href="<?php echo e(route('correicao.extraordinaria.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Extraordinária</span></a></li>
-        <?php endif; ?>
-    </ul>
-</li>
-<?php endif; ?>
-
 <?php if(hasAnyPermission([
         'busca-pm',
         'buscar-ofendido',
@@ -237,6 +216,8 @@
     </ul>
 </li>
 <?php endif; ?>
+
+
 
 <?php if(hasAnyPermission([
         'buscar-pm',
@@ -326,11 +307,11 @@
 <?php if(hasPermissionTo('bi')): ?>
 <li class="treeview">
     <a href="#">
-        <i class="fa fa-fw fa-chart-bar"></i><span>BI</span>
+        <i class="fa fa-fw fa-database"></i><span>Business Intelligence</span>
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        <li class=""><a href="#"><i class="fa fa-fw fa-circle-o "></i><span>Gráfico...</span></a></li>
+        <li class=""><a href="http://10.22.9.210/cogerti/"><i class="fa fa-fw fa-circle-o "></i><span>Atual</span></a></li>
     </ul>
 </li>
 <?php endif; ?>

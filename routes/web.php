@@ -181,6 +181,12 @@ Route::group(['as'=>'email.','prefix' =>'email'],function(){
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Apresentacao\EmailController@update','middleware' => ['permission:editar-notas-coger']]);
 	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Apresentacao\EmailController@destroy','middleware' => ['permission:apagar-notas-coger']]);
 });
+//Rotas do módulo autoridade OM
+Route::group(['as'=>'autoridadeom.','prefix' =>'autoridadeom','middleware' => ['permission:']],function(){
+    Route::get('comando',['as' =>'comando','uses'=>'Apresentacao\DadosOmController@comando']);
+    Route::get('outras',['as' =>'outras','uses'=>'Apresentacao\DadosOmController@outras']);
+    Route::get('formulario',['as' =>'form','uses'=>'Apresentacao\DadosOmController@form','middleware' => ['permission:editar-dados-unidade']]);
+});
 /* -------------- ROTAS PROCESSOS E PROCEDIMENTOS -------------- */
 
 //Rotas do módulo Adl

@@ -39,7 +39,7 @@
                             <td>{{sistema('andamentocoger',$registro['id_andamentocoger'])}}</td>
                             <td>
                                 <span>
-                                    @if(hasPermmissionTo('ver-iso')) 
+                                    @if(hasPermissionTo('ver-iso')) 
                                     <a class="btn btn-default"
                                         href="{{route('iso.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
