@@ -16,11 +16,12 @@ class NotaCogerPresenter extends Presenter {
         return OPMRepository::abreviatura($this->rg);
     }
 
-    public function nota_file()
+    public function notaFile()
     {
-        if($this->libelo_file)
+        if($this->nota_file)
         {
-            return "<a href=".route('notacoger.download',$this->id_notacomparecimento)."><i class='fa fa fa-download' style='color: green'></i></a>";
+            // return "<a href=".route('notacoger.download',$this->id_notacomparecimento)."><i class='fa fa fa-download' style='color: green'></i></a>";
+            return 'teste';
         }
         else
         {

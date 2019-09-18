@@ -90,6 +90,9 @@
                                                 <a type="button" @click="showFile(u.hash)" target="_black" class="btn btn-primary" style="color: white">
                                                     <i class="fa fa-eye"></i> Ver
                                                 </a>
+                                                <a type="button" @click="downloadFile(u.id)" target="_black" class="btn btn-success" style="color: white">
+                                                    <i class="fa fa-download"></i> Download
+                                                </a>
                                                 <a  v-if="u.deleted_at == null" type="button" @click="deleteFile(u.id)" class="btn btn-danger" style="color: white">
                                                     <i class="fa fa-trash"></i> Apagar
                                                 </a>
@@ -137,6 +140,9 @@
                                             <div class="btn-group" role="group" aria-label="First group">
                                                 <a type="button" @click="showFile(a.hash)" target="_black" class="btn btn-primary" style="color: white">
                                                     <i class="fa fa-eye"></i> Ver
+                                                </a>
+                                                <a type="button" @click="downloadFile(u.id)" target="_black" class="btn btn-success" style="color: white">
+                                                    <i class="fa fa-download"></i> Download
                                                 </a>
                                                 <!-- <a type="button" @click="removeFile(a.id)" class="btn btn-danger" style="color: white">
                                                     <i class="fa fa-trash"></i> Destruir
@@ -309,6 +315,10 @@
         showFile(hash){
             let urlShow = `${this.getBaseUrl}${this.action}/show/${this.proc}/${this.idp}/${this.name}/${hash}`;
             window.open(urlShow, "_blank")
+        },
+        downloadFile(id) {
+            let urlIndex = `${this.getBaseUrl}${this.action}/download/${id}`;
+            window.open(urlIndex, "_blank")
         },
         deleteFile(id){
             let urlDelete = `${this.getBaseUrl}${this.action}/delete/${id}`;

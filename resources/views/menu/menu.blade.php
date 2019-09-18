@@ -116,8 +116,10 @@
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        {{-- <li class=""><a href="{{ route('mail.sent')}}"><i class="fa fa-fw fa-circle-o "></i><span>Emails Agendados</span></a></li> --}}
-        @if(hasPermissionTo('listar-nota-coger'))
+        @if(hasPermissionTo('listar-email-agendados'))
+        <li class=""><a href="{{ route('email.index',date('Y'))}}"><i class="fa fa-fw fa-circle-o "></i><span>Emails Agendados</span></a></li>
+        @endif
+        @if(hasPermissionTo('listar-notas-coger'))
         <li class=""><a href="{{ route('notacoger.index',date('Y'))}}"><i class="fa fa-fw fa-circle-o "></i><span>Notas COGER</span></a></li>
         @endif
         @if(hasPermissionTo('listar-apresentacao'))

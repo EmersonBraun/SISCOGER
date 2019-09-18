@@ -3,7 +3,7 @@
 @section('title', 'notacoger')
 
 @section('content_header')
-@include('apresentacao.notacoger.list.menu', ['title' => 'Consultas','page' => $page])
+@include('apresentacao.notacoger.list.menu', ['title' => 'Consultas','page' => 'index'])
 @stop
 
 @section('content')
@@ -21,8 +21,8 @@
                             <th class='col-xs-1 col-md-1'>N°/Ano</th>
                             <th class='col-xs-2 col-md-2'>Data</th>
                             <th class='col-xs-2 col-md-2'>Situação</th>
-                            <th class='col-xs-2 col-md-2'>Descrição</th>
-                            <th class='col-xs-2 col-md-2'>Arquivo</th>
+                            <th class='col-xs-2 col-md-4'>Descrição</th>
+                            {{-- <th class='col-xs-2 col-md-2'>Arquivo</th> --}}
                             <th class='col-xs-3 col-md-3'>Ações</th>
                         </tr>
                     </thead>
@@ -38,7 +38,7 @@
                             <td>{{$registro->expedicao_data}}</td>
                             <td>{{$registro->status}}</td>
                             <td>{{$registro->present()->tiponotacomparecimento}}</td>
-                            <td>{!!$registro->present()->nota_file!!}</td>
+                            {{-- <td>{!! $registro->present()->notaFile !!}</td> --}}
                             <td>
                                 <span>
                                     {{-- @if(hasPermissionTo('ver-nota-coger'))
@@ -46,12 +46,12 @@
                                         href="{{route('notacoger.show',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
                                     @endif --}}
-                                    @if(hasPermissionTo('editar-nota-coger'))
+                                    @if(hasPermissionTo('editar-notas-coger'))
                                     <a class="btn btn-info"
                                         href="{{route('notacoger.edit',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
                                     @endif
-                                    @if(hasPermissionTo('apagar-nota-coger'))
+                                    @if(hasPermissionTo('apagar-notas-coger'))
                                     <a class="btn btn-danger"
                                         href="{{route('notacoger.destroy',$registro['id_notacoger'])}}"
                                         onclick="return confirm('Tem certeza que quer apagar o notacoger?')"><i
@@ -68,8 +68,8 @@
                             <th class='col-xs-1 col-md-1'>N°/Ano</th>
                             <th class='col-xs-2 col-md-2'>Data</th>
                             <th class='col-xs-2 col-md-2'>Situação</th>
-                            <th class='col-xs-2 col-md-2'>Descrição</th>
-                            <th class='col-xs-2 col-md-2'>Arquivo</th>
+                            <th class='col-xs-2 col-md-4'>Descrição</th>
+                            {{-- <th class='col-xs-2 col-md-2'>Arquivo</th> --}}
                             <th class='col-xs-3 col-md-3'>Ações</th>
                         </tr>
                     </tfoot>

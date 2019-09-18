@@ -12,6 +12,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para não apagar diretamente, inserir data em "deleted_at"
 use Illuminate\Database\Eloquent\SoftDeletes;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Localdeapresentacao
  * 
@@ -59,5 +61,8 @@ class LocalApresentacao extends Eloquent
 		'cep',
 		'telefone',
 		'id_genero'
-	];
+    ];
+    
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\apresentacao\LocalApresentacaoPresenter';
 }

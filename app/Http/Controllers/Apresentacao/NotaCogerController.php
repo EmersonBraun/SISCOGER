@@ -14,20 +14,18 @@ class NotaCogerController extends Controller
         $this->repository = $repository;
     }
 
-    public function index(NotaCogerRepository $repository, $ano="")
+    public function index($ano="")
     {
         if(!$ano) $ano = (int) date('Y');
         $registros = $this->repository->ano($ano);
-        $page = 'index';
-        return view('apresentacao.notacoger.list.index', compact('registros','ano','page'));
+        return view('apresentacao.notacoger.list.index', compact('registros','ano'));
     }
 
-    public function apagados(NotaCogerRepository $repository, $ano="")
+    public function apagados($ano="")
     {
         if(!$ano) $ano = (int) date('Y');
         $registros = $this->repository->apagadosAno($ano);
-        $page = 'apagados';
-        return view('apresentacao.notacoger.list.apagados', compact('registros','ano','page'));
+        return view('apresentacao.notacoger.list.apagados', compact('registros','ano'));
     }
 
     public function create()

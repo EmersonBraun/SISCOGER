@@ -116,8 +116,10 @@
         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
     </a>
     <ul class="treeview-menu">
-        
-        <?php if(hasPermissionTo('listar-nota-coger')): ?>
+        <?php if(hasPermissionTo('listar-email-agendados')): ?>
+        <li class=""><a href="<?php echo e(route('email.index',date('Y'))); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Emails Agendados</span></a></li>
+        <?php endif; ?>
+        <?php if(hasPermissionTo('listar-notas-coger')): ?>
         <li class=""><a href="<?php echo e(route('notacoger.index',date('Y'))); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Notas COGER</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-apresentacao')): ?>

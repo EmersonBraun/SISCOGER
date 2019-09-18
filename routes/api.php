@@ -112,6 +112,7 @@ Route::group(['as'=>'fdi.','prefix' =>'fdi'],function(){
 Route::group(['as'=>'fileupload.','prefix' =>'fileupload'],function(){
     Route::post('store',['as' =>'store','uses'=>'FileUpload\FileUploadController@store']);
     Route::get('show/{proc}/{procid}/{arquivo}/{hash}',['as' =>'show','uses'=>'FileUpload\FileUploadController@show']);
+    Route::get('download/{id}',['as' =>'download','uses'=>'FileUpload\FileUploadController@download']);
     Route::delete('delete/{id}',['as' =>'delete','uses'=>'FileUpload\FileUploadController@delete']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'FileUpload\FileUploadController@destroy']);
     Route::get('list/{proc}/{id}/{arquivo}',['as' =>'index','uses'=>'FileUpload\FileUploadController@index']);

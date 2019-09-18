@@ -3,7 +3,7 @@
 @section('title', 'notacoger')
 
 @section('content_header')
-@include('apresentacao.notacoger.list.menu', ['title' => 'Apagados','page' => $page])
+@include('apresentacao.notacoger.list.menu', ['title' => 'Apagados','page' => 'apagados'])
 @stop
 
 @section('content')

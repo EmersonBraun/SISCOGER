@@ -17,9 +17,9 @@
             </div>
         @endif
         <div class='col-md-2 col-xs-6  pull-right'>
-            <div class="pull-right">
+            <div class="pull-right form-group">
                 <label for="navegaco">Listar ano: </label>
-                <select class="" id="navegacao" data-toggle="tooltip" data-placement="bottom" 
+                <select class="" id="navegacao" data-toggle="tooltip" data-placement="bottom" class="form-control"
                 title="O ano apenas modifica a listagem,os dados continuam sendo inseridos em {{date('Y')}}"> 
                   <option selected='selected'> {{ $ano }} </option>
                     @for ($i = date('Y'); $i >= 2008; $i--)

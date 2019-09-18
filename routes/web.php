@@ -152,12 +152,15 @@ Route::group(['as'=>'memorando.','prefix' =>'memorando'],function(){
 });
 //Rotas do módulo Locais de apresentação
 Route::group(['as'=>'local.','prefix' =>'local','middleware' => ['permission:']],function(){
-	Route::get('',['as' =>'index','uses'=>'Apresentacao\LocalController@index','middleware' => ['permission:listar-locais']]);
+    Route::get('',['as' =>'index','uses'=>'Apresentacao\LocalController@index','middleware' => ['permission:listar-locais']]);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Apresentacao\LocalController@apagados','middleware' => ['permission:listar-locais']]);
 	Route::get('criar',['as' =>'create','uses'=>'Apresentacao\LocalController@create','middleware' => ['permission:criar-locais']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Apresentacao\LocalController@store','middleware' => ['permission:criar-locais']]);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Apresentacao\LocalController@edit','middleware' => ['permission:editar-locais']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Apresentacao\LocalController@update','middleware' => ['permission:editar-locais']]);
-	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Apresentacao\LocalController@destroy','middleware' => ['permission:apagar-locais']]);
+    Route::get('remover/{id}',['as' =>'destroy','uses'=>'Apresentacao\LocalController@destroy','middleware' => ['permission:apagar-locais']]);
+    Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Apresentacao\LocalController@restore','middleware' => ['role:admin']]);
+    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Apresentacao\LocalController@forceDelete','middleware' => ['role:admin']]);
 });
 //Rotas do módulo NotaCoger
 Route::group(['as'=>'notacoger.','prefix' =>'notacoger'],function(){
@@ -168,6 +171,15 @@ Route::group(['as'=>'notacoger.','prefix' =>'notacoger'],function(){
 	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Apresentacao\NotaCogerController@edit','middleware' => ['permission:editar-notas-coger']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Apresentacao\NotaCogerController@update','middleware' => ['permission:editar-notas-coger']]);
 	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Apresentacao\NotaCogerController@destroy','middleware' => ['permission:apagar-notas-coger']]);
+});
+//Rotas do módulo email
+Route::group(['as'=>'email.','prefix' =>'email'],function(){
+    Route::get('lista/{ano?}',['as' =>'index','uses'=>'Apresentacao\EmailController@index','middleware' => ['permission:listar-notas-coger']]);
+	Route::get('criar',['as' =>'create','uses'=>'Apresentacao\EmailController@create','middleware' => ['permission:criar-notas-coger']]);
+	Route::post('salvar',['as' =>'store','uses'=>'Apresentacao\EmailController@store','middleware' => ['permission:criar-notas-coger']]);
+	Route::get('editar/{ref}/{ano}',['as' =>'edit','uses'=>'Apresentacao\EmailController@edit','middleware' => ['permission:editar-notas-coger']]);
+	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Apresentacao\EmailController@update','middleware' => ['permission:editar-notas-coger']]);
+	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Apresentacao\EmailController@destroy','middleware' => ['permission:apagar-notas-coger']]);
 });
 /* -------------- ROTAS PROCESSOS E PROCEDIMENTOS -------------- */
 
