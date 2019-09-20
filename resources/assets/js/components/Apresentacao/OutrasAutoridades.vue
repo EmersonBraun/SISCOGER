@@ -1,89 +1,87 @@
 <template>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <div class="box-header">
-                    <h2 class="box-title">Outras Autoridades</h2>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-plus"></i>
-                        </button> 
-                    </div>             
-                </div>
-                <div class="box-body">
-                    <div class="col-md-12 col-xs-12"> 
-                        <table class="table table-striped">
-                            <template v-if="lenght">
-                                <thead>
-                                    <tr>
-                                        <th class="col-xs-4">RG</th>
-                                        <th class="col-xs-4">Função</th>
-                                        <th class="col-xs-4">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="registro in registros" :key="registro.id_cadastroopmcogerautoridade">
-                                        <td>{{ registro.rg }}</td>
-                                        <td>{{ registro.funcao }}</td>
-                                        <td>
-                                            <span>
-                                                <template v-if="canEdit">
-                                                    <a class="btn btn-info" @click="edit(registro)"><i class="fa fa-fw fa-edit "></i></a>
-                                                </template>
-                                                <template v-if="canDelete">
-                                                    <a class="btn btn-danger" @click="destroy(registro.id_cadastroopmcogerautoridade)"><i class="fa fa-fw fa-trash-o "></i></a>
-                                                </template>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </template>
-                            <template v-else>
-                                <tr><td>Nada encontrado</td></tr>
-                            </template>
-                        </table>
-                        <template v-if="canCreate">
-                            <a class="btn btn-primary btn-block" @click="toCreate('create')">
-                                <i class="fa fa-plus"></i>Adicionar Autoridade
-                            </a>
-                        </template>
-                        <v-modal v-model="showModal" large effect="fade" width="80%">
-                            <div slot="modal-header" class="modal-header">
-                                <h4 class="modal-title">
-                                    <b v-if="registro.id_cadastroopmcogerautoridade">Editar Autoridade</b>
-                                    <b v-else>Inserir nova Autoridade</b>
-                                </h4>
-                            </div>
-                            <div slot="modal-body">
-                                <v-label label="rg" title="RG">
-                                    <input size="45" class="form-control" v-model="registro.rg" @keyup="dadosPM" type="text">	
-                                </v-label>
-                                <v-label label="rg" title="Nome">
-                                    <p>{{nome}}</p>	
-                                </v-label>
-                                <v-label label="funcao" title="Função">
-                                    <input size="45" class="form-control" v-model="registro.funcao" type="text">	
-                                </v-label>
-                            </div>
-                            <div slot="modal-footer" class="modal-footer">
-                                <div class="col-xs-6">
-                                    <a class="btn btn-default btn-block" @click="showModal = false">Cancelar</a>
-                                </div>
-                                <div class="col-xs-6">
-                                    <template v-if="canCreate">
-                                        <v-tooltip effect="scale" placement="top" :content="msgRequired">
-                                            <a v-if="registro.id_cadastroopmcogerautoridade" class="btn btn-success btn-block" :disabled="requireds" @click.prevent="update(registro.id_cadastroopmcogerautoridade)">Editar</a>
-                                            <a v-else class="btn btn-success btn-block" :disabled="requireds" @click="create">Inserir</a>
-                                        </v-tooltip>
-                                    </template>
-                                </div>
-                            </div>
-                        </v-modal> 
-                    </div>   
-                </div>   
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h2 class="box-title">Outras Autoridades</h2>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-plus"></i>
+                    </button> 
+                </div>             
             </div>
-        </div> 
-    </div>
+            <div class="box-body">
+                <div class="col-md-12 col-xs-12"> 
+                    <table class="table table-striped">
+                        <template v-if="lenght">
+                            <thead>
+                                <tr>
+                                    <th class="col-xs-4">RG</th>
+                                    <th class="col-xs-4">Função</th>
+                                    <th class="col-xs-4">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="registro in registros" :key="registro.id_cadastroopmcogerautoridade">
+                                    <td>{{ registro.rg }}</td>
+                                    <td>{{ registro.funcao }}</td>
+                                    <td>
+                                        <span>
+                                            <template v-if="canEdit">
+                                                <a class="btn btn-info" @click="edit(registro)"><i class="fa fa-fw fa-edit "></i></a>
+                                            </template>
+                                            <template v-if="canDelete">
+                                                <a class="btn btn-danger" @click="destroy(registro.id_cadastroopmcogerautoridade)"><i class="fa fa-fw fa-trash-o "></i></a>
+                                            </template>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </template>
+                        <template v-else>
+                            <tr><td>Nada encontrado</td></tr>
+                        </template>
+                    </table>
+                    <template v-if="canCreate">
+                        <a class="btn btn-primary btn-block" @click="toCreate('create')">
+                            <i class="fa fa-plus"></i>Adicionar Autoridade
+                        </a>
+                    </template>
+                    <v-modal v-model="showModal" large effect="fade" width="80%">
+                        <div slot="modal-header" class="modal-header">
+                            <h4 class="modal-title">
+                                <b v-if="registro.id_cadastroopmcogerautoridade">Editar Autoridade</b>
+                                <b v-else>Inserir nova Autoridade</b>
+                            </h4>
+                        </div>
+                        <div slot="modal-body">
+                            <v-label label="rg" title="RG">
+                                <input size="45" class="form-control" v-model="registro.rg" @keyup="dadosPM" type="text">	
+                            </v-label>
+                            <v-label label="rg" title="Nome">
+                                <p>{{nome}}</p>	
+                            </v-label>
+                            <v-label label="funcao" title="Função">
+                                <input size="45" class="form-control" v-model="registro.funcao" type="text">	
+                            </v-label>
+                        </div>
+                        <div slot="modal-footer" class="modal-footer">
+                            <div class="col-xs-6">
+                                <a class="btn btn-default btn-block" @click="showModal = false">Cancelar</a>
+                            </div>
+                            <div class="col-xs-6">
+                                <template v-if="canCreate">
+                                    <v-tooltip effect="scale" placement="top" :content="msgRequired">
+                                        <a v-if="registro.id_cadastroopmcogerautoridade" class="btn btn-success btn-block" :disabled="requireds" @click.prevent="update(registro.id_cadastroopmcogerautoridade)">Editar</a>
+                                        <a v-else class="btn btn-success btn-block" :disabled="requireds" @click="create">Inserir</a>
+                                    </v-tooltip>
+                                </template>
+                            </div>
+                        </div>
+                    </v-modal> 
+                </div>   
+            </div>   
+        </div>
+    </div> 
 </template>
 
 <script>
