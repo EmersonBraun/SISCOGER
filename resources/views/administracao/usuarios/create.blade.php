@@ -23,26 +23,13 @@
 
 @section('content')
 <div class=''>
-    {!! Form::open(array('url' => '/usuarios/salvar')) !!}
-    <div class="col-md-6 form-group @if ($errors->has('rg')) has-error @endif">
-        {!! Form::label('rg', 'RG') !!}
-        {!! Form::text('rg', '', array('class' => 'form-control','placeholder' => 'Busca por rg' , 'onfocusout' => 'completarnome($(this).val())' )) !!}
-        @if ($errors->has('rg'))
-            <span class="help-block">
-                <strong>{{ $errors->first('rg') }}</strong>
-            </span>
-        @endif
-    </div>
-
-    <div class="col-md-6 form-group">
-        {!! Form::label('nome', 'Nome') !!}
-        {!! Form::text('nome', null, array('class' => 'form-control typeahead','placeholder' => 'Busca por nome', 'onfocusout' => 'completarg($(this).val())')) !!}
-        @if ($errors->has('nome'))
-            <span class="help-block">
-                <strong>{{ $errors->first('nome') }}</strong>
-            </span>
-        @endif
-    </div>
+    {!! Form::open(array('url' => '/usuario/salvar')) !!}
+    <v-search-rg></v-search-rg>
+    @if ($errors->has('rg'))
+        <span class="help-block">
+            <strong>{{ $errors->first('rg') }}</strong>
+        </span>
+    @endif
 
     <div class="col-md-12 form-group @if ($errors->has('roles')) has-error @endif">
     <h3>Permissões</h3><br>
@@ -56,7 +43,7 @@
             </span>
         @endif
     </div>
-    </div>
+
     {!! Form::submit('Salvar', array('class' => 'btn btn-block btn-primary')) !!}
     {!! Form::close() !!}
 
@@ -66,5 +53,5 @@
 @stop
 
 @section('js')
-    @include('vendor.adminlte.includes.nome_rg')
+    @include('vendor.adminlte.includes.vue')
 @stop

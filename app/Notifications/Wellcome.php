@@ -18,7 +18,6 @@ class Wellcome extends Notification
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -29,7 +28,7 @@ class Wellcome extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database','mail'];
     }
 
     /**
@@ -39,13 +38,15 @@ class Wellcome extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
-{
-    return (new MailMessage)
-        ->subject('Boas Vindas - SISCOGER')
-        ->line('Você está recebendo este e-mail porque foi realizado seu cadastro no SISCOGER.')
-        ->line('Para o primeiro acesso o login e senha são seu RG (apenas os números).')
-        ->action('Acessar SISCOGER', url(config('app.url').route('login')));
-}
+    {
+        // dd($notifiable);
+        return (new MailMessage)
+            ->from($notifiable->email)
+            ->subject('Boas Vindas - SISCOGER')
+            ->line('Você está recebendo este e-mail porque foi realizado seu cadastro no SISCOGER.')
+            ->line('Para o primeiro acesso o login e senha são seu RG (apenas os números).')
+            ->action('Acessar SISCOGER', route('login'));
+    }
 
     /**
      * Get the array representation of the notification.
@@ -56,7 +57,9 @@ class Wellcome extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'id' => $notifiable->id,
+            'name' => $notifiable->nome,
+            'email' => $notifiable->email
         ];
     }
 }

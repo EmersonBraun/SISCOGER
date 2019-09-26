@@ -112,7 +112,7 @@ class SindicanciaController extends Controller
         
     }
     
-    public function show($ref, $ano)
+    public function show($ref, $ano='')
     {
         //----levantar procedimento
         $proc = $this->repository->refAno($ref,$ano);
@@ -123,7 +123,7 @@ class SindicanciaController extends Controller
         return view('procedimentos.sindicancia.form.show', compact('proc'));
     }
 
-    public function edit($ref, $ano)
+    public function edit($ref, $ano='')
     {
         //----levantar procedimento
         $proc = $this->repository->refAno($ref,$ano);

@@ -13,6 +13,7 @@ Vue.component('v-ano', () => import(/* webpackChunkName: "v-ano" */'./components
 Vue.component('v-show', () => import(/* webpackChunkName: "v-show" */'./components/Form/Show.vue'));
 Vue.component('v-item-unique', () => import(/* webpackChunkName: "v-item-unique" */'./components/Form/ItemUnique.vue'));
 Vue.component('vue-simple-suggest', () => import(/* webpackChunkName: "vue-simple-suggest" */'./components/Form/SugestRg.vue'));
+Vue.component('v-search-rg', () => import(/* webpackChunkName: "v-search-rg" */'./components/Form/SearchRg.vue'));
 // subformulários
 Vue.component('v-proced-origem', () => import(/* webpackChunkName: "v-proced-origem" */'./components/SubForm/ProcedOrigem.vue'));
 Vue.component('v-reus', () => import(/* webpackChunkName: "v-reus" */'./components/SubForm/Reus.vue'));

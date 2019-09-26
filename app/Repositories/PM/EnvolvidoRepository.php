@@ -32,6 +32,14 @@ class EnvolvidoRepository extends BaseRepository
         return $registros;
     } 
 
+    public function getByNameId($name, $id)
+	{
+        $registros = Cache::tags('envolvido')->remember('envolvido:nameid'.$name.$id, $this->expiration, function() use ($name, $id){
+            return $this->model->where('id_'.$name,$id)->get();
+        });
+        return $registros;
+    }
+
     public function relatorioEncarregados($proc, $opm, $ano)
 	{
         $registros = $this->model

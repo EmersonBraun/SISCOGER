@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 class SobrestamentoController extends Controller
 {
-    public function sobrestamentos($ref, $ano)
+    public function sobrestamentos($ref, $ano='')
     {
         $rota = Route::currentRouteName(); //proc.sobrestamentos
         $rota = explode ('.', $rota)[0]; //divide em [0] -> proc e [1]-> sobrestamentos

@@ -9,6 +9,9 @@ use Illuminate\Database\Events\StatementPrepared;
 use Illuminate\Support\Facades\Event;
 use PDO;
 
+use App\User;
+use App\Observers\UserObserver;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(StatementPrepared::class, function ($event) {
             $event->statement->setFetchMode(PDO::FETCH_ASSOC);
         });
+
+        User::observe(UserObserver::class);
        
     }
 

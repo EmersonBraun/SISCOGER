@@ -74,4 +74,9 @@ class Policial extends Eloquent
 		'opm_meta4',
 		'cdopm'
 	];
+
+	public function getByRG($query, $rg)
+    {
+        return $query->where('rg',$rg);
+    }
 }

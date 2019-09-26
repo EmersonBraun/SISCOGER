@@ -196,7 +196,7 @@
         <li class=""><a href="{{ route('busca.pm')}}"><i class="fa fa-fw fa-circle-o "></i><span>PM</span></a></li>
         @endif
         @if(hasPermissionTo('buscar-pm'))
-        <li class=""><a href="{{ route('busca.pm')}}"><i class="fa fa-fw fa-circle-o "></i><span>Nominal</span></a></li>
+        <li class=""><a href="{{ route('busca.nominal.search')}}"><i class="fa fa-fw fa-circle-o "></i><span>Nominal</span></a></li>
         @endif
         @if(hasPermissionTo('buscar-ofendido'))
         <li class=""><a href="{{ route('busca.ofendido.search')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ofendido</span></a></li>

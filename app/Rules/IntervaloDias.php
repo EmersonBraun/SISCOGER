@@ -19,7 +19,9 @@ class IntervaloDias implements Rule
         $user = User::where('rg', '=', $value)->first();
         if(!$user->hasRole('admin')){
             //verifica o último acesso
-            $ultimo_acesso = LogAcesso::where('rg', '=', $value)->latest()->first();
+            $ultimo_acesso = LogAcesso::where('rg', $value)->latest()->first();
+
+            // if($ultimo_acesso->created_at == '0000-00-00 00:00:00' || !$ultimo_acesso) return false;
             //verifica o tempo do último acesso
             $data1 = (isset($ultimo_acesso)) ? \Carbon\Carbon::createFromTimeString($ultimo_acesso->created_at) : \Carbon\Carbon::now();
             $data2 = \Carbon\Carbon::now();

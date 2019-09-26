@@ -18,9 +18,9 @@
                         <thead>
                             <tr>
                                 <th style="display: none">#</th>
-                                <th class='col'>Papel</th>
-                                <th class='col'>Permissões</th>
-                                <th class='col'>Ações</th>
+                                <th class='col-xs-1'>Papel</th>
+                                <th class='col-xs-10'>Permissões</th>
+                                <th class='col-xs-1'>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,17 +31,13 @@
                                 <td><?php echo e(str_replace(array('[',']','"'),'', $role->permissions()->pluck('name'))); ?></td>
                                 <td>
                                     <?php if(hasPermissionTo('editar-papeis')): ?> 
-                                    <a href="<?php echo e(route('role.edit',$role->id)); ?>" class="btn btn-info"
-                                        style="margin-right: 3px;">Editar</i></a>
+                                        <a href="<?php echo e(route('role.edit',$role->id)); ?>" class="btn btn-info"><i class="fa fa-edit"></i></a>
                                     <?php endif; ?>
                                     <?php if(hasPermissionTo('apagar-papeis')): ?>
-                                    <?php echo Form::open(['method' => 'DELETE', 'route' => ['role.destroy', $role->id] ]); ?>
-
-                                    <?php echo Form::submit('Apagar', ['class' => 'btn btn-danger', 'onclick' => 'return
-                                    confirm("Você tem certeza?");']); ?>
-
-                                    <?php echo Form::close(); ?>
-
+                                        <a href="<?php echo e(route('role.destroy',$role->id)); ?>" class="btn btn-danger"
+                                                onclick ="return confirm('Você tem certeza?');">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
                                     <?php endif; ?>
                                 </td>
                             </tr>
@@ -50,9 +46,9 @@
                         <tfoot>
                             <tr>
                                 <th style="display: none">#</th>
-                                <th class='col'>Papel</th>
-                                <th class='col'>Permissões</th>
-                                <th class='col'>Ações</th>
+                                <th class='col-xs-1'>Papel</th>
+                                <th class='col-xs-10'>Permissões</th>
+                                <th class='col-xs-1'>Ações</th>
                             </tr>
                         </tfoot>
                     </table>

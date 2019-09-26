@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 class MovimentoController extends Controller
 {
-    public function movimentos($ref, $ano)
+    public function movimentos($ref, $ano='')
     {
         $rota = Route::currentRouteName(); //proc.movimentos
         $rota = explode ('.', $rota); //divide em [0] -> proc e [1]-> movimentos

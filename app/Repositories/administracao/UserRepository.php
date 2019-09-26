@@ -3,19 +3,33 @@
 namespace App\Repositories\administracao;
 
 use Cache;
-use App\Models\User;
+use App\User;
 use App\Repositories\BaseRepository;
+
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Models\Sjd\Administracao\LogAcesso;
+use App\Models\Sjd\Administracao\LogBloqueio as LogBloqueio;
 
 class UserRepository extends BaseRepository
 {
     protected $model;
+    protected $role;
+    protected $permission;
     protected $unidade;
     protected $verTodasUnidades;
     protected $expiration = 60 * 24;//um dia; 
 
-	public function __construct(User $model)
+	public function __construct(
+        User $model,
+        RoleRepository $role,
+        PermissionRepository $permission
+    )
 	{
-        $this->model = $model;      
+        $this->model = $model;   
+        $this->role = $role;
+        $this->permission = $permission;   
     }
 
     public function cleanCache()

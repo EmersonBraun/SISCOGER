@@ -17,6 +17,9 @@ use App\Rules\IntervaloDias;
 //para verificar se tem o RG cadastrado
 use App\Rules\ExistRg;
 
+use App\Repositories\administracao\UserRepository;
+use App\Services\SessionService;
+
 class LoginController extends Controller
 {
     /*
@@ -32,14 +35,21 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     protected $redirectTo = '/home';
+
     protected $rg;
     protected $ip;
     protected $user;
+    protected $repository;
+    protected $session;
 
-    public function __construct()
+    public function __construct(
+        UserRepository $repository,
+        SessionService $session
+    )
     {
-
         $this->middleware('guest')->except('logout');
+        $this->repository = $repository;
+        $this->session = $session;
     }
 
     public function username()
@@ -47,19 +57,11 @@ class LoginController extends Controller
         return 'rg';
     }
 
-    public function getUser()
-    {
-        $user = User::where('rg', '=', $this->rg)->first();
-        // aborta caso não tenha o usuário
-        if (!$user) return abort(403);
-        $this->user = $user;
-    }
-
     public function login(Request $request)
     {
         //verificar se os campos foram preenchidos
         $this->validate($request, [
-            'rg' => ['required', 'numeric', new ExistRg, new Block, new IntervaloDias],
+            'rg' => ['required', 'numeric', new ExistRg, new Block],
             'password'=>'required',
         ]);
 
@@ -69,10 +71,10 @@ class LoginController extends Controller
         $this->ip = $_SERVER["REMOTE_ADDR"];
         
         //traz os dados do usuário
-        $this->getUser();
+        $this->getUser($this->rg);
 
         //salva dados usuário na sessão
-        $this->session();
+        $this->session->user($this->user);
 
         if (Auth::attempt($credentials)) 
         {
@@ -85,7 +87,7 @@ class LoginController extends Controller
             
             $this->logAcesso();
             //verifica se o usuário concordou com os termos de uso
-            if ($this->user->termos == 0) return redirect()->route('users.pass',$this->user->id); 
+            if ($this->user->termos == 0) return redirect()->route('user.pass',$this->user->id); 
             else
             {
                 //remove sessão antiga
@@ -141,33 +143,12 @@ class LoginController extends Controller
                    
     }
 
-    public function session()
+    public function getUser($rg)
     {
-        session()->put('rg',$this->user->rg);
-        session()->put('nome', $this->user->nome);
-        session()->put('email', $this->user->email);
-        session()->put('cargo', $this->user->cargo);
-        session()->put('quadro', $this->user->quadro);
-        session()->put('subquadro', $this->user->subquadro);
-        session()->put('opm_descricao', $this->user->opm_descricao);
-        session()->put('cdopm', $this->user->cdopm);    
-        session()->put('cdopmbase', corta_zeros($this->user->cdopm));
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = (boolean) User::permission('todas-unidades')->count();
-        session()->put('ver_todas_unidades', $verTodasUnidades);
-        //verifica se o usuário tem permissão para ver superior
-        $verSuperior = (boolean) User::permission('ver-superior')->count();
-        session()->put('ver_superior', $verSuperior);
-        //verifica se o usuário é administrador
-        $isAdmin = User::role('admin')->count();
-        $isAdmin = ($isAdmin > 0) ? true : false;
-        if($isAdmin) \Debugbar::enable();
-        session()->put('is_admin', $isAdmin);
-        session()->put('nivel',sistema('posto',$this->user->cargo));
-        // todos papéis que o usuário possui
-        session()->put('roles', $this->user->getRoleNames());
-        // todas permissões que o usuário possui
-        session()->put('permissions', $this->user->getAllPermissions()->pluck('name')->toArray());
+        $user = $this->repository->getRg($rg);
+        // aborta caso não tenha o usuário
+        if (!$user) return abort(403);
+        $this->user = $user;
     }
 
     public function logAcesso()
@@ -176,7 +157,6 @@ class LoginController extends Controller
             'rg' => $this->user->rg,
             'nome' => $this->user->nome,
             'tipo' => 'acesso',
-            'created_at' => \Carbon\Carbon::now(),
             'ip' => $this->ip,
         ];
 

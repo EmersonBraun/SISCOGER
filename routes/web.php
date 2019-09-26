@@ -18,8 +18,10 @@ Route::get('teste', ['as'=>'teste','uses'=>'Testes\testeBD@opm']);
 //Route::get('bd/{nome?}', ['as'=>'bd','uses'=>'Testes\testeBD@search']);
 Route::get('bd/qtds', ['as'=>'bd','uses'=>'Testes\testeBD@qtds']);
 Route::get('bd/acesso/{rg}', ['as'=>'acesso','uses'=>'Testes\testeBD@acesso']);
-// Route::get('bd/bdgeral', ['as'=>'bdgeral','uses'=>'Testes\testeBD@bdgeral']);
-//para rodar os testes
+Route::get('bd/bdgeral', ['as'=>'bdgeral','uses'=>'Testes\testeBD@bdgeral']);
+
+Route::get('asd/{id}/reset',['as' =>'reset','uses'=>'Administracao\User\PasswordController@reset']);
+// para rodar os testes
 $middleware = [];
 if ( !App::runningUnitTests() ) {
     $middleware[] = 'api.auth';
@@ -33,26 +35,34 @@ Route::get('home/{opm}', ['as' =>'home.opm','uses'=>'HomeController@index', 'mid
 
 Route::get('logout', 'HomeController@logout')->middleware('auth.unique.user');
 
+Route::get('/mailable', function () {
+    $user = App\User::find(18);
+ 
+    return new App\Mail\wellcomeUser($user);
+});
+
 /* -------------- ROTAS ADMINISTRAÇÃO -------------- */
 //Rotas do módulo User
-Route::group(['as'=>'user.','prefix' =>'usuario','middleware' => ['role:admin']],function(){
-	Route::get('',['as' =>'index','uses'=>'Administracao\UserController@index']);
-	Route::get('criar',['as' =>'create','uses'=>'Administracao\UserController@create']);
-	Route::post('salvar',['as' =>'store','uses'=>'Administracao\UserController@store']);
-	Route::get('editar/{id}',['as' =>'edit','uses'=>'Administracao\UserController@edit']);
-	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Administracao\UserController@update']);
-	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Administracao\UserController@destroy']);
+Route::group(['as'=>'user.','prefix' =>'usuario'],function(){
+	Route::get('',['as' =>'index','uses'=>'Administracao\User\UserController@index']);
+	Route::get('criar',['as' =>'create','uses'=>'Administracao\User\UserController@create']);
+	Route::post('salvar',['as' =>'store','uses'=>'Administracao\User\UserController@store']);
+	Route::get('editar/{id}',['as' =>'edit','uses'=>'Administracao\User\UserController@edit']);
+	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Administracao\User\UserController@update']);
+	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Administracao\User\UserController@destroy']);
 	//Alterar senha
-	Route::get('{id}/senha',['as' =>'pass','uses'=>'Administracao\UserController@passedit']);
-	Route::put('{id}/senhaatualizar',['as' =>'passupdate','uses'=>'Administracao\UserController@passupdate']);
+	Route::get('{id}/senha',['as' =>'pass','uses'=>'Administracao\User\PasswordController@passedit']);
+	Route::put('{id}/senhaatualizar',['as' =>'passupdate','uses'=>'Administracao\User\PasswordController@passupdate']);
 	//bloqueio e desbloqueio
-	Route::get('{id}/bloquear',['as' =>'block','uses'=>'Administracao\UserController@block']);
-	Route::get('{id}/desbloquear',['as' =>'unblock','uses'=>'Administracao\UserController@unblock']);
+	Route::get('{id}/bloquear',['as' =>'block','uses'=>'Administracao\User\UserController@block']);
+	Route::get('{id}/desbloquear',['as' =>'unblock','uses'=>'Administracao\User\UserController@unblock']);
+	//reenviar email
+    Route::get('{id}/{resend}/reenviar',['as' =>'sendMail','uses'=>'Administracao\User\UserController@sendMail']);
 	//manual usuário
-	Route::get('manual',['as' =>'manual','uses'=>'Administracao\UserController@manual']);
+	Route::get('manual',['as' =>'manual','uses'=>'Administracao\User\UserController@manual']);
 	//termos do usuário
-	Route::get('{id}/termocriar',['as' =>'termocriar','uses'=>'Administracao\UserController@termocriar']);
-	Route::post('{id}/termosalvar',['as' =>'termosalvar','uses'=>'Administracao\UserController@termosalvar']);
+	Route::get('{id}/termocriar',['as' =>'termocriar','uses'=>'Administracao\User\TermosController@termocriar']);
+    Route::post('{id}/termosalvar',['as' =>'termosalvar','uses'=>'Administracao\User\TermosController@termosalvar']);
 });
 //Rotas do módulo Regras
 Route::group(['as'=>'role.','prefix' =>'papel','middleware' => ['role:admin']],function(){
@@ -61,7 +71,7 @@ Route::group(['as'=>'role.','prefix' =>'papel','middleware' => ['role:admin']],f
 	Route::post('salvar',['as' =>'store','uses'=>'Administracao\RoleController@store']);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Administracao\RoleController@edit']);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Administracao\RoleController@update']);
-	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Administracao\RoleController@destroy']);
+	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Administracao\RoleController@destroy']);
 });
 //Rotas do módulo Permissões
 Route::group(['as'=>'permission.','prefix' =>'permissao','middleware' => ['role:admin']],function(){
@@ -71,7 +81,7 @@ Route::group(['as'=>'permission.','prefix' =>'permissao','middleware' => ['role:
 	Route::post('salvar',['as' =>'store','uses'=>'Administracao\PermissionController@store']);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Administracao\PermissionController@edit']);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Administracao\PermissionController@update']);
-	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Administracao\PermissionController@destroy']);
+	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Administracao\PermissionController@destroy']);
 });
 //Rotas do módulo controle SJDS
 Route::group(['as'=>'sjd.','prefix' =>'sjd','middleware' => ['role:admin']],function(){
@@ -105,25 +115,6 @@ Route::group(['as'=>'unidade.','prefix' =>'unidade'],function(){
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Administracao\UnidadeController@edit','middleware' => ['permission:editar-unidades']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Administracao\UnidadeController@update','middleware' => ['permission:editar-unidades']]);
 });
-/* -------------- ROTAS EMAIL -------------- */
-//Rotas do módulo Email
-/*Route::group(['as'=>'mail.','prefix' =>'email'],function(){
-	Route::get('enviar',['as' =>'send','uses'=>'Administracao\MailController@send']);
-	Route::get('enviados',['as' =>'sent','uses'=>'Administracao\MailController@sent','middleware' => ['permission:listar-email-agendados']]);
-	Route::get('criar',['as' =>'create','uses'=>'Administracao\MailController@create','middleware' => ['permission:criar-email-agendados']]);
-	Route::post('salvar',['as' =>'store','uses'=>'Administracao\MailController@store','middleware' => ['permission:criar-email-agendados']]);
-	Route::get('editar/{id}',['as' =>'edit','uses'=>'Administracao\MailController@edit','middleware' => ['permission:editar-email-agendados']]);
-	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Administracao\MailController@update','middleware' => ['permission:editar-email-agendados']]);
-	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Administracao\MailController@destroy','middleware' => ['permission:apagar-email-agendados']]);
-	//Relatório afastados
-	Route::get('afastados',['as' =>'afastados','uses'=>'Administracao\MailController@sendAfastados']);
-	//Relatório presos
-	Route::get('presos',['as' =>'presos','uses'=>'Administracao\MailController@sendPresos']);
-	//email lembrete apresentação
-	Route::get('apresentacao/enviar',['as' =>'apresentacao.send','uses'=>'Administracao\MailController@sendApresentacao']);
-	//listagem email enviados
-	Route::get('apresentacao/enviados',['as' =>'apresentacao.sent','uses'=>'Administracao\MailController@sentApresentacao','middleware' => ['permission:listar-email-apresentacao']]);
-});*/
 /* -------------- ROTAS APRESENTAÇÃO -------------- */
 //Rotas do módulo Apresentacao
 Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){

@@ -98,7 +98,7 @@ class AdlController extends Controller
         
     }
     
-    public function show($ref, $ano)
+    public function show($ref, $ano='')
     {
         //----levantar procedimento
         $proc = $this->repository->refAno($ref,$ano);
@@ -109,7 +109,7 @@ class AdlController extends Controller
         return view('procedimentos.adl.form.show', compact('proc'));
     }
 
-    public function edit($ref, $ano)
+    public function edit($ref, $ano='')
     {
         //----levantar procedimento
         $proc = $this->repository->refAno($ref,$ano);

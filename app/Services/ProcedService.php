@@ -2,13 +2,16 @@
 //Aqui fica a parte de lógica dos controllers, para não ficar enchendo de atribuições erradas
 namespace App\Services;
 
-use App\Models\Sjd\Busca\Envolvido;
+useApp\Repositories\PM\EnvolvidoRepository;
 
 class ProcedService 
 {
-
-	public function __construct()
+    protected $envolvido;
+	public function __construct(
+        EnvolvidoRepository $envolvido
+    )
     {
+        $this->envolvido = $envolvido;
     }
 
     public function canSee($proc, $name)
@@ -48,13 +51,8 @@ class ProcedService
     //teste para verificar se pode ver superior, caso não possa aborta
     public function canSeeSuperior($proc, $name)
 	{
-        //verifica se o usuário tem permissão para ver superior s/n
-        $verSuperior = hasPermissionTo("ver-superior");
-        //se pode ver nem faz o resto dos testes
-        if($verSuperior) return true;
-
         //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_'.$name,'=',$proc['id_'.$proc])->get();
+        $envolvido = $this->envolvido->getByNameId($name, $proc['id_'.$proc]);
         
         $ehsuperior = 0;
         //verifica se o procedimento é de superior
@@ -62,7 +60,7 @@ class ProcedService
         {
             foreach ($envolvido as $e) 
             {
-                if(sistema('posto',session()->get('cargo')) > sistema('posto',$e['cargo'])) 
+                if(session('nivel') > sistema('posto',$e['cargo'])) 
                 {
                     $ehsuperior = 1;
                     break;
@@ -71,7 +69,7 @@ class ProcedService
         }
 
         /*caso o procedimento for de superior e não puder ver superior aborta */
-        if ($ehsuperior == 1 && $verSuperior == 0) return abort(403);
+        if ($ehsuperior) return abort(403);
         return false;
 
     }

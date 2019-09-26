@@ -20,9 +20,9 @@
                         <thead>
                             <tr>
                                 <th style="display: none">#</th>
-                                <th class='col'>Papel</th>
-                                <th class='col'>Permissões</th>
-                                <th class='col'>Ações</th>
+                                <th class='col-xs-1'>Papel</th>
+                                <th class='col-xs-10'>Permissões</th>
+                                <th class='col-xs-1'>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,14 +33,13 @@
                                 <td>{{ str_replace(array('[',']','"'),'', $role->permissions()->pluck('name')) }}</td>
                                 <td>
                                     @if(hasPermissionTo('editar-papeis')) 
-                                    <a href="{{ route('role.edit',$role->id) }}" class="btn btn-info"
-                                        style="margin-right: 3px;">Editar</i></a>
+                                        <a href="{{ route('role.edit',$role->id) }}" class="btn btn-info"><i class="fa fa-edit"></i></a>
                                     @endif
                                     @if(hasPermissionTo('apagar-papeis'))
-                                    {!! Form::open(['method' => 'DELETE', 'route' => ['role.destroy', $role->id] ]) !!}
-                                    {!! Form::submit('Apagar', ['class' => 'btn btn-danger', 'onclick' => 'return
-                                    confirm("Você tem certeza?");']) !!}
-                                    {!! Form::close() !!}
+                                        <a href="{{ route('role.destroy',$role->id) }}" class="btn btn-danger"
+                                                onclick ="return confirm('Você tem certeza?');">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
                                     @endif
                                 </td>
                             </tr>
@@ -49,9 +48,9 @@
                         <tfoot>
                             <tr>
                                 <th style="display: none">#</th>
-                                <th class='col'>Papel</th>
-                                <th class='col'>Permissões</th>
-                                <th class='col'>Ações</th>
+                                <th class='col-xs-1'>Papel</th>
+                                <th class='col-xs-10'>Permissões</th>
+                                <th class='col-xs-1'>Ações</th>
                             </tr>
                         </tfoot>
                     </table>

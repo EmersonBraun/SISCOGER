@@ -3,7 +3,7 @@
 namespace App\Repositories\administracao;
 
 use Cache;
-use App\Models\Sjd\Administracao\Permission;
+use Spatie\Permission\Models\Permission;
 use App\Repositories\BaseRepository;
 
 class PermissionRepository extends BaseRepository
@@ -32,5 +32,32 @@ class PermissionRepository extends BaseRepository
 
         return $registros;
     }  
+
+    public function treeview()
+    {
+        $relateds = $this->relateds();
+        foreach ($relateds as $r) {
+            $permissions[$r->related] = $this->relation($r->related);
+        }
+
+        return $permissions;
+    }
+
+    public function relateds()
+    {
+        $registros = Cache::tags('permission')->remember('permission:relateds', $this->expiration, function() {
+            return $this->model->distinct()->orderBy('related')->get(['related']);
+        });
+
+        return $registros; 
+    }
+
+    public function relation($related)
+    {
+        $registros = Cache::tags('permission')->remember('permission:relations:'.$related, $this->expiration, function() use ($related){
+            return $this->model->where('related',$related)->get(['id','name'])->toArray();
+        });
+        return $registros; 
+    }
 }
 

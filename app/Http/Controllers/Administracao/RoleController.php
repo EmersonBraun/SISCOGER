@@ -11,23 +11,33 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 use Session;
- 
+use App\Repositories\administracao\PermissionRepository;
+use App\Repositories\administracao\RoleRepository;
+
 class RoleController extends Controller
 {
-    public function __construct()
+    protected $permission;
+    protected $role;
+    public function __construct(
+        PermissionRepository $permission,
+        RoleRepository $role
+    )
     {
         $this->middleware('auth');
+        $this->permission = $permission;
+        $this->role = $role;
     }
 
      public function index()
     {
-        $roles = Role::all();
+        $roles = $this->role->all();
         return view('administracao.papeis.index',compact('roles'));
     }
  
     public function create()
     {
-        $permissions = Permission::all();//Pegar todas as permissões
+        $permissions = $this->permission->treeview();//Pegar todas as permissões em árvore
+        
         return view('administracao.papeis.create', compact('permissions'));
     }
  
@@ -54,8 +64,8 @@ class RoleController extends Controller
     public function edit(Role $role, $id)
     {
         $role = Role::findOrFail($id);
-        $permissions = Permission::all();
-
+        $permissions = $this->permission->treeview();//Pegar todas as permissões em árvore
+        // dd($permissions);
         return view('administracao.papeis.edit', compact('role', 'permissions'));
     }
  

@@ -83,7 +83,7 @@ class IsoController extends Controller
         
     }
     
-    public function show($ref, $ano)
+    public function show($ref, $ano='')
     {
         //----levantar procedimento
         $proc = $this->repository->refAno($ref,$ano);
@@ -94,7 +94,7 @@ class IsoController extends Controller
         return view('procedimentos.iso.form.show', compact('proc'));
     }
 
-    public function edit($ref, $ano)
+    public function edit($ref, $ano='')
     {
         //----levantar procedimento
         $proc = $this->repository->refAno($ref,$ano);

@@ -44,47 +44,55 @@
                 <table id="datable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th class='col-xs-1 col-md-1'>#</th>
-                            <th class='col-xs-1 col-md-1'>RG</th>
-                            <th class='col-xs-2 col-md-2'>Email</th>
-                            <th class='col-xs-2 col-md-2'>Unidade</th>
-                            <th class='col-xs-2 col-md-2'>Papéis</th>
-                            <th class='col-xs-4 col-md-4'>Ações</th>
+                            <th class='col-xs-1'>RG</th>
+                            <th class='col-xs-2'>Nome</th>
+                            <th class='col-xs-1'>Posto/Grad</th>
+                            <th class='col-xs-1'>Quadro</th>
+                            <th class='col-xs-1'>Email</th>
+                            <th class='col-xs-2'>Unidade</th>
+                            <th class='col-xs-2'>Papéis</th>
+                            <th class='col-xs-2'>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($users as $user)
                         <tr>
-                            <td>{{ $user->id }}</td>
                             <td>{{ $user->rg }}</td>
+                            <td>{{ $user->nome }}</td>
+                            <td>{{ $user->cargo }}</td>
+                            <td>{{ $user->quadro }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->opm_descricao }}</td>
                             <td>{{ $user->roles()->pluck('name')->implode('/') }}</td>
                             <td>
                                 <div class="btn-group">
                                     @if(hasPermissionTo('editar-usuarios'))
-                                    <a href="{{ route('user.edit', $user->id) }}" class="btn btn-info pull-left"
-                                        style="margin-right: 3px;">Editar</a>
+                                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-info">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
                                     @endif
                                     @if(hasPermissionTo('apagar-usuarios'))
-                                    {!! Form::open(['method' => 'DELETE', 'route' => ['user.destroy',
-                                    $user->id],'style' => 'display: inline' ]) !!}
-                                    {!! Form::submit('Apagar', ['class' => 'btn btn-danger', 'onclick' => 'return
-                                    confirm("Você tem certeza?");','style' => 'display: inline']) !!}
-                                    {!! Form::close() !!}
+                                        <a href="{{ route('user.destroy', $user->id) }}" class="btn btn-danger" onclick='return confirm("Você tem certeza?");'>
+                                            <i class="fa fa-trash"></i>
+                                        </a>
                                     @endif
                                    
-                                    @if($user->block == '0')
+                                    @if($user->block == 0)
                                         @if(hasPermissionTo('bloquear-usuarios'))     
-                                        <a href="{{ route('user.block', $user->id) }}" class="btn btn-warning"
-                                            style="">Bloquear</a>
+                                        <a href="{{ route('user.block', $user->id) }}" class="btn btn-warning">
+                                            <i class="fa fa-lock"></i>
+                                        </a>
                                         @endif
                                     @else
                                         @if(hasPermissionTo('desbloquear-usuarios'))
-                                        <a href="{{ route('user.unblock', $user->id) }}" class="btn btn-success"
-                                            style="">Desbloquear</a>
+                                        <a href="{{ route('user.unblock', $user->id) }}" class="btn btn-secondary">
+                                            <i class="fa fa-unlock"></i>
+                                        </a>
                                         @endif
                                     @endif
+                                        <a href="{{ route('user.sendMail', ['id' =>$user->id, 'resend' => true]) }}" class="btn btn-success">
+                                            <i class="fa fa-envelope"></i>
+                                        </a>
                                 </div>
                             </td>
                         </tr>
@@ -92,12 +100,14 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th class='col-xs-1 col-md-1'>#</th>
-                            <th class='col-xs-1 col-md-1'>RG</th>
-                            <th class='col-xs-2 col-md-2'>Email</th>
-                            <th class='col-xs-2 col-md-2'>Unidade</th>
-                            <th class='col-xs-2 col-md-2'>Papéis</th>
-                            <th class='col-xs-4 col-md-4'>Ações</th>
+                            <th class='col-xs-1'>RG</th>
+                            <th class='col-xs-2'>Nome</th>
+                            <th class='col-xs-1'>Posto/Grad</th>
+                            <th class='col-xs-1'>Quadro</th>
+                            <th class='col-xs-1'>Email</th>
+                            <th class='col-xs-2'>Unidade</th>
+                            <th class='col-xs-2'>Papéis</th>
+                            <th class='col-xs-2'>Ações</th>
                         </tr>
                     </tfoot>
                 </table>

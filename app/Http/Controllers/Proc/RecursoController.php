@@ -80,7 +80,7 @@ class RecursoController extends Controller
         
     }
     
-    public function show($ref, $ano)
+    public function show($ref, $ano='')
     {
         //----levantar procedimento
         $proc = $this->repository->refAno($ref,$ano);
@@ -91,7 +91,7 @@ class RecursoController extends Controller
         return view('procedimentos.recurso.form.show', compact('proc'));
     }
 
-    public function edit($ref, $ano)
+    public function edit($ref, $ano='')
     {
         //----levantar procedimento
         $proc = $this->repository->refAno($ref,$ano);

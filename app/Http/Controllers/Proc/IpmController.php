@@ -111,7 +111,7 @@ class IpmController extends Controller
         
     }
     
-    public function show($ref, $ano)
+    public function show($ref, $ano='')
     {
         //----levantar procedimento
         $proc = $this->repository->refAno($ref,$ano);
@@ -122,7 +122,7 @@ class IpmController extends Controller
         return view('procedimentos.ipm.form.show', compact('proc'));
     }
 
-    public function edit($ref, $ano)
+    public function edit($ref, $ano='')
     {
         //----levantar procedimento
         $proc = $this->repository->refAno($ref,$ano);

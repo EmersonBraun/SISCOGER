@@ -3,7 +3,8 @@
 namespace App\Repositories\administracao;
 
 use Cache;
-use App\Models\Sjd\Administracao\Role;
+// use App\Models\Sjd\Administracao\Role;
+use Spatie\Permission\Models\Role;
 use App\Repositories\BaseRepository;
 
 class RoleRepository extends BaseRepository
@@ -32,5 +33,14 @@ class RoleRepository extends BaseRepository
 
         return $registros;
     }  
+
+    public function getById($id)  
+    {
+        $registros = Cache::tags('role')->remember('role:'.$id, $this->expiration, function() use ($id){
+            return $this->model->where('id',$id)->firstOrFail();
+        });
+
+        return $registros; 
+    }
 }
 

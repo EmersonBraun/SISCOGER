@@ -8,37 +8,43 @@ use Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+use App\Repositories\administracao\PermissionRepository;
+use App\Repositories\administracao\RoleRepository;
+
 use Session;
 
 use Illuminate\Http\Request;
  
 class PermissionController extends Controller
 {
-    public function __construct()
+    protected $permission;
+    protected $role;
+    public function __construct(
+        PermissionRepository $permission,
+        RoleRepository $role
+    )
     {
         $this->middleware('auth');
+        $this->permission = $permission;
+        $this->role = $role;
     }
 
     public function index()
     {
        
-        $permissions = Permission::all();
+        $permissions = $this->permission->all();
         return view('administracao.permissoes.index',compact('permissions'));
     }
 
     public function treeview()
     {
-        $relateds = Permission::distinct()->orderBy('related')->get(['related']);
-        $permissions = [];
-        foreach ($relateds as $r) {
-            $permissions[$r->related] = Permission::where('related',$r->related)->get(['id','name'])->toArray();
-        }
+        $relateds = $this->permission->treeview();
         return view('administracao.permissoes.treeview',compact('permissions'));
     }
  
     public function create()
     {
-        $roles = Role::all(); //pega todos os papeis
+        $roles = $this->role->all(); //pega todos os papeis
         return view('administracao.permissoes.create',compact('roles'));
     }
 
