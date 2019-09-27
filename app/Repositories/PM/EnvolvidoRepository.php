@@ -96,6 +96,68 @@ class EnvolvidoRepository extends BaseRepository
         return $registros;
     }
 
+    public function membro()
+	{
+        $registros = Cache::tags('envolvido')->remember('envolvido:membro', $this->expiration, function() {
+            return $this->model->where('situacao','')->get();
+        });
+        return $registros;
+    } 
+
+    public function list($proc, $id, $situacao="")
+	{
+        $registros = Cache::tags('envolvido')->remember('envolvido:membro', $this->expiration, function() use($proc, $id, $situacao){
+            return $this->model->where('id_'.$proc,'=',$id)->where('situacao','=',$situacao)->get();
+        });
+        return $registros;
+    } 
+
+    public function membrosUsados($proc, $id)
+    {
+        // membros envolvidos
+        $result = $this->atual($proc, $id);
+        $subs = $this->substituidos($proc, $id);
+        
+        if(!$result) return response()->json(null, 400);
+        // situações usadas
+        $usados = [];
+        foreach ($result as $r) 
+        {
+            if(!$r['rg_substituto']) 
+            {
+                array_push($usados,$r['situacao']);
+            }
+        }
+    }
+
+    public function membroAtual($proc, $id)
+    {
+        return $this->model->where('id_'.$proc,'=',$id)
+                    ->whereIn('situacao', ['Acusador', 'Encarregado','Escrivão','Membro','Presidente'])
+                    ->where('rg_substituto','')
+                    ->get();
+    }
+
+    public function membroSubstituido($proc, $id)
+    {
+        return $this->model->where('id_'.$proc,'=',$id)
+                    ->whereIn('situacao', ['Acusador', 'Encarregado','Escrivão','Membro','Presidente'])
+                    ->where('rg_substituto','<>','')
+                    ->get();
+    }
+
+    public function situacoesUsadas($situacoes)
+    {
+        foreach ($situacoes as $s) 
+        {
+            if(!$s['rg_substituto']) 
+            {
+                array_push($usados,$s['situacao']);
+            }
+        }
+        return $usados;
+    }
+
     public function situacao($situacao)
 	{
         

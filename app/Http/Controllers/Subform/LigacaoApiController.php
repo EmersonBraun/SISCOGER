@@ -4,27 +4,24 @@ namespace App\Http\Controllers\Subform;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use App\proc\Repositories\OPMRepository;
 use App\Models\Sjd\Busca\Ligacao;
+use App\Repositories\proc\LigacaoRepository;
 
 class LigacaoApiController extends Controller
 {
+    protected $repository;
+    public function __construct(
+        LigacaoRepository $repository
+    )
+	{
+        $this->repository = $repository;
+    }
+
     public function list($proc, $ref, $ano='')
     {
-        if($ano){
-            $result = Ligacao::where('destino_proc','=',$proc)
-                ->where('destino_sjd_ref','=',$ref)
-                ->where('destino_sjd_ref_ano','=',$ano)
-                ->get();
-        } else {
-            $result = Ligacao::where('destino_proc','=',$proc)
-            ->where('id_'.$proc,'=',$ref)
-            ->get();
-        }
+        $result = $this->repository->refAno($proc, $ref, $ano);
         
-        return response()->json(
-            $result, 200);
+        return response()->json( $result, 200);
     }
     
     public function store(Request $request)
@@ -40,10 +37,11 @@ class LigacaoApiController extends Controller
             ], 500);
         }
 
-        $create = Ligacao::create($dados);
+        $create = $this->repository->create($dados);
 
         if($create)
         {
+            $this->repository->cleanCache();
             return response()->json([
                 'opm' => 'Criado',
                 'success' => true,
@@ -57,9 +55,10 @@ class LigacaoApiController extends Controller
 
     public function destroy($id)
     {
-        $destroy = Ligacao::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
         if($destroy)
         {
+            $this->repository->cleanCache();
             return response()->json([
                 'success' => true,
             ], 200);

@@ -3,33 +3,41 @@
 namespace App\Http\Controllers\Proc;
 
 use Illuminate\Http\Request;
-use App\Repositories\proc\MovimentoRepository;
 use App\Http\Controllers\Controller;
-use App\Models\Sjd\Proc\Movimento;
-use App\Models\Sjd\Busca\Envolvido;
-use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Route;
+use App\Repositories\proc\MovimentoRepository;
+use App\Repositories\proc\ProcRepository;
+use App\Repositories\PM\EnvolvidoRepository;
 
 class MovimentoController extends Controller
 {
+    protected $repository;
+    protected $proc;
+    protected $envolvido;
+    public function __construct(
+        MovimentoRepository $repository,
+        ProcRepository $proc,
+        EnvolvidoRepository $envolvido
+    )
+	{
+        $this->repository = $repository;
+        $this->proc = $proc;
+        $this->envolvido = $envolvido;
+    }
+
     public function movimentos($ref, $ano='')
     {
         $rota = Route::currentRouteName(); //proc.movimentos
         $rota = explode ('.', $rota); //divide em [0] -> proc e [1]-> movimentos
         $rota = $rota[0];
 
-        //----levantar procedimento
-        $proc = DB::table($rota)->where('sjd_ref','=',$ref)->where('sjd_ref_ano','=',$ano)->first();
-        //
-        //teste para verificar se pode ver outras unidades, caso não possa aborta
-        ver_unidade($proc);
-
-        $movimentos = Movimento::where('id_'.$rota,'=',$proc['id_'.$rota])->get();
-        $envolvidos = Envolvido::where('id_'.$rota,'=',$proc['id_'.$rota])->get();
-        //dd($envolvidos);
+        $proc = $this->proc->getByRefAno($rota, $ref, $ano);
+        $id = $proc['id_'.$rota];
+        $movimentos = $this->repository->getById($rota, $id);
+        $envolvidos = $this->envolvido->getByNameId($rota, $id);
 
         $view = str_replace('_','',$rota);
-        //dd($proc);
         return view('procedimentos.'.$view.'.form.movimentos',compact('proc','movimentos','sobrestamentos','envolvidos'));
     }
     
@@ -50,7 +58,7 @@ class MovimentoController extends Controller
             'opm' => session()->get('opm_descricao')
         ];
         
-        $create = Movimento::create($dados);
+        $create = $this->repository->create($dados);
         if($create) {
             toast()->success('inserido','Movimento');
             return redirect()->back();

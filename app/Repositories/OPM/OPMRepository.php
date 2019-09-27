@@ -141,6 +141,8 @@ class OPMRepository
         return $opms;
     }
 
+    
+
     public function all()
     {
         //tempo de cahe
@@ -148,6 +150,18 @@ class OPMRepository
 
         $registros = Cache::tags('opm')->remember('todas_unidade', $expiration, function(){
             return $this->model->all();
+        });
+
+        return $registros;
+    }
+
+    public function getByName($name)
+    {
+        //tempo de cahe
+        $expiration = 60 * 24 * 7; //uma semana
+
+        $registros = Cache::tags('opm')->remember('unidade:'.$name, $expiration, function() use ($name){
+            return $this->model->where('ABREVIATURA','like',$name.'%')->first();
         });
 
         return $registros;

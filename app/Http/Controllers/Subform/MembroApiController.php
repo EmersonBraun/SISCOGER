@@ -4,52 +4,40 @@ namespace App\Http\Controllers\Subform;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use App\Repositories\PM\OPMRepository;
-use App\Models\Sjd\Policiais\Envolvido;
+use App\Repositories\PM\EnvolvidoRepository;
 
 class MembroApiController extends Controller
 {
+    protected $repository;
+    public function __construct(
+        EnvolvidoRepository $repository
+    )
+	{
+        $this->repository = $repository;
+    }
+    
     public function list()
     {
-        $result = Envolvido::where('situacao','=','')
-            ->get();
+        $result = $this->repository->membro();
 
-        return response()->json(
-            $result, 200);
+        return response()->json($result, 200);
     }
 
     public function store(Request $request)
     {
         $dados = $request->all();
         
-        if(isset($dados['idsubs'])){
-            $substituto = Envolvido::findOrFail($dados['idsubs'])->update(['rg_substituto'=> $dados['rg']]);
-        }
+        if(isset($dados['idsubs'])) $this->repository->findOrFail($dados['idsubs'])->update(['rg_substituto'=> $dados['rg']]);
 
-        $create = Envolvido::create($dados);
-        if($create)
-        {
-            return response()->json([
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false,
-        ], 400);
+        $create = $this->repository->create($dados);
+        if($create) return response()->json(['success' => true,], 200);
+
     }
 
     public function destroy($id)
     {
-        $destroy = Envolvido::findOrFail($id)->delete();
-        if($destroy)
-        {
-            return response()->json([
-                'success' => true,
-            ], 200);
-        }
-        return response()->json([
-            'success' => false,
-        ], 400);
+        $destroy = $this->repository->findOrFail($id)->delete();
+        if($destroy) return response()->json(['success' => true, ], 200);
+
     }
 }

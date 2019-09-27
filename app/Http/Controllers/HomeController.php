@@ -1,4 +1,8 @@
 <?php
+/**
+ * Esse controle precisa ser refatorado para não ficar com tanta responsbilidade
+ * uma solução é recriar o dashboard com Vue e traser os dados via API
+ */
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Sjd\Relatorios\Pendencia as Pendencia;
@@ -63,51 +67,13 @@ class HomeController extends Controller
         $this->isLoged($unidade);
 
         // pendências
-        //PENDENCIA #0: TRANSFERIDOS obs: arrumar a pesquisa
-        $pendencias['transferidos'] = $this->transferidos->semana($unidade);
-        //PENDENCIA #1: COMPORTAMENTO
-        $pendencias['comportamentos'] = $this->comportamentos->comportamentos($unidade);
-        //PENDENCIA #2: CADASTRO DE PUNICAO NO FATD MARCADO COMO PUNIDO
-        $pendencias['fatd_punidos'] = $this->fatd->punidos($unidade);
-        //PENDENCIA #2.1: PRAZO DO FATD
-        $pendencias['fatd_prazos'] = $this->fatd->foraDoPrazoUnidade($unidade);
-        //PENDENCIA #2.2: FATD SEM DATA DE ABERTURA
-        $pendencias['fatd_aberturas'] = $this->fatd->aberturas($unidade);
-        //PENDENCIA #3: PERDA DE PRAZO EM IPM
-        $pendencias['ipm_prazos'] = $this->ipm->foraDoPrazo($unidade);
-        //PENDENCIA #3.1: ipm SEM DATA DE ABERTURA
-        $pendencias['ipm_aberturas'] = $this->ipm->instauracao($unidade);
-        //PENDENCIA #4: PRAZO DAS SINDICANCIAS
-        $pendencias['sindicancia_prazos'] = $this->sindicancia->foraDoPrazo($unidade);
-        //PENDENCIA #4.1: SINDICANCIA SEM DATA DE ABERTURA
-        $pendencias['sindicancia_aberturas'] = $this->sindicancia->foraDoPrazo($unidade);
-        //PENDENCIA #5: CONSELHOS DE DISCIPLINA SEM DATA DE ABERTURA
-        $pendencias['cd_aberturas'] = $this->cd->aberturas($unidade);
-        //PENDENCIA #5.1: CONSELHOS DE DISCIPLINA - PRAZO
-        $pendencias['cd_prazos'] = $this->cd->foraDoPrazo($unidade);
+        $pendencias = $this->pendencias($unidade);
 
         //contagens
-        $totais = [
-            'cdopm' => completa_zeros($unidade),
-            'comportamento' => count($pendencias['comportamentos']),
-            'fatd_punicao' => count($pendencias['fatd_punidos']),
-            'fatd_prazo' => count($pendencias['fatd_prazos']),
-            'fatd_abertura' => count($pendencias['fatd_aberturas']),
-            'ipm_abertura' => count($pendencias['ipm_aberturas']),
-            'ipm_prazo' => count($pendencias['ipm_prazos']),
-            'sindicancia_abertura' => count($pendencias['sindicancia_aberturas']),
-            'sindicancia_prazo' => count($pendencias['sindicancia_prazos']),
-            'cd_abertura' => count($pendencias['cd_aberturas']),
-            'cd_prazo' => count($pendencias['cd_prazos'])
-        ];
+        $totais = $this->totais($unidade, $pendencias);
 
         // somatórios
-        $totais_proc = [
-            'fatd' => $totais['fatd_punicao'] + $totais['fatd_prazo'] + $totais['fatd_abertura'],
-            'ipm' => $totais['ipm_prazo'] + $totais['ipm_abertura'],
-            'sindicancia' => $totais['sindicancia_prazo'] + $totais['sindicancia_abertura'],
-            'cd' => $totais['cd_prazo'] + $totais['cd_abertura'],
-        ];
+        $totais_proc = $this->somatorio($totais);
 
         // gráficos
         $efetivo = $this->graficoEfetivo($unidade);
@@ -127,16 +93,78 @@ class HomeController extends Controller
             'unidade' 
         ));
     }
+
+    public function pendencias($unidade)
+    {
+        $pendencias = [
+            'transferidos' => $this->transferidos->semana($unidade),
+            //PENDENCIA #1: COMPORTAMENTO
+            'comportamentos' => $this->comportamentos->comportamentos($unidade),
+            //PENDENCIA #2: CADASTRO DE PUNICAO NO FATD MARCADO COMO PUNIDO
+            'fatd_punidos' => $this->fatd->punidos($unidade),
+            //PENDENCIA #2.1: PRAZO DO FATD
+            'fatd_prazos' => $this->fatd->foraDoPrazoUnidade($unidade),
+            //PENDENCIA #2.2: FATD SEM DATA DE ABERTURA
+            'fatd_aberturas' => $this->fatd->aberturas($unidade),
+            //PENDENCIA #3: PERDA DE PRAZO EM IPM
+            'ipm_prazos' => $this->ipm->foraDoPrazo($unidade),
+            //PENDENCIA #3.1: ipm SEM DATA DE ABERTURA
+            'ipm_aberturas' => $this->ipm->instauracao($unidade),
+            //PENDENCIA #4: PRAZO DAS SINDICANCIAS
+            'sindicancia_prazos' => $this->sindicancia->foraDoPrazo($unidade),
+            //PENDENCIA #4.1: SINDICANCIA SEM DATA DE ABERTURA
+            'sindicancia_aberturas' => $this->sindicancia->foraDoPrazo($unidade),
+            //PENDENCIA #5: CONSELHOS DE DISCIPLINA SEM DATA DE ABERTURA
+            'cd_aberturas' => $this->cd->aberturas($unidade),
+            //PENDENCIA #5.1: CONSELHOS DE DISCIPLINA - PRAZO
+            'cd_prazos' => $this->cd->foraDoPrazo($unidade)
+        ];
+        return $pendencias;
+    }
+
+    public function totais($unidade, $pendencias)
+    {
+        $totais = [
+            'cdopm' => completa_zeros($unidade),
+            'comportamento' => count($pendencias['comportamentos']),
+            'fatd_punicao' => count($pendencias['fatd_punidos']),
+            'fatd_prazo' => count($pendencias['fatd_prazos']),
+            'fatd_abertura' => count($pendencias['fatd_aberturas']),
+            'ipm_abertura' => count($pendencias['ipm_aberturas']),
+            'ipm_prazo' => count($pendencias['ipm_prazos']),
+            'sindicancia_abertura' => count($pendencias['sindicancia_aberturas']),
+            'sindicancia_prazo' => count($pendencias['sindicancia_prazos']),
+            'cd_abertura' => count($pendencias['cd_aberturas']),
+            'cd_prazo' => count($pendencias['cd_prazos'])
+        ];
+
+        return $totais;
+    }
+
+    public function somatorio($totais)
+    {
+        $totais_proc = [
+            'fatd' => $totais['fatd_punicao'] + $totais['fatd_prazo'] + $totais['fatd_abertura'],
+            'ipm' => $totais['ipm_prazo'] + $totais['ipm_abertura'],
+            'sindicancia' => $totais['sindicancia_prazo'] + $totais['sindicancia_abertura'],
+            'cd' => $totais['cd_prazo'] + $totais['cd_abertura'],
+        ];
+
+        return $totais_proc;
+    }
+
     public function graficoEfetivo($unidade)
     {
         $e = $this->pm->efetivoOPM($unidade);
         //formatar array para o gráfico
-        $efetivo['qtd'] = array_pluck($e, 'qtd');
-        $efetivo['cargos'] = array_pluck($e, 'cargo');
+        $efetivo =[
+            'qtd' => array_pluck($e, 'qtd'),
+            'cargos' => array_pluck($e, 'cargo')
+        ]; 
 
         return $efetivo;
-        // dd($efetivo_chartjs);
     }
+
     public function graficoProcAnos($unidade)
     {
         $fatd_ano = $this->fatd->QtdOMAnos($unidade);
@@ -149,11 +177,13 @@ class HomeController extends Controller
         [$anos, $sindicancia_ano] = array_divide($sindicancia_ano);
         [$anos, $cd_ano] = array_divide($cd_ano);
             
-        $procedimentos['fatd_ano'] = $fatd_ano;
-        $procedimentos['ipm_ano'] = $ipm_ano;
-        $procedimentos['sindicancia_ano'] = $sindicancia_ano;
-        $procedimentos['cd_ano'] = $cd_ano;
-        $procedimentos['anos'] = $anos;
+        $procedimentos = [
+            'fatd_ano' => $fatd_ano,
+           'ipm_ano' => $ipm_ano,
+           'sindicancia_ano' => $sindicancia_ano,
+           'cd_ano' => $cd_ano,
+           'anos' => $anos
+        ];
 
         return $procedimentos;
     }

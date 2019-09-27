@@ -4,6 +4,7 @@ namespace App\Repositories\proc;
 
 use Cache;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\OPM\OPMRepository;
 
 class ProcRepository
 {
@@ -17,9 +18,13 @@ class ProcRepository
         return DB::table($proc)->where('id_'.$proc,$id)->first(); 
     }
 
-    public function getByRefAno($proc, $ref, $ano)
+    public function getByRefAno($proc, $ref, $ano='')
     {
-        return DB::table($proc)->where([['sjd_ref',$ref],['sjd_ref_ano',$ano]])->first(); 
+        if(!$ano) $proc = $this->getById($proc, $ref);
+        else $proc = DB::table($proc)->where([['sjd_ref',$ref],['sjd_ref_ano',$ano]])->first();
+
+        if($proc) return $proc;
+        return false; 
     }
 
     public function procedimentos($rg)
@@ -162,5 +167,85 @@ class ProcRepository
         return $registros;
     }
 
+    public function changeAndamento(Array $dados, $type)
+    {
+        $proc = $dados['procc'];
+        $id = $dados['id_'.$proc];
+
+        $search = array_search(strtoupper($type),config('sistema.andamento'.strtoupper($proc)),true);
+        $andamento = DB::table($proc)->where('id_'.$proc,$id)->update(['id_andamento' => $search]);
+        if($andamento) return true;
+        return false;
+    }
+
+    public function dados($proc, $ref, $ano)
+    {
+
+        if(!is_numeric($proc)) $proc = sistema('pocedimentosOpcoes',$proc);
+        
+        // validações
+        if(!in_array($proc,config('sistema.pocedimentosOpcoes'))) return $this->formatReturn(null, null, 'Procedimento inválido');
+        if($ano < 2008 || $ano > date('Y')) return $this->formatReturn(null, null, 'Ano inválido');
+        if ($proc=="apfdc" || $proc=="apfdm") $proc="apfd";  
+
+        $result = $this->getByRefAno($proc, $ref, $ano);
+
+        if(!$result) return $this->formatReturn(null, null, 'Referência inválida');
+
+        $opm = OPMRepository::abreviatura(completa_zeros($result['cdopm']));
+
+        if(!$opm) return $this->formatReturn(null, null, 'OPM não encontrada');  
+
+        return $this->formatReturn($result, $proc, $opm);
+    }
+
+    public function formatReturn($result, $proc, $opm)
+    {
+        if($result) $id = $result['id_'.$proc];
+        $situacao = ($proc) ? sistema('procSituacao',$proc) : null;
+
+        if($result && $situacao) {
+            return [
+                'proc' => $result,
+                'id' => $id,
+                'situacao' => $situacao,
+                'opm' => $opm,
+                'success' => true,
+            ];
+        }
+
+        return [
+            'opm' => $opm,
+            'success' => false
+        ];
+    }
+
+    public function updateCampo($proc, $id, $campo, $input)
+    {
+        $update = DB::table($proc)
+            ->where('id_'.$proc,$id)
+            ->update([$campo => $input]);
+
+        if(!$update) return ['success' => false,];
+        return ['success' => true,];
+    }
+
+    public function dadocampo($proc, $id, $campo)
+    {
+        $index = DB::table($proc)->where('id_'.$proc,$id)->first();
+
+        if(!$index)
+        {
+            return [
+                'input' => '',
+                'success' => false,
+            ];
+        }
+
+        return [
+            'input' => $index[$campo],
+            'success' => true,
+        ];
+    }
 }
 

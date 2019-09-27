@@ -4,25 +4,29 @@ namespace App\Http\Controllers\Subform;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use Auth;
-use App\User;
-use Session;
-use App\Models\Sjd\Proc\Movimento;
+use App\Repositories\proc\MovimentoRepository;
 
 class MovimentoApiController extends Controller
 {
+    protected $repository;
+    public function __construct(
+        MovimentoRepository $repository
+    )
+	{
+        $this->repository = $repository;
+    }
+
     public function list($proc, $id)
     {
-        $result = Movimento::where('id_'.$proc,'=',$id)->get();
+        $result = $this->repository->allProc($id, $proc);
 
-        return response()->json(
-            $result, 200);
+        return response()->json($result, 200);
     }
 
     public function find($id)
     {
 
-        $data = $repository->find($id);
+        $data = $this->repository->find($id);
         
         if($data){
             return response()->json([
@@ -36,9 +40,9 @@ class MovimentoApiController extends Controller
         
     }
 
-    public function refAno($ref, $ano)
+    public function refAno($ref, $ano='')
     {
-        $data = $repository->refAno($ref, $ano);
+        $data = $this->repository->refAno($ref, $ano);
         if($data){
             return response()->json([
                 'data' => $data,
@@ -52,7 +56,7 @@ class MovimentoApiController extends Controller
 
     public function all()
     {
-        $data = $repository->all();
+        $data = $this->repository->all();
         if($data){
             return response()->json([
                 'data' => $data,
@@ -68,7 +72,7 @@ class MovimentoApiController extends Controller
     {
         $dados = $request->all();
         $dados['data'] = data_bd($dados['data']);
-        $create = Movimento::create($dados);
+        $create = $this->repository->create($dados);
         if($create)
         {
             return response()->json([
@@ -82,7 +86,7 @@ class MovimentoApiController extends Controller
 
     public function destroy($id)
     {
-        $destroy = Movimento::findOrFail($id)->delete();
+        $destroy = $this->repository->findOrFail($id)->delete();
         if($destroy)
         {
             return response()->json([

@@ -15,14 +15,12 @@ class BaseRepository
 
     public function findOrFail($id)
     {
-        return $this->find($id);
+        return $this->model->findOrFail($id);
     }
 
     public function find($id)
     {
-        $proc = $this->getProc($id);
-        $this->canSeeProc($proc);
-        return $proc;
+        return $this->model->findOrFail($id);
     }
 
     public function delete($id)
@@ -75,9 +73,10 @@ class BaseRepository
         return true;
     }
 
-    public function refAno($ref, $ano)
+    public function refAno($ref, $ano='')
 	{
-        $proc = $this->model->where('sjd_ref','=',$ref)->where('sjd_ref_ano','=',$ano)->first();
+        if(!$ano) $proc = $this->findOrFail($ref);
+        $proc = $this->model->where('sjd_ref',$ref)->where('sjd_ref_ano',$ano)->first();
         $this->canSeeProc($proc);
         return $proc;
 

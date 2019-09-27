@@ -185,7 +185,7 @@ Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
     // pegar dados do PM pelo RG
     Route::get('pm/{rg}',['as' =>'pm','uses'=>'Subform\PMApiController@dados']);
     // pegar dados do Procedimento pelo Nome/ref/ano
-    Route::get('proc/{proc}/{ref}/{ano}',['as' =>'proc','uses'=>'Subform\ProcApiController@dados']);
+    Route::get('proc/{proc}/{ref}/{ano?}',['as' =>'proc','uses'=>'Subform\ProcApiController@dados']);
     // pegar lista dos Envolvido pelo Proc/id/situacao
     Route::get('envolvido/{proc}/{id}/{situacao?}',['as' =>'envolvido','uses'=>'Subform\EnvolvidoApiController@list']);
     // pegar lista dos membros pelo Proc/id/

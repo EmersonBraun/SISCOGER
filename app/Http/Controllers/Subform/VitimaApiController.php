@@ -4,67 +4,48 @@ namespace App\Http\Controllers\Subform;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Sjd\Policiais\Ofendido;
+use App\Repositories\PM\OfendidoRepository;
 
 class VitimaApiController extends Controller
 {
+    protected $repository;
+    public function __construct(
+        OfendidoRepository $repository
+    )
+	{
+        $this->repository = $repository;
+    }
+
     public function list($proc, $id)
     {
-        $result = Ofendido::where('id_'.$proc,'=',$id)->get();
-        if($result)
-        {
-            return response()->json(
-                $result, 200);
-        }
-
-        return response()->json([
-            'success' => false,
-        ], 500);
+        $result = $this->repository->listProc($proc, $id); 
+        if($result) return response()->json($result, 200);
     }
     
     public function store(Request $request)
     {
         $dados = $request->all();
-        $create = Ofendido::create($dados);
-        if($create->exists)
-        {
-            return response()->json([
-                'success' => true,
-            ], 200);
+        $create = $this->repository->create($dados);
+        if($create->exists) {
+            return response()->json(['success' => true], 200);
         }
-        return response()->json([
-            'success' => false,
-        ], 500);
     }
 
     public function edit(Request $request, $id)
     {
         $dados = $request->all();
-        $edit = Ofendido::findOrFail($id)->update($dados);
+        $edit = $this->repository->findOrFail($id)->update($dados);
 
-        if($edit)
-        {
-            return response()->json([
-                'success' => true,
-            ], 200);
+        if($edit) {
+            return response()->json(['success' => true], 200);
         }
-
-        return response()->json([
-            'success' => false,
-        ], 500);
     }
 
     public function destroy($id)
     {
-        $destroy = Ofendido::findOrFail($id)->delete();
-        if($destroy)
-        {
-            return response()->json([
-                'success' => true,
-            ], 200);
+        $destroy = $this->repository->findOrFail($id)->delete();
+        if($destroy) {
+            return response()->json(['success' => true], 200);
         }
-        return response()->json([
-            'success' => false,
-        ], 500);
     }
 }

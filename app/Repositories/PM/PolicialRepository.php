@@ -243,6 +243,11 @@ class PolicialRepository extends BaseRepository
         return $registros;
     }
 
+    public function ativo($rg)
+    {
+        return $this->pm($rg);
+    }
+
     public function inativo($rg)
     {
         return $this->inativo->get($rg);

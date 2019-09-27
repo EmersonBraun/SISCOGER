@@ -4,19 +4,21 @@ namespace App\Http\Controllers\Subform;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 
-use GuzzleHttp\Client;
-// use Ixudra\Curl\Facades\Curl;
 use App\Repositories\PM\PolicialRepository;
 class PMApiController extends Controller
 {
+    protected $repository;
+    public function __construct(
+        PolicialRepository $repository
+    )
+	{
+        $this->repository = $repository;
+    }
+
     public function dados($rg)
     {
-        $pm = DB::connection('rhparana')
-        ->table('policial')
-        ->where('rg','=', $rg)
-        ->first();
+        $pm = $this->repository->ativo($rg); 
 
         if(!$pm) 
         {
@@ -33,10 +35,11 @@ class PMApiController extends Controller
 
     }
 
-    public function sugest(PolicialRepository $pm,Request $request)
+    public function sugest(Request $request)
     {
         $dados = $request->all();
-        $data = $pm->sugest($dados);
+        $data = $this->repository->sugest($dados);
+        
         if($data){
             return response()->json([
                 'data' => $data,

@@ -58,6 +58,28 @@ class LigacaoRepository extends BaseRepository
         return $registros;
     } 
 
+    public function refAno($proc, $ref, $ano='')
+	{
+        if(!$ano) $this->getByProcId($proc, $ref);
+
+        $registros = Cache::tags('ligacao')->remember('ligacao:'.$proc.$ref.$ano, self::$expiration, function() use($proc, $ref, $ano){
+            return $this->model->where('destino_proc','=',$proc)
+            ->where('destino_sjd_ref','=',$ref)
+            ->where('destino_sjd_ref_ano','=',$ano)
+            ->get();
+        });
+        return $registros;
+    } 
+
+    public function getByProcId($proc, $id)
+    {
+        $registros = Cache::tags('ligacao')->remember('ligacao:'.$proc.$id, self::$expiration, function() use($proc, $id){
+            return $this->model->where('destino_proc','=',$proc)
+                    ->where('id_'.$proc,'=',$id)->get();
+        });
+        return $registros;
+    }
+
     public function ano($ano)
 	{
         $unidade = session('cdopmbase');
