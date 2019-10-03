@@ -78,6 +78,9 @@ class UserController extends Controller
             return redirect()->route('user.index');
         }
 
+        toast()->warning('Não adicionado!', 'ERRO!');
+        return redirect()->route('user.index');
+
     }
 
     public function createUser($pm, $request)
@@ -135,15 +138,21 @@ class UserController extends Controller
             toast()->success('atualizado com sucesso!', 'Usuário');
             return redirect()->route('user.index');
         }
+
+        toast()->warning('Não Atualizado!', 'ERRO!');
+        return redirect()->route('user.index');
     }
 
     public function destroy($id)
     {
-        $destroy = $this->user->findOrFail($id)->delete();
+        $destroy = $this->user->findAndDelete($id);
         if($destroy) {
             toast()->success('apagado com sucesso!', 'Usuário');
             return redirect()->route('user.index');
         }
+
+        toast()->warning('Não Apagado!', 'ERRO!');
+        return redirect()->route('user.index');
     }
 
     
@@ -169,6 +178,9 @@ class UserController extends Controller
             toast()->success('desbloqueado!', 'Usuário');
             return redirect()->back();
         }
+
+        toast()->warning('Não desbloqueadi!', 'ERRO!');
+        return redirect()->route('user.index');
     }
 
     public function sendMail($id,$resend=false)

@@ -58,6 +58,18 @@ class EnvolvidoRepository extends BaseRepository
         return $registros;
     }
 
+    public function maxPosto($proc, $id)
+    {
+        $registro = $this->model
+        ->join('posto','posto.posto','envolvido.cargo')
+        ->where($proc.'.id_'.$proc, $id)
+        ->whereNotIn('situacao', ['Acusador', 'Encarregado','Escrivão','Membro','Presidente'])
+        ->orderBy('id_posto')
+        ->first();
+
+        return $registro;
+    }
+
     public function resultSearch($query, $proc)
 	{
         $adc = ['envolvido.id_'.$proc,'<>','0'];

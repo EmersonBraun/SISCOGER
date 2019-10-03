@@ -19,9 +19,9 @@ class FileUploadRepository extends BaseRepository
         $this->model = $model;
     }
 
-    public function cleanCache($proc, $id, $campo)
+    public function cleanCache()
 	{
-        Cache::forget('upload'.$proc.$id.$campo);
+        Cache::forget('upload');
     }
 
     public function get($id)
@@ -112,16 +112,6 @@ class FileUploadRepository extends BaseRepository
     public function getOriginProc($dados)
     {
         return DB::table($dados['proc'])->where('id_'.$dados['proc'], $dados['id_proc'])->first();
-    }
-
-    public function delete($id)
-    {
-        return $this->model->where('id',$id)->delete();
-    }
-
-    public function destroy($id)
-    {
-        return $this->model->where('id',$id)->withTrashed()->first();
     }
 
 }

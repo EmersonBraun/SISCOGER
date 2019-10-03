@@ -68,12 +68,14 @@ class PasswordController extends Controller
             if ($user->termos == 0) return redirect()->route('user.termocriar',$user->id);
             else return redirect()->route('home');
         }
+
+        toast()->warning('Não Atualizado!', 'ERRO!');
+        return redirect()->route('home');
        
     }
 
     public function reset($id) //formulário para atualizar senha
     {
-        dd($id);
         $user = $this->user->findOrFail($id);
         $dados = [
             'block' => 0,

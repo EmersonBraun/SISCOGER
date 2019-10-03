@@ -70,7 +70,7 @@ class ReintegradoController extends Controller
         ]);
 
         $dados = $request->all();
-        $update = $this->repository->findOrFail($id)->update($dados);
+        $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
         {
@@ -85,7 +85,7 @@ class ReintegradoController extends Controller
 
     public function destroy($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
             $this->repository->cleanCache();

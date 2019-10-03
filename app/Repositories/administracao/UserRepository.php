@@ -6,12 +6,6 @@ use Cache;
 use App\User;
 use App\Repositories\BaseRepository;
 
-use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-use App\Models\Sjd\Administracao\LogAcesso;
-use App\Models\Sjd\Administracao\LogBloqueio as LogBloqueio;
-
 class UserRepository extends BaseRepository
 {
     protected $model;
@@ -36,7 +30,7 @@ class UserRepository extends BaseRepository
 	{
         Cache::tags('user')->flush();
     }
-    
+
     public function all()
 	{
 
@@ -51,7 +45,7 @@ class UserRepository extends BaseRepository
 	{
 
         $registros = Cache::remember('user:'.$rg, $this->expiration, function() use ($rg){
-            return $this->model->where('rg', '=', $rg)->first();
+            return $this->model->where('rg', $rg)->first();
         });
 
         return $registros;

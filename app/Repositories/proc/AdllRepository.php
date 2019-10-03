@@ -36,7 +36,7 @@ class AdllRepository extends BaseRepository
 	{
         Cache::tags('adl')->flush();
     }
-    
+
     public function all()
 	{
         $unidade = session('cdopmbase');

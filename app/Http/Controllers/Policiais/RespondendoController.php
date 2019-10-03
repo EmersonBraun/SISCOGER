@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\PM\RespondendoRepository;
 use Illuminate\Support\Collection;
+/**
+ * REFATORAR
+ */
 class RespondendoController extends Controller
 {
     protected $repository;

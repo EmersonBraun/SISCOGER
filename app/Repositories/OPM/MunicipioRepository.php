@@ -22,12 +22,12 @@ class MunicipioRepository
         //tempo de cahe
         $expiration = 60 * 24 * 30; //um mês
         if(!$id_municipio) return '';
-        $municipio = Cache::tags('municipio')->remember('municipio:'.$id_municipio, $expiration, function() use($id_municipio){
-             $municipio = Municipio::where('id_municipio','like',$id_municipio.'%')->first();
+        $registros = Cache::tags('municipio')->remember('municipio:'.$id_municipio, $expiration, function() use($id_municipio){
+             $municipio = $this->model->where('id_municipio','like',$id_municipio.'%')->first();
              if($municipio) return $municipio->municipio;
              return 'Não encontrado';
         });
 
-        return $municipio;
+        return $registros;
     }
 }

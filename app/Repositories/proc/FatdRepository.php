@@ -36,7 +36,7 @@ class FatdRepository extends BaseRepository
 	{
         Cache::tags('fatd')->flush();
     }
-    
+
     public function all()
 	{
         $unidade = session('cdopmbase');

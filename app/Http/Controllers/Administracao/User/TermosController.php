@@ -57,8 +57,12 @@ class TermosController extends Controller
 
         $user = $this->user->findOrFail($id);
         $user->termos = $request->termos;
-        $user->save();
-
+        $temosalvo = $user->save();
+        if($temosalvo) {
+            toast()->success('Atualizado!', 'Termo!');
+            return redirect()->route('home');
+        }
+        toast()->warning('Não Atualizado!', 'ERRO!');
         return redirect()->route('home');
     }
 

@@ -25,7 +25,18 @@ class ApresentacaoRepository extends BaseRepository
 	{
         Cache::tags('apresentacao')->flush();
     }
-    
+
+    public function datesToCreate($dados) {
+        $ano = (int) date('Y');
+
+        $ref = $this->maxRef();
+        //referência e ano
+        $dados['sjd_ref'] = $ref+1;
+        $dados['sjd_ref_ano'] = $ano;
+        
+        return $dados;
+    }
+
     public function all()
 	{
         $registros = Cache::tags('apresentacao')->remember('todos_apresentacao', self::$expiration, function() {

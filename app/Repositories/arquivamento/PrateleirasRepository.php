@@ -24,7 +24,6 @@ class PrateleirasRepository extends BaseRepository
         Cache::tags('prateleiras')->flush();
     }
     
-
     public function prateleiras($numero)
     {
         $maxletra = $this->letra();

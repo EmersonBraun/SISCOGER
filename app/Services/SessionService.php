@@ -30,16 +30,8 @@ class SessionService
         return in_array('todas-unidades',session('permissions'));
     }
 
-    /*
-    número para fazer comparativo de hierarquia
-    caso sejam criadas mais subdivisões só alterar nesse arquivo
-    */
     public function nivel($user)
     {
-        $oficiais = in_array('ver-superior-oficiais',session('permissions'));
-        if($oficiais) return sistema('posto','CELAGREG'); //mais alto cargo na lista (sistema.posto)
-        $pracas = in_array('ver-superior-pracas',session('permissions'));
-        if($pracas) return sistema('posto','SUBTEN'); //mais alto cargo na lista (sistema.posto)
         return sistema('posto',$user->cargo);
     }
 

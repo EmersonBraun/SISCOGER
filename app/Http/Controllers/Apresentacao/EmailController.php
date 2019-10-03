@@ -39,8 +39,7 @@ class EmailController extends Controller
         ]);
 
         //dados do formulário
-        $dados = $this->datesToCreate($request); 
-
+        $dados = $this->repository->datesToCreate($request->all()); 
         $create = $this->repository->create($dados);
 
         if($create)
@@ -56,7 +55,7 @@ class EmailController extends Controller
 
     public function show($ref,$ano)
     {
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
 
         return view('apresentacao.notacoger.form.show', compact('proc'));
@@ -64,7 +63,7 @@ class EmailController extends Controller
 
     public function edit($ref,$ano)
     {
-        $proc = $this->repository->refAno($ref,$ano)->first();
+        $proc = $this->repository->refAno($ref,$ano);
         if(!$proc) abort('404');
         
         return view('apresentacao.notacoger.form.edit', compact('proc'));
@@ -81,7 +80,7 @@ class EmailController extends Controller
 
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = $this->repository->findOrFail($id)->update($dados);
+        $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
         {
@@ -96,7 +95,7 @@ class EmailController extends Controller
 
     public function destroy($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
             $this->repository->cleanCache();
@@ -121,18 +120,5 @@ class EmailController extends Controller
         $headers = array('Content-Type: application/pdf',);
 
         return Response::download($path, $search->nota_file, $headers);
-    }
-
-    public function datesToCreate($request) {
-        //dados do formulário
-        $dados = $request->all();
-        $ano = (int) date('Y');
-
-        $ref = $this->repository->maxRef();
-        //referência e ano
-        $dados['sjd_ref'] = $ref+1;
-        $dados['sjd_ref_ano'] = $ano;
-        
-        return $dados;
     }
 }

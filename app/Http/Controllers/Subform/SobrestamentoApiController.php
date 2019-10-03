@@ -30,24 +30,24 @@ class SobrestamentoApiController extends Controller
     public function store(Request $request)
     {
         $dados = $request->all();
-        $create = Sobrestamento::create($dados);
+        $create =  $this->repository->create($dados);
         if($create) return response()->json([ 'success' => true,], 200);
+        return response()->json([ 'success' => false,], 200);
     }
 
     public function edit(Request $request, $id)
     {
         $dados = $request->all();
-        //verificar se há data fim do sobrestamento
-        $fim_sobrestamento = ($dados['termino_data']) ? true : false;
-        
-        $edit = $this->repository->update($id, $dados, $fim_sobrestamento);
+        $edit = $this->repository->findAndUpdate($id, $dados);
         if($edit) return response()->json([ 'success' => true,], 200);
+        return response()->json([ 'success' => false,], 200);
     }
 
     public function destroy($id)
     {
-        $destroy = Sobrestamento::findOrFail($id)->delete();
+        $destroy = Sobrestamento::findAndDelete($id);
         if($destroy) return response()->json(['success' => true,], 200);
+        return response()->json([ 'success' => false,], 200);
     }
 }
 

@@ -22,7 +22,7 @@ class PermissionRepository extends BaseRepository
 	{
         Cache::tags('permission')->flush();
     }
-    
+
     public function all()
 	{
 
@@ -31,7 +31,17 @@ class PermissionRepository extends BaseRepository
         });
 
         return $registros;
-    }  
+    } 
+    
+    public function getByName($name)
+	{
+
+        $registros = Cache::tags('permission')->remember('permission:'.$name, $this->expiration, function() use ($name){
+            return $this->model->where('name', $name)->first();
+        });
+
+        return $registros;
+    }
 
     public function treeview()
     {

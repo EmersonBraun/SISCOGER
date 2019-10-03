@@ -37,8 +37,6 @@ class MovimentoRepository extends BaseRepository
         Cache::tags('movimento')->flush();
     }
 
-
-
     public function getById($id_proc, $id)
     {
         return $this->model->where('id_'.$id_proc,$id)->get();

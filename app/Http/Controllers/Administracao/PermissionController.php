@@ -54,16 +54,19 @@ class PermissionController extends Controller
             'name'=>'required|max:40',
         ]);
         
-        $permission = new Permission();
-        $permission->name = $request['name'];
+        $name = $request['name'];
+        $roles = $request['roles'];
 
-        $create = $permission->save();
+        $create = $this->permission->create([$name]);
         
         if($create) {
-            if (!empty($request['roles'])) { //Se uma ou mais funções forem selecionadas
-                $this->givePermission($request['roles'], $request['name']);
+            $this->repository->cleanCache();
+
+            if (!empty($roles)) { //Se uma ou mais funções forem selecionadas
+                $this->givePermission($roles, $name);
             }
-            toast()->success(''.$permission->name.' adicionadas!', 'Permissões');
+
+            toast()->success(''.$name.' adicionadas!', 'Permissões');
             return redirect()->route('permission.index');
         }
 
@@ -88,6 +91,7 @@ class PermissionController extends Controller
         $update = $permission->fill($input)->save();
 
         if($update) {
+            $this->repository->cleanCache();
             toast()->success(''. $permission->name.' atualizada!', 'Permissões');
             return redirect()->route('permission.index');
         }
@@ -96,9 +100,9 @@ class PermissionController extends Controller
         return redirect()->route('permission.index');
     }
  
-    public function destroy(Permission $permission, $id)
+    public function destroy($id)
     {
-        $destroy = Permission::findOrFail($id)->delete();
+        $destroy = $this->permission->findAndDelete($id);
         
         if($destroy) {
             toast()->success('apagadas com sucesso!', 'Permissões');
@@ -112,9 +116,9 @@ class PermissionController extends Controller
     public function givePermission($roles, $name) 
     {
         foreach ($roles as $role) {
-            $r = Role::where('id', '=', $role)->firstOrFail(); //Corresponder função de entrada ao registro db
+            $r = $this->role->firstOrFail($role); //Corresponder função de entrada ao registro db
 
-            $permission = Permission::where('name', '=', $name)->first(); //Combinar entrada //permissão para registro de db
+            $permission = $this->permission->getByName($name); //Combinar entrada //permissão para registro de db
             $r->givePermissionTo($permission);
         }
     }

@@ -25,61 +25,108 @@ class BaseRepository
 
     public function delete($id)
     {
-        return $this->model->find($id)->delete();
-    }
-
-    public function findAndDelete($id)
-	{
-        return $this->model->findOrFail($id)->delete();
-    }
-
-    public function findAndRestore($id)
-	{
-        return $this->model->withTrashed()->findOrFail($id)->restore();
-    }
-
-    public function findAndDestroy($id)
-	{
-        return $this->model->withTrashed()->findOrFail($id)->forceDelete();
-    }
-
-    public function create(array $data)
-    {
-        return $this->model->create($data);
+        try {
+            $this->model->find($id)->delete();
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
     }
 
     public function update(array $data, $id)
     {
-        return $this->model->find($id)->update($data);
+        try {
+            $this->model->find($id)->update($data);
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
+    }
+
+    public function create(array $data)
+    {
+        try {
+            $this->model->create($data);
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
+    }
+
+    public function findAndUpdate($id, array $data)
+    {
+        try {
+            $this->model->findOrFail($id)->update($data);
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
     }
 
     public function firstOrCreate(array $data)
     {
-        return $this->model->firstOrCreate($data);
+        try {
+            $this->model->firstOrCreate($data);
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
     }
 
-    public function canSeeProc($proc)
-    {
-        $unidade = session('cdopmbase');
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-        //verificar se a opm de login é diferente da unidade do procedimento
-        if($proc instanceof Illuminate\Database\Eloquent\Collection) $opm = ($proc->cdopm !== $unidade) ? 1 : 0; 
-        else $opm = ($proc['cdopm'] !== $unidade) ? 1 : 0;
+    public function findAndDelete($id)
+	{
+        try {
+            $this->model->findOrFail($id)->delete();
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
+    }
 
-        /*não pode ver todas unidades e a unidade do procedimento diferente da opm do login
-        *redireciona o erro de acesso não permitido */
-        if ($verTodasUnidades == 0 && $opm == 1) return abort(403);
-        return true;
+    public function findAndRestore($id)
+	{
+        try {
+            $this->model->withTrashed()->findOrFail($id)->restore();
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
+    }
+
+    public function findAndDestroy($id)
+	{
+        try {
+            $this->model->withTrashed()->findOrFail($id)->forceDelete();
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
+    }
+
+    public function datesToCreate(array $data) {// para procedimentos que tem referência e ano
+        $ref = $this->maxRef();
+        //referência e ano
+        $data['sjd_ref'] = $ref+1;
+        $data['sjd_ref_ano'] = (int) date('Y');
+        
+        return $data;
     }
 
     public function refAno($ref, $ano='')
-	{
-        if(!$ano) $proc = $this->findOrFail($ref);
-        $proc = $this->model->where('sjd_ref',$ref)->where('sjd_ref_ano',$ano)->first();
-        $this->canSeeProc($proc);
-        return $proc;
-
+    {
+        if(!$ano) return $this->findOrFail($ref);
+        return $this->model->where([
+            ['sjd_ref',$ref],
+            ['sjd_ref_ano',$ano]
+        ])->first();
     }
 
     public function prioritario()

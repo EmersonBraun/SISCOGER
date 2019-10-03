@@ -65,26 +65,29 @@ class ArquivamentoController extends Controller
             $this->repository->cleanCache();
             return response()->json(['success' => true,], 200);
         }
+        return response()->json(['success' => false,], 200);
 
     }
 
     public function edit(Request $request, $id)
     {
         $dados = $request->all();
-        $edit = $this->repository->findOrFail($id)->update($dados);
+        $edit = $this->repository->findAndUpdate( $id, $dados);
         if($edit) {
             $this->repository->cleanCache();
             return response()->json(['success' => true,], 200);
         }
+        return response()->json(['success' => true,], 200);
     }
 
     public function destroy($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
         if($destroy) {
             $this->repository->cleanCache();
             return response()->json(['success' => true,], 200);
         }
+        return response()->json(['success' => true,], 200);
     }
 }
 

@@ -50,17 +50,13 @@ class LinkController extends Controller
 
     public function show($id)
     {
-        $proc = $this->repository->findOrFail($id)->first();
-        if(!$proc) abort('404');
-
+        $proc = $this->repository->findOrFail($id);
         return view('ajuda.link.form.show', compact('proc'));
     }
 
     public function edit($id)
     {
-        $proc = $this->repository->findOrFail($id)->first();
-        if(!$proc) abort('404');
-        
+        $proc = $this->repository->findOrFail($id);
         return view('ajuda.link.form.edit', compact('proc'));
     }
 
@@ -73,7 +69,7 @@ class LinkController extends Controller
 
         $dados = $request->all();
         //busca procedimento e atualiza
-        $update = $this->repository->findOrFail($id)->update($dados);
+        $update = $this->repository->findAndUpdate($id,$dados);
         
         if($update)
         {
@@ -88,7 +84,7 @@ class LinkController extends Controller
 
     public function destroy($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
             $this->repository->cleanCache();

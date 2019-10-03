@@ -7,13 +7,13 @@ use App\Http\Controllers\Controller;
 
 use Auth;
 use App\proc\Repositories\ApfdRepository;
-use App\Services\ProcedService;
+use App\Services\AutorizationService;
 
 class ApfdController extends Controller
 {
     protected $repository;
     protected $service;
-    public function __construct(ApfdRepository $repository, ProcedService $service)
+    public function __construct(ApfdRepository $repository, AutorizationService $service)
 	{
         $this->repository = $repository;
         $this->service = $service;
@@ -65,8 +65,7 @@ class ApfdController extends Controller
         }
        
         //dados do formulário
-        $dados = $this->datesToCreate($request); 
-
+        $dados = $this->repository->datesToCreate($request->all()); 
         $create = $this->repository->create($dados);
 
         if($create)
@@ -83,24 +82,14 @@ class ApfdController extends Controller
     
     public function show($ref, $ano='')
     {
-        //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano);
-        if(!$proc) abort('404');
-
-        $this->service->canSee($proc, 'apfd');
-
+        $proc = $this->repository->refAno($ref,$ano,'apfd');
         return view('procedimentos.apfd.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-        //----levantar procedimento
-        $proc = $this->repository->refAno($ref,$ano);
-        if(!$proc) abort('404');
-        
-        $this->service->canSee($proc, 'apfd');
-
-        return view('procedimentos.apfd.form.edit', compact('proc'));
+        $proc = $this->repository->refAno($ref,$ano,'apfd');
+         return view('procedimentos.apfd.form.edit', compact('proc'));
 
     }
 
@@ -121,10 +110,8 @@ class ApfdController extends Controller
             ]);
         }
 
-        // dd(\Request::all());
         $dados = $request->all();
-        //busca procedimento e atualiza
-        $update = $this->repository->findOrFail($id)->update($dados);
+        $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
         {
@@ -140,8 +127,7 @@ class ApfdController extends Controller
 
     public function destroy($id)
     {
-        //busca procedimento e apaga
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
             $this->repository->cleanCache();
@@ -156,7 +142,6 @@ class ApfdController extends Controller
 
     public function restore($id)
     {
-        // Recupera o post pelo ID
         $restore = $this->repository->findAndRestore($id);
     
         if($restore){
@@ -171,7 +156,6 @@ class ApfdController extends Controller
 
     public function forceDelete($id)
     {
-        // Recupera o post pelo ID
         $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
@@ -182,27 +166,6 @@ class ApfdController extends Controller
 
         toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('apfd.lista');
-    }
-
-    public function datesToCreate($request) {
-        //dados do formulário
-        $dados = $request->all();
-        $ano = (int) date('Y');
-
-        $ref = $this->repository->maxRef();
-        //referência e ano
-        $dados['sjd_ref'] = $ref+1;
-        $dados['sjd_ref_ano'] = $ano;
-        
-        return $dados;
-    }
-
-    public function canSee($proc) {
-        ver_unidade($proc);//teste para verificar se pode ver outras unidades, caso não possa aborta
-        //----envolvido do procedimento
-        $envolvido = Envolvido::acusado()->where('id_apfd','=',$proc->id_apfd)->get();
-        //teste para verificar se pode ver superior, caso não possa aborta
-        ver_superior($envolvido, Auth::user());
     }
 
 }

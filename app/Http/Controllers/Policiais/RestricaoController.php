@@ -67,7 +67,7 @@ class RestricaoController extends Controller
 
         $dados = $request->all();
         if($dados['fim_data']) $dados['retirada_data'] = date('Y-m-d');
-        $update = $this->repository->findOrFail($id)->update($dados);
+        $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
         {
@@ -82,7 +82,7 @@ class RestricaoController extends Controller
 
     public function destroy($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
             $this->repository->cleanCache();
@@ -153,7 +153,7 @@ class RestricaoController extends Controller
     public function updateAPI(Request $request, $id)
     {
         $dados = $request->all();
-        $update = $this->repository->findOrFail($id)->update($dados);
+        $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
         {
@@ -166,7 +166,7 @@ class RestricaoController extends Controller
 
     public function destroyAPI($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
             $this->repository->cleanCache();

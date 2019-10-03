@@ -93,7 +93,7 @@ class PunidoController extends Controller
 
         $dados = $request->all();
         $dados['opm_abreviatura'] = opm($dados['cdopm']);
-        $update = $this->repository->findOrFail($id)->update($dados);
+        $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
         {
@@ -108,7 +108,7 @@ class PunidoController extends Controller
 
     public function destroy($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
             $this->repository->cleanCache();
@@ -176,7 +176,7 @@ class PunidoController extends Controller
     {
         $dados = $request->all();
         $dados['opm_abreviatura'] = opm($dados['cdopm']);
-        $update = $this->repository->findOrFail($id)->update($dados);
+        $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
         {
@@ -189,7 +189,7 @@ class PunidoController extends Controller
 
     public function destroyAPI($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
             $this->repository->cleanCache();

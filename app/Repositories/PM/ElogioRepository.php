@@ -22,7 +22,7 @@ class ElogioRepository extends BaseRepository
 	{
         Cache::tags('elogio')->flush();
     }
-    
+
     public function search($query)
 	{
         return $this->model

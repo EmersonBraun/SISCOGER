@@ -36,7 +36,7 @@ class RecursoRepository extends BaseRepository
 	{
         Cache::tags('recurso')->flush();
     }
-    
+   
     public function all()
 	{
         $unidade = session('cdopmbase');

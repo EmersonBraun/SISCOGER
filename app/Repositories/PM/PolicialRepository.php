@@ -234,10 +234,36 @@ class PolicialRepository extends BaseRepository
         return 'Não encontado';
     }
 
+    public function opcoes($dado, $type)
+    {
+        $codigoOPM = session('cdopmbase');
+        //verifica se o usuário tem permissão para ver todas unidades
+        $verTodasUnidades = hasPermissionTo('todas-unidades');
+        
+        if ($verTodasUnidades) {
+        $pm = $this->policial->where($type,'like', "%".$dado."%")
+            ->limit(10)
+            ->get();
+
+        } else {
+            $pm = $this->policial->where($type,'like', "%".$dado."%")
+            ->where('cdopm', 'like', $codigoOPM.'%')
+            ->limit(10)
+            ->get();           
+        }
+        return response()->json($pm);
+        
+    }
+
+    public function getByName($name)
+    {
+        return $this->policial->where('nome','like', '%'.$name.'%')->first();
+    }
+
     public function pm($rg)
     {
         $registros = Cache::tags('pm')->remember('pm:rg'.$rg, $this->expiration, function() use ($rg){
-            return $this->policial->where('rg','=', $rg)->first();
+            return $this->policial->where('rg', $rg)->first();
         });
 
         return $registros;

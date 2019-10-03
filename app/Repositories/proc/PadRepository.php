@@ -36,7 +36,7 @@ class PadRepository extends BaseRepository
 	{
         Cache::tags('pad')->flush();
     }
-    
+   
     public function all()
 	{
         $unidade = session('cdopmbase');

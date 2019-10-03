@@ -47,17 +47,38 @@ class logRepository extends BaseRepository
 
     public function createAcesso(array $data)
     {
-        return $this->acesso->create($data);
+        try {
+            $exec = $this->acesso->create($data);
+            if($exec) $this->cleanCache('acessos');
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
     } 
 
     public function createBloqueio(array $data)
     {
-        return $this->bloqueio->create($data);
+        try {
+            $exec = $this->bloqueio->create($data);
+            if($exec) $this->cleanCache('bloqueios');
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
     } 
 
     public function createFdi(array $data)
     {
-        return $this->fdi->create($data);
+        try {
+            $exec = $this->fdi->create($data);
+            if($exec) $this->cleanCache('fdi');
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
     } 
 
     public function created($name)

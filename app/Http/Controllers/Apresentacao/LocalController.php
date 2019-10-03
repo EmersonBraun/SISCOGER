@@ -68,8 +68,7 @@ class LocalController extends Controller
         ]);
 
         $dados = $request->all();
-        //busca procedimento e atualiza
-        $update = $this->repository->findOrFail($id)->update($dados);
+        $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
         {
@@ -84,7 +83,7 @@ class LocalController extends Controller
 
     public function destroy($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
             $this->repository->cleanCache();
@@ -98,7 +97,6 @@ class LocalController extends Controller
 
     public function restore($id)
     {
-        // Recupera o post pelo ID
         $restore = $this->repository->findAndRestore($id);
     
         if($restore){
@@ -113,7 +111,6 @@ class LocalController extends Controller
 
     public function forceDelete($id)
     {
-        // Recupera o post pelo ID
         $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){

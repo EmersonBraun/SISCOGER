@@ -36,7 +36,7 @@ class ReintegradoRepository extends BaseRepository
 	{
         Cache::tags('reintegrado')->flush();
     }
-    
+
     public function all()
 	{
         $unidade = session('cdopmbase');

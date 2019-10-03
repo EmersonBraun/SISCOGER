@@ -36,7 +36,7 @@ class PjRepository extends BaseRepository
 	{
         Cache::tags('pj')->flush();
     }
-    
+
     public function all()
 	{
         $unidade = session('cdopmbase');

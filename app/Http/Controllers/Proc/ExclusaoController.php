@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Proc;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use Auth;
 use App\Repositories\proc\ExclusaoRepository;
-use App\Models\Sjd\Busca\Envolvido;
 
 class ExclusaoController extends Controller
 {
@@ -55,8 +53,7 @@ class ExclusaoController extends Controller
         }
        
         //dados do formulário
-        $dados = $this->datesToCreate($request); 
-
+        $dados = $this->repository->datesToCreate($request->all()); 
         $create = $this->repository->create($dados);
 
         if($create)
@@ -73,23 +70,13 @@ class ExclusaoController extends Controller
     
     public function show($id)
     {
-        //----levantar procedimento
         $proc = $this->repository->findOrFail($id);
-        if(!$proc) abort('404');
-
-        $this->canSee($proc);
-
         return view('procedimentos.exclusao.form.show', compact('proc'));
     }
 
     public function edit($id)
     {
-        //----levantar procedimento
         $proc = $this->repository->findOrFail($id);
-        if(!$proc) abort('404');
-        
-        $this->canSee($proc);
-
         return view('procedimentos.exclusao.form.edit', compact('proc'));
 
     }
@@ -111,10 +98,8 @@ class ExclusaoController extends Controller
             ]);
         }
 
-        // dd(\Request::all());
         $dados = $request->all();
-        //busca procedimento e atualiza
-        $update = $this->repository->findOrFail($id)->update($dados);
+        $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
         {
@@ -130,8 +115,7 @@ class ExclusaoController extends Controller
 
     public function destroy($id)
     {
-        //busca procedimento e apaga
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
             $this->repository->cleanCache();
@@ -146,7 +130,6 @@ class ExclusaoController extends Controller
 
     public function restore($id)
     {
-        // Recupera o post pelo ID
         $restore = $this->repository->findAndRestore($id);
     
         if($restore){
@@ -161,7 +144,6 @@ class ExclusaoController extends Controller
 
     public function forceDelete($id)
     {
-        // Recupera o post pelo ID
         $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
@@ -172,27 +154,5 @@ class ExclusaoController extends Controller
 
         toast()->warning('Houve um erro ao Apagar definitivo!');
         return redirect()->route('exclusao.lista');
-    }
-
-    public function datesToCreate($request) {
-        //dados do formulário
-        $dados = $request->all();
-        $ano = (int) date('Y');
-
-        $ref = $this->repository->maxRef();
-        //referência e ano
-        $dados['sjd_ref'] = $ref+1;
-        $dados['sjd_ref_ano'] = $ano;
-        
-        return $dados;
-    }
-
-
-    public function canSee($proc) {
-        ver_unidade($proc);//teste para verificar se pode ver outras unidades, caso não possa aborta
-        //----envolvido do procedimento
-        // $envolvido = Envolvido::acusado()->where('id_exclusaojudicial','=',$proc->id_exclusaojudicial)->get();
-        //teste para verificar se pode ver superior, caso não possa aborta
-        // ver_superior($envolvido, Auth::user());
     }
 }

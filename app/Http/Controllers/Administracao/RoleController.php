@@ -5,12 +5,6 @@ namespace App\Http\Controllers\Administracao;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use Auth;
-//Importa laravel-permission models
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-
-use Session;
 use App\Repositories\administracao\PermissionRepository;
 use App\Repositories\administracao\RoleRepository;
 
@@ -47,9 +41,10 @@ class RoleController extends Controller
             'name'=>'required|unique:roles|max:10']
         );
         $dados = $request->except(['permissions']);
-        $create = Role::create($dados);
+        $create = $this->role->create($dados);
 
         if($create) {
+            $this->role->clearCache();
             if($request['permissions']) $this->savePermissions($request['permissions'],$request->name);
 
             toast()->success(''. $request->name.' adicionadas!', 'Papéis');
@@ -61,26 +56,28 @@ class RoleController extends Controller
     }
 
 
-    public function edit(Role $role, $id)
+    public function edit( $id)
     {
-        $role = Role::findOrFail($id);
+        $role = $this->role->findOrFail($id);
         $permissions = $this->permission->treeview();//Pegar todas as permissões em árvore
         // dd($permissions);
         return view('administracao.papeis.edit', compact('role', 'permissions'));
     }
  
-    public function update(Request $request, Role $role, $id)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             'name'=>'required|max:50|unique:roles,name,'.$id,
         ]);
 
-        $role = Role::findOrFail($id);//Obter papel com o ID fornecido
+        $role = $this->role->findOrFail($id);//Obter papel com o ID fornecido
         $input = $request->except(['permissions']);
 
         $update = $role->fill($input)->save();
         
         if($update) {
+            $this->role->clearCache();
+
             $this->revokePermission($role);
             if($request['permissions']) $this->savePermissions($request['permissions'], $role->name);
             toast()->success(''. $role->name.' atualizadas!', 'Papéis');
@@ -91,11 +88,12 @@ class RoleController extends Controller
         return redirect()->route('role.index');
     }
 
-    public function destroy(Role $role,$id)
+    public function destroy($id)
     {
-        $destroy = Role::findOrFail($id)->delete();
+        $destroy = $this->role->findAndDelete($id);
 
         if($destroy) {
+            $this->role->clearCache();
             toast()->success('apagados!', 'Papéis');
             return redirect()->route('role.index');
         }
@@ -106,15 +104,15 @@ class RoleController extends Controller
 
     public function savePermissions($permissions, $name) {
         foreach ($permissions as $permission) {
-            $p = Permission::where('id', '=', $permission)->firstOrFail(); 
+            $p = $this->pemission->firstOrFail($permission); 
 
-            $role = Role::where('name', '=', $name)->first(); 
+            $role = $this->role->where('name', $name)->first(); 
             $role->givePermissionTo($p);
         }
     }
 
     public function revokePermission($role) {
-        $p_all = Permission::all();//Pega todas as permissões
+        $p_all = $this->pemission->all();//Pega todas as permissões
 
         foreach ($p_all as $p) {
             $role->revokePermissionTo($p); //Remover todas as permissões associadas à função

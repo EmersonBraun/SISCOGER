@@ -6,20 +6,26 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use Auth;
-
-use App\Models\Sjd\Administracao\Sjd;
-use DB;
+use App\Repositories\administracao\SjdRepository;
+use App\Repositories\PM\PolicialRepository;
 
 class SjdController extends Controller
 {
-     public function __construct() {
+    protected $sjd;
+    protected $pm;
+
+    public function __construct(
+    SjdRepository $sjd,
+    PolicialRepository $pm
+    ) {
         $this->middleware('auth');
+        $this->sjd = $sjd;
+        $this->pm = $pm;
     }
 
     public function index()
     {
-        $sjd =  Sjd::all();
+        $sjd =  $this->sjd->all();
         
         return view('administracao.sjd.index',compact('sjd'));
     }
@@ -36,15 +42,10 @@ class SjdController extends Controller
             'cpf'=>'required'
         ]);
         
-        $dados = $request->all();
-        $opm = DB::connection('rhparana')->table('policial')->where('RG',$dados['rg'])->first();
-        $dados['cdopm'] = corta_zeros($opm['CDOPM']);
-        $dados['cdsecao'] = $opm['CDOPM'];
-        $dados['secao'] = $opm['OPM_DESCRICAO'];
-        $dados['cidade'] = $opm['CIDADE'];
-
-        $create = Sjd::create($dados);
+        $dados = $this->datesToCreate($request);
+        $create = $this->sjd->create($dados);
         if($create) {
+            $this->sjd->clearCache();
             toast()->success('adicionado com sucesso!', 'SJD');
             return redirect()->route('sjd.index');
         }
@@ -56,21 +57,20 @@ class SjdController extends Controller
 
     public function edit($id)
     {
-        $sjd = Sjd::findOrFail($id);
+        $sjd = $this->sjd->findOrFail($id);
         return view('administracao.sjd.edit', compact('sjd')); 
     }
 
     public function update(Request $request, $id)
     {
-        $sjd = Sjd::findOrFail($id);  
-        
         $this->validate($request, [
             'rg'=>'required',
             'cpf'=>'required'
         ]);
-
-        $update = Sjd::update($sjd);
+        $dados = $request->all();
+        $update = $this->sjd->findAndUpdate($id,$dados);
         if($update) {
+            $this->sjd->clearCache();
             toast()->success('atualizado com sucesso!', 'SJD');
             return redirect()->route('sjd.index');
         }
@@ -81,14 +81,29 @@ class SjdController extends Controller
 
     public function destroy($id)
     {
-        $destroy = Sjd::findOrFail($id)->delete();
+        $destroy = $this->sjd->findAndDelete($id);
         if($destroy) {
+            $this->sjd->clearCache();
             toast()->success('apagado com sucesso!', 'SJD');
             return redirect()->route('sjd.index');
         }
 
         toast()->warning('apagado com sucesso!', 'SJD');
         return redirect()->route('sjd.index');
+    }
+
+    public function datesToCreate($request)
+    {
+        $dados = $request->all();
+
+        $opm = $this->pm->get($dados['rg']);
+
+        $dados['cdopm'] = corta_zeros($opm['CDOPM']);
+        $dados['cdsecao'] = $opm['CDOPM'];
+        $dados['secao'] = $opm['OPM_DESCRICAO'];
+        $dados['cidade'] = $opm['CIDADE'];
+
+        return dados;
     }
 
 }

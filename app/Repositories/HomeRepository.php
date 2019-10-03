@@ -82,26 +82,5 @@ class AdlRepository extends BaseRepository
         return $transferidos;
     }
 
-    public function all()
-	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
-        {
-            $registros = Cache::tags('adl')->remember('todos_adl', self::$expiration, function() {
-                return $this->model->all();
-            });
-        }
-        else 
-        {
-            $registros = Cache::tags('adl')->remember('todos_adl:'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')->get();
-            });
-        }
-
-        return $registros;
-    } 
-
 }
 

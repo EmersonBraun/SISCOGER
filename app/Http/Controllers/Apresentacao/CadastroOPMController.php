@@ -9,9 +9,7 @@ use App\Repositories\apresentacao\CadastroOPMRepository;
 class CadastroOPMController extends Controller
 {
     protected $repository;
-    public function __construct(
-        CadastroOPMRepository $repository
-    )
+    public function __construct(CadastroOPMRepository $repository)
 	{
         $this->repository = $repository;
     }
@@ -33,28 +31,31 @@ class CadastroOPMController extends Controller
             $this->repository->cleanCache();
             return response()->json(['success' => true,200]);
         }
+        return response()->json(['success' => true,], 200);
     }
 
     public function update(Request $request, $id)
     {
         $dados = $request->all();
-        $update = $this->repository->findOrFail($id)->update($dados);
+        $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
         {
             $this->repository->cleanCache();
             return response()->json(['success' => true,200]);
         }
+        return response()->json(['success' => true,], 200);
     }
 
     public function destroy($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
             $this->repository->cleanCache();
             return response()->json(['success' => true,200]);
         }
+        return response()->json(['success' => true,], 200);
     }
 
 }

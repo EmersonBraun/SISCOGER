@@ -6,9 +6,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 
-use App\Models\Sjd\Administracao\Termocompromisso as Termocompromisso;
+use App\Repositories\Policial\TermoCompromissoRepository;
+use App\Repositories\administracao\UserRepository;
+
 class TermController extends Controller
 {
+    protected $termo;
+    protected $user;
+
+    public function __construct(
+        TermoCompromissoRepository $termo,
+        UserRepository $user
+    ) {
+        $this->middleware('auth');
+        $this->termo = $termo;
+        $this->user = $user;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,13 +30,13 @@ class TermController extends Controller
      */
     public function index()
     {
-        $terms = Termocompromisso::all();
+        $terms = $this->temo->all();
         return view('administracao.termo_compromisso.index',compact('terms'));
     }
 
     public function create($id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->user->findOrFail($id);
         return view('administracao.termo_compromisso.create', compact('user','id'));
     }
 
@@ -33,8 +47,9 @@ class TermController extends Controller
             'termos' =>'required'
         ]);
 
-        $store = User::findOrFail($id)->update(['termos' => $request->termos]);
+        $store = $this->user->findOrFail($id)->update(['termos' => $request->termos]);
         if($store) {
+            $this->user->clearCache();
             toast()->success('Criado com sucesso','Termo');
             return redirect()->route('home'); 
         }

@@ -34,7 +34,7 @@ class ProcOutroRepository extends BaseRepository
 	{
         Cache::tags('proc_outro')->flush();
     }
-    
+  
     public function all()
 	{
         $unidade = session('cdopmbase');

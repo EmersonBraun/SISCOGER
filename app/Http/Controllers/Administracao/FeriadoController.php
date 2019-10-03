@@ -50,9 +50,7 @@ class FeriadoController extends Controller
 
     public function edit($id)
     {
-        $proc = $this->repository->findOrFail($id);
-        if(!$proc) abort('404');
-        
+        $proc = $this->repository->findOrFail($id);        
         return view('administracao.feriado.edit', compact('proc'));
     }
 
@@ -64,7 +62,7 @@ class FeriadoController extends Controller
         ]);
 
         $dados = $request->all();
-        $update = $this->repository->findOrFail($id)->update($dados);
+        $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
         {
@@ -79,7 +77,7 @@ class FeriadoController extends Controller
 
     public function destroy($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
             $this->repository->cleanCache();

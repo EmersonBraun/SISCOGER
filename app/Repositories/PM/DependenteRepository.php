@@ -5,7 +5,6 @@ namespace App\Repositories\PM;
 use Cache;
 
 use App\Repositories\BaseRepository;
-use App\Models\meta4\Ausencia;
 use App\Models\rhparana\DependentesAtiva;
 use App\Models\rhparana\DependentesInativo;
 use Illuminate\Support\Facades\DB;

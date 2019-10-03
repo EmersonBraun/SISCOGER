@@ -9,9 +9,7 @@ use App\Repositories\PM\OfendidoRepository;
 class VitimaApiController extends Controller
 {
     protected $repository;
-    public function __construct(
-        OfendidoRepository $repository
-    )
+    public function __construct(OfendidoRepository $repository)
 	{
         $this->repository = $repository;
     }
@@ -29,23 +27,26 @@ class VitimaApiController extends Controller
         if($create->exists) {
             return response()->json(['success' => true], 200);
         }
+        return response()->json(['success' => false], 200);
     }
 
     public function edit(Request $request, $id)
     {
         $dados = $request->all();
-        $edit = $this->repository->findOrFail($id)->update($dados);
+        $edit = $this->repository->findAndUpdate($id, $dados);
 
         if($edit) {
             return response()->json(['success' => true], 200);
         }
+        return response()->json(['success' => false], 200);
     }
 
     public function destroy($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
         if($destroy) {
             return response()->json(['success' => true], 200);
         }
+        return response()->json(['success' => false], 200);
     }
 }

@@ -42,6 +42,89 @@ class SobrestamentoRepository extends BaseRepository
         Cache::tags('sobrestamento')->flush();
     }
 
+    public function create(array $data)
+    {
+        try {
+            $exec = $this->model->create($data);
+            if($exec) $this->cleanCache();
+            $andamento = $this->proc->changeAndamento($data, 'SOBRESTADO');
+            if($andamento) return true;
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
+    }
+
+    public function update(array $data, $id)
+    {
+        $fim_sobrestamento = ($data['termino_data']) ? true : false;
+        try {
+            $exec = $this->model->find($id)->update($data);
+            if($exec) {
+                $this->cleanCache();
+                if($fim_sobrestamento) 
+                {
+                    $andamento = $this->proc->changeAndamento($data, 'ANDAMENTO');
+                    if($andamento) return true;
+                    return false;
+                }
+                return true;
+            }
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
+    }
+
+    public function firstOrCreate(array $data)
+    {
+        try {
+            $exec = $this->model->firstOrCreate($data);
+            if($exec) $this->cleanCache();
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
+    }
+
+    public function findAndDelete($id)
+	{
+        try {
+            $exec = $this->model->findOrFail($id)->delete();
+            if($exec) $this->cleanCache();
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
+    }
+
+    public function findAndRestore($id)
+	{
+        try {
+            $exec = $this->model->withTrashed()->findOrFail($id)->restore();
+            if($exec) $this->cleanCache();
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
+    }
+
+    public function findAndDestroy($id)
+	{
+        try {
+            $exec = $this->model->withTrashed()->findOrFail($id)->forceDelete();
+            if($exec) $this->cleanCache();
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
+    }
+
     public function listProc($proc, $id)
     {
         $registros = Cache::tags('sobrestamento')->remember('sobrestamento:'.$proc.$id, $this->expiration, function() use ($proc, $id){
@@ -51,37 +134,7 @@ class SobrestamentoRepository extends BaseRepository
         return $registros;
     }
 
-    // @override BaseRepository
-    public function create(Array $dados)
-    {
-        $create = $this->model->create($dados);
-        if($create)
-        {
-            $this->clearCache();
-            $andamento = $this->proc->changeAndamento($dados, 'SOBRESTADO');
-            if($andamento) return true;
-        }
-        return false;
-    }
-
-    // @override BaseRepository
-    public function update($id, $dados, $fim_sobrestamento)
-    {
-        $edit = $this->model->findOrFail($id)->update($dados);
-        if($edit)
-        {
-            $this->clearCache();
-            if($fim_sobrestamento) 
-            {
-                $andamento = $this->proc->changeAndamento($dados, 'ANDAMENTO');
-                if($andamento) return true;
-                return false;
-            }
-
-            return true;
-        }
-        return false;
-    }
+    
 
 
     public function sobrestados($proc)

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Subform;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Sjd\Busca\Ligacao;
 use App\Repositories\proc\LigacaoRepository;
 
 class LigacaoApiController extends Controller
@@ -55,7 +54,7 @@ class LigacaoApiController extends Controller
 
     public function destroy($id)
     {
-        $destroy = $this->repository->findOrFail($id)->delete();
+        $destroy = $this->repository->findAndDelete($id);
         if($destroy)
         {
             $this->repository->cleanCache();
