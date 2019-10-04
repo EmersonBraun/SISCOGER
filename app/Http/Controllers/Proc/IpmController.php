@@ -110,13 +110,13 @@ class IpmController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'ipm');
+        $proc = $this->repository->procRefAno($ref,$ano,'ipm');
         return view('procedimentos.ipm.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'ipm');
+        $proc = $this->repository->procRefAno($ref,$ano,'ipm');
         return view('procedimentos.ipm.form.edit', compact('proc'));
 
     }

@@ -96,13 +96,13 @@ class CjController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'cj');
+        $proc = $this->repository->procRefAno($ref,$ano,'cj');
         return view('procedimentos.cj.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'cj');
+        $proc = $this->repository->procRefAno($ref,$ano,'cj');
         return view('procedimentos.cj.form.edit', compact('proc'));
 
     }

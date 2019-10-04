@@ -247,5 +247,17 @@ class ProcRepository
             'success' => true,
         ];
     }
+
+    public function andamento($proc)
+    {
+        if($proc == 'adl') $andamento = '17';
+        if($proc == 'cd') $andamento = '11';
+        if($proc == 'cj') $andamento = '14';
+        if($proc == 'fatd') $andamento = '3';
+        if($proc == 'it') $andamento = '23';
+        if($proc == 'sindicancia') $andamento = '8';
+
+        return $andamento;
+    }
 }
 

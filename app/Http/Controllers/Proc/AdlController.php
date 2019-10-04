@@ -94,13 +94,13 @@ class AdlController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'adl');
+        $proc = $this->repository->procRefAno($ref,$ano,'adl');
         return view('procedimentos.adl.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-       $proc = $this->repository->refAno($ref,$ano,'adl');
+       $proc = $this->repository->procRefAno($ref,$ano,'adl');
         return view('procedimentos.adl.form.edit', compact('proc'));
 
     }

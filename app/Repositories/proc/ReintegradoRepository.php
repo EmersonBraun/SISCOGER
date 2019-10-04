@@ -7,26 +7,26 @@ use Illuminate\Support\Facades\DB;
 use Cache;
 use App\Models\Sjd\Proc\Reintegrado;
 use App\Repositories\BaseRepository;
-use Illuminate\Support\Facades\Route;
+use App\Services\AutorizationService;
 
 class ReintegradoRepository extends BaseRepository
 {
     protected $model;
+    protected $service;
     protected $unidade;
     protected $verTodasUnidades;
     protected static $expiration = 60 * 24;//um dia 
 
-	public function __construct(Reintegrado $model)
+	public function __construct(
+        Reintegrado $model,
+        AutorizationService $service
+    )
 	{
 		$this->model = $model;
-        
-        // ver se vem da api (não logada)
-        $proc = Route::currentRouteName(); //listar.algo
-        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
-        $proc = $proc[0];
+        $this->service = $service;
 
-        $isapi = ($proc == 'api') ? 1 : 0;
-        $verTodasUnidades = session('ver_todas_unidades');
+        $isapi = $this->service->isApi();
+        $verTodasUnidades = $this->service->verTodasOPM();
 
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
@@ -37,12 +37,20 @@ class ReintegradoRepository extends BaseRepository
         Cache::tags('reintegrado')->flush();
     }
 
+    public function procRefAno($ref, $ano = '', $name)
+    {
+        if(!$ano) $proc = $this->model->findOrFail($ref);
+        else $proc = $this->model->where([['sjd_ref',$ref],['sjd_ref_ano',$ano]])->first();
+
+        if(!$proc) abort(404);
+        $canSee = $this->service->canSee($proc, $name);
+        if(!$canSee) abort(403);
+        return $proc;
+    }
+
     public function all()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('reintegrado')->remember('todos_reintegrado', self::$expiration, function() {
                 return $this->model->all();
@@ -50,8 +58,8 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('reintegrado')->remember('todos_reintegrado_'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')->get();
+            $registros = Cache::tags('reintegrado')->remember('todos_reintegrado_'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->get();
             });
         }
 
@@ -60,10 +68,7 @@ class ReintegradoRepository extends BaseRepository
 
     public function ano($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('reintegrado')->remember('todos_reintegrado'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
@@ -71,8 +76,8 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('reintegrado')->remember('todos_reintegrado'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
-                return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+            $registros = Cache::tags('reintegrado')->remember('todos_reintegrado'.$ano.$this->unidade, self::$expiration, function() use ($ano) {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         return $registros;
@@ -80,10 +85,7 @@ class ReintegradoRepository extends BaseRepository
 
     public function andamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('reintegrado')->remember('andamento_reintegrado', self::$expiration, function() {
                 return $this->model
@@ -96,8 +98,8 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('reintegrado')->remember('andamento_reintegrado'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('reintegrado')->remember('andamento_reintegrado'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -110,10 +112,7 @@ class ReintegradoRepository extends BaseRepository
 
     public function andamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('reintegrado')->remember('andamento_reintegrado'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
@@ -126,9 +125,9 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('reintegrado')->remember('andamento_reintegrado'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('reintegrado')->remember('andamento_reintegrado'.$ano.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -141,10 +140,7 @@ class ReintegradoRepository extends BaseRepository
 
     public function julgamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('reintegrado')->remember('julgamento_reintegrado', self::$expiration, function() {
                 return $this->model
@@ -159,8 +155,8 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('reintegrado')->remember('julgamento_reintegrado'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('reintegrado')->remember('julgamento_reintegrado'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                                 ->where('envolvido.id_reintegrado', '<>', 0);
@@ -175,10 +171,7 @@ class ReintegradoRepository extends BaseRepository
 
     public function julgamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('reintegrado')->remember('julgamento_reintegrado'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
@@ -193,9 +186,9 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('reintegrado')->remember('julgamento_reintegrado'.$ano.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('reintegrado')->remember('julgamento_reintegrado'.$ano.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_reintegrado', '=', 'reintegrado.id_reintegrado')
                                 ->where('envolvido.id_reintegrado', '<>', 0);
@@ -210,13 +203,7 @@ class ReintegradoRepository extends BaseRepository
 
     public function prazos()
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
 
             $registros = Cache::tags('reintegrado')->remember('prazo_reintegrado', self::$expiration, function() {
@@ -242,7 +229,7 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('reintegrado')->remember('prazo_reintegrado'.$unidade, self::$expiration, function() use ($unidade){
+            $registros = Cache::tags('reintegrado')->remember('prazo_reintegrado'.$this->unidade, self::$expiration, function() {
                 return $this->model
                     ->selectRaw('reintegrado.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -258,7 +245,7 @@ class ReintegradoRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('reintegrado.cdopm','like',$unidade.'%')
+                    ->where('reintegrado.cdopm','like',$this->unidade.'%')
                     ->get(); 
 
             });   
@@ -268,13 +255,7 @@ class ReintegradoRepository extends BaseRepository
 
     public function prazosAno($ano)
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
 
             $registros = Cache::tags('reintegrado')->remember('prazo_reintegrado'.$ano, self::$expiration, function() use ($ano) {
@@ -300,7 +281,7 @@ class ReintegradoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('reintegrado')->remember('prazo_reintegrado'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('reintegrado')->remember('prazo_reintegrado'.$ano.$this->unidade, self::$expiration, function() use ($ano){
                 return $this->model
                     ->selectRaw('reintegrado.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_reintegrado=reintegrado.id_reintegrado ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -317,14 +298,12 @@ class ReintegradoRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('reintegrado.sjd_ref_ano','=',$ano)
-                    ->where('reintegrado.cdopm','like',$unidade.'%')
+                    ->where('reintegrado.cdopm','like',$this->unidade.'%')
                     ->get();
 
             });   
         }
         return $registros;
     }
-
-
 }
 

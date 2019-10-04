@@ -45,7 +45,10 @@ class RoleController extends Controller
 
         if($create) {
             $this->role->clearCache();
-            if($request['permissions']) $this->savePermissions($request['permissions'],$request->name);
+            if($request['permissions']) {
+                $this->savePermissions($request['permissions'],$request->name);
+                $this->permission->clearCache();
+            }
 
             toast()->success(''. $request->name.' adicionadas!', 'Papéis');
             return redirect()->route('role.index');
@@ -60,7 +63,6 @@ class RoleController extends Controller
     {
         $role = $this->role->findOrFail($id);
         $permissions = $this->permission->treeview();//Pegar todas as permissões em árvore
-        // dd($permissions);
         return view('administracao.papeis.edit', compact('role', 'permissions'));
     }
  
@@ -79,7 +81,10 @@ class RoleController extends Controller
             $this->role->clearCache();
 
             $this->revokePermission($role);
-            if($request['permissions']) $this->savePermissions($request['permissions'], $role->name);
+            if($request['permissions']) {
+                $this->savePermissions($request['permissions'], $role->name);
+                $this->permission->clearCache();
+            }
             toast()->success(''. $role->name.' atualizadas!', 'Papéis');
             return redirect()->route('role.index');
         }
@@ -104,15 +109,15 @@ class RoleController extends Controller
 
     public function savePermissions($permissions, $name) {
         foreach ($permissions as $permission) {
-            $p = $this->pemission->firstOrFail($permission); 
+            $p = $this->permission->findOrFail($permission); 
 
-            $role = $this->role->where('name', $name)->first(); 
+            $role = $this->role->getByName($name); 
             $role->givePermissionTo($p);
         }
     }
 
     public function revokePermission($role) {
-        $p_all = $this->pemission->all();//Pega todas as permissões
+        $p_all = $this->permission->all();//Pega todas as permissões
 
         foreach ($p_all as $p) {
             $role->revokePermissionTo($p); //Remover todas as permissões associadas à função

@@ -7,26 +7,26 @@ use Illuminate\Support\Facades\DB;
 use Cache;
 use App\Models\Sjd\Proc\Apfd;
 use App\Repositories\BaseRepository;
-use Illuminate\Support\Facades\Route;
+use App\Services\AutorizationService;
 
 class ApfdRepository extends BaseRepository
 {
     protected $model;
+    protected $service;
     protected $unidade;
     protected $verTodasUnidades;
     protected static $expiration = 60 * 24;//um dia 
 
-	public function __construct(Apfd $model)
+	public function __construct(
+        Apfd $model,
+        AutorizationService $service
+    )
 	{
 		$this->model = $model;
-        
-        // ver se vem da api (não logada)
-        $proc = Route::currentRouteName(); //listar.algo
-        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
-        $proc = $proc[0];
+        $this->service = $service;
 
-        $isapi = ($proc == 'api') ? 1 : 0;
-        $verTodasUnidades = session('ver_todas_unidades');
+        $isapi = $this->service->isApi();
+        $verTodasUnidades = $this->service->verTodasOPM();
 
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
@@ -36,13 +36,21 @@ class ApfdRepository extends BaseRepository
 	{
         Cache::tags('apfd')->flush();
     }
+
+    public function procRefAno($ref, $ano = '', $name)
+    {
+        if(!$ano) $proc = $this->model->findOrFail($ref);
+        else $proc = $this->model->where([['sjd_ref',$ref],['sjd_ref_ano',$ano]])->first();
+
+        if(!$proc) abort(404);
+        $canSee = $this->service->canSee($proc, $name);
+        if(!$canSee) abort(403);
+        return $proc;
+    }
     
     public function all()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('apfd')->remember('todos_apfd', self::$expiration, function() {
                 return $this->model->all();
@@ -50,8 +58,8 @@ class ApfdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('todos_apfd:'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')->get();
+            $registros = Cache::tags('apfd')->remember('todos_apfd:'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->get();
             });
         }
 
@@ -60,10 +68,7 @@ class ApfdRepository extends BaseRepository
 
     public function ano($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('apfd')->remember('todos_apfd:'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
@@ -71,8 +76,8 @@ class ApfdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('todos_apfd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
-                return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+            $registros = Cache::tags('apfd')->remember('todos_apfd:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         return $registros;
@@ -80,10 +85,7 @@ class ApfdRepository extends BaseRepository
 
     public function andamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('apfd')->remember('andamento_apfd', self::$expiration, function() {
                 return $this->model
@@ -96,8 +98,8 @@ class ApfdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('andamento_apfd_:'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('apfd')->remember('andamento_apfd_:'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -110,10 +112,7 @@ class ApfdRepository extends BaseRepository
 
     public function andamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('apfd')->remember('andamento_apfd:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
@@ -126,9 +125,9 @@ class ApfdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('andamento_apfd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('apfd')->remember('andamento_apfd:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -141,10 +140,7 @@ class ApfdRepository extends BaseRepository
 
     public function julgamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('apfd')->remember('julgamento_apfd', self::$expiration, function() {
                 return $this->model
@@ -159,8 +155,8 @@ class ApfdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('julgamento_apfd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('apfd')->remember('julgamento_apfd:'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
                                 ->where('envolvido.id_apfd', '<>', 0);
@@ -175,10 +171,7 @@ class ApfdRepository extends BaseRepository
 
     public function julgamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('apfd')->remember('julgamento_apfd', self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
@@ -193,9 +186,9 @@ class ApfdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('julgamento_apfd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('apfd')->remember('julgamento_apfd:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
                                 ->where('envolvido.id_apfd', '<>', 0);
@@ -210,13 +203,7 @@ class ApfdRepository extends BaseRepository
 
     public function prazos()
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
 
             $registros = Cache::tags('apfd')->remember('prazo_apfd', self::$expiration, function() {
@@ -236,45 +223,38 @@ class ApfdRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->get();
-
             });
                     
         }
         else 
         {
-                $registros = Cache::tags('apfd')->remember('prazo_apfd:'.$unidade, self::$expiration, function() use ($unidade){
-                    return $this->model
-                    ->selectRaw('apfd.*, 
-                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
-                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
-                    b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
-                    ->leftJoin(
-                        DB::raw("(SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data != '0000-00-00' AND id_apfd != '' GROUP BY id_apfd ORDER BY sobrestamento.id_apfd ASC LIMIT 1) b"),
-                        'b.id_apfd', '=', 'apfd.id_apfd')
-                    ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
-                            ->where('envolvido.situacao', '=', 'Presidente')
-                            ->where('envolvido.rg_substituto', '=', '');
-                    })
-                    ->where('apfd.cdopm','like',$unidade.'%')
-                    ->get();
-    
-                });   
+            $registros = Cache::tags('apfd')->remember('prazo_apfd:'.$this->unidade, self::$expiration, function() {
+                return $this->model
+                ->selectRaw('apfd.*, 
+                (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW())) AS dutotal, 
+                b.dusobrestado, (dias_uteis(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                ->leftJoin(
+                    DB::raw("(SELECT id_apfd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                    WHERE termino_data != '0000-00-00' AND id_apfd != '' GROUP BY id_apfd ORDER BY sobrestamento.id_apfd ASC LIMIT 1) b"),
+                    'b.id_apfd', '=', 'apfd.id_apfd')
+                ->leftJoin('envolvido', function ($join){
+                    $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
+                        ->where('envolvido.situacao', '=', 'Presidente')
+                        ->where('envolvido.rg_substituto', '=', '');
+                })
+                ->where('apfd.cdopm','like',$this->unidade.'%')
+                ->get();
+
+            });   
         }
         return $registros;
     }
 
     public function prazosAno($ano)
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
 
             $registros = Cache::tags('apfd')->remember('prazo_apfd:'.$ano, self::$expiration, function() use ($ano) {
@@ -299,7 +279,7 @@ class ApfdRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('apfd')->remember('prazo_apfd:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('apfd')->remember('prazo_apfd:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano){
                 return $this->model
                     ->selectRaw('apfd.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_apfd=apfd.id_apfd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -316,7 +296,7 @@ class ApfdRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('apfd.sjd_ref_ano','=',$ano)
-                    ->where('apfd.cdopm','like',$unidade.'%')
+                    ->where('apfd.cdopm','like',$this->unidade.'%')
                     ->get();
 
             });   

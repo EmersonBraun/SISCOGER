@@ -18,7 +18,7 @@ class PermissionRepository extends BaseRepository
         $this->model = $model;      
     }
 
-    public function cleanCache()
+    public function clearCache()
 	{
         Cache::tags('permission')->flush();
     }

@@ -37,7 +37,7 @@ class HomeController extends Controller
         CdRepository $cd
     )
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
         $this->transferidos = $transferidos;
         $this->comportamentos = $comportamentos;
         $this->fatd = $fatd;
@@ -45,14 +45,6 @@ class HomeController extends Controller
         $this->cd = $cd;
         $this->sindicancia = $sindicancia;
         $this->pm = $pm;
-    }
-
-    public function isLoged($unidade) {
-        if($unidade == NULL || $unidade == '')
-        {
-            Auth::logout();
-            return redirect()->intended('login');
-        }
     }
 
     public function index()
@@ -63,8 +55,6 @@ class HomeController extends Controller
         $unidade = (is_array($unidade)) ? head($unidade) : $unidade;
         //nome da unidade caso não seja a logada
         $nome_unidade = ($unidade != session()->get('cdopmbase')) ? opm($unidade) : '';
-        //caso não tenha unidade desloga
-        $this->isLoged($unidade);
 
         // pendências
         $pendencias = $this->pendencias($unidade);

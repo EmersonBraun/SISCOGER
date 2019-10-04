@@ -8,25 +8,26 @@ use Cache;
 use App\Models\Sjd\Proc\Desercao;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Route;
+use App\Services\AutorizationService;
 
 class DesercaoRepository extends BaseRepository
 {
     protected $model;
+    protected $service;
     protected $unidade;
     protected $verTodasUnidades;
     protected static $expiration = 60 * 24;//um dia 
 
-	public function __construct(Desercao $model)
+	public function __construct(
+        Desercao $model,
+        AutorizationService $service
+    )
 	{
 		$this->model = $model;
-        
-        // ver se vem da api (não logada)
-        $proc = Route::currentRouteName(); //listar.algo
-        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
-        $proc = $proc[0];
+        $this->service = $service;
 
-        $isapi = ($proc == 'api') ? 1 : 0;
-        $verTodasUnidades = session('ver_todas_unidades');
+        $isapi = $this->service->isApi();
+        $verTodasUnidades = $this->service->verTodasOPM();
 
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
@@ -36,13 +37,21 @@ class DesercaoRepository extends BaseRepository
 	{
         Cache::tags('desercao')->flush();
     }
+
+    public function procRefAno($ref, $ano = '', $name)
+    {
+        if(!$ano) $proc = $this->model->findOrFail($ref);
+        else $proc = $this->model->where([['sjd_ref',$ref],['sjd_ref_ano',$ano]])->first();
+
+        if(!$proc) abort(404);
+        $canSee = $this->service->canSee($proc, $name);
+        if(!$canSee) abort(403);
+        return $proc;
+    }
     
     public function all()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('desercao')->remember('todos_desercao', self::$expiration, function() {
                 return $this->model->join('envolvido', 'desercao.id_desercao', '=', 'envolvido.id_desercao')->get();
@@ -50,8 +59,8 @@ class DesercaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('desercao')->remember('todos_desercao:'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')->join('envolvido', 'desercao.id_desercao', '=', 'envolvido.id_desercao')->get();
+            $registros = Cache::tags('desercao')->remember('todos_desercao:'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->join('envolvido', 'desercao.id_desercao', '=', 'envolvido.id_desercao')->get();
             });
         }
 
@@ -60,10 +69,7 @@ class DesercaoRepository extends BaseRepository
 
     public function ano($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('desercao')->remember('todos_desercao:'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)
@@ -72,8 +78,8 @@ class DesercaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('desercao')->remember('todos_desercao:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
-                return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)
+            $registros = Cache::tags('desercao')->remember('todos_desercao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)
                 ->join('envolvido', 'desercao.id_desercao', '=', 'envolvido.id_desercao')->get();
             });
         }
@@ -82,10 +88,7 @@ class DesercaoRepository extends BaseRepository
 
     public function andamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('desercao')->remember('andamento_desercao', self::$expiration, function() {
                 return $this->model
@@ -98,8 +101,8 @@ class DesercaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('desercao')->remember('andamento_desercao:'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('desercao')->remember('andamento_desercao:'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_desercao', '=', 'desercao.id_desercao')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -112,10 +115,7 @@ class DesercaoRepository extends BaseRepository
 
     public function andamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('desercao')->remember('andamento_desercao:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
@@ -128,9 +128,9 @@ class DesercaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('desercao')->remember('andamento_desercao:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('desercao')->remember('andamento_desercao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_desercao', '=', 'desercao.id_desercao')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -143,10 +143,7 @@ class DesercaoRepository extends BaseRepository
 
     public function julgamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('desercao')->remember('julgamento_desercao', self::$expiration, function() {
                 return $this->model
@@ -161,8 +158,8 @@ class DesercaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('desercao')->remember('julgamento_desercao:'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('desercao')->remember('julgamento_desercao:'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_desercao', '=', 'desercao.id_desercao')
                                 ->where('envolvido.id_desercao', '<>', 0);
@@ -177,10 +174,7 @@ class DesercaoRepository extends BaseRepository
 
     public function julgamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('desercao')->remember('julgamento_desercao:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
@@ -195,9 +189,9 @@ class DesercaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('desercao')->remember('julgamento_desercao:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('desercao')->remember('julgamento_desercao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_desercao', '=', 'desercao.id_desercao')
                                 ->where('envolvido.id_desercao', '<>', 0);
@@ -212,13 +206,7 @@ class DesercaoRepository extends BaseRepository
 
     public function prazos()
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
 
             $registros = Cache::tags('desercao')->remember('prazo_desercao', self::$expiration, function() {
@@ -242,7 +230,7 @@ class DesercaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('desercao')->remember('prazo_desercao:'.$unidade, self::$expiration, function() use ($unidade){
+            $registros = Cache::tags('desercao')->remember('prazo_desercao:'.$this->unidade, self::$expiration, function() {
                 return $this->model
                 ->selectRaw('desercao.*, 
                 (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -258,7 +246,7 @@ class DesercaoRepository extends BaseRepository
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', '');
                 })
-                ->where('adl.cdopm','like',$unidade.'%')
+                ->where('adl.cdopm','like',$this->unidade.'%')
                 ->get();
 
             });   
@@ -268,15 +256,9 @@ class DesercaoRepository extends BaseRepository
 
     public function prazosAno($ano)
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
-            $registros = Cache::tags('desercao')->remember('prazo_desercao:'.$ano, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('desercao')->remember('prazo_desercao:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model
                     ->selectRaw('desercao.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -298,7 +280,7 @@ class DesercaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('desercao')->remember('prazo_desercao:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('desercao')->remember('prazo_desercao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano){
                 return $this->model
                     ->selectRaw('desercao.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_desercao=desercao.id_desercao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -315,7 +297,7 @@ class DesercaoRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('adl.sjd_ref_ano','=',$ano)
-                    ->where('adl.cdopm','like',$unidade.'%')
+                    ->where('adl.cdopm','like',$this->unidade.'%')
                     ->get(); 
 
             });   

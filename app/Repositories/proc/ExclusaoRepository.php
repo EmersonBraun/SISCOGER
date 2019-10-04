@@ -8,25 +8,26 @@ use Cache;
 use App\Models\Sjd\Proc\Exclusaojudicial;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Route;
+use App\Services\AutorizationService;
 
 class ExclusaoRepository extends BaseRepository
 {
     protected $model;
+    protected $service;
     protected $unidade;
     protected $verTodasUnidades;
     protected static $expiration = 60 * 24;//um dia 
 
-	public function __construct(Exclusaojudicial $model)
+	public function __construct(
+        Exclusaojudicial $model,
+        AutorizationService $service
+    )
 	{
 		$this->model = $model;
-        
-        // ver se vem da api (não logada)
-        $proc = Route::currentRouteName(); //listar.algo
-        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
-        $proc = $proc[0];
+        $this->service = $service;
 
-        $isapi = ($proc == 'api') ? 1 : 0;
-        $verTodasUnidades = session('ver_todas_unidades');
+        $isapi = $this->service->isApi();
+        $verTodasUnidades = $this->service->verTodasOPM();
 
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
@@ -36,13 +37,21 @@ class ExclusaoRepository extends BaseRepository
 	{
         Cache::tags('exclusao')->flush();
     }
+
+    public function procRefAno($ref, $ano = '', $name)
+    {
+        if(!$ano) $proc = $this->model->findOrFail($ref);
+        else $proc = $this->model->where([['sjd_ref',$ref],['sjd_ref_ano',$ano]])->first();
+
+        if(!$proc) abort(404);
+        $canSee = $this->service->canSee($proc, $name);
+        if(!$canSee) abort(403);
+        return $proc;
+    }
     
     public function all()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('exclusao')->remember('todos_exclusao', self::$expiration, function() {
                 return $this->model->all();
@@ -50,8 +59,8 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('exclusao')->remember('todos_exclusao:'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')->get();
+            $registros = Cache::tags('exclusao')->remember('todos_exclusao:'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->get();
             });
         }
 
@@ -60,10 +69,7 @@ class ExclusaoRepository extends BaseRepository
     
     public function ano($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('exclusao')->remember('todos_exclusao:'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
@@ -71,8 +77,8 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('exclusao')->remember('todos_exclusao:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
-                return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+            $registros = Cache::tags('exclusao')->remember('todos_exclusao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         return $registros;
@@ -80,10 +86,7 @@ class ExclusaoRepository extends BaseRepository
 
     public function andamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('exclusao')->remember('andamento_exclusao', self::$expiration, function() {
                 return $this->model
@@ -96,8 +99,8 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('exclusao')->remember('andamento_exclusao:'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('exclusao')->remember('andamento_exclusao:'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -110,10 +113,7 @@ class ExclusaoRepository extends BaseRepository
 
     public function andamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('exclusao')->remember('andamento_exclusao:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
@@ -126,9 +126,9 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('exclusao')->remember('andamento_exclusao:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('exclusao')->remember('andamento_exclusao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -141,10 +141,7 @@ class ExclusaoRepository extends BaseRepository
 
     public function julgamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('exclusao')->remember('julgamento_exclusao', self::$expiration, function() {
                 return $this->model
@@ -159,8 +156,8 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('exclusao')->remember('julgamento_exclusao:'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('exclusao')->remember('julgamento_exclusao:'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
                                 ->where('envolvido.id_exclusao', '<>', 0);
@@ -175,10 +172,7 @@ class ExclusaoRepository extends BaseRepository
 
     public function julgamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('exclusao')->remember('julgamento_exclusao:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
@@ -193,9 +187,9 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('exclusao')->remember('julgamento_exclusao:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('exclusao')->remember('julgamento_exclusao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
                                 ->where('envolvido.id_exclusao', '<>', 0);
@@ -210,13 +204,7 @@ class ExclusaoRepository extends BaseRepository
 
    public function prazos()
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
 
             $registros = Cache::tags('exclusao')->remember('prazo_exclusao', self::$expiration, function() {
@@ -241,7 +229,7 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('exclusao')->remember('prazo_exclusao:'.$unidade, self::$expiration, function() use ($unidade){
+            $registros = Cache::tags('exclusao')->remember('prazo_exclusao:'.$this->unidade, self::$expiration, function() {
                 return $this->model
                     ->selectRaw('exclusao.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -257,7 +245,7 @@ class ExclusaoRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('adl.cdopm','like',$unidade.'%')
+                    ->where('adl.cdopm','like',$this->unidade.'%')
                     ->get(); 
 
             });   
@@ -267,13 +255,7 @@ class ExclusaoRepository extends BaseRepository
 
     public function prazosAno($ano)
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
 
             $registros = Cache::tags('exclusao')->remember('prazo_exclusao:'.$ano, self::$expiration, function() use ($ano) {
@@ -299,7 +281,7 @@ class ExclusaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('exclusao')->remember('prazo_exclusao:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('exclusao')->remember('prazo_exclusao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano){
                 return $this->model
                     ->selectRaw('exclusao.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -315,7 +297,7 @@ class ExclusaoRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('adl.cdopm','like',$unidade.'%')
+                    ->where('adl.cdopm','like',$this->unidade.'%')
                     ->where('adl.sjd_ref_ano','=',$ano)
                     ->get();
 

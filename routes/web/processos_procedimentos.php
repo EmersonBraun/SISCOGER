@@ -2,7 +2,7 @@
 
 //Rotas do módulo Adl
 Route::group(['as'=>'adl.','prefix' =>'adl'],function(){
-	Route::get('',['as' =>'index','uses'=>'Proc\AdlController@index','middleware' => ['permission:listar-adl']]);
+	Route::get('',['as' =>'index','uses'=>'Proc\AdlController@index']);
 	//listagem
 	Route::get('lista',['as' =>'lista','uses'=>'Proc\AdlController@lista','middleware' => ['permission:listar-adl']]);
 	Route::get('andamento',['as' =>'andamento','uses'=>'Proc\AdlController@andamento','middleware' => ['permission:listar-adl']]);

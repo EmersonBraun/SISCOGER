@@ -64,7 +64,7 @@ class LoginController extends Controller
             'rg' => ['required', 'numeric', new ExistRg, new Block],
             'password'=>'required',
         ]);
-
+        
         //variáveis globais
         $credentials = $request->only('rg', 'password');
         $this->rg = $request['rg'];

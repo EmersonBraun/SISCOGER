@@ -81,13 +81,13 @@ class IsoController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'iso');
+        $proc = $this->repository->procRefAno($ref,$ano,'iso');
         return view('procedimentos.iso.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'iso');
+        $proc = $this->repository->procRefAno($ref,$ano,'iso');
         return view('procedimentos.iso.form.edit', compact('proc'));
 
     }

@@ -110,13 +110,13 @@ class SindicanciaController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'sindicancia');
+        $proc = $this->repository->procRefAno($ref,$ano,'sindicancia');
         return view('procedimentos.sindicancia.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'sindicancia');
+        $proc = $this->repository->procRefAno($ref,$ano,'sindicancia');
         return view('procedimentos.sindicancia.form.edit', compact('proc'));
 
     }

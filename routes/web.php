@@ -10,12 +10,8 @@
 | contém o grupo de middleware "web".
 */
 
-// para rodar os testes
-$middleware = [];
-if ( !App::runningUnitTests() ) {
-    $middleware[] = 'api.auth';
-    Auth::routes();
-}
+Auth::routes();
+
 // diretório onde estão os includes
 $dir = __DIR__ .'/web/';
 

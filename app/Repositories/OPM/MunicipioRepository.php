@@ -17,7 +17,7 @@ class MunicipioRepository
 		$this->model = $model;
     }
 
-    public static function nome($id_municipio)
+    public static function nome($id_municipio) // função usada em presenters
     {
         //tempo de cahe
         $expiration = 60 * 24 * 30; //um mês

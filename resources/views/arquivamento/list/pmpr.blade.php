@@ -23,7 +23,8 @@
                             <th class="col-xs-1">Procedimento</th>
                             <th class="col-xs-2">Referência</th>
                             <th class="col-xs-2">Ano</th>
-                            <th class="col-xs-2">Letra</th>
+                            <th class="col-xs-1">Número</th>
+                            <th class="col-xs-1">Letra</th>
                             <th class="col-xs-2">RG</th>
                             <th class="col-xs-2">Observações</th>
                         </tr>
@@ -51,7 +52,8 @@
                                 <th class="col-xs-1">Procedimento</th>
                                 <th class="col-xs-2">Referência</th>
                                 <th class="col-xs-2">Ano</th>
-                                <th class="col-xs-2">Letra</th>
+                                <th class="col-xs-1">Número</th>
+                                <th class="col-xs-1">Letra</th>
                                 <th class="col-xs-2">RG</th>
                                 <th class="col-xs-2">Observações</th>
                             </tr>

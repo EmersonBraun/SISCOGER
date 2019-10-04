@@ -7,26 +7,26 @@ use Illuminate\Support\Facades\DB;
 use Cache;
 use App\Models\Sjd\Proc\Sindicancia;
 use App\Repositories\BaseRepository;
-use Illuminate\Support\Facades\Route;
+use App\Services\AutorizationService;
 
 class SindicanciaRepository extends BaseRepository
 {
     protected $model;
+    protected $service;
     protected $unidade;
     protected $verTodasUnidades;
     protected $expiration = 60 * 24;//um dia 
 
-	public function __construct(Sindicancia $model)
+	public function __construct(
+        Sindicancia $model,
+        AutorizationService $service
+    )
 	{
 		$this->model = $model;
-        
-        // ver se vem da api (não logada)
-        $proc = Route::currentRouteName(); //listar.algo
-        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
-        $proc = $proc[0];
+        $this->service = $service;
 
-        $isapi = ($proc == 'api') ? 1 : 0;
-        $verTodasUnidades = session('ver_todas_unidades');
+        $isapi = $this->service->isApi();
+        $verTodasUnidades = $this->service->verTodasOPM();
 
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
@@ -36,13 +36,21 @@ class SindicanciaRepository extends BaseRepository
 	{
         Cache::tags('sindicancia')->flush();
     }
+
+    public function procRefAno($ref, $ano = '', $name)
+    {
+        if(!$ano) $proc = $this->model->findOrFail($ref);
+        else $proc = $this->model->where([['sjd_ref',$ref],['sjd_ref_ano',$ano]])->first();
+
+        if(!$proc) abort(404);
+        $canSee = $this->service->canSee($proc, $name);
+        if(!$canSee) abort(403);
+        return $proc;
+    }
     
     public function all()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('sindicancia')->remember('todos_sindicancia', $this->expiration, function() {
                 return $this->model->all();
@@ -50,8 +58,8 @@ class SindicanciaRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('sindicancia')->remember('todos_sindicancia'.$unidade, $this->expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')->get();
+            $registros = Cache::tags('sindicancia')->remember('todos_sindicancia'.$this->unidade, $this->expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->get();
             });
         }
 
@@ -60,10 +68,7 @@ class SindicanciaRepository extends BaseRepository
 
     public function ano($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('sindicancia')->remember('todos_sindicancia'.$ano, $this->expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
@@ -71,8 +76,8 @@ class SindicanciaRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('sindicancia')->remember('todos_sindicancia'.$ano.$unidade, $this->expiration, function() use ($unidade, $ano) {
-                return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+            $registros = Cache::tags('sindicancia')->remember('todos_sindicancia'.$ano.$this->unidade, $this->expiration, function() use ($ano) {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         return $registros;
@@ -80,10 +85,7 @@ class SindicanciaRepository extends BaseRepository
 
     public function andamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('sindicancia')->remember('andamento_sindicancia', $this->expiration, function() {
                 return $this->model
@@ -96,8 +98,8 @@ class SindicanciaRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('sindicancia')->remember('andamento_sindicancia'.$unidade, $this->expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('sindicancia')->remember('andamento_sindicancia'.$this->unidade, $this->expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -110,10 +112,7 @@ class SindicanciaRepository extends BaseRepository
 
     public function andamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('sindicancia')->remember('andamento_sindicancia'.$ano, $this->expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
@@ -126,9 +125,9 @@ class SindicanciaRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('sindicancia')->remember('andamento_sindicancia'.$ano.$unidade, $this->expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('sindicancia')->remember('andamento_sindicancia'.$ano.$this->unidade, $this->expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -141,10 +140,7 @@ class SindicanciaRepository extends BaseRepository
 
     public function julgamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('sindicancia')->remember('julgamento_sindicancia', $this->expiration, function() {
                 return $this->model
@@ -159,8 +155,8 @@ class SindicanciaRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('sindicancia')->remember('julgamento_sindicancia'.$unidade, $this->expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('sindicancia')->remember('julgamento_sindicancia'.$this->unidade, $this->expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                                 ->where('envolvido.id_sindicancia', '<>', 0);
@@ -175,10 +171,7 @@ class SindicanciaRepository extends BaseRepository
 
     public function julgamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('sindicancia')->remember('julgamento_sindicancia'.$ano, $this->expiration, function() use ($ano){
                 return $this->model
@@ -194,9 +187,9 @@ class SindicanciaRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('sindicancia')->remember('julgamento_sindicancia'.$ano.$unidade, $this->expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('sindicancia')->remember('julgamento_sindicancia'.$ano.$this->unidade, $this->expiration, function() use ($ano) {
                 return $this->model
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                                 ->where('envolvido.id_sindicancia', '<>', 0);
@@ -212,13 +205,7 @@ class SindicanciaRepository extends BaseRepository
 
     public function prazos()
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
 
             $registros = Cache::tags('sindicancia')->remember('prazo_sindicancia', $this->expiration, function() {
@@ -242,7 +229,7 @@ class SindicanciaRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('sindicancia')->remember('prazo_sindicancia'.$unidade, $this->expiration, function() use ($unidade){
+            $registros = Cache::tags('sindicancia')->remember('prazo_sindicancia'.$this->unidade, $this->expiration, function() {
                 return $this->model
                 ->selectRaw('sindicancia.*, 
                 (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -258,7 +245,7 @@ class SindicanciaRepository extends BaseRepository
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', '');
                 })
-                ->where('sindicancia.cdopm','like',$unidade.'%')
+                ->where('sindicancia.cdopm','like',$this->unidade.'%')
                 ->get();
 
             });   
@@ -268,13 +255,7 @@ class SindicanciaRepository extends BaseRepository
 
     public function prazosAno($ano)
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
 
             $registros = Cache::tags('sindicancia')->remember('prazo_sindicancia:'.$ano, $this->expiration, function() use ($ano) {
@@ -300,7 +281,7 @@ class SindicanciaRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('sindicancia')->remember('prazo_sindicancia:'.$unidade.':'.$ano, $this->expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('sindicancia')->remember('prazo_sindicancia:'.$this->unidade.':'.$ano, $this->expiration, function() use ($ano){
                 return $this->model
                     ->selectRaw('sindicancia.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_sindicancia=sindicancia.id_sindicancia ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -316,7 +297,7 @@ class SindicanciaRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('sindicancia.cdopm','like',$unidade.'%')
+                    ->where('sindicancia.cdopm','like',$this->unidade.'%')
                     ->where('sindicancia.sjd_ref_ano','=',$ano)
                     ->get(); 
 
@@ -327,7 +308,8 @@ class SindicanciaRepository extends BaseRepository
 
     public function foraDoPrazo($unidade)
      {
-         $sindicancia_prazos = Cache::remember('sindicancia_prazos'.$unidade, 60, function() use ($unidade){
+        $unidade = !$unidade ? $this->unidade : $unidade;
+         $sindicancia_prazos = Cache::remember('sindicancia_prazos'.$unidade, 60, function() use($unidade){
          
          return DB::connection('sjd')
          ->select('SELECT * FROM (
@@ -366,9 +348,10 @@ class SindicanciaRepository extends BaseRepository
          return $sindicancia_prazos;
      }
          
-    public function aberturas($unidade)
+    public function aberturas($unidade='')
      {
-         $sindicancia_aberturas = Cache::remember('sindicancias_aberturas'.$unidade, 60, function() use ($unidade){
+        $unidade = !$unidade ? $this->unidade : $unidade;
+         $sindicancia_aberturas = Cache::remember('sindicancias_aberturas'.$unidade, 60, function() use($unidade){
          
              return DB::table('sindicancia')
              ->where('cdopm', 'LIKE', $unidade.'%') 
@@ -379,8 +362,9 @@ class SindicanciaRepository extends BaseRepository
  
          return $sindicancia_aberturas;
      }
-    public function QtdOMAnos($unidade, $ano='')
+    public function QtdOMAnos($unidade='', $ano='')
     {
+        $unidade = !$unidade ? $this->unidade : $unidade;
         //inicializar a variável
         $sindicancia_ano = [];
         if($ano != '')

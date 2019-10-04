@@ -62,7 +62,7 @@ class EnvolvidoRepository extends BaseRepository
     {
         $registro = $this->model
         ->join('posto','posto.posto','envolvido.cargo')
-        ->where($proc.'.id_'.$proc, $id)
+        ->where('envolvido.id_'.$proc, $id)
         ->whereNotIn('situacao', ['Acusador', 'Encarregado','Escrivão','Membro','Presidente'])
         ->orderBy('id_posto')
         ->first();

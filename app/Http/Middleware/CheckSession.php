@@ -11,7 +11,7 @@ class CheckSession
      */
     public function handle($request, Closure $next)
     {
-        if ( !auth()->check() )
+        if ( !session() )
         {
             return redirect()->route('login');
         }

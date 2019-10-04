@@ -2,31 +2,29 @@
 //Aqui ficam as consultas de banco de dados dos processos e procedimentos
 namespace App\Repositories\proc;
 
-use Illuminate\Support\Facades\DB;
-
 use Cache;
 use App\Models\Sjd\Proc\Ligacao;
 use App\Repositories\BaseRepository;
-use Illuminate\Support\Facades\Route;
+use App\Services\AutorizationService;
 
 class LigacaoRepository extends BaseRepository
 {
     protected $model;
+    protected $service;
     protected $unidade;
     protected $verTodasUnidades;
     protected static $expiration = 60 * 24;//um dia  
 
-	public function __construct(Ligacao $model)
+	public function __construct(
+        Ligacao $model,
+        AutorizationService $service
+    )
 	{
 		$this->model = $model;
-        
-        // ver se vem da api (não logada)
-        $proc = Route::currentRouteName(); //listar.algo
-        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
-        $proc = $proc[0];
+        $this->service = $service;
 
-        $isapi = ($proc == 'api') ? 1 : 0;
-        $verTodasUnidades = session('ver_todas_unidades');
+        $isapi = $this->service->isApi();
+        $verTodasUnidades = $this->service->verTodasOPM();
 
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
@@ -39,10 +37,7 @@ class LigacaoRepository extends BaseRepository
     
     public function all()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('ligacao')->remember('todos_ligacao', self::$expiration, function() {
                 return $this->model->all();
@@ -50,15 +45,15 @@ class LigacaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('ligacao')->remember('todos_ligacao:'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')->get();
+            $registros = Cache::tags('ligacao')->remember('todos_ligacao:'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->get();
             });
         }
 
         return $registros;
     } 
 
-    public function refAno($proc, $ref, $ano='')
+    public function procRefAno($proc, $ref, $ano='')
 	{
         if(!$ano) $this->getByProcId($proc, $ref);
 
@@ -82,10 +77,7 @@ class LigacaoRepository extends BaseRepository
 
     public function ano($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+         if($this->verTodasUnidades)
         {
             $registros = Cache::tags('ligacao')->remember('todos_ligacao:'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('destino_sjd_ref_ano','=',$ano)->get();
@@ -93,15 +85,11 @@ class LigacaoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('ligacao')->remember('todos_ligacao:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
-                return $this->model->where('cdopm','like',$unidade.'%')->where('destino_sjd_ref_ano','=',$ano)->get();
+            $registros = Cache::tags('ligacao')->remember('todos_ligacao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->where('destino_sjd_ref_ano','=',$ano)->get();
             });
         }
         return $registros;
-    } 
-
-    public function proc($proc)
-	{
     } 
 
     public static function ligacao($proc, $id)

@@ -190,7 +190,7 @@ class PolicialRepository extends BaseRepository
         return $militar_estadual;
     }
 
-    public static function dados($rg, $dado)
+    public static function dados($rg, $dado) // dados usados em presenters
     {
         $dados = Cache::remember('pm:dados:'.$rg, 60, function() use ($rg)
         {

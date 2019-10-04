@@ -93,13 +93,13 @@ class ProcOutroController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'proc_outros');
+        $proc = $this->repository->procRefAno($ref,$ano,'proc_outros');
         return view('procedimentos.procoutros.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'proc_outros');
+        $proc = $this->repository->procRefAno($ref,$ano,'proc_outros');
         if(!$proc) abort('404');
         
         $this->canSee($proc);

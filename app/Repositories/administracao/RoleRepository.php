@@ -19,7 +19,7 @@ class RoleRepository extends BaseRepository
         $this->model = $model;      
     }
 
-    public function cleanCache()
+    public function clearCache()
 	{
         Cache::tags('role')->flush();
     }
@@ -41,6 +41,15 @@ class RoleRepository extends BaseRepository
         });
 
         return $registros; 
+    }
+
+    public function getByName($name)
+    {
+        $registros = Cache::tags('role')->remember('role:'.$name, $this->expiration, function() use ($name){
+            return $this->model->where('name',$name)->firstOrFail();
+        });
+
+        return $registros;
     }
 }
 

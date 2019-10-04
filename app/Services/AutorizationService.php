@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Repositories\proc\EncaminhamentoRepository;
 use App\Repositories\PM\EnvolvidoRepository;
-
+use Illuminate\Support\Facades\Route;
 
 class AutorizationService 
 {
@@ -36,7 +36,8 @@ class AutorizationService
         if(!$data) return 'Faltam os dados';
         if(!$data) return 'Falta o nome';
         // cast para array
-        $data = ($data instanceof Illuminate\Database\Eloquent\Collection)  ? $data->toArray() : (array) $data;
+        if($data instanceof Illuminate\Database\Eloquent\Collection)  $data = $data->toArray();
+        if(is_object($data)) $data = json_decode(json_encode($data), true);
         // atribuições
         $this->nivel = $this->getCorrectNivel();
         $this->name = $name;
@@ -195,7 +196,7 @@ class AutorizationService
         return false;
     }
 
-    public function seeInativo($data, $name)
+    public function canSeeInativo($data, $name)
     {
         if(!$this->cdopm) $this->bootService($data, $name);
         $canSeeInativo = ($this->name == 'fdi') ?
@@ -226,6 +227,15 @@ class AutorizationService
         $verReserva = in_array('ver-reserva',session('permissions'));
         if($verReserva || $verInativo) return true;
         return false;
+    }
+
+    public function isApi()
+    {
+        $proc = Route::currentRouteName(); //listar.algo
+        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
+        $proc = $proc[0];
+
+        return ($proc == 'api') ? true : false;
     }
  
 }

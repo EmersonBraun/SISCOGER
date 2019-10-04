@@ -38,7 +38,7 @@ class PermissionController extends Controller
 
     public function treeview()
     {
-        $relateds = $this->permission->treeview();
+        $permissions = $this->permission->treeview();
         return view('administracao.permissoes.treeview',compact('permissions'));
     }
  
@@ -60,10 +60,11 @@ class PermissionController extends Controller
         $create = $this->permission->create([$name]);
         
         if($create) {
-            $this->repository->cleanCache();
+            $this->permission->cleanCache();
 
             if (!empty($roles)) { //Se uma ou mais funções forem selecionadas
                 $this->givePermission($roles, $name);
+                $this->permission->cleanCache();
             }
 
             toast()->success(''.$name.' adicionadas!', 'Permissões');
@@ -86,12 +87,12 @@ class PermissionController extends Controller
             'name'=>'required',
         ]);
             
-        $permission = Permission::findOrFail($id);
+        $permission = $this->permission->findOrFail($id);
         $input = $request->all();
         $update = $permission->fill($input)->save();
 
         if($update) {
-            $this->repository->cleanCache();
+            $this->permission->cleanCache();
             toast()->success(''. $permission->name.' atualizada!', 'Permissões');
             return redirect()->route('permission.index');
         }

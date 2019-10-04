@@ -82,13 +82,13 @@ class ApfdController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'apfd');
+        $proc = $this->repository->procRefAno($ref,$ano,'apfd');
         return view('procedimentos.apfd.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'apfd');
+        $proc = $this->repository->procRefAno($ref,$ano,'apfd');
          return view('procedimentos.apfd.form.edit', compact('proc'));
 
     }

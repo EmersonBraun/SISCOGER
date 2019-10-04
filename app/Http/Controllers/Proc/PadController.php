@@ -69,13 +69,13 @@ class PadController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'pad');
+        $proc = $this->repository->procRefAno($ref,$ano,'pad');
         return view('procedimentos.pad.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'pad');
+        $proc = $this->repository->procRefAno($ref,$ano,'pad');
         return view('procedimentos.pad.form.edit', compact('proc'));
 
     }

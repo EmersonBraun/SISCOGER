@@ -8,25 +8,26 @@ use Cache;
 use App\Models\Sjd\Proc\Adl;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Route;
+use App\Services\AutorizationService;
 
 class AdllRepository extends BaseRepository
 {
     protected $model;
+    protected $service;
     protected $unidade;
     protected $verTodasUnidades;
     protected static $expiration = 60 * 24;//um dia; 
 
-	public function __construct(Adl $model)
+	public function __construct(
+        Adl $model,
+        AutorizationService $service
+    )
 	{
         $this->model = $model;
-        
-        // ver se vem da api (não logada)
-        $proc = Route::currentRouteName(); //listar.algo
-        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
-        $proc = $proc[0];
+        $this->service = $service;
 
-        $isapi = ($proc == 'api') ? 1 : 0;
-        $verTodasUnidades = session('ver_todas_unidades');
+        $isapi = $this->service->isApi();
+        $verTodasUnidades = $this->service->verTodasOPM();
 
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
@@ -37,12 +38,20 @@ class AdllRepository extends BaseRepository
         Cache::tags('adl')->flush();
     }
 
+    public function procRefAno($ref, $ano = '', $name)
+    {
+        if(!$ano) $proc = $this->model->findOrFail($ref);
+        else $proc = $this->model->where([['sjd_ref',$ref],['sjd_ref_ano',$ano]])->first();
+
+        if(!$proc) abort(404);
+        $canSee = $this->service->canSee($proc, $name);
+        if(!$canSee) abort(403);
+        return $proc;
+    }
+
     public function all()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('adl')->remember('todos_adl', self::$expiration, function() {
                 return $this->model->all();
@@ -50,8 +59,8 @@ class AdllRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('adl')->remember('todos_adl:'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')->get();
+            $registros = Cache::tags('adl')->remember('todos_adl:'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->get();
             });
         }
 
@@ -60,11 +69,7 @@ class AdllRepository extends BaseRepository
 
     public function ano($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-        
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('adl')->remember('todos_adl:'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
@@ -72,8 +77,8 @@ class AdllRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('adl')->remember('todos_adl:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
-                return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+            $registros = Cache::tags('adl')->remember('todos_adl:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         return $registros;
@@ -81,10 +86,7 @@ class AdllRepository extends BaseRepository
 
     public function andamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('adl')->remember('andamento_adl', self::$expiration, function() {
                 return $this->model
@@ -97,8 +99,8 @@ class AdllRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('adl')->remember('andamento_adl:'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('adl')->remember('andamento_adl:'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_adl', '=', 'adl.id_adl')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -111,11 +113,7 @@ class AdllRepository extends BaseRepository
    
     public function andamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-        
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('adl')->remember('andamento_adl:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
@@ -128,9 +126,9 @@ class AdllRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('adl')->remember('andamento_adl:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('adl')->remember('andamento_adl:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_adl', '=', 'adl.id_adl')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -143,11 +141,7 @@ class AdllRepository extends BaseRepository
 
     public function julgamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-        
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('adl')->remember('julgamento_adl', self::$expiration, function() {
                 return $this->model
@@ -162,7 +156,7 @@ class AdllRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('adl')->remember('julgamento_adl:'.$unidade, self::$expiration, function() use ($unidade) {
+            $registros = Cache::tags('adl')->remember('julgamento_adl:'.$this->unidade, self::$expiration, function()  {
                 return $this->model
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_adl', '=', 'adl.id_adl')
@@ -170,7 +164,7 @@ class AdllRepository extends BaseRepository
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','adl'))
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->get();
             });
         }
@@ -179,11 +173,7 @@ class AdllRepository extends BaseRepository
 
     public function julgamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-        
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('adl')->remember('julgamento_adl:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model
@@ -199,7 +189,7 @@ class AdllRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('adl')->remember('julgamento_adl:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('adl')->remember('julgamento_adl:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_adl', '=', 'adl.id_adl')
@@ -208,7 +198,7 @@ class AdllRepository extends BaseRepository
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','adl'))
                     ->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->get();
             });
         }
@@ -217,14 +207,7 @@ class AdllRepository extends BaseRepository
 
     public function prazos()
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-        
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('adl')->remember('prazo_adl', self::$expiration, function() {
                 
@@ -249,7 +232,7 @@ class AdllRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('adl')->remember('prazo_adl:'.$unidade, self::$expiration, function() use ($unidade){
+            $registros = Cache::tags('adl')->remember('prazo_adl:'.$this->unidade, self::$expiration, function() {
                 return $this->model
                 ->selectRaw('adl.*, 
                 (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_adl=adl.id_adl ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -265,7 +248,7 @@ class AdllRepository extends BaseRepository
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', '');
                 })
-                ->where('adl.cdopm','like',$unidade.'%')
+                ->where('adl.cdopm','like',$this->unidade.'%')
                 ->get();
 
             });   
@@ -275,14 +258,7 @@ class AdllRepository extends BaseRepository
 
     public function prazosAno($ano)
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-        
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('adl')->remember('prazo_adl:'.$ano, self::$expiration, function() use ($ano){
                 
@@ -308,7 +284,7 @@ class AdllRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('adl')->remember('prazo_adl:'.$ano.':'.$unidade, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('adl')->remember('prazo_adl:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano){
                 return $this->model
                     ->selectRaw('adl.*, 
                     (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_adl=adl.id_adl ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
@@ -325,7 +301,7 @@ class AdllRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('adl.sjd_ref_ano','=',$ano)
-                    ->where('adl.cdopm','like',$unidade.'%')
+                    ->where('adl.cdopm','like',$this->unidade.'%')
                     ->get();
 
             });   

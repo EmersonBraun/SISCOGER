@@ -113,14 +113,14 @@ class CdController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'cd');
+        $proc = $this->repository->procRefAno($ref,$ano,'cd');
         if(!$proc) abort('404');
         return view('procedimentos.cd.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'cd');
+        $proc = $this->repository->procRefAno($ref,$ano,'cd');
         if(!$proc) abort('404');
         
         $this->service->canSee($proc, 'cd');

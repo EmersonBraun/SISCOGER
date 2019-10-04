@@ -76,13 +76,13 @@ class DesercaoController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'desercao');
+        $proc = $this->repository->procRefAno($ref,$ano,'desercao');
         return view('procedimentos.desercao.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'desercao');
+        $proc = $this->repository->procRefAno($ref,$ano,'desercao');
         return view('procedimentos.desercao.form.edit', compact('proc'));
 
     }

@@ -117,13 +117,13 @@ class FatdController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'fatd');
+        $proc = $this->repository->procRefAno($ref,$ano,'fatd');
         return view('procedimentos.fatd.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'fatd');
+        $proc = $this->repository->procRefAno($ref,$ano,'fatd');
         return view('procedimentos.fatd.form.edit', compact('proc'));
 
     }

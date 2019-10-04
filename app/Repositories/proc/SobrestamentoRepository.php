@@ -9,10 +9,12 @@ use Cache;
 use App\Repositories\BaseRepository;
 use App\Models\Sjd\Proc\Sobrestamento;
 use App\Repositories\proc\ProcRepository;
+use App\Services\AutorizationService;
 
 class SobrestamentoRepository extends BaseRepository
 {
     protected $model;
+    protected $service;
     protected $proc;
     protected $unidade;
     protected $verTodasUnidades;
@@ -20,18 +22,16 @@ class SobrestamentoRepository extends BaseRepository
 
 	public function __construct(
         Sobrestamento $model,
-        ProcRepository $proc
+        ProcRepository $proc,
+        AutorizationService $service
     )
 	{
-		$this->model = $model;
-        
-        // ver se vem da api (não logada)
-        $proc = Route::currentRouteName(); //listar.algo
-        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
-        $proc = $proc[0];
+        $this->model = $model;
+        $this->proc = $proc;
+        $this->service = $service;
 
-        $isapi = ($proc == 'api') ? 1 : 0;
-        $verTodasUnidades = session('ver_todas_unidades');
+        $isapi = $this->service->isApi();
+        $verTodasUnidades = $this->service->verTodasOPM();
 
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
@@ -134,17 +134,11 @@ class SobrestamentoRepository extends BaseRepository
         return $registros;
     }
 
-    
-
-
     public function sobrestados($proc)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
+        $andamento = $this->proc->andamento($proc);
 
-        $andamento = $this->andamento($proc);
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('sobrestamento')->remember('sobrestament:'.$proc, 60, function() use ($proc, $andamento){
                 return DB::connection('sjd')->select("SELECT DISTINCT s.*, ".$proc.".* , opm.ABREVIATURA,
@@ -166,7 +160,7 @@ class SobrestamentoRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('sobrestamento')->remember('sobrestament:'.$proc.':'.$unidade, 60, function() use ($proc, $andamento, $unidade){
+            $registros = Cache::tags('sobrestamento')->remember('sobrestament:'.$proc.':'.$this->unidade, 60, function() use ($proc, $andamento){
                 return DB::connection('sjd')->select("SELECT DISTINCT s.*, ".$proc.".* , opm.ABREVIATURA,
                 DIASUTEIS(".$proc.".abertura_data,DATE(NOW()))+1 
                 AS dutotal,
@@ -180,25 +174,12 @@ class SobrestamentoRepository extends BaseRepository
                         s.id_".$proc."=".$proc.".id_".$proc." 
                 LEFT JOIN RHPARANA.opmPMPR AS opm ON opm.CODIGOBASE=".$proc.".cdopm
                 WHERE s.termino_data ='0000-00-00' 
-                AND ".$proc.".cdopm LIKE ".$unidade."%
+                AND ".$proc.".cdopm LIKE ".$this->unidade."%
                 AND ".$proc.".id_andamento=".$andamento." ORDER BY ".$proc.".id_".$proc." DESC");
             });
         }
 
         return $registros;
     } 
-
-    public function andamento($proc)
-    {
-        if($proc == 'adl') $andamento = '17';
-        if($proc == 'cd') $andamento = '11';
-        if($proc == 'cj') $andamento = '14';
-        if($proc == 'fatd') $andamento = '3';
-        if($proc == 'it') $andamento = '23';
-        if($proc == 'sindicancia') $andamento = '8';
-
-        return $andamento;
-    }
-
 }
 

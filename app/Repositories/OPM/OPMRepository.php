@@ -11,7 +11,7 @@ class OPMRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60 * 24; 
+    protected $expiration = 60 * 24; 
  
 	public function __construct(Opmpmpr $model)
 	{
@@ -35,120 +35,159 @@ class OPMRepository
     }
     
     //dados para formulários
-    public static function get()
+    public function get()
     {
-        //tempo de cahe
-        $expiration = 60 * 24 * 7; //uma semana
-
-        $opms = Cache::tags('opm')->remember('opms_sjd', $expiration, function(){
-            $opmscg = $this->model->where('CODIGO','like','00%')
-            ->where('CODIGO','like', '%0000000')
-            ->orWhere('CODIGO','=','0010130000')  // AJ GER COMPANHIA DE COMANDO E SERVICOS
-            ->orderBy('CODIGO')
-            ->get();
-
-                $cg = $opmscg->pluck('ABREVIATURA','CODIGO')->toArray();  
-
-            $opmssubcg = $this->model->where('CODIGO','like','0%')
-                ->where('CODIGO','like', '%0000000')
-                ->where('CODIGO','not like', '00%')
-                ->get();
-            
-                $subcg = $opmssubcg->pluck('ABREVIATURA','CODIGO')->toArray(); 
-
-            $opmsem = $this->model->where('CODIGO','like','1%')
-                ->where('CODIGO','like', '%000000')
-                ->orWhere('CODIGO','=','11006000')    // PM6
-                ->orWhere('CODIGO','=','1110500000')  // ACADEMIA POLICIAL MILITAR DO GUATUPE
-                ->orWhere('CODIGO','=','1100000900')  // SESP
-                ->orWhere('CODIGO','=','1110540300')  // APMG DIV ALUNOS ESCOLA DE OFICIAIS
-                ->orWhere('CODIGO','=','1110540400')  // APMG DIV ALUNOS 1 ESFAEP
-                ->orWhere('CODIGO','=','1150200000')  // DS HOSPITAL DA POLICIA MILITAR
-                ->orWhere('CODIGO','=','1110540500')  // APMG DIV ALUNOS 2 ESFAEP
-                ->orderBy('CODIGO')
-                ->get();
-
-                $em = $opmsem->pluck('ABREVIATURA','CODIGO')->toArray();
-
-                //$cpm2 = $this->model->where('CODIGO','=','1110800000')->pluck('DESCRICAO','CODIGO'); ->toArray()// CPM 2
-                $em = array_add($em,'1110800000','CPM2');//inserido no braço pq está sem 'ABREVIATURA'
-            $opmscrpm1 = $this->model->where('CODIGO','like','2%')
-                ->where('CODIGO','like', '%000000')
-                ->orderBy('CODIGO')
-                ->get();
-
-                $crpm1 = $opmscrpm1->pluck('ABREVIATURA','CODIGO')->toArray();
-
-            $opmscrpm2 = $this->model->where('CODIGO','like','3%')
-                ->where('CODIGO','like', '%000000')
-                ->orderBy('CODIGO')
-                ->get();
-
-                $crpm2 = $opmscrpm2->pluck('ABREVIATURA','CODIGO')->toArray();
-
-            $opmscrpm3 = $this->model->where('CODIGO','like','4%')
-                ->where('CODIGO','like', '%000000')
-                ->orderBy('CODIGO')
-                ->get();
-
-                $crpm3 = $opmscrpm3->pluck('ABREVIATURA','CODIGO')->toArray();
-
-            $opmscrpm4 = $this->model->where('CODIGO','like','5%')
-                ->where('CODIGO','like', '%000000')
-                ->orderBy('CODIGO')
-                ->get();
-
-                $crpm4 = $opmscrpm4->pluck('ABREVIATURA','CODIGO')->toArray();
-
-            $opmscrpm5 = $this->model->where('CODIGO','like','6%')
-                ->where('CODIGO','like', '%000000')
-                ->orderBy('CODIGO')
-                ->get();
-
-                $crpm5 = $opmscrpm5->pluck('ABREVIATURA','CODIGO')->toArray();
-
-            $opmscrpm6 = $this->model->where('CODIGO','like','7%')
-                ->where('CODIGO','like', '%000000')
-                ->orderBy('CODIGO')
-                ->get();
-
-                $crpm6 = $opmscrpm6->pluck('ABREVIATURA','CODIGO')->toArray();
-
-            $opmsccb = $this->model->where('CODIGO','like','9%')
-                ->where('CODIGO','like', '%000000')
-                ->orWhere('CODIGO','=','9000000800')  // GRUPO DE OPERACOES DE SOCORRO TATICO
-                ->orderBy('CODIGO')
-                ->get();
-                
-                $ccb = $opmsccb->pluck('ABREVIATURA','CODIGO')->toArray();
-
-            $opms = [
-                'CG' => $cg, 
-                'SUBCG' => $subcg, 
-                'EM' => $em, 
-                '1° CRPM' => $crpm1, 
-                '2° CRPM' => $crpm2, 
-                '3° CRPM' => $crpm3, 
-                '4° CRPM' => $crpm4, 
-                '5° CRPM' => $crpm5, 
-                '6° CRPM' => $crpm6, 
-                'CCB' => $ccb
-            ];
-
-            return $opms;
-        });
+        $opms = [
+            'CG' => $this->comandoGeral(), 
+            'SUBCG' => $this->subComandoGeral(), 
+            'EM' => $this->estadoMaior(), 
+            '1° CRPM' => $this->crpm1(), 
+            '2° CRPM' => $this->crpm2(), 
+            '3° CRPM' => $this->crpm3(), 
+            '4° CRPM' => $this->crpm4(), 
+            '5° CRPM' => $this->crpm5(), 
+            '6° CRPM' => $this->crpm6(), 
+            'CCB' => $this->ccb()
+        ];
 
         return $opms;
     }
 
+    public function comandoGeral()
+    {
+        $registros = Cache::tags('opm')->remember('opms_sjd:cg', $this->expiration, function(){
+            return $this->model->where('CODIGO','like','00%')
+            ->where('CODIGO','like', '%0000000')
+            ->orWhere('CODIGO','=','0010130000')  // AJ GER COMPANHIA DE COMANDO E SERVICOS
+            ->orderBy('CODIGO')
+            ->get();
+        });
+        return $registros->pluck('ABREVIATURA','CODIGO')->toArray();
+    }
     
+    public function subComandoGeral()
+    {
+        $opms = Cache::tags('opm')->remember('opms_sjd:subcg', $this->expiration, function(){
+            return $this->model->where('CODIGO','like','0%')
+                    ->where('CODIGO','like', '%0000000')
+                    ->where('CODIGO','not like', '00%')
+                    ->get();
+        });
+        return $opms->pluck('ABREVIATURA','CODIGO')->toArray();
+    }
+
+    public function estadoMaior()
+    {
+        $opms = Cache::tags('opm')->remember('opms_sjd:em', $this->expiration, function(){
+            return $this->model->where('CODIGO','like','1%')
+                    ->where('CODIGO','like', '%000000')
+                    ->orWhere('CODIGO','=','11006000')    // PM6
+                    ->orWhere('CODIGO','=','1110500000')  // ACADEMIA POLICIAL MILITAR DO GUATUPE
+                    ->orWhere('CODIGO','=','1100000900')  // SESP
+                    ->orWhere('CODIGO','=','1110540300')  // APMG DIV ALUNOS ESCOLA DE OFICIAIS
+                    ->orWhere('CODIGO','=','1110540400')  // APMG DIV ALUNOS 1 ESFAEP
+                    ->orWhere('CODIGO','=','1150200000')  // DS HOSPITAL DA POLICIA MILITAR
+                    ->orWhere('CODIGO','=','1110540500')  // APMG DIV ALUNOS 2 ESFAEP
+                    ->orderBy('CODIGO')
+                    ->get();
+        });
+        $em = $opms->pluck('ABREVIATURA','CODIGO')->toArray();
+
+        //$cpm2 = $this->model->where('CODIGO','=','1110800000')->pluck('DESCRICAO','CODIGO'); ->toArray()// CPM 2
+        $em = array_add($em,'1110800000','CPM2');//inserido no braço pq está sem 'ABREVIATURA'
+        return $em;
+    }
+
+    public function crpm1()
+    {
+        $opms = Cache::tags('opm')->remember('opms_sjd:crpm1', $this->expiration, function(){
+            return $this->model->where('CODIGO','like','2%')
+                    ->where('CODIGO','like', '%000000')
+                    ->orderBy('CODIGO')
+                    ->get();
+        });
+        return $opms->pluck('ABREVIATURA','CODIGO')->toArray();    
+    }
+
+    public function crpm2()
+    {
+        $opms = Cache::tags('opm')->remember('opms_sjd:crpm2', $this->expiration, function(){
+            return $this->model->where('CODIGO','like','3%')
+                ->where('CODIGO','like', '%000000')
+                ->orderBy('CODIGO')
+                ->get();
+        });
+        return $opms->pluck('ABREVIATURA','CODIGO')->toArray(); 
+    }
+
+    public function crpm3()
+    {
+        $opms = Cache::tags('opm')->remember('opms_sjd:crpm3', $this->expiration, function(){
+            return $this->model->where('CODIGO','like','4%')
+                    ->where('CODIGO','like', '%000000')
+                    ->orderBy('CODIGO')
+                    ->get();
+        });
+        return $opms->pluck('ABREVIATURA','CODIGO')->toArray();     
+    }
+
+    public function crpm4()
+    {
+        $opms = Cache::tags('opm')->remember('opms_sjd:crpm4', $this->expiration, function(){
+            return $this->model->where('CODIGO','like','5%')
+                    ->where('CODIGO','like', '%000000')
+                    ->orderBy('CODIGO')
+                    ->get();
+        });
+        return $opms->pluck('ABREVIATURA','CODIGO')->toArray();    
+    }
+
+    public function crpm5()
+    {
+        $opms = Cache::tags('opm')->remember('opms_sjd:crpm5', $this->expiration, function(){
+            return $this->model->where('CODIGO','like','6%')
+                ->where('CODIGO','like', '%000000')
+                ->orderBy('CODIGO')
+                ->get();
+        });
+        return $opms->pluck('ABREVIATURA','CODIGO')->toArray();      
+    }
+
+    public function crpm6()
+    {
+        $opms = Cache::tags('opm')->remember('opms_sjd:crpm6', $this->expiration, function(){
+            return $this->model->where('CODIGO','like','7%')
+                ->where('CODIGO','like', '%000000')
+                ->orderBy('CODIGO')
+                ->get();
+
+        });
+        return $opms->pluck('ABREVIATURA','CODIGO')->toArray();
+    }
+
+    public function ccb()
+    {
+        $opms = Cache::tags('opm')->remember('opms_sjd:ccb', $this->expiration, function(){
+            return $this->model->where('CODIGO','like','9%')
+                ->where('CODIGO','like', '%000000')
+                ->orWhere('CODIGO','=','9000000800')  // GRUPO DE OPERACOES DE SOCORRO TATICO
+                ->orderBy('CODIGO')
+                ->get();       
+        });
+        return $opms->pluck('ABREVIATURA','CODIGO')->toArray();
+    }
+
+    public function pluckReturn($data)
+    {
+        return $data->pluck('ABREVIATURA','CODIGO')->toArray();
+    }
 
     public function all()
     {
         //tempo de cahe
-        $expiration = 60 * 24 * 7; //uma semana
+        $this->expiration = 60 * 24 * 7; //uma semana
 
-        $registros = Cache::tags('opm')->remember('todas_unidade', $expiration, function(){
+        $registros = Cache::tags('opm')->remember('todas_unidade', $this->expiration, function(){
             return $this->model->all();
         });
 
@@ -158,9 +197,9 @@ class OPMRepository
     public function getByName($name)
     {
         //tempo de cahe
-        $expiration = 60 * 24 * 7; //uma semana
+        $this->expiration = 60 * 24 * 7; //uma semana
 
-        $registros = Cache::tags('opm')->remember('unidade:'.$name, $expiration, function() use ($name){
+        $registros = Cache::tags('opm')->remember('unidade:'.$name, $this->expiration, function() use ($name){
             return $this->model->where('ABREVIATURA','like',$name.'%')->first();
         });
 
@@ -173,7 +212,7 @@ class OPMRepository
         $expiration = 60 * 24 * 7; //uma semana
 
         $opms = Cache::tags('opm')->remember('codigo:'.$cdopm, $expiration, function() use($cdopm){
-            return $this->model->where('CODIGO','like',$cdopm.'%')->first();
+            return Opmpmpr::where('CODIGO','like',$cdopm.'%')->first();
         });
 
         return $opms;
@@ -184,7 +223,7 @@ class OPMRepository
         //tempo de cahe
         $expiration = 60 * 24 * 7; //uma semana
         $opmCodigo = Cache::tags('opm')->remember('opm:abreviatura:'.$cdopm, $expiration, function() use($cdopm){
-                $opm = $this->model->where('CODIGO','like',$cdopm.'%')->first();
+                $opm = Opmpmpr::where('CODIGO','like',$cdopm.'%')->first();
                 if($opm) return $opm->ABREVIATURA;
 
                 return 'Não encontrado';
@@ -194,7 +233,7 @@ class OPMRepository
     
     public static function uabreviatura($cdopm)
     {
-        $abreviatura = $this->model->where('CODIGO','=',$cdopm)->first();
+        $abreviatura = Opmpmpr::where('CODIGO','=',$cdopm)->first();
         if(!$abreviatura){
             return 'Não encontrada';
         }else { 

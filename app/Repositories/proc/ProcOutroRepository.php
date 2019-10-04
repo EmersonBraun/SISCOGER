@@ -5,26 +5,26 @@ namespace App\Repositories\proc;
 use Cache;
 use App\Models\Sjd\Proc\ProcOutro;
 use App\Repositories\BaseRepository;
-use Illuminate\Support\Facades\Route;
+use App\Services\AutorizationService;
 
 class ProcOutroRepository extends BaseRepository
 {
     protected $model;
+    protected $service;
     protected $unidade;
     protected $verTodasUnidades;
     protected static $expiration = 60 * 24;//um dia 
 
-	public function __construct(ProcOutro $model)
+	public function __construct(
+        ProcOutro $model,
+        AutorizationService $service
+    )
 	{
 		$this->model = $model;
-        
-        // ver se vem da api (não logada)
-        $proc = Route::currentRouteName(); //listar.algo
-        $proc = explode ('.', $proc); //divide em [0] -> listar e [1]-> algo
-        $proc = $proc[0];
+        $this->service = $service;
 
-        $isapi = ($proc == 'api') ? 1 : 0;
-        $verTodasUnidades = session('ver_todas_unidades');
+        $isapi = $this->service->isApi();
+        $verTodasUnidades = $this->service->verTodasOPM();
 
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
@@ -34,13 +34,21 @@ class ProcOutroRepository extends BaseRepository
 	{
         Cache::tags('proc_outro')->flush();
     }
+
+    public function procRefAno($ref, $ano = '', $name)
+    {
+        if(!$ano) $proc = $this->model->findOrFail($ref);
+        else $proc = $this->model->where([['sjd_ref',$ref],['sjd_ref_ano',$ano]])->first();
+
+        if(!$proc) abort(404);
+        $canSee = $this->service->canSee($proc, $name);
+        if(!$canSee) abort(403);
+        return $proc;
+    }
   
     public function all()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('proc_outro')->remember('todos_proc_outro', self::$expiration, function() {
                 return $this->model->all();
@@ -48,8 +56,8 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('proc_outro')->remember('todos_proc_outro'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')->get();
+            $registros = Cache::tags('proc_outro')->remember('todos_proc_outro'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->get();
             });
         }
 
@@ -58,10 +66,7 @@ class ProcOutroRepository extends BaseRepository
 
     public function ano($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+         if($this->verTodasUnidades)
         {
             $registros = Cache::tags('proc_outro')->remember('todos_proc_outro'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano','=',$ano)->get();
@@ -69,8 +74,8 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('proc_outro')->remember('todos_proc_outro'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
-                return $this->model->where('cdopm','like',$unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+            $registros = Cache::tags('proc_outro')->remember('todos_proc_outro'.$ano.$this->unidade, self::$expiration, function() use ($ano) {
+                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         return $registros;
@@ -78,10 +83,7 @@ class ProcOutroRepository extends BaseRepository
 
     public function andamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('proc_outro')->remember('andamento_proc_outro', self::$expiration, function() {
                 return $this->model
@@ -94,8 +96,8 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('proc_outro')->remember('andamento_proc_outro'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('proc_outro')->remember('andamento_proc_outro'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_proc_outro', '=', 'proc_outro.id_proc_outro')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -108,10 +110,7 @@ class ProcOutroRepository extends BaseRepository
 
     public function andamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('proc_outro')->remember('andamento_proc_outro'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
@@ -124,9 +123,9 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('proc_outro')->remember('andamento_proc_outro'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano) {
+            $registros = Cache::tags('proc_outro')->remember('andamento_proc_outro'.$ano.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_proc_outro', '=', 'proc_outro.id_proc_outro')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -139,10 +138,7 @@ class ProcOutroRepository extends BaseRepository
 
     public function julgamento()
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('proc_outro')->remember('julgamento_proc_outro', self::$expiration, function() {
                 return $this->model
@@ -157,8 +153,8 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('proc_outro')->remember('julgamento_proc_outro'.$unidade, self::$expiration, function() use ($unidade) {
-                return $this->model->where('cdopm','like',$unidade.'%')
+            $registros = Cache::tags('proc_outro')->remember('julgamento_proc_outro'.$this->unidade, self::$expiration, function()  {
+                return $this->model->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_proc_outro', '=', 'proc_outro.id_proc_outro')
                                 ->where('envolvido.id_proc_outro', '<>', 0);
@@ -173,10 +169,7 @@ class ProcOutroRepository extends BaseRepository
 
     public function julgamentoAno($ano)
 	{
-        $unidade = session('cdopmbase');
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
             $registros = Cache::tags('proc_outro')->remember('julgamento_proc_outro'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
@@ -191,9 +184,9 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('proc_outro')->remember('julgamento_proc_outro'.$ano.$unidade, self::$expiration, function() use ($unidade,$ano) {
+            $registros = Cache::tags('proc_outro')->remember('julgamento_proc_outro'.$ano.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$unidade.'%')
+                    ->where('cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_proc_outro', '=', 'proc_outro.id_proc_outro')
                                 ->where('envolvido.id_proc_outro', '<>', 0);
@@ -208,13 +201,7 @@ class ProcOutroRepository extends BaseRepository
 
     public function prazos()
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
 
             $registros = Cache::tags('proc_outro')->remember('prazo_proc_outro', self::$expiration, function() {
@@ -231,7 +218,7 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('proc_outro')->remember('prazo_proc_outro'.$unidade.'_prazo_topm', self::$expiration, function() use ($unidade){
+            $registros = Cache::tags('proc_outro')->remember('prazo_proc_outro'.$this->unidade.'_prazo_topm', self::$expiration, function() {
                 return $this->model->selectRaw('DISTINCT proc_outros.*,
                     dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
@@ -239,7 +226,7 @@ class ProcOutroRepository extends BaseRepository
                     DATEDIFF(limite_data,abertura_data) AS dttotal ,
                     dias_uteis(DATE(NOW()),limite_data) AS dufaltando,
                     DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando')
-                    ->where('proc_outros.cdopm','like',$unidade.'%')
+                    ->where('proc_outros.cdopm','like',$this->unidade.'%')
                     ->get(); 
             });   
         }
@@ -248,13 +235,7 @@ class ProcOutroRepository extends BaseRepository
 
     public function prazosAno($ano)
     {
-        //traz os dados do usuário
-        $unidade = session()->get('cdopmbase');
-
-        //verifica se o usuário tem permissão para ver todas unidades
-        $verTodasUnidades = session('ver_todas_unidades');
-
-        if($verTodasUnidades)
+        if($this->verTodasUnidades)
         {
 
             $registros = Cache::tags('proc_outro')->remember('prazo_proc_outro'.$ano, self::$expiration, function() use ($ano) {
@@ -272,7 +253,7 @@ class ProcOutroRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('proc_outro')->remember('prazo_proc_outro'.$ano.$unidade, self::$expiration, function() use ($unidade, $ano){
+            $registros = Cache::tags('proc_outro')->remember('prazo_proc_outro'.$ano.$this->unidade, self::$expiration, function() use ($ano){
                 return $this->model->selectRaw('DISTINCT proc_outros.*,
                     dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
@@ -280,7 +261,7 @@ class ProcOutroRepository extends BaseRepository
                     DATEDIFF(limite_data,abertura_data) AS dttotal ,
                     dias_uteis(DATE(NOW()),limite_data) AS dufaltando,
                     DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando')
-                    ->where('proc_outros.cdopm','like',$unidade.'%')
+                    ->where('proc_outros.cdopm','like',$this->unidade.'%')
                     ->where('proc_outros.sjd_ref_ano','=',$ano)
                     ->get();
 
@@ -288,7 +269,5 @@ class ProcOutroRepository extends BaseRepository
         }
         return $registros;
     }
-
-
 }
 

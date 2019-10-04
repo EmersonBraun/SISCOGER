@@ -78,7 +78,7 @@ class RecursoController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'recurso');
+        $proc = $this->repository->procRefAno($ref,$ano,'recurso');
         if(!$proc) abort('404');
 
         $this->canSee($proc);
@@ -88,7 +88,7 @@ class RecursoController extends Controller
 
     public function edit($ref, $ano='')
     {
-        $proc = $this->repository->refAno($ref,$ano,'recurso');
+        $proc = $this->repository->procRefAno($ref,$ano,'recurso');
         if(!$proc) abort('404');
         
         $this->canSee($proc);
