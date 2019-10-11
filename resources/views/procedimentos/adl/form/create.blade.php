@@ -20,7 +20,7 @@
     <div class="tab-content">
         <v-tab-item title="Formulário principal" idp="principal" cls="active show">
             {!! Form::open(['url' => route('adl.store')]) !!}
-            <v-prioritario admin="session('is_admin')"></v-prioritario>
+            <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
             <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
                 {!! Form::select('id_andamento',config('sistema.andamentoADL'),null, ['class' => 'form-control','required']) !!}
             </v-label>

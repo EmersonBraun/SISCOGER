@@ -92,11 +92,13 @@
         components: {Datepicker},
         props: {
             unique: {type: Boolean, default: false},
-            opm: {type: String, default: ''},
+            // opm: {type: String, default: ''},
             idp: {type: String, default: ''},
+            dproc: {type: String, default: ''},
         },
         data() {
             return {
+                add: false,
                 data: '',
                 descricao: '',
                 movimentos: [],
@@ -105,7 +107,8 @@
         },
         mounted(){
             this.verifyOnly
-            this.dadosSession()
+            this.rg = this.$root.dadoSession('rg')
+            this.opm = this.$root.dadoSession('cdopm')
             this.listMovimento()
         },
         computed:{
@@ -126,13 +129,13 @@
                 }      
             },
             canDelete(){
-                return this.permissions.includes('apagar-movimento')
+                return this.$root.hasPermission('apagar-movimento')
             },
         },
         methods: {
             listMovimento(){
                 this.clear(true)
-                let urlIndex = `${this.getBaseUrl}api/movimento/list/${this.dproc}/${this.idp}`;
+                let urlIndex = `${this.$root.baseUrl}api/movimento/list/${this.dproc}/${this.idp}`;
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)
@@ -145,7 +148,7 @@
                 }
             },
             createMovimento(){
-                let urlCreate = `${this.getBaseUrl}api/movimento/store`
+                let urlCreate = `${this.$root.baseUrl}api/movimento/store`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -157,7 +160,7 @@
             removeMovimento(movimento, index){
                 let id = movimento.id_movimento ? movimento.id_movimento : false
                 if(id){
-                    let urlDelete = `${this.getBaseUrl}api/movimento/destroy/${id}`
+                    let urlDelete = `${this.$root.baseUrl}api/movimento/destroy/${id}`
                     axios
                     .delete(urlDelete)
                     .then(this.movimentos.splice(index,1))

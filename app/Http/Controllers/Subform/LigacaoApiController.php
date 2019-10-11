@@ -18,7 +18,7 @@ class LigacaoApiController extends Controller
 
     public function list($proc, $ref, $ano='')
     {
-        $result = $this->repository->refAno($proc, $ref, $ano);
+        $result = $this->repository->procRefAno($proc, $ref, $ano);
         
         return response()->json( $result, 200);
     }

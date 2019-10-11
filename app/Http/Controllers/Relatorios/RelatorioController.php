@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\PM\EnvolvidoRepository;
 use App\Repositories\PM\OfendidoRepository;
+use App\Repositories\proc\ProcRepository;
 use App\Services\QueryService;
 
 class RelatorioController extends Controller
@@ -13,20 +14,24 @@ class RelatorioController extends Controller
     protected $envolvido;
     protected $ofendido;
     protected $service;
+    protected $proc;
     public function __construct(
         EnvolvidoRepository $envolvido,
         OfendidoRepository $ofendido,
-        QueryService $service
+        QueryService $service,
+        ProcRepository $proc
     )
 	{
         $this->envolvido = $envolvido;
         $this->ofendido = $ofendido;
         $this->service = $service;
+        $this->proc = $proc;
     }
     
     public function defensor()
     {
         $registros = $this->envolvido->situacao('defensor');
+        // dd($registros->first());
         return view('relatorios.defensor.index',compact('registros'));   
     }
 
@@ -59,6 +64,18 @@ class RelatorioController extends Controller
         $registros = $this->ofendido->relatorio($query, $proc);
        
         return view('relatorios.ofendido.result',compact('registros','proc'));   
+    }
+
+    public function abuso()
+    {
+        $registros = $this->proc->relatorioAbuso();
+        return view('relatorios.especificos.abuso', compact('registros'));
+    }
+
+    public function violenciadomestica()
+    {
+        $registros = $this->proc->relatorioViolenciaDomestica();
+        return view('relatorios.especificos.violenciadomestica', compact('registros'));
     }
 
 }

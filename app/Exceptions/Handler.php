@@ -3,8 +3,8 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Grimthorr\LaravelToast\Facade;
 class Handler extends ExceptionHandler
 {
     /**
@@ -40,12 +40,15 @@ class Handler extends ExceptionHandler
     }
 
     public function render($request, Exception $e)
-    {   
-        //pega a rota 
-        $rota = $request->path();
-        if($this->isHttpException($e))
-        {
+    { 
+        if($this->isHttpException($e)) {
+            $rota = $request->path();
             switch (intval($e->getStatusCode())) {
+                //proibido
+                case 401:
+                    Auth::logout();
+                    return redirect()->route('login');
+                    break;
                 //proibido
                 case 403:
                     toast()->warning('Foi registrada a tentativa de acesso', 'LOG!');
@@ -84,13 +87,14 @@ class Handler extends ExceptionHandler
         }
 
         // if ($e instanceof \PDOException) {
-        //     toast()->error('Meta4 fora do ar!', 'ERRO!');
-        //     Auth::logout();
-        //     return redirect()->intended('login');
+        //     echo $e->getMessage();
+        //     exit;
+        //     // Auth::logout();
+        //     // return redirect()->intended('login');
         // }
 
         return parent::render($request, $e);
     }
-    //return parent::render($request, $exception); antigo
+
 
 }

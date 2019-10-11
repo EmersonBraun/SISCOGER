@@ -281,3 +281,12 @@ Route::group(['as'=>'sai.','prefix' =>'sai','middleware' => ['permission:sai']],
     Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\SaiController@restore','middleware' => ['role:admin']]);
     Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\SaiController@forceDelete','middleware' => ['role:admin']]);
 });
+
+
+// arquivo
+Route::group(['as'=>'arquivamento.','prefix' =>'arquivamento'],function(){
+    Route::get('criar',['as' =>'create','uses'=>'Arquivamento\ArquivamentoController@create','middleware' => ['permission:criar-aquivamento']]);
+    Route::post('salvar',['as' =>'save','uses'=>'Arquivamento\ArquivamentoController@save','middleware' => ['permission:criar-aquivamento']]);
+    Route::get('prateleira/{numero}',['as' =>'prateleira','uses'=>'Arquivamento\ArquivamentoController@prateleira','middleware' => ['permission:ver-aquivamento']]);   
+    Route::get('{local}',['as' =>'local','uses'=>'Arquivamento\ArquivamentoController@local','middleware' => ['permission:ver-aquivamento']]);   
+});

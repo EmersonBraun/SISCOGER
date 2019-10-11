@@ -4,18 +4,19 @@ namespace App\Http\Controllers\Subform;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\proc\ProcRepository;
 
 class ProcApiController extends Controller
 {
     protected $repository;
     public function __construct(
-        MovimentoRepository $repository
+        ProcRepository $repository
     )
 	{
         $this->repository = $repository;
     }
 
-    public function dados($proc, $ref, $ano)
+    public function dados($proc, $ref, $ano='')
     {
         $dados = $this->repository->dados($proc, $ref, $ano);
         return response()->json($dados, 200); 

@@ -73,7 +73,9 @@
                         <thead>
                             <tr>
                                 <th class="col-sm-2">#</th>
-                                <th class="col-sm-8">Proc. REF/ANO</th>
+                                <th class="col-sm-2">Proc</th>
+                                <th class="col-sm-3">Ref.</th>
+                                <th class="col-sm-3">Ano</th>
                                 <th class="col-sm-2">Ver/Apagar Ligação</th>
                             </tr>
                         </thead>
@@ -83,7 +85,13 @@
                                     {{ index + 1 }}
                                 </td>
                                 <td>
-                                    {{ procedimento.origem_proc | uppercase}} {{ procedimento.origem_sjd_ref }}/{{ procedimento.origem_sjd_ref_ano }}
+                                    {{ procedimento.origem_proc | uppercase}} 
+                                </td>
+                                <td>
+                                    {{ procedimento.origem_sjd_ref }}
+                                </td>
+                                <td>
+                                    {{ procedimento.origem_sjd_ref_ano }}
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="First group">
@@ -116,6 +124,9 @@
         mixins: [mixin],
         props: {
             unique: {type: Boolean, default: false},
+            dproc: {type: String, default: ''},
+            dref: {type: String, default: ''},
+            dano: {type: String, default: ''},
         },
         data() {
             return {
@@ -130,7 +141,6 @@
                 finded: false,
                 counter: 0,
                 id_proc: '',
-                idp: '',
                 origin: '',
                 only: false,
             }
@@ -151,14 +161,14 @@
                 return Array.from({length: year - 2008}, (value, index) => 2009 + index)
             },
             canDelete(){
-                return this.permissions.includes('apagar-procedimento-origem')
+                return this.$root.hasPermission('apagar-procedimento-origem')
             },
             
         },
         methods: {
             searchProc(){
                 this.opm = ''
-                let searchUrl = `${this.getBaseUrl}api/dados/proc/${this.proc}/${this.ref}/${this.ano}`;
+                let searchUrl = `${this.$root.baseUrl}api/dados/proc/${this.proc}/${this.ref}/${this.ano}`;
                 if(this.proc && this.ref && this.ano){
                     axios
                     .get(searchUrl)
@@ -171,7 +181,7 @@
                 }
             },
             createProc(){
-                let urlCreate = `${this.getBaseUrl}api/ligacao/store`
+                let urlCreate = `${this.$root.baseUrl}api/ligacao/store`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -186,8 +196,8 @@
             // listagem dos arquivos existentes
             listProc(){
                 const urlIndex = (this.dano) 
-                ? `${this.getBaseUrl}api/ligacao/list/${this.dproc}/${this.dref}/${this.dano}`
-                : `${this.getBaseUrl}api/ligacao/list/${this.dproc}/${this.dref}`
+                ? `${this.$root.baseUrl}api/ligacao/list/${this.dproc}/${this.dref}/${this.dano}`
+                : `${this.$root.baseUrl}api/ligacao/list/${this.dproc}/${this.dref}`
                 axios
                 .get(urlIndex)
                 .then((response) => {
@@ -198,12 +208,12 @@
                 .catch(error => console.log(error));
             },
             showProc(proc, ref, ano){
-                let urlIndex = `${this.getBaseUrl}${proc}/${this.action}/${ref}/${ano}`;                
+                let urlIndex = `${this.$root.baseUrl}${proc}/${this.action}/${ref}/${ano}`;                
                 window.open(urlIndex, "_blank")
             },
             // apagar arquivo
             removeProc(id){
-                let urlDelete = `${this.getBaseUrl}api/ligacao/destroy/${id}`
+                let urlDelete = `${this.$root.baseUrl}api/ligacao/destroy/${id}`
                 axios
                 .delete(urlDelete)
                 .then(this.listProc)//chama list para atualizar

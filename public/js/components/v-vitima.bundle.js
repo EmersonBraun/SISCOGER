@@ -177,13 +177,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     components: { TheMask: __WEBPACK_IMPORTED_MODULE_1_vue_the_mask__["TheMask"] },
     props: {
         unique: { type: Boolean, default: false },
-        idp: { type: String }
+        idp: { type: String, default: '' },
+        dproc: { type: String, default: '' }
     },
     data: function data() {
         var _ref;
 
         return _ref = {
-
             nome: '',
             resultado: '',
             sexo: '',
@@ -194,7 +194,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             vsituacao: '',
             vitimas: [],
             finded: false
-        }, _defineProperty(_ref, 'resultado', false), _defineProperty(_ref, 'counter', 0), _defineProperty(_ref, 'only', false), _defineProperty(_ref, 'edit', ''), _ref;
+        }, _defineProperty(_ref, 'resultado', false), _defineProperty(_ref, 'counter', 0), _defineProperty(_ref, 'only', false), _defineProperty(_ref, 'toEdit', ''), _defineProperty(_ref, 'add', false), _ref;
     },
 
     filters: {
@@ -220,7 +220,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         listVitima: function listVitima() {
             var _this = this;
 
-            var urlIndex = this.getBaseUrl + 'api/vitima/list/' + this.dproc + '/' + this.idp;
+            var urlIndex = this.$root.baseUrl + 'api/vitima/list/' + this.dproc + '/' + this.idp;
             if (this.dproc && this.idp) {
                 axios.get(urlIndex).then(function (response) {
                     _this.vitimas = response.data;
@@ -232,7 +232,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
         },
         createVitima: function createVitima() {
-            var urlCreate = this.getBaseUrl + 'api/vitima/store';
+            var urlCreate = this.$root.baseUrl + 'api/vitima/store';
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
@@ -242,7 +242,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
         },
         replaceVitima: function replaceVitima(vitima) {
-            this.rg = vitima.rg, this.nome = vitima.nome, this.resultado = vitima.resultado, this.sexo = vitima.sexo, this.fone = vitima.fone, this.email = vitima.email, this.idade = vitima.idade, this.escolaridade = vitima.escolaridade, this.vsituacao = vitima.situacao, this.edit = vitima.id_ofendido;
+            this.rg = vitima.rg, this.nome = vitima.nome, this.resultado = vitima.resultado, this.sexo = vitima.sexo, this.fone = vitima.fone, this.email = vitima.email, this.idade = vitima.idade, this.escolaridade = vitima.escolaridade, this.vsituacao = vitima.situacao, this.toEdit = vitima.id_ofendido;
             // this.titleSubstitute=" - Substituição do "+vitima.situacao+" "+vitima.nome
 
             this.add = true;
@@ -250,7 +250,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         editVitima: function editVitima() {
             var _this2 = this;
 
-            var urledit = this.getBaseUrl + 'api/vitima/edit/' + this.edit;
+            var urledit = this.$root.baseUrl + 'api/vitima/edit/' + this.toEdit;
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
@@ -263,14 +263,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
         },
         removeVitima: function removeVitima(id, index) {
-            var urlDelete = this.getBaseUrl + 'api/vitima/destroy/' + id;
+            var urlDelete = this.$root.baseUrl + 'api/vitima/destroy/' + id;
             axios.delete(urlDelete).then(this.vitimas.splice(index, 1)).catch(function (error) {
                 return console.log(error);
             });
         },
         clear: function clear(add) {
             this.add = add;
-            this.rg = '', this.nome = '', this.resultado = '', this.sexo = '', this.fone = '', this.email = '', this.idade = '', this.escolaridade = '', this.vsituacao = '', this.finded = false, this.edit = '';
+            this.rg = '', this.nome = '', this.resultado = '', this.sexo = '', this.fone = '', this.email = '', this.idade = '', this.escolaridade = '', this.vsituacao = '', this.finded = false, this.toEdit = '';
         }
     }
 });
@@ -858,7 +858,7 @@ var render = function() {
                           "div",
                           { staticClass: "col-lg-1 col-md-1 col-xs 1" },
                           [
-                            !_vm.edit
+                            !_vm.toEdit
                               ? [
                                   _c("label", [_vm._v("Adicionar")]),
                                   _c("br"),
@@ -1162,6 +1162,12 @@ module.exports = Component.exports
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            add: false
+        };
+    },
+
     methods: {
         list: function list() {
             var _this = this;

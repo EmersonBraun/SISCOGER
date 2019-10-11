@@ -31,7 +31,7 @@
                     "ipm" => "Inquérito Policial Militar",
                     "it" => "Inquérito Técnico",
                     "iso" => "Inquérito Sanitário de Origem",
-                    "saindicancia" => "Sindicância",
+                    "sindicancia" => "Sindicância",
                     "sai" => "Investigação Policial",
                     "proc_outros" => "Procedimento Outros",
                     "pad" => "Processo Administrativo"

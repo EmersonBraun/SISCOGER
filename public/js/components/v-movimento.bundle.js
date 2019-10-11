@@ -102,11 +102,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { Datepicker: __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Datepicker__["Datepicker"] },
     props: {
         unique: { type: Boolean, default: false },
-        opm: { type: String, default: '' },
-        idp: { type: String, default: '' }
+        // opm: {type: String, default: ''},
+        idp: { type: String, default: '' },
+        dproc: { type: String, default: '' }
     },
     data: function data() {
         return {
+            add: false,
             data: '',
             descricao: '',
             movimentos: [],
@@ -115,7 +117,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.verifyOnly;
-        this.dadosSession();
+        this.rg = this.$root.dadoSession('rg');
+        this.opm = this.$root.dadoSession('cdopm');
         this.listMovimento();
     },
 
@@ -137,7 +140,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         canDelete: function canDelete() {
-            return this.permissions.includes('apagar-movimento');
+            return this.$root.hasPermission('apagar-movimento');
         }
     },
     methods: {
@@ -145,7 +148,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.clear(true);
-            var urlIndex = this.getBaseUrl + 'api/movimento/list/' + this.dproc + '/' + this.idp;
+            var urlIndex = this.$root.baseUrl + 'api/movimento/list/' + this.dproc + '/' + this.idp;
             if (this.dproc && this.idp) {
                 axios.get(urlIndex).then(function (response) {
                     _this.movimentos = response.data;
@@ -157,7 +160,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         createMovimento: function createMovimento() {
-            var urlCreate = this.getBaseUrl + 'api/movimento/store';
+            var urlCreate = this.$root.baseUrl + 'api/movimento/store';
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
@@ -169,7 +172,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         removeMovimento: function removeMovimento(movimento, index) {
             var id = movimento.id_movimento ? movimento.id_movimento : false;
             if (id) {
-                var urlDelete = this.getBaseUrl + 'api/movimento/destroy/' + id;
+                var urlDelete = this.$root.baseUrl + 'api/movimento/destroy/' + id;
                 axios.delete(urlDelete).then(this.movimentos.splice(index, 1)).catch(function (error) {
                     return console.log(error);
                 });
@@ -562,7 +565,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1346,6 +1349,12 @@ module.exports = Component.exports
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            add: false
+        };
+    },
+
     methods: {
         list: function list() {
             var _this = this;

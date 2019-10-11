@@ -259,5 +259,41 @@ class ProcRepository
 
         return $andamento;
     }
+
+    public function relatorioAbuso()
+    {
+        $registros = $this->searchRelatorio('assédio','assedio','abuso sexual');
+        return $registros;
+    }
+
+    public function relatorioViolenciaDomestica()
+    {
+        $registros = $this->searchRelatorio('violencia domestica','violência doméstica','Lei nº 11.340/2006');
+        return $registros;
+    }
+
+    public function searchRelatorio($termo1, $termo2, $termo3='', $termo4='', $termo5='')
+    {
+        $procedimentos = ["ipm","sindicancia","cd","cj","apfd","fatd","iso","it","adl","pad","sai"];
+        $registros = collect();
+        foreach ($procedimentos as $procedimento) {
+            $query = DB::table($procedimento)
+            ->join('envolvido', function ($join) use($procedimento){
+                $join->on($procedimento.'.id_'.$procedimento, '=', 'envolvido.id_'.$procedimento)
+                ->whereNotIn('envolvido.situacao', ['Acusador', 'Encarregado','Escrivão','Membro','Presidente'])
+                ->where('envolvido.rg','<>','');
+            })
+            ->orWhere('sintese_txt','like','%'.$termo1.'%')
+            ->orWhere('sintese_txt','like','%'.$termo2.'%');
+            if($termo3) $query->orWhere('sintese_txt','like','%'.$termo3.'%');
+            if($termo4) $query->orWhere('sintese_txt','like','%'.$termo4.'%');
+            if($termo5) $query->orWhere('sintese_txt','like','%'.$termo5.'%');
+            $search = $query->get();
+            if($search) $registros[$procedimento] = $search;
+            
+        }
+        return $registros;
+    }
+
 }
 

@@ -53,7 +53,7 @@
                             <v-objeto rg="{{$pm->RG}}"></v-objeto>
                         @endif
                         @if(hasPermissionTo('ver-membros'))
-                            <v-membro rg="{{$pm->RG}}"></v-membro>
+                            <v-membro-fdi rg="{{$pm->RG}}"></v-membro-fdi>
                         @endif
                         @if(hasPermissionTo('ver-aprestacoes'))
                             <v-apresentacoes rg="{{$pm->RG}}"></v-apresentacoes>

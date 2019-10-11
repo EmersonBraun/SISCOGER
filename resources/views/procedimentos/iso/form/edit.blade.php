@@ -39,7 +39,7 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('iso.update',$proc['id_iso']),'method' => 'put']) !!}
-                    <v-prioritario admin="session('admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                    <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
                     <v-label label="id_andamento" title="Andamento">
                         {!! Form::select('id_andamento',config('sistema.andamentoISO'),null, ['class' => 'form-control ']) !!}
                     </v-label>
@@ -74,44 +74,40 @@
                 {!! Form::close() !!}
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">
-                <v-proced-origem></v-proced-origem><br>           
-                <v-acusado idp="{{$proc['id_iso']}}" situacao="{{sistema('procSituacao','iso')}}" ></v-acusado><br>
+                <v-proced-origem dproc="iso" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>           
+                <v-acusado dproc="iso" idp="{{$proc['id_iso']}}" situacao="{{sistema('procSituacao','iso')}}" ></v-acusado><br>
             </v-tab-item>
             <v-tab-item title="Documentos" idp="documentos">
                 <file-upload 
-                        title="Relatório Médico:"
-                        name="relatoriomedico_file"
-                        proc="iso"
-                        idp="{{$proc['id_iso']}}"
-                        :ext="['pdf']" 
-                        :candelete="{{session('is_admin')}}"
-                        ></file-upload>
-                        <v-item-unique title="data do relatório" proc="iso" idp="{{$proc['id_iso']}}" name="relatoriomedico_data"></v-item-unique>
+                    title="Relatório Médico:"
+                    name="relatoriomedico_file"
+                    dproc="iso" idp="{{$proc['id_iso']}}"
+                    :ext="['pdf']" 
+                    ></file-upload>
+                    <v-item-unique title="data do relatório" dproc="iso" idp="{{$proc['id_iso']}}" name="relatoriomedico_data"></v-item-unique>
 
                 <file-upload 
                     title="Parecer:"
                     name="solucaoautoridade_file"
-                    proc="iso"
-                    idp="{{$proc['id_iso']}}"
+                    dproc="iso" idp="{{$proc['id_iso']}}"
                     :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
                     ></file-upload>
-                <v-item-unique title="Solução da autoridade" proc="iso" idp="{{$proc['id_iso']}}" name="solucaoautoridade_data"></v-item-unique>
+                <v-item-unique title="Solução da autoridade" dproc="iso" idp="{{$proc['id_iso']}}" name="solucaoautoridade_data"></v-item-unique>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                <v-membro idp="{{$proc['id_iso']}}"></v-membro>
+                <v-membro dproc="iso" idp="{{$proc['id_iso']}}"></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento idp="{{$proc['id_iso']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento dproc="iso" idp="{{$proc['id_iso']}}"></v-movimento>
             </v-tab-item>
             <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
-                <v-sobrestamento idp="{{$proc['id_iso']}}" ></v-sobrestamento>
+                <v-sobrestamento dproc="iso" idp="{{$proc['id_iso']}}" ></v-sobrestamento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo idp="{{$proc['id_iso']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="iso" idp="{{$proc['id_iso']}}" ></v-arquivo>
             </v-tab-item>
         </div>
     </div>

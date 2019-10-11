@@ -21,7 +21,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: { Checkbox: __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Checkbox__["Checkbox"] },
-    props: ['admin', 'prioridade']
+    props: ['prioridade'],
+    computed: {
+        admin: function admin() {
+            return this.$root.hasRole('admin');
+        }
+    }
 });
 
 /***/ }),
@@ -162,7 +167,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -433,6 +438,12 @@ module.exports = Component.exports
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            add: false
+        };
+    },
+
     methods: {
         list: function list() {
             var _this = this;

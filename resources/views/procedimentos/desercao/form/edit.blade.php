@@ -30,8 +30,8 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('desercao.update',$proc['id_desercao']),'method' => 'put']) !!}
-                    <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
-                    <v-acusado-unico idp="{{$proc['id_desercao']}}" situacao="{{sistema('procSituacao','desercao')}}" ></v-acusado-unico><br>
+                    <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
+                    <v-acusado-unico dproc="desercao" dproc="desercao" idp="{{$proc['id_desercao'] ?? ''}}" situacao="{{sistema('procSituacao','desercao')}}" ></v-acusado-unico><br>
                     <v-label label="cdopm" title="OPM">
                         <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
                     </v-label>
@@ -81,13 +81,13 @@
                 Reus
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento idp="{{$proc['id_desercao']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento dproc="desercao" idp="{{$proc['id_desercao']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo idp="{{$proc['id_desercao']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="desercao" idp="{{$proc['id_desercao']}}" ></v-arquivo>
             </v-tab-item>
         </div>
     </div>

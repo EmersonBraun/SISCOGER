@@ -37,7 +37,7 @@ class OfendidoRepository extends BaseRepository
     public function listProc($proc, $id)
 	{
         $registros = Cache::tags('ofendido')->remember('ofendido:proc', $this->expiration, function() use($proc, $id) {
-            return $this->model->where($proc,$id)->get();
+            return $this->model->where('id_'.$proc,$id)->get();
         });
 
         return $registros;

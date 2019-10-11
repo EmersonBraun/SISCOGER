@@ -21,7 +21,7 @@
     <div class="nav-tabs-custom">
         <v-tab-item title="Recurso do {{strtoupper($proc['procedimento'])}} N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
             {!! Form::model($proc,['url' => route('recurso.update',$proc['id_recurso']),'method' => 'put']) !!}
-                <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
                 <v-label label="procedimento" title="Procedimento">
                     {!! Form::select('procedimento',config('sistema.pocedimentosOpcoes'),null, ['class' => 'form-control ']) !!}
                 </v-label>

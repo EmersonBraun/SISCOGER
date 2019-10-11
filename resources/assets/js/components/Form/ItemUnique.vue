@@ -25,7 +25,7 @@
             name: {type: String, default: ''},
             // error: '',
             idp: {type: String, default: ''},
-            proc: {type: String, default: ''}
+            dproc: {type: String, default: ''}
 
         },
         data(){
@@ -61,7 +61,7 @@
         },
         methods:{
             insert(){
-                let urlInsert = this.getBaseUrl + 'api/proc/update/' + this.proc + '/' + this.idp + '/' + this.name ;
+                let urlInsert = this.$root.baseUrl + 'api/proc/update/' + this.dproc + '/' + this.idp + '/' + this.name ;
                 axios.post( urlInsert,{
                     input: this.input
                 })
@@ -77,7 +77,7 @@
                 this.insert()
             },
             dadoCampo(){
-                let urlIndex = this.getBaseUrl + 'api/proc/dadocampo/' + this.proc + '/' + this.idp + '/' + this.name ;
+                let urlIndex = this.$root.baseUrl + 'api/proc/dadocampo/' + this.dproc + '/' + this.idp + '/' + this.name ;
                 axios.get( urlIndex)
                 .then(response => {
                     this.input = response.data.input

@@ -2,12 +2,9 @@
 //Aqui ficam as consultas de banco de dados dos processos e procedimentos
 namespace App\Repositories\proc;
 
-use Illuminate\Support\Facades\DB;
-
 use Cache;
 use App\Models\Sjd\Proc\Movimento;
 use App\Repositories\BaseRepository;
-use Illuminate\Support\Facades\Route;
 use App\Services\AutorizationService;
 
 class MovimentoRepository extends BaseRepository

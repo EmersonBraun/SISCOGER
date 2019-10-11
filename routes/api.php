@@ -159,10 +159,10 @@ Route::group(['as'=>'sobrestamento.','prefix' =>'sobrestamento'],function(){
 });
 // rotas componente SubForm/Arquivo.vue
 Route::group(['as'=>'arquivo.','prefix' =>'arquivo'],function(){
-    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'Arquivo\ArquivoController@list']);
-    Route::post('store',['as' =>'store','uses'=>'Arquivo\ArquivoController@store']);
-    Route::post('edit/{id}',['as' =>'edit','uses'=>'Arquivo\ArquivoController@edit']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Arquivo\ArquivoController@destroy']);
+    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'Arquivamento\ArquivamentoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Arquivamento\ArquivamentoController@store']);
+    Route::post('edit/{id}',['as' =>'edit','uses'=>'Arquivamento\ArquivamentoController@edit']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Arquivamento\ArquivamentoController@destroy']);
 });
 // Comando OPM
 Route::group(['as'=>'cadastroopm.','prefix' =>'cadastroopm'],function(){

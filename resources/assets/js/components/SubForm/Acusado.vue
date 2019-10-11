@@ -55,7 +55,7 @@
                             </select>
                         </div>
                         <!-- REUS para IPM, desercao e APFD -->
-                        <template v-if="reu && edit">
+                        <template v-if="reu && toEdit">
                             <div class="col-lg-6 col-md-6 col-xs-6">
                                 <label for="ipm_processocrime">Processo crime</label><br>
                                 <select class="form-control" v-model="pm.ipm_processocrime" name="ipm_processocrime" >
@@ -119,7 +119,7 @@
                             <a class="btn btn-danger btn-block" @click="clear(false)"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs 1">
-                            <template v-if="edit">
+                            <template v-if="toEdit">
                                 <label>Editar</label><br>
                                 <a class="btn btn-success btn-block" :disabled="!resultado" @click="editPM"><i class="fa fa-plus" style="color: white"></i></a>
                             </template>
@@ -276,10 +276,12 @@
             unique: {type: Boolean, default: false},
             situacao: {type: String, default: ''},
             idp: {type: String, default: ''},
+            dproc: {type: String, default: ''},
             reu: {type: Boolean, default: false}, 
         },
         data() {
             return {
+                add: false,
                 cargo: '',
                 nome: '',
                 resultado: '',
@@ -290,7 +292,7 @@
                 resultado: false,
                 counter: 0,
                 only: false,
-                edit: '',
+                toEdit: '',
                 verReus: false,
                 confirmModal: false,
             }
@@ -312,12 +314,13 @@
             this.verifyOnly
         },
         created() {
-            this.dadosSession()
-            let name = `${this.dproc}${this.idp}acusados` 
-            const json = sessionStorage.getItem(name)
-            const array = JSON.parse(json)
-            this.pms = Array.isArray(array) ? array : []
-            if(!this.pms.length) this.listPM()
+            // this.dadosSession()
+            // let name = `${this.dproc}${this.idp}acusados` 
+            // const json = sessionStorage.getItem(name)
+            // const array = JSON.parse(json)
+            // this.pms = Array.isArray(array) ? array : []
+            // if(!this.pms.length) 
+            this.listPM()
         },
         watch: {
             rg() {
@@ -333,15 +336,15 @@
                 this.only = (this.unique == true) ? true : false     
             },
             canEdit(){
-                return this.permissions.includes('editar-acusado')
+                return this.$root.hasPermission('editar-acusado')
             },
             canDelete(){
-                return this.permissions.includes('apagar-acusado')
+                return this.$root.hasPermission('apagar-acusado')
             },
         },
         methods: {
             searchPM(){               
-                let searchUrl = `${this.getBaseUrl}api/dados/pm/${this.rg}` ;
+                let searchUrl = `${this.$root.baseUrl}api/dados/pm/${this.rg}` ;
                 if(this.rg.length > 5){
                     axios
                     .get(searchUrl)
@@ -361,21 +364,21 @@
                 }
             },
             listPM(){
-                let urlIndex = `${this.getBaseUrl}api/dados/envolvido/${this.dproc}/${this.idp}/${this.situacao}` ;
+                let urlIndex = `${this.$root.baseUrl}api/dados/envolvido/${this.dproc}/${this.idp}/${this.situacao}` ;
                 if(this.dproc && this.idp && this.situacao){
                     axios
                     .get(urlIndex)
                     .then((response) => {
                         this.pms = response.data
                         let name = this.dproc+this.idp+'acusados'
-                        sessionStorage.setItem(name, JSON.stringify(this.pms))
+                        // sessionStorage.setItem(name, JSON.stringify(this.pms))
                     })
                     .then(this.clear(false))//limpa a busca
                     .catch(error => console.log(error));
                 }
             },
             createPM(){
-                let urlCreate = `${this.getBaseUrl}api/acusado/store`;
+                let urlCreate = `${this.$root.baseUrl}api/acusado/store`;
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
                 axios.post( urlCreate,data)
@@ -383,7 +386,7 @@
                 .catch((error) => console.log(error));
             },
             showPM(rg){
-                let urlIndex = `${this.getBaseUrl}fdi/${rg}/ver`;                
+                let urlIndex = `${this.$root.baseUrl}fdi/${rg}/ver`;                
                 window.open(urlIndex, "_blank")
             },
             replacePM(pm){
@@ -391,12 +394,12 @@
                 this.nome = pm.nome,
                 this.cargo = pm.cargo,
                 this.resultado = pm.resultado,
-                this.edit = pm.id_envolvido
+                this.toEdit = pm.id_envolvido
                 // this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
                 this.add = true
             },
             editPM(){
-                let urledit = `${this.getBaseUrl}api/acusado/edit/${this.edit}`;
+                let urledit = `${this.$root.baseUrl}api/acusado/edit/${this.toEdit}`;
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
                 
@@ -410,7 +413,7 @@
             removePM(id, index){
                 this.confimModal = true
                 if(r){
-                    let urlDelete = `${this.getBaseUrl}api/acusado/destroy/${id}`;
+                    let urlDelete = `${this.$root.baseUrl}api/acusado/destroy/${id}`;
                     axios
                     .delete(urlDelete)
                     .then(this.pms.splice(index,1))
@@ -424,7 +427,7 @@
                 this.nome = ''
                 this.cargo = ''
                 this.resultado = ''
-                this.edit = ''
+                this.toEdit = ''
                 this.finded = false
             },
         },

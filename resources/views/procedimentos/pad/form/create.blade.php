@@ -37,7 +37,7 @@
             <div class="box-body">
 
             {!! Form::open(['url' => route('pad.store')]) !!}
-                <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
                 <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
                     {!! Form::select('id_andamento',config('sistema.andamentoPAD'),null, ['class' => 'form-control ']) !!}
                 </v-label>
@@ -83,7 +83,6 @@
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
 @section('js')

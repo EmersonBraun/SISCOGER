@@ -102,12 +102,12 @@
             unique: {type: Boolean, default: false},
             situacao: {type: String, default: ''},
             idp: {type: String, default: ''},
+            dproc: {type: String, default: ''},
         },
         data() {
             return {
                 nome: '',
                 cargo: '',
-                proc: '',
                 pms: [],
                 cls: false,
                 resultado: false,
@@ -148,7 +148,7 @@
         },
         methods: {
             searchPM(){               
-                let searchUrl = `${this.getBaseUrl}api/dados/pm/${this.rg}` ;
+                let searchUrl = `${this.$root.baseUrl}api/dados/pm/${this.rg}` ;
                 if(this.rg.length > 5){
                     axios
                     .get(searchUrl)
@@ -168,7 +168,7 @@
                 }
             },
              listPM(){
-                let urlIndex = `${this.getBaseUrl}api/dados/envolvido/${this.dproc}/${this.idp}/${this.situacao}`;
+                let urlIndex = `${this.$root.baseUrl}api/dados/envolvido/${this.dproc}/${this.idp}/${this.situacao}`;
                 if(this.dproc && this.idp && this.situacao){
                     axios
                     .get(urlIndex)
@@ -182,7 +182,7 @@
                 }
             },
             createPM(){
-                let urlCreate = `${this.getBaseUrl}api/acusado/store`;
+                let urlCreate = `${this.$root.baseUrl}api/acusado/store`;
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -192,7 +192,7 @@
                 .catch((error) => console.log(error));
             },
             showPM(rg){
-                let urlIndex = `${this.getBaseUrl}fdi/${rg}/ver`;                
+                let urlIndex = `${this.$root.baseUrl}fdi/${rg}/ver`;                
                 window.open(urlIndex, "_blank")
             },
             replacePM(pm){
@@ -206,7 +206,7 @@
 
             },
             editPM(){
-                let urledit = `${this.getBaseUrl}api/acusado/edit/${this.edit}`;
+                let urledit = `${this.$root.baseUrl}api/acusado/edit/${this.edit}`;
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);

@@ -149,7 +149,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: {
         unique: { type: Boolean, default: false },
         situacao: { type: String, default: '' },
-        idp: { type: String, default: '' }
+        idp: { type: String, default: '' },
+        dproc: { type: String, default: '' }
     },
     data: function data() {
         return {
@@ -174,7 +175,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     created: function created() {
-        this.getBaseUrl;
+        this.$root.baseUrl;
         this.verifyOnly;
         this.listReus();
     },
@@ -197,7 +198,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.reus = Array.isArray(array) ? array : [];
         },
         showReu: function showReu(rg) {
-            var urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';
+            var urlIndex = this.$root.baseUrl + 'fdi/' + rg + '/ver';
             window.open(urlIndex, "_blank");
         },
         replaceReu: function replaceReu(reu) {
@@ -208,7 +209,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editReu: function editReu() {
             var _this = this;
 
-            var urledit = this.getBaseUrl + 'api/acusado/edit/' + this.idedit;
+            var urledit = this.$root.baseUrl + 'api/acusado/edit/' + this.idedit;
             var formData = document.getElementById('formReus');
             var data = new FormData(formData);
 
@@ -221,7 +222,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         atualizaReus: function atualizaReus() {
             var _this2 = this;
 
-            var urlIndex = this.getBaseUrl + 'api/dados/envolvido/' + this.dproc + '/' + this.idp + '/' + this.situacao;
+            var urlIndex = this.$root.baseUrl + 'api/dados/envolvido/' + this.dproc + '/' + this.idp + '/' + this.situacao;
             if (this.dproc && this.idp && this.situacao) {
                 axios.get(urlIndex).then(function (response) {
                     _this2.reus = response.data;
@@ -255,7 +256,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -916,6 +917,12 @@ module.exports = Component.exports
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            add: false
+        };
+    },
+
     methods: {
         list: function list() {
             var _this = this;

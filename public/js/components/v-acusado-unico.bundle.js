@@ -111,13 +111,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: {
         unique: { type: Boolean, default: false },
         situacao: { type: String, default: '' },
-        idp: { type: String, default: '' }
+        idp: { type: String, default: '' },
+        dproc: { type: String, default: '' }
     },
     data: function data() {
         return {
             nome: '',
             cargo: '',
-            proc: '',
             pms: [],
             cls: false,
             resultado: false,
@@ -162,7 +162,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         searchPM: function searchPM() {
             var _this = this;
 
-            var searchUrl = this.getBaseUrl + 'api/dados/pm/' + this.rg;
+            var searchUrl = this.$root.baseUrl + 'api/dados/pm/' + this.rg;
             if (this.rg.length > 5) {
                 axios.get(searchUrl).then(function (response) {
                     if (response.data.success) {
@@ -182,7 +182,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         listPM: function listPM() {
             var _this2 = this;
 
-            var urlIndex = this.getBaseUrl + 'api/dados/envolvido/' + this.dproc + '/' + this.idp + '/' + this.situacao;
+            var urlIndex = this.$root.baseUrl + 'api/dados/envolvido/' + this.dproc + '/' + this.idp + '/' + this.situacao;
             if (this.dproc && this.idp && this.situacao) {
                 axios.get(urlIndex).then(function (response) {
                     _this2.pms = response.data;
@@ -195,7 +195,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         createPM: function createPM() {
-            var urlCreate = this.getBaseUrl + 'api/acusado/store';
+            var urlCreate = this.$root.baseUrl + 'api/acusado/store';
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
@@ -205,7 +205,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         showPM: function showPM(rg) {
-            var urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';
+            var urlIndex = this.$root.baseUrl + 'fdi/' + rg + '/ver';
             window.open(urlIndex, "_blank");
         },
         replacePM: function replacePM(pm) {
@@ -217,7 +217,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editPM: function editPM() {
             var _this3 = this;
 
-            var urledit = this.getBaseUrl + 'api/acusado/edit/' + this.edit;
+            var urledit = this.$root.baseUrl + 'api/acusado/edit/' + this.edit;
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
@@ -715,6 +715,12 @@ module.exports = Component.exports
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            add: false
+        };
+    },
+
     methods: {
         list: function list() {
             var _this = this;

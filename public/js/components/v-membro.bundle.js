@@ -1,81 +1,5 @@
 webpackJsonp([0],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FDI/Membro.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['rg'],
-    data: function data() {
-        return {
-            membros: []
-        };
-    },
-    mounted: function mounted() {
-        this.listmembros();
-    },
-
-    methods: {
-        listmembros: function listmembros() {
-            var _this = this;
-
-            var urlIndex = this.$root.baseUrl + 'api/fdi/membros/' + this.rg;
-            if (this.rg) {
-                axios.get(urlIndex).then(function (response) {
-                    _this.membros = response.data;
-                }).catch(function (error) {
-                    return console.log(error);
-                });
-            }
-        },
-        urlEdit: function urlEdit(proc, ref, ano) {
-            var urlBase = this.$root.baseUrl;
-            return '' + urlBase + proc + '/editar/' + ref + '/' + ano;
-        }
-    }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Membro.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -235,6 +159,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -243,13 +186,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { TheMask: __WEBPACK_IMPORTED_MODULE_1_vue_the_mask__["TheMask"] },
     props: {
         unique: { type: Boolean, default: false },
-        idp: { type: String, default: '' }
+        idp: { type: String, default: '' },
+        dproc: { type: String, default: '' }
     },
     data: function data() {
         return {
+            add: false,
             nome: '',
             cargo: '',
-            proc: '',
             pms: [],
             subs: [],
             finded: false,
@@ -266,10 +210,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             situacaosubs: '',
             substitute: false,
             titleSubstitute: '',
-            indexsubs: ''
+            indexsubs: '',
+            mode: 'atuais'
         };
     },
-    mounted: function mounted() {
+    created: function created() {
         this.verifyOnly;
         this.listPM();
     },
@@ -292,17 +237,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         canReplace: function canReplace() {
-            return this.permissions.includes('substituir-membros');
+            return this.$root.hasPermission('substituir-membros');
         },
         canDelete: function canDelete() {
-            return this.permissions.includes('apagar-membros');
+            return this.$root.hasPermission('apagar-membros');
         }
     },
     methods: {
         searchPM: function searchPM() {
             var _this = this;
 
-            var searchUrl = this.getBaseUrl + 'api/dados/pm/' + this.rg;
+            var searchUrl = this.$root.baseUrl + 'api/dados/pm/' + this.rg;
             if (this.rg.length > 5) {
                 if (this.substituido && this.rg == this.rgsubs) {
                     this.nome = 'Inválido - Mesmo RG informado';
@@ -328,7 +273,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         listPM: function listPM() {
             var _this2 = this;
 
-            var urlIndex = this.getBaseUrl + 'api/dados/membros/' + this.dproc + '/' + this.idp;
+            var urlIndex = this.$root.baseUrl + 'api/dados/membros/' + this.dproc + '/' + this.idp;
             if (this.dproc && this.idp) {
                 axios.get(urlIndex).then(function (response) {
                     _this2.pms = response.data.membros;
@@ -348,7 +293,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         createPM: function createPM() {
-            var urlCreate = this.getBaseUrl + 'api/membros/store';
+            var urlCreate = this.$root.baseUrl + 'api/membros/store';
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
@@ -359,13 +304,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         showPM: function showPM(rg) {
-            var urlIndex = this.getBaseUrl + 'fdi/\' + rg + \'/ver';
+            var urlIndex = this.$root.baseUrl + 'fdi/' + rg + '/ver';
             window.open(urlIndex, "_blank");
         },
         removePM: function removePM(id, situacao, index) {
             this.clear(false); //limpa a busca
 
-            var urlDelete = this.getBaseUrl + 'api/membros/destroy/' + id;
+            var urlDelete = this.$root.baseUrl + 'api/membros/destroy/' + id;
             axios.delete(urlDelete).then(this.updateSituacao(situacao, 'remove')).then(this.pms.splice(index, 1)).catch(function (error) {
                 return console.log(error);
             });
@@ -411,21 +356,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0e36cc36\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/FDI/Membro.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-aebcc5e8\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubForm/Membro.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -434,113 +364,10 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-0e36cc36\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/FDI/Membro.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-tab",
-    { attrs: { header: "Membro", badge: _vm.membros.length } },
-    [
-      _c("h4", { staticClass: "text-center text-bold" }, [
-        _vm._v(
-          "Marcado em procedimentos como Encarregado, Presidente ou Acusador"
-        )
-      ]),
-      _vm._v(" "),
-      _c("table", { staticClass: "table table-striped" }, [
-        _c(
-          "tbody",
-          [
-            _vm.membros.length
-              ? [
-                  _c("tr", [
-                    _c("th", [_vm._v("Proc.")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("CDOPM")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Situação")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Andamento")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Ações")])
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.membros, function(membro, index) {
-                    return _c("tr", { key: index }, [
-                      _c("td", [
-                        _vm._v(
-                          _vm._s(_vm._f("toUpper")(membro.procedimento)) +
-                            " " +
-                            _vm._s(membro.sjd_ref) +
-                            " / " +
-                            _vm._s(membro.sjd_ref_ano)
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(membro.cdopm))]),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        [
-                          _vm._v(_vm._s(membro.situacao) + " "),
-                          membro.rg_sustituto
-                            ? [_vm._v("Substituído")]
-                            : _vm._e()
-                        ],
-                        2
-                      ),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(membro.id_andamento))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("span", [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "btn btn-info",
-                              attrs: {
-                                href: _vm.urlEdit(
-                                  membro.procedimento,
-                                  membro.sjd_ref,
-                                  membro.sjd_ref_ano
-                                )
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-fw fa-edit " })]
-                          )
-                        ])
-                      ])
-                    ])
-                  })
-                ]
-              : [_c("tr", [_c("td", [_vm._v("Nada encontrado")])])]
-          ],
-          2
-        )
-      ])
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-0e36cc36", module.exports)
-  }
-}
 
 /***/ }),
 
@@ -553,15 +380,58 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-lg-12 col-md-12 col-xs-12 card" }, [
     _c("div", { staticClass: "card-header" }, [
-      _c("h5", [
-        _c("b", [_vm._v("Membros " + _vm._s(_vm.titleSubstitute || ""))])
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-sm-10" }, [
+          _c("h5", [
+            _c("b", [_vm._v("Membros " + _vm._s(_vm.titleSubstitute || ""))])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col align-self-end" }, [
+          _c("div", { staticClass: "btn-group" }, [
+            _c(
+              "a",
+              {
+                staticClass: "btn",
+                class: _vm.mode == "atuais" ? "btn-info" : "btn-default",
+                on: {
+                  click: function($event) {
+                    _vm.mode = "atuais"
+                  }
+                }
+              },
+              [_vm._v("\n                        Atuais\n                    ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "btn",
+                class: _vm.mode == "substituidos" ? "btn-info" : "btn-default",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.mode = "substituidos"
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  "\n                        Substituídos\n                    "
+                )
+              ]
+            )
+          ])
+        ])
       ])
     ]),
     _vm._v(" "),
-    !_vm.only
+    _c("br"),
+    _vm._v(" "),
+    _vm.mode == "atuais" && !_vm.only
       ? _c(
           "div",
-          { staticClass: "card-body", class: _vm.add ? "bordaform" : "" },
+          { staticClass: "card-body ", class: _vm.add ? "bordaform" : "" },
           [
             !_vm.add
               ? _c("div", [
@@ -840,193 +710,214 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "card-footer" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _vm.pms.length
-        ? _c("div", { staticClass: "row bordaform" }, [
-            _c("div", { staticClass: "col-sm-12" }, [
-              _c("table", { staticClass: "table table-hover" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.pms, function(pm, index) {
-                    return _c("tr", { key: index }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(pm.rg))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(pm.nome))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(pm.cargo))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(pm.situacao))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "btn-group",
-                            attrs: {
-                              role: "group",
-                              "aria-label": "First group"
-                            }
-                          },
-                          [
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-primary",
-                                staticStyle: { color: "white" },
-                                attrs: { type: "button", target: "_blanck" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.showPM(pm.rg)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-eye" })]
-                            ),
-                            _vm._v(" "),
-                            _vm.canReplace
-                              ? _c(
-                                  "a",
-                                  {
-                                    staticClass: "btn btn-success",
-                                    staticStyle: { color: "white" },
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.replacePM(pm, index)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-retweet" })]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.canDelete
-                              ? _c(
-                                  "a",
-                                  {
-                                    staticClass: "btn btn-danger",
-                                    staticStyle: { color: "white" },
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.removePM(
-                                          pm.id_envolvido,
-                                          pm.situacao,
-                                          index
-                                        )
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-trash" })]
-                                )
-                              : _vm._e()
-                          ]
-                        )
-                      ])
-                    ])
-                  }),
-                  0
-                )
-              ])
-            ])
-          ])
-        : !_vm.pms.length && _vm.only
-        ? _c("div", [
-            _c("h6", [
-              _vm._v("\n                Não há registros\n            ")
-            ])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm._m(2),
-      _vm._v(" "),
-      _vm.subs.length
-        ? _c("div", { staticClass: "row bordaform" }, [
-            _c("div", { staticClass: "col-sm-12" }, [
-              _c("table", { staticClass: "table table-hover" }, [
-                _vm._m(3),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.subs, function(s, index) {
-                    return _c("tr", { key: index }, [
-                      _c("td", [_vm._v(_vm._s(index + 1))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(s.rg))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(s.nome))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(s.cargo))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("i", {
-                          staticClass: "fa fa-sign-out",
-                          staticStyle: { color: "red" }
-                        }),
-                        _vm._v(_vm._s(s.situacao)),
-                        _c("br"),
+    _c(
+      "div",
+      { staticClass: "card-footer" },
+      [
+        _vm.mode == "atuais"
+          ? [
+              _vm._m(0),
+              _vm._v(" "),
+              _vm.pms.length
+                ? _c("div", { staticClass: "row bordaform" }, [
+                    _c("div", { staticClass: "col-sm-12" }, [
+                      _c("table", { staticClass: "table table-hover" }, [
+                        _vm._m(1),
                         _vm._v(" "),
-                        _c("i", {
-                          staticClass: "fa fa-sign-in",
-                          staticStyle: { color: "green" }
-                        }),
-                        _vm._v(
-                          _vm._s(s.rg_substituto) +
-                            "\n                            "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
                         _c(
-                          "div",
-                          {
-                            staticClass: "btn-group",
-                            attrs: {
-                              role: "group",
-                              "aria-label": "First group"
-                            }
-                          },
-                          [
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-primary",
-                                staticStyle: { color: "white" },
-                                attrs: { type: "button", target: "_blanck" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.showPM(s.rg)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-eye" })]
-                            )
-                          ]
+                          "tbody",
+                          _vm._l(_vm.pms, function(pm, index) {
+                            return _c("tr", { key: index }, [
+                              _c("td", [_vm._v(_vm._s(index + 1))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(pm.rg))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(pm.nome))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(pm.cargo))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(pm.situacao))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "btn-group",
+                                    attrs: {
+                                      role: "group",
+                                      "aria-label": "First group"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-primary",
+                                        staticStyle: { color: "white" },
+                                        attrs: {
+                                          type: "button",
+                                          target: "_blanck"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.showPM(pm.rg)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-eye" })]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.canReplace
+                                      ? _c(
+                                          "a",
+                                          {
+                                            staticClass: "btn btn-success",
+                                            staticStyle: { color: "white" },
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.replacePM(pm, index)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-retweet"
+                                            })
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.canDelete
+                                      ? _c(
+                                          "a",
+                                          {
+                                            staticClass: "btn btn-danger",
+                                            staticStyle: { color: "white" },
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.removePM(
+                                                  pm.id_envolvido,
+                                                  pm.situacao,
+                                                  index
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-trash"
+                                            })
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]
+                                )
+                              ])
+                            ])
+                          }),
+                          0
                         )
                       ])
                     ])
-                  }),
-                  0
-                )
-              ])
-            ])
-          ])
-        : !_vm.subs.length && _vm.only
-        ? _c("div", [
-            _c("h6", [
-              _vm._v(
-                "\n                Não há registros substituídos\n            "
-              )
-            ])
-          ])
-        : _vm._e()
-    ])
+                  ])
+                : _c("div", [
+                    _c("h6", [
+                      _vm._v(
+                        "\n                    Não há registros\n                "
+                      )
+                    ])
+                  ])
+            ]
+          : [
+              _vm._m(2),
+              _vm._v(" "),
+              _vm.subs.length
+                ? _c("div", { staticClass: "row bordaform" }, [
+                    _c("div", { staticClass: "col-sm-12" }, [
+                      _c("table", { staticClass: "table table-hover" }, [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.subs, function(s, index) {
+                            return _c("tr", { key: index }, [
+                              _c("td", [_vm._v(_vm._s(index + 1))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(s.rg))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(s.nome))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(s.cargo))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c("i", {
+                                  staticClass: "fa fa-sign-out",
+                                  staticStyle: { color: "red" }
+                                }),
+                                _vm._v(_vm._s(s.situacao)),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("i", {
+                                  staticClass: "fa fa-sign-in",
+                                  staticStyle: { color: "green" }
+                                }),
+                                _vm._v(
+                                  _vm._s(s.rg_substituto) +
+                                    "\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "btn-group",
+                                    attrs: {
+                                      role: "group",
+                                      "aria-label": "First group"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-primary",
+                                        staticStyle: { color: "white" },
+                                        attrs: {
+                                          type: "button",
+                                          target: "_blanck"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.showPM(s.rg)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-eye" })]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ])
+                          }),
+                          0
+                        )
+                      ])
+                    ])
+                  ])
+                : _c("div", [
+                    _c("h6", [
+                      _vm._v(
+                        "\n                    Não há registros substituídos\n                "
+                      )
+                    ])
+                  ])
+            ]
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = [
@@ -1094,33 +985,6 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0e36cc36\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/FDI/Membro.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0e36cc36\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/FDI/Membro.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("22c1d03a", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0e36cc36\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Membro.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0e36cc36\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Membro.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-aebcc5e8\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubForm/Membro.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1145,58 +1009,6 @@ if(false) {
  // When the module is disposed, remove the <style> tags
  module.hot.dispose(function() { update(); });
 }
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/FDI/Membro.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0e36cc36\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/FDI/Membro.vue")
-}
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FDI/Membro.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-0e36cc36\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/FDI/Membro.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-0e36cc36"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/FDI/Membro.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0e36cc36", Component.options)
-  } else {
-    hotAPI.reload("data-v-0e36cc36", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
 
 /***/ }),
 
@@ -1257,6 +1069,12 @@ module.exports = Component.exports
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            add: false
+        };
+    },
+
     methods: {
         list: function list() {
             var _this = this;

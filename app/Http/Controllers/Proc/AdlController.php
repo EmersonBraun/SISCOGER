@@ -100,7 +100,7 @@ class AdlController extends Controller
 
     public function edit($ref, $ano='')
     {
-       $proc = $this->repository->procRefAno($ref,$ano,'adl');
+        $proc = $this->repository->procRefAno($ref,$ano,'adl');
         return view('procedimentos.adl.form.edit', compact('proc'));
 
     }

@@ -90,7 +90,7 @@
                             <a class="btn btn-danger btn-block" @click="clear(true)"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs 1">
-                            <template v-if="!edit">
+                            <template v-if="!toEdit">
                                 <label>Adicionar</label><br>
                                 <a class="btn btn-success btn-block" :disabled="!rg.length || !nome.length" @click="createVitima"><i class="fa fa-plus" style="color: white"></i></a>
                             </template>
@@ -165,11 +165,11 @@
         components: {TheMask},
         props: {
             unique: {type: Boolean, default: false},
-            idp: {type: String},
+            idp: {type: String, default: ''},
+            dproc: {type: String, default: ''},
         },
         data() {
             return {
-                
                 nome: '',
                 resultado: '',
                 sexo: '',
@@ -183,8 +183,8 @@
                 resultado: false,
                 counter: 0,
                 only: false,
-                edit: ''
-            }
+                toEdit: '',
+                add: false,            }
         },
         filters:{
             tipoSexo: function(val){
@@ -206,7 +206,7 @@
         },
         methods: {
              listVitima(){
-                let urlIndex = `${this.getBaseUrl}api/vitima/list/${this.dproc}/${this.idp}`;
+                let urlIndex = `${this.$root.baseUrl}api/vitima/list/${this.dproc}/${this.idp}`;
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)
@@ -219,7 +219,7 @@
                 }
             },
             createVitima(){
-                let urlCreate = `${this.getBaseUrl}api/vitima/store`
+                let urlCreate = `${this.$root.baseUrl}api/vitima/store`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -239,13 +239,13 @@
                 this.escolaridade = vitima.escolaridade,
                 this.vsituacao = vitima.situacao,
 
-                this.edit = vitima.id_ofendido
+                this.toEdit = vitima.id_ofendido
                 // this.titleSubstitute=" - Substituição do "+vitima.situacao+" "+vitima.nome
 
                 this.add = true
             },
             editVitima(){
-                let urledit = `${this.getBaseUrl}api/vitima/edit/${this.edit}`
+                let urledit = `${this.$root.baseUrl}api/vitima/edit/${this.toEdit}`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -258,7 +258,7 @@
                 .catch((error) => console.log(error));
             },
             removeVitima(id, index){
-                let urlDelete = `${this.getBaseUrl}api/vitima/destroy/${id}`
+                let urlDelete = `${this.$root.baseUrl}api/vitima/destroy/${id}`
                 axios
                 .delete(urlDelete)
                 .then(this.vitimas.splice(index,1))
@@ -276,7 +276,7 @@
                 this.escolaridade = '',
                 this.vsituacao = '',
                 this.finded = false,
-                this.edit = ''
+                this.toEdit = ''
             },
         },
     }

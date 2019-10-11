@@ -290,12 +290,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         unique: { type: Boolean, default: false },
         situacao: { type: String, default: '' },
         idp: { type: String, default: '' },
+        dproc: { type: String, default: '' },
         reu: { type: Boolean, default: false }
     },
     data: function data() {
         var _ref;
 
         return _ref = {
+            add: false,
             cargo: '',
             nome: '',
             resultado: '',
@@ -303,7 +305,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             proc: '',
             pms: [],
             finded: false
-        }, _defineProperty(_ref, 'resultado', false), _defineProperty(_ref, 'counter', 0), _defineProperty(_ref, 'only', false), _defineProperty(_ref, 'edit', ''), _defineProperty(_ref, 'verReus', false), _defineProperty(_ref, 'confirmModal', false), _ref;
+        }, _defineProperty(_ref, 'resultado', false), _defineProperty(_ref, 'counter', 0), _defineProperty(_ref, 'only', false), _defineProperty(_ref, 'toEdit', ''), _defineProperty(_ref, 'verReus', false), _defineProperty(_ref, 'confirmModal', false), _ref;
     },
 
     filters: {
@@ -323,12 +325,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.verifyOnly;
     },
     created: function created() {
-        this.dadosSession();
-        var name = '' + this.dproc + this.idp + 'acusados';
-        var json = sessionStorage.getItem(name);
-        var array = JSON.parse(json);
-        this.pms = Array.isArray(array) ? array : [];
-        if (!this.pms.length) this.listPM();
+        // this.dadosSession()
+        // let name = `${this.dproc}${this.idp}acusados` 
+        // const json = sessionStorage.getItem(name)
+        // const array = JSON.parse(json)
+        // this.pms = Array.isArray(array) ? array : []
+        // if(!this.pms.length) 
+        this.listPM();
     },
 
     watch: {
@@ -345,17 +348,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.only = this.unique == true ? true : false;
         },
         canEdit: function canEdit() {
-            return this.permissions.includes('editar-acusado');
+            return this.$root.hasPermission('editar-acusado');
         },
         canDelete: function canDelete() {
-            return this.permissions.includes('apagar-acusado');
+            return this.$root.hasPermission('apagar-acusado');
         }
     },
     methods: {
         searchPM: function searchPM() {
             var _this = this;
 
-            var searchUrl = this.getBaseUrl + 'api/dados/pm/' + this.rg;
+            var searchUrl = this.$root.baseUrl + 'api/dados/pm/' + this.rg;
             if (this.rg.length > 5) {
                 axios.get(searchUrl).then(function (response) {
                     if (response.data.success) {
@@ -375,12 +378,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         listPM: function listPM() {
             var _this2 = this;
 
-            var urlIndex = this.getBaseUrl + 'api/dados/envolvido/' + this.dproc + '/' + this.idp + '/' + this.situacao;
+            var urlIndex = this.$root.baseUrl + 'api/dados/envolvido/' + this.dproc + '/' + this.idp + '/' + this.situacao;
             if (this.dproc && this.idp && this.situacao) {
                 axios.get(urlIndex).then(function (response) {
                     _this2.pms = response.data;
                     var name = _this2.dproc + _this2.idp + 'acusados';
-                    sessionStorage.setItem(name, JSON.stringify(_this2.pms));
+                    // sessionStorage.setItem(name, JSON.stringify(this.pms))
                 }).then(this.clear(false)) //limpa a busca
                 .catch(function (error) {
                     return console.log(error);
@@ -388,7 +391,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
         },
         createPM: function createPM() {
-            var urlCreate = this.getBaseUrl + 'api/acusado/store';
+            var urlCreate = this.$root.baseUrl + 'api/acusado/store';
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
             axios.post(urlCreate, data).then(this.listPM()).catch(function (error) {
@@ -396,18 +399,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
         },
         showPM: function showPM(rg) {
-            var urlIndex = this.getBaseUrl + 'fdi/' + rg + '/ver';
+            var urlIndex = this.$root.baseUrl + 'fdi/' + rg + '/ver';
             window.open(urlIndex, "_blank");
         },
         replacePM: function replacePM(pm) {
-            this.rg = pm.rg, this.nome = pm.nome, this.cargo = pm.cargo, this.resultado = pm.resultado, this.edit = pm.id_envolvido;
+            this.rg = pm.rg, this.nome = pm.nome, this.cargo = pm.cargo, this.resultado = pm.resultado, this.toEdit = pm.id_envolvido;
             // this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
             this.add = true;
         },
         editPM: function editPM() {
             var _this3 = this;
 
-            var urledit = this.getBaseUrl + 'api/acusado/edit/' + this.edit;
+            var urledit = this.$root.baseUrl + 'api/acusado/edit/' + this.toEdit;
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
 
@@ -421,7 +424,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         removePM: function removePM(id, index) {
             this.confimModal = true;
             if (r) {
-                var urlDelete = this.getBaseUrl + 'api/acusado/destroy/' + id;
+                var urlDelete = this.$root.baseUrl + 'api/acusado/destroy/' + id;
                 axios.delete(urlDelete).then(this.pms.splice(index, 1)).then(this.clear(false)).catch(function (error) {
                     return console.log(error);
                 });
@@ -433,7 +436,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.nome = '';
             this.cargo = '';
             this.resultado = '';
-            this.edit = '';
+            this.toEdit = '';
             this.finded = false;
         }
     }
@@ -582,7 +585,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -992,7 +995,7 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            _vm.reu && _vm.edit
+                            _vm.reu && _vm.toEdit
                               ? [
                                   _c(
                                     "div",
@@ -1466,7 +1469,7 @@ var render = function() {
                               "div",
                               { staticClass: "col-lg-1 col-md-1 col-xs 1" },
                               [
-                                _vm.edit
+                                _vm.toEdit
                                   ? [
                                       _c("label", [_vm._v("Editar")]),
                                       _c("br"),
@@ -2379,6 +2382,12 @@ function VueFixer(vue) {
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            add: false
+        };
+    },
+
     methods: {
         list: function list() {
             var _this = this;

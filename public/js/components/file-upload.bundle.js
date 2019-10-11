@@ -179,6 +179,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -187,35 +232,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: {
         title: { type: String },
         name: { type: String },
-        proc: { type: String },
+        dproc: { type: String },
         idp: { type: String },
         ext: { type: Array, default: ['pdf'] },
-        candelete: { default: '' },
-        unique: { type: Boolean, default: true }
+        unique: { type: Boolean, default: true },
+        view: { type: Boolean, default: false }
     },
     data: function data() {
         return {
             file: '',
             uploaded: [],
+            old: [],
             apagados: [],
             forUpload: false,
             error: [],
             progressBar: false,
             width: 0,
             only: false,
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
+            headers: { 'Content-Type': 'multipart/form-data' },
             countup: 0,
             countap: 0,
             filetype: '',
             action: 'fileupload',
-            view: false,
             data_arquivo: '',
             rg: '',
-            nome_original: '',
+            nome_original: true,
             obs: '',
-            del: false
+            mode: 'active'
         };
     },
     beforeMount: function beforeMount() {
@@ -241,17 +284,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     computed: {
-        getBaseUrl: function getBaseUrl() {
-            // URL completa
-            var getUrl = window.location;
-            // dividir em array
-            var pathname = getUrl.pathname.split('/');
-            this.view = pathname[3] == 'ver' ? true : false;
-            var baseUrl = getUrl.protocol + '//' + getUrl.host + '/' + pathname[1] + '/api/';
-
-            return baseUrl;
-        },
-
         // verificar se é upload unico
         verifyOnly: function verifyOnly() {
             this.only = this.unique == true && this.countup > 0 ? true : false;
@@ -284,6 +316,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             today = dd + '/' + mm + '/' + yyyy;
             return today;
+        },
+        canDelete: function canDelete() {
+            return this.$root.hasRole('admin');
         }
     },
     methods: {
@@ -298,14 +333,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         createFile: function createFile() {
             var _this = this;
 
-            var urlCreate = '' + this.getBaseUrl + this.action + '/store';
+            var urlCreate = this.$root.baseUrl + 'api/' + this.action + '/store';
 
             var formData = new FormData();
             formData.append('file', this.file);
             formData.append('name', this.name);
-            formData.append('rg', this.rg);
+            formData.append('rg', this.$root.dadoSession('rg'));
             formData.append('id_proc', this.idp);
-            formData.append('proc', this.proc);
+            formData.append('proc', this.dproc);
             formData.append('ext', this.filetype);
             formData.append('nome_original', this.nome_original);
             formData.append('data_arquivo', this.data_arquivo);
@@ -319,9 +354,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         listFile: function listFile() {
             var _this2 = this;
 
-            var urlIndex = '' + this.getBaseUrl + this.action + '/list/' + this.proc + '/' + this.idp + '/' + this.name;
+            var urlIndex = this.$root.baseUrl + 'api/' + this.action + '/list/' + this.dproc + '/' + this.idp + '/' + this.name;
+            console.log(urlIndex);
             axios.get(urlIndex).then(function (response) {
                 _this2.uploaded = response.data.list;
+                _this2.old = response.data.old;
                 _this2.apagados = response.data.apagados;
                 _this2.countup = response.data.list.length;
                 _this2.countap = response.data.list.length;
@@ -330,17 +367,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         showFile: function showFile(hash) {
-            var urlShow = '' + this.getBaseUrl + this.action + '/show/' + this.proc + '/' + this.idp + '/' + this.name + '/' + hash;
+            var urlShow = this.$root.baseUrl + 'api/' + this.action + '/show/' + this.dproc + '/' + this.idp + '/' + this.name + '/' + hash;
             window.open(urlShow, "_blank");
         },
         downloadFile: function downloadFile(id) {
-            var urlIndex = '' + this.getBaseUrl + this.action + '/download/' + id;
+            var urlIndex = this.$root.baseUrl + 'api/' + this.action + '/download/' + id;
             window.open(urlIndex, "_blank");
         },
         deleteFile: function deleteFile(id) {
             var _this3 = this;
 
-            var urlDelete = '' + this.getBaseUrl + this.action + '/delete/' + id;
+            var urlDelete = this.$root.baseUrl + 'api/' + this.action + '/delete/' + id;
             axios.delete(urlDelete).then(function (response) {
                 return _this3.listFile();
             }) //chama list para atualizar
@@ -351,7 +388,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         removeFile: function removeFile(id) {
             var _this4 = this;
 
-            var urlDelete = '' + this.getBaseUrl + this.action + '/destroy/' + id;
+            var urlDelete = this.$root.baseUrl + 'api/' + this.action + '/destroy/' + id;
             axios.delete(urlDelete).then(function (response) {
                 return _this4.listFile();
             }) //chama list para atualizar
@@ -362,12 +399,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         cancelFile: function cancelFile() {
             this.file = '';
             this.forUpload = false;
-        },
-        showUploaded: function showUploaded() {
-            this.del = false;
-        },
-        showDeleted: function showDeleted() {
-            this.del = true;
         },
         progress: function progress() {
             var _this5 = this;
@@ -995,31 +1026,60 @@ var render = function() {
                   _c("h4", [_vm._v(_vm._s(_vm.title))])
                 ]),
                 _vm._v(" "),
-                _vm.candelete
-                  ? _c("div", { staticClass: "col align-self-end" }, [
-                      _c("div", { staticClass: "btn-group" }, [
-                        _c(
+                _c("div", { staticClass: "col align-self-end" }, [
+                  _c("div", { staticClass: "btn-group" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn",
+                        class: _vm.mode == "old" ? "btn-info" : "btn-default",
+                        on: {
+                          click: function($event) {
+                            _vm.mode = "old"
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            Antigos\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn",
+                        class:
+                          _vm.mode == "active" ? "btn-info" : "btn-default",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            _vm.mode = "active"
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            Ativos\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.canDelete
+                      ? _c(
                           "a",
                           {
                             staticClass: "btn",
-                            class: !_vm.del ? "btn-info" : "btn-default",
-                            attrs: { type: "button", target: "_black" },
-                            on: { click: _vm.showUploaded }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            Ativos\n                        "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn",
-                            class: _vm.del ? "btn-info" : "btn-default",
-                            attrs: { type: "button" },
-                            on: { click: _vm.showDeleted }
+                            class:
+                              _vm.mode == "deleted"
+                                ? "btn-info"
+                                : "btn-default",
+                            on: {
+                              click: function($event) {
+                                _vm.mode = "deleted"
+                              }
+                            }
                           },
                           [
                             _vm._v(
@@ -1027,9 +1087,9 @@ var render = function() {
                             )
                           ]
                         )
-                      ])
-                    ])
-                  : _vm._e()
+                      : _vm._e()
+                  ])
+                ])
               ])
             ])
           : _vm._e(),
@@ -1203,7 +1263,88 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        !_vm.del
+        _vm.mode == "old"
+          ? [
+              _c("div", { staticClass: "card-footer" }, [
+                _vm.old.length
+                  ? _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-sm-12" }, [
+                        _c("table", { staticClass: "table table-hover" }, [
+                          _vm._m(0),
+                          _vm._v(" "),
+                          _c(
+                            "tbody",
+                            _vm._l(_vm.old, function(o, index) {
+                              return _c("tr", { key: index }, [
+                                _c("td", [_vm._v(_vm._s(o.name))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(o.sjd_ref) +
+                                      "/" +
+                                      _vm._s(o.sjd_ref_ano)
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(_vm._f("toMB")(o.size)) +
+                                      " MB - " +
+                                      _vm._s(o.mime)
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(o.data_arquivo))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(_vm._f("hasObs")(o.obs)))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "btn-group",
+                                      attrs: {
+                                        role: "group",
+                                        "aria-label": "First group"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "btn btn-primary",
+                                          staticStyle: { color: "white" },
+                                          attrs: {
+                                            type: "button",
+                                            href: o.path,
+                                            target: "_black"
+                                          }
+                                        },
+                                        [
+                                          _c("i", { staticClass: "fa fa-eye" }),
+                                          _vm._v(
+                                            " Ver\n                                            "
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ])
+                            }),
+                            0
+                          )
+                        ])
+                      ])
+                    ])
+                  : _c("div", { staticClass: "row" }, [_vm._m(1)])
+              ])
+            ]
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.mode == "active"
           ? [
               _c("div", { staticClass: "card-footer" }, [
                 _vm.uploaded.length
@@ -1370,21 +1511,19 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                !_vm.uploaded.length && _vm.only
-                  ? _c("div", { staticClass: "row" }, [_vm._m(0)])
-                  : _vm._e()
+                _vm._m(2)
               ])
             ]
           : _vm._e(),
         _vm._v(" "),
-        _vm.del
+        _vm.mode == "deleted"
           ? [
               _c("div", { staticClass: "card-footer" }, [
                 _vm.apagados.length
                   ? _c("div", { staticClass: "row" }, [
                       _c("div", { staticClass: "col-sm-12" }, [
                         _c("table", { staticClass: "table table-hover" }, [
-                          _vm._m(1),
+                          _vm._m(3),
                           _vm._v(" "),
                           _c(
                             "tbody",
@@ -1473,6 +1612,28 @@ var render = function() {
                                             " Download\n                                            "
                                           )
                                         ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "btn btn-danger",
+                                          staticStyle: { color: "white" },
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.removeFile(a.id)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fa fa-trash"
+                                          }),
+                                          _vm._v(
+                                            " Destruir\n                                            "
+                                          )
+                                        ]
                                       )
                                     ]
                                   )
@@ -1484,7 +1645,7 @@ var render = function() {
                         ])
                       ])
                     ])
-                  : _c("div", { staticClass: "row" }, [_vm._m(2)])
+                  : _c("div", { staticClass: "row" }, [_vm._m(4)])
               ])
             ]
           : _vm._e()
@@ -1500,8 +1661,38 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Nome aquivo")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-1" }, [_vm._v("Ref/Ano")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Tamanho - Ext.")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-1" }, [_vm._v("Data")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-3" }, [_vm._v("Obs.")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ações")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-sm-12" }, [
-      _c("p", [_vm._v("Não há arquivo")])
+      _c("h4", [_vm._v("Não há arquivo")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c("h4", [_vm._v("Não há arquivo")])
+      ])
     ])
   },
   function() {
@@ -1531,7 +1722,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-sm-12" }, [
-      _c("p", [_vm._v("Não há arquivo")])
+      _c("h4", [_vm._v("Não há arquivo")])
     ])
   }
 ]

@@ -39,7 +39,7 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('sindicancia.update',$proc['id_sindicancia']),'method' => 'put']) !!}
-                    <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                    <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
                     <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
                         {!! Form::select('id_andamento',config('sistema.andamentoSINDICANCIA'),null, ['class' => 'form-control ']) !!}
                     </v-label>
@@ -77,52 +77,46 @@
                 {!! Form::close() !!}
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">
-                <v-proced-origem></v-proced-origem><br>           
-                <v-acusado idp="{{$proc['id_sindicancia']}}" situacao="{{sistema('procSituacao','sindicancia')}}" ></v-acusado><br>
-                <v-vitima idp="{{$proc['id_sindicancia']}}" ></v-vitima><br>
+                <v-proced-origem dproc="sindicancia" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>           
+                <v-acusado dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" situacao="{{sistema('procSituacao','sindicancia')}}" ></v-acusado><br>
+                <v-vitima dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" ></v-vitima><br>
             </v-tab-item>
             <v-tab-item title="Documentos" idp="documentos">
                 <file-upload 
                 title="Relatório do Encarregado:"
                 name="relatorio_file"
-                proc="sindicancia"
-                idp="{{$proc['id_sindicancia']}}"
+                dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"
                 :ext="['pdf']" 
-                :candelete="{{session('is_admin')}}"
                 ></file-upload>
 
                 <file-upload 
                 title="Solução do Comandante:"
                 name="sol_cmt_file"
-                proc="sindicancia"
-                idp="{{$proc['id_sindicancia']}}"
+                dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"
                 :ext="['pdf']" 
-                :candelete="{{session('is_admin')}}"
                 ></file-upload>
 
                 <file-upload 
                 title="Solução CMT Geral:"
                 name="sol_cmtgeral_file"
-                proc="sindicancia"
-                idp="{{$proc['id_sindicancia']}}"
+                dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"
                 :ext="['pdf']" 
-                :candelete="{{session('is_admin')}}"
                 ></file-upload>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                <v-membro idp="{{$proc['id_sindicancia']}}"></v-membro>
+                <v-membro dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento idp="{{$proc['id_sindicancia']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"></v-movimento>
             </v-tab-item>
             <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
-                <v-sobrestamento idp="{{$proc['id_sindicancia']}}" ></v-sobrestamento>
+                <v-sobrestamento dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" ></v-sobrestamento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo idp="{{$proc['id_sindicancia']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" ></v-arquivo>
             </v-tab-item>
         </div>
     </div>

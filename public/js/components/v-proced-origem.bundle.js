@@ -120,12 +120,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_js__["a" /* default */]],
     props: {
-        unique: { type: Boolean, default: false }
+        unique: { type: Boolean, default: false },
+        dproc: { type: String, default: '' },
+        dref: { type: String, default: '' },
+        dano: { type: String, default: '' }
     },
     data: function data() {
         var _ref;
@@ -137,7 +148,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             opm: '',
             action: 'editar',
             procedimentos: []
-        }, _defineProperty(_ref, 'action', 'proc'), _defineProperty(_ref, 'params', ''), _defineProperty(_ref, 'finded', false), _defineProperty(_ref, 'counter', 0), _defineProperty(_ref, 'id_proc', ''), _defineProperty(_ref, 'idp', ''), _defineProperty(_ref, 'origin', ''), _defineProperty(_ref, 'only', false), _ref;
+        }, _defineProperty(_ref, 'action', 'proc'), _defineProperty(_ref, 'params', ''), _defineProperty(_ref, 'finded', false), _defineProperty(_ref, 'counter', 0), _defineProperty(_ref, 'id_proc', ''), _defineProperty(_ref, 'origin', ''), _defineProperty(_ref, 'only', false), _ref;
     },
 
     // depois de montado
@@ -159,7 +170,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
         },
         canDelete: function canDelete() {
-            return this.permissions.includes('apagar-procedimento-origem');
+            return this.$root.hasPermission('apagar-procedimento-origem');
         }
     },
     methods: {
@@ -167,7 +178,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var _this = this;
 
             this.opm = '';
-            var searchUrl = this.getBaseUrl + 'api/dados/proc/' + this.proc + '/' + this.ref + '/' + this.ano;
+            var searchUrl = this.$root.baseUrl + 'api/dados/proc/' + this.proc + '/' + this.ref + '/' + this.ano;
             if (this.proc && this.ref && this.ano) {
                 axios.get(searchUrl).then(function (response) {
                     _this.opm = response.data.opm;
@@ -181,7 +192,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         createProc: function createProc() {
             var _this2 = this;
 
-            var urlCreate = this.getBaseUrl + 'api/ligacao/store';
+            var urlCreate = this.$root.baseUrl + 'api/ligacao/store';
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
@@ -196,7 +207,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         listProc: function listProc() {
             var _this3 = this;
 
-            var urlIndex = this.dano ? this.getBaseUrl + 'api/ligacao/list/' + this.dproc + '/' + this.dref + '/' + this.dano : this.getBaseUrl + 'api/ligacao/list/' + this.dproc + '/' + this.dref;
+            var urlIndex = this.dano ? this.$root.baseUrl + 'api/ligacao/list/' + this.dproc + '/' + this.dref + '/' + this.dano : this.$root.baseUrl + 'api/ligacao/list/' + this.dproc + '/' + this.dref;
             axios.get(urlIndex).then(function (response) {
                 _this3.procedimentos = response.data;
             }).then(this.clear) //limpa a busca
@@ -205,13 +216,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
         },
         showProc: function showProc(proc, ref, ano) {
-            var urlIndex = '' + this.getBaseUrl + proc + '/' + this.action + '/' + ref + '/' + ano;
+            var urlIndex = '' + this.$root.baseUrl + proc + '/' + this.action + '/' + ref + '/' + ano;
             window.open(urlIndex, "_blank");
         },
 
         // apagar arquivo
         removeProc: function removeProc(id) {
-            var urlDelete = this.getBaseUrl + 'api/ligacao/destroy/' + id;
+            var urlDelete = this.$root.baseUrl + 'api/ligacao/destroy/' + id;
             axios.delete(urlDelete).then(this.listProc) //chama list para atualizar
             .catch(function (error) {
                 return console.log(error);
@@ -257,7 +268,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -673,9 +684,21 @@ var render = function() {
                             _vm._s(
                               _vm._f("uppercase")(procedimento.origem_proc)
                             ) +
-                            " " +
+                            " \n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                                " +
                             _vm._s(procedimento.origem_sjd_ref) +
-                            "/" +
+                            "\n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                                " +
                             _vm._s(procedimento.origem_sjd_ref_ano) +
                             "\n                            "
                         )
@@ -764,7 +787,11 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { staticClass: "col-sm-8" }, [_vm._v("Proc. REF/ANO")]),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Proc")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-3" }, [_vm._v("Ref.")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-3" }, [_vm._v("Ano")]),
         _vm._v(" "),
         _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ver/Apagar Ligação")])
       ])
@@ -872,6 +899,12 @@ module.exports = Component.exports
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            add: false
+        };
+    },
+
     methods: {
         list: function list() {
             var _this = this;

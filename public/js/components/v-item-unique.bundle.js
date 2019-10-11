@@ -32,7 +32,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         name: { type: String, default: '' },
         // error: '',
         idp: { type: String, default: '' },
-        proc: { type: String, default: '' }
+        dproc: { type: String, default: '' }
 
     },
     data: function data() {
@@ -73,7 +73,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         insert: function insert() {
             var _this2 = this;
 
-            var urlInsert = this.getBaseUrl + 'api/proc/update/' + this.proc + '/' + this.idp + '/' + this.name;
+            var urlInsert = this.$root.baseUrl + 'api/proc/update/' + this.dproc + '/' + this.idp + '/' + this.name;
             axios.post(urlInsert, {
                 input: this.input
             }).then(this.status = 'ok').catch(function (error) {
@@ -89,7 +89,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         dadoCampo: function dadoCampo() {
             var _this3 = this;
 
-            var urlIndex = this.getBaseUrl + 'api/proc/dadocampo/' + this.proc + '/' + this.idp + '/' + this.name;
+            var urlIndex = this.$root.baseUrl + 'api/proc/dadocampo/' + this.dproc + '/' + this.idp + '/' + this.name;
             axios.get(urlIndex).then(function (response) {
                 _this3.input = response.data.input;
                 // console.log(this.input)

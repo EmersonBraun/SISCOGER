@@ -40,7 +40,7 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('fatd.update',$proc['id_fatd']),'method' => 'put']) !!}
-                    <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                    <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
                     <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
                         {!! Form::select('id_andamento',config('sistema.andamentoFATD'),null, ['class' => 'form-control ']) !!}
                     </v-label>
@@ -87,113 +87,91 @@
                 {!! Form::close() !!}
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">
-                <v-proced-origem></v-proced-origem><br>           
-                <v-acusado idp="{{$proc['id_fatd']}}" situacao="{{sistema('procSituacao','fatd')}}" ></v-acusado><br>
-                <v-vitima idp="{{$proc['id_fatd']}}" ></v-vitima><br>
+                <v-proced-origem dproc="fatd" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>           
+                <v-acusado dproc="fatd" idp="{{$proc['id_fatd']}}" situacao="{{sistema('procSituacao','fatd')}}" ></v-acusado><br>
+                <v-vitima dproc="fatd" idp="{{$proc['id_fatd']}}" ></v-vitima><br>
             </v-tab-item>
             <v-tab-item title="Documentos" idp="documentos">
                 <file-upload 
                 title="Relato do fato imputado:"
                 name="fato_file"
-                proc="fatd"
-                idp="{{$proc['id_fatd']}}"
+                dproc="fatd" idp="{{$proc['id_fatd']}}"
                 :ext="['pdf']" 
-                :candelete="{{session('is_admin')}}"
                 ></file-upload>
 
                 <file-upload 
                 title="Relatório:"
                 name="relatorio_file"
-                proc="fatd"
-                idp="{{$proc['id_fatd']}}"
+                dproc="fatd" idp="{{$proc['id_fatd']}}"
                 :ext="['pdf']" 
-                :candelete="{{session('is_admin')}}"
                 ></file-upload>
 
                 <file-upload 
                 title="Solução do Comandante:"
                 name="sol_cmt_file"
-                proc="fatd"
-                idp="{{$proc['id_fatd']}}"
+                dproc="fatd" idp="{{$proc['id_fatd']}}"
                 :ext="['pdf']" 
-                :candelete="{{session('is_admin')}}"
                 ></file-upload>
 
                 <file-upload 
                 title="Solução do Cmt Geral:"
                 name="sol_cg_file"
-                proc="fatd"
-                idp="{{$proc['id_fatd']}}"
+                dproc="fatd" idp="{{$proc['id_fatd']}}"
                 :ext="['pdf']" 
-                :candelete="{{session('is_admin')}}"
                 ></file-upload>
 
                 <file-upload 
                 title="Nota de punição:"
                 name="notapunicao_file"
-                proc="fatd"
-                idp="{{$proc['id_fatd']}}"
+                dproc="fatd" idp="{{$proc['id_fatd']}}"
                 :ext="['pdf']" 
-                :candelete="{{session('is_admin')}}"
                 ></file-upload>
 
-                <v-item-unique title="Publicação da nota de punição (Ex: BI nº 12/2011)" proc="fatd" idp="{{$proc['id_fatd']}}" name="publicacaonp"></v-item-unique>
+                <v-item-unique title="Publicação da nota de punição (Ex: BI nº 12/2011)" proc="fatd" dproc="fatd" idp="{{$proc['id_fatd']}}" name="publicacaonp"></v-item-unique>
             </v-tab-item>
             <v-tab-item title="Recursos" idp="recursos">
                 <file-upload 
                     title="Reconsideração de ato (solução):"
                     name="rec_ato_file"
-                    proc="fatd"
-                    idp="{{$proc['id_fatd']}}"
+                    dproc="fatd" idp="{{$proc['id_fatd']}}"
                     :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
-                    >
-                </file-upload>
+                    ></file-upload>
 
                 <file-upload 
                     title="Recurso CMT OPM:"
                     name="rec_cmt_file"
-                    proc="fatd"
-                    idp="{{$proc['id_fatd']}}"
+                    dproc="fatd" idp="{{$proc['id_fatd']}}"
                     :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
-                    >
-                </file-upload>
+                    ></file-upload>
 
                 <file-upload 
                     title="Recurso CMT CRPM:"
                     name="rec_crpm_file"
-                    proc="fatd"
-                    idp="{{$proc['id_fatd']}}"
+                    dproc="fatd" idp="{{$proc['id_fatd']}}"
                     :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
-                    >
-                </file-upload>
+                    ></file-upload>
 
                 <file-upload 
                     title="Recurso CMT Geral:"
                     name="rec_cg_file"
-                    proc="fatd"
-                    idp="{{$proc['id_fatd']}}"
+                    dproc="fatd" idp="{{$proc['id_fatd']}}"
                     :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
-                    >
-                </file-upload>
+                    ></file-upload>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                <v-membro idp="{{$proc['id_fatd']}}"></v-membro>
+                <v-membro dproc="fatd" idp="{{$proc['id_fatd']}}"></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento idp="{{$proc['id_fatd']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento dproc="fatd" idp="{{$proc['id_fatd']}}"></v-movimento>
             </v-tab-item>
             <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
-                <v-sobrestamento idp="{{$proc['id_fatd']}}" ></v-sobrestamento>
+                <v-sobrestamento dproc="fatd" idp="{{$proc['id_fatd']}}" ></v-sobrestamento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo idp="{{$proc['id_fatd']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="fatd" idp="{{$proc['id_fatd']}}" ></v-arquivo>
             </v-tab-item>
         </div>
     </div>

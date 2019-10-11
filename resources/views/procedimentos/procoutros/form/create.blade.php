@@ -37,12 +37,23 @@
             <div class="box-body">
 
             {!! Form::open(['url' => route('procoutro.store')]) !!}
-                <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
-                <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
-                    {{-- {!! Form::select('id_andamento',config('sistema.andamentoPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}
+                <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
+                <v-label label="id_andamento" title="Andamento" error="{{$errors->first('andamento')}}">
+                    {!! Form::select('andamento',[
+                        'abertura' => 'Abertura', 
+                        'em andamento' => 'Em andamento', 
+                        'concluido' => 'Concluído'
+                        ],null, ['class' => 'form-control ']) !!}
                 </v-label>
-                <v-label label="id_andamentocoger" title="Andamento COGER" error="{{$errors->first('id_andamentocoger')}}">
-                    {{-- {!! Form::select('id_andamentocoger',config('sistema.andamentocogerPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}
+                <v-label label="id_andamentocoger" title="Andamento COGER" error="{{$errors->first('andamentocoger')}}">
+                    {!! Form::select('andamentocoger',[
+                        "unidade" => "Unidade",
+                        "arquivo" => "Arquivo",
+                        "COGER" => "COGER",
+                        "poder judiciario" => "Poder Judiciário",
+                        "ministerio publico" => "Ministério Público",
+                        "outros orgaos" => "Outros Orgãos"
+                        ],null, ['class' => 'form-control ']) !!}
                 </v-label>
                 <v-label label="num_pid" title="N° PID">
                     {{ Form::text('num_pid', null, ['class' => 'form-control ']) }}
@@ -59,14 +70,40 @@
                 <v-label label="cdopm" title="OPM">
                     <v-opm cdopm="{{$proc['cdopm'] ?? ''}}"></v-opm>
                 </v-label>
-                <v-label label="doc_origem" title="Doc. Origem">---arrumar---
-                    {!! Form::select('doc_origem',[],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+                <v-label label="doc_origem" title="Doc. Origem">
+                    {!! Form::select('doc_origem',[
+                        "audiencia de custodia" => "Audiência de custódia",
+                        "noticia de fato" => "Notícia de fato",
+                        "pedido de providencia" => "Pedido de providência",
+                        "outros" => "Outros"
+                        ],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
                 </v-label>
                 <v-label label="num_doc_origem" title="Nº Documento, ou descrição outros documentos">
                     {{ Form::text('num_doc_origem', null, ['class' => 'form-control ']) }}
                 </v-label>
-                <v-label label="motivo_abertura" title="Motivo Abertura">---arrumar---
-                    {!! Form::select('motivo_abertura',[],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+                <v-label label="motivo_abertura" title="Motivo Abertura">
+                    {!! Form::select('motivo_abertura',[
+                        "abordagem" => "Abordagem",
+                        "abuso de autoridade" => "Abuso de autoridade",
+                        "caixa eletronico" => "Caixa eletrônico",
+                        "corrupcao" => "Corrupção",
+                        "crimes sexuais" => "Crimes sexuais",
+                        "discriminacao racial" => "Discriminação racial",
+                        "estatuto do desarmamento" => "Estatuto do desarmamento",
+                        "estelionato" => "Estelionato",
+                        "extorsao" => "Extorsão",
+                        "homicidio" => "Homicídio",
+                        "improbidade administrativa" => "Improbiedade administrativa",
+                        "lei maria da penha" => "Lei Maria da Penha",
+                        "lesao corporal" => "Lesão corporal",				
+                        "prevaricacao" => "Prevaricação",
+                        "roubo / furto" => "Roubo / Furto",
+                        "servico (bico)" => "Serviço (Bico)",			
+                        "tortura" => "Tortura",
+                        "trafico de drogas" => "Tráfico de drogas",
+                        "uso de entorpecente" => "Uso de entorpecente",
+                        "outros" => "Outros"
+                        ],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
                 </v-label>
                 <v-label label="desc_outros" title="Descrição outros motivos:">
                     {{ Form::text('desc_outros', null, ['class' => 'form-control ']) }}

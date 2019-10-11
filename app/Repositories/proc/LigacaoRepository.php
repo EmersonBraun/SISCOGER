@@ -2,8 +2,8 @@
 //Aqui ficam as consultas de banco de dados dos processos e procedimentos
 namespace App\Repositories\proc;
 
+use App\Models\Sjd\Busca\Ligacao;
 use Cache;
-use App\Models\Sjd\Proc\Ligacao;
 use App\Repositories\BaseRepository;
 use App\Services\AutorizationService;
 

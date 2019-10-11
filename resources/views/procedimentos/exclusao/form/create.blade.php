@@ -36,7 +36,7 @@
 
             <div class="box-body">
             {!! Form::open(['url' => route('exclusao.store')]) !!}
-                <v-prioritario admin="session('is_admin')"></v-prioritario>
+                <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
                 <v-label label="rg" title="RG" lg="3" md="3" error="{{$errors->first('rg')}}">
                     {{ Form::text('rg', null, ['class' => 'form-control ','onchange' => 'completaDados(this,nome,cargo)','onkeyup' => 'completaDados(this,nome,cargo)']) }}
                 </v-label>
@@ -97,7 +97,6 @@
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
 @section('js')

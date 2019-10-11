@@ -160,6 +160,7 @@ class EnvolvidoRepository extends BaseRepository
 
     public function situacoesUsadas($situacoes)
     {
+        $usados = [];
         foreach ($situacoes as $s) 
         {
             if(!$s['rg_substituto']) 

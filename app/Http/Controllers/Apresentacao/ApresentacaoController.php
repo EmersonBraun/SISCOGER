@@ -30,10 +30,10 @@ class ApresentacaoController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request, [
-            'id_andamento' => 'required',
-            'sintese_txt' => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'id_andamento' => 'required',
+        //     'sintese_txt' => 'required',
+        // ]);
 
         $dados = $this->repository->datesToCreate($request->all()); 
         $create = $this->repository->create($dados);
@@ -51,7 +51,7 @@ class ApresentacaoController extends Controller
 
     public function show($ref,$ano)
     {
-        $proc = $this->repository->ref_ano($ref,$ano)->first();
+        $proc = $this->repository->ref_ano($ref,$ano);
         if(!$proc) abort('404');
 
         return view('apresentacao.apresentacao.form.show', compact('proc'));
@@ -59,7 +59,7 @@ class ApresentacaoController extends Controller
 
     public function edit($ref,$ano)
     {
-        $proc = $this->repository->ref_ano($ref,$ano)->first();
+        $proc = $this->repository->ref_ano($ref,$ano);
         if(!$proc) abort('404');
         
         return view('apresentacao.apresentacao.form.edit', compact('proc'));
@@ -67,10 +67,10 @@ class ApresentacaoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'id_andamento' => 'required',
-            'sintese_txt' => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'id_andamento' => 'required',
+        //     'sintese_txt' => 'required',
+        // ]);
 
         $dados = $request->all();
         $update = $this->repository->findAndUpdate( $id, $dados);

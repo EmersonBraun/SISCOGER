@@ -1,4 +1,9 @@
 export default{
+    data() {
+        return {
+            add: false
+        }
+    },
     methods: {
         list(){
             let urlIndex = `${this.$root.baseUrl}api/${this.module}/list/${this.rg}`;

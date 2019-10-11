@@ -47,6 +47,7 @@
         props: {
             situacao: {type: String, default: ''},
             idp: {type: String, default: ''},
+            dproc: {type: String, default: ''},
             rg: {type: String},
             cargo: {type: String},
             nome: {type: String}
@@ -56,7 +57,6 @@
                 prg: this.rg,
                 pnome: this.nome,
                 pcargo: this.cargo,
-                proc: '',
                 finded: false
             }
         },
@@ -64,7 +64,7 @@
         },
         methods: {
             searchPM(){               
-                let searchUrl = `${this.getBaseUrl}api/dados/pm/${this.rg}` ;
+                let searchUrl = `${this.$root.baseUrl}api/dados/pm/${this.rg}` ;
                 if(this.prg.length > 5){
                     axios
                     .get(searchUrl)

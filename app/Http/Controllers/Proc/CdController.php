@@ -122,9 +122,6 @@ class CdController extends Controller
     {
         $proc = $this->repository->procRefAno($ref,$ano,'cd');
         if(!$proc) abort('404');
-        
-        $this->service->canSee($proc, 'cd');
-
         return view('procedimentos.cd.form.edit', compact('proc'));
 
     }

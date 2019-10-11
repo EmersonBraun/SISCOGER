@@ -57,6 +57,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: {
         situacao: { type: String, default: '' },
         idp: { type: String, default: '' },
+        dproc: { type: String, default: '' },
         rg: { type: String },
         cargo: { type: String },
         nome: { type: String }
@@ -66,7 +67,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             prg: this.rg,
             pnome: this.nome,
             pcargo: this.cargo,
-            proc: '',
             finded: false
         };
     },
@@ -76,7 +76,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         searchPM: function searchPM() {
             var _this = this;
 
-            var searchUrl = this.getBaseUrl + 'api/dados/pm/' + this.rg;
+            var searchUrl = this.$root.baseUrl + 'api/dados/pm/' + this.rg;
             if (this.prg.length > 5) {
                 axios.get(searchUrl).then(function (response) {
                     if (response.data.success) {
@@ -418,6 +418,12 @@ module.exports = Component.exports
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            add: false
+        };
+    },
+
     methods: {
         list: function list() {
             var _this = this;

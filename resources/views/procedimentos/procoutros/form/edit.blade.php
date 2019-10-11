@@ -39,12 +39,23 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('procoutro.update',$proc['id_proc_outros']),'method' => 'put']) !!}
-                    <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
-                    <v-label label="id_andamento" title="Andamento">
-                        {{-- {!! Form::select('id_andamento',config('sistema.andamentoPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}
+                    <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
+                    <v-label label="id_andamento" title="Andamento" error="{{$errors->first('andamento')}}">
+                        {!! Form::select('andamento',[
+                            'abertura' => 'Abertura', 
+                            'em andamento' => 'Em andamento', 
+                            'concluido' => 'Concluído'
+                            ],null, ['class' => 'form-control ']) !!}
                     </v-label>
-                    <v-label label="id_andamentocoger" title="Andamento COGER">
-                        {{-- {!! Form::select('id_andamentocoger',config('sistema.andamentocogerPROCOUTROS'),null, ['class' => 'form-control ']) !!} --}}
+                    <v-label label="id_andamentocoger" title="Andamento COGER" error="{{$errors->first('andamentocoger')}}">
+                        {!! Form::select('andamentocoger',[
+                            "unidade" => "Unidade",
+                            "arquivo" => "Arquivo",
+                            "COGER" => "COGER",
+                            "poder judiciario" => "Poder Judiciário",
+                            "ministerio publico" => "Ministério Público",
+                            "outros orgaos" => "Outros Orgãos"
+                            ],null, ['class' => 'form-control ']) !!}
                     </v-label>
                     <v-label label="num_pid" title="N° PID">
                         {{ Form::text('num_pid', null, ['class' => 'form-control ']) }}
@@ -61,14 +72,40 @@
                     <v-label label="cdopm" title="OPM">
                         <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
                     </v-label>
-                    <v-label label="doc_origem" title="Doc. Origem">---arrumar---
-                        {!! Form::select('doc_origem',[],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+                    <v-label label="doc_origem" title="Doc. Origem">
+                        {!! Form::select('doc_origem',[
+                            "audiencia de custodia" => "Audiência de custódia",
+                            "noticia de fato" => "Notícia de fato",
+                            "pedido de providencia" => "Pedido de providência",
+                            "outros" => "Outros"
+                            ],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
                     </v-label>
                     <v-label label="num_doc_origem" title="Nº Documento, ou descrição outros documentos">
                         {{ Form::text('num_doc_origem', null, ['class' => 'form-control ']) }}
                     </v-label>
-                    <v-label label="motivo_abertura" title="Motivo Abertura">---arrumar---
-                        {!! Form::select('motivo_abertura',[],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+                    <v-label label="motivo_abertura" title="Motivo Abertura">
+                        {!! Form::select('motivo_abertura',[
+                            "abordagem" => "Abordagem",
+                            "abuso de autoridade" => "Abuso de autoridade",
+                            "caixa eletronico" => "Caixa eletrônico",
+                            "corrupcao" => "Corrupção",
+                            "crimes sexuais" => "Crimes sexuais",
+                            "discriminacao racial" => "Discriminação racial",
+                            "estatuto do desarmamento" => "Estatuto do desarmamento",
+                            "estelionato" => "Estelionato",
+                            "extorsao" => "Extorsão",
+                            "homicidio" => "Homicídio",
+                            "improbidade administrativa" => "Improbiedade administrativa",
+                            "lei maria da penha" => "Lei Maria da Penha",
+                            "lesao corporal" => "Lesão corporal",				
+                            "prevaricacao" => "Prevaricação",
+                            "roubo / furto" => "Roubo / Furto",
+                            "servico (bico)" => "Serviço (Bico)",			
+                            "tortura" => "Tortura",
+                            "trafico de drogas" => "Tráfico de drogas",
+                            "uso de entorpecente" => "Uso de entorpecente",
+                            "outros" => "Outros"
+                            ],null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
                     </v-label>
                     <v-label label="desc_outros" title="Descrição outros motivos:">
                         {{ Form::text('desc_outros', null, ['class' => 'form-control ']) }}
@@ -84,18 +121,16 @@
                 {!! Form::close() !!}
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">
-                <v-proced-origem></v-proced-origem><br>           
-                <v-acusado idp="{{$proc['id_proc_outros']}}" situacao="{{sistema('procSituacao','proc_outros')}}" ></v-acusado><br>
-                <v-vitima idp="{{$proc['id_proc_outros']}}" ></v-vitima><br>
+                <v-proced-origem dproc="proc_outros" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>           
+                <v-acusado dproc="proc_outros" idp="{{$proc['id_proc_outros']}}" situacao="{{sistema('procSituacao','proc_outros')}}" ></v-acusado><br>
+                <v-vitima dproc="proc_outros" idp="{{$proc['id_proc_outros']}}" ></v-vitima><br>
             </v-tab-item>
             <v-tab-item title="Documentos" idp="documentos">
                 <file-upload 
                         title="Documento Juntado:"
                         name="relatorio1_file"
-                        proc="proc_outros"
-                        idp="{{$proc['id_proc_outros']}}"
+                        dproc="proc_outros" idp="{{$proc['id_proc_outros']}}"
                         :ext="['pdf']" 
-                        :candelete="{{session('is_admin')}}"
                         ></file-upload>--alterar para vários--
                 --nome documento--
                 --data documento--
@@ -104,16 +139,16 @@
                --procedimento resultante--
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                <v-membro idp="{{$proc['id_proc_outros']}}"></v-membro>
+                <v-membro dproc="proc_outros" idp="{{$proc['id_proc_outros']}}"></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento idp="{{$proc['id_proc_outros']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento dproc="proc_outros" idp="{{$proc['id_proc_outros']}}"></v-movimento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo idp="{{$proc['id_proc_outros']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="proc_outros" idp="{{$proc['id_proc_outros']}}" ></v-arquivo>
             </v-tab-item>
         </div>
     </div>

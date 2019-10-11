@@ -37,8 +37,8 @@
             <div class="box-body">
 
             {!! Form::open(['url' => route('desercao.store')]) !!}
-                <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
-                <v-acusado-unico idp="{{$proc['id_desercao']}}" situacao="{{sistema('procSituacao','desercao')}}" ></v-acusado-unico><br>
+                <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
+                <v-acusado-unico dproc="desercao" idp="{{$proc['id_desercao'] ?? ''}}" situacao="{{sistema('procSituacao','desercao')}}" ></v-acusado-unico><br>
                 <v-label label="cdopm" title="OPM">
                     <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
                 </v-label>

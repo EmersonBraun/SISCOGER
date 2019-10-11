@@ -19,9 +19,9 @@ class FileUploadRepository extends BaseRepository
         $this->model = $model;
     }
 
-    public function cleanCache()
+    public function clearCache($proc, $id, $campo)
 	{
-        Cache::forget('upload');
+        Cache::forget('upload:'.$proc.$id.$campo);
     }
 
     public function get($id)
@@ -35,28 +35,74 @@ class FileUploadRepository extends BaseRepository
     
     public function active($proc, $id, $campo)
 	{
-        $registros = Cache::tags('upload')->remember('upload'.$proc.$id.$campo, self::$expiration, function() use($proc, $id, $campo){
+        // $registros = Cache::tags('upload')->remember('upload:active'.$proc.$id.$campo, self::$expiration, function() use($proc, $id, $campo){
             return $this->model->where([
                 ['proc',$proc],
                 ['id_proc',$id],
-                ['campo',$campo]
+                ['campo',$campo],
+                ['is_old_file','0']
             ])->get();
-        });
+        // });
 
-        return $registros;
+        // dd($registros);
+        // return $registros;
+    } 
+
+    public function old($proc, $id, $campo)
+	{
+        // $registros = Cache::tags('upload')->remember('upload:old'.$proc.$id.$campo, self::$expiration, function() use($proc, $id, $campo){
+            return $this->model->where([
+                ['proc',$proc],
+                ['id_proc',$id],
+                ['campo',$campo],
+                ['is_old_file','1']
+            ])->get();
+        // });
+
+        // dd($registros);
+        // return $registros;
     } 
 
     public function removeds($proc, $id, $campo)
 	{
-        $registros = Cache::tags('upload')->remember('upload'.$proc.$id.$campo, self::$expiration, function() use($proc, $id, $campo){
+        // $registros = Cache::tags('upload')->remember('upload:deleted'.$proc.$id.$campo, self::$expiration, function() use($proc, $id, $campo){
             return $this->model->onlyTrashed()->where([
                 ['proc',$proc],
                 ['id_proc',$id],
                 ['campo',$campo]
             ])->get();
-        });
+        // });
 
-        return $registros;
+        // return $registros;
+    }
+
+    public function prepareToCreate(array $data, array $dados, array $proc ,object $file)
+    {
+        $data = [
+            'hash' => $data['hash'],
+            'name' => $data['filename'],
+            'campo' => $dados['name'],
+            'mime' => $file->getClientMimeType(),
+            'path' => $data['path'], 
+            'size' => $file->getClientSize(),
+            'sjd_ref' => $proc['sjd_ref'],
+            'sjd_ref_ano' => $proc['sjd_ref_ano'],
+            'rg' => $dados['rg'],
+            'id_proc' => $dados['id_proc'],
+            'proc' => $dados['proc'],
+            'data_arquivo' => $data['data_arquivo'],
+            'obs' => $dados['obs'],
+            'is_old_file' => 0
+        ];
+
+        return $data;
+    }
+
+    public function createFile(array $file)
+    {
+        $create = $this->create($file);
+        if($create) $this->clearCache($file['proc'],$file['id_proc'],$file['campo']);
+        return $create;
     }
 
     public function getByHash($hash)

@@ -35,7 +35,7 @@
         <div class="tab-content">
             <v-tab-item title="N° {{ $proc['id_exclusaojudicial'] }} - Formulário principal" idp="principal" cls="active show">
                 {!! Form::model($proc,['url' => route('adl.update',$proc['id_adl']),'method' => 'put']) !!}
-                    <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                    <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
                     <v-label label="rg" title="RG" lg="3" md="3" error="{{$errors->first('rg')}}">
                         {{ Form::text('rg', null, ['class' => 'form-control ','onchange' => 'completaDados(this,nome,cargo)','onkeyup' => 'completaDados(this,nome,cargo)']) }}
                     </v-label>
@@ -88,14 +88,14 @@
                 {!! Form::close() !!}
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">
-                <v-proced-origem></v-proced-origem><br>           
-                <v-acusado idp="{{$proc['id_exclusaojudicail']}}" situacao="{{sistema('procSituacao','exclusaojudicail')}}" ></v-acusado><br>
+                <v-proced-origem dproc="exclusaojudicial" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>           
+                <v-acusado dproc="exclusaojudicial" idp="{{$proc['id_exclusaojudicail']}}" situacao="{{sistema('procSituacao','exclusaojudicail')}}" ></v-acusado><br>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo idp="{{$proc['id_exclusaojudicail']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="exclusaojudicial" idp="{{$proc['id_exclusaojudicail']}}" ></v-arquivo>
             </v-tab-item>
         </div>
     </div>

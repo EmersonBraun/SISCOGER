@@ -37,7 +37,7 @@
             <div class="box-body">
 
             {!! Form::open(['url' => route('recurso.store')]) !!}
-                <v-prioritario admin="session('is_admin')" prioridade="{{$proc['prioridade']}}"></v-prioritario>
+                <v-prioritario prioridade="{{$proc['prioridade'] ?? ''}}"></v-prioritario>
                 <v-label label="procedimento" title="Procedimento">
                     {!! Form::select('procedimento',config('sistema.pocedimentosOpcoes'),null, ['class' => 'form-control ']) !!}
                 </v-label>
@@ -62,7 +62,6 @@
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
 @stop
 
 @section('js')

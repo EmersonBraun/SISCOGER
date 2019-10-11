@@ -176,6 +176,15 @@
         <li class=""><a href="<?php echo e(route('relatorio.ofendido.search')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ofendidos</span></a></li>
         <?php endif; ?>
         <li class=""><a href="<?php echo e(route('relatorio.protocolo')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>E-Protocolo</span></a></li>
+        <li class="treeview">
+            <a href="#"><i class="fa fa-fw fa-circle-o "></i><span>Específicos</span>
+                <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+            </a>
+            <ul class="treeview-menu"> 
+                <li class=""><a href="<?php echo e(route('relatorio.abuso','fatd')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Assédio/Abuso Sexual</span></a></li> 
+                <li class=""><a href="<?php echo e(route('relatorio.violenciadomestica','fatd')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Violência Doméstica</span></a></li> 
+            </ul>
+        </li> 
     </ul>
 </li>
 

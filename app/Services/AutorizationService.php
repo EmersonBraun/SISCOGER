@@ -53,6 +53,7 @@ class AutorizationService
 
     public function canSee($data, $name)
 	{
+        if(!session('rg')) abort(401,'Not Logged');
         if(!$this->cdopm) $this->bootService($data, $name);
 
         $canSeeOPM = $this->canSeeOPM($data, $name);

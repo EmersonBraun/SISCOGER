@@ -134,7 +134,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { Datepicker: __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Datepicker__["Datepicker"] },
     props: {
         unique: { type: Boolean, default: false },
-        idp: { type: String, default: '' }
+        idp: { type: String, default: '' },
+        dproc: { type: String, default: '' }
     },
     data: function data() {
         return {
@@ -149,13 +150,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             sobrestamentos: [],
             motivos: ['Férias Acusado', 'Férias Comissão', 'Incidente de Insanidade', 'Substituição', 'Laudos/Perícia', 'Deslinde Criminal', 'outros'],
             only: false,
-            edit: ''
+            toEdit: '',
+            rg: '',
+            add: false
         };
     },
     mounted: function mounted() {
         this.verifyOnly;
         this.listSobrestamento();
-        this.dadosSession();
+        this.rg = this.$root.dadoSession('rg');
     },
 
     computed: {
@@ -169,13 +172,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         outros: function outros() {
             var outros = this.motivo !== 'outros' ? 'col-lg-12 col-md-12 col-xs-12' : 'col-lg-6 col-md-6 col-xs-6';
             return outros;
+        },
+        isAdmin: function isAdmin() {
+            return this.$root.hasRole('admin');
         }
     },
     methods: {
         listSobrestamento: function listSobrestamento() {
             var _this = this;
 
-            var urlIndex = this.getBaseUrl + 'api/sobrestamento/list/' + this.dproc + '/' + this.idp;
+            var urlIndex = this.$root.baseUrl + 'api/sobrestamento/list/' + this.dproc + '/' + this.idp;
             if (this.dproc && this.idp) {
                 axios.get(urlIndex).then(function (response) {
                     _this.sobrestamentos = response.data;
@@ -189,7 +195,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         createSobrestamento: function createSobrestamento() {
             var _this2 = this;
 
-            var urlCreate = this.getBaseUrl + 'api/sobrestamento/store';
+            var urlCreate = this.$root.baseUrl + 'api/sobrestamento/store';
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
@@ -212,7 +218,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         replaceSobrestamento: function replaceSobrestamento(sobrestamento) {
-            this.motivo = sobrestamento.motivo, this.motivo_outros = sobrestamento.motivo_outros, this.inicio_data = sobrestamento.inicio_data, this.doc_controle_inicio = sobrestamento.doc_controle_inicio, this.publicacao_inicio = sobrestamento.publicacao_inicio, this.termino_data = sobrestamento.termino_data, this.doc_controle_termino = sobrestamento.doc_controle_termino, this.publicacao_termino = sobrestamento.publicacao_termino, this.edit = sobrestamento.id_sobrestamento;
+            this.motivo = sobrestamento.motivo, this.motivo_outros = sobrestamento.motivo_outros, this.inicio_data = sobrestamento.inicio_data, this.doc_controle_inicio = sobrestamento.doc_controle_inicio, this.publicacao_inicio = sobrestamento.publicacao_inicio, this.termino_data = sobrestamento.termino_data, this.doc_controle_termino = sobrestamento.doc_controle_termino, this.publicacao_termino = sobrestamento.publicacao_termino, this.toEdit = sobrestamento.id_sobrestamento;
 
             // this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
             this.add = true;
@@ -220,7 +226,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editSobrestamento: function editSobrestamento() {
             var _this3 = this;
 
-            var urledit = this.getBaseUrl + 'api/sobrestamento/edit/' + this.edit;
+            var urledit = this.$root.baseUrl + 'api/sobrestamento/edit/' + this.toEdit;
 
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
@@ -233,14 +239,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         removeSobrestamento: function removeSobrestamento(id, index) {
-            var urlDelete = this.getBaseUrl + 'api/sobrestamento/destroy/' + id;
+            var urlDelete = this.$root.baseUrl + 'api/sobrestamento/destroy/' + id;
             axios.delete(urlDelete).then(this.sobrestamentos.splice(index, 1)).then(this.clear(false)).catch(function (error) {
                 return console.log(error);
             });
         },
         clear: function clear(add) {
             this.add = add;
-            this.motivo = '', this.motivo_outros = '', this.inicio_data = '', this.doc_controle_inicio = '', this.publicacao_inicio = '', this.termino_data = '', this.doc_controle_termino = '', this.publicacao_termino = '', this.edit = '';
+            this.motivo = '', this.motivo_outros = '', this.inicio_data = '', this.doc_controle_inicio = '', this.publicacao_inicio = '', this.termino_data = '', this.doc_controle_termino = '', this.publicacao_termino = '', this.toEdit = '';
         }
     }
 });
@@ -622,7 +628,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1032,7 +1038,7 @@ var render = function() {
                             "div",
                             { staticClass: "col-lg-6 col-md-6 col-xs-6" },
                             [
-                              _vm.edit
+                              _vm.toEdit
                                 ? [
                                     _c("label", [_vm._v("Editar")]),
                                     _c("br"),
@@ -1118,7 +1124,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("th", { staticClass: "col-sm-2" }, [_vm._v("Motivo")]),
                     _vm._v(" "),
-                    _vm.admin
+                    _vm.isAdmin
                       ? _c("th", { staticClass: "col-sm-2" }, [
                           _vm._v("Editar/Apagar")
                         ])
@@ -1180,7 +1186,7 @@ var render = function() {
                               [_c("i", { staticClass: "fa fa-edit" })]
                             ),
                             _vm._v(" "),
-                            _vm.admin
+                            _vm.isAdmin
                               ? _c(
                                   "a",
                                   {
@@ -1695,6 +1701,12 @@ module.exports = Component.exports
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            add: false
+        };
+    },
+
     methods: {
         list: function list() {
             var _this = this;

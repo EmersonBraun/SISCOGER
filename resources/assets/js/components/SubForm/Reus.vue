@@ -140,6 +140,7 @@
             unique: {type: Boolean, default: false},
             situacao: {type: String, default: ''},
             idp: {type: String, default: ''},
+            dproc: {type: String, default: ''},
         },
         data() {
             return {
@@ -163,7 +164,7 @@
             },
         },
         created() {
-            this.getBaseUrl
+            this.$root.baseUrl
             this.verifyOnly
             this.listReus()
         },
@@ -186,7 +187,7 @@
                 this.reus = Array.isArray(array) ? array : []
             },
             showReu(rg){
-                let urlIndex = `${this.getBaseUrl}fdi/${rg}/ver`;                
+                let urlIndex = `${this.$root.baseUrl}fdi/${rg}/ver`;                
                 window.open(urlIndex, "_blank")
             },
             replaceReu(reu){
@@ -196,7 +197,7 @@
                 this.edit = true
             },
             editReu(){
-                let urledit = `${this.getBaseUrl}api/acusado/edit/${this.idedit}`;
+                let urledit = `${this.$root.baseUrl}api/acusado/edit/${this.idedit}`;
                 let formData = document.getElementById('formReus');
                 let data = new FormData(formData);
                 
@@ -207,7 +208,7 @@
                 .catch((error) => console.log(error));
             },
             atualizaReus(){
-                let urlIndex = `${this.getBaseUrl}api/dados/envolvido/${this.dproc}/${this.idp}/${this.situacao}` ;
+                let urlIndex = `${this.$root.baseUrl}api/dados/envolvido/${this.dproc}/${this.idp}/${this.situacao}` ;
                 if(this.dproc && this.idp && this.situacao){
                     axios
                     .get(urlIndex)

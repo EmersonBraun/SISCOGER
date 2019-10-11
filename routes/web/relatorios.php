@@ -34,20 +34,15 @@ Route::group(['as'=>'relatorio.','prefix' =>'relatorio'],function(){
         Route::get('busca',['as' =>'search','uses'=>'Relatorios\RelatorioController@searchOfendido','middleware' => ['permission:listar-relatorio-ofendidos']]);   
         Route::post('resultado',['as' =>'result','uses'=>'Relatorios\RelatorioController@resultOfendido','middleware' => ['permission:listar-relatorio-ofendidos']]);   
     });
-	Route::get('defensor',['as' =>'defensor','uses'=>'Relatorios\RelatorioController@defensor','middleware' => ['permission:listar-relatorio-defensores']]);
+    Route::get('defensor',['as' =>'defensor','uses'=>'Relatorios\RelatorioController@defensor','middleware' => ['permission:listar-relatorio-defensores']]);
+    Route::get('abuso',['as' =>'abuso','uses'=>'Relatorios\RelatorioController@abuso']);
+    Route::get('violenciadomestica',['as' =>'violenciadomestica','uses'=>'Relatorios\RelatorioController@violenciadomestica']);
     Route::get('protocolo',['as' =>'protocolo','uses'=>'Policiais\ProtocoloController@index']);
 });
 // processo
 Route::group(['as'=>'processo.','prefix' =>'processo'],function(){
     Route::get('busca',['as' =>'search','uses'=>'Relatorios\ProcessoController@search','middleware' => ['permission:listar-relatorio-processos']]);   
     Route::post('resultado',['as' =>'result','uses'=>'Relatorios\ProcessoController@result','middleware' => ['permission:listar-relatorio-processos']]);   
-});
-// arquivo
-Route::group(['as'=>'arquivamento.','prefix' =>'arquivamento'],function(){
-    Route::get('criar',['as' =>'create','uses'=>'Arquivamento\ArquivamentoController@create','middleware' => ['permission:criar-aquivamento']]);
-    Route::post('salvar',['as' =>'save','uses'=>'Arquivamento\ArquivamentoController@save','middleware' => ['permission:criar-aquivamento']]);
-    Route::get('prateleira/{numero}',['as' =>'prateleira','uses'=>'Arquivamento\ArquivamentoController@prateleira','middleware' => ['permission:ver-aquivamento']]);   
-    Route::get('{local}',['as' =>'local','uses'=>'Arquivamento\ArquivamentoController@local','middleware' => ['permission:ver-aquivamento']]);   
 });
 // Relatório quantitativo por posto/graduação
 Route::group(['as'=>'postograd.','prefix' =>'postograd'],function(){

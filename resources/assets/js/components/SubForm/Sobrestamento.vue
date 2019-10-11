@@ -56,7 +56,7 @@
                             <a class="btn btn-danger btn-block" @click="clear(false)"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-6 col-md-6 col-xs-6">
-                             <template v-if="edit">
+                             <template v-if="toEdit">
                                 <label>Editar</label><br>
                                 <a class="btn btn-success btn-block" :disabled="!motivo || (motivo == 'outros' && !motivo_outros.length)" @click="editSobrestamento"><i class="fa fa-plus" style="color: white"></i></a>
                             </template>
@@ -81,7 +81,7 @@
                                 <th class="col-sm-1">Término</th>
                                 <th class="col-sm-2">Doc.Término</th>
                                 <th class="col-sm-2">Motivo</th>
-                                <th v-if="admin" class="col-sm-2">Editar/Apagar</th>
+                                <th v-if="isAdmin" class="col-sm-2">Editar/Apagar</th>
                                 <th v-else class="col-sm-2">Editar</th>
                             </tr>
                         </thead>
@@ -99,7 +99,7 @@
                                         <a type="button"  @click="replaceSobrestamento(sobrestamento)" class="btn btn-success" style="color: white">
                                             <i class="fa fa-edit"></i> 
                                         </a>
-                                        <a v-if="admin" type="button"  @click="removeSobrestamento(sobrestamento.id_sobrestamento, index)" class="btn btn-danger" style="color: white">
+                                        <a v-if="isAdmin" type="button"  @click="removeSobrestamento(sobrestamento.id_sobrestamento, index)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
                                         </a>
                                     </div>
@@ -125,6 +125,7 @@
         props: {
             unique: {type: Boolean, default: false},
             idp: {type: String, default: ''},
+            dproc: {type: String, default: ''},
         },
         data() {
             return {
@@ -147,13 +148,15 @@
                     'outros',
                 ],
                 only: false,
-                edit: '',
+                toEdit: '',
+                rg: '',
+                add: false,
             }
         },
         mounted(){
             this.verifyOnly
             this.listSobrestamento()
-            this.dadosSession()
+            this.rg = this.$root.dadoSession('rg')
         },
         computed:{
             verifyOnly(){     
@@ -167,10 +170,13 @@
                 let outros = this.motivo !== 'outros' ? 'col-lg-12 col-md-12 col-xs-12' : 'col-lg-6 col-md-6 col-xs-6'
                 return outros
             },
+            isAdmin(){
+                return this.$root.hasRole('admin')
+            },
         },
         methods: {
             listSobrestamento(){
-                let urlIndex = `${this.getBaseUrl}api/sobrestamento/list/${this.dproc}/${this.idp}`;
+                let urlIndex = `${this.$root.baseUrl}api/sobrestamento/list/${this.dproc}/${this.idp}`;
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)
@@ -183,7 +189,7 @@
                 }
             },
             createSobrestamento(){
-                let urlCreate = `${this.getBaseUrl}api/sobrestamento/store`
+                let urlCreate = `${this.$root.baseUrl}api/sobrestamento/store`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -214,13 +220,13 @@
                 this.termino_data = sobrestamento.termino_data,
                 this.doc_controle_termino = sobrestamento.doc_controle_termino,
                 this.publicacao_termino = sobrestamento.publicacao_termino,
-                this.edit = sobrestamento.id_sobrestamento
+                this.toEdit = sobrestamento.id_sobrestamento
 
                 // this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
                 this.add = true
             },
             editSobrestamento(){
-                let urledit = `${this.getBaseUrl}api/sobrestamento/edit/${this.edit}`
+                let urledit = `${this.$root.baseUrl}api/sobrestamento/edit/${this.toEdit}`
 
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
@@ -233,7 +239,7 @@
                 .catch((error) => console.log(error));
             },
             removeSobrestamento(id, index){
-                let urlDelete = `${this.getBaseUrl}api/sobrestamento/destroy/${id}`
+                let urlDelete = `${this.$root.baseUrl}api/sobrestamento/destroy/${id}`
                 axios
                 .delete(urlDelete)
                 .then(this.sobrestamentos.splice(index,1))
@@ -250,7 +256,7 @@
                 this.termino_data = '',
                 this.doc_controle_termino = '',
                 this.publicacao_termino = '',
-                this.edit = ''
+                this.toEdit = ''
             },
         },
     }

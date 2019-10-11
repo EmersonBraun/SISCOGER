@@ -11,7 +11,12 @@
     import {Checkbox} from '../Vuestrap/Checkbox'
     export default {
         components: {Checkbox},
-        props: ['admin','prioridade'],   
+        props: ['prioridade'], 
+        computed: {
+            admin() {
+                return this.$root.hasRole('admin')
+            }
+        }  
     }
 </script>
 

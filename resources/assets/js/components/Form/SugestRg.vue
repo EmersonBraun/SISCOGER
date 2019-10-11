@@ -109,18 +109,9 @@
             }
         },
     },
-    computed:{
-        getBaseUrl(){
-            let getUrl = window.location;
-            let pathname = getUrl.pathname.split('/')
-            let baseUrl = `${getUrl.protocol}//${getUrl.host}/${pathname[1]}/`;
-            
-            return baseUrl;
-        },
-    },
     methods: {
         search(val) {
-            let urlSearch = `${this.getBaseUrl}api/dados/sugest`
+            let urlSearch = `${this.$root.baseUrl}api/dados/sugest`
             let search = val //valor procurado
 
             // objeto para ser enviado ao controller
@@ -164,7 +155,7 @@
             this.name = ''
         },
         goToFdi(rg) {
-            window.location.href = `${this.getBaseUrl}fdi/${rg}/ver`;
+            window.location.href = `${this.$root.baseUrl}fdi/${rg}/ver`;
         },
     }
   }
@@ -208,7 +199,7 @@
     bottom: 0;
     left: 0;
     content: '';
-    width: 2em;
+    /* width: 2em; */
     background: #D1D3D4;
     border-radius: 3px;
     }

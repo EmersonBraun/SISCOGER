@@ -48,8 +48,8 @@ class BaseRepository
     public function create(array $data)
     {
         try {
-            $this->model->create($data);
-            return true;
+            $create = $this->model->create($data);
+            return $create;
         } catch (\Throwable $th) {
             //dd($th)
             return false;
@@ -111,6 +111,17 @@ class BaseRepository
         }
     }
 
+    public function forceDelete($id)
+	{
+        try {
+            $this->model->forceDelete();
+            return true;
+        } catch (\Throwable $th) {
+            //dd($th)
+            return false;
+        }
+    }
+
     public function datesToCreate(array $data) {// para procedimentos que tem referência e ano
         $ref = $this->maxRef();
         //referência e ano
@@ -158,6 +169,7 @@ class BaseRepository
 
     public function QtdProcTotal()
     {
+        $qtd_ano = [];
         for($i = 2008; $i <= date('Y'); $i++)
         {
             //Quantidade de cd por ano
@@ -191,6 +203,7 @@ class BaseRepository
 
     public function QtdProcOMTotal($unidade)
     {
+        $qtd_ano = [];
         for($i = 2008; $i <= date('Y'); $i++)
             {
                 //Quantidade de cd por ano

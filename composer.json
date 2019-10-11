@@ -52,6 +52,8 @@
             "app/Helpers/dados/nome_por_id.php",
             "app/Helpers/dados/pm.php",
             "app/Helpers/dados/proc_id.php",
+            "app/Helpers/dados/punicao.php",
+            "app/Helpers/dados/refAno.php",
             "app/Helpers/dados/pvue.php",
             "app/Helpers/dados/sistema.php",
             "app/Helpers/date/data_bd.php",

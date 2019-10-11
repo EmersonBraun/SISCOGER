@@ -8,12 +8,15 @@
                         <h4>{{ title }}</h4>
                     </div>
                     <!-- <div class="col-md-5"></div> -->
-                    <div v-if="candelete" class="col align-self-end">
+                    <div class="col align-self-end">
                         <div class="btn-group">
-                            <a type="button" @click="showUploaded" target="_black" class="btn" :class="!del ? 'btn-info' : 'btn-default'">
+                            <a @click="mode = 'old'" class="btn" :class="mode == 'old' ? 'btn-info' : 'btn-default'">
+                                Antigos
+                            </a>
+                            <a type="button" @click="mode = 'active'" class="btn" :class="mode == 'active' ? 'btn-info' : 'btn-default'">
                                 Ativos
                             </a>
-                            <a type="button" @click="showDeleted" class="btn" :class="del ? 'btn-info' : 'btn-default'">
+                            <a v-if="canDelete" @click="mode = 'deleted'" class="btn" :class="mode == 'deleted' ? 'btn-info' : 'btn-default'">
                                 Apagados
                             </a>
                         </div>
@@ -58,10 +61,52 @@
                 <div  v-if="progressBar" class="progress" style="padding-top: 3px">
                     <div class="progress-bar" role="progressbar" :style="{'width' : width + '%'}" :aria-valuenow="width" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                
             </div>
             <!-- uploaded -->
-            <template v-if="!del">
+            <template v-if="mode == 'old'">
+                <div class="card-footer"> 
+                    <div v-if="old.length" class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="col-sm-2">Nome aquivo</th>
+                                        <th class="col-sm-1">Ref/Ano</th>
+                                        <th class="col-sm-2">Tamanho - Ext.</th>
+                                        <th class="col-sm-1">Data</th>
+                                        <th class="col-sm-3">Obs.</th>
+                                        <th class="col-sm-2">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(o, index) in old" :key="index">
+                                        <td>{{ o.name}}</td>
+                                        <td>{{ o.sjd_ref}}/{{ o.sjd_ref_ano}}</td>
+                                        <td>{{ o.size | toMB}} MB - {{ o.mime}}</td>
+                                        <td>{{ o.data_arquivo}}</td>
+                                        <td>{{ o.obs | hasObs}}</td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="First group">
+                                                <a type="button" :href="o.path" target="_black" class="btn btn-primary" style="color: white">
+                                                    <i class="fa fa-eye"></i> Ver
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> 
+                    <!-- Sem arquivos -->
+                    <div v-else class="row">
+                        <div class="col-sm-12">
+                            <h4>Não há arquivo</h4>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <!-- uploaded -->
+            <template v-if="mode == 'active'">
                 <div class="card-footer"> 
                     <div v-if="uploaded.length" class="row">
                         <div class="col-sm-12">
@@ -104,15 +149,15 @@
                         </div>
                     </div> 
                     <!-- Sem arquivos -->
-                    <div v-if="!uploaded.length && only" class="row">
+                    <div class="row">
                         <div class="col-sm-12">
-                            <p>Não há arquivo</p>
+                            <h4>Não há arquivo</h4>
                         </div>
                     </div>
                 </div>
             </template>
             <!-- Apagados -->
-            <template v-if="del">
+            <template v-if="mode == 'deleted'">
                 <div class="card-footer"> 
                     <div v-if="apagados.length" class="row">
                         <div class="col-sm-12">
@@ -144,9 +189,9 @@
                                                 <a type="button" @click="downloadFile(u.id)" target="_black" class="btn btn-success" style="color: white">
                                                     <i class="fa fa-download"></i> Download
                                                 </a>
-                                                <!-- <a type="button" @click="removeFile(a.id)" class="btn btn-danger" style="color: white">
+                                                <a type="button" @click="removeFile(a.id)" class="btn btn-danger" style="color: white">
                                                     <i class="fa fa-trash"></i> Destruir
-                                                </a> -->
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
@@ -157,7 +202,7 @@
                     <!-- Sem arquivos -->
                     <div v-else class="row">
                         <div class="col-sm-12">
-                            <p>Não há arquivo</p>
+                            <h4>Não há arquivo</h4>
                         </div>
                     </div>
                 </div>
@@ -176,37 +221,34 @@
     props: {
         title: {type: String},
         name: {type: String},
-        proc: {type: String},
+        dproc: {type: String},
         idp: {type: String},
         ext: {type: Array, default: ['pdf']},
-        candelete: {default: ''},
         unique: {type: Boolean, default: true},
+        view: {type: Boolean, default: false},
     },
     data() {
         return {
             file: '',
             uploaded: [],
+            old: [],
             apagados: [],
             forUpload: false,
             error: [],
             progressBar: false,
             width: 0,
             only: false,
-            headers: {
-                'Content-Type': 'multipart/form-data'
-                },
+            headers: {'Content-Type': 'multipart/form-data'},
             countup: 0,
             countap: 0,
             filetype: '',
             action: 'fileupload',
-            view: false,
             data_arquivo: '',
             rg: '',
-            nome_original: '',
+            nome_original: true,
             obs: '',
-            del: false
-        }
-        
+            mode: 'active'
+        }  
     },
     beforeMount(){
         this.listFile(); 
@@ -230,16 +272,6 @@
         }
     },
     computed:{
-        getBaseUrl(){
-            // URL completa
-            let getUrl = window.location;
-            // dividir em array
-            let pathname = getUrl.pathname.split('/') 
-            this.view = (pathname[3] == 'ver') ? true : false       
-            let baseUrl = `${getUrl.protocol}//${getUrl.host}/${pathname[1]}/api/`;
-            
-        return baseUrl;
-        },
         // verificar se é upload unico
         verifyOnly(){         
             this.only = (this.unique == true && this.countup > 0) ? true : false
@@ -269,6 +301,9 @@
             today = `${dd}/${mm}/${yyyy}`;
             return today
         },
+        canDelete() {
+            return this.$root.hasRole('admin')
+        }
     },
     methods: {
         verifyFile(){
@@ -280,14 +315,14 @@
             if(!this.forUpload) this.file = ''
         },
         createFile(){
-            let urlCreate = `${this.getBaseUrl}${this.action}/store`;
+            let urlCreate = `${this.$root.baseUrl}api/${this.action}/store`;
             
             let formData = new FormData();
             formData.append('file', this.file);
             formData.append('name', this.name);
-            formData.append('rg', this.rg);
+            formData.append('rg', this.$root.dadoSession('rg'));
             formData.append('id_proc', this.idp);
-            formData.append('proc', this.proc);
+            formData.append('proc', this.dproc);
             formData.append('ext', this.filetype);
             formData.append('nome_original', this.nome_original);
             formData.append('data_arquivo', this.data_arquivo);
@@ -301,11 +336,13 @@
             });
         },
         listFile(){
-            let urlIndex = `${this.getBaseUrl}${this.action}/list/${this.proc}/${this.idp}/${this.name}`;
+            let urlIndex = `${this.$root.baseUrl}api/${this.action}/list/${this.dproc}/${this.idp}/${this.name}`;
+            console.log(urlIndex)
             axios
             .get(urlIndex)
             .then((response) => {
                 this.uploaded = response.data.list
+                this.old = response.data.old
                 this.apagados = response.data.apagados
                 this.countup = response.data.list.length
                 this.countap = response.data.list.length
@@ -313,22 +350,22 @@
             .catch(error => console.log(error));
         },
         showFile(hash){
-            let urlShow = `${this.getBaseUrl}${this.action}/show/${this.proc}/${this.idp}/${this.name}/${hash}`;
+            let urlShow = `${this.$root.baseUrl}api/${this.action}/show/${this.dproc}/${this.idp}/${this.name}/${hash}`;
             window.open(urlShow, "_blank")
         },
         downloadFile(id) {
-            let urlIndex = `${this.getBaseUrl}${this.action}/download/${id}`;
+            let urlIndex = `${this.$root.baseUrl}api/${this.action}/download/${id}`;
             window.open(urlIndex, "_blank")
         },
         deleteFile(id){
-            let urlDelete = `${this.getBaseUrl}${this.action}/delete/${id}`;
+            let urlDelete = `${this.$root.baseUrl}api/${this.action}/delete/${id}`;
             axios
             .delete(urlDelete)
             .then((response) => this.listFile())//chama list para atualizar
             .catch(error => console.log(error));
         },
         removeFile(id){
-            let urlDelete = `${this.getBaseUrl}${this.action}/destroy/${id}`;
+            let urlDelete = `${this.$root.baseUrl}api/${this.action}/destroy/${id}`;
             axios
             .delete(urlDelete)
             .then((response) => this.listFile())//chama list para atualizar
@@ -337,12 +374,6 @@
         cancelFile(){
             this.file ='';
             this.forUpload = false;
-        },
-        showUploaded(){
-            this.del = false
-        },
-        showDeleted(){
-            this.del = true
         },
         progress(){
             this.progressBar = true;

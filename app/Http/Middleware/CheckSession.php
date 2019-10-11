@@ -11,10 +11,7 @@ class CheckSession
      */
     public function handle($request, Closure $next)
     {
-        if ( !session() )
-        {
-            return redirect()->route('login');
-        }
+        if ( !session('rg') ) abort(401,'Not Logged');
 
         return $next($request);
     }

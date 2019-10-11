@@ -12,10 +12,11 @@ class FileUpload extends Model
 
     protected $dates = ['deleted_at','data_arquivo'];
 
-    protected $fillable = ['name', 'mime', 'path', 'size','id_proc','proc','obs'];
+    protected $fillable = ['hash','name', 'campo','mime', 'path', 'size','sjd_ref','sjd_ref_ano','rg','id_proc','proc','data_arquivo','obs','is_old_file'];
 
     protected $casts = [
-		'id_proc' => 'int'
+        'id_proc' => 'int',
+        'is_old_file' => 'int'
     ];
 
     //Activitylog
