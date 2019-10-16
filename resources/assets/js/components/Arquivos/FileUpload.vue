@@ -219,6 +219,7 @@
     export default {
     components: {Checkbox,Datepicker},
     props: {
+        qtdMB : {type: Number, default: 5},
         title: {type: String},
         name: {type: String},
         dproc: {type: String},
@@ -285,10 +286,9 @@
         },
         verifySize(){
             let fileSize = this.file.size;
-            let qtdMB = 5
-            let maxSize = 1048576 * qtdMB
+            let maxSize = 1048576 * this.qtdMB
             if (fileSize > maxSize) {
-                this.error.push(`Tamanho excedido! deve ser menor que ${qtdMB}MB `);
+                this.error.push(`Tamanho excedido! deve ser menor que ${this.qtdMB}MB `);
                 return false
             }else{return true}    
         },

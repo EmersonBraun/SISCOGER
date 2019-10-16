@@ -1,13 +1,13 @@
 <template>
     <div >
-        <div class=" input-group" style="width: 86%">
+        <div class="input-group caixa">
             <!-- <the-mask mask="##/##/####" /> -->
             <input class="form-control" :class="{'with-reset-button': clearButton}" type="text" :placeholder="placeholder"
                 :value="val"
                 :name="name"
                 @click="inputClick"
                 @input="this.$emit('input',$event.target.val)" />
-            <div class="input-group-append">
+            <div class="append">
                 <span v-if="!val" class="btne input-group-text" @click="val = today()">Hoje&nbsp;</span>
                 <span v-if="clearButton && val" class="btne input-group-text" @click="val = ''">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>
             </div>
@@ -473,6 +473,18 @@ input.datepicker-input.with-reset-button {
 }
 .btne{
     cursor: pointer;
+}
+.caixa{
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    z-index: 1;
+}
+.append{
+    display: flex;
+    align-self: flex-end;
+    position: absolute;
+    z-index: 2;
 }
 
 </style>

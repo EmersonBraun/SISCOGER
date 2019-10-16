@@ -96,7 +96,7 @@ class FileUploadController extends Controller
         $data_arquivo = $this->service->dataFile($dados); // data do arquivo
 
         $proc = $this->repository->getOriginProc($dados); //pegar procedimento
-        // $update = $this->repository->updateOriginTable($dados, $filename, $data_arquivo); //atualiza tabela do procedimento
+        $update = $this->repository->updateOriginTable($dados, $filename, $data_arquivo); //atualiza tabela do procedimento
 
         $path = $this->service->getPathComplete($filename);
 

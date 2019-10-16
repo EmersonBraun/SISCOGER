@@ -54,6 +54,7 @@ Vue.component('v-tramite-opm', () => import(/* webpackChunkName: "v-tramite-opm"
 // Apresentação
 Vue.component('v-dados-opm', () => import(/* webpackChunkName: "v-dados-opm" */'./components/Apresentacao/DadosOpm.vue'));
 Vue.component('v-outras-autoridades', () => import(/* webpackChunkName: "v-outras-autoridades" */'./components/Apresentacao/OutrasAutoridades.vue'));
+Vue.component('v-form-apresentacao', () => import(/* webpackChunkName: "v-form-apresentacao" */'./components/Apresentacao/Form.vue'));
 // Layout
 Vue.component('v-tab-item', () => import(/* webpackChunkName: "v-tab-item" */'./components/Layout/TabItem.vue'));
 Vue.component('v-tab-menu', () => import(/* webpackChunkName: "v-tab-menu" */'./components/Layout/TabMenu.vue'));
