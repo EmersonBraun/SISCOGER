@@ -31,7 +31,7 @@ class ReservaRepository extends BaseRepository
 
         return $registros;
     }
-
+    
     public function get($rg)
 	{
 
@@ -54,6 +54,8 @@ class ReservaRepository extends BaseRepository
                 'SEXO' => '-',
                 'STATUS' => "registro",
                 'SITUACAO' => "Normal",
+                'CDOPM' => null,
+                'OPM_DESCRICAO' => 'Não encontrado',
             ];
         } else {
             return false;

@@ -149,16 +149,16 @@ class PolicialRepository extends BaseRepository
     
     public function get($rg)//dados principais do policial
     {
-        $militar_estadual = Cache::remember('fdi:'.$rg, $this->expiration, function() use ($rg)
-        {
+        // $militar_estadual = Cache::remember('fdi:'.$rg, $this->expiration, function() use ($rg)
+        // {
             $pm = $this->pm($rg);
             if(is_null($pm)){//caso não encontre busca nos INATIVOS
-                $inativo = $this->inativo($rg);
+                $pm = $this->inativo($rg);
 
-                if (!$inativo) {//caso não encontre nos inativos busca na RESERVA
-                    $reserva = $this->reserva($rg);
+                if (!$pm) {//caso não encontre nos inativos busca na RESERVA
+                    $pm = $this->reserva($rg);
 
-                    if (!$reserva) {//Caso não encontre NÃO HÁ DADOS
+                    if (!$pm) {//Caso não encontre NÃO HÁ DADOS
                         $encontrado = false;
                         $tabela = null;
                         //cria objeto com dados vazios
@@ -180,14 +180,15 @@ class PolicialRepository extends BaseRepository
                 $pm->STATUS = 'Ativo';
                 $pm->SITUACAO = 'Normal';
             }
+
             //Idade
             $pm->IDADE = ($encontrado) ? idade($pm->NASCIMENTO) : 'Não encontrado';
-
             return $pm;
-        });
-        // dd($militar_estadual);
 
-        return $militar_estadual;
+        // });
+        // // dd($militar_estadual);
+
+        // return $militar_estadual;
     }
 
     public static function dados($rg, $dado) // dados usados em presenters

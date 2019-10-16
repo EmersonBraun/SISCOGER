@@ -6,9 +6,36 @@ use App\Repositories\OPMRepository;
 
 class ApresentacaoPresenter extends Presenter {
     
-    public function tiponotacomparecimento()
+    public function sigilo()
     {
-        return array_get(config('sistema.tiponotacomparecimento','Não Há'), $this->id_tiponotacomparecimento);
+        return array_get(config('sistema.apresentacaoClassificacaoSigilo','Não Há'), $this->id_apresentacaoclassificacaosigilo);
+    }
+
+    public function situacao()
+    {
+        return array_get(config('sistema.apresentacaoSituacao','Não Há'), $this->id_apresentacaosituacao);
+    }
+
+    public function notificacao()
+    {
+        return array_get(config('sistema.apresentacaoNotificacao','Não Há'), $this->id_apresentacaonotificacao);
+    }
+
+    public function tipoProcesso()
+    {
+        return array_get(config('sistema.apresentacaoTipoProcesso','Não Há'), $this->id_apresentacaotipoprocesso);
+    }
+
+    public function refAno()
+    {
+        if($this->sjd_ref == null || $this->sjd_ref == '')
+        {
+            return $this->id_adl;
+        }
+        else 
+        {
+            return $this->sjd_ref.'/'.$this->sjd_ref_ano;
+        }
     }
 
     public function pm()

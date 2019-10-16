@@ -43,10 +43,11 @@ class InativoRepository extends BaseRepository
             return (object) [
                 'CARGO' => $registro['cargo'],
                 'QUADRO' => $registro['QUADRO'],
-                'SUBQUADRO' => 'RR',
+                'SUBQUADRO' => '-',
                 'NOME' => $registro['NOME'],
                 'RG' => $registro['CBR_NUM_RG'],
-                'OPM_DESCRICAO' => '-',
+                'CDOPM' => null,
+                'OPM_DESCRICAO' => 'Não encontrado',
                 'NASCIMENTO' => $registro['DT_NASC'],
                 'ADMISSAO_REAL' => $registro['DT_INI_RH'],
                 'CIDADE' => $registro['END_CIDADE'],

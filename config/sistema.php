@@ -83,6 +83,43 @@ return [
         'SD2C' => '18',
         'NULL' => '99'
     ],
+
+    'postos' => 
+    [
+        'CELAGREG' => 'CELAGREG',
+        'CEL' => 'CEL',
+        'TENCEL' => 'TENCEL',
+        'MAJ' => 'MAJ',
+        'CAP' => 'CAP',
+        '1TEN' => '1TEN',
+        '2TEN' => '2TEN',
+        'ASPOF' => 'ASPOF',
+        'ALUNO' => 'ALUNO',
+        'ALUNO3A' => 'ALUNO3A',
+        'ALUNO2A' => 'ALUNO2A',
+        'ALUNO1A' => 'ALUNO1A',
+        'SUBTEN' => 'SUBTEN',
+        '1SGT' => '1SGT',
+        '2SGT' => '2SGT',
+        '3SGT' => '3SGT',
+        'CABO' => 'CABO',
+        'SD1C' => 'SD1C',
+        'SD2C' => 'SD2C',
+        'NULL' => 'Nâo encontrado'
+    ],
+
+    'quadros' => 
+    [
+        'QPMG1' => 'QPMG1', 
+        'QPMG2' => 'QPMG2', 
+        'QOPM' => 'QOPM',
+        'QOBM' => 'QOBM',
+        'QEOPM' => 'QEOPM',
+        'QOS' => 'QOS',
+        'PM' => 'PM',
+        'BM' => 'BM',
+        'NULL' => 'Nâo encontrado'
+    ],
     
     'classPunicao' =>
     [

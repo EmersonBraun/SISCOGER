@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 class AutorizationService 
 {
+    protected $data;
     protected $name = 'fdi';
     protected $cdopm = false;
     protected $nivel;
@@ -34,10 +35,10 @@ class AutorizationService
     {
         // validar se existe
         if(!$data) return 'Faltam os dados';
-        if(!$data) return 'Falta o nome';
+        if(!$name) return 'Falta o nome';
         // cast para array
-        if($data instanceof Illuminate\Database\Eloquent\Collection)  $data = $data->toArray();
-        if(is_object($data)) $data = json_decode(json_encode($data), true);
+        $data = $this->convertDataToArray($data);
+        
         // atribuições
         $this->nivel = $this->getCorrectNivel();
         $this->name = $name;
@@ -50,11 +51,19 @@ class AutorizationService
         }
     }
 
+    public function convertDataToArray($data)
+    {
+        if($data instanceof Illuminate\Database\Eloquent\Collection)  $data = $data->toArray();
+        if(is_object($data)) $data = json_decode(json_encode($data), true);
+        return $data;
+    }
+
 
     public function canSee($data, $name)
 	{
         if(!session('rg')) abort(401,'Not Logged');
         if(!$this->cdopm) $this->bootService($data, $name);
+        $data = $this->convertDataToArray($data);
 
         $canSeeOPM = $this->canSeeOPM($data, $name);
         if(!$canSeeOPM) toast()->error('Você não tem acesso a PPMM de outras OM');

@@ -31,7 +31,6 @@ class PermissionController extends Controller
 
     public function index()
     {
-       
         $permissions = $this->permission->all();
         return view('administracao.permissoes.index',compact('permissions'));
     }
@@ -54,17 +53,18 @@ class PermissionController extends Controller
             'name'=>'required|max:40',
         ]);
         
-        $name = $request['name'];
-        $roles = $request['roles'];
+        $dados = $request->except(['_token','roles']);
+        $name = $dados['name'];
+        $roles = $request->roles;
 
-        $create = $this->permission->create([$name]);
+        $create = $this->permission->create($dados);
         
         if($create) {
             $this->permission->cleanCache();
 
             if (!empty($roles)) { //Se uma ou mais funções forem selecionadas
                 $this->givePermission($roles, $name);
-                $this->permission->cleanCache();
+                $this->permission->clearCache();
             }
 
             toast()->success(''.$name.' adicionadas!', 'Permissões');

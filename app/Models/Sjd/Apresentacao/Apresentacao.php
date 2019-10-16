@@ -12,6 +12,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use Spatie\Activitylog\Traits\LogsActivity;
 // para não apagar diretamente, inserir data em "deleted_at"
 use Illuminate\Database\Eloquent\SoftDeletes;
+// para 'apresentar' já formatado e tirar lógica das views
+use Laracasts\Presenter\PresentableTrait;
 /**
  * Class Apresentacao
  * 
@@ -69,7 +71,6 @@ class Apresentacao extends Eloquent
 
 	protected $table = 'apresentacao';
 	protected $primaryKey = 'id_apresentacao';
-	public $timestamps = false;
 
 	protected $casts = [
 		'id_notacomparecimento' => 'int',
@@ -132,7 +133,14 @@ class Apresentacao extends Eloquent
 		'cdopm',
 		'memorando_pdf'
     ];
-        
+       
+    use PresentableTrait;
+    protected $presenter = 'App\Presenters\apresentacao\ApresentacaoPresenter';
+
+    public static function trashed() {
+        return self::onlyTrashed();
+    }
+
     //mutators (para alterar na hora da exibição)
 	public function getDocumentoDeOrigemDataAttribute($value)
 	{

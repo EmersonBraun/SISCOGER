@@ -1,14 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'ADL - Criar')
+@section('title', 'Apresentação - Criar')
 
 @section('content_header')
 <section class="content-header">   
-  <h1>ADL - Criar</h1>
+  <h1>Apresentação - Criar</h1>
   <ol class="breadcrumb">
   <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li><a href="{{route('adl.lista')}}">ADL - Lista</a></li>
-  <li class="active">ADL - Criar</li>
+  <li><a href="{{route('apresentacao.index')}}">Apresentação - Lista</a></li>
+  <li class="active">Apresentação - Criar</li>
   </ol>
 </section>
 
@@ -16,16 +16,62 @@
 @stop
 
 @section('content')
-     <!-- Content Wrapper. Contains page content -->
-  <div class="">
-    <!-- Content Header (Page header) -->
 <section class="">
     <div class="tab-content">
         <v-tab-item title="Formulário principal" idp="principal" cls="active show">
-            {!! Form::open(['url' => route('adl.store')]) !!}
-            <v-prioritario admin="session('is_admin')"></v-prioritario>
-            <v-label label="id_andamento" title="Andamento" error="{{$errors->first('id_andamento')}}">
-                {!! Form::select('id_andamento',config('sistema.andamentoADL'),null, ['class' => 'form-control','required']) !!}
+            {!! Form::open(['url' => route('apresentacao.store')]) !!}
+        'id_notacomparecimento',
+        
+		'pessoa_posto',
+		'pessoa_quadro',
+		'pessoa_email',
+		'pessoa_unidade_lotacao_meta4',
+		'pessoa_unidade_lotacao_codigo',
+		'pessoa_unidade_lotacao_sigla',
+		'pessoa_unidade_lotacao_descricao',
+		'pessoa_opm_meta4',
+		'pessoa_opm_codigo',
+		'pessoa_opm_sigla',
+		'pessoa_opm_descricao',
+		'documento_de_origem',
+		'documento_de_origem_data',
+		'documento_de_origem_file',
+		'id_apresentacaotipoprocesso',
+		'autos_numero',
+		'autos_ano',
+		'acusados',
+		'id_apresentacaocondicao',
+		'comparecimento_data',
+		'comparecimento_hora',
+		'comparecimento_dh',
+		'comparecimento_local_txt',
+		'id_localdeapresentacao',
+		'observacao_txt',
+		'usuario_rg',
+		'criacao_dh',
+		'sjd_ref',
+		'sjd_ref_ano',
+		'cdopm',
+		'memorando_pdf'
+            <v-label label="id_apresentacaosituacao" title="Classificação de sigilo" error="{{$errors->first('id_apresentacaosituacao')}}">
+                {!! Form::select('id_apresentacaosituacao',config('sistema.apresentacaoClassificacaoSigilo'),null, ['class' => 'form-control','required']) !!}
+            </v-label>
+            <v-label label="id_apresentacaoclassificacaosigilo" title="Situação" error="{{$errors->first('id_apresentacaoclassificacaosigilo')}}">
+                {!! Form::select('id_apresentacaoclassificacaosigilo',config('sistema.apresentacaoSituacao'),null, ['class' => 'form-control','required']) !!}
+            </v-label>
+            <v-label label="pessoa_rg" title="RG" lg="4" md="4" error="{{$errors->first('pessoa_rg')}}">
+                {{ Form::text('pessoa_rg', null, ['class' => 'form-control ',
+                'onchange' => 'completaDados(this,pessoa_nome,pessoa_posto)',
+                'onkeyup' => 'completaDados(this,pessoa_nome,pessoa_posto)']) }}
+            </v-label>
+            <v-label label="pessoa_nome" title="Nome" lg="4" md="4" error="{{$errors->first('pessoa_nome')}}">
+                {{ Form::text('pessoa_nome', null, ['class' => 'form-control ','readonly','id' => 'pessoa_nome']) }}
+            </v-label>
+            <v-label label="pessoa_posto" title="Posto/Graduação" lg="4" md="4" error="{{$errors->first('pessoa_posto')}}">
+                {{ Form::select('pessoa_posto', config('sistema.postos'),null, ['class' => 'form-control ','readonly','id' => 'pessoa_posto']) }}
+            </v-label>
+            <v-label label="cdopm" title="OPM">
+                <v-opm name='cdopm' cdopm="{{$proc['cdopm'] ?? ''}}"></v-opm>
             </v-label>
             <v-label label="id_andamentocoger" title="Andamento COGER" error="{{$errors->first('id_andamentocoger')}}">
                 {!! Form::select('id_andamentocoger',config('sistema.andamentocogerADL'),null, ['class' => 'form-control','required']) !!}
@@ -33,17 +79,7 @@
             <v-label label="id_motivoconselho" title="Motivo ADL (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">
                 {!! Form::select('id_motivoconselho', config('sistema.motivoConselho'),null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
             </v-label>
-            <v-label label="check" title="Selecione: " md="12" lg="12">
-                <v-checkbox name="ac_desempenho_bl" true-value="S" false-value="0"
-                text="Procedido incorretamente no desempenho do cargo ou função.">
-                </v-checkbox>
-                <v-checkbox name="ac_conduta_bl" true-value="S" false-value="0"
-                text="Conduta irregular ou ato que venha a denegrir a imagem da Corporação.">
-                </v-checkbox>
-                <v-checkbox name="ac_honra_bl" true-value="S" false-value="0"
-                text="Praticado ato que afete a honra pessoal, o pundonor militar ou o decoro da classe.">
-                </v-checkbox>
-            </v-label>
+
             <v-label label="outromotivo" title="Especificar (no caso de outros motivos)">
                 {{ Form::text('outromotivo', null, ['class' => 'form-control ']) }}
             </v-label>

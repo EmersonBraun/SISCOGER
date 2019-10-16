@@ -31,14 +31,9 @@ class EmailRepository extends BaseRepository
         return $registros;
     } 
 
-    public function ano($ano)
+    public function paginate($paginate=10)
 	{
-
-        $registros = Cache::tags('email')->remember('todos_email:'.$ano, self::$expiration, function() use ($ano) {
-            return $this->model->where('dh','like',$ano.'-%')->orderBy('id_email','DESC')->get();
-        });
-
-        return $registros;
+        return $this->model->orderBy('id_email','DESC')->paginate($paginate);
     } 
 
 

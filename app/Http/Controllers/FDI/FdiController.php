@@ -29,6 +29,8 @@ class FdiController extends Controller
         $pm = $this->repository->get($rg);
         $this->autorization->canSee($pm, 'fdi');
         $this->service->fdi($pm);
+        
+        $pm = $this->autorization->convertDataToArray($pm);
 
         return view('FDI.ficha', compact('pm'));
     }

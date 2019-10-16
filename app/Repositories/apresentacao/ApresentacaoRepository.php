@@ -21,7 +21,7 @@ class ApresentacaoRepository extends BaseRepository
         $this->unidade = session('cdopmbase');
     }
 
-    public function cleanCache()
+    public function clearCache()
 	{
         Cache::tags('apresentacao')->flush();
     }
@@ -37,36 +37,49 @@ class ApresentacaoRepository extends BaseRepository
         return $dados;
     }
 
-    public function all()
+    public function opmAno($cdopm, $ano)
 	{
-        $registros = Cache::tags('apresentacao')->remember('todos_apresentacao', self::$expiration, function() {
-            return $this->model->all();
-        });
-
+        if(hasPermissionTo('listar-apresentacoes-reservadas')) $registros = $this->reservados($cdopm, $ano);
+        else $registros = $this->publicos($cdopm, $ano);
 
         return $registros;
-    } 
+    }
 
-    public function ano($ano)
+    public function publicos($cdopm, $ano)
 	{
-
-        $registros = Cache::tags('apresentacao')->remember('todos_apresentacao:'.$ano, self::$expiration, function() use ($ano) {
-            return $this->model->where('sjd_ref_ano','=',$ano)->get();
-        });
-
-        return $registros;
-    } 
-
-    //@override
-    public function apagadosAno($ano)
-	{
-
-        $registros = Cache::tags('apresentacao')->remember('todos_apresentacao:apagadas'.$ano, self::$expiration, function() use ($ano) {
-            return $this->model->where('sjd_ref_ano',$ano)->onlyTrashed()->get();
+        $registros = Cache::tags('apresentacao')->remember('apresentacao:publicos:'.$cdopm, self::$expiration, function() use($cdopm, $ano){
+            return $this->model->where([
+                ['pessoa_opm_codigo','like',"$cdopm%"],
+                ['id_apresentacaoclassificacaosigilo','<=','2']
+            ])
+            ->whereYear('comparecimento_data', $ano)
+            ->get();
         });
 
         return $registros;
     } 
+
+    public function reservados($cdopm, $ano)
+	{
+        $registros = Cache::tags('apresentacao')->remember('apresentacao:reservados:'.$cdopm, self::$expiration, function() use($cdopm, $ano){
+            return $this->model->where('pessoa_opm_codigo','like',"$cdopm%")
+            ->whereYear('comparecimento_data', $ano)
+            ->get();
+        });
+
+        return $registros;
+    } 
+
+    public function ano($ano, $cdopm)
+	{
+
+        $registros = Cache::tags('apresentacao')->remember('apresentacao:'.$ano.$cdopm, self::$expiration, function() use ($ano, $cdopm) {
+            return $this->model->whereYear('comparecimento_data', $ano)->where('pessoa_opm_codigo','like',"$cdopm%")->get();
+        });
+
+        return $registros;
+    } 
+
 
     public function apresentacoesPM($rg)
     {

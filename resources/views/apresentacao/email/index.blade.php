@@ -3,7 +3,13 @@
 @section('title', 'Email')
 
 @section('content_header')
-@include('apresentacao.email.menu', ['title' => 'Lista','page' => $ano])
+<section class="content-header ">    
+    <h1>Email</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{route('home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Email</li>
+    </ol>
+</section>
 @stop
 
 @section('content')
@@ -14,7 +20,7 @@
                 <h3 class="box-title">Listagem de Emails</h3>
             </div>
             <div class="box-body">
-                <table id="datable" class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th style="display: none">#</th>
@@ -36,6 +42,8 @@
                             <td>{{$registro->destinatario_nome}}</td>
                             <td>{{$registro->assunto}}</td>
                             <td>{{$registro->mensagem_txt}}</td>
+                            <td>{{$registro->usuario_rg}}</td>
+                            <td>{{$registro->dh}}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -53,6 +61,7 @@
                     </tfoot>
                 </table>
             </div>
+            {{ $registros->links() }}
         </div>
     </div>
 </section>

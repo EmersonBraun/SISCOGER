@@ -29,7 +29,7 @@ class BaseRepository
             $this->model->find($id)->delete();
             return true;
         } catch (\Throwable $th) {
-            //dd($th)
+            toast()->error($th->getMessage(),'ERRO');
             return false;
         }
     }
@@ -40,7 +40,7 @@ class BaseRepository
             $this->model->find($id)->update($data);
             return true;
         } catch (\Throwable $th) {
-            //dd($th)
+            toast()->error($th->getMessage(),'ERRO');
             return false;
         }
     }
@@ -51,7 +51,7 @@ class BaseRepository
             $create = $this->model->create($data);
             return $create;
         } catch (\Throwable $th) {
-            //dd($th)
+            toast()->error($th->getMessage(),'ERRO');
             return false;
         }
     }
@@ -62,7 +62,7 @@ class BaseRepository
             $this->model->findOrFail($id)->update($data);
             return true;
         } catch (\Throwable $th) {
-            //dd($th)
+            toast()->error($th->getMessage(),'ERRO');
             return false;
         }
     }
@@ -73,7 +73,7 @@ class BaseRepository
             $this->model->firstOrCreate($data);
             return true;
         } catch (\Throwable $th) {
-            //dd($th)
+            toast()->error($th->getMessage(),'ERRO');
             return false;
         }
     }
@@ -84,7 +84,7 @@ class BaseRepository
             $this->model->findOrFail($id)->delete();
             return true;
         } catch (\Throwable $th) {
-            //dd($th)
+            toast()->error($th->getMessage(),'ERRO');
             return false;
         }
     }
@@ -95,7 +95,7 @@ class BaseRepository
             $this->model->withTrashed()->findOrFail($id)->restore();
             return true;
         } catch (\Throwable $th) {
-            //dd($th)
+            toast()->error($th->getMessage(),'ERRO');
             return false;
         }
     }
@@ -106,7 +106,7 @@ class BaseRepository
             $this->model->withTrashed()->findOrFail($id)->forceDelete();
             return true;
         } catch (\Throwable $th) {
-            //dd($th)
+            toast()->error($th->getMessage(),'ERRO');
             return false;
         }
     }
@@ -117,7 +117,7 @@ class BaseRepository
             $this->model->forceDelete();
             return true;
         } catch (\Throwable $th) {
-            //dd($th)
+            toast()->error($th->getMessage(),'ERRO');
             return false;
         }
     }

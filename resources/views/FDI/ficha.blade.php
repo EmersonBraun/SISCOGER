@@ -17,7 +17,7 @@
 <section class="noppading">
     <div class="row">
         <div class="col-xs-12">
-            <v-principal :pm="{{$pm}}"></v-principal>
+            <v-principal :pm="{{json_encode($pm)}}"></v-principal>
         </div>     
     </div>
     <div class="row">
@@ -26,40 +26,40 @@
                 <div class="box-body">
                     <v-tabs nav-style="pills" justified>
                         @if(hasPermissionTo('ver-protocolo-fdi'))
-                            <v-protocolo rg="{{$pm->RG}}"></v-protocolo>
+                            <v-protocolo rg="{{$pm['RG']}}"></v-protocolo>
                         @endif
                         @if(hasPermissionTo('ver-denuncias'))
-                            <v-denuncias rg="{{$pm->RG}}"></v-denuncias>
+                            <v-denuncias rg="{{$pm['RG']}}"></v-denuncias>
                         @endif
                         @if(hasPermissionTo('ver-outras-denuncias'))
-                            <v-outras-denuncias :pm="{{$pm}}"></v-outras-denuncias>
+                            <v-outras-denuncias :pm="{{json_encode($pm)}}"></v-outras-denuncias>
                         @endif
                         @if(hasPermissionTo('ver-prisoes'))
-                            <v-prisoes :pm="{{$pm}}"></v-prisoes>
+                            <v-prisoes :pm="{{json_encode($pm)}}"></v-prisoes>
                         @endif
                         @if(hasPermissionTo('ver-restricoes'))
-                            <v-restricoes :pm="{{$pm}}"></v-restricoes>
+                            <v-restricoes :pm="{{json_encode($pm)}}"></v-restricoes>
                         @endif
                         @if(hasPermissionTo('listar-sai'))
-                            <v-sai rg="{{$pm->RG}}"></v-sai>
+                            <v-sai rg="{{$pm['RG']}}"></v-sai>
                         @endif
                         @if(hasAnyPermission(['ver-mudanca-comportamento','ver-elogios']))
-                            <v-fdi :pm="{{$pm}}"></v-fdi>
+                            <v-fdi :pm="{{json_encode($pm)}}"></v-fdi>
                         @endif
                         @if(hasPermissionTo('listar-punidos'))
-                            <v-punicao :pm="{{$pm}}"></v-punicao>
+                            <v-punicao :pm="{{json_encode($pm)}}"></v-punicao>
                         @endif
                         @if(hasPermissionTo('ver-objetos'))
-                            <v-objeto rg="{{$pm->RG}}"></v-objeto>
+                            <v-objeto rg="{{$pm['RG']}}"></v-objeto>
                         @endif
                         @if(hasPermissionTo('ver-membros'))
-                            <v-membro-fdi rg="{{$pm->RG}}"></v-membro-fdi>
+                            <v-membro-fdi rg="{{$pm['RG']}}"></v-membro-fdi>
                         @endif
                         @if(hasPermissionTo('ver-aprestacoes'))
-                            <v-apresentacoes rg="{{$pm->RG}}"></v-apresentacoes>
+                            <v-apresentacoes rg="{{$pm['RG']}}"></v-apresentacoes>
                         @endif
                         @if(hasPermissionTo('ver-proc-outros'))
-                            <v-proc-outros rg="{{$pm->RG}}"></v-proc-outros>
+                            <v-proc-outros rg="{{$pm['RG']}}"></v-proc-outros>
                         @endif
                     </v-tabs>
                 </div>   
@@ -70,28 +70,28 @@
                 <div class="box-body">
                     <v-tabs nav-style="pills" justified>
                         @if(hasPermissionTo('ver-medalhas'))
-                            <v-medalha :pm="{{$pm}}"></v-medalha>
+                            <v-medalha :pm="{{json_encode($pm)}}"></v-medalha>
                         @endif
                         @if(hasPermissionTo('ver-afastamentos'))
-                            <v-afastamentos rg="{{$pm->RG}}"></v-afastamentos>
+                            <v-afastamentos rg="{{$pm['RG']}}"></v-afastamentos>
                         @endif
                         @if(hasPermissionTo('ver-cautelas'))
-                            <v-cautelas rg="{{$pm->RG}}"></v-cautelas>
+                            <v-cautelas rg="{{$pm['RG']}}"></v-cautelas>
                         @endif
                         @if(hasPermissionTo('ver-dependentes'))
-                            <v-dependentes rg="{{$pm->RG}}"></v-dependentes>
+                            <v-dependentes rg="{{$pm['RG']}}"></v-dependentes>
                         @endif
                         @if(hasPermissionTo('ver-tramite-coger'))
-                            <v-tramite-coger :pm="{{$pm}}"></v-tramite-coger>
+                            <v-tramite-coger :pm="{{json_encode($pm)}}"></v-tramite-coger>
                         @endif
                         @if(hasPermissionTo('ver-tramite-opm'))
-                            <v-tramite-opm :pm="{{$pm}}"></v-tramite-opm>
+                            <v-tramite-opm :pm="{{json_encode($pm)}}"></v-tramite-opm>
                         @endif
                     </v-tabs>
                 </div>   
             </div>
             @if(session('is_admin'))
-                <v-log-fdi rg="{{$pm->RG}}"></v-log-fdi>
+                <v-log-fdi rg="{{$pm['RG']}}"></v-log-fdi>
             @endif   
         </div> 
     </div>      

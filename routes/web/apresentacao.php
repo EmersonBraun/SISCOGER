@@ -1,7 +1,9 @@
 <?php
 //Rotas do módulo Apresentacao
 Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
-	Route::get('',['as' =>'index','uses'=>'Apresentacao\ApresentacaoController@index','middleware' => ['permission:listar-apresentacao']]);
+    Route::get('list/{ano?}/{cdopm?}',['as' =>'index','uses'=>'Apresentacao\ApresentacaoController@index','middleware' => ['permission:listar-apresentacao']]);
+    Route::get('apagados/{ano?}/{cdopm?}',['as' =>'apagados','uses'=>'Apresentacao\ApresentacaoController@apagados','middleware' => ['role:admin']]);
+    Route::post('',['as' =>'search','uses'=>'Apresentacao\ApresentacaoController@search','middleware' => ['permission:listar-apresentacao']]);
 	Route::get('criar',['as' =>'create','uses'=>'Apresentacao\ApresentacaoController@create','middleware' => ['permission:criar-apresentacao']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Apresentacao\ApresentacaoController@store','middleware' => ['permission:criar-apresentacao']]);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Apresentacao\ApresentacaoController@edit','middleware' => ['permission:editar-apresentacao']]);
@@ -48,7 +50,7 @@ Route::group(['as'=>'notacoger.','prefix' =>'notacoger'],function(){
 });
 //Rotas do módulo email
 Route::group(['as'=>'email.','prefix' =>'email'],function(){
-    Route::get('lista/{ano?}',['as' =>'index','uses'=>'Apresentacao\EmailController@index','middleware' => ['permission:listar-notas-coger']]);
+    Route::get('',['as' =>'index','uses'=>'Apresentacao\EmailController@index','middleware' => ['permission:listar-notas-coger']]);
 	Route::get('criar',['as' =>'create','uses'=>'Apresentacao\EmailController@create','middleware' => ['permission:criar-notas-coger']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Apresentacao\EmailController@store','middleware' => ['permission:criar-notas-coger']]);
 	Route::get('editar/{ref}/{ano?}',['as' =>'edit','uses'=>'Apresentacao\EmailController@edit','middleware' => ['permission:editar-notas-coger']]);

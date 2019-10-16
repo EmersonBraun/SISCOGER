@@ -14,13 +14,32 @@ class ApresentacaoController extends Controller
         $this->repository = $repository;
     }
 
-    public function index($ano="")
+    public function index($ano="",$cdopm="")
     {
         if(!$ano) $ano = (int) date('Y');
-        $registros = $this->repository->ano($ano);
-        return view('apresentacao.apresentacao.index', compact('registros','ano'));
+        if(!$cdopm) $cdopm = session('cdopm');
+        $registros = $this->repository->opmAno(session('cdopm'), $ano);
+
+        return view('apresentacao.apresentacao.list.index', compact('registros','ano','cdopm'));
     }
 
+    public function apagados($ano="",$cdopm="")
+    {
+        if(!$ano) $ano = (int) date('Y');
+        if(!$cdopm) $cdopm = session('cdopm');
+        $registros = $this->repository->apagados();
+
+        return view('apresentacao.apresentacao.list.apagados', compact('registros','ano','cdopm'));
+    }
+
+    public function search(Request $request)
+    {
+        $dados = $request->all();
+        if(!$dados['ano']) $dados['ano'] = (int) date('Y');
+        if(!$dados['cdopm']) $dados['cdopm'] = session('cdopm');
+        
+        return redirect()->route('apresentacao.index',['ano' => $dados['ano'], 'cdopm' => $dados['cdopm']]);
+    }
 
     public function create()
     {
