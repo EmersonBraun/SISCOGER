@@ -344,6 +344,17 @@ class PolicialRepository extends BaseRepository
         return array_merge($ativos, $inativos, $reserva);
     }
 
+    public function sugestions($type, $data) 
+    { //mostrar sugestões buscando por RG ou  NOME
+        $type = strtolower($type); 
+        $search = $this->policial
+        ->where($type,'like', '%'."$data%")
+        ->distinct($type)->get();
+
+        return $search;
+    }
+
+
     public function comportamentoAtual($pm)
     {
         return $this->comportamento->comportamentoAtual($pm);

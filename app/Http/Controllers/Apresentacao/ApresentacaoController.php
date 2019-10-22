@@ -49,11 +49,6 @@ class ApresentacaoController extends Controller
     public function store(Request $request)
     {
 
-        // $this->validate($request, [
-        //     'id_andamento' => 'required',
-        //     'sintese_txt' => 'required',
-        // ]);
-
         $dados = $this->repository->datesToCreate($request->all()); 
         $create = $this->repository->create($dados);
 
@@ -68,28 +63,20 @@ class ApresentacaoController extends Controller
         return redirect()->back();
     }
 
-    public function show($ref,$ano)
+    public function dadosApresentacao($ref,$ano="")
     {
-        $proc = $this->repository->ref_ano($ref,$ano);
-        if(!$proc) abort('404');
-
-        return view('apresentacao.apresentacao.form.show', compact('proc'));
+        $search = $this->repository->refAno($ref, $ano);
+        $search->pessoa_opm_codigo = corta_zeros($search->pessoa_opm_codigo);
+        return response()->json($search, 200);
     }
 
-    public function edit($ref,$ano)
-    {
-        $proc = $this->repository->ref_ano($ref,$ano);
-        if(!$proc) abort('404');
-        
-        return view('apresentacao.apresentacao.form.edit', compact('proc'));
+    public function edit($ref,$ano="")
+    {       
+        return view('apresentacao.apresentacao.form.edit', compact('ref','ano'));
     }
 
     public function update(Request $request, $id)
     {
-        // $this->validate($request, [
-        //     'id_andamento' => 'required',
-        //     'sintese_txt' => 'required',
-        // ]);
 
         $dados = $request->all();
         $update = $this->repository->findAndUpdate( $id, $dados);

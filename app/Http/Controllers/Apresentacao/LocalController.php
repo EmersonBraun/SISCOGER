@@ -20,6 +20,12 @@ class LocalController extends Controller
         return view('apresentacao.local.list.index', compact('registros'));
     }
 
+    public function search(Request $request)
+    {
+        $result = $this->repository->getByName($request->nome);
+        return response()->json($result, 200);
+    }
+
     public function apagados()
     {
         $registros = $this->repository->apagados();

@@ -31,5 +31,13 @@ class LocalApresentacaoRepository extends BaseRepository
         return $registros;
     } 
 
+    public function getByName($name)
+    {
+        $registros = $this->model
+        ->join('RHPARANA.municipio','RHPARANA.municipio.id_municipio','localdeapresentacao.id_municipio')
+        ->where('localdeapresentacao','like',"$name%")->get();
+
+        return $registros;
+    }
 }
 

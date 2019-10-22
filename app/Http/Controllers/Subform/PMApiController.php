@@ -43,12 +43,17 @@ class PMApiController extends Controller
         if($data){
             return response()->json([
                 'data' => $data,
-                'success' => true,
-            ], 200);
+                'success' => true,], 200);
         }
-        return response()->json([
-            'success' => false
-        ], 400);  
+        return response()->json(['success' => false], 400);  
+    }
+
+    public function showSugest($type, $data)
+    {
+        $result = $this->repository->sugestions($type, $data);
+        
+        if($result) return response()->json($result, 200);
+        return response()->json([], 200);  
     }
       
 }

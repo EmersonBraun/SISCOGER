@@ -179,9 +179,20 @@ Route::group(['as'=>'cadastroopmautoridade.','prefix' =>'cadastroopmautoridade']
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Apresentacao\CadastroOPMAutoridadeController@destroy']);
 });
 
+// Local de Apresentacao
+Route::group(['as'=>'localapresentacao.','prefix' =>'localapresentacao'],function(){
+    Route::get('{nome}',['as' =>'search','uses'=>'Apresentacao\LocalController@search']);
+});
+// Apresentação
+Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
+    Route::get('{ref}/{ano?}',['as' =>'dadosApresentacao','uses'=>'Apresentacao\ApresentacaoController@dadosApresentacao']);
+});
+
 Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
-    // pegar sugestões de RG e NOME
+    // pegar sugestões de RG e NOME -> ativos/inativos/reserva
     Route::post('sugest',['as' =>'sugestrg','uses'=>'Subform\PMApiController@sugest']);
+    // pegar sugestões de RG e NOME -> ativos
+    Route::get('showsugest/{type}/{data}',['as' =>'showSugest','uses'=>'Subform\PMApiController@showSugest']);
     // pegar dados do PM pelo RG
     Route::get('pm/{rg}',['as' =>'pm','uses'=>'Subform\PMApiController@dados']);
     // pegar dados do Procedimento pelo Nome/ref/ano

@@ -19,7 +19,7 @@
 <section class="">
     <div class="tab-content">
         <v-tab-item title="Formulário principal" idp="principal" cls="active show">
-            <v-form-apresentacao></v-form-apresentacao>
+            <v-form-apresentacao ></v-form-apresentacao>
         </v-tab-item>
     </div>
 </section>

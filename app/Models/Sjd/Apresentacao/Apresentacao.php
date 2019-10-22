@@ -88,7 +88,6 @@ class Apresentacao extends Eloquent
 	protected $dates = [
 		'documento_de_origem_data',
 		'comparecimento_data',
-		'comparecimento_hora',
 		'comparecimento_dh',
 		'criacao_dh'
 	];
@@ -137,10 +136,6 @@ class Apresentacao extends Eloquent
     use PresentableTrait;
     protected $presenter = 'App\Presenters\apresentacao\ApresentacaoPresenter';
 
-    public static function trashed() {
-        return self::onlyTrashed();
-    }
-
     //mutators (para alterar na hora da exibição)
 	public function getDocumentoDeOrigemDataAttribute($value)
 	{
@@ -150,7 +145,8 @@ class Apresentacao extends Eloquent
 
 	public function setDocumentoDeOrigemDataAttribute($value)
 	{
-		$this->attributes['documento_de_origem_data'] = data_bd($value);
+        $data_bd = date( 'Y-m-d' , strtotime($value));
+		$this->attributes['documento_de_origem_data'] = $data_bd;
     }
     
     public function getComparecimentoDataAttribute($value)
@@ -161,39 +157,43 @@ class Apresentacao extends Eloquent
 
 	public function setComparecimentoDataAttribute($value)
 	{
-		$this->attributes['comparecimento_data'] = data_bd($value);
+        $data_bd = date( 'Y-m-d' , strtotime($value));
+		$this->attributes['comparecimento_data'] = $data_bd;
     }
-    
+
     public function getComparecimentoHoraAttribute($value)
 	{
-        if($value == '0000-00-00' || !$value) return '';
-        return date( 'd/m/Y' , strtotime($value));
+        if($value == '00:00:00' || !$value) return '';
+        return date( 'H:i:s' , strtotime($value));
 	}
 
 	public function setComparecimentoHoraAttribute($value)
 	{
-		$this->attributes['comparecimento_hora'] = data_bd($value);
+        $data_bd = date( 'H:i:s' , strtotime($value));
+		$this->attributes['comparecimento_data'] = $data_bd;
     }
     
     public function getComparecimentoDhAttribute($value)
 	{
-        if($value == '0000-00-00' || !$value) return '';
-        return date( 'd/m/Y' , strtotime($value));
+        if($value == '0000-00-00 00:00:00' || !$value) return '';
+        return date( 'd/m/Y H:i:s' , strtotime($value));
 	}
 
 	public function setComparecimentoDhAttribute($value)
 	{
-		$this->attributes['comparecimento_dh'] = data_bd($value);
+        $data_bd = date( 'Y-m-d H:i:s' , strtotime($value));
+		$this->attributes['comparecimento_dh'] = $data_bd;
     }
     
     public function getCriacaoDhAttribute($value)
 	{
-        if($value == '0000-00-00' || !$value) return '';
-        return date( 'd/m/Y' , strtotime($value));
+        if($value == '0000-00-00 00:00:00' || !$value) return '';
+        return date( 'd/m/Y H:i:s' , strtotime($value));
 	}
 
 	public function setCriacaoDhAttribute($value)
 	{
-		$this->attributes['criacao_dh'] = data_bd($value);
+        $data_bd = date( 'Y-m-d H:i:s' , strtotime($value));
+		$this->attributes['criacao_dh'] = $data_bd;
 	}
 }

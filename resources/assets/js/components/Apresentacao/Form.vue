@@ -33,13 +33,6 @@
                 <option value="5">Reservado - SJD/Próprio</option>
             </select>
         </v-label>
-        <file-upload v-if="registro.id_apresentacao"
-            title="Documento de Origem:"
-            name="documento_de_origem"
-            proc="apresentacao"
-            :idp="registro.id_apresentacao"
-            :ext="['pdf']">
-        </file-upload>
         <v-label title="Processo/Procedimento" :error="error.id_apresentacaotipoprocesso">
             <select v-model="registro.id_apresentacaotipoprocesso" class="form-control">
                 <option value="1">Ação Penal</option>
@@ -70,26 +63,56 @@
         <v-label title="Descrição do local" :error="error.comparecimento_local_txt">
             <v-typeahead
                 placeholder="Busca local"
-                async-key="items"
-                :src="buscaLocal"
-                :template="customTemplate"
-                v-model="registro.comparecimento_local_txt"
-                :on-hit="selectLocal">
+                :async="buscaLocal"
+                :on-hit="selectLocal"
+                :template="templateLocal"
+                v-model="registro.comparecimento_local_txt">
             </v-typeahead>
-            <!-- <input v-model="registro.comparecimento_local_txt" type="text" class="form-control "> -->
         </v-label>
         <v-label title="Data do comparecimento" icon="fa fa-calendar">
-            <v-datepicker v-model="registro.comparecimento_data" placeholder="dd/mm/aaaa" clear-button ></v-datepicker>
+            <v-datepicker v-model="registro.comparecimento_data" :placeholder="registro.comparecimento_data || 'dd/mm/aaaa'" clear-button ></v-datepicker>
         </v-label>
         <v-label lg="12" md="12" title="Observações" :error="error.observacao_txt">
             <textarea v-model="registro.observacao_txt" rows="3" cols="80" style="width: 100%"></textarea>
         </v-label>
+        <!-- Arquivo -->
+        <file-upload v-if="registro.id_apresentacao"
+            title="Documento de Origem:"
+            name="documento_de_origem"
+            :dproc="module"
+            :idp="registro.id_apresentacao"
+            :ext="['pdf']">
+        </file-upload>
         <!-- Pessoa -->
         <v-label title="RG" :error="error.pessoa_rg">
-            <input v-model="registro.pessoa_rg" type="text" class="form-control ">
+            <template v-if="onSearch && type == 'rg'">
+                <v-typeahead
+                    placeholder="Busca PM/BM ativos"
+                    :async="buscaPM"
+                    :on-hit="selectPM"
+                    :template="templatePM"
+                    match-start
+                    v-model="registro.pessoa_rg">
+                </v-typeahead>
+            </template>
+            <template v-else>  
+                <input v-model="registro.pessoa_rg" type="text" class="form-control " placeholder="Busca PM/BM ativos" @click.prevent="changeMode('rg')">       
+            </template>
         </v-label>
-        <v-label title="Nome" :error="error.pessoa_nome">
-            <input v-model="registro.pessoa_nome" type="text" class="form-control ">
+        <v-label title="Nome" :error="error.pessoa_nome" >
+            <template v-if="onSearch && type == 'nome'">  
+                <v-typeahead
+                    placeholder="Busca PM/BM ativos"
+                    :async="buscaPM"
+                    :on-hit="selectPM"
+                    :template="templatePM"
+                    match-start
+                    v-model="registro.pessoa_nome">
+                </v-typeahead>
+            </template>
+            <template v-else>  
+                <input v-model="registro.pessoa_nome" type="text" class="form-control " placeholder="Busca PM/BM ativos" @click.prevent="changeMode('nome')">       
+            </template>
         </v-label>
         <v-label title="Posto/Grad" :error="error.pessoa_posto">
             <select v-model="registro.pessoa_posto" class="form-control">
@@ -146,64 +169,112 @@
             </select>
         </v-label>
         <div class="col-xs-12">
-            <div class="col-xs-6">
+            <div class="col-md-8 col-xs-12">
                 <v-tooltip effect="scale" placement="top" :content="msgRequired">
                     <a v-if="registro.id_apresentacao" class="btn btn-success btn-block" :disabled="requireds" @click.prevent="update(registro.id_apresentacao)">Editar</a>
                     <a v-else class="btn btn-success btn-block" :disabled="requireds" @click="create">Inserir</a>
                 </v-tooltip>
             </div>
-            <div class="col-xs-6">
+            <div class="col-md-4 col-xs-12">
                 <a class="btn btn-danger btn-block" @click="limparDados">Limpar todos dados</a>
             </div>
+            <pre>{{registro}}</pre>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        props: {
+            reference: {type: Number, default: null},
+            ano: {type: Number, default: null},
+        },
         data() {
             return {
-                registro: {},
+                module: 'apresentacao',
+                registro: {
+                    pessoa_rg: '',
+                    pessoa_nome: '',
+                    id_apresentacaonotificacao: '1',
+                    id_apresentacaosituacao: '1',
+                    id_apresentacaoclassificacaosigilo: '1',
+                    id_apresentacaotipoprocesso: '3',
+                    id_apresentacaocondicao: '1'
+                },
                 error: {},
-                customTemplate: '<span>{{item.localdeapresentacao}} {{item.municipio}} - {{item.logradouro | }}</span>',
+                type: null,
+                onSearch: false,
+                templateLocal: '<span>{{item.localdeapresentacao}}.{{item.logradouro}}, {{item.numero}} - {{item.bairro}} - {{item.municipio}}/{{item.uf}}. Tel.: {{item.telefone}}. CEP: {{item.cep}}.</span>',
+                templatePM: '<span>{{item.CARGO}} {{item.NOME}} - {{item.RG}} (OM: {{item.OPM_DESCRICAO}}).</span>',
             }
         },
         computed: {
             buscaLocal() {
-                return `${this.$root.baseUrl}api/localapresentacao/`;
+                return `${this.$root.baseUrl}api/localapresentacao/`
+            },
+            buscaPM(){
+                return `${this.$root.baseUrl}api/dados/showsugest/${this.type}/`
             },
             requireds(){
-                if(this.registro.comparecimento_data && this.registro.motivo && this.registro.motivo_txt) return false
+                if(this.registro.autos_numero && this.registro.comparecimento_data && this.registro.comparecimento_local_txt &&
+                 this.registro.pessoa_rg && this.registro.pessoa_nome && this.registro.pessoa_posto && this.registro.pessoa_quadro && this.registro.id_apresentacaocondicao) return false
                 return true
             },
-            lenght(){
-                if(this.registros) return Object.keys(this.registros).length
-                return 0 
-            },
             msgRequired(){
-                return `Para liberar este botão os campos: COMPORTAMENTO, MOTIVO e DESCRIÇÃO deve estar preenchidos`           
+                return `Para liberar este botão os campos: AUTOS, DATA DO COMPARECIMENTO, DESCRIÇÃO DO LOCAL, E OS DADOS DO PM/BM deve estar preenchidos`           
             }
         },
+        created(){
+            if(this.reference) this.dadosApresentacao() 
+            else this.toCreate()
+        },
         methods: {
-            limparDados() {
-
+            changeMode(type){
+                this.type = type
+                this.onSearch = true
+                return true
             },
-            selectLocal() {
-                
+            limparDados() {
+                let sn = confirm('Você tem certeza?')
+                if(sn) {
+                    this.registro = null
+                    this.registro = {}
+                }
+            },
+            selectLocal(item) {
+                let localapresentacao = `${item.localdeapresentacao}.${item.logradouro}, ${item.numero} - ${item.bairro} - ${item.municipio}/${item.uf}. Tel.: ${item.telefone}. CEP: ${item.cep}.`
+                this.registro.comparecimento_local_txt = localapresentacao
+                return localapresentacao
+            },
+            selectPM(item) {
+                this.onSearch = false
+                this.type = null
+                this.registro.pessoa_rg = item.RG
+                this.registro.pessoa_nome = item.NOME
+                this.registro.pessoa_posto = item.CARGO
+                this.registro.pessoa_quadro = item.QUADRO
+                let cleanCdopm = item.CDOPM.substring(0,3)
+                this.registro.pessoa_opm_codigo = cleanCdopm
+
+                return this.type ? item.RG : item.NOME
+            },
+            dadosApresentacao(){
+                let refAno = this.ano ? `${this.reference}/${this.ano}` : this.reference
+                let urlData = `${this.$root.baseUrl}api/${this.module}/${refAno}`;
+                    axios
+                    .get(urlData)
+                    .then((response) => {
+                        this.registro = response.data
+                    })
+                    .catch(error => console.log(error));
             },
             toCreate(){
-                this.showModal = true
-                this.registro.rg = this.pm.RG
-                this.registro.cargo = this.pm.CARGO
-                this.registro.nome = this.pm.NOME
-                this.registro.rg_cadastro = this.$root.dadoSession('rg')
-                this.registro.cdopm = this.$root.dadoSession('cdopm')
-                this.registro.opm_abreviatura = this.$root.dadoSession('opm_abreviatura')
-                this.registro.digitador = this.$root.dadoSession('nome')
+                this.registro.cdopm = this.$root.dadoSession('cdopmbase')
+                this.registro.usuario_rg = this.$root.dadoSession('rg')
             },
             create(){
                 if(!this.requireds){
-
+                    this.toCreate()
                     let urlCreate = `${this.$root.baseUrl}api/${this.module}/store`;
                     axios
                     .post(urlCreate, this.registro)

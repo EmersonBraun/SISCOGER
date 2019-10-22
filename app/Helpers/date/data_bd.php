@@ -2,7 +2,7 @@
 //para transformar data BR (dd/mm/aaaa) para formato bd (aaaa-mm-dd)
 if (! function_exists('data_bd')) 
 {
-    function data_bd($date){
+    function data_bd($date, $hora=false){
         if($date)
         {
             // só executa caso já não esteja no formato do banco de dados

@@ -133,7 +133,7 @@ class BaseRepository
 
     public function refAno($ref, $ano='')
     {
-        if(!$ano) return $this->findOrFail($ref);
+        if(!$ano) return $this->model->findOrFail($ref);
         return $this->model->where([
             ['sjd_ref',$ref],
             ['sjd_ref_ano',$ano]

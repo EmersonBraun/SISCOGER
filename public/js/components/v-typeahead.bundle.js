@@ -148,7 +148,8 @@ var DELAY = 300;
       }
       this.asign = '';
       if (this.async) {
-        Object(__WEBPACK_IMPORTED_MODULE_0__utils_utils_js__["c" /* getJSON */])(this.async + this.val).then(function (data) {
+        var search = this.async + this.val;
+        Object(__WEBPACK_IMPORTED_MODULE_0__utils_utils_js__["c" /* getJSON */])(search).then(function (data) {
           _this2.setItems(data);
         });
       } else if (this.data) {

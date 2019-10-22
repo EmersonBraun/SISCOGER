@@ -336,18 +336,25 @@
             });
         },
         listFile(){
-            let urlIndex = `${this.$root.baseUrl}api/${this.action}/list/${this.dproc}/${this.idp}/${this.name}`;
-            console.log(urlIndex)
-            axios
-            .get(urlIndex)
-            .then((response) => {
-                this.uploaded = response.data.list
-                this.old = response.data.old
-                this.apagados = response.data.apagados
-                this.countup = response.data.list.length
-                this.countap = response.data.list.length
-            })
-            .catch(error => console.log(error));
+            if(!this.name) console.warn('File: ???', 'Falta o nome do arquivo')
+            else {
+                if(!this.dproc) console.warn(`File: ${name}`, 'Falta o procedimento (dproc)')
+                if(!this.idp) console.warn(`File: ${name}`, 'Falta o id do procedimento (idp)')
+            }
+            if(this.dproc && this.idp && this.name) {
+                let urlIndex = `${this.$root.baseUrl}api/${this.action}/list/${this.dproc}/${this.idp}/${this.name}`;
+                console.log(urlIndex)
+                axios
+                .get(urlIndex)
+                .then((response) => {
+                    this.uploaded = response.data.list
+                    this.old = response.data.old
+                    this.apagados = response.data.apagados
+                    this.countup = response.data.list.length
+                    this.countap = response.data.list.length
+                })
+                .catch(error => console.log(error));
+            }
         },
         showFile(hash){
             let urlShow = `${this.$root.baseUrl}api/${this.action}/show/${this.dproc}/${this.idp}/${this.name}/${hash}`;

@@ -354,17 +354,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         listFile: function listFile() {
             var _this2 = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/' + this.action + '/list/' + this.dproc + '/' + this.idp + '/' + this.name;
-            console.log(urlIndex);
-            axios.get(urlIndex).then(function (response) {
-                _this2.uploaded = response.data.list;
-                _this2.old = response.data.old;
-                _this2.apagados = response.data.apagados;
-                _this2.countup = response.data.list.length;
-                _this2.countap = response.data.list.length;
-            }).catch(function (error) {
-                return console.log(error);
-            });
+            if (!this.name) console.warn('File: ???', 'Falta o nome do arquivo');else {
+                if (!this.dproc) console.warn('File: ' + name, 'Falta o procedimento (dproc)');
+                if (!this.idp) console.warn('File: ' + name, 'Falta o id do procedimento (idp)');
+            }
+            if (this.dproc && this.idp && this.name) {
+                var urlIndex = this.$root.baseUrl + 'api/' + this.action + '/list/' + this.dproc + '/' + this.idp + '/' + this.name;
+                console.log(urlIndex);
+                axios.get(urlIndex).then(function (response) {
+                    _this2.uploaded = response.data.list;
+                    _this2.old = response.data.old;
+                    _this2.apagados = response.data.apagados;
+                    _this2.countup = response.data.list.length;
+                    _this2.countap = response.data.list.length;
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
         },
         showFile: function showFile(hash) {
             var urlShow = this.$root.baseUrl + 'api/' + this.action + '/show/' + this.dproc + '/' + this.idp + '/' + this.name + '/' + hash;
@@ -1749,7 +1755,12 @@ var render = function() {
       _c("input", {
         staticClass: "form-control",
         class: { "with-reset-button": _vm.clearButton },
-        attrs: { type: "text", placeholder: _vm.placeholder, name: _vm.name },
+        attrs: {
+          type: "text",
+          placeholder: _vm.placeholder,
+          readonly: "",
+          name: _vm.name
+        },
         domProps: { value: _vm.val },
         on: {
           click: _vm.inputClick,

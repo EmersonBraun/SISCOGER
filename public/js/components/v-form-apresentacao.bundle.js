@@ -1,4 +1,4 @@
-webpackJsonp([84],{
+webpackJsonp([71],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Apresentacao/Form.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -166,13 +166,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        reference: { type: Number, default: null },
+        ano: { type: Number, default: null }
+    },
     data: function data() {
         return {
-            registro: {},
+            module: 'apresentacao',
+            registro: {
+                pessoa_rg: '',
+                pessoa_nome: '',
+                id_apresentacaonotificacao: '1',
+                id_apresentacaosituacao: '1',
+                id_apresentacaoclassificacaosigilo: '1',
+                id_apresentacaotipoprocesso: '3',
+                id_apresentacaocondicao: '1'
+            },
             error: {},
-            customTemplate: '<span>{{item.localdeapresentacao}} {{item.municipio}} - {{item.logradouro | }}</span>'
+            type: null,
+            onSearch: false,
+            templateLocal: '<span>{{item.localdeapresentacao}}.{{item.logradouro}}, {{item.numero}} - {{item.bairro}} - {{item.municipio}}/{{item.uf}}. Tel.: {{item.telefone}}. CEP: {{item.cep}}.</span>',
+            templatePM: '<span>{{item.CARGO}} {{item.NOME}} - {{item.RG}} (OM: {{item.OPM_DESCRICAO}}).</span>'
         };
     },
 
@@ -180,39 +220,74 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         buscaLocal: function buscaLocal() {
             return this.$root.baseUrl + 'api/localapresentacao/';
         },
+        buscaPM: function buscaPM() {
+            return this.$root.baseUrl + 'api/dados/showsugest/' + this.type + '/';
+        },
         requireds: function requireds() {
-            if (this.registro.comparecimento_data && this.registro.motivo && this.registro.motivo_txt) return false;
+            if (this.registro.autos_numero && this.registro.comparecimento_data && this.registro.comparecimento_local_txt && this.registro.pessoa_rg && this.registro.pessoa_nome && this.registro.pessoa_posto && this.registro.pessoa_quadro && this.registro.id_apresentacaocondicao) return false;
             return true;
         },
-        lenght: function lenght() {
-            if (this.registros) return Object.keys(this.registros).length;
-            return 0;
-        },
         msgRequired: function msgRequired() {
-            return 'Para liberar este bot\xE3o os campos: COMPORTAMENTO, MOTIVO e DESCRI\xC7\xC3O deve estar preenchidos';
+            return 'Para liberar este bot\xE3o os campos: AUTOS, DATA DO COMPARECIMENTO, DESCRI\xC7\xC3O DO LOCAL, E OS DADOS DO PM/BM deve estar preenchidos';
         }
     },
+    created: function created() {
+        if (this.reference) this.dadosApresentacao();else this.toCreate();
+    },
+
     methods: {
-        limparDados: function limparDados() {},
-        selectLocal: function selectLocal() {},
-        toCreate: function toCreate() {
-            this.showModal = true;
-            this.registro.rg = this.pm.RG;
-            this.registro.cargo = this.pm.CARGO;
-            this.registro.nome = this.pm.NOME;
-            this.registro.rg_cadastro = this.$root.dadoSession('rg');
-            this.registro.cdopm = this.$root.dadoSession('cdopm');
-            this.registro.opm_abreviatura = this.$root.dadoSession('opm_abreviatura');
-            this.registro.digitador = this.$root.dadoSession('nome');
+        changeMode: function changeMode(type) {
+            this.type = type;
+            this.onSearch = true;
+            return true;
         },
-        create: function create() {
+        limparDados: function limparDados() {
+            var sn = confirm('Você tem certeza?');
+            if (sn) {
+                this.registro = null;
+                this.registro = {};
+            }
+        },
+        selectLocal: function selectLocal(item) {
+            var localapresentacao = item.localdeapresentacao + '.' + item.logradouro + ', ' + item.numero + ' - ' + item.bairro + ' - ' + item.municipio + '/' + item.uf + '. Tel.: ' + item.telefone + '. CEP: ' + item.cep + '.';
+            this.registro.comparecimento_local_txt = localapresentacao;
+            return localapresentacao;
+        },
+        selectPM: function selectPM(item) {
+            this.onSearch = false;
+            this.type = null;
+            this.registro.pessoa_rg = item.RG;
+            this.registro.pessoa_nome = item.NOME;
+            this.registro.pessoa_posto = item.CARGO;
+            this.registro.pessoa_quadro = item.QUADRO;
+            var cleanCdopm = item.CDOPM.substring(0, 3);
+            this.registro.pessoa_opm_codigo = cleanCdopm;
+
+            return this.type ? item.RG : item.NOME;
+        },
+        dadosApresentacao: function dadosApresentacao() {
             var _this = this;
 
-            if (!this.requireds) {
+            var refAno = this.ano ? this.reference + '/' + this.ano : this.reference;
+            var urlData = this.$root.baseUrl + 'api/' + this.module + '/' + refAno;
+            axios.get(urlData).then(function (response) {
+                _this.registro = response.data;
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
+        toCreate: function toCreate() {
+            this.registro.cdopm = this.$root.dadoSession('cdopmbase');
+            this.registro.usuario_rg = this.$root.dadoSession('rg');
+        },
+        create: function create() {
+            var _this2 = this;
 
+            if (!this.requireds) {
+                this.toCreate();
                 var urlCreate = this.$root.baseUrl + 'api/' + this.module + '/store';
                 axios.post(urlCreate, this.registro).then(function (response) {
-                    _this.transation(response.data.success, 'create');
+                    _this2.transation(response.data.success, 'create');
                 }).catch(function (error) {
                     return console.log(error);
                 });
@@ -223,24 +298,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.toCreate();
         },
         update: function update(id) {
-            var _this2 = this;
+            var _this3 = this;
 
             if (!this.requireds) {
                 var urlUpdate = this.$root.baseUrl + 'api/' + this.module + '/update/' + id;
                 axios.put(urlUpdate, this.registro).then(function (response) {
-                    _this2.transation(response.data.success, 'edit');
+                    _this3.transation(response.data.success, 'edit');
                 }).catch(function (error) {
                     return console.log(error);
                 });
             }
         },
         destroy: function destroy(id) {
-            var _this3 = this;
+            var _this4 = this;
 
             if (confirm('Você tem certeza?')) {
                 var urlDelete = this.$root.baseUrl + 'api/' + this.module + '/destroy/' + id;
                 axios.delete(urlDelete).then(function (response) {
-                    _this3.transation(response.data.success, 'delete');
+                    _this4.transation(response.data.success, 'delete');
                 }).catch(function (error) {
                     return console.log(error);
                 });
@@ -277,7 +352,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -490,18 +565,6 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _vm.registro.id_apresentacao
-        ? _c("file-upload", {
-            attrs: {
-              title: "Documento de Origem:",
-              name: "documento_de_origem",
-              proc: "apresentacao",
-              idp: _vm.registro.id_apresentacao,
-              ext: ["pdf"]
-            }
-          })
-        : _vm._e(),
-      _vm._v(" "),
       _c(
         "v-label",
         {
@@ -660,10 +723,9 @@ var render = function() {
           _c("v-typeahead", {
             attrs: {
               placeholder: "Busca local",
-              "async-key": "items",
-              src: _vm.buscaLocal,
-              template: _vm.customTemplate,
-              "on-hit": _vm.selectLocal
+              async: _vm.buscaLocal,
+              "on-hit": _vm.selectLocal,
+              template: _vm.templateLocal
             },
             model: {
               value: _vm.registro.comparecimento_local_txt,
@@ -682,7 +744,10 @@ var render = function() {
         { attrs: { title: "Data do comparecimento", icon: "fa fa-calendar" } },
         [
           _c("v-datepicker", {
-            attrs: { placeholder: "dd/mm/aaaa", "clear-button": "" },
+            attrs: {
+              placeholder: _vm.registro.comparecimento_data || "dd/mm/aaaa",
+              "clear-button": ""
+            },
             model: {
               value: _vm.registro.comparecimento_data,
               callback: function($$v) {
@@ -730,56 +795,124 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("v-label", { attrs: { title: "RG", error: _vm.error.pessoa_rg } }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.registro.pessoa_rg,
-              expression: "registro.pessoa_rg"
+      _vm.registro.id_apresentacao
+        ? _c("file-upload", {
+            attrs: {
+              title: "Documento de Origem:",
+              name: "documento_de_origem",
+              dproc: _vm.module,
+              idp: _vm.registro.id_apresentacao,
+              ext: ["pdf"]
             }
-          ],
-          staticClass: "form-control ",
-          attrs: { type: "text" },
-          domProps: { value: _vm.registro.pessoa_rg },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.registro, "pessoa_rg", $event.target.value)
-            }
-          }
-        })
-      ]),
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-label",
+        { attrs: { title: "RG", error: _vm.error.pessoa_rg } },
+        [
+          _vm.onSearch && _vm.type == "rg"
+            ? [
+                _c("v-typeahead", {
+                  attrs: {
+                    placeholder: "Busca PM/BM ativos",
+                    async: _vm.buscaPM,
+                    "on-hit": _vm.selectPM,
+                    template: _vm.templatePM,
+                    "match-start": ""
+                  },
+                  model: {
+                    value: _vm.registro.pessoa_rg,
+                    callback: function($$v) {
+                      _vm.$set(_vm.registro, "pessoa_rg", $$v)
+                    },
+                    expression: "registro.pessoa_rg"
+                  }
+                })
+              ]
+            : [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.registro.pessoa_rg,
+                      expression: "registro.pessoa_rg"
+                    }
+                  ],
+                  staticClass: "form-control ",
+                  attrs: { type: "text", placeholder: "Busca PM/BM ativos" },
+                  domProps: { value: _vm.registro.pessoa_rg },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.changeMode("rg")
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.registro, "pessoa_rg", $event.target.value)
+                    }
+                  }
+                })
+              ]
+        ],
+        2
+      ),
       _vm._v(" "),
       _c(
         "v-label",
         { attrs: { title: "Nome", error: _vm.error.pessoa_nome } },
         [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.registro.pessoa_nome,
-                expression: "registro.pessoa_nome"
-              }
-            ],
-            staticClass: "form-control ",
-            attrs: { type: "text" },
-            domProps: { value: _vm.registro.pessoa_nome },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.registro, "pessoa_nome", $event.target.value)
-              }
-            }
-          })
-        ]
+          _vm.onSearch && _vm.type == "nome"
+            ? [
+                _c("v-typeahead", {
+                  attrs: {
+                    placeholder: "Busca PM/BM ativos",
+                    async: _vm.buscaPM,
+                    "on-hit": _vm.selectPM,
+                    template: _vm.templatePM,
+                    "match-start": ""
+                  },
+                  model: {
+                    value: _vm.registro.pessoa_nome,
+                    callback: function($$v) {
+                      _vm.$set(_vm.registro, "pessoa_nome", $$v)
+                    },
+                    expression: "registro.pessoa_nome"
+                  }
+                })
+              ]
+            : [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.registro.pessoa_nome,
+                      expression: "registro.pessoa_nome"
+                    }
+                  ],
+                  staticClass: "form-control ",
+                  attrs: { type: "text", placeholder: "Busca PM/BM ativos" },
+                  domProps: { value: _vm.registro.pessoa_nome },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.changeMode("nome")
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.registro, "pessoa_nome", $event.target.value)
+                    }
+                  }
+                })
+              ]
+        ],
+        2
       ),
       _vm._v(" "),
       _c(
@@ -1026,7 +1159,7 @@ var render = function() {
       _c("div", { staticClass: "col-xs-12" }, [
         _c(
           "div",
-          { staticClass: "col-xs-6" },
+          { staticClass: "col-md-8 col-xs-12" },
           [
             _c(
               "v-tooltip",
@@ -1068,7 +1201,7 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "col-xs-6" }, [
+        _c("div", { staticClass: "col-md-4 col-xs-12" }, [
           _c(
             "a",
             {
@@ -1077,7 +1210,9 @@ var render = function() {
             },
             [_vm._v("Limpar todos dados")]
           )
-        ])
+        ]),
+        _vm._v(" "),
+        _c("pre", [_vm._v(_vm._s(_vm.registro))])
       ])
     ],
     1

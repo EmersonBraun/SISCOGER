@@ -167,7 +167,6 @@
     bottom: 0;
     left: 0;
     content: '';
-    width: 2em;
     background: #D1D3D4;
     border-radius: 3px;
     }

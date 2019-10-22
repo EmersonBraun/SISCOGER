@@ -2,7 +2,7 @@
     <div >
         <div class="input-group caixa">
             <!-- <the-mask mask="##/##/####" /> -->
-            <input class="form-control" :class="{'with-reset-button': clearButton}" type="text" :placeholder="placeholder"
+            <input class="form-control" :class="{'with-reset-button': clearButton}" type="text" :placeholder="placeholder" readonly
                 :value="val"
                 :name="name"
                 @click="inputClick"

@@ -1,14 +1,14 @@
 <template>
   <div style="position: relative" :class="{open:showDropdown}">
     <input class="form-control" autocomplete="off"
-      v-model="val"
-      :placeholder="placeholder"
-      :type.once="type"
-      @blur="showDropdown = false"
-      @keydown.down.prevent="down"
-      @keydown.enter="hit"
-      @keydown.esc="reset"
-      @keydown.up.prevent="up"
+        v-model="val"
+        :placeholder="placeholder"
+        :type.once="type"  
+        @blur="showDropdown = false"
+        @keydown.down.prevent="down"
+        @keydown.enter="hit"
+        @keydown.esc="reset"
+        @keydown.up.prevent="up"
     />
     <ul class="dropdown-menu" ref="dropdown">
       <li v-for="(item, i) in items" :class="{active: isActive(i)}">
@@ -115,7 +115,8 @@ export default {
       }
       this.asign = ''
       if (this.async) {
-        getJSON(this.async + this.val).then(data => {
+        let search = this.async + this.val
+        getJSON(search).then(data => {
           this.setItems(data)
         })
       } else if (this.data) {

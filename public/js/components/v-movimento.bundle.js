@@ -904,7 +904,12 @@ var render = function() {
       _c("input", {
         staticClass: "form-control",
         class: { "with-reset-button": _vm.clearButton },
-        attrs: { type: "text", placeholder: _vm.placeholder, name: _vm.name },
+        attrs: {
+          type: "text",
+          placeholder: _vm.placeholder,
+          readonly: "",
+          name: _vm.name
+        },
         domProps: { value: _vm.val },
         on: {
           click: _vm.inputClick,
