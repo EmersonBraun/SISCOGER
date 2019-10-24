@@ -160,18 +160,6 @@ class Apresentacao extends Eloquent
         $data_bd = date( 'Y-m-d' , strtotime($value));
 		$this->attributes['comparecimento_data'] = $data_bd;
     }
-
-    public function getComparecimentoHoraAttribute($value)
-	{
-        if($value == '00:00:00' || !$value) return '';
-        return date( 'H:i:s' , strtotime($value));
-	}
-
-	public function setComparecimentoHoraAttribute($value)
-	{
-        $data_bd = date( 'H:i:s' , strtotime($value));
-		$this->attributes['comparecimento_data'] = $data_bd;
-    }
     
     public function getComparecimentoDhAttribute($value)
 	{

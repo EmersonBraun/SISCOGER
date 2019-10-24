@@ -59,7 +59,7 @@
                                     @endif
                                     @if(hasPermissionTo('apagar-apresentacao'))
                                     <a class="btn btn-danger"
-                                        href="{{route('apresentacao.destroy',$registro['id_apresentacao'])}}"
+                                        href="{{route('apresentacao.forceDelete',$registro['id_apresentacao'])}}"
                                         onclick="return confirm('Tem certeza que quer apagar o apresentacao?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif

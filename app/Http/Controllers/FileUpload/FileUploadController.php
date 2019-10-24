@@ -50,7 +50,7 @@ class FileUploadController extends Controller
         // validações
         $validation = $this->service->validations($proc, $procid, $arquivo, $hash);
         if($validation) return response()->json($validation, 500);
-
+        
         $search = $this->repository->getByHash($hash);
         if(!$search) abort(404);
 

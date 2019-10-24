@@ -97,18 +97,19 @@ Route::group(['as'=>'presooutro.','prefix' =>'presooutro'],function(){
     Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\PresoOutroController@restore','middleware' => ['role:admin']]);
     Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\PresoOutroController@forceDelete','middleware' => ['role:admin']]);
 });
-//Rotas do módulo procedimento 
-Route::group(['as'=>'procedimento.','prefix' =>'procedimento'],function(){
-    Route::get('',['as' =>'index','uses'=>'Policiais\ProcedimentoController@index','middleware' => ['permission:listar-procedimentos']]);
-    Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\ProcedimentoController@apagados','middleware' => ['role:admin']]);
-	Route::get('criar',['as' =>'create','uses'=>'Policiais\ProcedimentoController@create','middleware' => ['permission:criar-procedimentos']]);
-	Route::post('salvar',['as' =>'store','uses'=>'Policiais\ProcedimentoController@store','middleware' => ['permission:criar-procedimentos']]);
-	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\ProcedimentoController@edit','middleware' => ['permission:editar-procedimentos']]);
-	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\ProcedimentoController@update','middleware' => ['permission:editar-procedimentos']]);
-    Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\ProcedimentoController@destroy','middleware' => ['permission:apagar-procedimentos']]);
-    Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\ProcedimentoController@restore','middleware' => ['role:admin']]);
-    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\ProcedimentoController@forceDelete','middleware' => ['role:admin']]);
-}); 
+// //Rotas do módulo procedimento 
+// NÃO IMPLEMENTADO AINDA
+// Route::group(['as'=>'procedimento.','prefix' =>'procedimento'],function(){
+//     Route::get('',['as' =>'index','uses'=>'Policiais\ProcedimentoController@index','middleware' => ['permission:listar-procedimentos']]);
+//     Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\ProcedimentoController@apagados','middleware' => ['role:admin']]);
+// 	Route::get('criar',['as' =>'create','uses'=>'Policiais\ProcedimentoController@create','middleware' => ['permission:criar-procedimentos']]);
+// 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\ProcedimentoController@store','middleware' => ['permission:criar-procedimentos']]);
+// 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\ProcedimentoController@edit','middleware' => ['permission:editar-procedimentos']]);
+// 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\ProcedimentoController@update','middleware' => ['permission:editar-procedimentos']]);
+//     Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\ProcedimentoController@destroy','middleware' => ['permission:apagar-procedimentos']]);
+//     Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\ProcedimentoController@restore','middleware' => ['role:admin']]);
+//     Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\ProcedimentoController@forceDelete','middleware' => ['role:admin']]);
+// }); 
 //Rotas do módulo comportamento 
 Route::group(['as'=>'comportamento.','prefix' =>'comportamento'],function(){
     Route::get('{posto}/{parte?}',['as' =>'index','uses'=>'Policiais\ComportamentoController@index','middleware' => ['permission:listar-comportamento']]);
@@ -170,14 +171,15 @@ Route::group(['as'=>'obitolesao.','prefix' =>'falecimento'],function(){
     Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\ObitoLesaoController@forceDelete','middleware' => ['role:admin']]);
 });
 //Rotas do módulo MortosFeridos
-Route::group(['as'=>'mortoferido.','prefix' =>'mortoferido'],function(){
-	Route::get('',['as' =>'index','uses'=>'Policiais\MortoFeridoController@index','middleware' => ['permission:listar-mortos-feridos']]);
-    Route::get('criar',['as' =>'create','uses'=>'Policiais\MortoFeridoController@create','middleware' => ['permission:criar-mortos-feridos']]);
-    Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\MortoFeridoController@apagados','middleware' => ['role:admin']]);
-	Route::post('salvar',['as' =>'store','uses'=>'Policiais\MortoFeridoController@store','middleware' => ['permission:criar-mortos-feridos']]);
-	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\MortoFeridoController@edit','middleware' => ['permission:editar-mortos-feridos']]);
-	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\MortoFeridoController@update','middleware' => ['permission:editar-mortos-feridos']]);
-    Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\MortoFeridoController@destroy','middleware' => ['permission:apagar-mortos-feridos']]);
-    Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\MortoFeridoController@restore','middleware' => ['role:admin']]);
-    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\MortoFeridoController@forceDelete','middleware' => ['role:admin']]);
-});
+// NÃO IMPLEMENTADO AINDA
+// Route::group(['as'=>'mortoferido.','prefix' =>'mortoferido'],function(){
+// 	Route::get('',['as' =>'index','uses'=>'Policiais\MortoFeridoController@index','middleware' => ['permission:listar-mortos-feridos']]);
+//     Route::get('criar',['as' =>'create','uses'=>'Policiais\MortoFeridoController@create','middleware' => ['permission:criar-mortos-feridos']]);
+//     Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\MortoFeridoController@apagados','middleware' => ['role:admin']]);
+// 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\MortoFeridoController@store','middleware' => ['permission:criar-mortos-feridos']]);
+// 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\MortoFeridoController@edit','middleware' => ['permission:editar-mortos-feridos']]);
+// 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\MortoFeridoController@update','middleware' => ['permission:editar-mortos-feridos']]);
+//     Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\MortoFeridoController@destroy','middleware' => ['permission:apagar-mortos-feridos']]);
+//     Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\MortoFeridoController@restore','middleware' => ['role:admin']]);
+//     Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\MortoFeridoController@forceDelete','middleware' => ['role:admin']]);
+// });

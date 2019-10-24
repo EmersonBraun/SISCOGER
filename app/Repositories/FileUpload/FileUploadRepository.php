@@ -107,9 +107,9 @@ class FileUploadRepository extends BaseRepository
 
     public function getByHash($hash)
 	{
-        $registros = Cache::tags('upload')->remember('upload'.$hash, self::$expiration, function() use($hash){
-            return $this->model->onlyTrashed()->where('hash',$hash)->withTrashed()->first();
-        });
+        // $registros = Cache::tags('upload')->remember('upload'.$hash, self::$expiration, function() use($hash){
+            return $this->model->where('hash',$hash)->withTrashed()->first();
+        // });
 
         return $registros;
     }

@@ -1,4 +1,4 @@
-webpackJsonp([71],{
+webpackJsonp([72],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Apresentacao/Form.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -190,11 +190,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
         reference: { type: Number, default: null },
-        ano: { type: Number, default: null }
+        ano: { type: Number, default: null },
+        id_notacomparecimento: { type: Number, default: null }
     },
     data: function data() {
         return {
@@ -224,15 +233,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$root.baseUrl + 'api/dados/showsugest/' + this.type + '/';
         },
         requireds: function requireds() {
-            if (this.registro.autos_numero && this.registro.comparecimento_data && this.registro.comparecimento_local_txt && this.registro.pessoa_rg && this.registro.pessoa_nome && this.registro.pessoa_posto && this.registro.pessoa_quadro && this.registro.id_apresentacaocondicao) return false;
+            if (this.registro.autos_numero && this.registro.comparecimento_data && this.registro.comparecimento_hora && this.registro.comparecimento_local_txt && this.registro.pessoa_rg && this.registro.pessoa_nome && this.registro.pessoa_posto && this.registro.pessoa_quadro && this.registro.id_apresentacaocondicao) return false;
             return true;
         },
         msgRequired: function msgRequired() {
-            return 'Para liberar este bot\xE3o os campos: AUTOS, DATA DO COMPARECIMENTO, DESCRI\xC7\xC3O DO LOCAL, E OS DADOS DO PM/BM deve estar preenchidos';
+            return 'Para liberar este bot\xE3o os campos: AUTOS, DATA DO COMPARECIMENTO, HORA, DESCRI\xC7\xC3O DO LOCAL, E OS DADOS DO PM/BM deve estar preenchidos';
         }
     },
     created: function created() {
-        if (this.reference) this.dadosApresentacao();else this.toCreate();
+        if (this.reference) this.dadosApresentacao();else this.cleanRegister();
     },
 
     methods: {
@@ -251,15 +260,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         selectLocal: function selectLocal(item) {
             var localapresentacao = item.localdeapresentacao + '.' + item.logradouro + ', ' + item.numero + ' - ' + item.bairro + ' - ' + item.municipio + '/' + item.uf + '. Tel.: ' + item.telefone + '. CEP: ' + item.cep + '.';
             this.registro.comparecimento_local_txt = localapresentacao;
+            this.registro.id_localdeapresentacao = item.id_localdeapresentacao;
             return localapresentacao;
         },
         selectPM: function selectPM(item) {
             this.onSearch = false;
             this.type = null;
+            // dado PM
             this.registro.pessoa_rg = item.RG;
             this.registro.pessoa_nome = item.NOME;
             this.registro.pessoa_posto = item.CARGO;
             this.registro.pessoa_quadro = item.QUADRO;
+            this.registro.pessoa_email = item.EMAIL_META4;
+            this.registro.pessoa_opm_meta4 = item.META4;
+            this.registro.pessoa_opm_sigla = item.ABREVIATURA;
+            this.registro.pessoa_opm_descricao = item.OPM_DESCRICAO;
+            // dados unidade
+            this.registro.pessoa_unidade_lotacao_meta4 = item.META4;
+            this.registro.pessoa_unidade_lotacao_codigo = item.CDOPM;
+            this.registro.pessoa_unidade_lotacao_sigla = item.ABREVIATURA;
+            this.registro.pessoa_unidade_lotacao_descricao = item.OPM_DESCRICAO;
+
             var cleanCdopm = item.CDOPM.substring(0, 3);
             this.registro.pessoa_opm_codigo = cleanCdopm;
 
@@ -276,15 +297,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return console.log(error);
             });
         },
-        toCreate: function toCreate() {
-            this.registro.cdopm = this.$root.dadoSession('cdopmbase');
-            this.registro.usuario_rg = this.$root.dadoSession('rg');
+        cleanRegister: function cleanRegister() {
+            this.registro = {
+                pessoa_rg: '',
+                pessoa_nome: '',
+                id_apresentacaonotificacao: '1',
+                id_apresentacaosituacao: '1',
+                id_apresentacaoclassificacaosigilo: '1',
+                id_apresentacaotipoprocesso: '3',
+                id_apresentacaocondicao: '1',
+                cdopm: this.$root.dadoSession('cdopmbase'),
+                usuario_rg: this.$root.dadoSession('rg'),
+                autos_ano: new Date().getFullYear()
+            };
+        },
+        additionalData: function additionalData() {
+            var reg = this.registro;
+            var cleanData = reg.comparecimento_data.split('/').reverse().join('-');
+            this.registro.comparecimento_hora = this.registro.comparecimento_hora;
+            this.registro.comparecimento_dh = cleanData + ' ' + reg.comparecimento_hora;
+            console.log('registro', this.registro);
         },
         create: function create() {
             var _this2 = this;
 
             if (!this.requireds) {
-                this.toCreate();
+                this.additionalData();
                 var urlCreate = this.$root.baseUrl + 'api/' + this.module + '/store';
                 axios.post(urlCreate, this.registro).then(function (response) {
                     _this2.transation(response.data.success, 'create');
@@ -295,7 +333,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         edit: function edit(registro) {
             this.registro = registro;
-            this.toCreate();
+            this.cleanRegister();
         },
         update: function update(id) {
             var _this3 = this;
@@ -325,10 +363,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var msg = this.words(type);
             if (happen) {
                 // se deu certo
-                this.list();
                 this.$root.msg(msg.success, 'success');
                 this.registro = null;
-                this.registro = {};
+                this.cleanRegister();
             } else {
                 // se falhou
                 this.$root.msg(msg.fail, 'danger');
@@ -352,7 +389,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -657,7 +694,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-label",
-        { attrs: { title: "Autos Nº", error: _vm.error.autos_numero } },
+        {
+          attrs: {
+            lg: "2",
+            md: "2",
+            title: "Autos Nº",
+            error: _vm.error.autos_numero
+          }
+        },
         [
           _c("input", {
             directives: [
@@ -681,6 +725,30 @@ var render = function() {
             }
           })
         ]
+      ),
+      _vm._v(" "),
+      _c(
+        "v-label",
+        {
+          attrs: {
+            lg: "2",
+            md: "2",
+            title: "Autos Ano",
+            error: _vm.error.autos_ano
+          }
+        },
+        [
+          _c("v-ano", {
+            model: {
+              value: _vm.registro.autos_ano,
+              callback: function($$v) {
+                _vm.$set(_vm.registro, "autos_ano", $$v)
+              },
+              expression: "registro.autos_ano"
+            }
+          })
+        ],
+        1
       ),
       _vm._v(" "),
       _c(
@@ -713,8 +781,60 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-label",
+        { attrs: { title: "Data do comparecimento", icon: "fa fa-calendar" } },
+        [
+          _c("v-datepicker", {
+            attrs: { "clear-button": "" },
+            model: {
+              value: _vm.registro.comparecimento_data,
+              callback: function($$v) {
+                _vm.$set(_vm.registro, "comparecimento_data", $$v)
+              },
+              expression: "registro.comparecimento_data"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-label",
+        { attrs: { title: "Hora", error: _vm.error.comparecimento_hora } },
+        [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.registro.comparecimento_hora,
+                expression: "registro.comparecimento_hora"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "time", placeholder: "00:00", required: "" },
+            domProps: { value: _vm.registro.comparecimento_hora },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.registro,
+                  "comparecimento_hora",
+                  $event.target.value
+                )
+              }
+            }
+          })
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "v-label",
         {
           attrs: {
+            lg: "12",
+            md: "12",
             title: "Descrição do local",
             error: _vm.error.comparecimento_local_txt
           }
@@ -734,26 +854,30 @@ var render = function() {
               },
               expression: "registro.comparecimento_local_txt"
             }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-label",
-        { attrs: { title: "Data do comparecimento", icon: "fa fa-calendar" } },
-        [
-          _c("v-datepicker", {
-            attrs: {
-              placeholder: _vm.registro.comparecimento_data || "dd/mm/aaaa",
-              "clear-button": ""
-            },
-            model: {
-              value: _vm.registro.comparecimento_data,
-              callback: function($$v) {
-                _vm.$set(_vm.registro, "comparecimento_data", $$v)
-              },
-              expression: "registro.comparecimento_data"
+          }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.registro.id_localdeapresentacao,
+                expression: "registro.id_localdeapresentacao"
+              }
+            ],
+            attrs: { type: "hidden" },
+            domProps: { value: _vm.registro.id_localdeapresentacao },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.registro,
+                  "id_localdeapresentacao",
+                  $event.target.value
+                )
+              }
             }
           })
         ],

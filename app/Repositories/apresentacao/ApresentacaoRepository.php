@@ -41,31 +41,35 @@ class ApresentacaoRepository extends BaseRepository
 	{
         if(hasPermissionTo('listar-apresentacoes-reservadas')) $registros = $this->reservados($cdopm, $ano);
         else $registros = $this->publicos($cdopm, $ano);
-
         return $registros;
     }
 
     public function publicos($cdopm, $ano)
 	{
-        $registros = Cache::tags('apresentacao')->remember('apresentacao:publicos:'.$cdopm, self::$expiration, function() use($cdopm, $ano){
-            return $this->model->where([
-                ['pessoa_opm_codigo','like',"$cdopm%"],
-                ['id_apresentacaoclassificacaosigilo','<=','2']
+        // $registros = Cache::tags('apresentacao')->remember('apresentacao:publico:'.$cdopm.$ano, self::$expiration, function() use($cdopm, $ano){
+            return $this->model
+            ->orWhere('pessoa_opm_codigo','like',"$cdopm%")
+            ->orWhere('pessoa_unidade_lotacao_codigo','like',"$cdopm%")
+            ->where([
+                ['id_apresentacaoclassificacaosigilo','<=','2'],
+                ['comparecimento_data','like',"$ano-%"]
             ])
-            ->whereYear('comparecimento_data', $ano)
             ->get();
-        });
+            // dd($registros);
+        // });
 
         return $registros;
     } 
 
     public function reservados($cdopm, $ano)
 	{
-        $registros = Cache::tags('apresentacao')->remember('apresentacao:reservados:'.$cdopm, self::$expiration, function() use($cdopm, $ano){
-            return $this->model->where('pessoa_opm_codigo','like',"$cdopm%")
-            ->whereYear('comparecimento_data', $ano)
+        // $registros = Cache::tags('apresentacao')->remember('apresentacao:reservados:'.$cdopm.$ano, self::$expiration, function() use($cdopm, $ano){
+            return $this->model
+            ->orWhere('pessoa_opm_codigo','like',"$cdopm%")
+            ->orWhere('pessoa_unidade_lotacao_codigo','like',"$cdopm%")
+            ->where('comparecimento_data','like',"$ano-%")
             ->get();
-        });
+        // });
 
         return $registros;
     } 
@@ -88,6 +92,17 @@ class ApresentacaoRepository extends BaseRepository
         });
 
         return $registros;
+    }
+
+    public function findAndDestroy($id)
+	{
+        try {
+            $this->model->withTrashed()->findOrFail($id)->forceDelete();
+            return true;
+        } catch (\Throwable $th) {
+            toast()->error($th->getMessage(),'ERRO');
+            return false;
+        }
     }
 
 }

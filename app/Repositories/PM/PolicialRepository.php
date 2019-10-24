@@ -215,7 +215,7 @@ class PolicialRepository extends BaseRepository
     {
         $dados = Cache::remember('pm:unidade:'.$rg, 60, function() use ($rg)
         {
-            return $this->policial->where('rg','=', $rg)->first();
+            return Policial::where('rg','=', $rg)->first();
         });
 
         if($dados) {
@@ -348,6 +348,7 @@ class PolicialRepository extends BaseRepository
     { //mostrar sugestões buscando por RG ou  NOME
         $type = strtolower($type); 
         $search = $this->policial
+        ->join('opmPMPR','POLICIAL.CDOPM','=','opmPMPR.CODIGO')
         ->where($type,'like', '%'."$data%")
         ->distinct($type)->get();
 

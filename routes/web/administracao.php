@@ -64,11 +64,3 @@ Route::group(['as'=>'feriado.','prefix' =>'feriado'],function(){
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Administracao\FeriadoController@update','middleware' => ['permission:editar-feriados']]);
 	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Administracao\FeriadoController@destroy','middleware' => ['permission:listar-feriados']]);
 });
-//Rotas do módulo Unidades
-Route::group(['as'=>'unidade.','prefix' =>'unidade'],function(){
-	Route::get('',['as' =>'index','uses'=>'Administracao\UnidadeController@index','middleware' => ['permission:listar-unidades']]);
-	Route::get('criar',['as' =>'create','uses'=>'Administracao\UnidadeController@create','middleware' => ['permission:criar-unidades']]);
-	Route::post('salvar',['as' =>'store','uses'=>'Administracao\UnidadeController@store','middleware' => ['permission:criar-unidades']]);
-	Route::get('editar/{id}',['as' =>'edit','uses'=>'Administracao\UnidadeController@edit','middleware' => ['permission:editar-unidades']]);
-	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Administracao\UnidadeController@update','middleware' => ['permission:editar-unidades']]);
-});

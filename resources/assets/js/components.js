@@ -10,6 +10,7 @@ Vue.component('v-it-objeto-procedimento', () => import(/* webpackChunkName: "v-i
 Vue.component('v-prioritario', () => import(/* webpackChunkName: "v-prioritario" */'./components/Form/Prioritario.vue'));
 Vue.component('v-municipio', () => import(/* webpackChunkName: "v-municipio" */'./components/Form/Municipio.vue'));
 Vue.component('v-ano', () => import(/* webpackChunkName: "v-ano" */'./components/Form/Ano.vue'));
+Vue.component('v-hora', () => import(/* webpackChunkName: "v-hora" */'./components/Form/Hora.vue'));
 Vue.component('v-show', () => import(/* webpackChunkName: "v-show" */'./components/Form/Show.vue'));
 Vue.component('v-item-unique', () => import(/* webpackChunkName: "v-item-unique" */'./components/Form/ItemUnique.vue'));
 Vue.component('vue-simple-suggest', () => import(/* webpackChunkName: "vue-simple-suggest" */'./components/Form/SugestRg.vue'));

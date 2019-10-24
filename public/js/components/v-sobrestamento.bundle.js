@@ -331,7 +331,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 // import $ from './utils/NodeList.js'
 // import {TheMask} from 'vue-the-mask'
@@ -390,6 +389,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         search: 'Busca'
       };
       return window.VueStrapLang ? window.VueStrapLang(lang) : text;
+    },
+    changeToToday: function changeToToday() {
+      this.val = this.today();
+      this.value = this.val;
+    },
+    cleanVal: function cleanVal() {
+      this.val = '';
+      this.value = this.val;
     },
     today: function today() {
       var today = new Date();
@@ -643,7 +650,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.datepicker[data-v-56b234ca] {\n  position: relative;\n  display: inline-block;\n}\ninput.datepicker-input.with-reset-button[data-v-56b234ca] {\n  padding-right: 25px;\n}\n.datepicker > button.close[data-v-56b234ca] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  outline: none;\n  z-index: 2;\n  display: block;\n  width: 34px;\n  height: 34px;\n  line-height: 34px;\n  text-align: center;\n}\n.datepicker > button.close[data-v-56b234ca]:focus {\n  opacity: .2;\n}\n.datepicker-popup[data-v-56b234ca] {\n  position: absolute;\n  border: 1px solid #ccc;\n  border-radius: 5px;\n  background: #fff;\n  margin-top: 2px;\n  z-index: 1000;\n  box-shadow: 0 6px 12px rgba(0,0,0,0.175);\n}\n.datepicker-inner[data-v-56b234ca] {\n  width: 218px;\n}\n.datepicker-body[data-v-56b234ca] {\n  padding: 10px 10px;\n}\n.datepicker-ctrl p[data-v-56b234ca],\n.datepicker-ctrl span[data-v-56b234ca],\n.datepicker-body span[data-v-56b234ca] {\n  display: inline-block;\n  width: 28px;\n  line-height: 28px;\n  height: 28px;\n  border-radius: 4px;\n}\n.datepicker-ctrl p[data-v-56b234ca] {\n  width: 65%;\n}\n.datepicker-ctrl span[data-v-56b234ca] {\n  position: absolute;\n}\n.datepicker-body span[data-v-56b234ca] {\n  text-align: center;\n}\n.datepicker-monthRange span[data-v-56b234ca] {\n  width: 48px;\n  height: 50px;\n  line-height: 45px;\n}\n.datepicker-item-disable[data-v-56b234ca] {\n  background-color: white!important;\n  cursor: not-allowed!important;\n}\n.decadeRange span[data-v-56b234ca]:first-child,\n.decadeRange span[data-v-56b234ca]:last-child,\n.datepicker-item-disable[data-v-56b234ca],\n.datepicker-item-gray[data-v-56b234ca] {\n  color: #999;\n}\n.datepicker-dateRange-item-active[data-v-56b234ca]:hover,\n.datepicker-dateRange-item-active[data-v-56b234ca] {\n  background: rgb(50, 118, 177)!important;\n  color: white!important;\n}\n.datepicker-monthRange[data-v-56b234ca] {\n  margin-top: 10px\n}\n.datepicker-monthRange span[data-v-56b234ca],\n.datepicker-ctrl span[data-v-56b234ca],\n.datepicker-ctrl p[data-v-56b234ca],\n.datepicker-dateRange span[data-v-56b234ca] {\n  cursor: pointer;\n}\n.datepicker-monthRange span[data-v-56b234ca]:hover,\n.datepicker-ctrl p[data-v-56b234ca]:hover,\n.datepicker-ctrl i[data-v-56b234ca]:hover,\n.datepicker-dateRange span[data-v-56b234ca]:hover,\n.datepicker-dateRange-item-hover[data-v-56b234ca] {\n  background-color : #eeeeee;\n}\n.datepicker-weekRange span[data-v-56b234ca] {\n  font-weight: bold;\n}\n.datepicker-label[data-v-56b234ca] {\n  background-color: #f8f8f8;\n  font-weight: 700;\n  padding: 7px 0;\n  text-align: center;\n}\n.datepicker-ctrl[data-v-56b234ca] {\n  position: relative;\n  height: 30px;\n  line-height: 30px;\n  font-weight: bold;\n  text-align: center;\n}\n.month-btn[data-v-56b234ca] {\n  font-weight: bold;\n  -webkit-user-select:none;\n  -moz-user-select:none;\n  -ms-user-select:none;\n  user-select:none;\n}\n.datepicker-preBtn[data-v-56b234ca] {\n  left: 2px;\n}\n.datepicker-nextBtn[data-v-56b234ca] {\n  right: 2px;\n}\n.btne[data-v-56b234ca]{\n    cursor: pointer;\n}\n.caixa[data-v-56b234ca]{\n    width: 100%;\n    display: flex;\n    flex-flow: column;\n    z-index: 1;\n}\n.append[data-v-56b234ca]{\n    display: flex;\n    align-self: flex-end;\n    position: absolute;\n    z-index: 2;\n}\n\n", ""]);
+exports.push([module.i, "\n.datepicker[data-v-56b234ca] {\n  position: relative;\n  display: inline-block;\n}\ninput.datepicker-input.with-reset-button[data-v-56b234ca] {\n  padding-right: 25px;\n}\n.datepicker > button.close[data-v-56b234ca] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  outline: none;\n  z-index: 2;\n  display: block;\n  width: 34px;\n  height: 34px;\n  line-height: 34px;\n  text-align: center;\n}\n.datepicker > button.close[data-v-56b234ca]:focus {\n  opacity: .2;\n}\n.datepicker-popup[data-v-56b234ca] {\n  position: absolute;\n  border: 1px solid #ccc;\n  border-radius: 5px;\n  background: #fff;\n  margin-top: 2px;\n  z-index: 1000;\n  box-shadow: 0 6px 12px rgba(0,0,0,0.175);\n}\n.datepicker-inner[data-v-56b234ca] {\n  width: 218px;\n}\n.datepicker-body[data-v-56b234ca] {\n  padding: 10px 10px;\n}\n.datepicker-ctrl p[data-v-56b234ca],\n.datepicker-ctrl span[data-v-56b234ca],\n.datepicker-body span[data-v-56b234ca] {\n  display: inline-block;\n  width: 28px;\n  line-height: 28px;\n  height: 28px;\n  border-radius: 4px;\n}\n.datepicker-ctrl p[data-v-56b234ca] {\n  width: 65%;\n}\n.datepicker-ctrl span[data-v-56b234ca] {\n  position: absolute;\n}\n.datepicker-body span[data-v-56b234ca] {\n  text-align: center;\n}\n.datepicker-monthRange span[data-v-56b234ca] {\n  width: 48px;\n  height: 50px;\n  line-height: 45px;\n}\n.datepicker-item-disable[data-v-56b234ca] {\n  background-color: white!important;\n  cursor: not-allowed!important;\n}\n.decadeRange span[data-v-56b234ca]:first-child,\n.decadeRange span[data-v-56b234ca]:last-child,\n.datepicker-item-disable[data-v-56b234ca],\n.datepicker-item-gray[data-v-56b234ca] {\n  color: #999;\n}\n.datepicker-dateRange-item-active[data-v-56b234ca]:hover,\n.datepicker-dateRange-item-active[data-v-56b234ca] {\n  background: rgb(50, 118, 177)!important;\n  color: white!important;\n}\n.datepicker-monthRange[data-v-56b234ca] {\n  margin-top: 10px\n}\n.datepicker-monthRange span[data-v-56b234ca],\n.datepicker-ctrl span[data-v-56b234ca],\n.datepicker-ctrl p[data-v-56b234ca],\n.datepicker-dateRange span[data-v-56b234ca] {\n  cursor: pointer;\n}\n.datepicker-monthRange span[data-v-56b234ca]:hover,\n.datepicker-ctrl p[data-v-56b234ca]:hover,\n.datepicker-ctrl i[data-v-56b234ca]:hover,\n.datepicker-dateRange span[data-v-56b234ca]:hover,\n.datepicker-dateRange-item-hover[data-v-56b234ca] {\n  background-color : #eeeeee;\n}\n.datepicker-weekRange span[data-v-56b234ca] {\n  font-weight: bold;\n}\n.datepicker-label[data-v-56b234ca] {\n  background-color: #f8f8f8;\n  font-weight: 700;\n  padding: 7px 0;\n  text-align: center;\n}\n.datepicker-ctrl[data-v-56b234ca] {\n  position: relative;\n  height: 30px;\n  line-height: 30px;\n  font-weight: bold;\n  text-align: center;\n}\n.month-btn[data-v-56b234ca] {\n  font-weight: bold;\n  -webkit-user-select:none;\n  -moz-user-select:none;\n  -ms-user-select:none;\n  user-select:none;\n}\n.datepicker-preBtn[data-v-56b234ca] {\n  left: 2px;\n}\n.datepicker-nextBtn[data-v-56b234ca] {\n  right: 2px;\n}\n.btne[data-v-56b234ca]{\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    margin-bottom: 0;\n    font-size: 1rem;\n    font-weight: 400;\n    line-height: 1.5;\n    color: #495057;\n    text-align: center;\n    white-space: nowrap;\n    background-color: #e9ecef;\n    border: 1px solid #ced4da;\n    padding: 5px;\n}\n.caixa[data-v-56b234ca]{\n    width: 100%;\n    display: flex;\n    flex-flow: column;\n    z-index: 1;\n}\n.append[data-v-56b234ca]{\n    display: flex;\n    align-self: flex-end;\n    position: absolute;\n    z-index: 2;\n}\n\n", ""]);
 
 // exports
 
@@ -1256,13 +1263,14 @@ var render = function() {
       _c("input", {
         staticClass: "form-control",
         class: { "with-reset-button": _vm.clearButton },
+        staticStyle: { width: "100%" },
         attrs: {
           type: "text",
           placeholder: _vm.placeholder,
           readonly: "",
           name: _vm.name
         },
-        domProps: { value: _vm.val },
+        domProps: { value: _vm.val || _vm.value },
         on: {
           click: _vm.inputClick,
           input: function($event) {
@@ -1272,34 +1280,18 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("div", { staticClass: "append" }, [
-        !_vm.val
+        !_vm.value
           ? _c(
               "span",
-              {
-                staticClass: "btne input-group-text",
-                on: {
-                  click: function($event) {
-                    _vm.val = _vm.today()
-                  }
-                }
-              },
+              { staticClass: "btne", on: { click: _vm.changeToToday } },
               [_vm._v("Hoje ")]
             )
           : _vm._e(),
         _vm._v(" "),
-        _vm.clearButton && _vm.val
-          ? _c(
-              "span",
-              {
-                staticClass: "btne input-group-text",
-                on: {
-                  click: function($event) {
-                    _vm.val = ""
-                  }
-                }
-              },
-              [_vm._v("   X   ")]
-            )
+        _vm.clearButton && _vm.value
+          ? _c("span", { staticClass: "btne", on: { click: _vm.cleanVal } }, [
+              _vm._v("   X   ")
+            ])
           : _vm._e()
       ])
     ]),

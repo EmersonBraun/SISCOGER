@@ -28,7 +28,7 @@ class DenunciadoController extends Controller
 
     public function listaDenunciados()
     {
-        $registros = $this->envolvido->denunciado();
+        $registros = $this->envolvido->subJudice();
         return view('policiais.denunciado.index', compact('registros'));
     }
 

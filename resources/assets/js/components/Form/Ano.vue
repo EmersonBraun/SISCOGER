@@ -1,6 +1,6 @@
 <template>
     <div>
-        <select :name="name" v-model="year" class="form-control">
+        <select :name="name" v-model="year" class="form-control" @click="$emit('input', $event.target.value)">
             <option v-if="todos" value="">Todos</option>
             <option v-for="y in years" :value="y" :key="y">{{ y }}</option>
         </select>

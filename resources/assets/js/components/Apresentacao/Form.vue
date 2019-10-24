@@ -54,13 +54,22 @@
                 <option value="17">VAJME</option>
             </select>
         </v-label>
-        <v-label title="Autos Nº" :error="error.autos_numero">
+        <v-label lg="2" md="2" title="Autos Nº" :error="error.autos_numero">
             <input v-model="registro.autos_numero" type="text" class="form-control ">
+        </v-label>
+        <v-label lg="2" md="2" title="Autos Ano" :error="error.autos_ano">
+            <v-ano v-model="registro.autos_ano"></v-ano>
         </v-label>
         <v-label title="Acusados" :error="error.acusados">
             <input v-model="registro.acusados" type="text" class="form-control ">
         </v-label>
-        <v-label title="Descrição do local" :error="error.comparecimento_local_txt">
+        <v-label title="Data do comparecimento" icon="fa fa-calendar">
+            <v-datepicker v-model="registro.comparecimento_data" clear-button ></v-datepicker>
+        </v-label>
+        <v-label title="Hora" :error="error.comparecimento_hora">
+            <input type="time" v-model="registro.comparecimento_hora" class="form-control" placeholder="00:00" required>
+        </v-label>
+        <v-label lg="12" md="12" title="Descrição do local" :error="error.comparecimento_local_txt">
             <v-typeahead
                 placeholder="Busca local"
                 :async="buscaLocal"
@@ -68,10 +77,9 @@
                 :template="templateLocal"
                 v-model="registro.comparecimento_local_txt">
             </v-typeahead>
+            <input type="hidden" v-model="registro.id_localdeapresentacao">
         </v-label>
-        <v-label title="Data do comparecimento" icon="fa fa-calendar">
-            <v-datepicker v-model="registro.comparecimento_data" :placeholder="registro.comparecimento_data || 'dd/mm/aaaa'" clear-button ></v-datepicker>
-        </v-label>
+        
         <v-label lg="12" md="12" title="Observações" :error="error.observacao_txt">
             <textarea v-model="registro.observacao_txt" rows="3" cols="80" style="width: 100%"></textarea>
         </v-label>
@@ -188,6 +196,7 @@
         props: {
             reference: {type: Number, default: null},
             ano: {type: Number, default: null},
+            id_notacomparecimento: {type: Number, default: null},
         },
         data() {
             return {
@@ -216,17 +225,17 @@
                 return `${this.$root.baseUrl}api/dados/showsugest/${this.type}/`
             },
             requireds(){
-                if(this.registro.autos_numero && this.registro.comparecimento_data && this.registro.comparecimento_local_txt &&
+                if(this.registro.autos_numero && this.registro.comparecimento_data && this.registro.comparecimento_hora && this.registro.comparecimento_local_txt &&
                  this.registro.pessoa_rg && this.registro.pessoa_nome && this.registro.pessoa_posto && this.registro.pessoa_quadro && this.registro.id_apresentacaocondicao) return false
                 return true
             },
             msgRequired(){
-                return `Para liberar este botão os campos: AUTOS, DATA DO COMPARECIMENTO, DESCRIÇÃO DO LOCAL, E OS DADOS DO PM/BM deve estar preenchidos`           
+                return `Para liberar este botão os campos: AUTOS, DATA DO COMPARECIMENTO, HORA, DESCRIÇÃO DO LOCAL, E OS DADOS DO PM/BM deve estar preenchidos`           
             }
         },
         created(){
             if(this.reference) this.dadosApresentacao() 
-            else this.toCreate()
+            else this.cleanRegister()
         },
         methods: {
             changeMode(type){
@@ -244,15 +253,27 @@
             selectLocal(item) {
                 let localapresentacao = `${item.localdeapresentacao}.${item.logradouro}, ${item.numero} - ${item.bairro} - ${item.municipio}/${item.uf}. Tel.: ${item.telefone}. CEP: ${item.cep}.`
                 this.registro.comparecimento_local_txt = localapresentacao
+                this.registro.id_localdeapresentacao = item.id_localdeapresentacao
                 return localapresentacao
             },
             selectPM(item) {
                 this.onSearch = false
                 this.type = null
+                // dado PM
                 this.registro.pessoa_rg = item.RG
                 this.registro.pessoa_nome = item.NOME
                 this.registro.pessoa_posto = item.CARGO
                 this.registro.pessoa_quadro = item.QUADRO
+                this.registro.pessoa_email = item.EMAIL_META4
+                this.registro.pessoa_opm_meta4 = item.META4
+                this.registro.pessoa_opm_sigla = item.ABREVIATURA
+                this.registro.pessoa_opm_descricao = item.OPM_DESCRICAO
+                // dados unidade
+                this.registro.pessoa_unidade_lotacao_meta4 = item.META4
+                this.registro.pessoa_unidade_lotacao_codigo = item.CDOPM
+                this.registro.pessoa_unidade_lotacao_sigla = item.ABREVIATURA
+                this.registro.pessoa_unidade_lotacao_descricao = item.OPM_DESCRICAO
+
                 let cleanCdopm = item.CDOPM.substring(0,3)
                 this.registro.pessoa_opm_codigo = cleanCdopm
 
@@ -268,13 +289,30 @@
                     })
                     .catch(error => console.log(error));
             },
-            toCreate(){
-                this.registro.cdopm = this.$root.dadoSession('cdopmbase')
-                this.registro.usuario_rg = this.$root.dadoSession('rg')
+            cleanRegister(){
+                this.registro = {
+                    pessoa_rg: '',
+                    pessoa_nome: '',
+                    id_apresentacaonotificacao: '1',
+                    id_apresentacaosituacao: '1',
+                    id_apresentacaoclassificacaosigilo: '1',
+                    id_apresentacaotipoprocesso: '3',
+                    id_apresentacaocondicao: '1',
+                    cdopm: this.$root.dadoSession('cdopmbase'),
+                    usuario_rg: this.$root.dadoSession('rg'),
+                    autos_ano: new Date().getFullYear()
+                }
+            },
+            additionalData(){
+                let reg = this.registro
+                let cleanData = reg.comparecimento_data.split('/').reverse().join('-')
+                this.registro.comparecimento_hora = this.registro.comparecimento_hora
+                this.registro.comparecimento_dh = `${cleanData} ${reg.comparecimento_hora}`
+                console.log('registro', this.registro)
             },
             create(){
                 if(!this.requireds){
-                    this.toCreate()
+                    this.additionalData()
                     let urlCreate = `${this.$root.baseUrl}api/${this.module}/store`;
                     axios
                     .post(urlCreate, this.registro)
@@ -286,7 +324,7 @@
             },
             edit(registro){
                 this.registro = registro
-                this.toCreate()
+                this.cleanRegister()
             },
             update(id){
                 if(!this.requireds){
@@ -313,10 +351,9 @@
             transation(happen,type) {
                 let msg = this.words(type)
                 if(happen) { // se deu certo
-                        this.list()
                         this.$root.msg(msg.success,'success')
                         this.registro = null
-                        this.registro = {}
+                        this.cleanRegister()
                 } else { // se falhou
                     this.$root.msg(msg.fail,'danger')
                 }

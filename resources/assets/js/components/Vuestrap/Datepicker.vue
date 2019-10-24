@@ -2,17 +2,16 @@
     <div >
         <div class="input-group caixa">
             <!-- <the-mask mask="##/##/####" /> -->
-            <input class="form-control" :class="{'with-reset-button': clearButton}" type="text" :placeholder="placeholder" readonly
-                :value="val"
+            <input class="form-control" :class="{'with-reset-button': clearButton}" style="width: 100%;" type="text" :placeholder="placeholder" readonly
+                :value="val || value"
                 :name="name"
                 @click="inputClick"
                 @input="this.$emit('input',$event.target.val)" />
             <div class="append">
-                <span v-if="!val" class="btne input-group-text" @click="val = today()">Hoje&nbsp;</span>
-                <span v-if="clearButton && val" class="btne input-group-text" @click="val = ''">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>
+                <span v-if="!value" class="btne" @click="changeToToday">Hoje&nbsp;</span>
+                <span v-if="clearButton && value" class="btne" @click="cleanVal">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>
             </div>
         </div>
-
         <div class="datepicker-popup" v-show="displayDayView">
         <div class="datepicker-inner">
             <div class="datepicker-body">
@@ -124,6 +123,14 @@ export default {
         search: 'Busca'
         }
         return window.VueStrapLang ? window.VueStrapLang(lang) : text
+    },
+    changeToToday(){
+        this.val = this.today()
+        this.value = this.val
+    },
+    cleanVal(){
+        this.val = ''
+        this.value = this.val
     },
     today() {
         let today = new Date();
@@ -473,6 +480,18 @@ input.datepicker-input.with-reset-button {
 }
 .btne{
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    padding: 5px;
 }
 .caixa{
     width: 100%;

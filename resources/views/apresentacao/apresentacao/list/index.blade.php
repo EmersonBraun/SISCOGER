@@ -27,8 +27,9 @@
                             <th class='col-xs-1'>Doc. Origem</th>
                             <th class='col-xs-1'>Tipo Processo</th>
                             <th class='col-xs-1'>Autos</th>
+                            <th class='col-xs-1'>Data</th>
                             <th class='col-xs-1'>Acusados</th>
-                            <th class='col-xs-2'>Ações</th>
+                            <th class='col-xs-1'>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,6 +45,7 @@
                             <td>{{$registro->documento_origem}}</td>
                             <td>{{$registro->present()->tipoProcesso}}</td>
                             <td>{{$registro->autos_numero}}</td>
+                            <td>{{$registro->comparecimento_data}}</td>
                             <td>{{$registro->acusados}}</td>
                             <td>
                                 <span>
@@ -80,8 +82,9 @@
                             <th class='col-xs-1'>Doc. Origem</th>
                             <th class='col-xs-1'>Tipo Processo</th>
                             <th class='col-xs-1'>Autos</th>
+                            <th class='col-xs-1'>Data</th>
                             <th class='col-xs-1'>Acusados</th>
-                            <th class='col-xs-2'>Ações</th>
+                            <th class='col-xs-1'>Ações</th>
                         </tr>
                     </tfoot>
                 </table>

@@ -74,7 +74,7 @@ class RespondendoController extends Controller
     public function baseQuery($dados)
     {
         $query = [];
-        if($dados['cdopm']) array_push($query,['cdopm','=',$dados['cdopm']]);
+        if(isset($dados['cdopm'])) array_push($query,['cdopm','=',$dados['cdopm']]);
         if($dados['sjd_ref_ano_ini']) array_push($query,['sjd_ref_ano','>=',$dados['sjd_ref_ano_ini']]);
         if($dados['sjd_ref_ano_fim']) array_push($query,['sjd_ref_ano','<=',$dados['sjd_ref_ano_fim']]);
         return $query;

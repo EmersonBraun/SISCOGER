@@ -17,8 +17,8 @@ class ApresentacaoController extends Controller
     public function index($ano="",$cdopm="")
     {
         if(!$ano) $ano = (int) date('Y');
-        if(!$cdopm) $cdopm = session('cdopm');
-        $registros = $this->repository->opmAno(session('cdopm'), $ano);
+        if(!$cdopm) $cdopm = session('cdopmbase');
+        $registros = $this->repository->opmAno($cdopm, $ano);
 
         return view('apresentacao.apresentacao.list.index', compact('registros','ano','cdopm'));
     }
@@ -26,7 +26,7 @@ class ApresentacaoController extends Controller
     public function apagados($ano="",$cdopm="")
     {
         if(!$ano) $ano = (int) date('Y');
-        if(!$cdopm) $cdopm = session('cdopm');
+        if(!$cdopm) $cdopm = session('cdopmbase');
         $registros = $this->repository->apagados();
 
         return view('apresentacao.apresentacao.list.apagados', compact('registros','ano','cdopm'));
@@ -36,9 +36,9 @@ class ApresentacaoController extends Controller
     {
         $dados = $request->all();
         if(!$dados['ano']) $dados['ano'] = (int) date('Y');
-        if(!$dados['cdopm']) $dados['cdopm'] = session('cdopm');
+        if(!$dados['cdopm']) $dados['cdopm'] = session('cdopmbase');
         
-        return redirect()->route('apresentacao.index',['ano' => $dados['ano'], 'cdopm' => $dados['cdopm']]);
+        return redirect()->route('apresentacao.index',['ano' => $dados['ano'], 'cdopm' => corta_zeros($dados['cdopm'])]);
     }
 
     public function create()
@@ -47,20 +47,18 @@ class ApresentacaoController extends Controller
     }
 
     public function store(Request $request)
-    {
-
+    { 
         $dados = $this->repository->datesToCreate($request->all()); 
+        // $dados['comprarecimento_dh'] = $dados['comparecimento_data']." ".$dados['comparecimento_hora'];
         $create = $this->repository->create($dados);
 
         if($create)
         {
-            $this->repository->cleanCache();
-            toast()->success('N° '.$dados['sjd_ref'].'/'.'Apresentacao Inserida');
-            return redirect()->route('apresentacao.lista');
+            $this->repository->clearCache();
+            // toast()->success('N° '.$dados['sjd_ref'].'/'.'Apresentacao Inserida');
+            return response()->json(['success'=> true], 200);
         }
-
-        toast()->warning('Houve um erro na inserção');
-        return redirect()->back();
+        return response()->json(['success'=> false], 500);
     }
 
     public function dadosApresentacao($ref,$ano="")
@@ -83,27 +81,53 @@ class ApresentacaoController extends Controller
         
         if($update)
         {
-            $this->repository->cleanCache();
-            toast()->success('Apresentacao atualizada!');
-            return redirect()->route('apresentacao.lista');
+            $this->repository->clearCache();
+            // toast()->success('Apresentacao atualizada!');
+            return response()->json(['success'=> true], 200);
         }
 
-        toast()->warning('Apresentacao NÃO atualizada!');
-        return redirect()->route('apresentacao.lista');
+        return response()->json(['success'=> false], 500);
     }
 
     public function destroy($id)
     {
         $destroy = $this->repository->findAndDelete($id);
-
         if($destroy) {
-            $this->repository->cleanCache();
+            $this->repository->clearCache();
             toast()->success('Apresentacao Apagada');
-            return redirect()->route('apresentacao.lista');
+            return redirect()->route('apresentacao.index');
         }
 
         toast()->warning('erro ao apagar Apresentacao');
-        return redirect()->route('apresentacao.lista');
+        return redirect()->route('apresentacao.index');
+    }
+
+    public function restore($id)
+    {
+        $restore = $this->repository->findAndRestore($id);
+    
+        if($restore){
+            $this->repository->cleanCache();
+            toast()->success('Apresentação Recuperado!');
+            return redirect()->route('apresentacao.index');  
+        }
+
+        toast()->warning('Houve um erro ao recuperar!');
+        return redirect()->route('apresentacao.index'); 
+    }
+
+    public function forceDelete($id)
+    {
+        $forceDelete = $this->repository->findAndDestroy($id);
+    
+        if($forceDelete){
+            $this->repository->cleanCache();
+            toast()->success('Apresentação apagado DEFINITIVO!');
+            return redirect()->route('apresentacao.index');  
+        }
+
+        toast()->warning('Houve um erro ao Apagar definitivo!');
+        return redirect()->route('apresentacao.index');
     }
 
 }

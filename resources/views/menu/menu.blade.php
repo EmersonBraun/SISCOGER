@@ -125,20 +125,17 @@
         @if(hasPermissionTo('listar-apresentacao'))
         <li class=""><a href="{{ route('apresentacao.index',['ano' => date('Y'), 'cdopm' => session('cdopmbase')])}}"><i class="fa fa-fw fa-circle-o "></i><span>Lista apresentações</span></a></li>
         @endif
-        @if(hasPermissionTo('listar-apresentacao'))
+        {{-- @if(hasPermissionTo('listar-apresentacao'))
         <li class=""><a href="{{ route('apresentacao.buscar')}}"><i class="fa fa-fw fa-circle-o "></i><span>Buscar Apresentação</span></a></li>
-        @endif
+        @endif --}}
         @if(hasPermissionTo('listar-locais'))
         <li class=""><a href="{{ route('local.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Locais</span></a></li>
-        @endif
-        @if(hasPermissionTo('criar-apresentacao'))
-        <li class=""><a href="{{ route('excel.create')}}"><i class="fa fa-fw fa-circle-o "></i><span>inserir via Excel</span></a></li>
         @endif
         @if(hasPermissionTo('criar-apresentacao'))
         <li class=""><a href="{{ route('memorando.create')}}"><i class="fa fa-fw fa-circle-o "></i><span>Gerar Memorando</span></a></li>
         @endif
         @if(hasPermissionTo('listar-dados-unidade'))
-        <li class=""><a href="{{ route('autoridadeom.comando')}}"><i class="fa fa-fw fa-circle-o "></i><span>Dados Unidade</span></a></li>
+        <li class=""><a href="{{ route('autoridadeom.form')}}"><i class="fa fa-fw fa-circle-o "></i><span>Dados Unidade</span></a></li>
         @endif
     </ul>
 </li>
@@ -213,9 +210,9 @@
         @if(hasPermissionTo('buscar-envolvido'))
         <li class=""><a href="{{ route('busca.envolvido.search')}}"><i class="fa fa-fw fa-circle-o "></i><span>envolvido</span></a></li>
         @endif
-        @if(hasPermissionTo('buscar-documentacao'))
+        {{-- @if(hasPermissionTo('buscar-documentacao'))
         <li class=""><a href="{{ route('busca.documentacao')}}"><i class="fa fa-fw fa-circle-o "></i><span>Documentacão</span></a></li>
-        @endif
+        @endif --}}
         @if(hasPermissionTo('listar-tramitacao'))
         <li class=""><a href="{{ route('busca.tramitacao',date('Y'))}}"><i class="fa fa-fw fa-circle-o "></i><span>Tramitação</span></a></li>
         @endif
@@ -296,9 +293,9 @@
         @if(hasPermissionTo('listar-presos-outros'))
         <li class=""><a href="{{ route('presooutro.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Presos Outros</span></a></li>
         @endif
-        @if(hasPermissionTo('listar-procedimentos'))
+        {{-- @if(hasPermissionTo('listar-procedimentos'))
         <li class=""><a href="{{ route('procedimento.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Procedimentos</span></a></li>
-        @endif
+        @endif --}}
         @if(hasPermissionTo('listar-comportamentos'))
         <li class=""><a href="{{ route('comportamento.index','SD2C')}}"><i class="fa fa-fw fa-circle-o "></i><span>Comportamento</span></a></li>
         @endif
@@ -388,7 +385,7 @@
         <li class=""><a href="{{ route('term.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Termos de compromisso</span></a></li>
         @endif
         @if(hasPermissionTo('listar-dados-unidade'))
-        <li class=""><a href="{{ route('unidade.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Unidades</span></a></li>
+        <li class=""><a href="{{ route('autoridadeom.comando')}}"><i class="fa fa-fw fa-circle-o "></i><span>Unidades</span></a></li>
         @endif
         @if(hasPermissionTo('listar-feriados'))
         <li class=""><a href="{{ route('feriado.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Feriados</span></a></li>

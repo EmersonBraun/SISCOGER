@@ -1,6 +1,6 @@
 <template>
     <div>
-       <select :name="name" v-model='uf' class="form-control">
+       <select :name="name" v-model='uf' class="form-control" @click="$emit('input', $event.target.value)">
 		    <option value="AC">AC</option>
 		    <option value="AL">AL</option>
 		    <option value="AM">AM</option>

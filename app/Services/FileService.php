@@ -19,11 +19,12 @@ class FileService
 
     public function validations($proc, $procid, $arquivo, $hash)
     {
+        $msg = [];
         if(!$proc) return $msg = ['erro' => 'Falta Proc','success' => false];
         if(!$procid) return $msg = ['erro' => 'Falta ID Proc','success' => false];
         if(!$arquivo) return $msg = ['erro' => 'Falta arquivo','success' => false];
         if(!$hash) return $msg = ['erro' => 'Falta HASH','success' => false];
-        return $msg = null;
+        return $msg;
     }
 
     public function getPath($search)

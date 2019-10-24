@@ -74,7 +74,7 @@
                     <v-label label="referenciavajme" title="Referencia VAJME (Nº do processo, vara)">
                         {{ Form::text('referenciavajme', null, ['class' => 'form-control ']) }}
                     </v-label>
-                {!! Form::submit('Alterar Desercao',['class' => 'btn btn-primary btn-block']) !!}
+                {!! Form::submit('Alterar Deserção',['class' => 'btn btn-primary btn-block']) !!}
                 {!! Form::close() !!}
             </v-tab-item>
             <v-tab-item title="Réus" idp="reus">

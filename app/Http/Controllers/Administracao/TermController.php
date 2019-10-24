@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Administracao;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\User;
 
-use App\Repositories\Policial\TermoCompromissoRepository;
+use App\Repositories\PM\TermoCompromissoRepository;
 use App\Repositories\administracao\UserRepository;
 
 class TermController extends Controller
@@ -30,7 +29,7 @@ class TermController extends Controller
      */
     public function index()
     {
-        $terms = $this->temo->all();
+        $terms = $this->termo->all();
         return view('administracao.termo_compromisso.index',compact('terms'));
     }
 

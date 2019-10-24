@@ -204,8 +204,11 @@ class EnvolvidoRepository extends BaseRepository
 
     public function subJudice()
     {
-        $registros = Cache::tags('envolvido')->remember('envolvido:subjudice:geral', $this->expiration, function() {
+        $registros = Cache::tags('envolvido')->remember('envolvido:subjudice', $this->expiration, function() {
             return DB::table('envolvido')
+                    ->join('ipm','ipm.id_ipm','=','envolvido.id_ipm')
+                    ->join('apfd','apfd.id_apfd','=','envolvido.id_apfd')
+                    ->join('desercao','desercao.id_desercao','=','envolvido.id_desercao')
                     ->where('ipm_processocrime','=', 'Denunciado')
                     ->get();
         });

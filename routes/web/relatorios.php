@@ -1,13 +1,14 @@
 <?php
 // armas
-Route::group(['as'=>'arma.','prefix' =>'arma'],function(){
-	Route::get('',['as' =>'index','uses'=>'Relatorios\ArmaController@index','middleware' => ['permission:listar-armas']]);
-	Route::get('criar',['as' =>'create','uses'=>'Relatorios\ArmaController@create','middleware' => ['permission:criar-armas']]);
-	Route::post('salvar',['as' =>'store','uses'=>'Relatorios\ArmaController@store','middleware' => ['permission:criar-armas']]);
-	Route::get('editar/{id}',['as' =>'edit','uses'=>'Relatorios\ArmaController@edit','middleware' => ['permission:editar-armas']]);
-	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Relatorios\ArmaController@update','middleware' => ['permission:editar-armas']]);
-	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Relatorios\ArmaController@destroy','middleware' => ['permission:apagar-armas']]);
-});
+// NÃO IMPLEMENTADO AINDA
+// Route::group(['as'=>'arma.','prefix' =>'arma'],function(){
+// 	Route::get('',['as' =>'index','uses'=>'Relatorios\ArmaController@index','middleware' => ['permission:listar-armas']]);
+// 	Route::get('criar',['as' =>'create','uses'=>'Relatorios\ArmaController@create','middleware' => ['permission:criar-armas']]);
+// 	Route::post('salvar',['as' =>'store','uses'=>'Relatorios\ArmaController@store','middleware' => ['permission:criar-armas']]);
+// 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Relatorios\ArmaController@edit','middleware' => ['permission:editar-armas']]);
+// 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Relatorios\ArmaController@update','middleware' => ['permission:editar-armas']]);
+// 	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Relatorios\ArmaController@destroy','middleware' => ['permission:apagar-armas']]);
+// });
 // pendências
 Route::group(['as'=>'pendencia.','prefix' =>'pendencia'],function(){
 	Route::get('trocaropm', ['as' =>'trocaropm','uses'=>'Relatorios\PendenciaController@trocaropm', 'middleware' => ['permission:todas-unidades']]);

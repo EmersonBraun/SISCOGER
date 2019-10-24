@@ -4,16 +4,15 @@ use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| AsPI Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
+| Here is where you can register AsPI routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| is assigned the "aspi" middleware group. Enjoy building your AsPI!
 |
 */
 
-Route::get('acess/rhpr/{name?}', ['as' =>'api.opm','uses'=>'_Api\RHPR\OPMApiController@omsjd']);
 // Comportamento
 Route::group(['as'=>'comportamento.','prefix' =>'comportamento'],function(){
     Route::get('atual/{rg}',['as' =>'atual','uses'=>'Policiais\ComportamentoController@atual']);
@@ -120,42 +119,42 @@ Route::group(['as'=>'fileupload.','prefix' =>'fileupload'],function(){
 });
 // rotas componente SubForm/ProcedOrigem.vue
 Route::group(['as'=>'ligacao.','prefix' =>'ligacao'],function(){
-    Route::get('list/{proc}/{ref}/{ano?}',['as' =>'index.refano','uses'=>'Subform\LigacaoApiController@list']);
-    Route::post('store',['as' =>'store','uses'=>'Subform\LigacaoApiController@store']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\LigacaoApiController@destroy']);
+    Route::get('list/{proc}/{ref}/{ano?}',['as' =>'index.refano','uses'=>'Subform\LigacaoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Subform\LigacaoController@store']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\LigacaoController@destroy']);
 });
 // rotas componente SubForm/Acusado.vue
 Route::group(['as'=>'acusado.','prefix' =>'acusado'],function(){
-    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'Subform\AcusadoApiController@list']);
-    Route::post('store',['as' =>'store','uses'=>'Subform\AcusadoApiController@store']);
-    Route::post('edit/{id}',['as' =>'edit','uses'=>'Subform\AcusadoApiController@edit']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\AcusadoApiController@destroy']);
+    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'Subform\AcusadoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Subform\AcusadoController@store']);
+    Route::post('edit/{id}',['as' =>'edit','uses'=>'Subform\AcusadoController@edit']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\AcusadoController@destroy']);
 });
 // rotas componente SubForm/Membros.vue
 Route::group(['as'=>'membros.','prefix' =>'membros'],function(){
-    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'Subform\MembroApiController@list']);
-    Route::post('store',['as' =>'store','uses'=>'Subform\MembroApiController@store']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\MembroApiController@destroy']);
+    Route::get('list/{proc}/{id}/{situacao}',['as' =>'index','uses'=>'Subform\MembroController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Subform\MembroController@store']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\MembroController@destroy']);
 });
 // rotas componente SubForm/Vitima.vue
 Route::group(['as'=>'vitima.','prefix' =>'vitima'],function(){
-    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'Subform\VitimaApiController@list']);
-    Route::post('store',['as' =>'store','uses'=>'Subform\VitimaApiController@store']);
-    Route::post('edit/{id}',['as' =>'edit','uses'=>'Subform\VitimaApiController@edit']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\VitimaApiController@destroy']);
+    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'Subform\VitimaController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Subform\VitimaController@store']);
+    Route::post('edit/{id}',['as' =>'edit','uses'=>'Subform\VitimaController@edit']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\VitimaController@destroy']);
 });
 // rotas componente SubForm/Movimento.vue
 Route::group(['as'=>'movimento.','prefix' =>'movimento'],function(){
-    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'Subform\MovimentoApiController@list']);
-    Route::post('store',['as' =>'store','uses'=>'Subform\MovimentoApiController@store']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\MovimentoApiController@destroy']);
+    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'Subform\MovimentoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Subform\MovimentoController@store']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\MovimentoController@destroy']);
 });
 // rotas componente SubForm/Sobrestamento.vue
 Route::group(['as'=>'sobrestamento.','prefix' =>'sobrestamento'],function(){
-    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'Subform\SobrestamentoApiController@list']);
-    Route::post('store',['as' =>'store','uses'=>'Subform\SobrestamentoApiController@store']);
-    Route::post('edit/{id}',['as' =>'edit','uses'=>'Subform\SobrestamentoApiController@edit']);
-    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\SobrestamentoApiController@destroy']);
+    Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'Subform\SobrestamentoController@list']);
+    Route::post('store',['as' =>'store','uses'=>'Subform\SobrestamentoController@store']);
+    Route::post('edit/{id}',['as' =>'edit','uses'=>'Subform\SobrestamentoController@edit']);
+    Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\SobrestamentoController@destroy']);
 });
 // rotas componente SubForm/Arquivo.vue
 Route::group(['as'=>'arquivo.','prefix' =>'arquivo'],function(){
@@ -186,26 +185,28 @@ Route::group(['as'=>'localapresentacao.','prefix' =>'localapresentacao'],functio
 // Apresentação
 Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
     Route::get('{ref}/{ano?}',['as' =>'dadosApresentacao','uses'=>'Apresentacao\ApresentacaoController@dadosApresentacao']);
+    Route::post('store',['as' =>'store','uses'=>'Apresentacao\ApresentacaoController@store']);
+    Route::put('update/{id}',['as' =>'update','uses'=>'Apresentacao\ApresentacaoController@update']);
 });
 
 Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
     // pegar sugestões de RG e NOME -> ativos/inativos/reserva
-    Route::post('sugest',['as' =>'sugestrg','uses'=>'Subform\PMApiController@sugest']);
+    Route::post('sugest',['as' =>'sugestrg','uses'=>'Subform\PMController@sugest']);
     // pegar sugestões de RG e NOME -> ativos
-    Route::get('showsugest/{type}/{data}',['as' =>'showSugest','uses'=>'Subform\PMApiController@showSugest']);
+    Route::get('showsugest/{type}/{data}',['as' =>'showSugest','uses'=>'Subform\PMController@showSugest']);
     // pegar dados do PM pelo RG
-    Route::get('pm/{rg}',['as' =>'pm','uses'=>'Subform\PMApiController@dados']);
+    Route::get('pm/{rg}',['as' =>'pm','uses'=>'Subform\PMController@dados']);
     // pegar dados do Procedimento pelo Nome/ref/ano
-    Route::get('proc/{proc}/{ref}/{ano?}',['as' =>'proc','uses'=>'Subform\ProcApiController@dados']);
+    Route::get('proc/{proc}/{ref}/{ano?}',['as' =>'proc','uses'=>'Subform\ProcController@dados']);
     // pegar lista dos Envolvido pelo Proc/id/situacao
-    Route::get('envolvido/{proc}/{id}/{situacao?}',['as' =>'envolvido','uses'=>'Subform\EnvolvidoApiController@list']);
+    Route::get('envolvido/{proc}/{id}/{situacao?}',['as' =>'envolvido','uses'=>'Subform\EnvolvidoController@list']);
     // pegar lista dos membros pelo Proc/id/
-    Route::get('membros/{proc}/{id}',['as' =>'membros','uses'=>'Subform\EnvolvidoApiController@membros']);
+    Route::get('membros/{proc}/{id}',['as' =>'membros','uses'=>'Subform\EnvolvidoController@membros']);
 });
 Route::group(['as'=>'proc.','prefix' =>'proc'],function(){
     //para atualizar um campo de um procedimento
-    Route::post('update/{proc}/{id}/{campo}',['as' =>'update','uses'=>'Subform\ProcApiController@update']);
-    Route::get('dadocampo/{proc}/{id}/{campo}',['as' =>'dadocampo','uses'=>'Subform\ProcApiController@dadocampo']);
+    Route::post('update/{proc}/{id}/{campo}',['as' =>'update','uses'=>'Subform\ProcController@update']);
+    Route::get('dadocampo/{proc}/{id}/{campo}',['as' =>'dadocampo','uses'=>'Subform\ProcController@dadocampo']);
 });
 
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
