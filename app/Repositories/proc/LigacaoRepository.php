@@ -13,7 +13,7 @@ class LigacaoRepository extends BaseRepository
     protected $service;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60 * 24;//um dia  
+    protected static $expiration = 60 * 24;//um dia
 
 	public function __construct(
         Ligacao $model,
@@ -34,7 +34,7 @@ class LigacaoRepository extends BaseRepository
 	{
         Cache::tags('ligacao')->flush();
     }
-    
+
     public function all()
 	{
         if($this->verTodasUnidades)
@@ -43,7 +43,7 @@ class LigacaoRepository extends BaseRepository
                 return $this->model->all();
             });
         }
-        else 
+        else
         {
             $registros = Cache::tags('ligacao')->remember('todos_ligacao:'.$this->unidade, self::$expiration, function()  {
                 return $this->model->where('cdopm','like',$this->unidade.'%')->get();
@@ -51,7 +51,7 @@ class LigacaoRepository extends BaseRepository
         }
 
         return $registros;
-    } 
+    }
 
     public function procRefAno($proc, $ref, $ano='')
 	{
@@ -64,7 +64,7 @@ class LigacaoRepository extends BaseRepository
             ->get();
         });
         return $registros;
-    } 
+    }
 
     public function getByProcId($proc, $id)
     {
@@ -83,27 +83,25 @@ class LigacaoRepository extends BaseRepository
                 return $this->model->where('destino_sjd_ref_ano','=',$ano)->get();
             });
         }
-        else 
+        else
         {
             $registros = Cache::tags('ligacao')->remember('todos_ligacao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('cdopm','like',$this->unidade.'%')->where('destino_sjd_ref_ano','=',$ano)->get();
             });
         }
         return $registros;
-    } 
+    }
 
     public static function ligacao($proc, $id)
 	{
         $registros = Cache::tags('ligacao')->remember('todos_ligacao:'.$id, self::$expiration, function() use ($proc, $id) {
-            return $this->model
-            ->where('id_'.$proc,$id)
-            ->get();
+            return Ligacao::where('id_'.$proc,$id)->get();
         });
 
         return $registros;
-    } 
+    }
 
-    
+
 
 
 }
