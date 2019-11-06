@@ -25,7 +25,7 @@ class OPMController extends Controller
 
     public static function codigo($codigo)
     {
-        $opms = $this->repository->all();
+        $opms = OPMRepository::all();
         return array_get($opms, $codigo);
     }
 
@@ -34,6 +34,6 @@ class OPMController extends Controller
         $omsjd = $this->repository->getByName($name);
         return $omsjd;
     }
-   
+
 
 }

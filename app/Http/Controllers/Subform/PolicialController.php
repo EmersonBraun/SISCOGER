@@ -9,19 +9,19 @@ class PolicialController extends Controller
 {
     protected $repository;
     public function __construct(
-        PolicialRepository $repository
+        PolicialRepository $repository,
     )
 	{
         $this->repository = $repository;
     }
 
     //tempo de cahe em minutos
-    private static $expiration = 60; 
+    private static $expiration = 60;
 
     //EFETIVO
     public static function efetivoOPM($unidade)
     {
-        $efetivo = $this->repository->efetivoOPM($unidade);
+        $efetivo = PolicialRepository::efetivoOPM($unidade);
 
         return $efetivo;
     }
@@ -29,12 +29,12 @@ class PolicialController extends Controller
     //TOTAL EFETIVO
     public static function totalEfetivoOPM($unidade)
     {
-        $total_efetivo =  $this->repository->totalEfetivoOPM($unidade);
+        $total_efetivo =  PolicialRepository::totalEfetivoOPM($unidade);
         //cast para objeto
         $total_efetivo = (object) $total_efetivo;
 
         return $total_efetivo;
     }
-    
+
 
 }
