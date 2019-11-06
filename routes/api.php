@@ -188,7 +188,11 @@ Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
     Route::post('store',['as' =>'store','uses'=>'Apresentacao\ApresentacaoController@store']);
     Route::put('update/{id}',['as' =>'update','uses'=>'Apresentacao\ApresentacaoController@update']);
 });
-
+// Estatus Policial
+Route::group(['as'=>'estatuspm.','prefix' =>'estatuspm'],function(){
+    Route::get('operacaoverao',['as' =>'operacaoVerao','uses'=>'Policiais\EstatusController@operacaoVerao']);
+    Route::get('{rg}',['as' =>'total','uses'=>'Policiais\EstatusController@total']);
+});
 Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
     // pegar sugestões de RG e NOME -> ativos/inativos/reserva
     Route::post('sugest',['as' =>'sugestrg','uses'=>'Subform\PMController@sugest']);

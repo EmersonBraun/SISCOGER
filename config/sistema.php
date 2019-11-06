@@ -4,6 +4,8 @@
 * outros dados para uso geral podem ser inseridos para auxiliar
 */
 return [
+    // show_error - false = para tratar os erros, true =para mostrar os erros nas requisições
+    'show_error' => false,
     //quantidade de dias que decidirem que é o tempo máximo em dias que o usuário pode ficar sem acessar o sistema*/
     'tempo_inatividade' => 40,
 

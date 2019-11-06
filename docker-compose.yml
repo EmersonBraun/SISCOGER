@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+    web:
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes:
+            - ./:/var/www/test
+            - ./site.conf:/etc/nginx/conf.d/site.conf
+        links:
+            - php
+    php:
+        image: php:7-fpm
+        volumes:
+            - ./:/var/www/test
+            - ./php-ini-overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
+        links:
+            - mysql
+    mysql:
+        image: mysql:5.7
+        environment:
+            - MYSQL_ROOT_PASSWORD=
+            - MYSQL_DATABASE=db_name
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=
