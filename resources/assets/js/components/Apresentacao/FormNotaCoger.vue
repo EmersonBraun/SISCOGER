@@ -1,73 +1,22 @@
 <template>
-    <div>
-        <v-label v-if="!id_notacomparecimento" label="cdopm" title="OPM">
-            <v-opm name='cdopm' :cdopm="registro.cdopm" v-model="registro.cdopm"></v-opm>
-        </v-label>
-        <v-label v-if="!id_notacomparecimento" title="Notificação">
-            <select v-model="registro.id_apresentacaonotificacao" class="form-control">
-                <option value="1">Pendente</option>
-                <option value="2">Notificado</option>
-                <option value="3">Não notificado</option>
-            </select>
-        </v-label>
-        <v-label v-if="!id_notacomparecimento" title="Situação" :error="error.id_apresentacaosituacao">
-            <select v-model="registro.id_apresentacaosituacao" class="form-control">
-                <option value="1">Prevista</option>
-                <option value="2">Compareceu/Realizada</option>
-                <option value="3">Compareceu/Cancelada</option>
-                <option value="4">Compareceu/Redesignada</option>
-                <option value="5">Não compareceu</option>
-                <option value="6">Não compareceu/Justificado</option>
-                <option value="7">Redesignada</option>
-                <option value="8">Substituído (Cons. VAJME)</option>
-                <option value="9">Ag. Publicação</option>
-                <option value="10">Apagada</option>
-            </select>
-        </v-label>
-        <v-label v-if="!id_notacomparecimento" title="Classificação de sigilo" :error="error.id_apresentacaoclassificacaosigilo">
-            <select v-model="registro.id_apresentacaoclassificacaosigilo" class="form-control">
-                <option value="1">Publico</option>
-                <option value="2">Usuário Siscoger</option>
-                <option value="3">Reservado - SDJ/Pares/Superiores</option>
-                <option value="4">Reservado - Somente o próprio</option>
-                <option value="5">Reservado - SJD/Próprio</option>
-            </select>
-        </v-label>
-        <v-label title="Processo/Procedimento" :error="error.id_apresentacaotipoprocesso">
-            <select v-model="registro.id_apresentacaotipoprocesso" class="form-control">
-                <option value="1">Ação Penal</option>
-                <option value="2">Ação Civil</option>
-                <option value="3">Não informado</option>
-                <option value="4">Não se aplica</option>
-                <option value="5">PM-IPM</option>
-                <option value="6">PM-Sindicância</option>
-                <option value="7">PM-FATD</option>
-                <option value="8">PM-Inquérito Técnico</option>
-                <option value="9">PM-CJ</option>
-                <option value="10">PM-CD</option>
-                <option value="11">PM-ADL</option>
-                <option value="12">PM-ISO</option>
-                <option value="13">PM-PAD</option>
-                <option value="14">PM-Outro </option>
-                <option value="15">Poder Judiciário </option>
-                <option value="16">Inquérito Policial</option>
-                <option value="17">VAJME</option>
-            </select>
-        </v-label>
+    <div style="background-color:white;">
         <v-label lg="2" md="2" title="Autos Nº" :error="error.autos_numero">
             <input v-model="registro.autos_numero" type="text" class="form-control ">
         </v-label>
         <v-label lg="2" md="2" title="Autos Ano" :error="error.autos_ano">
             <v-ano v-model="registro.autos_ano"></v-ano>
         </v-label>
-        <v-label title="Acusados" :error="error.acusados">
+        <v-label lg="2" md="2" title="Acusados" :error="error.acusados">
             <input v-model="registro.acusados" type="text" class="form-control ">
         </v-label>
-        <v-label title="Data do comparecimento" icon="fa fa-calendar">
+        <v-label lg="2" md="2" title="Data do comparecimento" icon="fa fa-calendar">
             <v-datepicker v-model="registro.comparecimento_data" clear-button ></v-datepicker>
         </v-label>
-        <v-label title="Hora" :error="error.comparecimento_hora">
+        <v-label lg="2" md="2" title="Hora" :error="error.comparecimento_hora">
             <input type="time" v-model="registro.comparecimento_hora" class="form-control" placeholder="00:00" required>
+        </v-label>
+        <v-label lg="2" md="2" title="Observações" :error="error.observacao_txt">
+            <input v-model="registro.observacao_txt" class="form-control">
         </v-label>
         <v-label lg="12" md="12" title="Descrição do local" :error="error.comparecimento_local_txt">
             <v-typeahead
@@ -79,20 +28,7 @@
             </v-typeahead>
             <input type="hidden" v-model="registro.id_localdeapresentacao">
         </v-label>
-        
-        <v-label lg="12" md="12" title="Observações" :error="error.observacao_txt">
-            <textarea v-model="registro.observacao_txt" rows="3" cols="80" style="width: 100%"></textarea>
-        </v-label>
-        <!-- Arquivo -->
-        <file-upload v-if="registro.id_apresentacao"
-            title="Documento de Origem:"
-            name="documento_de_origem"
-            :dproc="module"
-            :idp="registro.id_apresentacao"
-            :ext="['pdf']">
-        </file-upload>
-        <!-- Pessoa -->
-        <v-label title="RG" :error="error.pessoa_rg">
+        <v-label lg="2" md="2" title="RG" :error="error.pessoa_rg">
             <template v-if="onSearch && type == 'rg'">
                 <v-typeahead
                     placeholder="Busca PM/BM ativos"
@@ -107,7 +43,7 @@
                 <input v-model="registro.pessoa_rg" type="text" class="form-control " placeholder="Busca PM/BM ativos" @click.prevent="changeMode('rg')">       
             </template>
         </v-label>
-        <v-label title="Nome" :error="error.pessoa_nome" >
+        <v-label lg="2" md="2" title="Nome" :error="error.pessoa_nome" >
             <template v-if="onSearch && type == 'nome'">  
                 <v-typeahead
                     placeholder="Busca PM/BM ativos"
@@ -122,7 +58,7 @@
                 <input v-model="registro.pessoa_nome" type="text" class="form-control " placeholder="Busca PM/BM ativos" @click.prevent="changeMode('nome')">       
             </template>
         </v-label>
-        <v-label title="Posto/Grad" :error="error.pessoa_posto">
+        <v-label lg="2" md="2" title="Posto/Grad" :error="error.pessoa_posto">
             <select v-model="registro.pessoa_posto" class="form-control">
                 <option value="CELAGREG">CELAGREG</option>
                 <option value="CEL">CEL</option>
@@ -146,7 +82,7 @@
                 <option value="null">Nâo encontrado</option>
             </select>
         </v-label>
-        <v-label title="Quadro" :error="error.pessoa_quadro">
+        <v-label lg="2" md="2" title="Quadro" :error="error.pessoa_quadro">
             <select v-model="registro.pessoa_quadro" class="form-control">
                 <option value="QPMG1">QPMG1</option> 
                 <option value="QPMG2">QPMG2</option> 
@@ -159,22 +95,8 @@
                 <option value="null">Nâo encontrado</option>
             </select>
         </v-label>
-        <v-label title="OPM" :error="error.pessoa_opm_codigo">
+        <v-label lg="2" md="2" title="OPM" :error="error.pessoa_opm_codigo">
             <v-opm :cdopm="registro.pessoa_opm_codigo" v-model="registro.pessoa_opm_codigo"></v-opm>
-        </v-label>
-        <v-label title="Condição" :error="error.id_apresentacaocondicao">
-            <select v-model="registro.id_apresentacaocondicao" class="form-control">
-                <option value="1">Testemunha</option>
-                <option value="2">Juiz Militar - Conselho Permanente</option>
-                <option value="3">Juiz Militar - Conselho Especial</option>
-                <option value="4">Réu</option>
-                <option value="5">Testemunha de Defesa</option>
-                <option value="6">Testemunha da Denúncia</option>
-                <option value="7">Testemunha de Acusação</option>
-                <option value="8">Testemunha do Juízo</option>
-                <option value="9">Outro</option>
-                <option value="10">Não informado</option>
-            </select>
         </v-label>
         <div class="col-xs-12">
             <div class="col-md-8 col-xs-12">
@@ -186,6 +108,54 @@
             <div class="col-md-4 col-xs-12">
                 <a class="btn btn-danger btn-block" @click="limparDados">Limpar todos dados</a>
             </div>
+        </div>
+        <div class="col-xs-12">
+            <table class="table table-striped">
+                <template v-if="lenght">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-1"><b>N° Autos</b></th>
+                            <th class="col-xs-1"><b>Autos ano</b></th>
+                            <th class="col-xs-1"><b>Acusados</b></th>
+                            <th class="col-xs-1"><b>Data comparecimento</b></th>
+                            <th class="col-xs-1"><b>Hora</b></th>
+                            <th class="col-xs-1"><b>Local</b></th>
+                            <th class="col-xs-1"><b>RG</b></th>
+                            <th class="col-xs-1"><b>Nome</b></th>
+                            <th class="col-xs-1"><b>Posto/grad.</b></th>
+                            <th class="col-xs-1"><b>OPM</b></th>
+                            <th class="col-xs-2"><b>Ações</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(registro, index) in registros" :key="index">
+                            <td>{{ registro.autos_numero }}</td>
+                            <td>{{ registro.autos_ano }}</td>
+                            <td>{{ registro.acusados }}</td>
+                            <td>{{ registro.comparecimento_data }}</td>
+                            <td>{{ registro.comparecimento_hora }}</td>
+                            <td>{{ registro.comparecimento_local_txt }}</td>
+                            <td>{{ registro.pessoa_rg }}</td>
+                            <td>{{ registro.pessoa_nome }}</td>
+                            <td>{{ registro.pessoa_quadro }}</td>
+                            <td>{{ registro.pessoa_unidade_lotacao_sigla }}</td>
+                            <td>
+                                <span>
+                                    <template v-if="canEdit">
+                                        <a class="btn btn-info" @click="edit(registro)"><i class="fa fa-fw fa-edit "></i></a>
+                                    </template>
+                                    <template v-if="canDelete">
+                                        <a class="btn btn-danger" @click="destroy(registro.id_apresentacao)"><i class="fa fa-fw fa-trash-o "></i></a>
+                                    </template>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </template>
+                <template v-else>
+                    <tr><td>Não há registros</td></tr>
+                </template>
+            </table>
         </div>
     </div>
 </template>
@@ -200,6 +170,7 @@
         data() {
             return {
                 module: 'apresentacao',
+                registros: null,
                 registro: {
                     pessoa_rg: '',
                     pessoa_nome: '',
@@ -230,13 +201,36 @@
             },
             msgRequired(){
                 return `Para liberar este botão os campos: AUTOS, DATA DO COMPARECIMENTO, HORA, DESCRIÇÃO DO LOCAL, E OS DADOS DO PM/BM deve estar preenchidos`           
-            }
+            },
+            canEdit(){
+                return this.$root.hasPermission('editar-apresentacao')
+            },
+            canDelete(){
+                return this.$root.hasPermission('apagar-apresentacao')
+            },
+            lenght(){
+                if(this.registros) return Object.keys(this.registros).length
+                return 0 
+            },
         },
         created(){
+            this.list()
             if(this.reference) this.dadosApresentacao() 
             else this.cleanRegister()
         },
         methods: {
+            list(){
+                let urlIndex = `${this.$root.baseUrl}api/${this.module}/listnota/${this.id_notacomparecimento}`;
+                console.log('url', urlIndex)
+                if(this.id_notacomparecimento){
+                    axios
+                    .get(urlIndex)
+                    .then((response) => {
+                        this.registros = response.data
+                    })
+                    .catch(error => console.log(error));
+                }
+            },
             changeMode(type){
                 this.type = type
                 this.onSearch = true
@@ -307,7 +301,6 @@
                 let cleanData = reg.comparecimento_data.split('/').reverse().join('-')
                 this.registro.comparecimento_hora = this.registro.comparecimento_hora
                 this.registro.comparecimento_dh = `${cleanData} ${reg.comparecimento_hora}`
-                console.log('registro', this.registro)
             },
             create(){
                 if(!this.requireds){
@@ -323,7 +316,6 @@
             },
             edit(registro){
                 this.registro = registro
-                this.cleanRegister()
             },
             update(id){
                 if(!this.requireds){
@@ -350,6 +342,7 @@
             transation(happen,type) {
                 let msg = this.words(type)
                 if(happen) { // se deu certo
+                        this.list()
                         this.$root.msg(msg.success,'success')
                         this.registro = null
                         this.cleanRegister()

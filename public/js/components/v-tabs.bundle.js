@@ -195,7 +195,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n[tabs] > .tab-content {\n  margin: 15px 0;\n}\n.label {\n    position: absolute;\n    top: 5px;\n    right: 7px;\n    text-align: center;\n    font-size: 9px;\n    padding: 2px 3px;\n    line-height: .9;\n}\n", ""]);
+exports.push([module.i, "\n[tabs] > .tab-content {\n  margin: 15px 0;\n}\n.tab {\n    background-color: white;\n}\n.label {\n    position: absolute;\n    top: 5px;\n    right: 7px;\n    text-align: center;\n    font-size: 9px;\n    padding: 2px 3px;\n    line-height: .9;\n}\n", ""]);
 
 // exports
 
@@ -328,7 +328,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { tabs: "" } }, [
+  return _c("div", { staticClass: "tab", attrs: { tabs: "" } }, [
     _c(
       "ul",
       { class: _vm.navStyleClass, attrs: { role: "tablist" } },

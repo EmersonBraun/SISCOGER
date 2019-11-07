@@ -1,40 +1,10 @@
-webpackJsonp([86],{
+webpackJsonp([72],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Apresentacao/FormNotaCoger.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -207,6 +177,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             module: 'apresentacao',
+            registros: null,
             registro: {
                 pessoa_rg: '',
                 pessoa_nome: '',
@@ -237,13 +208,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         msgRequired: function msgRequired() {
             return 'Para liberar este bot\xE3o os campos: AUTOS, DATA DO COMPARECIMENTO, HORA, DESCRI\xC7\xC3O DO LOCAL, E OS DADOS DO PM/BM deve estar preenchidos';
+        },
+        canEdit: function canEdit() {
+            return this.$root.hasPermission('editar-apresentacao');
+        },
+        canDelete: function canDelete() {
+            return this.$root.hasPermission('apagar-apresentacao');
+        },
+        lenght: function lenght() {
+            if (this.registros) return Object.keys(this.registros).length;
+            return 0;
         }
     },
     created: function created() {
+        this.list();
         if (this.reference) this.dadosApresentacao();else this.cleanRegister();
     },
 
     methods: {
+        list: function list() {
+            var _this = this;
+
+            var urlIndex = this.$root.baseUrl + 'api/' + this.module + '/listnota/' + this.id_notacomparecimento;
+            console.log('url', urlIndex);
+            if (this.id_notacomparecimento) {
+                axios.get(urlIndex).then(function (response) {
+                    _this.registros = response.data;
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
         changeMode: function changeMode(type) {
             this.type = type;
             this.onSearch = true;
@@ -286,12 +281,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.type ? item.RG : item.NOME;
         },
         dadosApresentacao: function dadosApresentacao() {
-            var _this = this;
+            var _this2 = this;
 
             var refAno = this.ano ? this.reference + '/' + this.ano : this.reference;
             var urlData = this.$root.baseUrl + 'api/' + this.module + '/' + refAno;
             axios.get(urlData).then(function (response) {
-                _this.registro = response.data;
+                _this2.registro = response.data;
             }).catch(function (error) {
                 return console.log(error);
             });
@@ -315,16 +310,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var cleanData = reg.comparecimento_data.split('/').reverse().join('-');
             this.registro.comparecimento_hora = this.registro.comparecimento_hora;
             this.registro.comparecimento_dh = cleanData + ' ' + reg.comparecimento_hora;
-            console.log('registro', this.registro);
         },
         create: function create() {
-            var _this2 = this;
+            var _this3 = this;
 
             if (!this.requireds) {
                 this.additionalData();
                 var urlCreate = this.$root.baseUrl + 'api/' + this.module + '/store';
                 axios.post(urlCreate, this.registro).then(function (response) {
-                    _this2.transation(response.data.success, 'create');
+                    _this3.transation(response.data.success, 'create');
                 }).catch(function (error) {
                     return console.log(error);
                 });
@@ -332,27 +326,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         edit: function edit(registro) {
             this.registro = registro;
-            this.cleanRegister();
         },
         update: function update(id) {
-            var _this3 = this;
+            var _this4 = this;
 
             if (!this.requireds) {
                 var urlUpdate = this.$root.baseUrl + 'api/' + this.module + '/update/' + id;
                 axios.put(urlUpdate, this.registro).then(function (response) {
-                    _this3.transation(response.data.success, 'edit');
+                    _this4.transation(response.data.success, 'edit');
                 }).catch(function (error) {
                     return console.log(error);
                 });
             }
         },
         destroy: function destroy(id) {
-            var _this4 = this;
+            var _this5 = this;
 
             if (confirm('Você tem certeza?')) {
                 var urlDelete = this.$root.baseUrl + 'api/' + this.module + '/destroy/' + id;
                 axios.delete(urlDelete).then(function (response) {
-                    _this4.transation(response.data.success, 'delete');
+                    _this5.transation(response.data.success, 'delete');
                 }).catch(function (error) {
                     return console.log(error);
                 });
@@ -362,6 +355,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var msg = this.words(type);
             if (happen) {
                 // se deu certo
+                this.list();
                 this.$root.msg(msg.success, 'success');
                 this.registro = null;
                 this.cleanRegister();
@@ -388,7 +382,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -404,312 +398,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticStyle: { "background-color": "white" } },
     [
-      !_vm.id_notacomparecimento
-        ? _c(
-            "v-label",
-            { attrs: { label: "cdopm", title: "OPM" } },
-            [
-              _c("v-opm", {
-                attrs: { name: "cdopm", cdopm: _vm.registro.cdopm },
-                model: {
-                  value: _vm.registro.cdopm,
-                  callback: function($$v) {
-                    _vm.$set(_vm.registro, "cdopm", $$v)
-                  },
-                  expression: "registro.cdopm"
-                }
-              })
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.id_notacomparecimento
-        ? _c("v-label", { attrs: { title: "Notificação" } }, [
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.registro.id_apresentacaonotificacao,
-                    expression: "registro.id_apresentacaonotificacao"
-                  }
-                ],
-                staticClass: "form-control",
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.registro,
-                      "id_apresentacaonotificacao",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
-                }
-              },
-              [
-                _c("option", { attrs: { value: "1" } }, [_vm._v("Pendente")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "2" } }, [_vm._v("Notificado")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "3" } }, [
-                  _vm._v("Não notificado")
-                ])
-              ]
-            )
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.id_notacomparecimento
-        ? _c(
-            "v-label",
-            {
-              attrs: {
-                title: "Situação",
-                error: _vm.error.id_apresentacaosituacao
-              }
-            },
-            [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.registro.id_apresentacaosituacao,
-                      expression: "registro.id_apresentacaosituacao"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.registro,
-                        "id_apresentacaosituacao",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { value: "1" } }, [_vm._v("Prevista")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "2" } }, [
-                    _vm._v("Compareceu/Realizada")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "3" } }, [
-                    _vm._v("Compareceu/Cancelada")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "4" } }, [
-                    _vm._v("Compareceu/Redesignada")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "5" } }, [
-                    _vm._v("Não compareceu")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "6" } }, [
-                    _vm._v("Não compareceu/Justificado")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "7" } }, [
-                    _vm._v("Redesignada")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "8" } }, [
-                    _vm._v("Substituído (Cons. VAJME)")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "9" } }, [
-                    _vm._v("Ag. Publicação")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "10" } }, [_vm._v("Apagada")])
-                ]
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.id_notacomparecimento
-        ? _c(
-            "v-label",
-            {
-              attrs: {
-                title: "Classificação de sigilo",
-                error: _vm.error.id_apresentacaoclassificacaosigilo
-              }
-            },
-            [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.registro.id_apresentacaoclassificacaosigilo,
-                      expression: "registro.id_apresentacaoclassificacaosigilo"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.registro,
-                        "id_apresentacaoclassificacaosigilo",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { value: "1" } }, [_vm._v("Publico")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "2" } }, [
-                    _vm._v("Usuário Siscoger")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "3" } }, [
-                    _vm._v("Reservado - SDJ/Pares/Superiores")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "4" } }, [
-                    _vm._v("Reservado - Somente o próprio")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "5" } }, [
-                    _vm._v("Reservado - SJD/Próprio")
-                  ])
-                ]
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "v-label",
-        {
-          attrs: {
-            title: "Processo/Procedimento",
-            error: _vm.error.id_apresentacaotipoprocesso
-          }
-        },
-        [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.registro.id_apresentacaotipoprocesso,
-                  expression: "registro.id_apresentacaotipoprocesso"
-                }
-              ],
-              staticClass: "form-control",
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.registro,
-                    "id_apresentacaotipoprocesso",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                }
-              }
-            },
-            [
-              _c("option", { attrs: { value: "1" } }, [_vm._v("Ação Penal")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "2" } }, [_vm._v("Ação Civil")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "3" } }, [
-                _vm._v("Não informado")
-              ]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "4" } }, [
-                _vm._v("Não se aplica")
-              ]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "5" } }, [_vm._v("PM-IPM")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "6" } }, [
-                _vm._v("PM-Sindicância")
-              ]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "7" } }, [_vm._v("PM-FATD")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "8" } }, [
-                _vm._v("PM-Inquérito Técnico")
-              ]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "9" } }, [_vm._v("PM-CJ")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "10" } }, [_vm._v("PM-CD")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "11" } }, [_vm._v("PM-ADL")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "12" } }, [_vm._v("PM-ISO")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "13" } }, [_vm._v("PM-PAD")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "14" } }, [_vm._v("PM-Outro ")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "15" } }, [
-                _vm._v("Poder Judiciário ")
-              ]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "16" } }, [
-                _vm._v("Inquérito Policial")
-              ]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "17" } }, [_vm._v("VAJME")])
-            ]
-          )
-        ]
-      ),
-      _vm._v(" "),
       _c(
         "v-label",
         {
@@ -771,7 +461,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-label",
-        { attrs: { title: "Acusados", error: _vm.error.acusados } },
+        {
+          attrs: {
+            lg: "2",
+            md: "2",
+            title: "Acusados",
+            error: _vm.error.acusados
+          }
+        },
         [
           _c("input", {
             directives: [
@@ -799,7 +496,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-label",
-        { attrs: { title: "Data do comparecimento", icon: "fa fa-calendar" } },
+        {
+          attrs: {
+            lg: "2",
+            md: "2",
+            title: "Data do comparecimento",
+            icon: "fa fa-calendar"
+          }
+        },
         [
           _c("v-datepicker", {
             attrs: { "clear-button": "" },
@@ -817,7 +521,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-label",
-        { attrs: { title: "Hora", error: _vm.error.comparecimento_hora } },
+        {
+          attrs: {
+            lg: "2",
+            md: "2",
+            title: "Hora",
+            error: _vm.error.comparecimento_hora
+          }
+        },
         [
           _c("input", {
             directives: [
@@ -841,6 +552,40 @@ var render = function() {
                   "comparecimento_hora",
                   $event.target.value
                 )
+              }
+            }
+          })
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "v-label",
+        {
+          attrs: {
+            lg: "2",
+            md: "2",
+            title: "Observações",
+            error: _vm.error.observacao_txt
+          }
+        },
+        [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.registro.observacao_txt,
+                expression: "registro.observacao_txt"
+              }
+            ],
+            staticClass: "form-control",
+            domProps: { value: _vm.registro.observacao_txt },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.registro, "observacao_txt", $event.target.value)
               }
             }
           })
@@ -905,53 +650,8 @@ var render = function() {
       _c(
         "v-label",
         {
-          attrs: {
-            lg: "12",
-            md: "12",
-            title: "Observações",
-            error: _vm.error.observacao_txt
-          }
+          attrs: { lg: "2", md: "2", title: "RG", error: _vm.error.pessoa_rg }
         },
-        [
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.registro.observacao_txt,
-                expression: "registro.observacao_txt"
-              }
-            ],
-            staticStyle: { width: "100%" },
-            attrs: { rows: "3", cols: "80" },
-            domProps: { value: _vm.registro.observacao_txt },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.registro, "observacao_txt", $event.target.value)
-              }
-            }
-          })
-        ]
-      ),
-      _vm._v(" "),
-      _vm.registro.id_apresentacao
-        ? _c("file-upload", {
-            attrs: {
-              title: "Documento de Origem:",
-              name: "documento_de_origem",
-              dproc: _vm.module,
-              idp: _vm.registro.id_apresentacao,
-              ext: ["pdf"]
-            }
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "v-label",
-        { attrs: { title: "RG", error: _vm.error.pessoa_rg } },
         [
           _vm.onSearch && _vm.type == "rg"
             ? [
@@ -1005,7 +705,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-label",
-        { attrs: { title: "Nome", error: _vm.error.pessoa_nome } },
+        {
+          attrs: {
+            lg: "2",
+            md: "2",
+            title: "Nome",
+            error: _vm.error.pessoa_nome
+          }
+        },
         [
           _vm.onSearch && _vm.type == "nome"
             ? [
@@ -1059,7 +766,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-label",
-        { attrs: { title: "Posto/Grad", error: _vm.error.pessoa_posto } },
+        {
+          attrs: {
+            lg: "2",
+            md: "2",
+            title: "Posto/Grad",
+            error: _vm.error.pessoa_posto
+          }
+        },
         [
           _c(
             "select",
@@ -1148,7 +862,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-label",
-        { attrs: { title: "Quadro", error: _vm.error.pessoa_quadro } },
+        {
+          attrs: {
+            lg: "2",
+            md: "2",
+            title: "Quadro",
+            error: _vm.error.pessoa_quadro
+          }
+        },
         [
           _c(
             "select",
@@ -1207,7 +928,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-label",
-        { attrs: { title: "OPM", error: _vm.error.pessoa_opm_codigo } },
+        {
+          attrs: {
+            lg: "2",
+            md: "2",
+            title: "OPM",
+            error: _vm.error.pessoa_opm_codigo
+          }
+        },
         [
           _c("v-opm", {
             attrs: { cdopm: _vm.registro.pessoa_opm_codigo },
@@ -1221,81 +949,6 @@ var render = function() {
           })
         ],
         1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-label",
-        {
-          attrs: { title: "Condição", error: _vm.error.id_apresentacaocondicao }
-        },
-        [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.registro.id_apresentacaocondicao,
-                  expression: "registro.id_apresentacaocondicao"
-                }
-              ],
-              staticClass: "form-control",
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.registro,
-                    "id_apresentacaocondicao",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                }
-              }
-            },
-            [
-              _c("option", { attrs: { value: "1" } }, [_vm._v("Testemunha")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "2" } }, [
-                _vm._v("Juiz Militar - Conselho Permanente")
-              ]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "3" } }, [
-                _vm._v("Juiz Militar - Conselho Especial")
-              ]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "4" } }, [_vm._v("Réu")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "5" } }, [
-                _vm._v("Testemunha de Defesa")
-              ]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "6" } }, [
-                _vm._v("Testemunha da Denúncia")
-              ]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "7" } }, [
-                _vm._v("Testemunha de Acusação")
-              ]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "8" } }, [
-                _vm._v("Testemunha do Juízo")
-              ]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "9" } }, [_vm._v("Outro")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "10" } }, [
-                _vm._v("Não informado")
-              ])
-            ]
-          )
-        ]
       ),
       _vm._v(" "),
       _c("div", { staticClass: "col-xs-12" }, [
@@ -1353,12 +1006,156 @@ var render = function() {
             [_vm._v("Limpar todos dados")]
           )
         ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-xs-12" }, [
+        _c(
+          "table",
+          { staticClass: "table table-striped" },
+          [
+            _vm.lenght
+              ? [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.registros, function(registro, index) {
+                      return _c("tr", { key: index }, [
+                        _c("td", [_vm._v(_vm._s(registro.autos_numero))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(registro.autos_ano))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(registro.acusados))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(registro.comparecimento_data))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(registro.comparecimento_hora))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(registro.comparecimento_local_txt))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(registro.pessoa_rg))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(registro.pessoa_nome))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(registro.pessoa_quadro))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(registro.pessoa_unidade_lotacao_sigla))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "span",
+                            [
+                              _vm.canEdit
+                                ? [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-info",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.edit(registro)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-fw fa-edit "
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.canDelete
+                                ? [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-danger",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.destroy(
+                                              registro.id_apresentacao
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-fw fa-trash-o "
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                : _vm._e()
+                            ],
+                            2
+                          )
+                        ])
+                      ])
+                    }),
+                    0
+                  )
+                ]
+              : [_vm._m(1)]
+          ],
+          2
+        )
       ])
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("N° Autos")])]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("Autos ano")])]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("Acusados")])]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-xs-1" }, [
+          _c("b", [_vm._v("Data comparecimento")])
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("Hora")])]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("Local")])]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("RG")])]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("Nome")])]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-xs-1" }, [
+          _c("b", [_vm._v("Posto/grad.")])
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("OPM")])]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-xs-2" }, [_c("b", [_vm._v("Ações")])])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [_c("td", [_vm._v("Não há registros")])])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

@@ -68,6 +68,12 @@ class ApresentacaoController extends Controller
         return response()->json($search, 200);
     }
 
+    public function listNota($id)
+    {
+        $search = $this->repository->listNota($id);
+        return response()->json($search, 200);
+    }
+
     public function edit($ref,$ano="")
     {       
         return view('apresentacao.apresentacao.form.edit', compact('ref','ano'));

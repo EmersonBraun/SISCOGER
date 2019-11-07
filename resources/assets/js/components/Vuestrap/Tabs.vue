@@ -1,5 +1,5 @@
 <template>
-  <div tabs>
+  <div tabs class="tab">
     <ul :class="navStyleClass" role="tablist">
       <template v-for="(header, index) in headers">
         <li v-if="header._isTab" :class="{active:header.active, disabled:header.disabled}" @click.prevent="select(header)" :key="index">
@@ -77,6 +77,9 @@ export default {
 <style>
 [tabs] > .tab-content {
   margin: 15px 0;
+}
+.tab {
+    background-color: white;
 }
 .label {
     position: absolute;

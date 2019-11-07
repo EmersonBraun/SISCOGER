@@ -16,7 +16,7 @@
 @stop
 
 @section('content')
-<section class="">
+<section>
     <div class="tab-content">
         <v-tabs nav-style="tabs" justified>
             <v-tab header="Atualizar Nota {{$proc['sjd_ref']}}/{{$proc['sjd_ref_ano']}}">
@@ -46,9 +46,7 @@
                 {!! Form::close() !!}
             </v-tab>
             <v-tab header="Inserir Apresentações">
-                <div >
-                    <v-form-apresentacao :id_notacomparecimento="{{$proc['id_notacomparecimento']}}"></v-form-apresentacao>
-                </div>
+                <v-form-apresentacao-nota :id_notacomparecimento="{{$proc['id_notacomparecimento']}}"></v-form-apresentacao-nota>
             </v-tab>
         </v-tabs>
     </div>

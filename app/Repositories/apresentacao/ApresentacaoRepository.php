@@ -46,7 +46,7 @@ class ApresentacaoRepository extends BaseRepository
 
     public function publicos($cdopm, $ano)
 	{
-        // $registros = Cache::tags('apresentacao')->remember('apresentacao:publico:'.$cdopm.$ano, self::$expiration, function() use($cdopm, $ano){
+        $registros = Cache::tags('apresentacao')->remember('apresentacao:publico:'.$cdopm.$ano, self::$expiration, function() use($cdopm, $ano){
             return $this->model
             ->orWhere('pessoa_opm_codigo','like',"$cdopm%")
             ->orWhere('pessoa_unidade_lotacao_codigo','like',"$cdopm%")
@@ -56,23 +56,33 @@ class ApresentacaoRepository extends BaseRepository
             ])
             ->get();
             // dd($registros);
-        // });
+        });
 
         return $registros;
     } 
 
     public function reservados($cdopm, $ano)
 	{
-        // $registros = Cache::tags('apresentacao')->remember('apresentacao:reservados:'.$cdopm.$ano, self::$expiration, function() use($cdopm, $ano){
+        $registros = Cache::tags('apresentacao')->remember('apresentacao:reservados:'.$cdopm.$ano, self::$expiration, function() use($cdopm, $ano){
             return $this->model
             ->orWhere('pessoa_opm_codigo','like',"$cdopm%")
             ->orWhere('pessoa_unidade_lotacao_codigo','like',"$cdopm%")
             ->where('comparecimento_data','like',"$ano-%")
             ->get();
-        // });
+        });
 
         return $registros;
     } 
+
+    public function listNota($id) {
+        $registros = Cache::tags('apresentacao')->remember('apresentacao:notacoger:'.$id, self::$expiration, function() use($id){
+            return $this->model
+            ->where('id_notacomparecimento',$id)
+            ->get();
+        });
+
+        return $registros;
+    }
 
     public function ano($ano, $cdopm)
 	{

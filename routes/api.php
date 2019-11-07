@@ -184,6 +184,7 @@ Route::group(['as'=>'localapresentacao.','prefix' =>'localapresentacao'],functio
 });
 // Apresentação
 Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
+    Route::get('listnota/{id}',['as' =>'listNota','uses'=>'Apresentacao\ApresentacaoController@listNota']);
     Route::get('{ref}/{ano?}',['as' =>'dadosApresentacao','uses'=>'Apresentacao\ApresentacaoController@dadosApresentacao']);
     Route::post('store',['as' =>'store','uses'=>'Apresentacao\ApresentacaoController@store']);
     Route::put('update/{id}',['as' =>'update','uses'=>'Apresentacao\ApresentacaoController@update']);
