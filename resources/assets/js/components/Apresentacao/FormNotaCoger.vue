@@ -1,5 +1,5 @@
 <template>
-    <div style="background-color:white;">
+    <div >
         <v-label lg="2" md="2" title="Autos Nº" :error="error.autos_numero">
             <input v-model="registro.autos_numero" type="text" class="form-control ">
         </v-label>
@@ -221,7 +221,6 @@
         methods: {
             list(){
                 let urlIndex = `${this.$root.baseUrl}api/${this.module}/listnota/${this.id_notacomparecimento}`;
-                console.log('url', urlIndex)
                 if(this.id_notacomparecimento){
                     axios
                     .get(urlIndex)
@@ -291,6 +290,7 @@
                     id_apresentacaoclassificacaosigilo: '1',
                     id_apresentacaotipoprocesso: '3',
                     id_apresentacaocondicao: '1',
+                    id_notacomparecimento: this.id_notacomparecimento,
                     cdopm: this.$root.dadoSession('cdopmbase'),
                     usuario_rg: this.$root.dadoSession('rg'),
                     autos_ano: new Date().getFullYear()
@@ -330,7 +330,7 @@
             },
             destroy(id){
                 if(confirm('Você tem certeza?')){
-                    let urlDelete = `${this.$root.baseUrl}api/${this.module}/destroy/${id}`;
+                    let urlDelete = `${this.$root.baseUrl}api/${this.module}/destroyApi/${id}`;
                     axios
                     .delete(urlDelete)
                     .then((response) => {

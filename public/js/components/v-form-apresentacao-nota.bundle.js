@@ -230,7 +230,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             var urlIndex = this.$root.baseUrl + 'api/' + this.module + '/listnota/' + this.id_notacomparecimento;
-            console.log('url', urlIndex);
             if (this.id_notacomparecimento) {
                 axios.get(urlIndex).then(function (response) {
                     _this.registros = response.data;
@@ -300,6 +299,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 id_apresentacaoclassificacaosigilo: '1',
                 id_apresentacaotipoprocesso: '3',
                 id_apresentacaocondicao: '1',
+                id_notacomparecimento: this.id_notacomparecimento,
                 cdopm: this.$root.dadoSession('cdopmbase'),
                 usuario_rg: this.$root.dadoSession('rg'),
                 autos_ano: new Date().getFullYear()
@@ -343,7 +343,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this5 = this;
 
             if (confirm('Você tem certeza?')) {
-                var urlDelete = this.$root.baseUrl + 'api/' + this.module + '/destroy/' + id;
+                var urlDelete = this.$root.baseUrl + 'api/' + this.module + '/destroyApi/' + id;
                 axios.delete(urlDelete).then(function (response) {
                     _this5.transation(response.data.success, 'delete');
                 }).catch(function (error) {
@@ -398,7 +398,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticStyle: { "background-color": "white" } },
     [
       _c(
         "v-label",

@@ -70,6 +70,7 @@ class ApresentacaoController extends Controller
 
     public function listNota($id)
     {
+        $this->repository->clearCache();
         $search = $this->repository->listNota($id);
         return response()->json($search, 200);
     }
@@ -103,9 +104,20 @@ class ApresentacaoController extends Controller
             toast()->success('Apresentacao Apagada');
             return redirect()->route('apresentacao.index');
         }
-
+        
         toast()->warning('erro ao apagar Apresentacao');
         return redirect()->route('apresentacao.index');
+    }
+
+    public function destroyApi($id)
+    {
+        $destroy = $this->repository->findAndDelete($id);
+        if($destroy) {
+            $this->repository->clearCache();
+            return response()->json(['success'=> true], 200);
+        }
+        
+        return response()->json(['success'=> false], 200);
     }
 
     public function restore($id)

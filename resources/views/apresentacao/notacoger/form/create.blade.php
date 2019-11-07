@@ -12,7 +12,6 @@
   </ol>
 </section>
 
-</v-select>
 @stop
 
 @section('content')
