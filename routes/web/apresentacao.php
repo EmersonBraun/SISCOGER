@@ -5,6 +5,7 @@ Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
     Route::post('',['as' =>'search','uses'=>'Apresentacao\ApresentacaoController@search','middleware' => ['permission:listar-apresentacao']]);
 	Route::get('criar',['as' =>'create','uses'=>'Apresentacao\ApresentacaoController@create','middleware' => ['permission:criar-apresentacao']]);
 	Route::get('editar/{ref}/{ano?}',['as' =>'edit','uses'=>'Apresentacao\ApresentacaoController@edit','middleware' => ['permission:editar-apresentacao']]);
+	Route::get('memorando/{id}',['as' =>'memorando','uses'=>'Apresentacao\ApresentacaoController@memorando']);
     Route::get('buscar',['as' =>'buscar','uses'=>'Apresentacao\ApresentacaoController@buscar','middleware' => ['permission:listar-apresentacao']]);
     Route::get('list/{ano?}/{cdopm?}',['as' =>'index','uses'=>'Apresentacao\ApresentacaoController@index','middleware' => ['permission:listar-apresentacao']]);
     Route::get('destroy/{id}',['as' =>'destroy','uses'=>'Apresentacao\ApresentacaoController@destroy','middleware' => ['permission:apagar-apresentacao']]);
@@ -15,10 +16,10 @@ Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
 Route::group(['as'=>'memorando.','prefix' =>'memorando'],function(){
 	Route::get('',['as' =>'index','uses'=>'Apresentacao\MemorandoController@index','middleware' => ['permission:listar-memorando-apresentacao']]);
 	Route::get('criar',['as' =>'create','uses'=>'Apresentacao\MemorandoController@create','middleware' => ['permission:criar-memorando-apresentacao']]);
-	Route::post('salvar',['as' =>'store','uses'=>'Apresentacao\MemorandoController@store','middleware' => ['permission:criar-memorando-apresentacao']]);
-	Route::get('editar/{id}',['as' =>'edit','uses'=>'Apresentacao\MemorandoController@edit','middleware' => ['permission:editar-memorando-apresentacao']]);
-	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Apresentacao\MemorandoController@update','middleware' => ['permission:editar-memorando-apresentacao']]);
-	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Apresentacao\MemorandoController@destroy','middleware' => ['permission:apagar-memorando-apresentacao']]);
+	// Route::post('salvar',['as' =>'store','uses'=>'Apresentacao\MemorandoController@store','middleware' => ['permission:criar-memorando-apresentacao']]);
+	// Route::get('editar/{id}',['as' =>'edit','uses'=>'Apresentacao\MemorandoController@edit','middleware' => ['permission:editar-memorando-apresentacao']]);
+	// Route::put('atualizar/{id}',['as' =>'update','uses'=>'Apresentacao\MemorandoController@update','middleware' => ['permission:editar-memorando-apresentacao']]);
+	// Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Apresentacao\MemorandoController@destroy','middleware' => ['permission:apagar-memorando-apresentacao']]);
 });
 //Rotas do módulo Locais de apresentação
 Route::group(['as'=>'local.','prefix' =>'local','middleware' => ['permission:']],function(){

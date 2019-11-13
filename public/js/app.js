@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-prisoes","1":"v-outras-denuncias","2":"v-classificacao","3":"v-toogle","4":"v-fdi","5":"file-upload","6":"v-label","7":"v-acusado","8":"v-tabs","9":"v-sobrestamento","10":"v-movimento","11":"v-arquivo","12":"v-prioritario","13":"v-restricoes","14":"v-input","15":"v-aside","16":"v-tooltip","17":"v-popover","18":"v-select","19":"v-carousel","20":"crpms-chart","21":"procedimentos-chart","22":"efetivo-chart","23":"v-vitima","24":"v-reus","25":"v-proced-origem","26":"v-membro","27":"v-acusado-unico","28":"v-acusado-rg","29":"v-typeahead","30":"v-spinner","31":"v-alert","32":"v-modal","33":"v-dropdown","34":"v-tab-group","35":"v-radio","36":"v-panel","37":"v-datepicker","38":"v-checkbox","39":"v-defensor","40":"v-tasks","41":"v-notifications","42":"v-messages","43":"v-tab-item","44":"v-info-box","45":"vue-simple-suggest","46":"v-show","47":"v-search-rg","48":"v-opm","49":"v-municipio","50":"v-item-unique","51":"v-it-objeto-procedimento","52":"v-hora","53":"v-estado","54":"v-ano","55":"v-tramite-opm","56":"v-tramite-coger","57":"v-sai","58":"v-punicao","59":"v-protocolo","60":"v-proc-outros","61":"v-principal","62":"v-objeto","63":"v-membro-fdi","64":"v-medalha","65":"v-log-fdi","66":"v-dependentes","67":"v-denuncias","68":"v-cautelas","69":"v-apresentacoes","70":"v-afastamentos","71":"v-outras-autoridades","72":"v-form-apresentacao-nota","73":"v-form-apresentacao","74":"v-dados-opm","75":"v-navbar","76":"v-form-validator","77":"v-form-group","78":"v-toggle-button","79":"v-progressbar","80":"v-affix","81":"v-tab","82":"v-slider","83":"v-option","84":"v-accordion","85":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
+/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-prisoes","1":"v-outras-denuncias","2":"v-classificacao","3":"v-toogle","4":"v-fdi","5":"file-upload","6":"v-label","7":"v-acusado","8":"v-tabs","9":"v-sobrestamento","10":"v-movimento","11":"v-arquivo","12":"v-prioritario","13":"v-restricoes","14":"v-input","15":"v-aside","16":"v-tooltip","17":"v-popover","18":"v-select","19":"v-carousel","20":"crpms-chart","21":"procedimentos-chart","22":"efetivo-chart","23":"v-vitima","24":"v-reus","25":"v-proced-origem","26":"v-membro","27":"v-acusado-unico","28":"v-acusado-rg","29":"v-typeahead","30":"v-spinner","31":"v-alert","32":"v-modal","33":"v-dropdown","34":"v-tab-group","35":"v-radio","36":"v-panel","37":"v-datepicker","38":"v-checkbox","39":"v-defensor","40":"v-tasks","41":"v-notifications","42":"v-messages","43":"v-tab-item","44":"v-info-box","45":"vue-simple-suggest","46":"v-show","47":"v-search-rg","48":"v-opm","49":"v-municipio","50":"v-item-unique","51":"v-it-objeto-procedimento","52":"v-hora","53":"v-estado","54":"v-ano","55":"v-tramite-opm","56":"v-tramite-coger","57":"v-sai","58":"v-punicao","59":"v-protocolo","60":"v-proc-outros","61":"v-principal","62":"v-objeto","63":"v-membro-fdi","64":"v-medalha","65":"v-log-fdi","66":"v-dependentes","67":"v-denuncias","68":"v-cautelas","69":"v-apresentacoes","70":"v-afastamentos","71":"v-outras-autoridades","72":"v-form-apresentacao-nota","73":"v-form-apresentacao","74":"v-dados-opm","75":"v-navbar","76":"v-form-validator","77":"v-form-group","78":"v-toggle-button","79":"v-progressbar","80":"v-affix","81":"v-tab","82":"v-slider","83":"v-option","84":"v-accordion","85":"v-tab-menu","87":"v-memorando"}[chunkId]||chunkId) + ".bundle.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -67746,6 +67746,9 @@ Vue.component('v-form-apresentacao-nota', function () {
 Vue.component('v-form-apresentacao', function () {
   return __webpack_require__.e/* import() */(73).then(__webpack_require__.bind(null, "./resources/assets/js/components/Apresentacao/Form.vue"));
 });
+Vue.component('v-memorando', function () {
+  return __webpack_require__.e/* import() */(87).then(__webpack_require__.bind(null, "./resources/assets/js/components/Apresentacao/Memorando.vue"));
+});
 // Layout
 Vue.component('v-tab-item', function () {
   return __webpack_require__.e/* import() */(43).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabItem.vue"));
@@ -68007,6 +68010,32 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])('dashboard', ['changeAlert', 'toogleSpinner']), {
         getSessionData: function getSessionData() {
             return JSON.parse(sessionStorage.getItem("session"));
+        },
+        getDate: function getDate(opt) {
+            var d = new Date();
+            var dayOfWeekBR = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
+            var monthBR = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+
+            var day = d.getDate();
+            var month = d.getMonth();
+            var fullYear = d.getFullYear();
+            var numOfWeek = d.getDay();
+
+            var date = {
+                day: day,
+                numOfWeek: numOfWeek,
+                dayOfWeek: dayOfWeekBR[numOfWeek],
+                month: month,
+                monthName: monthBR[month],
+                year: d.getFullYear().toString().substr(-2),
+                fullYear: fullYear,
+                hour: d.getHours(),
+                minute: d.getMinutes(),
+                date: fullYear + '-' + month + '-' + day,
+                dateBR: day + '/' + month + '/' + fullYear
+            };
+            console.log(date[opt]);
+            return date[opt];
         },
         hasPermission: function hasPermission(permission) {
             var session = this.getSessionData();

@@ -41,6 +41,21 @@ class ApresentacaoController extends Controller
         return redirect()->route('apresentacao.index',['ano' => $dados['ano'], 'cdopm' => corta_zeros($dados['cdopm'])]);
     }
 
+    public function memorando($id)
+    {
+        return view('apresentacao.memorando.create', compact('id'));
+    }
+
+    public function getApresentacao($id)
+    {
+        $registro = $this->repository->findOrFail($id);
+        if($registro) {
+            $registro['condicao'] = sistema('apresentacaoCondicao',$registro['id_apresentacaocondicao']);
+            return response()->json($registro, 200);
+        }
+        return response()->json([], 200);
+    }
+
     public function create()
     {
         return view('apresentacao.apresentacao.form.create');

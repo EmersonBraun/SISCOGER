@@ -185,6 +185,7 @@ Route::group(['as'=>'localapresentacao.','prefix' =>'localapresentacao'],functio
 // Apresentação
 Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
     Route::get('listnota/{id}',['as' =>'listNota','uses'=>'Apresentacao\ApresentacaoController@listNota']);
+    Route::get('memorando/{id}',['as' =>'getApresentacao','uses'=>'Apresentacao\ApresentacaoController@getApresentacao']);
     Route::post('store',['as' =>'store','uses'=>'Apresentacao\ApresentacaoController@store']);
     Route::put('update/{id}',['as' =>'update','uses'=>'Apresentacao\ApresentacaoController@update']);
     Route::delete('destroyApi/{id}',['as' =>'destroyApi','uses'=>'Apresentacao\ApresentacaoController@destroyApi']);

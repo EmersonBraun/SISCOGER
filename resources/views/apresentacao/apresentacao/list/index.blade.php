@@ -24,12 +24,11 @@
                             <th class='col-xs-1'>RG</th>
                             <th class='col-xs-1'>Posto/Grad.</th>
                             <th class='col-xs-1'>Nome</th>
-                            <th class='col-xs-1'>Doc. Origem</th>
                             <th class='col-xs-1'>Tipo Processo</th>
                             <th class='col-xs-1'>Autos</th>
                             <th class='col-xs-1'>Data</th>
                             <th class='col-xs-1'>Acusados</th>
-                            <th class='col-xs-1'>Ações</th>
+                            <th class='col-xs-2'>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,7 +41,6 @@
                             <td>{{$registro->pessoa_rg}}</td>
                             <td>{{$registro->pessoa_posto}}</td>
                             <td>{{$registro->pessoa_nome}}</td>
-                            <td>{{$registro->documento_origem}}</td>
                             <td>{{$registro->present()->tipoProcesso}}</td>
                             <td>{{$registro->autos_numero}}</td>
                             <td>{{$registro->comparecimento_data}}</td>
@@ -65,6 +63,9 @@
                                         onclick="return confirm('Tem certeza que quer apagar o apresentacao?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
+                                    <a class="btn btn-success" href="{{route('apresentacao.memorando',$registro['id_apresentacao'])}}">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </a>
                                 </span>
                             </td>
                         </tr>
@@ -79,12 +80,11 @@
                             <th class='col-xs-1'>RG</th>
                             <th class='col-xs-1'>Posto/Grad.</th>
                             <th class='col-xs-1'>Nome</th>
-                            <th class='col-xs-1'>Doc. Origem</th>
                             <th class='col-xs-1'>Tipo Processo</th>
                             <th class='col-xs-1'>Autos</th>
                             <th class='col-xs-1'>Data</th>
                             <th class='col-xs-1'>Acusados</th>
-                            <th class='col-xs-1'>Ações</th>
+                            <th class='col-xs-2'>Ações</th>
                         </tr>
                     </tfoot>
                 </table>

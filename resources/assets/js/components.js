@@ -57,6 +57,7 @@ Vue.component('v-dados-opm', () => import(/* webpackChunkName: "v-dados-opm" */'
 Vue.component('v-outras-autoridades', () => import(/* webpackChunkName: "v-outras-autoridades" */'./components/Apresentacao/OutrasAutoridades.vue'));
 Vue.component('v-form-apresentacao-nota', () => import(/* webpackChunkName: "v-form-apresentacao-nota" */'./components/Apresentacao/FormNotaCoger.vue'));
 Vue.component('v-form-apresentacao', () => import(/* webpackChunkName: "v-form-apresentacao" */'./components/Apresentacao/Form.vue'));
+Vue.component('v-memorando', () => import(/* webpackChunkName: "v-memorando" */'./components/Apresentacao/Memorando.vue'));
 // Layout
 Vue.component('v-tab-item', () => import(/* webpackChunkName: "v-tab-item" */'./components/Layout/TabItem.vue'));
 Vue.component('v-tab-menu', () => import(/* webpackChunkName: "v-tab-menu" */'./components/Layout/TabMenu.vue'));

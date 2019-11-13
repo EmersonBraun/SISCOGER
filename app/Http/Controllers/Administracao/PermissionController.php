@@ -60,11 +60,10 @@ class PermissionController extends Controller
         $create = $this->permission->create($dados);
         
         if($create) {
-            $this->permission->cleanCache();
+            $this->permission->clearCache();
 
             if (!empty($roles)) { //Se uma ou mais funções forem selecionadas
                 $this->givePermission($roles, $name);
-                $this->permission->clearCache();
             }
 
             toast()->success(''.$name.' adicionadas!', 'Permissões');
@@ -92,7 +91,7 @@ class PermissionController extends Controller
         $update = $permission->fill($input)->save();
 
         if($update) {
-            $this->permission->cleanCache();
+            $this->permission->clearCache();
             toast()->success(''. $permission->name.' atualizada!', 'Permissões');
             return redirect()->route('permission.index');
         }

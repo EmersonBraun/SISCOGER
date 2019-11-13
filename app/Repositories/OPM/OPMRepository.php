@@ -33,6 +33,23 @@ class OPMRepository
 	{
         Cache::tags('opm')->flush();
     }
+
+    public function opmIntermediaria($cdopm)
+    {
+        $opms_intermediarias = [
+            '00' => "COMANDO GERAL",
+            '01' => "SUBCOMANDO GERAL",
+            '1' => "ESTADO MAIOR",
+            '2' => "1º COMANDO REGIONAL DE POLÍCIA MILITAR",
+            '3' => "2º COMANDO REGIONAL DE POLÍCIA MILITAR",
+            '4' => "3º COMANDO REGIONAL DE POLÍCIA MILITAR",
+            '5' => "4º COMANDO REGIONAL DE POLÍCIA MILITAR",
+            '6' => "5º COMANDO REGIONAL DE POLÍCIA MILITAR",
+            '7' => "6º COMANDO REGIONAL DE POLÍCIA MILITAR",
+            '8' => "7º COMANDO REGIONAL DE POLÍCIA MILITAR",
+            '9' => "COMANDO DO CORPO DE BOMBEIROS",
+        ];
+        }
     
     //dados para formulários
     public function get()

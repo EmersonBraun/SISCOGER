@@ -10,6 +10,32 @@ export default{
         getSessionData() {
             return JSON.parse(sessionStorage.getItem("session"))
         },
+        getDate(opt) {
+            const d = new Date()
+            const dayOfWeekBR = ['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado']
+            const monthBR = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro']
+            
+            let day = d.getDate()
+            let month = d.getMonth()
+            let fullYear = d.getFullYear()
+            let numOfWeek = d.getDay()
+
+            let date = {
+                day : day,
+                numOfWeek : numOfWeek, 
+                dayOfWeek : dayOfWeekBR[numOfWeek],
+                month : month,
+                monthName : monthBR[month],
+                year : d.getFullYear().toString().substr(-2),
+                fullYear : fullYear,
+                hour : d.getHours(),
+                minute : d.getMinutes(),
+                date : `${fullYear}-${month}-${day}`,
+                dateBR : `${day}/${month}/${fullYear}`,
+            }
+            console.log(date[opt])
+            return date[opt]
+        },
         hasPermission(permission) {
             let session = this.getSessionData()
             if(!session) return false
