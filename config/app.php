@@ -166,7 +166,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Laralabs\Toaster\ToasterServiceProvider::class,
         Grimthorr\LaravelToast\ServiceProvider::class,
-        Hhxsv5\LaravelS\Illuminate\LaravelSServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*

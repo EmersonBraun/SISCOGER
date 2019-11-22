@@ -16,7 +16,6 @@ class CadastroOPMController extends Controller
 
     public function get($cdopm)
     {
-
         $registro = $this->repository->get($cdopm);
         return response()->json([$registro,200]);
     }

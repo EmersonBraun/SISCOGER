@@ -31,6 +31,7 @@ use App\Repositories\PM\ProtocoloRepository;
 use App\Repositories\apresentacao\ApresentacaoRepository;
 use App\Repositories\proc\ProcRepository;
 use App\Repositories\log\logRepository;
+use App\Services\ICOService;
 
 class PolicialRepository extends BaseRepository
 {
@@ -55,6 +56,8 @@ class PolicialRepository extends BaseRepository
     protected $apresentacao;
     protected $log;
     protected $protocolo;
+
+    protected $ico;
 
     protected $unidade;
     protected $verTodasUnidades;
@@ -81,7 +84,8 @@ class PolicialRepository extends BaseRepository
         ProcRepository $proc,
         ApresentacaoRepository $apresentacao,
         logRepository $log,
-        ProtocoloRepository $protocolo
+        ProtocoloRepository $protocolo,
+        ICOService $ico
     )
 	{
         $this->policial = $policial;
@@ -105,6 +109,7 @@ class PolicialRepository extends BaseRepository
         $this->apresentacao = $apresentacao;
         $this->log = $log;
         $this->protocolo = $protocolo;
+        $this->ico = $ico;
 
         // ver se vem da api (não logada)
         $proc = Route::currentRouteName(); //listar.algo
@@ -183,6 +188,10 @@ class PolicialRepository extends BaseRepository
 
             //Idade
             $pm->IDADE = ($encontrado) ? idade($pm->NASCIMENTO) : 'Não encontrado';
+            $pm->nome_ico = $this->ico->nome($pm->NOME);
+            $pm->cargo_ico = $this->ico->posto($pm->CARGO);
+            $pm->tratamento_ico = $this->ico->tratamento($pm->CARGO);
+            $pm->quadro_ico = $this->ico->quadro_sub($pm->QUADRO, $pm->SUBQUADRO);
             return $pm;
 
         // });

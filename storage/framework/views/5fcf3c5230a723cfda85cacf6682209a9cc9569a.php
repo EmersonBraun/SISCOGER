@@ -129,9 +129,7 @@
         <?php if(hasPermissionTo('listar-locais')): ?>
         <li class=""><a href="<?php echo e(route('local.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Locais</span></a></li>
         <?php endif; ?>
-        <?php if(hasPermissionTo('criar-apresentacao')): ?>
-        <li class=""><a href="<?php echo e(route('memorando.create')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Gerar Memorando</span></a></li>
-        <?php endif; ?>
+        
         <?php if(hasPermissionTo('listar-dados-unidade')): ?>
         <li class=""><a href="<?php echo e(route('autoridadeom.form')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Dados Unidade</span></a></li>
         <?php endif; ?>

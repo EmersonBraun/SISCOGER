@@ -1,10 +1,29 @@
-webpackJsonp([87],{
+webpackJsonp([72],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Apresentacao/Memorando.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -117,32 +136,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             module: 'apresentacao',
             registro: {},
+            opm_intermediaria: null,
             date: {},
-            pm: {},
-            autoridades: {},
-            codNotificacao: {},
-            opmIntermediaria: null,
-            numMemorando: 0,
-            vias: 2
+            pm: null,
+            autoridades: [],
+            autoridade: {},
+            id_cadastroopmcoger: 0,
+            vias: 2,
+            check: null
         };
-    },
-
-    computed: {
-        day: function day() {
-            return this.$root.getDate('day');
-        },
-        month: function month() {
-            return this.$root.getDate('month');
-        },
-        year: function year() {
-            return this.$root.getDate('fullYear');
-        }
     },
     created: function created() {
         this.list();
-        this.getPm();
     },
 
+    watch: {
+        registro: function registro() {
+            this.getPm();
+            this.getAutoridade();
+        }
+    },
     methods: {
         list: function list() {
             var _this = this;
@@ -156,32 +169,64 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             }
         },
-        mesIco: function mesIco(mes) {
-            var mesBR = ['', 'jan', 'fev', 'mar', 'abr', 'maio', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
-            return mesBR[mes];
-        },
-        horaIco: function horaIco(hora) {
-            var hr = hora.split(':');
-            var h = hr[0];
-            var m = hr[1];
-            if (Number(m) > 0) return h + 'h' + m;
-            return h + 'h';
-        },
         getPm: function getPm() {
-            // TODO trazer dados do pm para apresentacao
+            var _this2 = this;
+
+            var searchUrl = this.$root.baseUrl + 'api/dados/pm/' + this.registro.pessoa_rg;
+            axios.get(searchUrl).then(function (response) {
+                _this2.pm = response.data.pm;
+                _this2.registro.pm = response.data.pm;
+            }).catch(function (error) {
+                return console.log(error);
+            });
         },
         getAutoridade: function getAutoridade() {
-            // TODO trazer autoridades para assinar
+            var _this3 = this;
+
+            var opm = this.$root.dadoSession('cdopmbase');
+            var urlIndex = this.$root.baseUrl + 'api/cadastroopm/get/' + opm;
+
+            axios.get(urlIndex).then(function (response) {
+                var res = response.data[0];
+
+                _this3.id_cadastroopmcoger = res.id_cadastroopmcoger;
+                _this3.getOtherAutoridade(res.id_cadastroopmcoger);
+
+                _this3.autoridades.push({
+                    nome: res.opm_autoridade_nome,
+                    funcao: res.opm_autoridade_funcao
+                });
+            }).catch(function (error) {
+                return console.log(error);
+            });
         },
-        getCodNotificacao: function getCodNotificacao() {
-            /*
-            notificado 00
-            n notificado 17
-            comp real 23
-            comp cancelada 30
-            comp redes 46
-            n comp 52
-            */
+        getOtherAutoridade: function getOtherAutoridade(id) {
+            var _this4 = this;
+
+            var urlIndex = this.$root.baseUrl + 'api/cadastroopmautoridade/list/' + id;
+            axios.get(urlIndex).then(function (response) {
+                var res = response.data[0];
+                res.forEach(function (e) {
+                    _this4.autoridades.push({
+                        nome: e.nome,
+                        funcao: e.funcao
+                    });
+                });
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
+        changeAutoridade: function changeAutoridade(autoridade) {
+            this.autoridade = autoridade;
+            this.registro.autoridade = autoridade;
+        },
+        print: function print() {
+            var nome = this.autoridade.nome.replace(/\s/g, "-");
+            var funcao = this.autoridade.funcao.replace(/\s/g, "-");
+            var urlPrint = this.$root.baseUrl + 'api/apresentacao/memorandogerar/' + this.idp + '/' + nome + '/' + funcao;
+            console.log('url', urlPrint);
+            window.open(urlPrint);
+            console.log('print');
         }
     }
 });
@@ -196,7 +241,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.body[data-v-23911582] {\n    font-family: Arial, Helvetica, sans-serif;\n    font-size: 12px;\n    line-height: 1 !important;\n    background-color: #f1f1f1;\n}\np[data-v-23911582] {\n    text-indent: 50px;\n    text-align: justify;\n}\n.a4[data-v-23911582] {\n    display: flex;\n    flex-direction: column;\n    width: 595px;\n    height: 841px;\n    padding: 20px;\n    border: 1px solid black;\n    page-break-before: always;\n}\n.header[data-v-23911582] {\n    margin: 82.8px 57px 10px 85px;\n    text-align: center;\n    padding-bottom: 10px;\n    border-bottom: 1px solid black;\n}\n.text-bold-g[data-v-23911582]{\n    font-size:14px;\n    font-weight:bold;\n    font-style:normal;\n    text-decoration: none;\n}\n.text-bold-m[data-v-23911582]{\n    font-size:12px;\n    font-weight:bold;\n    font-style:normal;\n    text-decoration: none;\n}\n.text-bold-s[data-v-23911582]{\n    font-size:8px;\n    font-weight:bold;\n    font-style:normal;\n    text-decoration: none;\n}\n.content-mem[data-v-23911582] {\n    margin: 10px 57px 10px 85px !important;\n    padding: 0 !important;\n}\n.ass[data-v-23911582] {\n    margin-top: 50px;\n    text-align: center;\n}\n.cert[data-v-23911582] {\n    display: flex;\n    align-items: flex-end !important;\n    margin: auto 57px 25px 85px; \n    font-size:8px;\n}\n.border-l[data-v-23911582] {\n    border-left: 1px solid black;\n}\n.border[data-v-23911582] {\n    border: 1px solid black;\n}\n.center[data-v-23911582] {\n    text-align: center;\n}\n.table-mem[data-v-23911582]  {\n    width: 100%;\n    height: 90px;\n    text-align: left;\n    text-indent: 5px;\n    padding: 0 10px 0 10px;\n}\n", ""]);
+exports.push([module.i, "\n@media print {\n#printpage[data-v-23911582] {\n        background-color: white;\n        height: 100%;\n        width: 100%;\n        position: fixed;\n        top: 0;\n        left: 0;\n        margin: 0;\n}\n}\n.body[data-v-23911582] {\n        font-family: Arial, Helvetica, sans-serif;\n        font-size: 12px;\n        line-height: 1 !important;\n        background-color: #f1f1f1;\n}\np[data-v-23911582] {\n        text-indent: 50px;\n        text-align: justify;\n}\n.a4[data-v-23911582] {\n        display: flex;\n        flex-direction: column;\n        width: 595px;\n        height: 841px;\n        padding: 20px;\n        border: 1px solid black;\n        page-break-before: always;\n}\n.header[data-v-23911582] {\n        margin: 82.8px 57px 10px 85px;\n        text-align: center;\n        padding-bottom: 10px;\n        border-bottom: 1px solid black;\n}\n.text-bold-g[data-v-23911582]{\n        font-size:14px;\n        font-weight:bold;\n        font-style:normal;\n        text-decoration: none;\n}\n.text-bold-m[data-v-23911582]{\n        font-size:12px;\n        font-weight:bold;\n        font-style:normal;\n        text-decoration: none;\n}\n.text-bold-s[data-v-23911582]{\n        font-size:8px;\n        font-weight:bold;\n        font-style:normal;\n        text-decoration: none;\n}\n.content-mem[data-v-23911582] {\n        margin: 10px 57px 10px 85px !important;\n        padding: 0 !important;\n}\n.ass[data-v-23911582] {\n        margin-top: 50px;\n        text-align: center;\n}\n.cert[data-v-23911582] {\n        display: flex;\n        align-items: flex-end !important;\n        margin: auto 57px 25px 85px; \n        font-size:8px;\n}\n.border-l[data-v-23911582] {\n        border-left: 1px solid black;\n}\n.border[data-v-23911582] {\n        border: 1px solid black;\n}\n.center[data-v-23911582] {\n        text-align: center;\n}\n.table-mem[data-v-23911582]  {\n        width: 100%;\n        height: 90px;\n        text-align: left;\n        text-indent: 5px;\n        padding: 0 10px 0 10px;\n}\n", ""]);
 
 // exports
 
@@ -210,214 +255,360 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "body" },
-    _vm._l(_vm.vias, function(via, index) {
-      return _c("section", { key: index, staticClass: "a4 col-xs-6" }, [
-        _c("div", { staticClass: "header" }, [
-          _c("div", { staticClass: "text-bold-g" }, [
-            _vm._v("ESTADO DO PARANÁ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "text-bold-g" }, [
-            _vm._v("POLÍCIA MILITAR")
-          ]),
-          _vm._v(" "),
-          _vm.opmIntermediaria
-            ? _c("div", { staticClass: "text-bold-m" }, [
-                _vm._v(_vm._s(_vm.opmIntermediaria))
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("div", { staticClass: "text-bold-m" }, [
-            _vm._v(_vm._s(_vm.registro.pessoa_unidade_lotacao_descricao))
-          ])
+  return _c("div", { staticClass: "body" }, [
+    _c(
+      "div",
+      { staticClass: "col-xs-12" },
+      [
+        _c(
+          "v-label",
+          { attrs: { lg: "6", md: "6", title: "Número memorando" } },
+          [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.registro.sjd_ref,
+                  expression: "registro.sjd_ref"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text" },
+              domProps: { value: _vm.registro.sjd_ref },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.registro, "sjd_ref", $event.target.value)
+                }
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c("v-label", { attrs: { lg: "6", md: "6", title: "Sigla Seção" } }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.registro.sigla,
+                expression: "registro.sigla"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text" },
+            domProps: { value: _vm.registro.sigla },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.registro, "sigla", $event.target.value)
+              }
+            }
+          })
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "content-mem" }, [
-          _c("div", { staticClass: "col-xs-6 text-bold-m nopadding" }, [
-            _vm._v("Memorando nº " + _vm._s(_vm.numMemorando) + "/SJD")
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "col-xs-6 text-bold-m text-right nopadding" },
-            [
-              _vm._v(
-                "Em " +
-                  _vm._s(_vm.day) +
-                  " de " +
-                  _vm._s(_vm.month) +
-                  " de " +
-                  _vm._s(_vm.year) +
-                  "."
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "col-xs-12 text-bold-m nopadding",
-              staticStyle: { "padding-top": "10px !important" }
-            },
-            [
-              _vm._v(
-                "Ao " +
-                  _vm._s(_vm.pm.posto) +
-                  " " +
-                  _vm._s(_vm.pm.quadro) +
-                  " " +
-                  _vm._s(_vm.pm.nome)
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _vm._m(0, true),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "col-xs-12 nopadding",
-              staticStyle: { "padding-bottom": "25px !important" }
-            },
-            [
-              _c("span", { staticClass: "text-bold-m" }, [
-                _vm._v("Referência:")
-              ]),
-              _vm._v("  " + _vm._s(_vm.registro.documento_de_origem) + ".")
-            ]
-          ),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              "\n                Com fundamento no artigo 288,§ 3º do CPPM, \n                determino o comparecimento de Vossa Senhoria em data de \n                " +
-                _vm._s(_vm.registro.comparecimento_data.split("/")[0]) +
-                " \n                " +
-                _vm._s(
-                  _vm.mesIco(_vm.registro.comparecimento_data.split("/")[1])
-                ) +
-                ". \n                " +
-                _vm._s(
-                  _vm.registro.comparecimento_data.split("/")[2].slice(-2)
-                ) +
-                ", \n                às " +
-                _vm._s(_vm.horaIco(_vm.registro.comparecimento_hora)) +
-                ", \n                no(a) " +
-                _vm._s(_vm.registro.comparecimento_local_txt) +
-                ", a fim de prestar depoimento em autos n°\n                " +
-                _vm._s(_vm.registro.autos_numero) +
-                " na condição de " +
-                _vm._s(_vm.registro.condicao) +
-                ".\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _vm.registro.acusados
-            ? _c("div", [
-                _vm._v("Acusado(s): " + _vm._s(_vm.registro.acusados))
-              ])
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _vm._m(1, true),
-        _vm._v(" "),
-        _c("div", { staticClass: "row cert" }, [
-          _c("div", { staticClass: "col-xs-6" }, [
-            _c("table", { staticClass: "table-mem border" }, [
-              _c("tr", [
-                _c(
-                  "td",
+        _c(
+          "v-label",
+          { attrs: { label: "check", title: "Fecho: ", md: "12", lg: "12" } },
+          _vm._l(_vm.autoridades, function(autoridade, index) {
+            return _c("div", { key: index }, [
+              _c("input", {
+                directives: [
                   {
-                    staticClass: "border text-bold-s center",
-                    attrs: { colspan: "2" }
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.check,
+                    expression: "check"
+                  }
+                ],
+                attrs: { type: "radio" },
+                domProps: { value: index, checked: _vm._q(_vm.check, index) },
+                on: {
+                  click: function($event) {
+                    return _vm.changeAutoridade(autoridade)
                   },
-                  [
-                    _vm._v(
-                      "USO DO SJD (" +
-                        _vm._s(_vm.codNotificacao.cod) +
-                        "/" +
-                        _vm._s(_vm.year) +
-                        ")"
+                  change: function($event) {
+                    _vm.check = index
+                  }
+                }
+              }),
+              _vm._v(" " + _vm._s(autoridade.nome) + " "),
+              _c("b", [_vm._v(" " + _vm._s(autoridade.funcao) + " ")])
+            ])
+          }),
+          0
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col-xs-12" },
+          [
+            _c(
+              "v-tooltip",
+              {
+                attrs: {
+                  effect: "scale",
+                  placement: "top",
+                  content: "Deve selecionar o Fecho"
+                }
+              },
+              [
+                _vm.registro.id_apresentacao
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-success btn-block",
+                        attrs: { disabled: _vm.autoridade.nome == null },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.print()
+                          }
+                        }
+                      },
+                      [_vm._v("Imprimir")]
                     )
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", { staticClass: "border text-bold-s" }, [
-                  _vm._v("Notificado:")
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "border-l" }, [
-                  _vm._v(_vm._s(_vm.codNotificacao))
+                  : _vm._e()
+              ]
+            )
+          ],
+          1
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "section",
+      { attrs: { id: "printpage" } },
+      _vm._l(_vm.vias, function(via, index) {
+        return _c("div", { key: index, staticClass: "a4 col-xs-6" }, [
+          _c("div", { staticClass: "header" }, [
+            _c("div", { staticClass: "text-bold-g" }, [
+              _vm._v("ESTADO DO PARANÁ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-bold-g" }, [
+              _vm._v("POLÍCIA MILITAR")
+            ]),
+            _vm._v(" "),
+            _vm.opm_intermediaria
+              ? _c("div", { staticClass: "text-bold-m" }, [
+                  _vm._v(_vm._s(_vm.opm_intermediaria))
                 ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", { staticClass: "border text-bold-s" }, [
-                  _vm._v("Não notificado:")
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "border-l" }, [
-                  _vm._v(_vm._s(_vm.codNotificacao))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", { staticClass: "border text-bold-s" }, [
-                  _vm._v("Compareceu/Realizada:")
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "border-l" }, [
-                  _vm._v(_vm._s(_vm.codNotificacao))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", { staticClass: "border text-bold-s" }, [
-                  _vm._v("Compareceu/Cancelada:")
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "border-l" }, [
-                  _vm._v(_vm._s(_vm.codNotificacao))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", { staticClass: "border text-bold-s" }, [
-                  _vm._v("Compareceu/Redesignada:")
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "border-l" }, [
-                  _vm._v(_vm._s(_vm.codNotificacao))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", { staticClass: "border text-bold-s" }, [
-                  _vm._v("Não compareceu:")
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "border-l" }, [
-                  _vm._v(_vm._s(_vm.codNotificacao))
-                ])
-              ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-bold-m" }, [
+              _vm._v(_vm._s(_vm.registro.pessoa_unidade_lotacao_descricao))
             ])
           ]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "col-xs-6" },
-            [via == 2 ? [_vm._m(2, true)] : [_vm._m(3, true)]],
-            2
-          )
+          _c("div", { staticClass: "content-mem" }, [
+            _c("div", { staticClass: "col-xs-6 text-bold-m nopadding" }, [
+              _vm._v(
+                "Memorando nº " +
+                  _vm._s(_vm.registro.sjd_ref) +
+                  "/" +
+                  _vm._s(_vm.registro.sigla)
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-xs-6 text-bold-m text-right nopadding" },
+              [
+                _vm._v(
+                  "Em " +
+                    _vm._s(_vm.registro.data_ico.dia) +
+                    " de " +
+                    _vm._s(_vm.registro.data_ico.mes_abr) +
+                    " de " +
+                    _vm._s(_vm.registro.data_ico.ano) +
+                    "."
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _vm.pm
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "col-xs-12 text-bold-m nopadding",
+                    staticStyle: { "padding-top": "10px !important" }
+                  },
+                  [
+                    _vm._v(
+                      "Ao " +
+                        _vm._s(_vm.pm.cargo_ico) +
+                        " " +
+                        _vm._s(_vm.pm.quadro_ico) +
+                        " " +
+                        _vm._s(_vm.pm.nome_ico)
+                    )
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._m(0, true),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "col-xs-12 nopadding",
+                staticStyle: { "padding-bottom": "25px !important" }
+              },
+              [
+                _c("span", { staticClass: "text-bold-m" }, [
+                  _vm._v("Referência:")
+                ]),
+                _vm._v("  " + _vm._s(_vm.registro.documento_de_origem) + ".")
+              ]
+            ),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "\n                    Com fundamento no artigo 288,§ 3º do CPPM, \n                    determino o comparecimento de "
+              ),
+              _vm.pm
+                ? _c("span", [_vm._v(_vm._s(_vm.pm.tratamento_ico))])
+                : _vm._e(),
+              _vm._v(
+                " em data de \n                    " +
+                  _vm._s(_vm.registro.comparecimento_data_ico.dia) +
+                  " \n                    " +
+                  _vm._s(_vm.registro.comparecimento_data_ico.mes) +
+                  ". \n                    " +
+                  _vm._s(_vm.registro.comparecimento_data_ico.ano_abr) +
+                  ", \n                    às " +
+                  _vm._s(_vm.registro.comparecimento_hora_ico) +
+                  ", \n                    no(a) " +
+                  _vm._s(_vm.registro.comparecimento_local_txt) +
+                  ", a fim de prestar depoimento em autos n°\n                    " +
+                  _vm._s(_vm.registro.autos_numero) +
+                  " na condição de " +
+                  _vm._s(_vm.registro.condicao) +
+                  ".\n                "
+              )
+            ]),
+            _vm._v(" "),
+            _vm.registro.acusados
+              ? _c("div", [
+                  _vm._v("Acusado(s): " + _vm._s(_vm.registro.acusados))
+                ])
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "ass" }, [
+            _vm.autoridade
+              ? _c("div", [_vm._v(_vm._s(_vm.autoridade.nome) + ",")])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-bold-m" }, [
+              _vm._v(_vm._s(_vm.autoridade.funcao))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row cert" }, [
+            _c("div", { staticClass: "col-xs-6" }, [
+              _c("table", { staticClass: "table-mem border" }, [
+                _c("tr", [
+                  _c(
+                    "td",
+                    {
+                      staticClass: "border text-bold-s center",
+                      attrs: { colspan: "2" }
+                    },
+                    [
+                      _vm._v(
+                        "USO DO SJD (" +
+                          _vm._s(_vm.registro.cod_notificacao.base) +
+                          "/" +
+                          _vm._s(_vm.registro.data_ico.ano) +
+                          ")"
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", { staticClass: "border text-bold-s" }, [
+                    _vm._v("Notificado:")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "border-l" }, [
+                    _vm._v(_vm._s(_vm.registro.cod_notificacao.notificado))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", { staticClass: "border text-bold-s" }, [
+                    _vm._v("Não notificado:")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "border-l" }, [
+                    _vm._v(_vm._s(_vm.registro.cod_notificacao.naonotificado))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", { staticClass: "border text-bold-s" }, [
+                    _vm._v("Compareceu/Realizada:")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "border-l" }, [
+                    _vm._v(_vm._s(_vm.registro.cod_notificacao.realizada))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", { staticClass: "border text-bold-s" }, [
+                    _vm._v("Compareceu/Cancelada:")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "border-l" }, [
+                    _vm._v(_vm._s(_vm.registro.cod_notificacao.cancelada))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", { staticClass: "border text-bold-s" }, [
+                    _vm._v("Compareceu/Redesignada:")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "border-l" }, [
+                    _vm._v(_vm._s(_vm.registro.cod_notificacao.redesignada))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", { staticClass: "border text-bold-s" }, [
+                    _vm._v("Não compareceu:")
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "border-l" }, [
+                    _vm._v(_vm._s(_vm.registro.cod_notificacao.naocompareceu))
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-xs-6" },
+              [via == 2 ? [_vm._m(1, true)] : [_vm._m(2, true)]],
+              2
+            )
+          ])
         ])
-      ])
-    }),
-    0
-  )
+      }),
+      0
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -440,16 +631,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "ass" }, [
-      _c("div", [_vm._v("2º Ten. QOPM Francimar de Moraes Zamierowski,")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-bold-m" }, [_vm._v("Chefe da SJD")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("table", { staticClass: "table-mem border" }, [
       _c("tr", [
         _c(
@@ -461,7 +642,7 @@ var staticRenderFns = [
           },
           [
             _vm._v(
-              "\n                                ** Esta via deve ser carimbada no local da audiência e ser entregue no SJD após a apresentação do Militar Estadual\n                            "
+              "\n                                    ** Esta via deve ser carimbada no local da audiência e ser entregue no SJD após a apresentação do Militar Estadual\n                                "
             )
           ]
         )

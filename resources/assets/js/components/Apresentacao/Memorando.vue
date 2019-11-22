@@ -1,100 +1,119 @@
 <template>
     <div class="body">
         <!-- form -->
-        <!-- /form -->
-        <section class="a4 col-xs-6" v-for="(via, index) in vias" :key="index"> 
-            <div class="header">
-                <div class="text-bold-g">ESTADO DO PARANÁ</div>
-                <div class="text-bold-g">POLÍCIA MILITAR</div>
-                <div v-if="opmIntermediaria" class="text-bold-m">{{ opmIntermediaria }}</div>
-                <div class="text-bold-m">{{ registro.pessoa_unidade_lotacao_descricao }}</div>
-            </div>
-            <div class="content-mem">
-                <div class="col-xs-6 text-bold-m nopadding">Memorando nº {{ numMemorando }}/SJD</div>
-                <div class="col-xs-6 text-bold-m text-right nopadding">Em {{day}} de {{month}} de {{year}}.</div>
-                <div class="col-xs-12 text-bold-m nopadding" style="padding-top: 10px !important;">Ao {{ pm.posto }} {{ pm.quadro }} {{ pm.nome }}</div>
-                <div class="col-xs-12 nopadding" style="padding-bottom: 10px !important;"><span class="text-bold-m">Assunto:</span>  Determinação para comparecimento.</div>
-                <div class="col-xs-12 nopadding" style="padding-bottom: 25px !important;"><span class="text-bold-m">Referência:</span>  {{ registro.documento_de_origem }}.</div>
-                <p>
-                    Com fundamento no artigo 288,§ 3º do CPPM, 
-                    determino o comparecimento de Vossa Senhoria em data de 
-                    {{registro.comparecimento_data.split('/')[0]}} 
-                    {{mesIco(registro.comparecimento_data.split('/')[1])}}. 
-                    {{registro.comparecimento_data.split('/')[2].slice(-2)}}, 
-                    às {{horaIco(registro.comparecimento_hora)}}, 
-                    no(a) {{registro.comparecimento_local_txt}}, a fim de prestar depoimento em autos n°
-                    {{registro.autos_numero}} na condição de {{registro.condicao}}.
-                </p>
-                <div v-if="registro.acusados">Acusado(s): {{registro.acusados}}</div>
-            </div>
-            <div class="ass">
-                <div>2º Ten. QOPM Francimar de Moraes Zamierowski,</div>
-                <div class="text-bold-m">Chefe da SJD</div>
-            </div>
-            <div class="row cert" >
-                <div class="col-xs-6">
-                    <table class="table-mem border">
-                        <tr>
-                            <td colspan="2" class="border text-bold-s center">USO DO SJD ({{codNotificacao.cod}}/{{year}})</td>
-                        </tr>
-                        <tr>
-                            <td class="border text-bold-s">Notificado:</td>
-                            <td class="border-l">{{codNotificacao}}</td>
-                        </tr>
-                        <tr>
-                            <td class="border text-bold-s">Não notificado:</td>
-                            <td class="border-l">{{codNotificacao}}</td>
-                        </tr>
-                        <tr>
-                            <td class="border text-bold-s">Compareceu/Realizada:</td>
-                            <td class="border-l">{{codNotificacao}}</td>
-                        </tr>
-                        <tr>
-                            <td class="border text-bold-s">Compareceu/Cancelada:</td>
-                            <td class="border-l">{{codNotificacao}}</td>
-                        </tr>
-                        <tr>
-                            <td class="border text-bold-s">Compareceu/Redesignada:</td>
-                            <td class="border-l">{{codNotificacao}}</td>
-                        </tr>
-                        <tr>
-                            <td class="border text-bold-s">Não compareceu:</td>
-                            <td class="border-l">{{codNotificacao}}</td>
-                        </tr>
-                    </table>
+        <div class="col-xs-12">
+            <v-label lg='6' md='6' title="Número memorando">
+                <input type="text" v-model="registro.sjd_ref" class="form-control">
+            </v-label>
+            <v-label lg='6' md='6' title="Sigla Seção">
+                <input type="text" v-model="registro.sigla" class="form-control">
+            </v-label>
+            <v-label label="check" title="Fecho: " md="12" lg="12">
+                <div v-for="(autoridade, index) in autoridades" :key="index">
+                    <input type="radio" :value="index" @click="changeAutoridade(autoridade)" v-model="check"> {{ autoridade.nome}} <b> {{ autoridade.funcao }} </b>
                 </div>
-                <div class="col-xs-6">
-                    <!-- para segunda via -->
-                    <template v-if="via == 2">
+            </v-label>
+            <div class="col-xs-12">
+                <v-tooltip effect="scale" placement="top" content="Deve selecionar o Fecho">
+                    <a v-if="registro.id_apresentacao" class="btn btn-success btn-block" :disabled="autoridade.nome == null" @click.prevent="print()">Imprimir</a>
+                </v-tooltip>
+            </div>
+        </div>
+        <!-- /form -->
+        <section id="printpage">
+            <div class="a4 col-xs-6" v-for="(via, index) in vias" :key="index"> 
+                <div class="header">
+                    <div class="text-bold-g">ESTADO DO PARANÁ</div>
+                    <div class="text-bold-g">POLÍCIA MILITAR</div>
+                    <div v-if="opm_intermediaria" class="text-bold-m">{{ opm_intermediaria }}</div>
+                    <div class="text-bold-m">{{ registro.pessoa_unidade_lotacao_descricao }}</div>
+                </div>
+                <div class="content-mem">
+                    <div class="col-xs-6 text-bold-m nopadding">Memorando nº {{ registro.sjd_ref }}/{{registro.sigla}}</div>
+                    <div class="col-xs-6 text-bold-m text-right nopadding">Em {{registro.data_ico.dia}} de {{registro.data_ico.mes_abr}} de {{registro.data_ico.ano}}.</div>
+                    <div v-if="pm" class="col-xs-12 text-bold-m nopadding" style="padding-top: 10px !important;">Ao {{ pm.cargo_ico }} {{ pm.quadro_ico }} {{ pm.nome_ico }}</div>
+                    <div class="col-xs-12 nopadding" style="padding-bottom: 10px !important;"><span class="text-bold-m">Assunto:</span>  Determinação para comparecimento.</div>
+                    <div class="col-xs-12 nopadding" style="padding-bottom: 25px !important;"><span class="text-bold-m">Referência:</span>  {{ registro.documento_de_origem }}.</div>
+                    <p>
+                        Com fundamento no artigo 288,§ 3º do CPPM, 
+                        determino o comparecimento de <span v-if="pm">{{ pm.tratamento_ico }}</span> em data de 
+                        {{registro.comparecimento_data_ico.dia}} 
+                        {{registro.comparecimento_data_ico.mes}}. 
+                        {{registro.comparecimento_data_ico.ano_abr}}, 
+                        às {{registro.comparecimento_hora_ico}}, 
+                        no(a) {{registro.comparecimento_local_txt}}, a fim de prestar depoimento em autos n°
+                        {{registro.autos_numero}} na condição de {{registro.condicao}}.
+                    </p>
+                    <div v-if="registro.acusados">Acusado(s): {{registro.acusados}}</div>
+                </div>
+                <div class="ass">
+                    <div v-if="autoridade">{{autoridade.nome}},</div>
+                    <div class="text-bold-m">{{autoridade.funcao}}</div>
+                </div>
+                <div class="row cert" >
+                    <div class="col-xs-6">
                         <table class="table-mem border">
                             <tr>
-                                <td colspan="2" class="border text-bold-m" style="text-align: justify;">
-                                    ** Esta via deve ser carimbada no local da audiência e ser entregue no SJD após a apresentação do Militar Estadual
-                                </td>
+                                <td colspan="2" class="border text-bold-s center">USO DO SJD ({{registro.cod_notificacao.base}}/{{registro.data_ico.ano}})</td>
+                            </tr>
+                            <tr>
+                                <td class="border text-bold-s">Notificado:</td>
+                                <td class="border-l">{{registro.cod_notificacao.notificado}}</td>
+                            </tr>
+                            <tr>
+                                <td class="border text-bold-s">Não notificado:</td>
+                                <td class="border-l">{{registro.cod_notificacao.naonotificado}}</td>
+                            </tr>
+                            <tr>
+                                <td class="border text-bold-s">Compareceu/Realizada:</td>
+                                <td class="border-l">{{registro.cod_notificacao.realizada}}</td>
+                            </tr>
+                            <tr>
+                                <td class="border text-bold-s">Compareceu/Cancelada:</td>
+                                <td class="border-l">{{registro.cod_notificacao.cancelada}}</td>
+                            </tr>
+                            <tr>
+                                <td class="border text-bold-s">Compareceu/Redesignada:</td>
+                                <td class="border-l">{{registro.cod_notificacao.redesignada}}</td>
+                            </tr>
+                            <tr>
+                                <td class="border text-bold-s">Não compareceu:</td>
+                                <td class="border-l">{{registro.cod_notificacao.naocompareceu}}</td>
                             </tr>
                         </table>
-                    </template>
-                    <!-- primeira via -->
-                    <template v-else>
-                        <table class="table-mem border">
-                            <tr>
-                                <td colspan="2" class="border text-bold-s center" style="height: 12px;">CIENTE</td>
-                            </tr>
-                            <tr>
-                                <td><span class="text-bold-s">Data:</span>  ______/______/__________</td>
-                            </tr>
-                            <tr>
-                                <td><span class="text-bold-s">Horário:</span>  ______:______</td>
-                            </tr>
-                            <tr>
-                                <td><span class="text-bold-s">Ass.:</span></td>
-                            </tr>
-                        </table>
-                    </template>
+                    </div>
+                    <div class="col-xs-6">
+                        <!-- para segunda via -->
+                        <template v-if="via == 2">
+                            <table class="table-mem border">
+                                <tr>
+                                    <td colspan="2" class="border text-bold-m" style="text-align: justify;">
+                                        ** Esta via deve ser carimbada no local da audiência e ser entregue no SJD após a apresentação do Militar Estadual
+                                    </td>
+                                </tr>
+                            </table>
+                        </template>
+                        <!-- primeira via -->
+                        <template v-else>
+                            <table class="table-mem border">
+                                <tr>
+                                    <td colspan="2" class="border text-bold-s center" style="height: 12px;">CIENTE</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-bold-s">Data:</span>  ______/______/__________</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-bold-s">Horário:</span>  ______:______</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="text-bold-s">Ass.:</span></td>
+                                </tr>
+                            </table>
+                        </template>
+                    </div>
                 </div>
             </div>
         </section>
-         <!-- <pre>{{day}}</pre> -->
     </div>
 </template>
 
@@ -110,29 +129,24 @@
             return {
                 module: 'apresentacao',
                 registro: {},
+                opm_intermediaria: null,
                 date: {},
-                pm: {},
-                autoridades: {},
-                codNotificacao: {},
-                opmIntermediaria: null,
-                numMemorando: 0,
+                pm: null,
+                autoridades: [],
+                autoridade: {},
+                id_cadastroopmcoger: 0,
                 vias: 2,
-            }
-        },
-        computed: {
-            day() {
-                return this.$root.getDate('day')
-            },
-            month() {
-                return this.$root.getDate('month')
-            },
-            year() {
-                return this.$root.getDate('fullYear')
+                check: null,
             }
         },
         created() {
             this.list()
-            this.getPm()
+        },
+        watch: {
+            registro() {
+                this.getPm()
+                this.getAutoridade()
+            }
         },
         methods: {
             list() {
@@ -146,32 +160,61 @@
                     .catch(error => console.log(error));
                 }
             },
-            mesIco(mes) {
-                const mesBR = ['','jan','fev','mar','abr','maio','jun','jul','ago','set','out','nov','dez']
-                return mesBR[mes]
-            },
-            horaIco(hora){
-                let hr = hora.split(':')
-                let h = hr[0]
-                let m = hr[1]
-                if(Number(m) > 0) return `${h}h${m}`
-                return `${h}h`
-            },
             getPm(){
-                // TODO trazer dados do pm para apresentacao
+                let searchUrl = `${this.$root.baseUrl}api/dados/pm/${this.registro.pessoa_rg}` ;
+                axios
+                .get(searchUrl)
+                .then((response) => {
+                    this.pm = response.data.pm
+                    this.registro.pm = response.data.pm
+                })
+                .catch(error => console.log(error));
             },
             getAutoridade(){
-                // TODO trazer autoridades para assinar
+                let opm = this.$root.dadoSession('cdopmbase')
+                let urlIndex = `${this.$root.baseUrl}api/cadastroopm/get/${opm}`;
+                
+                axios
+                    .get(urlIndex)
+                    .then((response) => {
+                        let res = response.data[0]
+
+                        this.id_cadastroopmcoger = res.id_cadastroopmcoger
+                        this.getOtherAutoridade(res.id_cadastroopmcoger)
+
+                        this.autoridades.push({
+                            nome: res.opm_autoridade_nome,
+                            funcao: res.opm_autoridade_funcao
+                        })
+                    })
+                    .catch(error => console.log(error));   
             },
-            getCodNotificacao(){
-                /*
-                notificado 00
-                n notificado 17
-                comp real 23
-                comp cancelada 30
-                comp redes 46
-                n comp 52
-                */
+            getOtherAutoridade(id) {
+                let urlIndex = `${this.$root.baseUrl}api/cadastroopmautoridade/list/${id}`;
+                axios
+                    .get(urlIndex)
+                    .then((response) => {
+                        let res = response.data[0]
+                        res.forEach(e => {
+                            this.autoridades.push({
+                                nome: e.nome,
+                                funcao: e.funcao
+                            })
+                        });
+                    })
+                    .catch(error => console.log(error));
+            },
+            changeAutoridade(autoridade) {
+                this.autoridade = autoridade
+                this.registro.autoridade = autoridade
+            },
+            print() {
+                let nome = this.autoridade.nome.replace(/\s/g , "-");
+                let funcao = this.autoridade.funcao.replace(/\s/g , "-");
+                let urlPrint = `${this.$root.baseUrl}api/apresentacao/memorandogerar/${this.idp}/${nome}/${funcao}`;
+                console.log('url',urlPrint)
+                window.open(urlPrint);
+                console.log('print')
             }
 
         }
@@ -179,6 +222,17 @@
 </script>
 
 <style scoped>
+@media print {
+    #printpage {
+        background-color: white;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin: 0;
+    }
+}
     .body {
         font-family: Arial, Helvetica, sans-serif;
         font-size: 12px;

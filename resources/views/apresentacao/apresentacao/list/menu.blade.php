@@ -48,7 +48,7 @@
             <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-6 col-xs-6"
                 href="{{route('apresentacao.apagados',['ano' => $ano])}}">Apagados</a>
         </div>
-        @if(hasPermissionTo('criar-nota-coger'))
+        @if(hasPermissionTo('criar-apresentacao'))
         <div class="col-md-4 col-xs-12">
             <a class="btn btn-block btn-primary" href="{{route('apresentacao.create')}}">
                 <i class="fa fa-plus"></i> Adicionar Apresentação</a>

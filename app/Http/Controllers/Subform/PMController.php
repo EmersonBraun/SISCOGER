@@ -18,7 +18,7 @@ class PMController extends Controller
 
     public function dados($rg)
     {
-        $pm = $this->repository->ativo($rg); 
+        $pm = $this->repository->get($rg); 
 
         if(!$pm) 
         {

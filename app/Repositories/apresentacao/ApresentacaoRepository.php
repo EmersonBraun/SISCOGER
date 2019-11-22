@@ -5,17 +5,26 @@ namespace App\Repositories\apresentacao;
 use Cache;
 use App\Models\Sjd\Apresentacao\Apresentacao;
 use App\Repositories\BaseRepository;
+use App\Services\ICOService;
 
 class ApresentacaoRepository extends BaseRepository
 {
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
+    protected $opm;
+    protected $ico;
     protected static $expiration = 60 * 24;//um dia; 
 
-	public function __construct(Apresentacao $model)
+	public function __construct(
+        Apresentacao $model,
+        CadastroOPMRepository $opm,
+        ICOService $ico
+    )
 	{
         $this->model = $model;
+        $this->opm = $opm;
+        $this->ico = $ico;
         
         $this->verTodasUnidades = session('ver_todas_unidades');
         $this->unidade = session('cdopmbase');
@@ -36,6 +45,21 @@ class ApresentacaoRepository extends BaseRepository
         
         return $dados;
     }
+
+    public function get($id)
+	{
+        // usado para o memorando apresentacao
+        $registro = $this->model->findOrFail($id);
+        $registro['condicao'] = sistema('apresentacaoCondicao',$registro['id_apresentacaocondicao']);
+        $registro['data_ico'] = $this->ico->data(date('Y-m-d'));
+        $registro['comparecimento_data_ico'] = $this->ico->data($registro['comparecimento_data']);
+        $registro['comparecimento_hora_ico'] = $this->ico->hora($registro['comparecimento_hora']);
+        $registro['cod_notificacao'] = $this->ico->cod_notificacao($registro['sjd_ref']);
+        $registro['memorando_opm_intermediaria'] = $this->opm->opm_intermediaria($registro['cdopm']);
+        $registro['sigla'] = 'SJD';
+        return $registro;
+    }
+
 
     public function opmAno($cdopm, $ano)
 	{

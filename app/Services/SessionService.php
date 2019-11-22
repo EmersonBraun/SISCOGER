@@ -40,15 +40,6 @@ class SessionService
         $data = session('roles');
         return in_array('admin',$data->toArray());
     }
-
-    
-
-
-
-
-
-
-
 }
 
 

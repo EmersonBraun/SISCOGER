@@ -131,9 +131,9 @@
         @if(hasPermissionTo('listar-locais'))
         <li class=""><a href="{{ route('local.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Locais</span></a></li>
         @endif
-        @if(hasPermissionTo('criar-apresentacao'))
+        {{-- @if(hasPermissionTo('criar-apresentacao'))
         <li class=""><a href="{{ route('memorando.create')}}"><i class="fa fa-fw fa-circle-o "></i><span>Gerar Memorando</span></a></li>
-        @endif
+        @endif --}}
         @if(hasPermissionTo('listar-dados-unidade'))
         <li class=""><a href="{{ route('autoridadeom.form')}}"><i class="fa fa-fw fa-circle-o "></i><span>Dados Unidade</span></a></li>
         @endif

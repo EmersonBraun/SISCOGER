@@ -3,8 +3,22 @@ require('./bootstrap');
 window.Vue = require('vue');
 // componentes
 require ('./components')
+// the mask
 import VueTheMask from 'vue-the-mask'
 Vue.use(VueTheMask)
+// html to pdf
+import VueHtmlToPaper from 'vue-html-to-paper';
+const options = {
+  name: '_blank',
+  specs: [
+    'fullscreen=yes',
+    'titlebar=no',
+    'scrollbars=no'
+  ],
+}
+
+Vue.use(VueHtmlToPaper, options);
+
 // stores do vuex
 import store from './store/store'
 // filtros para exibição de dados

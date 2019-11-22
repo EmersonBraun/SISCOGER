@@ -16,7 +16,6 @@ class CadastroOPMAutoridadeController extends Controller
 
     public function get($id)
     {
-
         $registro = $this->repository->get($id);
         return response()->json([$registro,200]);
     }

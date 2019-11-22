@@ -185,6 +185,7 @@ Route::group(['as'=>'localapresentacao.','prefix' =>'localapresentacao'],functio
 // Apresentação
 Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
     Route::get('listnota/{id}',['as' =>'listNota','uses'=>'Apresentacao\ApresentacaoController@listNota']);
+    Route::get('memorandogerar/{id}/{nome}/{funcao}',['as' =>'memorando_generate','uses'=>'Apresentacao\ApresentacaoController@memorando_generate']);
     Route::get('memorando/{id}',['as' =>'getApresentacao','uses'=>'Apresentacao\ApresentacaoController@getApresentacao']);
     Route::post('store',['as' =>'store','uses'=>'Apresentacao\ApresentacaoController@store']);
     Route::put('update/{id}',['as' =>'update','uses'=>'Apresentacao\ApresentacaoController@update']);
@@ -195,6 +196,10 @@ Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
 Route::group(['as'=>'estatuspm.','prefix' =>'estatuspm'],function(){
     Route::get('operacaoverao',['as' =>'operacaoVerao','uses'=>'Policiais\EstatusController@operacaoVerao']);
     Route::get('{rg}',['as' =>'total','uses'=>'Policiais\EstatusController@total']);
+});
+// ICO
+Route::group(['as'=>'ico.','prefix' =>'ico'],function(){
+    Route::get('{funcao}/{dado}',['as' =>'formatacao','uses'=>'Ajuda\ICOController@formatacao']);
 });
 Route::group(['as'=>'dados.','prefix' =>'dados'],function(){
     // pegar sugestões de RG e NOME -> ativos/inativos/reserva

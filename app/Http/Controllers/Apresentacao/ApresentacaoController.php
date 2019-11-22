@@ -5,13 +5,22 @@ namespace App\Http\Controllers\Apresentacao;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\apresentacao\ApresentacaoRepository;
+use App\Repositories\PM\PolicialRepository;
+use App\Services\ICOService;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ApresentacaoController extends Controller
 {
     protected $repository;
-    public function __construct(ApresentacaoRepository $repository)
+    protected $opm;
+    protected $pm;
+    public function __construct(
+        ApresentacaoRepository $repository,
+        PolicialRepository $pm
+    )
 	{
         $this->repository = $repository;
+        $this->pm = $pm;
     }
 
     public function index($ano="",$cdopm="")
@@ -46,13 +55,22 @@ class ApresentacaoController extends Controller
         return view('apresentacao.memorando.create', compact('id'));
     }
 
+    public function memorando_generate($id,$nome,$funcao)
+    {
+        $registro = $this->repository->get($id);
+        $registro['pm'] = $this->pm->get($registro['pessoa_rg']);
+        $registro['autoridade_nome'] = preg_replace('~-~' , ' ' , $nome);
+        $registro['autoridade_funcao'] = preg_replace('~-~' , ' ' , $funcao);
+        $html = view('apresentacao.memorando.print', compact('registro'))->render();
+        $pdf = PDF::loadHTML($html);
+        $nome_pdf = $registro->sjd_ref.'-'.$registro->pessoa_nome.'.pdf';
+        return $pdf->download($nome_pdf);
+    }
+
     public function getApresentacao($id)
     {
-        $registro = $this->repository->findOrFail($id);
-        if($registro) {
-            $registro['condicao'] = sistema('apresentacaoCondicao',$registro['id_apresentacaocondicao']);
-            return response()->json($registro, 200);
-        }
+        $registro = $this->repository->get($id);
+        if($registro) return response()->json($registro, 200);
         return response()->json([], 200);
     }
 

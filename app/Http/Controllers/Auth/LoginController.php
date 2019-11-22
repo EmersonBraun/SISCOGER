@@ -91,10 +91,11 @@ class LoginController extends Controller
             else
             {
                 //remove sessão antiga
-                session()->forget($this->user->id_sessao);
+                // session()->forget($this->user->id_sessao);
                 // atualiza o id da sessão
                 $this->user->id_sessao = session()->getId();
                 $this->user->save();
+                // dd(session()->all());
 
                 return redirect()->route('home');
             }
