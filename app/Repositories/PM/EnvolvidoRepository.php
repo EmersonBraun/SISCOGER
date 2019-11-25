@@ -118,10 +118,10 @@ class EnvolvidoRepository extends BaseRepository
 
     public function list($proc, $id, $situacao="")
 	{
-        $registros = Cache::tags('envolvido')->remember('envolvido:membro', $this->expiration, function() use($proc, $id, $situacao){
+        // $registros = Cache::tags('envolvido')->remember('envolvido:membro', $this->expiration, function() use($proc, $id, $situacao){
             return $this->model->where('id_'.$proc,'=',$id)->where('situacao','=',$situacao)->get();
-        });
-        return $registros;
+        // });
+        // return $registros;
     } 
 
     public function membrosUsados($proc, $id)

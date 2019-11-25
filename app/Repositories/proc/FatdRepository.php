@@ -211,11 +211,11 @@ class FatdRepository extends BaseRepository
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
-                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
+                    envolvido.cargo, envolvido.nome, DIASUTEIS(abertura_data,DATE(NOW()))+1 AS dutotal, 
                     b.dusobrestado, 
-                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    (DIASUTEIS(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        DB::raw("(SELECT id_fatd, SUM(DIASUTEIS(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
                         WHERE termino_data != '0000-00-00' AND id_fatd!= '' GROUP BY id_fatd) b"),
                         'b.id_fatd', '=', 'fatd.id_fatd')
                     ->leftJoin('envolvido', function ($join){
@@ -234,11 +234,11 @@ class FatdRepository extends BaseRepository
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
-                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
+                    envolvido.cargo, envolvido.nome, DIASUTEIS(abertura_data,DATE(NOW()))+1 AS dutotal, 
                     b.dusobrestado, 
-                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    (DIASUTEIS(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        DB::raw("(SELECT id_fatd, SUM(DIASUTEIS(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
                         WHERE termino_data != '0000-00-00' AND id_fatd!= '' GROUP BY id_fatd) b"),
                         'b.id_fatd', '=', 'fatd.id_fatd')
                     ->leftJoin('envolvido', function ($join){
@@ -264,11 +264,11 @@ class FatdRepository extends BaseRepository
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
-                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
+                    envolvido.cargo, envolvido.nome, DIASUTEIS(abertura_data,DATE(NOW()))+1 AS dutotal, 
                     b.dusobrestado, 
-                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    (DIASUTEIS(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        DB::raw("(SELECT id_fatd, SUM(DIASUTEIS(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
                         WHERE termino_data != '0000-00-00' AND id_fatd!= '' GROUP BY id_fatd) b"),
                         'b.id_fatd', '=', 'fatd.id_fatd')
                     ->leftJoin('envolvido', function ($join){
@@ -290,11 +290,11 @@ class FatdRepository extends BaseRepository
                     ->selectRaw('DISTINCT fatd.*,
                     (SELECT  motivo FROM    sobrestamento WHERE   sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
                     (SELECT  motivo_outros FROM    sobrestamento WHERE sobrestamento.id_fatd=fatd.id_fatd ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros,
-                    envolvido.cargo, envolvido.nome, dias_uteis(abertura_data,DATE(NOW()))+1 AS dutotal, 
+                    envolvido.cargo, envolvido.nome, DIASUTEIS(abertura_data,DATE(NOW()))+1 AS dutotal, 
                     b.dusobrestado, 
-                    (dias_uteis(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
+                    (DIASUTEIS(abertura_data,DATE(NOW()))+1-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_fatd, SUM(dias_uteis(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        DB::raw("(SELECT id_fatd, SUM(DIASUTEIS(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
                         WHERE termino_data != '0000-00-00' AND id_fatd!= '' GROUP BY id_fatd) b"),
                         'b.id_fatd', '=', 'fatd.id_fatd')
                     ->leftJoin('envolvido', function ($join){

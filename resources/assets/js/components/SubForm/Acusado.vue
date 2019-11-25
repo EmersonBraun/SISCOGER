@@ -32,7 +32,8 @@
                         <input type="hidden" name="situacao" :value="situacao">
                         <div class="col-xs-3">
                             <label for="rg">RG</label><br>
-                            <the-mask mask="############" class="form-control" v-model="rg" type="text" maxlength="12" name="rg" placeholder="Nº"/>
+                            <input class="numero form-control" name="rg" type="text" maxlength="12" @keyup="searchPM" v-model="rg">
+                            <!-- <the-mask mask="############" class="form-control"  @keyup="searchPM" v-model="rg" type="text" maxlength="12" name="rg" placeholder="Nº"/> -->
                         </div>
                         <div class="col-xs-3">
                             <label for="nome">Nome</label><br>
@@ -44,7 +45,7 @@
                         </div>
                         <div :class="reu ? 'col-xs-3' : 'col-xs-2'">
                             <label for="resultado">Resultado</label><br>
-                            <select class="form-control" name="resultado" :disabled="!finded" required v-model="resultado">
+                            <select class="form-control" name="resultado" :disabled="!nome" required v-model="resultado">
                                 <option value="">Selecione</option>
                                 <option value="Excluído">Excluído</option>
                                 <option value="Punido">Punido</option>
@@ -190,7 +191,7 @@
                                             <a type="button" @click="replacePM(pm)" target="_blanck" class="btn btn-success" style="color: white">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a type="button"  @click="removePM(pm.id_envolvido, index)" class="btn btn-danger" style="color: white">
+                                            <a type="button"  @click="removePM(pm.id_envolvido)" class="btn btn-danger" style="color: white">
                                                 <i class="fa fa-trash"></i> 
                                             </a>
                                         </div>
@@ -345,6 +346,7 @@
         methods: {
             searchPM(){               
                 let searchUrl = `${this.$root.baseUrl}api/dados/pm/${this.rg}` ;
+                console.log(searchUrl)
                 if(this.rg.length > 5){
                     axios
                     .get(searchUrl)
@@ -365,6 +367,7 @@
             },
             listPM(){
                 let urlIndex = `${this.$root.baseUrl}api/dados/envolvido/${this.dproc}/${this.idp}/${this.situacao}` ;
+                console.log(urlIndex)
                 if(this.dproc && this.idp && this.situacao){
                     axios
                     .get(urlIndex)
@@ -382,7 +385,7 @@
                 let formData = document.getElementById('formData');
                 let data = new FormData(formData);
                 axios.post( urlCreate,data)
-                .then(this.listPM())
+                .then((response) => this.transation(response.data.success, 'create'))
                 .catch((error) => console.log(error));
             },
             showPM(rg){
@@ -404,20 +407,15 @@
                 let data = new FormData(formData);
                 
                 axios.post( urledit,data)
-                .then(() => {
-                    this.listPM()
-                    this.clear(false)
-                })
+                .then((response) => this.transation(response.data.success, 'edit'))
                 .catch((error) => console.log(error));
             },
-            removePM(id, index){
-                this.confimModal = true
-                if(r){
+            removePM(id){
+                if(confirm('Você tem certeza?')){
                     let urlDelete = `${this.$root.baseUrl}api/acusado/destroy/${id}`;
                     axios
                     .delete(urlDelete)
-                    .then(this.pms.splice(index,1))
-                    .then(this.clear(false))
+                    .then((response) => this.transation(response.data.success, 'delete'))
                     .catch(error => console.log(error));
                 }
             },
@@ -430,6 +428,22 @@
                 this.toEdit = ''
                 this.finded = false
             },
+             transation(happen,type) {
+                let msg = this.words(type)
+                if(happen) { // se deu certo
+                        this.listPM()
+                        this.$root.msg(msg.success,'success')
+                        this.registro = null
+                        this.clear(false)
+                } else { // se falhou
+                    this.$root.msg(msg.fail,'danger')
+                }
+            },
+            words(type) {
+                if(type == 'create') return { success : 'Inserido com sucesso', fail: 'Erro ao inserir'}
+                if(type == 'edit') return { success : 'Editado com sucesso', fail: 'Erro ao editar'}
+                if(type == 'delete') return { success : 'Apagado com sucesso', fail: 'Erro ao apagar'}
+            }
         },
     }
 </script>

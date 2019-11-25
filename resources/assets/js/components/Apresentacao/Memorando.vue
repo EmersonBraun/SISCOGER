@@ -222,17 +222,12 @@
 </script>
 
 <style scoped>
-@media print {
-    #printpage {
-        background-color: white;
-        height: 100%;
-        width: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        margin: 0;
-    }
-}
+    /* #printpage {
+        top: 10px;
+        margin: 10px;
+        padding: 20px;
+    } */
+
     .body {
         font-family: Arial, Helvetica, sans-serif;
         font-size: 12px;

@@ -279,6 +279,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -359,6 +360,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var _this = this;
 
             var searchUrl = this.$root.baseUrl + 'api/dados/pm/' + this.rg;
+            console.log(searchUrl);
             if (this.rg.length > 5) {
                 axios.get(searchUrl).then(function (response) {
                     if (response.data.success) {
@@ -379,6 +381,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var _this2 = this;
 
             var urlIndex = this.$root.baseUrl + 'api/dados/envolvido/' + this.dproc + '/' + this.idp + '/' + this.situacao;
+            console.log(urlIndex);
             if (this.dproc && this.idp && this.situacao) {
                 axios.get(urlIndex).then(function (response) {
                     _this2.pms = response.data;
@@ -391,10 +394,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
         },
         createPM: function createPM() {
+            var _this3 = this;
+
             var urlCreate = this.$root.baseUrl + 'api/acusado/store';
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
-            axios.post(urlCreate, data).then(this.listPM()).catch(function (error) {
+            axios.post(urlCreate, data).then(function (response) {
+                return _this3.transation(response.data.success, 'create');
+            }).catch(function (error) {
                 return console.log(error);
             });
         },
@@ -408,24 +415,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.add = true;
         },
         editPM: function editPM() {
-            var _this3 = this;
+            var _this4 = this;
 
             var urledit = this.$root.baseUrl + 'api/acusado/edit/' + this.toEdit;
             var formData = document.getElementById('formData');
             var data = new FormData(formData);
 
-            axios.post(urledit, data).then(function () {
-                _this3.listPM();
-                _this3.clear(false);
+            axios.post(urledit, data).then(function (response) {
+                return _this4.transation(response.data.success, 'edit');
             }).catch(function (error) {
                 return console.log(error);
             });
         },
-        removePM: function removePM(id, index) {
-            this.confimModal = true;
-            if (r) {
+        removePM: function removePM(id) {
+            var _this5 = this;
+
+            if (confirm('Você tem certeza?')) {
                 var urlDelete = this.$root.baseUrl + 'api/acusado/destroy/' + id;
-                axios.delete(urlDelete).then(this.pms.splice(index, 1)).then(this.clear(false)).catch(function (error) {
+                axios.delete(urlDelete).then(function (response) {
+                    return _this5.transation(response.data.success, 'delete');
+                }).catch(function (error) {
                     return console.log(error);
                 });
             }
@@ -438,6 +447,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.resultado = '';
             this.toEdit = '';
             this.finded = false;
+        },
+        transation: function transation(happen, type) {
+            var msg = this.words(type);
+            if (happen) {
+                // se deu certo
+                this.listPM();
+                this.$root.msg(msg.success, 'success');
+                this.registro = null;
+                this.clear(false);
+            } else {
+                // se falhou
+                this.$root.msg(msg.fail, 'danger');
+            }
+        },
+        words: function words(type) {
+            if (type == 'create') return { success: 'Inserido com sucesso', fail: 'Erro ao inserir' };
+            if (type == 'edit') return { success: 'Editado com sucesso', fail: 'Erro ao editar' };
+            if (type == 'delete') return { success: 'Apagado com sucesso', fail: 'Erro ao apagar' };
         }
     }
 });
@@ -585,7 +612,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -833,35 +860,39 @@ var render = function() {
                               domProps: { value: _vm.situacao }
                             }),
                             _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "col-xs-3" },
-                              [
-                                _c("label", { attrs: { for: "rg" } }, [
-                                  _vm._v("RG")
-                                ]),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("the-mask", {
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    mask: "############",
-                                    type: "text",
-                                    maxlength: "12",
-                                    name: "rg",
-                                    placeholder: "Nº"
-                                  },
-                                  model: {
+                            _c("div", { staticClass: "col-xs-3" }, [
+                              _c("label", { attrs: { for: "rg" } }, [
+                                _vm._v("RG")
+                              ]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
                                     value: _vm.rg,
-                                    callback: function($$v) {
-                                      _vm.rg = $$v
-                                    },
                                     expression: "rg"
                                   }
-                                })
-                              ],
-                              1
-                            ),
+                                ],
+                                staticClass: "numero form-control",
+                                attrs: {
+                                  name: "rg",
+                                  type: "text",
+                                  maxlength: "12"
+                                },
+                                domProps: { value: _vm.rg },
+                                on: {
+                                  keyup: _vm.searchPM,
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.rg = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-xs-3" }, [
                               _c("label", { attrs: { for: "nome" } }, [
@@ -924,7 +955,7 @@ var render = function() {
                                     staticClass: "form-control",
                                     attrs: {
                                       name: "resultado",
-                                      disabled: !_vm.finded,
+                                      disabled: !_vm.nome,
                                       required: ""
                                     },
                                     on: {
@@ -1755,8 +1786,7 @@ var render = function() {
                                             on: {
                                               click: function($event) {
                                                 return _vm.removePM(
-                                                  pm.id_envolvido,
-                                                  index
+                                                  pm.id_envolvido
                                                 )
                                               }
                                             }

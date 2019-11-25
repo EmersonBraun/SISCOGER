@@ -206,11 +206,11 @@ class ProcOutroRepository extends BaseRepository
 
             $registros = Cache::tags('proc_outro')->remember('prazo_proc_outro', self::$expiration, function() {
                 return $this->model->selectRaw('DISTINCT proc_outros.*,
-                    dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
+                    DIASUTEIS(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
-                    dias_uteis(abertura_data,limite_data) AS dutotal,
+                    DIASUTEIS(abertura_data,limite_data) AS dutotal,
                     DATEDIFF(limite_data,abertura_data) AS dttotal ,
-                    dias_uteis(DATE(NOW()),limite_data) AS dufaltando,
+                    DIASUTEIS(DATE(NOW()),limite_data) AS dufaltando,
                     DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando')
                     ->get(); 
                 });
@@ -220,11 +220,11 @@ class ProcOutroRepository extends BaseRepository
         {
             $registros = Cache::tags('proc_outro')->remember('prazo_proc_outro'.$this->unidade.'_prazo_topm', self::$expiration, function() {
                 return $this->model->selectRaw('DISTINCT proc_outros.*,
-                    dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
+                    DIASUTEIS(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
-                    dias_uteis(abertura_data,limite_data) AS dutotal,
+                    DIASUTEIS(abertura_data,limite_data) AS dutotal,
                     DATEDIFF(limite_data,abertura_data) AS dttotal ,
-                    dias_uteis(DATE(NOW()),limite_data) AS dufaltando,
+                    DIASUTEIS(DATE(NOW()),limite_data) AS dufaltando,
                     DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando')
                     ->where('proc_outros.cdopm','like',$this->unidade.'%')
                     ->get(); 
@@ -240,11 +240,11 @@ class ProcOutroRepository extends BaseRepository
 
             $registros = Cache::tags('proc_outro')->remember('prazo_proc_outro'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->selectRaw('DISTINCT proc_outros.*,
-                    dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
+                    DIASUTEIS(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
-                    dias_uteis(abertura_data,limite_data) AS dutotal,
+                    DIASUTEIS(abertura_data,limite_data) AS dutotal,
                     DATEDIFF(limite_data,abertura_data) AS dttotal ,
-                    dias_uteis(DATE(NOW()),limite_data) AS dufaltando,
+                    DIASUTEIS(DATE(NOW()),limite_data) AS dufaltando,
                     DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando')
                     ->where('proc_outros.sjd_ref_ano','=',$ano)
                     ->get();
@@ -255,11 +255,11 @@ class ProcOutroRepository extends BaseRepository
         {
             $registros = Cache::tags('proc_outro')->remember('prazo_proc_outro'.$ano.$this->unidade, self::$expiration, function() use ($ano){
                 return $this->model->selectRaw('DISTINCT proc_outros.*,
-                    dias_uteis(abertura_data,DATE(NOW())) AS ducorridos,
+                    DIASUTEIS(abertura_data,DATE(NOW())) AS ducorridos,
                     DATEDIFF(DATE(NOW()),abertura_data) AS dtcorridos,
-                    dias_uteis(abertura_data,limite_data) AS dutotal,
+                    DIASUTEIS(abertura_data,limite_data) AS dutotal,
                     DATEDIFF(limite_data,abertura_data) AS dttotal ,
-                    dias_uteis(DATE(NOW()),limite_data) AS dufaltando,
+                    DIASUTEIS(DATE(NOW()),limite_data) AS dufaltando,
                     DATEDIFF(limite_data,DATE(NOW())) AS dtfaltando')
                     ->where('proc_outros.cdopm','like',$this->unidade.'%')
                     ->where('proc_outros.sjd_ref_ano','=',$ano)

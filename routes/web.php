@@ -29,7 +29,6 @@ include $dir.'correicoes.php'; //ROTAS CORREIÇÕES
 include $dir.'ajuda.php'; //ROTAS AJUDA
 include $dir.'logs.php'; //ROTAS LOGS
 include $dir.'historias.php'; //ROTAS HISTORIAS
-include $dir.'ajax.php'; //ROTAS VIA AJAX
 include $dir.'vue.php'; //ROTAS VUE
 include $dir.'opm.php'; //ROTAS OPM
 include $dir.'link.php'; //ROTAS LINK

@@ -24,14 +24,14 @@
 <div class='col-lg-12'>
     {{ Form::model($user, array('route' => array('user.update', $user->id), 'method' => 'PUT')) }}
     <div class="form-group col-lg-6 @if ($errors->has('password')) has-error @endif">
-        {{ Form::label('password', 'Password') }}<br>
+        {{ Form::label('password', 'Senha') }}<br>
         {{ Form::password('password', array('class' => 'form-control')) }}
     </div>
     <div class="form-group col-lg-6 @if ($errors->has('password')) has-error @endif">
-        {{ Form::label('password', 'Confirm Password') }}<br>
+        {{ Form::label('password', 'Confirmar Senha') }}<br>
         {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
     </div>
-    {{ Form::submit('Atualizar', array('class' => 'btn btn-primary')) }}
+    {{ Form::submit('Atualizar', array('class' => 'btn btn-primary btn-block')) }}
     {{ Form::close() }}
 </div>
 @stop

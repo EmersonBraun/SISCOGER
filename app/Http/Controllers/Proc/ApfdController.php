@@ -49,20 +49,12 @@ class ApfdController extends Controller
 
     public function store(Request $request)
     {
-        //andamento (concluído) alguns campos ficam obrigatórios
-        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' ){
-            $this->validate($request, [
-                'tipo' => 'required',
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        } else {
-            $this->validate($request, [
-                'tipo' => 'required',
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        }
+        
+        $this->validate($request, [
+            'tipo' => 'required',
+            'id_andamentocoger' => 'required',
+            'sintese_txt' => 'required',
+            ]);
        
         //dados do formulário
         $dados = $this->repository->datesToCreate($request->all()); 
@@ -95,20 +87,10 @@ class ApfdController extends Controller
 
     public function update(Request $request, $id)
     {
-        //andamento (concluído) alguns campos ficam obrigatórios
-        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' )
-        {
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        }
-        else
-        {
-            $this->validate($request, [
-                'sintese_txt' => 'required'
+        $this->validate($request, [
+            'id_andamentocoger' => 'required',
+            'sintese_txt' => 'required',
             ]);
-        }
 
         $dados = $request->all();
         $update = $this->repository->findAndUpdate( $id, $dados);
