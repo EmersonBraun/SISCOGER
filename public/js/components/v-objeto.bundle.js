@@ -100,7 +100,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-tab",
-    { attrs: { header: "Objeto", badge: _vm.objetos.length } },
+    { attrs: { header: "Acusado", badge: _vm.objetos.length } },
     [
       _c("h4", { staticClass: "text-center text-bold" }, [
         _vm._v(

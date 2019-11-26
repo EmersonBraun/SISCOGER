@@ -50,4 +50,15 @@ class UserRepository extends BaseRepository
 
         return $registros;
     }
+
+    public function findAndDelete($id)
+	{
+        try {
+            $this->model->findOrFail($id)->delete();
+            return true;
+        } catch (\Throwable $th) {
+            toast()->error($th->getMessage(),'ERRO');
+            return false;
+        }
+    }
 }

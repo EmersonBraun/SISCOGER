@@ -530,7 +530,7 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticClass: "btn btn-primary btn-block",
+                      staticClass: "btn btn-success btn-block",
                       on: {
                         click: function($event) {
                           return _vm.goToFdi(_vm.found.rg)
@@ -547,7 +547,7 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticClass: "btn btn-success btn-block",
+                      staticClass: "btn btn-primary btn-block",
                       on: { click: _vm.reset }
                     },
                     [

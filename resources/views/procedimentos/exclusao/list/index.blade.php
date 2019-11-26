@@ -46,7 +46,7 @@
                                 <span>
                                     @if(hasPermissionTo('ver-exclusao'))
                                     <a class="btn btn-default"
-                                        href="{{route('exclusao.show',$registro->id_exclusaojudicialjudicial)}}"><i
+                                        href="{{route('exclusao.show',$registro->id_exclusaojudicial)}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
                                     @endif
                                     @if(hasPermissionTo('editar-exclusao')) 

@@ -46,10 +46,10 @@
                 </div>
             </div>
             <div v-if="!onSearch" class="col-md-6 col-xs-12">
-                <a class="btn btn-primary btn-block" @click="goToFdi(found.rg)">Ir para ficha</a>
+                <a class="btn btn-success btn-block" @click="goToFdi(found.rg)">Ir para ficha</a>
             </div>
             <div v-if="!onSearch" class="col-md-6 col-xs-12">
-                <a class="btn btn-success btn-block" @click="reset"><i class="fa fa-search"></i> Procurar outra ficha</a>
+                <a class="btn btn-primary btn-block" @click="reset"><i class="fa fa-search"></i> Procurar outra ficha</a>
             </div>
         </template>
         <template v-else>

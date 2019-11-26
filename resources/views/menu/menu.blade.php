@@ -208,7 +208,7 @@
         <li class=""><a href="{{ route('busca.ofendido.search')}}"><i class="fa fa-fw fa-circle-o "></i><span>Ofendido</span></a></li>
         @endif
         @if(hasPermissionTo('buscar-envolvido'))
-        <li class=""><a href="{{ route('busca.envolvido.search')}}"><i class="fa fa-fw fa-circle-o "></i><span>envolvido</span></a></li>
+        <li class=""><a href="{{ route('busca.envolvido.search')}}"><i class="fa fa-fw fa-circle-o "></i><span>Envolvido</span></a></li>
         @endif
         {{-- @if(hasPermissionTo('buscar-documentacao'))
         <li class=""><a href="{{ route('busca.documentacao')}}"><i class="fa fa-fw fa-circle-o "></i><span>Documentacão</span></a></li>
@@ -350,7 +350,7 @@
     <ul class="treeview-menu">
         <li class=""><a href="{{ route('user.manual')}}"><i class="fa fa-fw fa-circle-o "></i><span>Manual do usuário</span></a></li>
         <li class=""><a href="{{ route('user.pass',Auth::id())}}"><i class="fa fa-fw fa-circle-o "></i><span>Modificar senha</span></a></li>
-        <li class=""><a href="{{ route('it.documentacao')}}"><i class="fa fa-fw fa-circle-o "></i><span>Documentação para IT</span></a></li>
+        <li class=""><a href="{{ route('link.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Documentação para IT</span></a></li>
     </ul>
 </li>
 

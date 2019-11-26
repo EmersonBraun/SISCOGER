@@ -100,7 +100,7 @@ class IpmController extends Controller
         {
             $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'IPM Inserido');
-            return redirect()->route('ipm.lista');
+            return redirect()->route('ipm.lista',date('Y'));
         }
 
         toast()->warning('Houve um erro na inserção');
@@ -145,11 +145,11 @@ class IpmController extends Controller
         {
             $this->repository->cleanCache();
             toast()->success('IPM atualizado!');
-            return redirect()->route('ipm.lista');
+            return redirect()->route('ipm.lista',date('Y'));
         }
 
         toast()->warning('IPM NÃO atualizado!');
-        return redirect()->route('ipm.lista');
+        return redirect()->route('ipm.lista',date('Y'));
 
     }
 
@@ -160,11 +160,11 @@ class IpmController extends Controller
         if($destroy) {
             $this->repository->cleanCache();
             toast()->success('IPM Apagado');
-            return redirect()->route('ipm.lista');
+            return redirect()->route('ipm.lista',date('Y'));
         }
 
         toast()->warning('erro ao apagar IPM');
-        return redirect()->route('ipm.lista');
+        return redirect()->route('ipm.lista',date('Y'));
 
     }
 
@@ -175,11 +175,11 @@ class IpmController extends Controller
         if($restore){
             $this->repository->cleanCache();
             toast()->success('IPM Recuperado!');
-            return redirect()->route('ipm.lista');  
+            return redirect()->route('ipm.lista',date('Y'));  
         }
 
         toast()->warning('Houve um erro ao recuperar!');
-        return redirect()->route('ipm.lista'); 
+        return redirect()->route('ipm.lista',date('Y')); 
     }
 
     public function forceDelete($id)
@@ -189,11 +189,11 @@ class IpmController extends Controller
         if($forceDelete){
             $this->repository->cleanCache();
             toast()->success('IPM apagado DEFINITIVO!');
-            return redirect()->route('ipm.lista');  
+            return redirect()->route('ipm.lista',date('Y'));  
         }
 
         toast()->warning('Houve um erro ao Apagar definitivo!');
-        return redirect()->route('ipm.lista');
+        return redirect()->route('ipm.lista',date('Y'));
     }
 
 }

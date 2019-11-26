@@ -204,7 +204,7 @@
         <li class=""><a href="<?php echo e(route('busca.ofendido.search')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Ofendido</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('buscar-envolvido')): ?>
-        <li class=""><a href="<?php echo e(route('busca.envolvido.search')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>envolvido</span></a></li>
+        <li class=""><a href="<?php echo e(route('busca.envolvido.search')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Envolvido</span></a></li>
         <?php endif; ?>
         
         <?php if(hasPermissionTo('listar-tramitacao')): ?>
@@ -322,7 +322,7 @@
     <ul class="treeview-menu">
         <li class=""><a href="<?php echo e(route('user.manual')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Manual do usuário</span></a></li>
         <li class=""><a href="<?php echo e(route('user.pass',Auth::id())); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Modificar senha</span></a></li>
-        <li class=""><a href="<?php echo e(route('it.documentacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Documentação para IT</span></a></li>
+        <li class=""><a href="<?php echo e(route('link.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Documentação para IT</span></a></li>
     </ul>
 </li>
 

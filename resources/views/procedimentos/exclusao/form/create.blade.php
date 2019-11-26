@@ -55,16 +55,16 @@
                 <v-label label="id_motivoconselho" title="Motivo">
                     {!! Form::select('id_motivoconselho', config('sistema.motivoConselho'),null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
                 </v-label>  
-                <v-label label="processo" title="Processo, Nº do processo - Comarca.">
+                <v-label label="processo" title="Processo, Nº do processo - Comarca." error="{{$errors->first('processo')}}">
                     {{ Form::text('processo', null, ['class' => 'form-control ','placeholder' => 'Ex: Ação Penal Militar nº 2010.0000XXX-X - Curitiba']) }}
                 </v-label>
-                <v-label label="complemento" title="Artigos da Infração penal">
+                <v-label label="complemento" title="Artigos da Infração penal" error="{{$errors->first('complemento')}}">
                     {{ Form::text('complemento', null, ['class' => 'form-control ','placeholder' => 'Ex: Ação Penal Militar nº 2010.0000XXX-X - Curitiba']) }}
                 </v-label>
-                <v-label label="vara" title="Vara e Comarca(Ex: 3ª Vara Criminal de Curitiba)">
+                <v-label label="vara" title="Vara e Comarca(Ex: 3ª Vara Criminal de Curitiba)" error="{{$errors->first('vara')}}">
                     {{ Form::text('vara', null, ['class' => 'form-control ','placeholder' => '(Ex: Art. 121 § 2º CP)']) }}
                 </v-label>
-                <v-label label="numerounico" title="Nº único">
+                <v-label label="numerounico" title="Nº único" error="{{$errors->first('numerounico')}}">
                     {{ Form::text('numerounico', null, ['class' => 'form-control ','placeholder' => 'Ex: 0003956-00.2012.8.16.0013']) }}
                 </v-label>
                 <v-label label="data" title="Data da sentença" icon="fa fa-calendar">
@@ -80,7 +80,7 @@
                     {{ Form::text('bg_numero', null, ['class' => 'form-control ']) }}
                 </v-label>
                 <v-label label="bg_ano" title="N° Boletim">
-                    {{ Form::text('bg_ano', null, ['class' => 'form-control ','placeholder' => 'aaaa']) }}
+                    {{ Form::text('bg_ano', null, ['class' => 'form-control ']) }}
                 </v-label>
                 <v-label label="obs_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('obs_txt')}}">
                     {!! Form::textarea('obs_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}

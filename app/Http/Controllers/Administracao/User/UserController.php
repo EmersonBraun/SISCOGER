@@ -145,7 +145,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $destroy = $this->user->findAndDelete($id);
+        $destroy = $this->user->findOrFail($id)->delete();
         if($destroy) {
             toast()->success('apagado com sucesso!', 'Usuário');
             return redirect()->route('user.index');
@@ -185,20 +185,20 @@ class UserController extends Controller
 
     public function sendMail($id,$resend=false)
     {
-        $user = $this->user->findOrFail($id);
-        $action = ($resend) ? 'resend' : 'send';
-        $send = $this->mail->wellcome($user,$action);
-        if($send !== 'ok') dd($send);
+        // $user = $this->user->findOrFail($id);
+        // $action = ($resend) ? 'resend' : 'send';
+        // $send = $this->mail->wellcome($user,$action);
+        // if($send !== 'ok') dd($send);
 
-        if($resend) {
-            toast()->success($user->email, 'Email reenviado');
-            return redirect()->route('user.index');
-        }
-        return true;
+        // if($resend) {
+        //     toast()->success($user->email, 'Email reenviado');
+        //     return redirect()->route('user.index');
+        // }
+        // return true;
     }
 
     public function manual()
     {
-        return 'manual do usuario';
+        return view('administracao.usuarios.manual');
     }
 }

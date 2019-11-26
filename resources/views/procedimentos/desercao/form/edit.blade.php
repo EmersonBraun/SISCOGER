@@ -21,7 +21,6 @@
         <v-tab-menu
         :itens="[
             {idp: 'principal',name: 'Principal', cls: 'active'},
-            {idp: 'reus',name: 'Réus'},
             {idp: 'movimentos',name: 'Movimentos'},
             {idp: 'encaminhamentos',name: 'Encaminhamentos'},
             {idp: 'arquivo',name: 'Arquivo'},
@@ -76,9 +75,6 @@
                     </v-label>
                 {!! Form::submit('Alterar Deserção',['class' => 'btn btn-primary btn-block']) !!}
                 {!! Form::close() !!}
-            </v-tab-item>
-            <v-tab-item title="Réus" idp="reus">
-                Reus
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
                 <v-movimento dproc="desercao" idp="{{$proc['id_desercao']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>

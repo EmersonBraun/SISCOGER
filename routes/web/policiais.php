@@ -25,8 +25,8 @@ Route::group(['as'=>'elogio.','prefix' =>'elogio'],function(){
 });
 //Rotas do módulo Excluidos
 Route::group(['as'=>'excluido.','prefix' =>'excluido'],function(){
-    Route::get('conselho',['as' =>'conselho','uses'=>'Policiais\ExcluidoController@conselho','middleware' => ['permission:listar-excluidos']]);
-    Route::get('judicial',['as' =>'judicial','uses'=>'Policiais\ExcluidoController@judicial','middleware' => ['permission:listar-excluidos']]);
+    Route::get('conselho',['as' =>'conselho','uses'=>'Policiais\ExcluidoController@conselho','middleware' => ['permission:listar-exclusao']]);
+    Route::get('judicial',['as' =>'judicial','uses'=>'Policiais\ExcluidoController@judicial','middleware' => ['permission:listar-exclusao']]);
     
     Route::get('criar',['as' =>'create','uses'=>'Policiais\ExcluidoController@create','middleware' => ['permission:criar-excluidos']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\ExcluidoController@store','middleware' => ['permission:criar-excluidos']]);
@@ -112,7 +112,7 @@ Route::group(['as'=>'presooutro.','prefix' =>'presooutro'],function(){
 // }); 
 //Rotas do módulo comportamento 
 Route::group(['as'=>'comportamento.','prefix' =>'comportamento'],function(){
-    Route::get('{posto}/{parte?}',['as' =>'index','uses'=>'Policiais\ComportamentoController@index','middleware' => ['permission:listar-comportamento']]);
+    Route::get('{posto}/{parte?}',['as' =>'index','uses'=>'Policiais\ComportamentoController@index','middleware' => ['permission:listar-comportamentos']]);
     Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\ComportamentoController@apagados','middleware' => ['role:admin']]);
     Route::get('criar',['as' =>'create','uses'=>'Policiais\ComportamentoController@create','middleware' => ['permission:criar-comportamento']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\ComportamentoController@store','middleware' => ['permission:criar-comportamento']]);

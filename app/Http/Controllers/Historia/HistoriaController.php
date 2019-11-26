@@ -34,11 +34,11 @@ class HistoriaController extends Controller
         $create = Historia::create($dados);
         if($create) {
             toast()->success('inserida com sucesso!','História');
-            return redirect()->route('histroria.index');
+            return redirect()->route('historia.ver');
         }
 
         toast()->warning('Erro ao inserir','História');
-        return redirect()->route('histroria.index');    
+        return redirect()->route('historia.ver');    
     }
 
     public function show()
@@ -55,11 +55,11 @@ class HistoriaController extends Controller
         $update = Historia::find($id)->update($dados);
         if($update) {
             toast()->success('atualizada com sucesso!','História');
-            return redirect()->route('histroria.index');
+            return redirect()->route('historia.ver');
         }
 
         toast()->warning('Erro ao atualizar','História');
-        return redirect()->route('histroria.index'); 
+        return redirect()->route('historia.ver'); 
     }
 
     public function destroy($id)
@@ -68,10 +68,10 @@ class HistoriaController extends Controller
 
         if($destroy) {
             toast()->success('apagada com sucesso!','História');
-            return redirect()->route('histroria.index');
+            return redirect()->route('historia.ver');
         }
 
         toast()->warning('Erro ao apagar','História');
-        return redirect()->route('histroria.index'); 
+        return redirect()->route('historia.ver'); 
     }
 }

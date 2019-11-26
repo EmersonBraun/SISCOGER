@@ -39,27 +39,24 @@ class ExclusaoController extends Controller
 
     public function store(Request $request)
     {
-        //andamento (concluído) alguns campos ficam obrigatórios
-        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' ){
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        } else {
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        }
+
+        $this->validate($request, [
+            'rg' => 'required',
+            'processo' => 'required',
+            'complemento' => 'required',
+            'vara' => 'required',
+            'numerounico' => 'required',
+            'obs_txt' => 'required',
+            ]);
        
         //dados do formulário
-        $dados = $this->repository->datesToCreate($request->all()); 
+        $dados = $request->all(); 
         $create = $this->repository->create($dados);
 
         if($create)
         {
             $this->repository->cleanCache();
-            toast()->success('N° '.$dados['sjd_ref'].'/'.'Exclusão Inserido');
+            toast()->success('Exclusão Inserida');
             return redirect()->route('exclusao.lista');
         }
 
@@ -83,20 +80,14 @@ class ExclusaoController extends Controller
 
     public function update(Request $request, $id)
     {
-        //andamento (concluído) alguns campos ficam obrigatórios
-        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' )
-        {
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        }
-        else
-        {
-            $this->validate($request, [
-                'sintese_txt' => 'required'
+        $this->validate($request, [
+            'rg' => 'required',
+            'processo' => 'required',
+            'complemento' => 'required',
+            'vara' => 'required',
+            'numerounico' => 'required',
+            'obs_txt' => 'required',
             ]);
-        }
 
         $dados = $request->all();
         $update = $this->repository->findAndUpdate( $id, $dados);
@@ -104,11 +95,11 @@ class ExclusaoController extends Controller
         if($update)
         {
             $this->repository->cleanCache();
-            toast()->success('Exclusão atualizado!');
+            toast()->success('Exclusão atualizada!');
             return redirect()->route('exclusao.lista');
         }
 
-        toast()->warning('Exclusão NÃO atualizado!');
+        toast()->warning('Exclusão NÃO atualizada!');
         return redirect()->route('exclusao.lista');
 
     }

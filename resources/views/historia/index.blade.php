@@ -82,37 +82,17 @@ function apagarHistoria(id)
     var url = window.location.origin;
     //token
     var _token = $('input[name="_token"]').val();
-
-    $.confirm({
-        icon: 'fa fa-warning',
-        title: 'História',
-        content: 'Tem certeza que quer apagar?',
-        buttons: {
-            Sim: {
-                text: 'Sim', // With spaces and symbols
-                action: function () {
-                    $.ajax({
-                        url: url+"/siscoger/historia/"+id+"/remover",
-                        method: "DELETE",
-                        data: {
-                        _token: _token,
-                        'id': id
-                        },
-                        success: function(){
-                            $.alert('Apagado');
-                            window.location.reload();
-                        }
-                    });      
-                }
-            },
-            Não: {
-                text: 'Não', // With spaces and symbols
-                action: function () {
-                    $.alert('Cancelado');
-                }
-            }
+    $.ajax({
+        url: url+"/siscoger/historia/"+id+"/remover",
+        data: {
+        _token: _token,
+        'id': id
+        },
+        success: function(){
+            alert('Apagado');
+            window.location.href = url+"/siscoger/historia/";
         }
-        });
+    });      
 }
 //});
 </script>

@@ -34,12 +34,12 @@
                             <td>
                                 @if(hasPermissionTo('editar-permissoes'))
                                 <a href="{{ route('permission.edit',$permission->id) }}" class="btn btn-info pull-left"
-                                    style="margin-right: 3px;">Edit</a>
+                                    style="margin-right: 3px;">Editar</a>
                                 @endif
                                 @if(hasPermissionTo('apagar-permissoes'))
                                 {!! Form::open(['method' => 'DELETE', 'route' => ['permission.destroy',
                                 $permission->id] ]) !!}
-                                {!! Form::submit('Delete', ['class' => 'btn btn-danger', 'onclick' => 'return
+                                {!! Form::submit('Apagar', ['class' => 'btn btn-danger', 'onclick' => 'return
                                 confirm("Você tem certeza?");']) !!}
                                 {!! Form::close() !!}
                                 @endif

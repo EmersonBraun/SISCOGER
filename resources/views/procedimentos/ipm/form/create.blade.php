@@ -63,10 +63,10 @@
                     {!! Form::select('crime',config('sistema.crime'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
                 </v-label>
                 <v-label label="id_municipio" title="Municipio">
-                    <v-municipio id_municipio="{{$proc['id_municipio']}}"></v-municipio>
+                    <v-municipio id_municipio="{{$proc['id_municipio'] ?? ''}}"></v-municipio>
                 </v-label>
                 <v-label label="bou_ano" title="BOU (Ano)">
-                    <v-ano ano="{{$proc['bou_ano']}}"></v-ano>
+                    <v-ano ano="{{$proc['bou_ano'] ?? ''}}"></v-ano>
                 </v-label>
                 <v-label label="bou_numero" title="N° BOU">
                     {{ Form::text('bou_numero', null, ['class' => 'form-control ']) }}
@@ -75,7 +75,7 @@
                     {{ Form::text('n_eproc', null, ['class' => 'form-control ']) }}
                 </v-label>
                 <v-label label="ano_eproc" title="Eproc (Ano)">
-                    <v-ano ano="{{$proc['ano_eproc']}}"></v-ano>
+                    <v-ano ano="{{$proc['ano_eproc'] ?? ''}}"></v-ano>
                 </v-label>
                 <v-label label="relato_enc" title="Conclusão do encarregado">
                     {{ Form::text('relato_enc', null, ['class' => 'form-control ']) }}

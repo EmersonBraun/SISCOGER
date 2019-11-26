@@ -18,13 +18,13 @@
                     <thead>
                         <tr>
                             <th style="display: none">#</th>
-                            <th class='col'>N°/Ano</th>
-                            <th class='col'>OPM</th>
-                            <th class='col'>Abertura</th>
-                            <th class='col'>Andamento</th>
-                            <th class='col'>Andamento COGER</th>
-                            <th class='col'>Sintese</th>
-                            <th class='col'>Ações</th>
+                            <th class='col-xs-1'>N°/Ano</th>
+                            <th class='col-xs-1'>OPM</th>
+                            <th class='col-xs-1'>Abertura</th>
+                            <th class='col-xs-2'>Andamento</th>
+                            <th class='col-xs-2'>Andamento COGER</th>
+                            <th class='col-xs-3'>Sintese</th>
+                            <th class='col-xs-2'>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,13 +62,13 @@
                     <tfoot>
                         <tr>
                             <th style="display: none">#</th>
-                            <th class='col'>N°/Ano</th>
-                            <th class='col'>OPM</th>
-                            <th class='col'>Abertura</th>
-                            <th class='col'>Andamento</th>
-                            <th class='col'>Andamento COGER</th>
-                            <th class='col'>Sintese</th>
-                            <th class='col'>Ações</th>
+                            <th class='col-xs-1'>N°/Ano</th>
+                            <th class='col-xs-1'>OPM</th>
+                            <th class='col-xs-1'>Abertura</th>
+                            <th class='col-xs-2'>Andamento</th>
+                            <th class='col-xs-2'>Andamento COGER</th>
+                            <th class='col-xs-3'>Sintese</th>
+                            <th class='col-xs-2'>Ações</th>
                         </tr>
                     </tfoot>
                 </table>

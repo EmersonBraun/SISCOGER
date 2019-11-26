@@ -5,5 +5,5 @@ Route::group(['as'=>'link.','prefix' =>'link'],function(){
 	Route::post('salvar',['as' =>'store','uses'=>'Link\LinkController@store','middleware' => ['role:admin']]);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Link\LinkController@edit','middleware' => ['role:admin']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Link\LinkController@update','middleware' => ['role:admin']]);
-	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Link\LinkController@destroy','middleware' => ['role:admin']]);
+	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Link\LinkController@destroy','middleware' => ['role:admin']]);
 });

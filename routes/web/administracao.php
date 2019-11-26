@@ -38,7 +38,7 @@ Route::group(['as'=>'permission.','prefix' =>'permissao','middleware' => ['role:
 	Route::post('salvar',['as' =>'store','uses'=>'Administracao\PermissionController@store']);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Administracao\PermissionController@edit']);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Administracao\PermissionController@update']);
-	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Administracao\PermissionController@destroy']);
+	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Administracao\PermissionController@destroy']);
 });
 //Rotas do módulo controle SJDS
 Route::group(['as'=>'sjd.','prefix' =>'sjd','middleware' => ['role:admin']],function(){
@@ -62,5 +62,5 @@ Route::group(['as'=>'feriado.','prefix' =>'feriado'],function(){
 	Route::post('salvar',['as' =>'store','uses'=>'Administracao\FeriadoController@store','middleware' => ['permission:criar-feriados']]);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Administracao\FeriadoController@edit','middleware' => ['permission:editar-feriados']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Administracao\FeriadoController@update','middleware' => ['permission:editar-feriados']]);
-	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Administracao\FeriadoController@destroy','middleware' => ['permission:listar-feriados']]);
+	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Administracao\FeriadoController@destroy','middleware' => ['permission:apagar-feriados']]);
 });

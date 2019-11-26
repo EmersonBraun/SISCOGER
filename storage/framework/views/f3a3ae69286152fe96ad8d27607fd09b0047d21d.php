@@ -32,13 +32,13 @@
                             <td>
                                 <?php if(hasPermissionTo('editar-permissoes')): ?>
                                 <a href="<?php echo e(route('permission.edit',$permission->id)); ?>" class="btn btn-info pull-left"
-                                    style="margin-right: 3px;">Edit</a>
+                                    style="margin-right: 3px;">Editar</a>
                                 <?php endif; ?>
                                 <?php if(hasPermissionTo('apagar-permissoes')): ?>
                                 <?php echo Form::open(['method' => 'DELETE', 'route' => ['permission.destroy',
                                 $permission->id] ]); ?>
 
-                                <?php echo Form::submit('Delete', ['class' => 'btn btn-danger', 'onclick' => 'return
+                                <?php echo Form::submit('Apagar', ['class' => 'btn btn-danger', 'onclick' => 'return
                                 confirm("Você tem certeza?");']); ?>
 
                                 <?php echo Form::close(); ?>

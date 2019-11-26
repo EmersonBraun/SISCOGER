@@ -47,10 +47,10 @@
                                     {{-- <a class="btn btn-default" href="{{route('exclusao.show',$registro['id_exclusao'])}}"><i
                                         class="fa fa-fw fa-eye "></i></a> --}}
                                     <a class="btn btn-info"
-                                    href="{{route('exclusao.restore',$registro['id_exclusao'])}}"><i
+                                    href="{{route('exclusao.restore',$registro['id_exclusaojudicial'])}}"><i
                                         class="fa fa-fw fa-recycle "></i></a>
                                     <a class="btn btn-danger"
-                                        href="{{route('exclusao.forceDelete',$registro['id_exclusao'])}}"
+                                        href="{{route('exclusao.forceDelete',$registro['id_exclusaojudicial'])}}"
                                         onclick="return confirm('Tem certeza que quer apagar o DEFINITIVO o exclusao?')"><i
                                             class="fa fa-fw fa-trash"></i></a>
                                 </span>

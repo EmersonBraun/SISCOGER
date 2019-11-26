@@ -107,7 +107,7 @@ class FatdController extends Controller
         {
             $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'FATD Inserido');
-            return redirect()->route('fatd.lista');
+            return redirect()->route('fatd.lista',date('Y'));
         }
 
         toast()->warning('Houve um erro na inserção');
@@ -152,11 +152,11 @@ class FatdController extends Controller
         {
             $this->repository->cleanCache();
             toast()->success('FATD atualizado!');
-            return redirect()->route('fatd.lista');
+            return redirect()->route('fatd.lista',date('Y'));
         }
 
         toast()->warning('FATD NÃO atualizado!');
-        return redirect()->route('fatd.lista');
+        return redirect()->route('fatd.lista',date('Y'));
 
     }
 
@@ -167,11 +167,11 @@ class FatdController extends Controller
         if($destroy) {
             $this->repository->cleanCache();
             toast()->success('FATD Apagado');
-            return redirect()->route('fatd.lista');
+            return redirect()->route('fatd.lista',date('Y'));
         }
 
         toast()->warning('erro ao apagar FATD');
-        return redirect()->route('fatd.lista');
+        return redirect()->route('fatd.lista',date('Y'));
 
     }
 
@@ -182,11 +182,11 @@ class FatdController extends Controller
         if($restore){
             $this->repository->cleanCache();
             toast()->success('FATD Recuperado!');
-            return redirect()->route('fatd.lista');  
+            return redirect()->route('fatd.lista',date('Y'));  
         }
 
         toast()->warning('Houve um erro ao recuperar!');
-        return redirect()->route('fatd.lista'); 
+        return redirect()->route('fatd.lista',date('Y')); 
     }
 
     public function forceDelete($id)
@@ -196,11 +196,11 @@ class FatdController extends Controller
         if($forceDelete){
             $this->repository->cleanCache();
             toast()->success('FATD apagado DEFINITIVO!');
-            return redirect()->route('fatd.lista');  
+            return redirect()->route('fatd.lista',date('Y'));  
         }
 
         toast()->warning('Houve um erro ao Apagar definitivo!');
-        return redirect()->route('fatd.lista');
+        return redirect()->route('fatd.lista',date('Y'));
     }
 
 }

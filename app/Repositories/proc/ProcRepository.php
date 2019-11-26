@@ -20,6 +20,12 @@ class ProcRepository
 
     public function getByRefAno($proc, $ref, $ano='')
     {
+        // $a = [
+        //     'proc' => $proc,
+        //     'ref' => $ref,
+        //     'ano' => $ano
+        // ];
+        // dd($a);
         if(!$ano) $proc = $this->getById($proc, $ref);
         else $proc = DB::table($proc)->where([['sjd_ref',$ref],['sjd_ref_ano',$ano]])->first();
 
@@ -180,8 +186,7 @@ class ProcRepository
 
     public function dados($proc, $ref, $ano)
     {
-
-        if(!is_numeric($proc)) $proc = sistema('pocedimentosOpcoes',$proc);
+        if(is_numeric($proc)) $proc = sistema('pocedimentosOpcoes',$proc);
         
         // validações
         if(!in_array($proc,config('sistema.pocedimentosOpcoes'))) return $this->formatReturn(null, null, 'Procedimento inválido');
