@@ -53,7 +53,7 @@
                                     @endif
                                     @if(hasPermissionTo('apagar-notas-coger'))
                                     <a class="btn btn-danger"
-                                        href="{{route('notacoger.destroy',$registro['id_notacoger'])}}"
+                                        href="{{route('notacoger.destroy',$registro['id_notacomparecimento'])}}"
                                         onclick="return confirm('Tem certeza que quer apagar o notacoger?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif

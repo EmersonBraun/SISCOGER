@@ -23,19 +23,22 @@ class CadastroOPMAutoridadeController extends Controller
     public function store(Request $request)
     {
         $dados = $request->all(); 
+        $dados['ativado'] = 1;
+        $dados['usuario_rg'] = session('rg');
         $create = $this->repository->create($dados);
-
         if($create)
         {
             $this->repository->cleanCache();
             return response()->json(['success' => true,200]);
         }
-        return response()->json(['success' => true,], 200);
+        return response()->json(['success' => false,], 200);
     }
 
     public function update(Request $request, $id)
     {
         $dados = $request->all();
+        $dados['ativado'] = 1;
+        $dados['usuario_rg'] = session('rg');
         $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
@@ -43,7 +46,7 @@ class CadastroOPMAutoridadeController extends Controller
             $this->repository->cleanCache();
             return response()->json(['success' => true,200]);
         }
-        return response()->json(['success' => true,], 200);
+        return response()->json(['success' => false,], 200);
     }
 
     public function destroy($id)
@@ -54,7 +57,7 @@ class CadastroOPMAutoridadeController extends Controller
             $this->repository->cleanCache();
             return response()->json(['success' => true,200]);
         }
-        return response()->json(['success' => true,], 200);
+        return response()->json(['success' => false,], 200);
     }
 
     

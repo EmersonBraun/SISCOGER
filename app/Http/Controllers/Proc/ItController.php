@@ -63,18 +63,11 @@ class ItController extends Controller
 
     public function store(Request $request)
     {
-        //andamento (concluído) alguns campos ficam obrigatórios
-        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' ){
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        } else {
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        }
+
+        $this->validate($request, [
+            'id_andamento' => 'required',
+            'sintese_txt' => 'required',
+            ]);
        
         $dados = $this->repository->datesToCreate($request->all()); 
         $create = $this->repository->create($dados);
@@ -83,7 +76,7 @@ class ItController extends Controller
         {
             $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'IT Inserido');
-            return redirect()->route('it.lista');
+            return redirect()->route('it.lista',date('Y'));
         }
 
         toast()->warning('Houve um erro na inserção');
@@ -106,20 +99,11 @@ class ItController extends Controller
 
     public function update(Request $request, $id)
     {
-        //andamento (concluído) alguns campos ficam obrigatórios
-        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' )
-        {
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        }
-        else
-        {
-            $this->validate($request, [
-                'sintese_txt' => 'required'
+        $this->validate($request, [
+            'id_andamento' => 'required',
+            'sintese_txt' => 'required',
             ]);
-        }
+
 
         $dados = $request->all();
         $update = $this->repository->findAndUpdate($id,$dados);
@@ -128,11 +112,11 @@ class ItController extends Controller
         {
             $this->repository->cleanCache();
             toast()->success('IT atualizado!');
-            return redirect()->route('it.lista');
+            return redirect()->route('it.lista',date('Y'));
         }
 
         toast()->warning('IT NÃO atualizado!');
-        return redirect()->route('it.lista');
+        return redirect()->route('it.lista',date('Y'));
 
     }
 
@@ -143,11 +127,11 @@ class ItController extends Controller
         if($destroy) {
             $this->repository->cleanCache();
             toast()->success('IT Apagado');
-            return redirect()->route('it.lista');
+            return redirect()->route('it.lista',date('Y'));
         }
 
         toast()->warning('erro ao apagar IT');
-        return redirect()->route('it.lista');
+        return redirect()->route('it.lista',date('Y'));
 
     }
 
@@ -158,11 +142,11 @@ class ItController extends Controller
         if($restore){
             $this->repository->cleanCache();
             toast()->success('IT Recuperado!');
-            return redirect()->route('it.lista');  
+            return redirect()->route('it.lista',date('Y'));  
         }
 
         toast()->warning('Houve um erro ao recuperar!');
-        return redirect()->route('it.lista'); 
+        return redirect()->route('it.lista',date('Y')); 
     }
 
     public function forceDelete($id)
@@ -172,11 +156,11 @@ class ItController extends Controller
         if($forceDelete){
             $this->repository->cleanCache();
             toast()->success('IT apagado DEFINITIVO!');
-            return redirect()->route('it.lista');  
+            return redirect()->route('it.lista',date('Y'));  
         }
 
         toast()->warning('Houve um erro ao Apagar definitivo!');
-        return redirect()->route('it.lista');
+        return redirect()->route('it.lista',date('Y'));
     }
 
 }

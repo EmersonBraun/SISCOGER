@@ -26,7 +26,7 @@ class UserRepository extends BaseRepository
         $this->permission = $permission;   
     }
 
-    public function cleanCache()
+    public function clearCache()
 	{
         Cache::tags('user')->flush();
     }
@@ -44,11 +44,11 @@ class UserRepository extends BaseRepository
     public function getRg($rg)
 	{
 
-        $registros = Cache::remember('user:'.$rg, $this->expiration, function() use ($rg){
+        // $registros = Cache::remember('user:'.$rg, $this->expiration, function() use ($rg){
             return $this->model->where('rg', $rg)->first();
-        });
+        // });
 
-        return $registros;
+        // return $registros;
     }
 
     public function findAndDelete($id)

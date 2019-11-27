@@ -15,12 +15,14 @@ use App\Models\rhparana\Policial;
 use App\Services\MailService;
 use App\Services\LogService;
 use App\Services\BlockUserService;
+use App\Repositories\administracao\UserRepository;
 
 class TermosController extends Controller
 {
     protected $user;
     protected $role;
     protected $pm;
+    protected $repository;
 
     protected $mail;
     protected $block;
@@ -32,7 +34,8 @@ class TermosController extends Controller
         Policial $pm,
         MailService $mail,
         LogService $log,
-        BlockUserService $block
+        BlockUserService $block,
+        UserRepository $repository
     ) {
         $this->user = $user;
         $this->role = $role;
@@ -40,6 +43,7 @@ class TermosController extends Controller
         $this->mail = $mail;
         $this->log = $log;
         $this->block = $block;
+        $this->repository = $repository;
     }
 
     public function termocriar($id)
@@ -59,6 +63,7 @@ class TermosController extends Controller
         $user->termos = $request->termos;
         $temosalvo = $user->save();
         if($temosalvo) {
+            $this->repository->clearCache();
             toast()->success('Atualizado!', 'Termo!');
             return redirect()->route('home');
         }

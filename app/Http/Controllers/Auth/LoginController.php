@@ -86,8 +86,9 @@ class LoginController extends Controller
             $this->user->save();
             
             $this->logAcesso();
+            
             //verifica se o usuário concordou com os termos de uso
-            if ($this->user->termos == 0) return redirect()->route('user.pass',$this->user->id); 
+            if ((int)$this->user->termos == 0) return redirect()->route('user.pass',$this->user->id); 
             else
             {
                 //remove sessão antiga

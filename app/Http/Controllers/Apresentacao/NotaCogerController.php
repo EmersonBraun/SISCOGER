@@ -38,10 +38,7 @@ class NotaCogerController extends Controller
     {
 
         $this->validate($request, [
-            'sjd_ref' => 'required',
-            'sjd_ref_ano' => 'required',
             'status' => 'required',
-            'sintese_txt' => 'required',
         ]);
 
         $dados = $this->repository->datesToCreate($request->all()); 
@@ -55,7 +52,7 @@ class NotaCogerController extends Controller
         }
 
         toast()->warning('Houve um erro na inserção');
-        return redirect()->back();
+        return redirect()->route();
     }
 
     public function show($ref,$ano)
@@ -77,10 +74,7 @@ class NotaCogerController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'sjd_ref' => 'required',
-            'sjd_ref_ano' => 'required',
             'status' => 'required',
-            'sintese_txt' => 'required',
         ]);
 
         $dados = $request->all();
@@ -90,11 +84,11 @@ class NotaCogerController extends Controller
         {
             $this->repository->cleanCache();
             toast()->success('Nota COGER atualizada!');
-            return redirect()->route('notacoger.lista');
+            return redirect()->route('notacoger.index');
         }
 
         toast()->warning('Nota COGER NÃO atualizada!');
-        return redirect()->route('notacoger.lista');
+        return redirect()->route('notacoger.index');
     }
 
     public function destroy($id)
@@ -104,11 +98,39 @@ class NotaCogerController extends Controller
         if($destroy) {
             $this->repository->cleanCache();
             toast()->success('Nota COGER Apagada');
-            return redirect()->route('notacoger.lista');
+            return redirect()->route('notacoger.index');
         }
 
         toast()->warning('erro ao apagar Nota COGER');
-        return redirect()->route('notacoger.lista');
+        return redirect()->route('notacoger.index');
+    }
+
+    public function restore($id)
+    {
+        $restore = $this->repository->findAndRestore($id);
+    
+        if($restore){
+            $this->repository->cleanCache();
+            toast()->success('Nota COGER Recuperado!');
+            return redirect()->route('notacoger.index');  
+        }
+
+        toast()->warning('Houve um erro ao recuperar!');
+        return redirect()->route('notacoger.index'); 
+    }
+
+    public function forceDelete($id)
+    {
+        $forceDelete = $this->repository->findAndDestroy($id);
+    
+        if($forceDelete){
+            $this->repository->cleanCache();
+            toast()->success('Nota COGER apagado DEFINITIVO!');
+            return redirect()->route('notacoger.index');  
+        }
+
+        toast()->warning('Houve um erro ao Apagar definitivo!');
+        return redirect()->route('notacoger.index');
     }
 
     public function download($id)

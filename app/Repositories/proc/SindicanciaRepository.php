@@ -32,7 +32,7 @@ class SindicanciaRepository extends BaseRepository
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
     }
 
-    public function cleanCache()
+    public function clearCache()
 	{
         Cache::tags('sindicancia')->flush();
     }

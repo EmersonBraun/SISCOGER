@@ -158,7 +158,7 @@ class ApresentacaoController extends Controller
         $restore = $this->repository->findAndRestore($id);
     
         if($restore){
-            $this->repository->cleanCache();
+            $this->repository->clearCache();
             toast()->success('Apresentação Recuperado!');
             return redirect()->route('apresentacao.index');  
         }
@@ -172,7 +172,7 @@ class ApresentacaoController extends Controller
         $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
-            $this->repository->cleanCache();
+            $this->repository->clearCache();
             toast()->success('Apresentação apagado DEFINITIVO!');
             return redirect()->route('apresentacao.index');  
         }

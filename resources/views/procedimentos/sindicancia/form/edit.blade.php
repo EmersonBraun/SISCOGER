@@ -55,7 +55,7 @@
                     <v-label label="cdopm" title="OPM" error="{{$errors->first('cdopm')}}">
                         <v-opm cdopm="{{$proc['cdopm'] ?? ''}}"></v-opm>
                     </v-label>
-                    <v-label label="portaria_numero" title="N° Portaria">
+                    <v-label label="portaria_numero" title="N° Portaria" error="{{$errors->first('portaria_numero')}}">
                         {{ Form::text('portaria_numero', null, ['class' => 'form-control ']) }}
                     </v-label>
                     <v-label label="portaria_data" title="Data da Portaria" icon="fa fa-calendar">

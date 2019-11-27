@@ -14,7 +14,7 @@ class TransferidosRepository extends BaseRepository
     protected $model;
     protected $unidade;
     protected $verTodasUnidades;
-    protected static $expiration = 60; 
+    protected $expiration = 60; 
 
 	public function __construct(Movimentos $model)
 	{
@@ -35,8 +35,8 @@ class TransferidosRepository extends BaseRepository
     public function semana($unidade)
     {
         //buscar dados do cache
-        $transferidos = Cache::tags('transferido')->remember('transferidos'.$unidade, self::$expiration, function() use ($unidade){
-            
+        $transferidos = Cache::tags('transferido')->remember('transferidos'.$unidade, $this->expiration, function() use ($unidade){
+
             $date = \Carbon\Carbon::today()->subDays(7);
             $query = DB::connection('pass')->table('movimentos');
             $query->where(function($subquery1) use ($unidade){
@@ -64,15 +64,24 @@ class TransferidosRepository extends BaseRepository
             });
             $query->where('data','>=',$date);
 
-            return $query->get();
-
+            try {
+                $result = $query->get();
+                return $result;
+            } catch (\Throwable $th) {
+                // toast()->error($th->getMessage(),'ERRO');
+                $this->expiration = 1;
+                $result = [
+                    [
+                        'rg' => '',
+                        'nome' => 'Fora do ar',
+                        'opmorigem' => '0',
+                        'opmdestino' => '0',
+                    ]
+                ];
+                return $result;
+            }
        });
-       /*$transferidos = [
-           ['rg' => '0000000',
-           'nome' => 'Arrumar',
-           'opmorigem' => '0',
-           'opmdestino' => '0',]
-        ];*/
+       
         return $transferidos;
     } 
 

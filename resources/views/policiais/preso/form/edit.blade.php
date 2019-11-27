@@ -32,7 +32,7 @@
                 <v-label label="cargo" title="Posto/Graduação" lg="4" md="4" error="{{$errors->first('cargo')}}">
                     {{ Form::text('cargo', null, ['class' => 'form-control ','readonly','id' => 'cargo']) }}
                 </v-label>
-                <v-label label="cdopm_quandopreso" title="OPM" error="{{$errors->first('cdopm')}}">
+                <v-label label="cdopm_quandopreso" title="OPM" error="{{$errors->first('cdopm_quandopreso')}}">
                     <v-opm name='cdopm_quandopreso' cdopm="{{$proc['cdopm'] ?? ''}}"></v-opm>
                 </v-label>
                 <v-label label="local" title="Local de reclusão/detenção" error="{{$errors->first('local')}}">
@@ -81,7 +81,7 @@
                 <v-label label="comarca" title="Comarca (Ex: Curitiba)" error="{{$errors->first('comarca')}}">
                     {{ Form::text('comarca', null, ['class' => 'form-control ']) }}
                 </v-label>
-                <v-label label="inicio_data" title="Data de entrada na prisão" icon="fa fa-calendar">
+                <v-label label="inicio_data" title="Data de entrada na prisão" icon="fa fa-calendar" error="{{$errors->first('inicio_data')}}">
                     <v-datepicker name="inicio_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['inicio_data'] ?? ''}}"></v-datepicker>
                 </v-label>
                 <v-label label="fim_data" title="Data da saída da prisão" icon="fa fa-calendar">

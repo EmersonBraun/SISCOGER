@@ -19,12 +19,6 @@
     <div class="tab-content">
         <v-tab-item title="Formulário principal" idp="principal" cls="active show">
             {!! Form::open(['url' => route('notacoger.store')]) !!}
-            <v-label label="sjd_ref" title="Referência" error="{{$errors->first('sjd_ref')}}">
-                {{ Form::text('sjd_ref', $ref, ['class' => 'form-control ','required']) }}
-            </v-label>
-            <v-label label="sjd_ref_ano" title="Ano" error="{{$errors->first('sjd_ref_ano')}}">
-                {{ Form::text('sjd_ref_ano', date('Y'), ['class' => 'form-control ','required']) }}
-            </v-label>
             <v-label label="status" title="Estatus" error="{{$errors->first('status')}}">
                 {!! Form::select('status',['pendente' => 'Pendente','publicada' => 'Publicada'],null, ['class' => 'form-control','required']) !!}
             </v-label>

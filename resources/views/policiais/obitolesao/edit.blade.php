@@ -18,7 +18,7 @@
 <section>
     <div class="tab-content">
         <v-tab-item title="Editar Óbito/Lesão" idp="principal" cls="active show">
-            {!! Form::model($proc,['url' => route('obitolesao.update',$proc['id_obitolesao']),'method' => 'put']) !!}
+            {!! Form::model($proc,['url' => route('obitolesao.update',$proc['id_falecimento']),'method' => 'put']) !!}
             <v-label label="rg" title="RG" lg="4" md="4" error="{{$errors->first('rg')}}">
                 {{ Form::text('rg', null, ['class' => 'form-control ','onchange' => 'completaDados(this,nome,cargo)','onkeyup' => 'completaDados(this,nome,cargo)']) }}
             </v-label>
@@ -28,10 +28,10 @@
             <v-label label="cargo" title="Posto/Graduação" lg="4" md="4" error="{{$errors->first('cargo')}}">
                 {{ Form::text('cargo', null, ['class' => 'form-control ','readonly','id' => 'cargo']) }}
             </v-label>
-            <v-label label="data" title="Data de início" icon="fa fa-calendar">
+            <v-label label="data" title="Data de início" icon="fa fa-calendar" error="{{$errors->first('data')}}">
                 <v-datepicker name="data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['data'] ?? ''}}"></v-datepicker>
             </v-label>
-            <v-label label="id_municipio" title="Municipio">
+            <v-label label="id_municipio" title="Municipio" error="{{$errors->first('id_municipio')}}">
                 <v-municipio id_municipio="{{$proc['id_municipio'] ?? ''}}"></v-municipio>
             </v-label>
             <v-label label="endereco" title='Rua/Av' error="{{$errors->first('endereco')}}">
@@ -46,7 +46,7 @@
             <v-label label="bou_ano" title="BOU (Ano)">
                 <v-ano ano="{{$proc['bou_ano'] ?? date('Y')}}"></v-ano>
             </v-label>
-            <v-label label="bou_numero" title="N° BOU">
+            <v-label label="bou_numero" title="N° BOU" error="{{$errors->first('bou_numero')}}">
                 {{ Form::text('bou_numero', null, ['class' => 'form-control ','required']) }}
             </v-label>
             <v-label label="id_situacao" title="Situação">

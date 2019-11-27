@@ -26,6 +26,39 @@ class CadastroOPMAutoridadeRepository extends BaseRepository
 	{
         Cache::tags('cadastroopmautoridade')->flush();
     }
+
+    public function create(array $data)
+    {
+        try {
+            $create = $this->autoridade->create($data);
+            return $create;
+        } catch (\Throwable $th) {
+            toast()->error($th->getMessage(),'ERRO');
+            return false;
+        }
+    }
+
+    public function findAndUpdate($id, array $data)
+    {
+        try {
+            $this->autoridade->findOrFail($id)->update($data);
+            return true;
+        } catch (\Throwable $th) {
+            toast()->error($th->getMessage(),'ERRO');
+            return false;
+        }
+    }
+
+    public function findAndDelete($id)
+	{
+        try {
+            $this->autoridade->findOrFail($id)->delete();
+            return true;
+        } catch (\Throwable $th) {
+            toast()->error($th->getMessage(),'ERRO');
+            return false;
+        }
+    }
     
     public function all()
 	{

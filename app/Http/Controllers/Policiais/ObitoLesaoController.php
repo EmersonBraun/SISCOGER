@@ -37,7 +37,13 @@ class ObitoLesaoController extends Controller
     {
 
         $this->validate($request, [
+            'rg' => 'required',
             'data' => 'required',
+            'id_municipio' => 'required',
+            'endereco' => 'required',
+            'endereco_numero' => 'required',
+            'bou_numero' => 'required',
+            'descricao_txt' => 'required',
         ]);
         
         $dados = $request->all();
@@ -46,7 +52,7 @@ class ObitoLesaoController extends Controller
         if($create)
         {
             $this->repository->cleanCache();
-            toast()->success('N° ','obitolesao Inserido');
+            toast()->success('obito/lesao Inserido');
             return redirect()->route('obitolesao.index');
         }
 
@@ -65,7 +71,13 @@ class ObitoLesaoController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
+            'rg' => 'required',
             'data' => 'required',
+            'id_municipio' => 'required',
+            'endereco' => 'required',
+            'endereco_numero' => 'required',
+            'bou_numero' => 'required',
+            'descricao_txt' => 'required',
         ]);
 
         $dados = $request->all();
@@ -74,11 +86,11 @@ class ObitoLesaoController extends Controller
         if($update)
         {
             $this->repository->cleanCache();
-            toast()->success('obitolesao atualizado!');
+            toast()->success('obito/lesao atualizado!');
             return redirect()->route('obitolesao.index');
         }
 
-        toast()->warning('obitolesao NÃO atualizado!');
+        toast()->warning('obito/lesao NÃO atualizado!');
         return redirect()->route('obitolesao.index');
     }
 
@@ -88,7 +100,7 @@ class ObitoLesaoController extends Controller
 
         if($destroy) {
             $this->repository->cleanCache();
-            toast()->success('obitolesao Apagado');
+            toast()->success('obito/lesao Apagado');
             return redirect()->route('obitolesao.index');
         }
 

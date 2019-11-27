@@ -343,7 +343,7 @@
             }
             if(this.dproc && this.idp && this.name) {
                 let urlIndex = `${this.$root.baseUrl}api/${this.action}/list/${this.dproc}/${this.idp}/${this.name}`;
-                console.log(urlIndex)
+                // console.log(urlIndex)
                 axios
                 .get(urlIndex)
                 .then((response) => {

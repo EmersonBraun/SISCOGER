@@ -63,18 +63,10 @@ class ProcOutroController extends Controller
 
     public function store(Request $request)
     {
-        //andamento (concluído) alguns campos ficam obrigatórios
-        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' ){
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        } else {
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        }
+        $this->validate($request, [
+            'sintese_txt' => 'required',
+            'id_municipio' => 'required',
+            ]);
        
         $dados = $this->repository->datesToCreate($request->all()); 
         $create = $this->repository->create($dados);
@@ -101,8 +93,6 @@ class ProcOutroController extends Controller
     {
         $proc = $this->repository->procRefAno($ref,$ano,'proc_outros');
         if(!$proc) abort('404');
-        
-        $this->canSee($proc);
 
         return view('procedimentos.procoutros.form.edit', compact('proc'));
 
@@ -110,20 +100,10 @@ class ProcOutroController extends Controller
 
     public function update(Request $request, $id)
     {
-        //andamento (concluído) alguns campos ficam obrigatórios
-        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' )
-        {
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        }
-        else
-        {
-            $this->validate($request, [
-                'sintese_txt' => 'required'
+        $this->validate($request, [
+            'sintese_txt' => 'required',
+            'id_municipio' => 'required',
             ]);
-        }
 
         $dados = $request->all();
         $update = $this->repository->findAndUpdate($id,$dados);

@@ -43,25 +43,21 @@ class RecursoController extends Controller
 
     public function create()
     {
-        return view('procedimentos.recurso.form.create');
+        $proc['portaria_data'] = date('Y-m-d H:i:s');
+        return view('procedimentos.recurso.form.create', compact('proc'));
     }
 
     public function store(Request $request)
     {
-        //andamento (concluído) alguns campos ficam obrigatórios
-        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' ){
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        } else {
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        }
+        $this->validate($request, [
+            'procedimento' => 'required',
+            'sjd_ref' => 'required',
+            'sjd_ref_ano' => 'required',
+            ]);
+ 
        
-        $dados = $this->repository->datesToCreate($request->all()); 
+        $dados = $request->all(); 
+        $dados['procedimento'] = sistema('pocedimentosOpcoes',$dados['procedimento']);
         $create = $this->repository->create($dados);
 
         if($create)
@@ -81,8 +77,6 @@ class RecursoController extends Controller
         $proc = $this->repository->procRefAno($ref,$ano,'recurso');
         if(!$proc) abort('404');
 
-        $this->canSee($proc);
-
         return view('procedimentos.recurso.form.show', compact('proc'));
     }
 
@@ -91,7 +85,6 @@ class RecursoController extends Controller
         $proc = $this->repository->procRefAno($ref,$ano,'recurso');
         if(!$proc) abort('404');
         
-        $this->canSee($proc);
 
         return view('procedimentos.recurso.form.edit', compact('proc'));
 
@@ -99,22 +92,14 @@ class RecursoController extends Controller
 
     public function update(Request $request, $id)
     {
-        //andamento (concluído) alguns campos ficam obrigatórios
-        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' )
-        {
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        }
-        else
-        {
-            $this->validate($request, [
-                'sintese_txt' => 'required'
+        $this->validate($request, [
+            'procedimento' => 'required',
+            'sjd_ref' => 'required',
+            'sjd_ref_ano' => 'required',
             ]);
-        }
 
-        $dados = $request->all();
+        $dados = $request->all(); 
+        $dados['procedimento'] = sistema('pocedimentosOpcoes',$dados['procedimento']);
         $update = $this->repository->findAndUpdate($id,$dados);
         
         if($update)

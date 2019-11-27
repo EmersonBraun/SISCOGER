@@ -45,7 +45,7 @@
                                     @endif
                                     @if(hasPermissionTo('apagar-recursos')) 
                                     <a class="btn btn-danger"
-                                        href="{{route('recurso.destroy',$registro['id_recursos'])}}"
+                                        href="{{route('recurso.destroy',$registro['id_recurso'])}}"
                                         onclick="return  confirmApagar('recursos',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                 </span>

@@ -24,7 +24,7 @@ Route::group(['as'=>'pendencia.','prefix' =>'pendencia'],function(){
 
 Route::group(['as'=>'relatorio.','prefix' =>'relatorio'],function(){
     Route::get('prioritarios/{proc}',['as' =>'prioritarios','uses'=>'Relatorios\PrioritarioController@index','middleware' => ['permission:listar-relatorio-prioritarios']]);
-    Route::get('sobrestamento/{proc}',['as' =>'sobrestamento','uses'=>'Relatorios\SobrestamentoController@index','middleware' => ['permission:listar-relatorio-sobrestamento']]);
+    Route::get('sobrestamento/{proc}',['as' =>'sobrestamento','uses'=>'Relatorios\SobrestamentoController@index','middleware' => ['permission:listar-relatorio-sobrestamentos']]);
     // encarregado
     Route::group(['as'=>'encarregado.','prefix' =>'encarregado'],function(){
         Route::get('busca',['as' =>'search','uses'=>'Relatorios\RelatorioController@searchEncarregado','middleware' => ['permission:listar-relatorio-encarregados']]);   

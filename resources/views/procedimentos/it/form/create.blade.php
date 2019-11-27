@@ -81,10 +81,12 @@
                 <v-label label="acaojudicial" title="Ação judicial">
                     {!! Form::select('acaojudicial', ['-','S','N'],null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
                 </v-label>
-                <v-label label="danoestimado_rs" title="Valor do dano estimado">--arrumar R$--
+                <v-label label="danoestimado_rs" title="Valor do dano estimado">
+                    {{-- --arrumar R$-- --}}
                     {{ Form::text('danoestimado_rs', null, ['class' => 'form-control ']) }}
                 </v-label>
-                <v-label label="danoreal_rs" title="Valor do dano real">--arrumar R$--
+                <v-label label="danoreal_rs" title="Valor do dano real">
+                    {{-- --arrumar R$-- --}}
                     {{ Form::text('danoreal_rs', null, ['class' => 'form-control ']) }}
                 </v-label>
                 <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">

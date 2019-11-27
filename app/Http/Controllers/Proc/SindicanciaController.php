@@ -80,27 +80,21 @@ class SindicanciaController extends Controller
 
     public function store(Request $request)
     {
-        //andamento (concluído) alguns campos ficam obrigatórios
-        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' ){
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        } else {
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        }
+
+        $this->validate($request, [
+            'id_andamento' => 'required',
+            'portaria_numero' => 'required',
+            'sintese_txt' => 'required',
+        ]);
        
         $dados = $this->repository->datesToCreate($request->all()); 
         $create = $this->repository->create($dados);
 
         if($create)
         {
-            $this->repository->cleanCache();
+            $this->repository->clearCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'Sindicância Inserido');
-            return redirect()->route('sindicancia.lista');
+            return redirect()->route('sindicancia.lista',date('Y'));
         }
 
         toast()->warning('Houve um erro na inserção');
@@ -123,33 +117,24 @@ class SindicanciaController extends Controller
 
     public function update(Request $request, $id)
     {
-        //andamento (concluído) alguns campos ficam obrigatórios
-        if(sistema('andamento',$request['id_andamento']) != 'CONCLUÍDO' )
-        {
-            $this->validate($request, [
-                'id_andamento' => 'required',
-                'sintese_txt' => 'required',
-                ]);
-        }
-        else
-        {
-            $this->validate($request, [
-                'sintese_txt' => 'required'
-            ]);
-        }
+        $this->validate($request, [
+            'id_andamento' => 'required',
+            'portaria_numero' => 'required',
+            'sintese_txt' => 'required',
+        ]);
 
         $dados = $request->all();
         $update = $this->repository->findAndUpdate($id,$dados);
         
         if($update)
         {
-            $this->repository->cleanCache();
+            $this->repository->clearCache();
             toast()->success('Sindicância atualizado!');
-            return redirect()->route('sindicancia.lista');
+            return redirect()->route('sindicancia.lista',date('Y'));
         }
 
         toast()->warning('Sindicância NÃO atualizado!');
-        return redirect()->route('sindicancia.lista');
+        return redirect()->route('sindicancia.lista',date('Y'));
 
     }
 
@@ -158,13 +143,13 @@ class SindicanciaController extends Controller
         $destroy = $this->repository->findAndDelete($id);
 
         if($destroy) {
-            $this->repository->cleanCache();
+            $this->repository->clearCache();
             toast()->success('Sindicância Apagado');
-            return redirect()->route('sindicancia.lista');
+            return redirect()->route('sindicancia.lista',date('Y'));
         }
 
         toast()->warning('erro ao apagar Sindicância');
-        return redirect()->route('sindicancia.lista');
+        return redirect()->route('sindicancia.lista',date('Y'));
 
     }
 
@@ -173,13 +158,13 @@ class SindicanciaController extends Controller
         $restore = $this->repository->findAndRestore($id);
     
         if($restore){
-            $this->repository->cleanCache();
+            $this->repository->clearCache();
             toast()->success('Sindicância Recuperado!');
-            return redirect()->route('sindicancia.lista');  
+            return redirect()->route('sindicancia.lista',date('Y'));  
         }
 
         toast()->warning('Houve um erro ao recuperar!');
-        return redirect()->route('sindicancia.lista'); 
+        return redirect()->route('sindicancia.lista',date('Y')); 
     }
 
     public function forceDelete($id)
@@ -187,13 +172,13 @@ class SindicanciaController extends Controller
         $forceDelete = $this->repository->findAndDestroy($id);
     
         if($forceDelete){
-            $this->repository->cleanCache();
+            $this->repository->clearCache();
             toast()->success('Sindicância apagado DEFINITIVO!');
-            return redirect()->route('sindicancia.lista');  
+            return redirect()->route('sindicancia.lista',date('Y'));  
         }
 
         toast()->warning('Houve um erro ao Apagar definitivo!');
-        return redirect()->route('sindicancia.lista');
+        return redirect()->route('sindicancia.lista',date('Y'));
     }
 
 }

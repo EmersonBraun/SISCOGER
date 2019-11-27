@@ -110,7 +110,7 @@
                     <v-label label="desc_outros" title="Descrição outros motivos:">
                         {{ Form::text('desc_outros', null, ['class' => 'form-control ']) }}
                     </v-label>
-                    <v-label label="id_municipio" title="Municipio">
+                    <v-label label="id_municipio" title="Municipio" error="{{$errors->first('id_municipio')}}">
                         <v-municipio id_municipio="{{$proc['id_municipio']}}"></v-municipio>
                     </v-label>
                     --subform viaturas--

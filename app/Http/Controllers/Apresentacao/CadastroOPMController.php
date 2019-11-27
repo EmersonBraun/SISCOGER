@@ -30,20 +30,19 @@ class CadastroOPMController extends Controller
             $this->repository->cleanCache();
             return response()->json(['success' => true,200]);
         }
-        return response()->json(['success' => true,], 200);
+        return response()->json(['success' => false,], 200);
     }
 
     public function update(Request $request, $id)
     {
         $dados = $request->all();
-        $update = $this->repository->findAndUpdate( $id, $dados);
-        
+        $update = $this->repository->findOrFail($id)->update($dados);
         if($update)
         {
             $this->repository->cleanCache();
             return response()->json(['success' => true,200]);
         }
-        return response()->json(['success' => true,], 200);
+        return response()->json(['success' => false,], 200);
     }
 
     public function destroy($id)
@@ -54,7 +53,7 @@ class CadastroOPMController extends Controller
             $this->repository->cleanCache();
             return response()->json(['success' => true,200]);
         }
-        return response()->json(['success' => true,], 200);
+        return response()->json(['success' => false,], 200);
     }
 
 }

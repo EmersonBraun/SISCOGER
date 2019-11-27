@@ -9,8 +9,8 @@ Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
     Route::get('buscar',['as' =>'buscar','uses'=>'Apresentacao\ApresentacaoController@buscar','middleware' => ['permission:listar-apresentacao']]);
     Route::get('list/{ano?}/{cdopm?}',['as' =>'index','uses'=>'Apresentacao\ApresentacaoController@index','middleware' => ['permission:listar-apresentacao']]);
     Route::get('destroy/{id}',['as' =>'destroy','uses'=>'Apresentacao\ApresentacaoController@destroy','middleware' => ['permission:apagar-apresentacao']]);
-    Route::get('restore/{id}',['as' =>'restore','uses'=>'Proc\AdlController@restore','middleware' => ['role:admin']]);
-    Route::get('forceDelete/{id}',['as' =>'forceDelete','uses'=>'Proc\AdlController@forceDelete','middleware' => ['role:admin']]);
+    Route::get('restore/{id}',['as' =>'restore','uses'=>'Apresentacao\ApresentacaoController@restore','middleware' => ['role:admin']]);
+    Route::get('forceDelete/{id}',['as' =>'forceDelete','uses'=>'Apresentacao\ApresentacaoController@forceDelete','middleware' => ['role:admin']]);
 });
 //Rotas do módulo Memorando
 Route::group(['as'=>'memorando.','prefix' =>'memorando'],function(){
@@ -41,7 +41,9 @@ Route::group(['as'=>'notacoger.','prefix' =>'notacoger'],function(){
 	Route::post('salvar',['as' =>'store','uses'=>'Apresentacao\NotaCogerController@store','middleware' => ['permission:criar-notas-coger']]);
 	Route::get('editar/{ref}/{ano?}',['as' =>'edit','uses'=>'Apresentacao\NotaCogerController@edit','middleware' => ['permission:editar-notas-coger']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Apresentacao\NotaCogerController@update','middleware' => ['permission:editar-notas-coger']]);
-	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Apresentacao\NotaCogerController@destroy','middleware' => ['permission:apagar-notas-coger']]);
+    Route::get('remover/{id}',['as' =>'destroy','uses'=>'Apresentacao\NotaCogerController@destroy','middleware' => ['permission:apagar-notas-coger']]);
+    Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Apresentacao\NotaCogerController@restore','middleware' => ['role:admin']]);
+    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Apresentacao\NotaCogerController@forceDelete','middleware' => ['role:admin']]);
 });
 //Rotas do módulo email
 Route::group(['as'=>'email.','prefix' =>'email'],function(){

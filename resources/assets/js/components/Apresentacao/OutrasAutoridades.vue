@@ -57,8 +57,8 @@
                             <v-label label="rg" title="RG">
                                 <input size="45" class="form-control" v-model="registro.rg" @keyup="dadosPM" type="text">	
                             </v-label>
-                            <v-label label="rg" title="Nome">
-                                <p>{{nome}}</p>	
+                            <v-label label="nome" title="Nome">
+                                <input class="form-control" v-model="nome" type="text" readonly>
                             </v-label>
                             <v-label label="funcao" title="Função">
                                 <input size="45" class="form-control" v-model="registro.funcao" type="text">	
@@ -200,10 +200,9 @@ export default {
                 axios
                 .get(urlSearch)
                 .then((response) => {
-                    let cargolimpo = this.$root.formatUcwords(res.CARGO)
-                    let quadro = res.QUADRO
-                    let nomelimpo = this.$root.formatUcwords(res.NOME)
-                    this.nome = `${cargolimpo}. ${quadro} ${nomelimpo}`
+                    console.log('res', response)
+                    let res = response.data.pm
+                    this.nome = `${res.cargo_ico} ${res.quadro_ico} ${res.nome_ico}`
                 })
                 .catch(error => console.log(error));
             }

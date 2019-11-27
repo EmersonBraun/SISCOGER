@@ -37,7 +37,8 @@
                             <template v-else>
                                 <label for="rg">RG Substituto</label><br>
                             </template>
-                            <the-mask mask="############" class="form-control" v-model="rg" type="text" maxlength="12" name="rg" placeholder="Nº"/>
+                            <input class="numero form-control" v-model="rg" @keyup="searchPM()" type="text" maxlength="12" name="rg" placeholder="Nº">
+                            <!-- <the-mask mask="############" class="form-control" v-model="rg" type="text" maxlength="12" name="rg" placeholder="Nº"/> -->
                         </div>
                         <div class="col-lg-3 col-md-2 col-xs 2">
                             <label for="nome">Nome</label><br>
@@ -208,15 +209,15 @@
             this.verifyOnly
             this.listPM()
         },
-        watch: {
-            rg() {
-                if(!this.rg.length){
-                    this.nome = ''
-                    this.cargo = ''
-                }
-                this.searchPM()
-            },
-        },
+        // watch: {
+        //     rg() {
+        //         if(!this.rg.length){
+        //             this.nome = ''
+        //             this.cargo = ''
+        //         }
+        //         this.searchPM()
+        //     },
+        // },
         computed:{
             verifyOnly(){     
                 if(this.unique == true){
@@ -235,6 +236,7 @@
         methods: {
             searchPM(){
                 let searchUrl = `${this.$root.baseUrl}api/dados/pm/${this.rg}`
+                console.log('url', searchUrl)
                 if(this.rg.length > 5){
                     if(this.substituido && this.rg == this.rgsubs){
                         this.nome = 'Inválido - Mesmo RG informado'

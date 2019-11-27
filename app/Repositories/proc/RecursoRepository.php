@@ -41,8 +41,6 @@ class RecursoRepository extends BaseRepository
         else $proc = $this->model->where([['sjd_ref',$ref],['sjd_ref_ano',$ano]])->first();
 
         if(!$proc) abort(404);
-        $canSee = $this->service->canSee($proc, $name);
-        if(!$canSee) abort(403);
         return $proc;
     }
    
