@@ -9,7 +9,7 @@ use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Route;
 
 use App\Models\rhparana\Policial;
-
+use App\Models\rhparana\Policial2;
 use App\Repositories\PM\AfastamentoRepository;
 use App\Repositories\PM\ComportamentoRepository;
 use App\Repositories\PM\DenunciacivilRepository;
@@ -36,6 +36,7 @@ use App\Services\ICOService;
 class PolicialRepository extends BaseRepository
 {
     protected $policial; 
+    protected $policial2; 
     protected $inativo;
     protected $reserva;
     protected $comportamento;
@@ -65,6 +66,7 @@ class PolicialRepository extends BaseRepository
 
 	public function __construct(
         Policial $policial,
+        Policial2 $policial2,
         InativoRepository $inativo,
         ReservaRepository $reserva,
         ComportamentoRepository $comportamento,
@@ -89,6 +91,7 @@ class PolicialRepository extends BaseRepository
     )
 	{
         $this->policial = $policial;
+        $this->policial2 = $policial2;
         $this->inativo = $inativo;
         $this->reserva = $reserva;
         $this->comportamento = $comportamento;
@@ -127,14 +130,25 @@ class PolicialRepository extends BaseRepository
     public function efetivoOPM($unidade)
     {
         $efetivo = Cache::tags('policial')->remember('efetivo:'.$unidade, $this->expiration, function() use ($unidade){
-
-            return $this->policial
-            ->select('cargo', DB::raw('count(cargo) AS qtd'))
+            try {
+                return $this->policial
+                    ->select('cargo', DB::raw('count(cargo) AS qtd'))
                     ->where('cdopm','like',$unidade.'%')
                     ->groupBy('cargo')
                     ->havingRaw('count(cargo) > ?', [0])
                     ->orderBy('qtd','asc')
                     ->get();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return $this->policial2
+                    ->select('cargo', DB::raw('count(cargo) AS qtd'))
+                    ->where('cdopm','like',$unidade.'%')
+                    ->groupBy('cargo')
+                    ->havingRaw('count(cargo) > ?', [0])
+                    ->orderBy('qtd','asc')
+                    ->get();
+            }
+            
             });
 
         return $efetivo;
@@ -143,11 +157,19 @@ class PolicialRepository extends BaseRepository
     public function totalEfetivoOPM($unidade)//TOTAL EFETIVO
     {
         $total_efetivo = Cache::tags('policial')->remember('total_efetivo:'.$unidade, $this->expiration, function() use ($unidade){
-
-            return $this->policial
-            ->select(DB::raw('count(cargo) AS qtd'))
-                    ->where('cdopm','like',$unidade.'%')
-                    ->first();
+            try {
+                return $this->policial
+                ->select(DB::raw('count(cargo) AS qtd'))
+                        ->where('cdopm','like',$unidade.'%')
+                        ->first();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return $this->policial2
+                ->select(DB::raw('count(cargo) AS qtd'))
+                        ->where('cdopm','like',$unidade.'%')
+                        ->first();
+            }
+            
         });
         return $total_efetivo;
     }
@@ -204,11 +226,28 @@ class PolicialRepository extends BaseRepository
     {
         $dados = Cache::remember('pm:dados:'.$rg, 60, function() use ($rg)
         {
-            $ativo = DB::connection('rhparana')->table('policial')->where('rg','=', $rg)->first();
+            try {
+                $ativo = DB::connection('rhparana')->table('policial')->where('rg','=', $rg)->first();
+            } catch (\Throwable $th) {
+                //throw $th;
+                $ativo = DB::connection('rhparana2')->table('policial')->where('rg','=', $rg)->first();
+            } 
             if($ativo) $dados = $ativo;
-            $inativo = DB::connection('rhparana')->table('inativos')->where('CBR_NUM_RG','=', $rg)->first();
+
+            try {
+                $inativo = DB::connection('rhparana')->table('inativos')->where('CBR_NUM_RG','=', $rg)->first();
+            } catch (\Throwable $th) {
+                //throw $th;
+                $inativo = DB::connection('rhparana2')->table('inativos')->where('CBR_NUM_RG','=', $rg)->first();
+            }
             if($inativo) $dados = $inativo;
-            $reserva = DB::connection('rhparana')->table('RESERVA')->where('UserRG','=', $rg)->first();
+
+            try {
+                $reserva = DB::connection('rhparana')->table('RESERVA')->where('UserRG','=', $rg)->first();
+            } catch (\Throwable $th) {
+                //throw $th;
+                $reserva = DB::connection('rhparana2')->table('RESERVA')->where('UserRG','=', $rg)->first();
+            }
             if($reserva) $dados = $reserva;
             $dados = [];
 
@@ -224,7 +263,13 @@ class PolicialRepository extends BaseRepository
     {
         $dados = Cache::remember('pm:unidade:'.$rg, 60, function() use ($rg)
         {
-            return Policial::where('rg','=', $rg)->first();
+            try {
+                return Policial::where('rg','=', $rg)->first();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return Policial2::where('rg','=', $rg)->first();
+            }
+            
         });
 
         if($dados) {
@@ -250,30 +295,38 @@ class PolicialRepository extends BaseRepository
         //verifica se o usuário tem permissão para ver todas unidades
         $verTodasUnidades = hasPermissionTo('todas-unidades');
         
-        if ($verTodasUnidades) {
-        $pm = $this->policial->where($type,'like', "%".$dado."%")
-            ->limit(10)
-            ->get();
-
-        } else {
-            $pm = $this->policial->where($type,'like', "%".$dado."%")
-            ->where('cdopm', 'like', $codigoOPM.'%')
-            ->limit(10)
-            ->get();           
+        try {
+            if ($verTodasUnidades) $pm = $this->policial->where($type,'like', "%".$dado."%")->limit(10)->get();
+            else $pm = $this->policial->where($type,'like', "%".$dado."%")->where('cdopm', 'like', $codigoOPM.'%')->limit(10)->get(); 
+        } catch (\Throwable $th) {
+            //throw $th;
+            if ($verTodasUnidades) $pm = $this->policial2->where($type,'like', "%".$dado."%")->limit(10)->get();
+            else $pm = $this->policial2->where($type,'like', "%".$dado."%")->where('cdopm', 'like', $codigoOPM.'%')->limit(10)->get(); 
         }
+                  
         return response()->json($pm);
         
     }
 
     public function getByName($name)
     {
-        return $this->policial->where('nome','like', '%'.$name.'%')->first();
+        try {
+            return $this->policial->where('nome','like', '%'.$name.'%')->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->policial2->where('nome','like', '%'.$name.'%')->first();
+        }
     }
 
     public function pm($rg)
     {
         $registros = Cache::tags('pm')->remember('pm:rg'.$rg, $this->expiration, function() use ($rg){
-            return $this->policial->where('rg', $rg)->first();
+            try {
+                return $this->policial->where('rg', $rg)->first();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return $this->policial2->where('rg', $rg)->first();
+            }
         });
 
         return $registros;
@@ -314,11 +367,20 @@ class PolicialRepository extends BaseRepository
 
     public function adicionais($rg)
     {
-        $adc = DB::connection('rhparana')->table('efetivo1')->where('CBR_NUM_RG','=', $rg)->first();
-
-        if(is_null($adc)){
-            $adc = DB::connection('rhparana')->table('efetivo2')->where('CBR_NUM_RG','=', $rg)->first();  
+        try {
+            $adc = DB::connection('rhparana')->table('efetivo1')->where('CBR_NUM_RG','=', $rg)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $adc = [];
         }
+
+        try {
+            if(is_null($adc)) $adc = DB::connection('rhparana')->table('efetivo2')->where('CBR_NUM_RG','=', $rg)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $adc = [];
+        }
+
         $adc = (is_null($adc)) ? false : (object) $adc;
         return $adc;
     }
@@ -329,10 +391,7 @@ class PolicialRepository extends BaseRepository
         $limit = 10 / $dados['opts'];
 
         if(in_array('ativos',$dados['tables'], true)){
-            $query = $this->policial->select('rg','nome')
-            ->where($dados['type'],'like', '%'.$dados['search'].'%')
-            ->distinct($dados['type']);
-            $ativos = $query->limit(ceil($limit))->get()->toArray();
+            $ativos = $this->sugestAtivo($dados, $limit);
         }else {
             $ativos = [];
         }
@@ -353,14 +412,38 @@ class PolicialRepository extends BaseRepository
         return array_merge($ativos, $inativos, $reserva);
     }
 
+    public function sugestAtivo($dados, $limit)
+    {
+        try {
+            $query = $this->policial->select('rg','nome')
+            ->where($dados['type'],'like', '%'.$dados['search'].'%')
+            ->distinct($dados['type']);
+            return $query->limit(ceil($limit))->get()->toArray();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $query = $this->policial2->select('rg','nome')
+            ->where($dados['type'],'like', '%'.$dados['search'].'%')
+            ->distinct($dados['type']);
+            return $query->limit(ceil($limit))->get()->toArray();
+        }
+    }
+
     public function sugestions($type, $data) 
     { //mostrar sugestões buscando por RG ou  NOME
         $type = strtolower($type); 
-        $search = $this->policial
-        ->join('opmPMPR','POLICIAL.CDOPM','=','opmPMPR.CODIGO')
-        ->where($type,'like', '%'."$data%")
-        ->distinct($type)->get();
-
+        try {
+            $search = $this->policial
+            ->join('opmPMPR','POLICIAL.CDOPM','=','opmPMPR.CODIGO')
+            ->where($type,'like', '%'."$data%")
+            ->distinct($type)->get();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $search = $this->policial2
+            ->join('opmPMPR','POLICIAL.CDOPM','=','opmPMPR.CODIGO')
+            ->where($type,'like', '%'."$data%")
+            ->distinct($type)->get();
+        }
+        
         return $search;
     }
 

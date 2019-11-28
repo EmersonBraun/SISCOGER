@@ -74,6 +74,21 @@ return [
             'prefix' => '',
         ],
 
+        'rhparana2' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST_RHPARANA2', '127.0.0.1'),
+            'port' => env('DB_PORT_RHPARANA2', '3306'),
+            'database' => 'RHPARANA',
+            'username' => env('DB_USERNAME_RHPARANA2', 'forge'),
+            'password' => env('DB_PASSWORD_RHPARANA2', ''),
+            'unix_socket' => env('DB_SOCKET_RHPARANA2', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'meta4' => [
             'driver' => 'sqlsrv',
             'host' => '10.47.1.4',

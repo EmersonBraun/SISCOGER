@@ -1,6 +1,6 @@
 <?php $__env->startSection('adminlte_css'); ?>
 <link rel="stylesheet"
-    href="<?php echo e(asset('public/vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')); ?> ">
+    href="<?php echo e(asset('public/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')); ?> ">
 <?php echo $__env->yieldPushContent('css'); ?>
 <?php echo $__env->yieldContent('css'); ?>
 <?php $__env->stopSection(); ?>
@@ -71,7 +71,7 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('adminlte_js'); ?>
 
-<script src="<?php echo e(asset('public/vendor/adminlte/dist/js/adminlte.min.js')); ?>"></script>
+<script src="<?php echo e(asset('public/js/adminlte.min.js')); ?>"></script>
 <?php echo $__env->yieldPushContent('js'); ?>
 <?php echo $__env->yieldContent('js'); ?>
 <?php $__env->stopSection(); ?>

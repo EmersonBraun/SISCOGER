@@ -41,63 +41,63 @@ class Handler extends ExceptionHandler
 
     public function render($request, Exception $e)
     { 
-        // if(config('sistema.show_error') ) {
+        if(config('sistema.show_error') ) {
             return parent::render($request, $e);
-        // } elseif($this->isHttpException($e)) {
-        //     $rota = $request->path();
-        //     switch (intval($e->getStatusCode())) {
-        //         //proibido
-        //         case 401:
-        //             Auth::logout();
-        //             return redirect()->route('login');
-        //             break;
-        //         //proibido
-        //         case 403:
-        //             activity()
-        //             ->withProperties(['wrongroute' => $rota])
-        //             ->log('O '.Auth::user().' tentou acessar a rota: '.$rota);
+        } elseif($this->isHttpException($e)) {
+            $rota = $request->path();
+            switch (intval($e->getStatusCode())) {
+                //proibido
+                case 401:
+                    Auth::logout();
+                    return redirect()->route('login');
+                    break;
+                //proibido
+                case 403:
+                    activity()
+                    ->withProperties(['wrongroute' => $rota])
+                    ->log('O '.Auth::user().' tentou acessar a rota: '.$rota);
            
-        //             toast()->warning('Foi registrada a tentativa de acesso', 'LOG!');
-        //             toast()->error('Você não tem acesso a '.strtoupper($rota).'!', 'ERRO!');
-        //             return redirect()->route('home');
-        //             break;
-        //         // not found
-        //         case 404:
-        //             toast()->warning('esse caminho não existe!', 'ERRO!');
-        //             return redirect()->route('home');
-        //             break;
-        //         // inatividade
-        //         case 419:
-        //             Auth::logout();
-        //             return redirect()->intended('login');
-        //             break;
+                    toast()->warning('Foi registrada a tentativa de acesso', 'LOG!');
+                    toast()->error('Você não tem acesso a '.strtoupper($rota).'!', 'ERRO!');
+                    return redirect()->route('home');
+                    break;
+                // not found
+                case 404:
+                    toast()->warning('esse caminho não existe!', 'ERRO!');
+                    return redirect()->route('home');
+                    break;
+                // inatividade
+                case 419:
+                    Auth::logout();
+                    return redirect()->intended('login');
+                    break;
 
-        //         // internal error
-        //         case 500:
-        //             Auth::logout();
-        //             return redirect()->intended('login');
-        //             break;
+                // internal error
+                case 500:
+                    Auth::logout();
+                    return redirect()->intended('login');
+                    break;
 
-        //         // serviço indisponível
-        //         case 503:
-        //             toast()->warning('Indisponível!', 'ERRO!');
-        //             return redirect()->route('home');
-        //             break;
+                // serviço indisponível
+                case 503:
+                    toast()->warning('Indisponível!', 'ERRO!');
+                    return redirect()->route('home');
+                    break;
 
-        //         default:
-        //             //Auth::logout();
-        //             //return redirect()->intended('login');
-        //             return parent::render($request, $e);
-        //             break;
-        //     }
-        // }
+                default:
+                    //Auth::logout();
+                    //return redirect()->intended('login');
+                    return parent::render($request, $e);
+                    break;
+            }
+        }
 
-        // if ($e instanceof \PDOException) {
-        //     echo $e->getMessage();
-        //     exit;
-        //     // Auth::logout();
-        //     // return redirect()->intended('login');
-        // }
+        if ($e instanceof \PDOException) {
+            echo $e->getMessage();
+            exit;
+            // Auth::logout();
+            // return redirect()->intended('login');
+        }
 
     }
 

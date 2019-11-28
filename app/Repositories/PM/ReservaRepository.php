@@ -26,7 +26,12 @@ class ReservaRepository extends BaseRepository
 	{
 
         $registros = Cache::tags('reserva')->remember('todos_reserva', $this->expiration, function() {
-            return $this->model->all();
+            try {
+                return $this->model->all();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return [];
+            }
         });
 
         return $registros;
@@ -36,7 +41,13 @@ class ReservaRepository extends BaseRepository
 	{
 
         $registro = Cache::tags('reserva')->remember('reserva:rg'.$rg, $this->expiration, function() use ($rg){
-            return $this->model->where('UserRG','=', $rg)->first();
+            try {
+                return $this->model->where('UserRG','=', $rg)->first();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return [];
+            }
+            
         });
 
         if($registro) {
@@ -65,12 +76,16 @@ class ReservaRepository extends BaseRepository
     public function sugest($dados, $limit)
     {
         $type = ($dados['type'] == 'rg') ? 'UserRG' : 'nome';
-
         $query = $this->model->select('UserRG as rg','nome')
                         ->where($type,'like', '%'.$dados['search'].'%')
                         ->distinct($type);
 
-        return $query->limit(floor($limit))->get()->toArray();
+        try {
+            return $query->limit(floor($limit))->get()->toArray();
+        } catch (\Throwable $th) {
+            //throw $th;
+            return [];
+        } 
     }
 }
 

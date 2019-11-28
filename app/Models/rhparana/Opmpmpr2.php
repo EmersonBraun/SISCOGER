@@ -29,8 +29,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class Opmpmpr2 extends Eloquent
 {
-    protected $connection = 'rhparana';
-	protected $table = 'opmpmpr';
+    protected $connection = 'rhparana2';
+	protected $table = 'opmPMPR';
 	protected $primaryKey = 'META4';
 	public $incrementing = false;
 	public $timestamps = false;

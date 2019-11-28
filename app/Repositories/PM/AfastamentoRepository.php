@@ -25,7 +25,12 @@ class AfastamentoRepository extends BaseRepository
     public function all()
 	{
         $registros = Cache::tags('afastamento')->remember('todos_afastamento', $this->expiration, function() {
-            return $this->model->all();
+            try {
+                return $this->model->all();
+            } catch (\Throwable $th) {
+                 //throw $th;
+                return [];
+            }
         });
 
         return $registros;
@@ -34,7 +39,13 @@ class AfastamentoRepository extends BaseRepository
     public function afastamentos($rg)
 	{
         $registros = Cache::tags('afastamento')->remember('afastamento:rg'.$rg, $this->expiration, function() use($rg){
-            return $this->model->where('rg','=', $rg)->get();
+            try {
+                return $this->model->where('rg','=', $rg)->get();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return [];
+            }
+            
         });
 
         return $registros;

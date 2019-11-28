@@ -24,9 +24,13 @@ class InativoRepository extends BaseRepository
 
     public function all()
 	{
-
         $registros = Cache::tags('inativo')->remember('todos_inativo', $this->expiration, function() {
-            return $this->model->all();
+            try {
+                return $this->model->all();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return [];
+            }
         });
 
         return $registros;
@@ -36,7 +40,12 @@ class InativoRepository extends BaseRepository
 	{
 
         $registro = Cache::tags('inativo')->remember('inativo:rg'.$rg, $this->expiration, function() use ($rg){
-            return $this->model->where('CBR_NUM_RG','=', $rg)->first();
+            try {
+                return $this->model->where('CBR_NUM_RG','=', $rg)->first();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return [];
+            }
         });
 
         if($registro) {
@@ -71,12 +80,15 @@ class InativoRepository extends BaseRepository
     public function sugest($dados, $limit)
     {
         $type = ($dados['type'] == 'rg') ? 'CBR_NUM_RG' : 'nome';
-
         $query = $this->model->select('CBR_NUM_RG as rg','nome')
-                        ->where($type,'like', '%'.$dados['search'].'%')
-                        ->distinct($type);
-
-        return $query->limit(floor($limit))->get()->toArray();
+                ->where($type,'like', '%'.$dados['search'].'%')
+                ->distinct($type);
+        try {
+            return $query->limit(floor($limit))->get()->toArray();
+        } catch (\Throwable $th) {
+            //throw $th;
+            return [];
+        }
     }
 }
 

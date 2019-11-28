@@ -30,6 +30,7 @@ class PendenciaRepository
         return $pendencias;
     }
 
+
     public function cg()
 	{
         $cg = Cache::tags('pendencias')->remember('pendencias:cg', $this->expiration, function(){

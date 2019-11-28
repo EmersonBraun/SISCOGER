@@ -8,21 +8,24 @@ use Illuminate\Support\Collection;
 use Cache;
 use App\Models\Sjd\Policiais\Comportamentopm;
 use App\Models\rhparana\Policial;
+use App\Models\rhparana\Policial2;
 use App\Repositories\BaseRepository;
 
 class ComportamentoRepository extends BaseRepository
 {
     protected $model;
     protected $policial;
+    protected $policial2;
     protected $unidade;
     protected $verTodasUnidades;
     protected $expiration = 60 * 24 * 7;  //uma semana
     protected $partes = 4; // quantidade de partes que divide a consulda de SD1C
 
-	public function __construct(Comportamentopm $model, Policial $policial)
+	public function __construct(Comportamentopm $model, Policial $policial, Policial2 $policial2)
 	{
         $this->model = $model; 
-        $this->policial = $policial;      
+        $this->policial = $policial;     
+        $this->policial2 = $policial2;  
     }
     
     public function cleanCache()
@@ -33,18 +36,22 @@ class ComportamentoRepository extends BaseRepository
     public function pracasOPM($unidade)
     {
         $rgs = Cache::tags('comportamento')->remember('rg:'.$unidade, $this->expiration, function() use ($unidade){
-                return $this->policial 
-                ->select('rg')
-                ->where('cdopm', 'LIKE', $unidade.'%')
-                ->where([
-                    ['cargo', '<>', 'CELAGREG'],
-                    ['cargo', '<>', 'CEL'],
-                    ['cargo', '<>', 'TENCEL'],
-                    ['cargo', '<>', 'MAJ'],
-                    ['cargo', '<>', 'CAP'],
-                    ['cargo', '<>', '1TEN'],
-                    ['cargo', '<>', '2TEN'],
-                ])->get();
+            $cargos = [
+                ['cargo', '<>', 'CELAGREG'],
+                ['cargo', '<>', 'CEL'],
+                ['cargo', '<>', 'TENCEL'],
+                ['cargo', '<>', 'MAJ'],
+                ['cargo', '<>', 'CAP'],
+                ['cargo', '<>', '1TEN'],
+                ['cargo', '<>', '2TEN'],
+            ];
+
+            try {
+                return $this->policial->select('rg')->where('cdopm', 'LIKE', $unidade.'%')->where($cargos)->get();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return $this->policial2->select('rg')->where('cdopm', 'LIKE', $unidade.'%')->where($cargos)->get();
+            }
 
         });
         return $rgs;
@@ -78,9 +85,12 @@ class ComportamentoRepository extends BaseRepository
     {
         if($posto == 'SD1C') return abort(403);
         $rgs = Cache::tags('comportamento')->remember('rg:Posto:'.$posto, 600, function() use ($posto){
-                return $this->policial 
-                ->where('cargo', $posto)
-                ->get();
+            try {
+                return $this->policial->where('cargo', $posto)->get();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return $this->policial2->where('cargo', $posto)->get();
+            }
 
         });
         return $rgs;
@@ -90,13 +100,23 @@ class ComportamentoRepository extends BaseRepository
     {
         //SD1C tive que dividir pois eram muitos registros estavam causando lentidão
         $rgs = Cache::tags('comportamento')->remember('rg:posto:soldados:'.$parte, $this->expiration, function() use ($parte){
-            $count = $this->policial->where('cargo', 'SD1C')->count(); //total
+
+            try {
+                $count = $this->policial->where('cargo', 'SD1C')->count(); //total
+            } catch (\Throwable $th) {
+                //throw $th;
+                $count = $this->policial2->where('cargo', 'SD1C')->count(); //total
+            }
+
             $partes = (int) ceil($count / $this->partes); //valor de cada parte
 
-            $total = $this->policial 
-            ->where('cargo', 'SD1C')
-            ->get(); //todos registros
-
+            try {
+                $total = $this->policial->where('cargo', 'SD1C')->get(); //todos registros
+            } catch (\Throwable $th) {
+                //throw $th;
+                $total = $this->policial2->where('cargo', 'SD1C')->get(); //todos registros
+            }
+            
             $atual = 0;
             $dividido = [];
             for($i = 1; $i <= $this->partes; $i++) { //divide e salva as partes no array
@@ -113,11 +133,21 @@ class ComportamentoRepository extends BaseRepository
     {
         // juntei pois eram muito pouco
         $rgs = Cache::tags('comportamento')->remember('rg:posto:alunos', $this->expiration, function() {
-            return $this->policial 
-            ->orWhere('cargo', 'ALUNO1A')
-            ->orWhere('cargo', 'ALUNO2A')
-            ->orWhere('cargo', 'ALUNO3A')
-            ->get(); 
+            try {
+                return $this->policial 
+                ->orWhere('cargo', 'ALUNO1A')
+                ->orWhere('cargo', 'ALUNO2A')
+                ->orWhere('cargo', 'ALUNO3A')
+                ->get();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return $this->policial2 
+                ->orWhere('cargo', 'ALUNO1A')
+                ->orWhere('cargo', 'ALUNO2A')
+                ->orWhere('cargo', 'ALUNO3A')
+                ->get();
+            }
+             
         });
         return $rgs;
     }
@@ -138,12 +168,18 @@ class ComportamentoRepository extends BaseRepository
             foreach($policiais as $policial){
                 // apagar esse registro quando houver alteração Cache::pull('comportamento:rg:'.$policial['RG'])
                 $result = Cache::rememberForever('comportamento:rg:'.$policial['RG'], function() use ($policial){
-                    return $this->model
-                        ->select('rg','id_comportamento',DB::raw("MAX(data) as data_comportamento"))
-                        ->where('rg',$policial['RG'])
-                        ->groupBy('rg')
-                        ->first();
+                    try {
+                        return $this->model
+                            ->select('rg','id_comportamento',DB::raw("MAX(data) as data_comportamento"))
+                            ->where('rg',$policial['RG'])
+                            ->groupBy('rg')
+                            ->first();
+                    } catch (\Throwable $th) {
+                        return $th;
+                    }
+                    
                 });
+
                 if($result) {
                     // adicionado dados do meta 4
                     $result['nome'] = $policial['NOME'];
@@ -162,7 +198,13 @@ class ComportamentoRepository extends BaseRepository
 
     public function comportamentoAtual($rg)
     {
-        $pm = $this->policial->where('rg',$rg)->first();
+        try {
+            $pm = $this->policial->where('rg',$rg)->first();
+        } catch (\Throwable $th) {
+            //throw $th;
+            $pm = $this->policial2->where('rg',$rg)->first();
+        }
+        
         /*verificar se é oficial
         Se o id_posto for menor ou igual a 6, nao tem comportamento
         1-CEL 2-TENCEL 3-MAJ 4-CAP 5-1TEN 6-2TEN*/

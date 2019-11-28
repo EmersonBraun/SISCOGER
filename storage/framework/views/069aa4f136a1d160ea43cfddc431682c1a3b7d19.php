@@ -1,5 +1,5 @@
 <?php $__env->startSection('adminlte_css'); ?>
-    <link rel="stylesheet" href="<?php echo e(asset('public/vendor/adminlte/css/auth.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('public/css/auth.css')); ?>">
     <?php echo $__env->yieldContent('css'); ?>
 <?php $__env->stopSection(); ?>
 

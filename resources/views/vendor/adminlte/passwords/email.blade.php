@@ -1,7 +1,7 @@
 @extends('adminlte::master')
 
 @section('adminlte_css')
-<link rel="stylesheet" href="{{ asset('public/vendor/adminlte/css/auth.css') }}">
+<link rel="stylesheet" href="{{ asset('public/css/auth.css') }}">
     @yield('css')
 @stop
 

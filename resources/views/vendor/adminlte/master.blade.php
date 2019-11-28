@@ -16,11 +16,22 @@
     {{-- token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/font-awesome/css/font-awesome.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/font-awesome/css/font-awesome.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('public/fonts/font-awesome/css/font-awesome.css') }}">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('public/fonts/Ionicons/css/ionicons.min.css') }}">
     {{-- Compilados --}}
     <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
+
+    {{-- datatables --}}
+    <link rel="stylesheet" href="{{ asset('public/css/dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/buttons.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/dataTables.searchHighlight.css') }}">
+
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/1.10.19/features/searchHighlight/dataTables.searchHighlight.css"> --}}
 
     <style>
         
@@ -45,8 +56,10 @@
 @include('vendor.adminlte.js')
 @if(Session::has('toasts'))
 <!-- Messenger http://github.hubspot.com/messenger/ -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+<link rel="stylesheet" href="{{ asset('public/css/toastr.min.css') }}">
+{{-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"> --}}
+<script src="{{ asset('public/css/toastr.min.js') }}"></script>
+{{-- <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script> --}}
 
 <script type="text/javascript">
 		toastr.options = {

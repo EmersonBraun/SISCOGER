@@ -16,11 +16,20 @@
     
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="<?php echo e(asset('public/vendor/adminlte/vendor/font-awesome/css/font-awesome.css')); ?>">
+    
+    <link rel="stylesheet" href="<?php echo e(asset('public/fonts/font-awesome/css/font-awesome.css')); ?>">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="<?php echo e(asset('public/vendor/adminlte/vendor/Ionicons/css/ionicons.min.css')); ?>">
+    
+    <link rel="stylesheet" href="<?php echo e(asset('public/fonts/Ionicons/css/ionicons.min.css')); ?>">
     
     <link href="<?php echo e(asset('public/css/app.css')); ?>" rel="stylesheet">
+
+    
+    <link rel="stylesheet" href="<?php echo e(asset('public/css/dataTables.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('public/css/buttons.dataTables.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('public/css/dataTables.searchHighlight.css')); ?>">
+
+    
 
     <style>
         
@@ -45,8 +54,10 @@
 <?php echo $__env->make('vendor.adminlte.js', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php if(Session::has('toasts')): ?>
 <!-- Messenger http://github.hubspot.com/messenger/ -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+<link rel="stylesheet" href="<?php echo e(asset('public/css/toastr.min.css')); ?>">
+
+<script src="<?php echo e(asset('public/css/toastr.min.js')); ?>"></script>
+
 
 <script type="text/javascript">
 		toastr.options = {

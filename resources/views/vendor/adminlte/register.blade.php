@@ -1,7 +1,7 @@
 @extends('adminlte::master')
 
 @section('adminlte_css')
-    <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/css/auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/auth.css') }}">
     @yield('css')
 @stop
 
@@ -10,7 +10,7 @@
 @section('body')
     <div class="register-box">
         <div class="register-logo">
-            <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
+            <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', 'SISCOGER') !!}</a>
         </div>
 
         <div class="register-box-body">

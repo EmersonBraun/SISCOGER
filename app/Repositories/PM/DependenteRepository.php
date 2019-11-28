@@ -29,7 +29,13 @@ class DependenteRepository extends BaseRepository
     public function ativa()
 	{
         $registros = Cache::tags('dependente')->remember('todos_dependente:ativa', $this->expiration, function() {
-            return $this->ativa->all();
+            try {
+                return $this->ativa->all();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return [];
+            }
+            
         });
 
         return $registros;
@@ -38,7 +44,12 @@ class DependenteRepository extends BaseRepository
     public function ativaPM($rg)
 	{
         $registros = Cache::tags('dependente')->remember('dependente:ativa:rg'.$rg, $this->expiration, function() use($rg){
-            return $this->ativa->select(DB::raw('DISTINCT nome, sexo, data_nasc, parentesco'))->where('rg','=', $rg)->get();
+            try {
+                return $this->ativa->select(DB::raw('DISTINCT nome, sexo, data_nasc, parentesco'))->where('rg','=', $rg)->get();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return [];
+            }
         });
 
         return $registros;
@@ -47,7 +58,12 @@ class DependenteRepository extends BaseRepository
     public function inativo()
 	{
         $registros = Cache::tags('dependente')->remember('todos_dependente:inativo', $this->expiration, function() {
-            return $this->inativo->all();
+            try {
+                return $this->inativo->all();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return [];
+            }
         });
 
         return $registros;
@@ -56,7 +72,12 @@ class DependenteRepository extends BaseRepository
     public function inativoPM($rg)
 	{
         $registros = Cache::tags('dependente')->remember('dependente:inativo:rg'.$rg, $this->expiration, function() use($rg){
-            return $this->inativo->select(DB::raw('DISTINCT nome, sexo, data_nasc, parentesco'))->where('rg','=', $rg)->get();
+            try {
+                return $this->inativo->select(DB::raw('DISTINCT nome, sexo, data_nasc, parentesco'))->where('rg','=', $rg)->get();
+            } catch (\Throwable $th) {
+                //throw $th;
+                return [];
+            }
         });
 
         return $registros;
