@@ -40,15 +40,13 @@ class Handler extends ExceptionHandler
     }
 
     public function render($request, Exception $e)
-    { 
-        if(config('sistema.show_error') ) {
-            return parent::render($request, $e);
-        } elseif($this->isHttpException($e)) {
+    {            
+        if($this->isHttpException($e)) {
             $rota = $request->path();
             switch (intval($e->getStatusCode())) {
-                //proibido
+                //ocioso
                 case 401:
-                    Auth::logout();
+                    toast()->warning('401. Tempo ocioso!', 'ERRO!');
                     return redirect()->route('login');
                     break;
                 //proibido
@@ -68,14 +66,15 @@ class Handler extends ExceptionHandler
                     break;
                 // inatividade
                 case 419:
+                    toast()->warning('419. Tempo ocioso!', 'ERRO!');
                     Auth::logout();
                     return redirect()->intended('login');
                     break;
 
                 // internal error
                 case 500:
-                    Auth::logout();
-                    return redirect()->intended('login');
+                    toast()->warning('500', 'ERRO!');
+                    return false;
                     break;
 
                 // serviço indisponível
@@ -90,14 +89,16 @@ class Handler extends ExceptionHandler
                     return parent::render($request, $e);
                     break;
             }
+        } else {
+            return parent::render($request, $e);
         }
 
-        if ($e instanceof \PDOException) {
-            echo $e->getMessage();
-            exit;
-            // Auth::logout();
-            // return redirect()->intended('login');
-        }
+        // if ($e instanceof \PDOException) {
+        //     echo $e->getMessage();
+        //     exit;
+        //     // Auth::logout();
+        //     // return redirect()->intended('login');
+        // }
 
     }
 

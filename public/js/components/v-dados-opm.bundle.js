@@ -1,1 +1,718 @@
-webpackJsonp([74],{"2QN6":function(t,o,e){(t.exports=e("FZ+f")(!1)).push([t.i,"td[data-v-3bcbbec7]{white-space:normal!important;word-wrap:break-word}table[data-v-3bcbbec7]{table-layout:fixed}",""])},CkOW:function(t,o){t.exports={render:function(){var t=this,o=t.$createElement,e=t._self._c||o;return e("div",{staticClass:"row"},[e("div",{staticClass:"col-xs-12"},[e("div",{staticClass:"box"},[e("div",{staticClass:"box-header"},[t.registro.opm_nome_por_extenso?e("h2",{staticClass:"box-title"},[t._v(t._s(t.registro.opm_nome_por_extenso))]):e("h2",{staticClass:"box-title"},[t._v("Dados cadastrais da Unidade ")]),t._v(" "),t._m(0)]),t._v(" "),e("div",{staticClass:"box-body"},[e("div",{staticClass:"col-md-12 col-xs-12"},[e("v-label",{attrs:{lg:"6",md:"6",label:"opm_intermediaria_cdopm",title:"OM Interm."}},[e("select",{directives:[{name:"model",rawName:"v-model",value:t.registro.opm_intermediaria_cdopm,expression:"registro.opm_intermediaria_cdopm"}],staticClass:"form-control",on:{change:function(o){var e=Array.prototype.filter.call(o.target.options,function(t){return t.selected}).map(function(t){return"_value"in t?t._value:t.value});t.$set(t.registro,"opm_intermediaria_cdopm",o.target.multiple?e:e[0])}}},[e("option",{attrs:{value:"0"}},[t._v("CG")]),t._v(" "),e("option",{attrs:{value:"010"}},[t._v("SUBCG")]),t._v(" "),e("option",{attrs:{value:"1"}},[t._v("EM")]),t._v(" "),e("option",{attrs:{value:"2"}},[t._v("1CRPM")]),t._v(" "),e("option",{attrs:{value:"3"}},[t._v("2CRPM")]),t._v(" "),e("option",{attrs:{value:"4"}},[t._v("3CRPM")]),t._v(" "),e("option",{attrs:{value:"5"}},[t._v("4CRPM")]),t._v(" "),e("option",{attrs:{value:"6"}},[t._v("5CRPM")]),t._v(" "),e("option",{attrs:{value:"7"}},[t._v("6CRPM")]),t._v(" "),e("option",{attrs:{value:"9"}},[t._v("CCB")])])]),t._v(" "),e("v-label",{attrs:{lg:"6",md:"6",label:"opm_intermediaria_nome_por_extenso",title:"Nome da Unidade Intermediaria por extenso"}},[e("input",{directives:[{name:"model",rawName:"v-model",value:t.registro.opm_intermediaria_nome_por_extenso,expression:"registro.opm_intermediaria_nome_por_extenso"}],staticClass:"form-control",attrs:{size:"45",type:"text"},domProps:{value:t.registro.opm_intermediaria_nome_por_extenso},on:{input:function(o){o.target.composing||t.$set(t.registro,"opm_intermediaria_nome_por_extenso",o.target.value)}}})]),t._v(" "),e("v-label",{attrs:{lg:"6",md:"6",label:"opm_nome_por_extenso",title:"Nome da Unidade por extenso"}},[e("input",{directives:[{name:"model",rawName:"v-model",value:t.registro.opm_nome_por_extenso,expression:"registro.opm_nome_por_extenso"}],staticClass:"form-control",attrs:{size:"45",type:"text"},domProps:{value:t.registro.opm_nome_por_extenso},on:{input:function(o){o.target.composing||t.$set(t.registro,"opm_nome_por_extenso",o.target.value)}}})]),t._v(" "),e("v-label",{attrs:{lg:"6",md:"6",label:"id_municipio",title:"Municipio"}},[e("v-municipio",{attrs:{id_municipio:t.registro.id_municipio},model:{value:t.registro.id_municipio,callback:function(o){t.$set(t.registro,"id_municipio",o)},expression:"registro.id_municipio"}})],1),t._v(" "),e("v-label",{attrs:{label:"opm_autoridade_rg",title:"RG"}},[e("input",{directives:[{name:"model",rawName:"v-model",value:t.registro.opm_autoridade_rg,expression:"registro.opm_autoridade_rg"}],staticClass:"form-control",attrs:{size:"45",type:"text"},domProps:{value:t.registro.opm_autoridade_rg},on:{keyup:t.dadosPM,input:function(o){o.target.composing||t.$set(t.registro,"opm_autoridade_rg",o.target.value)}}})]),t._v(" "),e("v-label",{attrs:{label:"opm_autoridade_nome",title:"Comandante/Chefe/Diretor"}},[e("input",{directives:[{name:"model",rawName:"v-model",value:t.registro.opm_autoridade_nome,expression:"registro.opm_autoridade_nome"}],staticClass:"form-control",attrs:{size:"45",readonly:"",type:"text"},domProps:{value:t.registro.opm_autoridade_nome},on:{input:function(o){o.target.composing||t.$set(t.registro,"opm_autoridade_nome",o.target.value)}}})]),t._v(" "),e("v-label",{attrs:{label:"opm_autoridade_funcao",title:"Função"}},[e("input",{directives:[{name:"model",rawName:"v-model",value:t.registro.opm_autoridade_funcao,expression:"registro.opm_autoridade_funcao"}],staticClass:"form-control",attrs:{size:"45",type:"text"},domProps:{value:t.registro.opm_autoridade_funcao},on:{input:function(o){o.target.composing||t.$set(t.registro,"opm_autoridade_funcao",o.target.value)}}})]),t._v(" "),e("div",{staticClass:"col-xs-12"},[t.canCreate?[e("v-tooltip",{attrs:{effect:"scale",placement:"top",content:t.msgRequired}},[t.registro.id_cadastroopmcoger?e("a",{staticClass:"btn btn-success btn-block",attrs:{disabled:t.requireds},on:{click:function(o){return o.preventDefault(),t.update(t.registro.id_cadastroopmcoger)}}},[t._v("Editar")]):e("a",{staticClass:"btn btn-success btn-block",attrs:{disabled:t.requireds},on:{click:t.create}},[t._v("Inserir")])])]:t._e()],2)],1)])])]),t._v(" "),t.registro.id_cadastroopmcoger?[e("v-outras-autoridades",{attrs:{id_cadastroopmcoger:t.registro.id_cadastroopmcoger}})]:t._e()],2)},staticRenderFns:[function(){var t=this.$createElement,o=this._self._c||t;return o("div",{staticClass:"box-tools pull-right"},[o("button",{staticClass:"btn btn-box-tool",attrs:{type:"button","data-widget":"collapse"}},[o("i",{staticClass:"fa fa-plus"})])])}]}},"G/zG":function(t,o,e){var r=e("2QN6");"string"==typeof r&&(r=[[t.i,r,""]]),r.locals&&(t.exports=r.locals);e("rjj0")("f6c9fd14",r,!0,{})},"Jq+R":function(t,o,e){"use strict";Object.defineProperty(o,"__esModule",{value:!0}),o.default={data:function(){return{module:"cadastroopm",om:"",registro:{},canCreate:!1,canEdit:!1}},created:function(){this.om=this.$root.dadoSession("cdopmbase"),this.rg=this.$root.dadoSession("rg"),this.canCreate=this.$root.hasPermission("criar-dados-unidade"),this.canEdit=this.$root.hasPermission("editar-dados-unidade"),this.get()},computed:{requireds:function(){return!this.registro.opm_nome_por_extenso||!this.registro.opm_autoridade_rg},msgRequired:function(){return"Para liberar este botão os campos: NOME DA UNIDADE e RG deve estar preenchidos"}},methods:{get:function(){var t=this,o=this.$root.baseUrl+"api/"+this.module+"/get/"+this.om;this.om&&axios.get(o).then(function(o){t.registro=o.data[0]}).catch(function(t){return console.log(t)})},toCreate:function(){this.showModal=!0,this.registro.usuario_rg=this.rg},create:function(){var t=this;if(!this.requireds){var o=this.$root.baseUrl+"api/"+this.module+"/store";axios.post(o,this.registro).then(function(o){t.transation(o.data.success,"create")}).catch(function(t){return console.log(t)}),this.showModal=!1}},edit:function(t){this.registro=t,this.showModal=!0},update:function(t){var o=this;if(!this.requireds){var e=this.$root.baseUrl+"api/"+this.module+"/update/"+t;axios.put(e,this.registro).then(function(t){o.transation(t.data.success,"edit")}).catch(function(t){return console.log(t)})}},destroy:function(t){var o=this;if(confirm("Você tem certeza?")){var e=this.$root.baseUrl+"api/"+this.module+"/destroy/"+t;axios.delete(e).then(function(t){o.transation(t.data.success,"delete")}).catch(function(t){return console.log(t)})}},transation:function(t,o){var e=this.words(o);this.showModal=!1,t?this.$root.msg(e.success,"success"):this.$root.msg(e.fail,"danger")},words:function(t){return"create"==t?{success:"Inserido com sucesso",fail:"Erro ao inserir"}:"edit"==t?{success:"Editado com sucesso",fail:"Erro ao editar"}:"delete"==t?{success:"Apagado com sucesso",fail:"Erro ao apagar"}:void 0},dadosPM:function(){var t=this;if(this.registro.opm_autoridade_rg.length>3){var o=this.$root.baseUrl+"api/dados/pm/"+this.registro.opm_autoridade_rg;axios.get(o).then(function(o){console.log(o.data.pm);var e=o.data.pm;t.registro.opm_autoridade_cargo=e.CARGO,t.registro.opm_autoridade_quadro=e.QUADRO,t.registro.opm_autoridade_subquadro=e.SUBQUADRO;var r=t.$root.formatUcwords(e.CARGO);console.log(r);var a=t.registro.opm_autoridade_quadro,i=t.$root.formatUcwords(e.NOME);t.registro.opm_autoridade_nome=r+". "+a+" "+i}).catch(function(t){return console.log(t)})}}}}},snmd:function(t,o,e){var r=e("VU/8")(e("Jq+R"),e("CkOW"),!1,function(t){e("G/zG")},"data-v-3bcbbec7",null);t.exports=r.exports}});
+webpackJsonp([75],{
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Apresentacao/DadosOpm.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            module: 'cadastroopm',
+            om: '',
+            registro: {},
+            canCreate: false,
+            canEdit: false
+        };
+    },
+    created: function created() {
+        this.om = this.$root.dadoSession('cdopmbase');
+        this.rg = this.$root.dadoSession('rg');
+        this.canCreate = this.$root.hasPermission('criar-dados-unidade');
+        this.canEdit = this.$root.hasPermission('editar-dados-unidade');
+        this.get();
+    },
+
+    computed: {
+        requireds: function requireds() {
+            if (this.registro.opm_nome_por_extenso && this.registro.opm_autoridade_rg) return false;
+            return true;
+        },
+        msgRequired: function msgRequired() {
+            return 'Para liberar este bot\xE3o os campos: NOME DA UNIDADE e RG deve estar preenchidos';
+        }
+    },
+    methods: {
+        get: function get() {
+            var _this = this;
+
+            var urlIndex = this.$root.baseUrl + 'api/' + this.module + '/get/' + this.om;
+            if (this.om) {
+                axios.get(urlIndex).then(function (response) {
+                    _this.registro = response.data[0];
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        toCreate: function toCreate() {
+            this.showModal = true;
+            this.registro.usuario_rg = this.rg;
+        },
+        create: function create() {
+            var _this2 = this;
+
+            if (!this.requireds) {
+
+                var urlCreate = this.$root.baseUrl + 'api/' + this.module + '/store';
+                axios.post(urlCreate, this.registro).then(function (response) {
+                    _this2.transation(response.data.success, 'create');
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+                this.showModal = false;
+            }
+        },
+        edit: function edit(registro) {
+            this.registro = registro;
+            this.showModal = true;
+        },
+        update: function update(id) {
+            var _this3 = this;
+
+            if (!this.requireds) {
+                var urlUpdate = this.$root.baseUrl + 'api/' + this.module + '/update/' + id;
+                axios.put(urlUpdate, this.registro).then(function (response) {
+                    _this3.transation(response.data.success, 'edit');
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        destroy: function destroy(id) {
+            var _this4 = this;
+
+            if (confirm('Você tem certeza?')) {
+                var urlDelete = this.$root.baseUrl + 'api/' + this.module + '/destroy/' + id;
+                axios.delete(urlDelete).then(function (response) {
+                    _this4.transation(response.data.success, 'delete');
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        transation: function transation(happen, type) {
+            var msg = this.words(type);
+            this.showModal = false;
+            if (happen) {
+                // se deu certo
+                this.$root.msg(msg.success, 'success');
+            } else {
+                // se falhou
+                this.$root.msg(msg.fail, 'danger');
+            }
+        },
+        words: function words(type) {
+            if (type == 'create') return { success: 'Inserido com sucesso', fail: 'Erro ao inserir' };
+            if (type == 'edit') return { success: 'Editado com sucesso', fail: 'Erro ao editar' };
+            if (type == 'delete') return { success: 'Apagado com sucesso', fail: 'Erro ao apagar' };
+        },
+        dadosPM: function dadosPM() {
+            var _this5 = this;
+
+            if (this.registro.opm_autoridade_rg.length > 3) {
+                var urlSearch = this.$root.baseUrl + 'api/dados/pm/' + this.registro.opm_autoridade_rg;
+                axios.get(urlSearch).then(function (response) {
+                    console.log(response.data.pm);
+                    var res = response.data.pm;
+                    _this5.registro.opm_autoridade_cargo = res.CARGO;
+                    _this5.registro.opm_autoridade_quadro = res.QUADRO;
+                    _this5.registro.opm_autoridade_subquadro = res.SUBQUADRO;
+
+                    var cargolimpo = _this5.$root.formatUcwords(res.CARGO);
+                    console.log(cargolimpo);
+                    var quadro = _this5.registro.opm_autoridade_quadro;
+                    var nomelimpo = _this5.$root.formatUcwords(res.NOME);
+                    _this5.registro.opm_autoridade_nome = cargolimpo + '. ' + quadro + ' ' + nomelimpo;
+
+                    // this.registro.origem_opm = response.data.opm
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-53afc6df\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Apresentacao/DadosOpm.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\ntd[data-v-53afc6df] {\n  white-space: normal !important; \n  word-wrap: break-word;\n}\ntable[data-v-53afc6df] {\n  table-layout: fixed;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-53afc6df\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Apresentacao/DadosOpm.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "row" },
+    [
+      _c("div", { staticClass: "col-xs-12" }, [
+        _c("div", { staticClass: "box" }, [
+          _c("div", { staticClass: "box-header" }, [
+            _vm.registro.opm_nome_por_extenso
+              ? _c("h2", { staticClass: "box-title" }, [
+                  _vm._v(_vm._s(_vm.registro.opm_nome_por_extenso))
+                ])
+              : _c("h2", { staticClass: "box-title" }, [
+                  _vm._v("Dados cadastrais da Unidade ")
+                ]),
+            _vm._v(" "),
+            _vm._m(0)
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "box-body" }, [
+            _c(
+              "div",
+              { staticClass: "col-md-12 col-xs-12" },
+              [
+                _c(
+                  "v-label",
+                  {
+                    attrs: {
+                      lg: "6",
+                      md: "6",
+                      label: "opm_intermediaria_cdopm",
+                      title: "OM Interm."
+                    }
+                  },
+                  [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.registro.opm_intermediaria_cdopm,
+                            expression: "registro.opm_intermediaria_cdopm"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.registro,
+                              "opm_intermediaria_cdopm",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "0" } }, [_vm._v("CG")]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "010" } }, [
+                          _vm._v("SUBCG")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "1" } }, [_vm._v("EM")]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "2" } }, [
+                          _vm._v("1CRPM")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "3" } }, [
+                          _vm._v("2CRPM")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "4" } }, [
+                          _vm._v("3CRPM")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "5" } }, [
+                          _vm._v("4CRPM")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "6" } }, [
+                          _vm._v("5CRPM")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "7" } }, [
+                          _vm._v("6CRPM")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "9" } }, [_vm._v("CCB")])
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-label",
+                  {
+                    attrs: {
+                      lg: "6",
+                      md: "6",
+                      label: "opm_intermediaria_nome_por_extenso",
+                      title: "Nome da Unidade Intermediaria por extenso"
+                    }
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value:
+                            _vm.registro.opm_intermediaria_nome_por_extenso,
+                          expression:
+                            "registro.opm_intermediaria_nome_por_extenso"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { size: "45", type: "text" },
+                      domProps: {
+                        value: _vm.registro.opm_intermediaria_nome_por_extenso
+                      },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.registro,
+                            "opm_intermediaria_nome_por_extenso",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-label",
+                  {
+                    attrs: {
+                      lg: "6",
+                      md: "6",
+                      label: "opm_nome_por_extenso",
+                      title: "Nome da Unidade por extenso"
+                    }
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.registro.opm_nome_por_extenso,
+                          expression: "registro.opm_nome_por_extenso"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { size: "45", type: "text" },
+                      domProps: { value: _vm.registro.opm_nome_por_extenso },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.registro,
+                            "opm_nome_por_extenso",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-label",
+                  {
+                    attrs: {
+                      lg: "6",
+                      md: "6",
+                      label: "id_municipio",
+                      title: "Municipio"
+                    }
+                  },
+                  [
+                    _c("v-municipio", {
+                      attrs: { id_municipio: _vm.registro.id_municipio },
+                      model: {
+                        value: _vm.registro.id_municipio,
+                        callback: function($$v) {
+                          _vm.$set(_vm.registro, "id_municipio", $$v)
+                        },
+                        expression: "registro.id_municipio"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-label",
+                  { attrs: { label: "opm_autoridade_rg", title: "RG" } },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.registro.opm_autoridade_rg,
+                          expression: "registro.opm_autoridade_rg"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { size: "45", type: "text" },
+                      domProps: { value: _vm.registro.opm_autoridade_rg },
+                      on: {
+                        keyup: _vm.dadosPM,
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.registro,
+                            "opm_autoridade_rg",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-label",
+                  {
+                    attrs: {
+                      label: "opm_autoridade_nome",
+                      title: "Comandante/Chefe/Diretor"
+                    }
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.registro.opm_autoridade_nome,
+                          expression: "registro.opm_autoridade_nome"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { size: "45", readonly: "", type: "text" },
+                      domProps: { value: _vm.registro.opm_autoridade_nome },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.registro,
+                            "opm_autoridade_nome",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-label",
+                  {
+                    attrs: { label: "opm_autoridade_funcao", title: "Função" }
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.registro.opm_autoridade_funcao,
+                          expression: "registro.opm_autoridade_funcao"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { size: "45", type: "text" },
+                      domProps: { value: _vm.registro.opm_autoridade_funcao },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.registro,
+                            "opm_autoridade_funcao",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-xs-12" },
+                  [
+                    _vm.canCreate
+                      ? [
+                          _c(
+                            "v-tooltip",
+                            {
+                              attrs: {
+                                effect: "scale",
+                                placement: "top",
+                                content: _vm.msgRequired
+                              }
+                            },
+                            [
+                              _vm.registro.id_cadastroopmcoger
+                                ? _c(
+                                    "a",
+                                    {
+                                      staticClass: "btn btn-success btn-block",
+                                      attrs: { disabled: _vm.requireds },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.update(
+                                            _vm.registro.id_cadastroopmcoger
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Editar")]
+                                  )
+                                : _c(
+                                    "a",
+                                    {
+                                      staticClass: "btn btn-success btn-block",
+                                      attrs: { disabled: _vm.requireds },
+                                      on: { click: _vm.create }
+                                    },
+                                    [_vm._v("Inserir")]
+                                  )
+                            ]
+                          )
+                        ]
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ],
+              1
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm.registro.id_cadastroopmcoger
+        ? [
+            _c("v-outras-autoridades", {
+              attrs: { id_cadastroopmcoger: _vm.registro.id_cadastroopmcoger }
+            })
+          ]
+        : _vm._e()
+    ],
+    2
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-tools pull-right" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-box-tool",
+          attrs: { type: "button", "data-widget": "collapse" }
+        },
+        [_c("i", { staticClass: "fa fa-plus" })]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-53afc6df", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-53afc6df\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Apresentacao/DadosOpm.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-53afc6df\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Apresentacao/DadosOpm.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("04851976", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-53afc6df\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DadosOpm.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-53afc6df\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DadosOpm.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Apresentacao/DadosOpm.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-53afc6df\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Apresentacao/DadosOpm.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Apresentacao/DadosOpm.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-53afc6df\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Apresentacao/DadosOpm.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-53afc6df"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Apresentacao/DadosOpm.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-53afc6df", Component.options)
+  } else {
+    hotAPI.reload("data-v-53afc6df", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ })
+
+});

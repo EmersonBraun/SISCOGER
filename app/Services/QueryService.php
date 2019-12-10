@@ -9,7 +9,7 @@ class QueryService
     {
     }
 
-    public function mount($dados)
+    public function mount(array $dados)
 	{
         $query = [];
 

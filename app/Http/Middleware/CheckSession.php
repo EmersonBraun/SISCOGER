@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
+use Auth;
 class CheckSession
 {
     /**
@@ -11,8 +11,11 @@ class CheckSession
      */
     public function handle($request, Closure $next)
     {
-        if ( !session('rg') ) abort(401,'Not Logged');
-
+        if (!session('rg')) {
+            dd('here');
+            // Auth::logout();
+            return redirect()->to('/login');
+        }
         return $next($request);
     }
 }

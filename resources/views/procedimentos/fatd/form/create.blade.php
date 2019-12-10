@@ -51,7 +51,7 @@
                     <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>
                 </v-label>
                 <v-label label="cdopm" title="OPM" error="{{$errors->first('cdopm')}}">
-                    <v-opm cdopm="{{$proc['cdopm']}}"></v-opm>
+                    <v-opm cdopm="{{$proc['cdopm'] ?? ''}}"></v-opm>
                 </v-label>
                 <v-label label="motivo_fatd" title="Motivo" >
                     {!! Form::select('motivo_fatd', config('sistema.motivoFATD'),null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}

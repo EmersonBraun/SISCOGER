@@ -42,9 +42,20 @@ class AutorizationService
         // atribuições
         $this->nivel = $this->getCorrectNivel();
         $this->name = $name;
-        $this->cdopm = $this->name == 'fdi' ? $data['CDOPM'] : $data['cdopm'];
+        try {
+            $this->cdopm = $data['CDOPM'];
+        } catch (\Throwable $th) {
+            //throw $th;
+            $this->cdopm = $data['cdopm'];
+        }
+        
         if($this->name == 'fdi') {
-            $this->opm_descricao = $data['OPM_DESCRICAO'];
+            try {
+                $this->opm_descricao = $data['OPM_DESCRICAO'];
+            } catch (\Throwable $th) {
+                //throw $th;
+                $this->opm_descricao = $data['opm_descricao'];
+            }
             $this->status = $data['STATUS'];
         } else {
             $this->id = $data['id_'.$name];
@@ -200,7 +211,8 @@ class AutorizationService
 
     public function comparatePostoWithFDI($data)
     {
-        $nivel_ficha = sistema('posto', $data['CARGO']);
+        $cargo = isset($data['CARGO']) ? $data['CARGO'] : $data['cargo'];
+        $nivel_ficha = sistema('posto', $cargo);
         if($nivel_ficha >= $this->nivel) return true;
 
         return false;

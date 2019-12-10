@@ -2,12 +2,19 @@
 <!-- Bootstrap 4 -->
 <script src="{{ asset('public/js/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('public/js/bootstrap/js/bootstrap.bundle.js') }}"></script>
-<script src="{{ asset('public/js/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
 
 {{-- <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> --}}
 <script src="{{ asset('public/js/datatable/dataTables.min.js') }}"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
-{{-- <script src="{{ asset('public/js/datatable/dataTables.buttons.min.js') }}"></script> --}}
+
+
+
+{{-- <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script> --}}
+<script src="{{ asset('public/js/datatable/dataTables.buttons.min.js') }}"></script>
+
+
+
+
 {{-- <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script> --}}
 <script src="{{ asset('public/js/datatable/buttons.flash.min.js') }}"></script>
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> --}}

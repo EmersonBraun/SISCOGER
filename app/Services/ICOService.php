@@ -36,7 +36,12 @@ class ICOService
             'CEL' => 'Cel.',
         ];
 
-        return $cargos[$cargo];
+        try {
+            return $cargos[$cargo];
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $cargos[strtoupper($cargo)];
+        }
     }
 
     public function posto_nivel($nivel)

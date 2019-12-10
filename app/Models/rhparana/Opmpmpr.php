@@ -27,7 +27,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class Opmpmpr2 extends Eloquent
+class Opmpmpr extends Eloquent
 {
     protected $connection = 'rhparana';
 	protected $table = 'opmpmpr';

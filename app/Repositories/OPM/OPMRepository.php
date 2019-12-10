@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 class OPMRepository
 {
     protected $model;
+    protected $model2;
     protected $unidade;
     protected $verTodasUnidades;
     protected $expiration = 60 * 24; 

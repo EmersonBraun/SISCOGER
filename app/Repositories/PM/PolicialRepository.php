@@ -208,12 +208,20 @@ class PolicialRepository extends BaseRepository
                 $pm->SITUACAO = 'Normal';
             }
 
+            $pm->RG = isset($pm->rg) ? $pm->rg : $pm->RG;
             //Idade
-            $pm->IDADE = ($encontrado) ? idade($pm->NASCIMENTO) : 'Não encontrado';
-            $pm->nome_ico = $this->ico->nome($pm->NOME);
-            $pm->cargo_ico = $this->ico->posto($pm->CARGO);
-            $pm->tratamento_ico = $this->ico->tratamento($pm->CARGO);
-            $pm->quadro_ico = $this->ico->quadro_sub($pm->QUADRO, $pm->SUBQUADRO);
+            $idade = isset($pm->NASCIMENTO) ? $pm->NASCIMENTO : $pm->nascimento;
+            $pm->IDADE = ($encontrado) ? idade($idade) : 'Não encontrado';
+            //ICO
+            $nome = isset($pm->NOME) ? $pm->NOME : $pm->nome;
+            $pm->nome_ico = $this->ico->nome($nome);
+            $cargo = isset($pm->CARGO) ? $pm->CARGO : $pm->cargo;
+            $pm->cargo_ico = $this->ico->posto($cargo);
+            $pm->tratamento_ico = $this->ico->tratamento($cargo);
+            $quadro = isset($pm->QUADRO) ? $pm->QUADRO : $pm->quadro;
+            $subquadro = isset($pm->SUBQUADRO) ? $pm->SUBQUADRO : $pm->subquadro;
+            $pm->quadro_ico = $this->ico->quadro_sub($quadro, $subquadro);
+            
             return $pm;
 
         // });

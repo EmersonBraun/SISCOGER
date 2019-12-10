@@ -56,7 +56,7 @@
 <!-- Messenger http://github.hubspot.com/messenger/ -->
 <link rel="stylesheet" href="<?php echo e(asset('public/css/toastr.min.css')); ?>">
 
-<script src="<?php echo e(asset('public/css/toastr.min.js')); ?>"></script>
+<script src="<?php echo e(asset('public/js/toastr.min.js')); ?>"></script>
 
 
 <script type="text/javascript">

@@ -40,6 +40,7 @@ class BuscaController extends Controller
     {
         return view('busca.pm');
     }
+
     public function fdi(Request $request)
     {
         $rg = $request->rg;

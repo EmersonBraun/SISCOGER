@@ -1,5 +1,5 @@
 <?php
-
+use Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -9,8 +9,11 @@
 | rotas são carregadas pelo RouteServiceProvider dentro de um grupo que
 | contém o grupo de middleware "web".
 */
-
 Auth::routes();
+// if (!session('rg')) {
+//     return redirect()->to('/login');
+// }
+Route::get('/', function() { return redirect()->to('/home'); });
 
 // diretório onde estão os includes
 $dir = __DIR__ .'/web/';

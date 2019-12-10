@@ -8,8 +8,7 @@ use Illuminate\Http\Request;
 
 use App\User;
 use Spatie\Permission\Models\Role;
-use App\Models\rhparana\Policial;
-
+use App\Repositories\PM\PolicialRepository;
 use App\Services\MailService;
 use App\Services\LogService;
 use App\Services\BlockUserService;
@@ -27,7 +26,7 @@ class UserController extends Controller
     public function __construct(
         User $user,
         Role $role,
-        Policial $pm,
+        PolicialRepository $pm,
         MailService $mail,
         LogService $log,
         BlockUserService $block
@@ -57,10 +56,11 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'rg'=>'required|unique:users|min:6',
+            'nome'=>'required',
             'roles' =>'required'
         ]);
         
-        $pm = $this->pm->where('rg',$request->rg)->first();
+        $pm = $this->pm->get($request->rg);
         
         if (!$pm) 
         {
@@ -85,16 +85,25 @@ class UserController extends Controller
 
     public function createUser($pm, $request)
     {
+        $nome = isset($pm['NOME']) ? $pm['NOME']: $pm['nome'];
+        $email = isset($pm['EMAIL_META4']) ? $pm['EMAIL_META4']: $pm['email_meta4'];
+        $classe = isset($pm['CLASSE']) ? $pm['CLASSE']: $pm['classe'];
+        $cargo = isset($pm['CARGO']) ? $pm['CARGO']: $pm['cargo']; //graduação
+        $quadro = isset($pm['QUADRO']) ? $pm['QUADRO']: $pm['quadro'];
+        $subquadro = isset($pm['SUBQUADRO']) ? $pm['SUBQUADRO']: $pm['subquadro'];
+        $opm_descricao = isset($pm['OPM_DESCRICAO']) ? $pm['OPM_DESCRICAO']: $pm['opm_descricao']; //nome unidade
+        $cdopm = isset($pm['CDOPM']) ? $pm['CDOPM']: $pm['cdopm']; //código da unidade
+
         $user = [
             'rg' => $request->rg,
-            'nome' => $pm['NOME'],
-            'email' => $pm['EMAIL_META4'],
-            'classe' => $pm['CLASSE'],
-            'cargo' => $pm['CARGO'], //graduação
-            'quadro' => $pm['QUADRO'],
-            'subquadro' => $pm['SUBQUADRO'],
-            'opm_descricao' => $pm['OPM_DESCRICAO'], //nome unidade
-            'cdopm' => $pm['CDOPM'], //código da unidade
+            'nome' => $nome,
+            'email' => $email,
+            'classe' => $classe,
+            'cargo' => $cargo, //graduação
+            'quadro' => $quadro,
+            'subquadro' => $subquadro,
+            'opm_descricao' => $opm_descricao, //nome unidade
+            'cdopm' => $cdopm, //código da unidade
             'password' => bcrypt($request->rg)//atribuir senha provisória
         ];
 

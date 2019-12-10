@@ -65,7 +65,7 @@ return [
 
         'rhparana' => [
             'driver' => 'sqlsrv',
-            'host' => '10.47.1.4',
+            'host' => env('DB_HOST_RHPARANA', '10.47.1.3'),
             'port' => env('DB_PORT_RHPARANA', '1433'),
             'database' => env('DB_DATABASE_RHPARANA', 'forge'),
             'username' => env('DB_USERNAME_RHPARANA', 'forge'),

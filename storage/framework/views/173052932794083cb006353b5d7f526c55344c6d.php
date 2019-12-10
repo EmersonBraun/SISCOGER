@@ -2,11 +2,18 @@
 <!-- Bootstrap 4 -->
 <script src="<?php echo e(asset('public/js/jquery/dist/jquery.min.js')); ?>"></script>
 <script src="<?php echo e(asset('public/js/bootstrap/js/bootstrap.bundle.js')); ?>"></script>
-<script src="<?php echo e(asset('public/js/bootstrap/dist/js/bootstrap.min.js')); ?>"></script>
+<script src="<?php echo e(asset('public/js/bootstrap.min.js')); ?>"></script>
 
 
 <script src="<?php echo e(asset('public/js/datatable/dataTables.min.js')); ?>"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+
+
+
+
+<script src="<?php echo e(asset('public/js/datatable/dataTables.buttons.min.js')); ?>"></script>
+
+
+
 
 
 <script src="<?php echo e(asset('public/js/datatable/buttons.flash.min.js')); ?>"></script>

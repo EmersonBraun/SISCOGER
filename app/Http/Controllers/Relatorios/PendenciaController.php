@@ -26,7 +26,7 @@ class PendenciaController extends Controller
       $this->repository = $repository; 
     }
 
-    public function trocaropm(Request $request)
+    public function trocaropm()
     {
         $opms = $this->opm->get();
         return view('relatorios.trocar_opm',compact('opms'));
