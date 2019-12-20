@@ -1,7 +1,8 @@
 <?php
 //Rotas do módulo User
 Route::group(['as'=>'user.','prefix' =>'usuario'],function(){
-	Route::get('',['as' =>'index','uses'=>'Administracao\User\UserController@index']);
+    Route::get('',['as' =>'index','uses'=>'Administracao\User\UserController@index']);
+    Route::get('apagados',['as' =>'apagados','uses'=>'Administracao\User\UserController@apagados']);
 	Route::get('criar',['as' =>'create','uses'=>'Administracao\User\UserController@create']);
 	Route::post('salvar',['as' =>'store','uses'=>'Administracao\User\UserController@store']);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Administracao\User\UserController@edit']);

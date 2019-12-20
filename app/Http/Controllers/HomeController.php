@@ -37,7 +37,7 @@ class HomeController extends Controller
         CdRepository $cd
     )
     {
-        // $this->middleware('auth');
+        $this->middleware('auth');
         $this->transferidos = $transferidos;
         $this->comportamentos = $comportamentos;
         $this->fatd = $fatd;
@@ -190,7 +190,7 @@ class HomeController extends Controller
         return true;
     }
 
-    public function logout(User $user)
+    public function logout()
     {
         Auth::logout();
         return redirect()->intended('login');

@@ -30,9 +30,11 @@ class LogService
         return false;
     }
 
-    public function block($user) {
+    public function block($user, $motive='') {
+        $motive = !$motive ? 'senha errada' : $motive;
         $logBlock = [
-            'acao' => 'desbloqueio',
+            'acao' => 'bloqueio',
+            'motivo' => $motive,
             'rg_acao' => session('rg'),
             'rg_block' => $user->rg,
             'ip' => $_SERVER["REMOTE_ADDR"]

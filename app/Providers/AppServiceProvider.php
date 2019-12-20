@@ -11,6 +11,8 @@ use PDO;
 
 use App\User;
 use App\Observers\UserObserver;
+use App\Models\Sjd\Policiais\Envolvido;
+use App\Observers\EnvolvidoObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         User::observe(UserObserver::class);
+        Envolvido::observe(EnvolvidoObserver::class);
        
     }
 

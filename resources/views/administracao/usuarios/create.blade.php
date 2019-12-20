@@ -34,7 +34,7 @@
     <div class="col-md-12 form-group @if ($errors->has('roles')) has-error @endif">
     <h3>Permissões</h3><br>
         @foreach ($roles as $role)
-            {!! Form::checkbox('roles[]',  $role->id ) !!}
+            {!! Form::checkbox('roles[]',  $role->id, $role->id == '7' ) !!}
             {!! Form::label($role->name, ucfirst($role->name)) !!}<br>
         @endforeach
         @if ($errors->has('roles'))
@@ -44,7 +44,7 @@
         @endif
     </div>
 
-    {!! Form::submit('Salvar', array('class' => 'btn btn-block btn-primary')) !!}
+    {!! Form::submit('Salvar', array('class' => 'btn btn-block btn-primary btn-block')) !!}
     {!! Form::close() !!}
 
 @stop

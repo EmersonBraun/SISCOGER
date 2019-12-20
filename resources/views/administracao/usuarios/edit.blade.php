@@ -35,11 +35,12 @@
     <h5><b>Permissões</b></h5>
     <div class="form-group col-lg-12 @if ($errors->has('roles')) has-error @endif">
         @foreach ($roles as $role)
-            {{ Form::checkbox('roles[]',  $role->id, $user->roles ) }}
+            {{-- {{ Form::checkbox('roles[]',  $role->id, $user->roles) }} --}}
+            {{ Form::checkbox('roles[]',  $role->id, $user->roles) }}
             {{ Form::label($role->name, ucfirst($role->name)) }}<br>
         @endforeach
     </div>
-    {{ Form::submit('Atualizar', array('class' => 'btn btn-primary')) }}
+    {{ Form::submit('Atualizar', array('class' => 'btn btn-primary btn-block')) }}
     {{ Form::close() }}
 </div>
 @stop
@@ -48,5 +49,7 @@
 @stop
 
 @section('js')
-
+<script>
+    $('')
+</script>
 @stop

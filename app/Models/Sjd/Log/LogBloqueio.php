@@ -24,7 +24,8 @@ class LogBloqueio extends Eloquent
 	protected $primaryKey = 'id';
 
 	protected $fillable = [
-		'acao',
+        'acao',
+        'motivo',
 		'rg_acao',
 		'rg_block',
 		'ip'

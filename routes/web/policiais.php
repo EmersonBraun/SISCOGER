@@ -15,13 +15,13 @@ Route::group(['as'=>'medalha.','prefix' =>'medalha'],function(){
 Route::group(['as'=>'elogio.','prefix' =>'elogio'],function(){
 	Route::get('busca',['as' =>'index','uses'=>'Policiais\ElogioController@index','middleware' => ['permission:listar-elogios']]);
     Route::post('resultado',['as' =>'search','uses'=>'Policiais\ElogioController@search','middleware' => ['permission:listar-elogios']]);
-    Route::get('criar',['as' =>'create','uses'=>'Policiais\ElogioController@create','middleware' => ['permission:criar-elogios']]);
+    // Route::get('criar',['as' =>'create','uses'=>'Policiais\ElogioController@create','middleware' => ['permission:criar-elogios']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\ElogioController@store','middleware' => ['permission:criar-elogios']]);
-	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\ElogioController@edit','middleware' => ['permission:editar-elogios']]);
+	// Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\ElogioController@edit','middleware' => ['permission:editar-elogios']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\ElogioController@update','middleware' => ['permission:editar-elogios']]);
     Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\ElogioController@destroy','middleware' => ['permission:apagar-elogios']]);
-    Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\ElogioController@restore','middleware' => ['role:admin']]);
-    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\ElogioController@forceDelete','middleware' => ['role:admin']]);
+    // Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\ElogioController@restore','middleware' => ['role:admin']]);
+    // Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\ElogioController@forceDelete','middleware' => ['role:admin']]);
 });
 //Rotas do módulo Excluidos
 Route::group(['as'=>'excluido.','prefix' =>'excluido'],function(){
@@ -64,14 +64,14 @@ Route::group(['as'=>'reintegrado.','prefix' =>'reintegrado'],function(){
 Route::group(['as'=>'denunciado.','prefix' =>'denunciado'],function(){
 	Route::get('',['as' =>'index','uses'=>'Policiais\DenunciadoController@index','middleware' => ['permission:listar-denunciados']]);
 	Route::get('denunciados',['as' =>'denunciados','uses'=>'Policiais\DenunciadoController@listaDenunciados','middleware' => ['permission:listar-denunciados']]);
-    Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\DenunciadoController@apagados','middleware' => ['role:admin']]);
-	Route::get('criar',['as' =>'create','uses'=>'Policiais\DenunciadoController@create','middleware' => ['permission:criar-denunciados']]);
+    // Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\DenunciadoController@apagados','middleware' => ['role:admin']]);
+	// Route::get('criar',['as' =>'create','uses'=>'Policiais\DenunciadoController@create','middleware' => ['permission:criar-denunciados']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\DenunciadoController@store','middleware' => ['permission:criar-denunciados']]);
-	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\DenunciadoController@edit','middleware' => ['permission:editar-denunciados']]);
+	// Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\DenunciadoController@edit','middleware' => ['permission:editar-denunciados']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\DenunciadoController@update','middleware' => ['permission:editar-denunciados']]);
     Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\DenunciadoController@destroy','middleware' => ['permission:apagar-denunciados']]);
-    Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\DenunciadoController@restore','middleware' => ['role:admin']]);
-    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\DenunciadoController@forceDelete','middleware' => ['role:admin']]);
+    // Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\DenunciadoController@restore','middleware' => ['role:admin']]);
+    // Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\DenunciadoController@forceDelete','middleware' => ['role:admin']]);
 }); 
 //Rotas do módulo Presos
 Route::group(['as'=>'preso.','prefix' =>'preso'],function(){
@@ -113,27 +113,31 @@ Route::group(['as'=>'presooutro.','prefix' =>'presooutro'],function(){
 //Rotas do módulo comportamento 
 Route::group(['as'=>'comportamento.','prefix' =>'comportamento'],function(){
     Route::get('{posto}/{parte?}',['as' =>'index','uses'=>'Policiais\ComportamentoController@index','middleware' => ['permission:listar-comportamentos']]);
-    Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\ComportamentoController@apagados','middleware' => ['role:admin']]);
-    Route::get('criar',['as' =>'create','uses'=>'Policiais\ComportamentoController@create','middleware' => ['permission:criar-comportamento']]);
+    // Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\ComportamentoController@apagados','middleware' => ['role:admin']]);
+    // Route::get('criar',['as' =>'create','uses'=>'Policiais\ComportamentoController@create','middleware' => ['permission:criar-comportamento']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\ComportamentoController@store','middleware' => ['permission:criar-comportamento']]);
-	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\ComportamentoController@edit','middleware' => ['permission:editar-comportamento']]);
+	// Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\ComportamentoController@edit','middleware' => ['permission:editar-comportamento']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\ComportamentoController@update','middleware' => ['permission:editar-comportamento']]);
     Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\ComportamentoController@destroy','middleware' => ['permission:apagar-comportamento']]);
-    Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\ComportamentoController@restore','middleware' => ['role:admin']]);
-    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\ComportamentoController@forceDelete','middleware' => ['role:admin']]);
+    // Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\ComportamentoController@restore','middleware' => ['role:admin']]);
+    // Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\ComportamentoController@forceDelete','middleware' => ['role:admin']]);
 }); 
 //Rotas do módulo respondendo 
 Route::group(['as'=>'respondendo.','prefix' =>'respondendo'],function(){
     Route::get('',['as' =>'index','uses'=>'Policiais\RespondendoController@index','middleware' => ['permission:listar-respondendo']]);
-    Route::post('busca',['as' =>'search','uses'=>'Policiais\RespondendoController@search','middleware' => ['permission:listar-respondendo']]);
-    Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\RespondendoController@apagados','middleware' => ['role:admin']]);
-	Route::get('criar',['as' =>'create','uses'=>'Policiais\RespondendoController@create','middleware' => ['permission:criar-respondendo']]);
-	Route::post('salvar',['as' =>'store','uses'=>'Policiais\RespondendoController@store','middleware' => ['permission:criar-respondendo']]);
-	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\RespondendoController@edit','middleware' => ['permission:editar-respondendo']]);
-	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\RespondendoController@update','middleware' => ['permission:editar-respondendo']]);
-    Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\RespondendoController@destroy','middleware' => ['permission:apagar-respondendo']]);
-    Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\RespondendoController@restore','middleware' => ['role:admin']]);
-    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\RespondendoController@forceDelete','middleware' => ['role:admin']]);
+    Route::get('search',['as' =>'search','uses'=>'Policiais\RespondendoController@search','middleware' => ['permission:listar-respondendo']]);
+    Route::get('lista/{proc}/{dados}',['as' =>'lista','uses'=>'Policiais\RespondendoController@lista','middleware' => ['permission:listar-respondendo']]);
+    Route::get('relatorio/{proc}/{dados}',['as' =>'relatorio','uses'=>'Policiais\RespondendoController@relatorio','middleware' => ['permission:listar-respondendo']]);
+    Route::get('cargos/{cargos}',['as' =>'cargos','uses'=>'Policiais\RespondendoController@cargos','middleware' => ['permission:listar-respondendo']]);
+    // Route::post('busca',['as' =>'search','uses'=>'Policiais\RespondendoController@search','middleware' => ['permission:listar-respondendo']]);
+    // Route::get('apagados',['as' =>'apagados','uses'=>'Policiais\RespondendoController@apagados','middleware' => ['role:admin']]);
+	// Route::get('criar',['as' =>'create','uses'=>'Policiais\RespondendoController@create','middleware' => ['permission:criar-respondendo']]);
+	// Route::post('salvar',['as' =>'store','uses'=>'Policiais\RespondendoController@store','middleware' => ['permission:criar-respondendo']]);
+	// Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\RespondendoController@edit','middleware' => ['permission:editar-respondendo']]);
+	// Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\RespondendoController@update','middleware' => ['permission:editar-respondendo']]);
+    // Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\RespondendoController@destroy','middleware' => ['permission:apagar-respondendo']]);
+    // Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Policiais\RespondendoController@restore','middleware' => ['role:admin']]);
+    // Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Policiais\RespondendoController@forceDelete','middleware' => ['role:admin']]);
 }); 
 //Rotas do módulo restricoes 
 Route::group(['as'=>'restricao.','prefix' =>'restricao'],function(){

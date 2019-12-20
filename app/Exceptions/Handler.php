@@ -44,10 +44,14 @@ class Handler extends ExceptionHandler
         if($this->isHttpException($e)) {
             $rota = $request->path();
             switch (intval($e->getStatusCode())) {
-                //ocioso
+                // tempo ocioso
                 case 401:
-                    toast()->warning('401. Tempo ocioso!', 'ERRO!');
-                    return redirect()->route('login');
+                    if($rota !== 'login') {
+                        toast()->warning('401. Tempo ocioso!', 'ERRO!');
+                        return redirect()->route('login');
+                    } else {
+                        return redirect()->route('viewlogin'); 
+                    }
                     break;
                 //proibido
                 case 403:
@@ -67,8 +71,7 @@ class Handler extends ExceptionHandler
                 // inatividade
                 case 419:
                     toast()->warning('419. Tempo ocioso!', 'ERRO!');
-                    Auth::logout();
-                    return redirect()->intended('login');
+                    return redirect()->route('logout');
                     break;
 
                 // internal error

@@ -6,7 +6,6 @@ Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
 	Route::get('criar',['as' =>'create','uses'=>'Apresentacao\ApresentacaoController@create','middleware' => ['permission:criar-apresentacao']]);
 	Route::get('editar/{ref}/{ano?}',['as' =>'edit','uses'=>'Apresentacao\ApresentacaoController@edit','middleware' => ['permission:editar-apresentacao']]);
 	Route::get('memorando/{id}',['as' =>'memorando','uses'=>'Apresentacao\ApresentacaoController@memorando']);
-    Route::get('buscar',['as' =>'buscar','uses'=>'Apresentacao\ApresentacaoController@buscar','middleware' => ['permission:listar-apresentacao']]);
     Route::get('list/{ano?}/{cdopm?}',['as' =>'index','uses'=>'Apresentacao\ApresentacaoController@index','middleware' => ['permission:listar-apresentacao']]);
     Route::get('destroy/{id}',['as' =>'destroy','uses'=>'Apresentacao\ApresentacaoController@destroy','middleware' => ['permission:apagar-apresentacao']]);
     Route::get('restore/{id}',['as' =>'restore','uses'=>'Apresentacao\ApresentacaoController@restore','middleware' => ['role:admin']]);
@@ -48,11 +47,11 @@ Route::group(['as'=>'notacoger.','prefix' =>'notacoger'],function(){
 //Rotas do módulo email
 Route::group(['as'=>'email.','prefix' =>'email'],function(){
     Route::get('',['as' =>'index','uses'=>'Apresentacao\EmailController@index','middleware' => ['permission:listar-notas-coger']]);
-	Route::get('criar',['as' =>'create','uses'=>'Apresentacao\EmailController@create','middleware' => ['permission:criar-notas-coger']]);
-	Route::post('salvar',['as' =>'store','uses'=>'Apresentacao\EmailController@store','middleware' => ['permission:criar-notas-coger']]);
-	Route::get('editar/{ref}/{ano?}',['as' =>'edit','uses'=>'Apresentacao\EmailController@edit','middleware' => ['permission:editar-notas-coger']]);
-	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Apresentacao\EmailController@update','middleware' => ['permission:editar-notas-coger']]);
-	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Apresentacao\EmailController@destroy','middleware' => ['permission:apagar-notas-coger']]);
+	// Route::get('criar',['as' =>'create','uses'=>'Apresentacao\EmailController@create','middleware' => ['permission:criar-notas-coger']]);
+	// Route::post('salvar',['as' =>'store','uses'=>'Apresentacao\EmailController@store','middleware' => ['permission:criar-notas-coger']]);
+	// Route::get('editar/{ref}/{ano?}',['as' =>'edit','uses'=>'Apresentacao\EmailController@edit','middleware' => ['permission:editar-notas-coger']]);
+	// Route::put('atualizar/{id}',['as' =>'update','uses'=>'Apresentacao\EmailController@update','middleware' => ['permission:editar-notas-coger']]);
+	// Route::get('remover/{id}',['as' =>'destroy','uses'=>'Apresentacao\EmailController@destroy','middleware' => ['permission:apagar-notas-coger']]);
 });
 //Rotas do módulo autoridade OM
 Route::group(['as'=>'autoridadeom.','prefix' =>'autoridadeom','middleware' => ['permission:listar-dados-unidade']],function(){

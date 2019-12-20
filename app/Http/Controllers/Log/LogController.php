@@ -21,6 +21,11 @@ class LogController extends Controller
         return view('logs.created',compact('logs','name','page'));
     }
 
+    public function ultimoacesso()
+    {
+        return $this->repository->ultimoAcesso();
+    }
+
     public function updated($name)
     {
         $logs = $this->repository->updated($name);

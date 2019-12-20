@@ -1,34 +1,7 @@
 <?php $__env->startSection('title_postfix', '| usuários'); ?>
 
 <?php $__env->startSection('content_header'); ?>
-<section class="content-header">
-    <h1><i class="fa fa-key"></i> Gerenciamento de Usuários</h1>
-    <ol class="breadcrumb">
-        <li><a href="<?php echo e(route('home')); ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Gerenciamento de Usuários</li>
-    </ol>
-    <br>
-    <div class='form-group col-md-12 col-xs-12' style='padding-left: 0px'>
-        <?php if(hasPermissionTo('listar-papeis')): ?>
-        <div class='btn-group col-md-4 col-xs-12 '>
-            <a href="<?php echo e(route('role.index')); ?>" class="btn btn-default btn-block">
-                Listar Papéis</a>
-        </div>  
-        <?php endif; ?>
-        <?php if(hasPermissionTo('listar-permissoes')): ?>
-        <div class='btn-group col-md-4 col-xs-12 '>
-            <a href="<?php echo e(route('permission.index')); ?>" class="btn btn-default btn-block">
-                Listar Permissões</a>
-        </div>
-        <?php endif; ?>
-        <?php if(hasPermissionTo('criar-usuarios')): ?>
-        <div class='btn-group col-md-4 col-xs-12 '>
-            <a href="<?php echo e(route('user.create')); ?>" class="btn btn-success btn-block">
-                <i class="fa fa-plus "></i> Adicionar Usuários</a>
-        </div>
-        <?php endif; ?>
-    <div>
-</section>
+<?php echo $__env->make('administracao.usuarios.menu', ['title' => 'Gerenciamento de Usuários','page' => 'usuarios'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -78,13 +51,13 @@
                                     <?php if($user->block == 0): ?>
                                         <?php if(hasPermissionTo('bloquear-usuarios')): ?>     
                                         <a href="<?php echo e(route('user.block', $user->id)); ?>" class="btn btn-warning">
-                                            <i class="fa fa-lock"></i>
+                                            <i class="fa fa-unlock"></i>
                                         </a>
                                         <?php endif; ?>
                                     <?php else: ?>
                                         <?php if(hasPermissionTo('desbloquear-usuarios')): ?>
                                         <a href="<?php echo e(route('user.unblock', $user->id)); ?>" class="btn btn-secondary">
-                                            <i class="fa fa-unlock"></i>
+                                            <i class="fa fa-lock"></i>
                                         </a>
                                         <?php endif; ?>
                                     <?php endif; ?>

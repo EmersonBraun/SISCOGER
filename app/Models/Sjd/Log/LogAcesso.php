@@ -21,6 +21,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class LogAcesso extends Eloquent
 {
+    protected $connection = 'sjd';
 	protected $primaryKey = 'id_log_acessos';
 	public $timestamps = false;
 

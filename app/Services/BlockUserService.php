@@ -16,7 +16,7 @@ class BlockUserService
         $this->log = $log;
     }
 
-    public function block($id)
+    public function block($id, $motive='')
     {
         $user = User::findOrFail($id);
 
@@ -24,7 +24,7 @@ class BlockUserService
         {
             $block = $user->update(['block' => 1]);
             if($block) {
-                $this->log->block($user);
+                $this->log->block($user, $motive);
                 return true;
             }
         }

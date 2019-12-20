@@ -18,6 +18,7 @@ class UserController extends Controller
     protected $user;
     protected $role;
     protected $pm;
+    protected $rg;
 
     protected $mail;
     protected $block;
@@ -46,9 +47,15 @@ class UserController extends Controller
         return view('administracao.usuarios.index',compact('users'));
     }
 
+    public function apagados()
+    {
+        $users =  $this->user->onlyTrashed();        
+        return view('administracao.usuarios.apagados',compact('users'));
+    }
+
     public function create()
     {
-        $roles =$this->role->all();
+        $roles = $this->role->all();
         return view('administracao.usuarios.create', compact('roles'));
     }
 
@@ -59,20 +66,22 @@ class UserController extends Controller
             'nome'=>'required',
             'roles' =>'required'
         ]);
+
+        $this->rg = $request->rg;
         
-        $pm = $this->pm->get($request->rg);
-        
-        if (!$pm) 
-        {
-            toast()->warning('esse RG não existe no Meta4!', 'ERRO!');
+        $pm = $this->pm->get($this->rg);
+        $data = $this->validateDate($pm);
+        if($data['msg']){
+            $msg = $data['msg'];
+            toast()->warning($msg, 'Meta4 faltando dados!');
             return redirect()->route('user.index');
         }
-        
-        $create = $this->createUser($pm, $request);
+        $user = $data['pm'];
+        $create = $this->user->create($user);
         
         if($create) {
             $roles = $request['roles'];
-            if ($roles) $this->assignRoles($roles, $user);
+            if ($roles) $this->assignRoles($roles, $create->id);
     
             toast()->success('adicionado com sucesso!', 'Usuário');
             return redirect()->route('user.index');
@@ -83,37 +92,53 @@ class UserController extends Controller
 
     }
 
-    public function createUser($pm, $request)
+    public function validateDate($pm) 
     {
+        $validated = ['msg' => [], 'data' => []];
+        if(!$pm){
+            array_push($validated['msg'],'esse RG não existe no Meta4!');
+            return $validated;
+        }
         $nome = isset($pm['NOME']) ? $pm['NOME']: $pm['nome'];
+        if(!$nome) array_push($validated['msg'],'NOME');
         $email = isset($pm['EMAIL_META4']) ? $pm['EMAIL_META4']: $pm['email_meta4'];
+        if(!$email) array_push($validated['msg'],'EMAIL');
         $classe = isset($pm['CLASSE']) ? $pm['CLASSE']: $pm['classe'];
+        if(!$classe) $classe = 'PM';
         $cargo = isset($pm['CARGO']) ? $pm['CARGO']: $pm['cargo']; //graduação
+        if(!$cargo) array_push($validated['msg'],'CARGO');
         $quadro = isset($pm['QUADRO']) ? $pm['QUADRO']: $pm['quadro'];
+        if(!$quadro) $quadro = '';
         $subquadro = isset($pm['SUBQUADRO']) ? $pm['SUBQUADRO']: $pm['subquadro'];
+        if(!$subquadro) $subquadro = '';
         $opm_descricao = isset($pm['OPM_DESCRICAO']) ? $pm['OPM_DESCRICAO']: $pm['opm_descricao']; //nome unidade
+        if(!$opm_descricao) $opm_descricao = '';
         $cdopm = isset($pm['CDOPM']) ? $pm['CDOPM']: $pm['cdopm']; //código da unidade
+        if(!$cdopm) array_push($validated['msg'],'CDOPM');
 
-        $user = [
-            'rg' => $request->rg,
-            'nome' => $nome,
-            'email' => $email,
-            'classe' => $classe,
-            'cargo' => $cargo, //graduação
-            'quadro' => $quadro,
-            'subquadro' => $subquadro,
-            'opm_descricao' => $opm_descricao, //nome unidade
-            'cdopm' => $cdopm, //código da unidade
-            'password' => bcrypt($request->rg)//atribuir senha provisória
-        ];
-
-        $create = $this->user->create($user);
-        if($create) return true;
-        return false;
+        if($validated['msg']){
+            $validated['msg'] = implode(',',$validated['msg']);
+            return $validated;
+        } else {
+            $validated['pm'] = [
+                'rg' => $this->rg,
+                'nome' => $nome,
+                'email' => $email,
+                'classe' => $classe,
+                'cargo' => $cargo, //graduação
+                'quadro' => $quadro,
+                'subquadro' => $subquadro,
+                'opm_descricao' => $opm_descricao, //nome unidade
+                'cdopm' => $cdopm, //código da unidade
+                'password' => bcrypt($this->rg)//atribuir senha provisória
+            ];
+            return $validated;
+        }
     }
 
-    public function assignRoles($roles, $user) 
+    public function assignRoles($roles, $id) 
     {
+        $user = $this->user->findOrFail($id);
         foreach ($roles as $role) {
             $role_r = $this->role->where('id', '=', $role)->firstOrFail();  
             //Atribuindo papel ao usuário    
@@ -188,22 +213,22 @@ class UserController extends Controller
             return redirect()->back();
         }
 
-        toast()->warning('Não desbloqueadi!', 'ERRO!');
+        toast()->warning('Não desbloqueado!', 'ERRO!');
         return redirect()->route('user.index');
     }
 
     public function sendMail($id,$resend=false)
     {
-        // $user = $this->user->findOrFail($id);
-        // $action = ($resend) ? 'resend' : 'send';
-        // $send = $this->mail->wellcome($user,$action);
-        // if($send !== 'ok') dd($send);
+        $user = $this->user->findOrFail($id);
+        $action = ($resend) ? 'resend' : 'send';
+        $send = $this->mail->wellcome($user,$action);
+        if($send !== 'ok') dd($send);
 
-        // if($resend) {
-        //     toast()->success($user->email, 'Email reenviado');
-        //     return redirect()->route('user.index');
-        // }
-        // return true;
+        if($resend) {
+            toast()->success($user->email, 'Email reenviado');
+            return redirect()->route('user.index');
+        }
+        return true;
     }
 
     public function manual()

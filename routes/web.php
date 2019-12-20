@@ -1,5 +1,4 @@
 <?php
-use Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,7 +12,7 @@ Auth::routes();
 // if (!session('rg')) {
 //     return redirect()->to('/login');
 // }
-Route::get('/', function() { return redirect()->to('/home'); });
+
 
 // diretório onde estão os includes
 $dir = __DIR__ .'/web/';

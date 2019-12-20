@@ -57,6 +57,11 @@ class LoginController extends Controller
         return 'rg';
     }
 
+    public function viewlogin()
+    {
+        return view('auth.login');
+    }
+
     public function login(Request $request)
     {
         //verificar se os campos foram preenchidos

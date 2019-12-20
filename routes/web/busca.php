@@ -4,7 +4,7 @@ Route::group(['as'=>'busca.','prefix' =>'busca'],function(){
     Route::get('pm',['as' =>'pm','uses'=>'Busca\BuscaController@pm']);
 	Route::post('fdi',['as' =>'fdi','uses'=>'Busca\BuscaController@fdi']);
 	//para trazer via ajax
-	Route::post('getpmrg/{rg}',['as' =>'getpmrg','uses'=>'Busca\BuscaController@getpmrg']);
+	// Route::post('getpmrg/{rg}',['as' =>'getpmrg','uses'=>'Busca\BuscaController@getpmrg']);
 	//função envia rg e traz nome e posto
     Route::post('completadados',['as' =>'completadados','uses'=>'Busca\BuscaController@completadados']);
     // opções de dados para o componente Form/SugestRg
@@ -25,8 +25,8 @@ Route::group(['as'=>'busca.','prefix' =>'busca'],function(){
         Route::get('',['as' =>'search','uses'=>'Busca\BuscaController@searchNominal','middleware' => ['permission:buscar-pm']]);   
         Route::post('resultado',['as' =>'result','uses'=>'Busca\BuscaController@resultNominal','middleware' => ['permission:buscar-pm']]);   
     });
-	Route::get('documentacao',['as' =>'documentacao','uses'=>'Busca\BuscaController@documentacao']);
-	Route::get('pdf',['as' =>'pdf','uses'=>'Busca\BuscaController@pdf']);
+	// Route::get('documentacao',['as' =>'documentacao','uses'=>'Busca\BuscaController@documentacao']);
+	// Route::get('pdf',['as' =>'pdf','uses'=>'Busca\BuscaController@pdf']);
     Route::get('tramitacao/{ano}',['as' =>'tramitacao','uses'=>'Busca\BuscaController@tramitacao']);
     Route::get('tramitacaocoger/{ano}',['as' =>'tramitacaocoger','uses'=>'Busca\BuscaController@tramitacaoCoger']);
 });

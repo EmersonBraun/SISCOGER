@@ -57,8 +57,8 @@ Route::group(['as'=>'cj.','prefix' =>'cj'],function(){
 	Route::get('editar/{ref}/{ano?}',['as' =>'edit','uses'=>'Proc\CjController@edit','middleware' => ['permission:editar-cj']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Proc\CjController@update','middleware' => ['permission:editar-cj']]);
     Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\CjController@destroy','middleware' => ['permission:apagar-cj']]);
-    Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Proc\AdlController@restore','middleware' => ['role:admin']]);
-    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Proc\AdlController@forceDelete','middleware' => ['role:admin']]);
+    Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Proc\CjController@restore','middleware' => ['role:admin']]);
+    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Proc\CjController@forceDelete','middleware' => ['role:admin']]);
 });
 //Rotas do módulo Fatd
 Route::group(['as'=>'fatd.','prefix' =>'fatd'],function(){
@@ -203,7 +203,6 @@ Route::group(['as'=>'it.','prefix' =>'it'],function(){
     Route::get('remover/{id}',['as' =>'destroy','uses'=>'Proc\ItController@destroy','middleware' => ['permission:apagar-it']]);
     Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Proc\ItController@restore','middleware' => ['role:admin']]);
     Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Proc\ItController@forceDelete','middleware' => ['role:admin']]);
-	Route::get('documentacao',['as' =>'documentacao','uses'=>'Proc\ItController@documentacao']);
 });
 //Rotas do módulo ProcOutros
 Route::group(['as'=>'procoutro.','prefix' =>'procoutro'],function(){
@@ -274,7 +273,7 @@ Route::group(['as'=>'sai.','prefix' =>'sai','middleware' => ['permission:sai']],
     //formulários
     Route::get('criar',['as' =>'create','uses'=>'Policiais\SaiController@create','middleware' => ['permission:criar-sai']]);
 	Route::post('salvar',['as' =>'store','uses'=>'Policiais\SaiController@store','middleware' => ['permission:criar-sai']]);
-	Route::get('ver/{id}',['as' =>'show','uses'=>'Policiais\SaiController@show','middleware' => ['permission:ver-sai']]);
+	// Route::get('ver/{id}',['as' =>'show','uses'=>'Policiais\SaiController@show','middleware' => ['permission:ver-sai']]);
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Policiais\SaiController@edit','middleware' => ['permission:editar-sai']]);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Policiais\SaiController@update','middleware' => ['permission:editar-sai']]);
     Route::get('remover/{id}',['as' =>'destroy','uses'=>'Policiais\SaiController@destroy','middleware' => ['permission:apagar-sai']]);

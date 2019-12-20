@@ -110,6 +110,25 @@ class logRepository extends BaseRepository
         return $registros;
     }
 
+    public function ultimoAcesso()
+    {
+        $usuarios = $this->acesso
+            ->selectRaw('distinct(log_acessos.rg), users.id')
+            ->join('users', 'users.rg', '=', 'log_acessos.rg')
+            ->get();
+        foreach ($usuarios as $usuario) {
+            $result = $this->acesso
+            ->selectRaw('max(created_at) ultimo_acesso, DATEDIFF(now(), max(created_at)) qtd_dias,rg')
+            ->where('rg',$usuario['rg'])
+            ->orderBy('created_at','DESC')
+            ->first()->toArray(); 
+            $result['id'] = $usuario['id'];
+
+            $registros[$usuario['rg']] = $result;
+        }
+        return $registros;
+    }
+
     public function LogBloqueios()
     {
         $registros = Cache::tags('log')->remember('log:bloqueios', 1, function() {

@@ -12,9 +12,8 @@ class CheckSession
     public function handle($request, Closure $next)
     {
         if (!session('rg')) {
-            dd('here');
-            // Auth::logout();
-            return redirect()->to('/login');
+            Auth::logout();
+            // return redirect()->route('login');
         }
         return $next($request);
     }
