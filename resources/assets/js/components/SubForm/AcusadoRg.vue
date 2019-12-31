@@ -2,7 +2,7 @@
     <div class="col-lg-12 col-md-12 col-xs-12 card">
         <div class="card-body">
             <div id="ligacaoForm1" class="row">
-                <form id="formData" name="formData">
+                <form id="formAcusadoRG" name="formAcusadoRG">
                     <div class="col-lg-3 col-md-3 col-xs-3">
                         <label for="rg">RG</label><br>
                         <the-mask mask="############" class="form-control" @change="searchPM" v-model="prg" type="text" maxlength="12" name="rg" placeholder="Nº"/>
@@ -70,8 +70,8 @@
                     .get(searchUrl)
                     .then((response) => {
                         if(response.data.success){
-                            this.pnome = response.data['pm'].NOME
-                            this.pcargo = response.data['pm'].CARGO
+                            this.pnome = response.data['pm'].NOME || response.data['pm'].nome
+                            this.pcargo = response.data['pm'].CARGO || response.data['pm'].cargo
                             this.finded = true
                         }
                         else{

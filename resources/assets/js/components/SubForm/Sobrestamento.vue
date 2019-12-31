@@ -9,7 +9,7 @@
             </div>
             <div v-else>
                 <div id="ligacaoForm1" class="row">
-                    <form id="formData" name="formData">
+                    <form id="formSobrestamento" name="formSobrestamento">
                         <input type="hidden" name="procc" :value="dproc">
                         <input type="hidden" :name="'id_'+dproc" :value="idp">
                         <input type="hidden" name="rg" :value="rg">
@@ -191,8 +191,8 @@
             createSobrestamento(){
                 let urlCreate = `${this.$root.baseUrl}api/sobrestamento/store`
 
-                let formData = document.getElementById('formData');
-                let data = new FormData(formData);
+                let formSobrestamento = document.getElementById('formSobrestamento');
+                let data = new FormData(formSobrestamento);
                 
                 axios.post( urlCreate,data)
                 .then(() => {

@@ -6,7 +6,7 @@ if (! function_exists('hasRoleTo'))
         
         if(session('roles')) {
             if($dd) dd(in_array($role, session('roles')));
-            if(in_array($role, session('roles'))) return true; 
+            if(in_array($role, session('roles')->toArray())) return true; 
         } 
 
     }

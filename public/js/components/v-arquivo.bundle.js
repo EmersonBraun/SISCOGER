@@ -198,8 +198,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         createArquivo: function createArquivo() {
             var urlCreate = this.$root.baseUrl + 'api/arquivo/store';
 
-            var formData = document.getElementById('formData');
-            var data = new FormData(formData);
+            var formArquivo = document.getElementById('formArquivo');
+            var data = new FormData(formArquivo);
 
             axios.post(urlCreate, data).then(this.listArquivo()).catch(function (error) {
                 return console.log(error);
@@ -689,7 +689,7 @@ var render = function() {
                     [
                       _c(
                         "form",
-                        { attrs: { id: "formData", name: "formData" } },
+                        { attrs: { id: "formArquivo", name: "formArquivo" } },
                         [
                           _c("input", {
                             attrs: { type: "hidden", name: "procedimento" },

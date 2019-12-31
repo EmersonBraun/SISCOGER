@@ -9,7 +9,7 @@
             </div>
             <div v-else>
                 <div id="ligacaoForm1" class="row">
-                    <form id="formData" name="formData">
+                    <form id="formMovimento" name="formMovimento">
                         <input type="hidden" :name="'id_'+dproc" :value="idp">
                         <input type="hidden" name="opm" :value="opm">
                         <input type="hidden" name="rg" :value="rg">
@@ -150,8 +150,8 @@
             createMovimento(){
                 let urlCreate = `${this.$root.baseUrl}api/movimento/store`
 
-                let formData = document.getElementById('formData');
-                let data = new FormData(formData);
+                let formMovimento = document.getElementById('formMovimento');
+                let data = new FormData(formMovimento);
                 
                 axios.post( urlCreate,data)
                 .then(this.listMovimento())

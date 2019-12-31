@@ -258,8 +258,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 } else {
                     axios.get(searchUrl).then(function (response) {
                         if (response.data.success) {
-                            _this.nome = response.data['pm'].NOME;
-                            _this.cargo = response.data['pm'].CARGO;
+                            _this.nome = response.data['pm'].NOME || response.data['pm'].nome;
+                            _this.cargo = response.data['pm'].CARGO || response.data['pm'].cargo;
                             _this.finded = true;
                         } else {
                             _this.nome = '';
@@ -297,8 +297,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         createPM: function createPM() {
             var urlCreate = this.$root.baseUrl + 'api/membros/store';
 
-            var formData = document.getElementById('formData');
-            var data = new FormData(formData);
+            var formFormMembro = document.getElementById('formFormMembro');
+            var data = new FormData(formFormMembro);
 
             axios.post(urlCreate, data).then(this.listPM()) //limpa a busca
             .catch(function (error) {
@@ -460,7 +460,12 @@ var render = function() {
                     [
                       _c(
                         "form",
-                        { attrs: { id: "formData", name: "formData" } },
+                        {
+                          attrs: {
+                            id: "formFormMembro",
+                            name: "formFormMembro"
+                          }
+                        },
                         [
                           _c("input", {
                             attrs: { type: "hidden", name: "id_" + _vm.dproc },

@@ -24,7 +24,7 @@
             </div>
             <div v-else>
                 <div id="ligacaoForm1" class="row">
-                    <form id="formData" name="formData">
+                    <form id="formFormMembro" name="formFormMembro">
                         <input type="hidden" :name="'id_'+dproc" :value="idp">
                         <!-- dados para substituição do membro -->
                         <input type="hidden" name="indexsubs" :value="indexsubs">
@@ -247,8 +247,8 @@
                         .get(searchUrl)
                         .then((response) => {
                             if(response.data.success){
-                                this.nome = response.data['pm'].NOME
-                                this.cargo = response.data['pm'].CARGO
+                                this.nome = response.data['pm'].NOME || response.data['pm'].nome
+                                this.cargo = response.data['pm'].CARGO || response.data['pm'].cargo
                                 this.finded = true
                             }
                             else{
@@ -282,8 +282,8 @@
             createPM(){  
                 let urlCreate = `${this.$root.baseUrl}api/membros/store`
 
-                let formData = document.getElementById('formData');
-                let data = new FormData(formData);
+                let formFormMembro = document.getElementById('formFormMembro');
+                let data = new FormData(formFormMembro);
 
                 axios.post( urlCreate,data)
                 .then(this.listPM())//limpa a busca

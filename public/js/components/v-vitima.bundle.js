@@ -234,8 +234,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         createVitima: function createVitima() {
             var urlCreate = this.$root.baseUrl + 'api/vitima/store';
 
-            var formData = document.getElementById('formData');
-            var data = new FormData(formData);
+            var formSobrestamento = document.getElementById('formSobrestamento');
+            var data = new FormData(formSobrestamento);
 
             axios.post(urlCreate, data).then(this.listVitima()).catch(function (error) {
                 return console.log(error);
@@ -329,7 +329,12 @@ var render = function() {
                   _c("div", { staticClass: "row" }, [
                     _c(
                       "form",
-                      { attrs: { id: "formData", name: "formData" } },
+                      {
+                        attrs: {
+                          id: "formSobrestamento",
+                          name: "formSobrestamento"
+                        }
+                      },
                       [
                         _c("input", {
                           attrs: { type: "hidden", name: "id_" + _vm.dproc },

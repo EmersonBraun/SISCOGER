@@ -210,8 +210,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             var urledit = this.$root.baseUrl + 'api/acusado/edit/' + this.idedit;
-            var formData = document.getElementById('formReus');
-            var data = new FormData(formData);
+            var formReus = document.getElementById('formReus');
+            var data = new FormData(formReus);
 
             axios.post(urledit, data).then(function () {
                 _this.atualizaReus();

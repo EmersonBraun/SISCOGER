@@ -34,7 +34,7 @@
             </template>
             <div v-else>
                 <div id="ligacaoForm1" class="row">
-                    <form id="formData" name="formData">
+                    <form id="formAcusadoUnico" name="formAcusadoUnico">
                         <input type="hidden" :name="'id_'+dproc" :value="idp">
                         <div class="col-lg-3 col-md-3 col-xs-3">
                             <label for="rg">RG</label><br>
@@ -154,8 +154,8 @@
                     .get(searchUrl)
                     .then((response) => {
                         if(response.data.success){
-                            this.nome = response.data['pm'].NOME
-                            this.cargo = response.data['pm'].CARGO
+                            this.nome = response.data['pm'].NOME || response.data['pm'].nome
+                            this.cargo = response.data['pm'].CARGO || response.data['pm'].cargo
                             this.finded = true
                         }
                         else{
@@ -184,8 +184,8 @@
             createPM(){
                 let urlCreate = `${this.$root.baseUrl}api/acusado/store`;
 
-                let formData = document.getElementById('formData');
-                let data = new FormData(formData);
+                let formAcusadoUnico = document.getElementById('formAcusadoUnico');
+                let data = new FormData(formAcusadoUnico);
 
                 axios.post( urlCreate,data)
                 .then(this.listPM())

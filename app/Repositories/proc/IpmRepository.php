@@ -52,13 +52,13 @@ class IpmRepository extends BaseRepository
         if($this->verTodasUnidades)
         {
             $registros = Cache::tags('ipm')->remember('todos_ipm', 60, function() {
-                return $this->model->all();
+                return $this->model->orderBy('ipm.id_ipm','DESC')->get();
             });
         }
         else 
         {
             $registros = Cache::tags('ipm')->remember('todos_ipm:'.$this->unidade, 60, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')->get();
+                return $this->model->where('cdopm','like',$this->unidade.'%')->orderBy('ipm.id_ipm','DESC')->get();
             });
         }
 
@@ -70,13 +70,13 @@ class IpmRepository extends BaseRepository
         if($this->verTodasUnidades)
         {
             $registros = Cache::tags('ipm')->remember('todos_ipm:'.$ano, 60, function() use ($ano) {
-                return $this->model->where('sjd_ref_ano','=',$ano)->get();
+                return $this->model->where('sjd_ref_ano','=',$ano)->orderBy('ipm.id_ipm','DESC')->get();
             });
         }
         else 
         {
             $registros = Cache::tags('ipm')->remember('todos_ipm:'.$ano.':'.$this->unidade, 60, function() use ($ano) {
-                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->orderBy('ipm.id_ipm','DESC')->get();
             });
         }
         return $registros;
@@ -92,7 +92,9 @@ class IpmRepository extends BaseRepository
                     $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
-                    })->get();
+                    })
+                    ->orderBy('ipm.id_ipm','DESC')
+                    ->get();
             });
         }
         else 
@@ -103,7 +105,9 @@ class IpmRepository extends BaseRepository
                     $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
-                    })->get();
+                    })
+                    ->orderBy('ipm.id_ipm','DESC')
+                    ->get();
             });
         }
         return $registros;
@@ -119,7 +123,9 @@ class IpmRepository extends BaseRepository
                     $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
-                    })->get();
+                    })
+                    ->orderBy('ipm.id_ipm','DESC')
+                    ->get();
             });
         }
         else 
@@ -131,7 +137,9 @@ class IpmRepository extends BaseRepository
                     $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
-                    })->get();
+                    })
+                    ->orderBy('ipm.id_ipm','DESC')
+                    ->get();
             });
         }
         return $registros;
@@ -149,6 +157,7 @@ class IpmRepository extends BaseRepository
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','ipm'))
+                    ->orderBy('ipm.id_ipm','DESC')
                     ->get();
             });
         }
@@ -162,6 +171,7 @@ class IpmRepository extends BaseRepository
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','ipm'))
+                    ->orderBy('ipm.id_ipm','DESC')
                     ->get();
             });
         }
@@ -181,20 +191,23 @@ class IpmRepository extends BaseRepository
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','ipm'))
                     ->where('ipm.sjd_ref_ano', '=' ,$ano)
+                    ->orderBy('ipm.id_ipm','DESC')
                     ->get();
             });
         }
         else 
         {
             $registros = Cache::tags('ipm')->remember('julgamento_ipm:'.$ano.':'.$this->unidade, 60, function() use ($ano) {
-                return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$this->unidade.'%')
+                return $this->model
+                    ->where('ipm.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_ipm', '=', 'ipm.id_ipm')
                                 ->where('envolvido.id_ipm', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','ipm'))
+                    ->where('ipm.sjd_ref_ano', '=' ,$ano)
+                    ->orderBy('ipm.id_ipm','DESC')
                     ->get();
             });
         }
@@ -215,6 +228,7 @@ class IpmRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Encarregado')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
+                    ->orderBy('ipm.id_ipm','DESC')
                     ->get();
 
             });
@@ -232,6 +246,7 @@ class IpmRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('ipm.cdopm','like',$this->unidade.'%')
+                    ->orderBy('ipm.id_ipm','DESC')
                     ->get();
 
             });   
@@ -254,6 +269,7 @@ class IpmRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('ipm.sjd_ref_ano','=',$ano)
+                    ->orderBy('ipm.id_ipm','DESC')
                     ->get();
                 });
                     
@@ -271,6 +287,7 @@ class IpmRepository extends BaseRepository
                     })
                     ->where('ipm.sjd_ref_ano','=',$ano)
                     ->where('ipm.cdopm','like',$this->unidade.'%')
+                    ->orderBy('ipm.id_ipm','DESC')
                     ->get();
 
             });   

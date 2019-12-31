@@ -26,9 +26,13 @@ use App\Services\BlockUserService;
          */
         public function created(Envolvido $envolvido)
         {
-            $check_if_envolvido_is_user = $this->user->getRg($envolvido['rg']);
-            if($check_if_envolvido_is_user && $envolvido['situacao'] == 'Acusado')
-            $block = $this->block($l['id'],"Acusado em CD, CJ ou ADL");
+            $envolvido_is_user = $this->user->getRg($envolvido['rg']);
+            if(
+                $envolvido['id_cd'] || $envolvido['id_cd'] || $envolvido['id_cd']
+                && $envolvido_is_user 
+                && $envolvido['situacao'] == 'Acusado'
+            )
+            $block = $this->block($envolvido_is_user['id'],"Acusado em CD, CJ ou ADL");
         }
 
         /**

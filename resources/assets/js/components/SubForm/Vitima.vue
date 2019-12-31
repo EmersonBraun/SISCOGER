@@ -9,7 +9,7 @@
             </div>
             <div v-else>
                 <div class="row">
-                    <form id="formData" name="formData">
+                    <form id="formSobrestamento" name="formSobrestamento">
 
                         <input type="hidden" :name="'id_'+dproc" :value="idp">
 
@@ -221,8 +221,8 @@
             createVitima(){
                 let urlCreate = `${this.$root.baseUrl}api/vitima/store`
 
-                let formData = document.getElementById('formData');
-                let data = new FormData(formData);
+                let formSobrestamento = document.getElementById('formSobrestamento');
+                let data = new FormData(formSobrestamento);
 
                 axios.post( urlCreate,data)
                 .then(this.listVitima())

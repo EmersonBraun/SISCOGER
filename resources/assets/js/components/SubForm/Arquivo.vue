@@ -9,7 +9,7 @@
             </div>
             <div v-else>
                 <div id="ligacaoForm1" class="row">
-                    <form id="formData" name="formData">
+                    <form id="formArquivo" name="formArquivo">
                         <input type="hidden" name="procedimento" :value="dproc">
                         <input type="hidden" :name="'id_'+dproc" :value="idp">
                         <input type="hidden" name="sjd_ref" :value="dref">
@@ -187,8 +187,8 @@
             createArquivo(){
                 let urlCreate = `${this.$root.baseUrl}api/arquivo/store`;
 
-                let formData = document.getElementById('formData');
-                let data = new FormData(formData);
+                let formArquivo = document.getElementById('formArquivo');
+                let data = new FormData(formArquivo);
                 
                 axios.post( urlCreate,data)
                 .then(this.listArquivo())

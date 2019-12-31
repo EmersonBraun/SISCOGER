@@ -102,6 +102,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -111,22 +113,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             adc: '',
             comportamento: '',
-            preso: '',
-            suspenso: '',
-            excluido: '',
-            subJudice: false,
-            restricao: ''
+            estatuspm: []
         };
     },
     mounted: function mounted() {
         // this.listDadosGerais()
         this.listDadosAdicionais();
         this.listComportamento();
-        this.estaPreso();
-        this.estaSuspenso();
-        this.estaExcluido();
-        this.estaSubJudice();
-        this.restricoes();
+        this.estatuspm();
     },
 
     computed: {
@@ -170,61 +164,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             }
         },
-        estaPreso: function estaPreso() {
+        estatuspm: function estatuspm() {
             var _this3 = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/preso/estaPreso/' + this.pm.RG;
+            var urlIndex = this.$root.baseUrl + 'api/estatuspm/' + this.pm.RG;
             if (this.pm.RG) {
                 axios.get(urlIndex).then(function (response) {
-                    _this3.preso = response.data.preso;
-                }).catch(function (error) {
-                    return console.log(error);
-                });
-            }
-        },
-        estaSuspenso: function estaSuspenso() {
-            var _this4 = this;
-
-            var urlIndex = this.$root.baseUrl + 'api/fdi/suspenso/' + this.pm.RG;
-            if (this.pm.RG) {
-                axios.get(urlIndex).then(function (response) {
-                    _this4.suspenso = response.data;
-                }).catch(function (error) {
-                    return console.log(error);
-                });
-            }
-        },
-        estaExcluido: function estaExcluido() {
-            var _this5 = this;
-
-            var urlIndex = this.$root.baseUrl + 'api/fdi/excluido/' + this.pm.RG;
-            if (this.pm.RG) {
-                axios.get(urlIndex).then(function (response) {
-                    _this5.excluido = response.data;
-                }).catch(function (error) {
-                    return console.log(error);
-                });
-            }
-        },
-        estaSubJudice: function estaSubJudice() {
-            var _this6 = this;
-
-            var urlIndex = this.$root.baseUrl + 'api/denuncia/estaDenunciado/' + this.pm.RG;
-            if (this.pm.RG) {
-                axios.get(urlIndex).then(function (response) {
-                    _this6.subJudice = response.data.denunciado;
-                }).catch(function (error) {
-                    return console.log(error);
-                });
-            }
-        },
-        restricoes: function restricoes() {
-            var _this7 = this;
-
-            var urlIndex = this.$root.baseUrl + 'api/restricao/restricoes/' + this.pm.RG;
-            if (this.pm.RG) {
-                axios.get(urlIndex).then(function (response) {
-                    _this7.restricao = response.data;
+                    _this3.status = response.data;
                 }).catch(function (error) {
                     return console.log(error);
                 });
@@ -261,53 +207,68 @@ var render = function() {
     _c("div", { staticClass: "box-header" }, [
       _c("h2", { staticClass: "box-title" }, [_vm._v("Dados Principais")]),
       _vm._v(" "),
-      _c("div", { staticClass: "box-tools pull-right" }, [
-        _vm.pm.STATUS == "Ativo"
-          ? _c("i", { staticClass: "fa fa-circle text-success" })
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.pm.STATUS == "Inativo"
-          ? _c("i", { staticClass: "fa fa-circle text-warning" })
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.pm.STATUS == "Reserva"
-          ? _c("i", { staticClass: "fa fa-circle text-info" })
-          : _vm._e(),
-        _vm._v(" "),
-        _c("strong", [_vm._v(_vm._s(_vm.pm.STATUS))]),
-        _vm._v(" "),
-        _vm.preso
-          ? _c("strong", { staticClass: "text-danger" }, [_vm._v("| Preso")])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.suspenso > 0
-          ? _c("strong", { staticClass: "text-danger" }, [_vm._v("| Suspenso")])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.excluido
-          ? _c("strong", { staticClass: "text-danger" }, [_vm._v("| Excluido")])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.subJudice > 0
-          ? _c("strong", { staticClass: "text-danger" }, [
-              _vm._v("| Sub Judice")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.restricao.fardamento
-          ? _c("strong", { staticClass: "text-danger" }, [
-              _vm._v("| Rest. Fardamento")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.restricao.arma
-          ? _c("strong", { staticClass: "text-danger" }, [
-              _vm._v("| Rest. Armamento")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm._m(0)
-      ])
+      _c(
+        "div",
+        { staticClass: "box-tools pull-right" },
+        [
+          _vm.pm.STATUS == "Ativo"
+            ? _c("i", { staticClass: "fa fa-circle text-success" })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.pm.STATUS == "Inativo"
+            ? _c("i", { staticClass: "fa fa-circle text-warning" })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.pm.STATUS == "Reserva"
+            ? _c("i", { staticClass: "fa fa-circle text-info" })
+            : _vm._e(),
+          _vm._v(" "),
+          _c("strong", [_vm._v(_vm._s(_vm.pm.STATUS))]),
+          _vm._v(" "),
+          _vm.status
+            ? [
+                _vm.status.preso
+                  ? _c("strong", { staticClass: "text-danger" }, [
+                      _vm._v("| Preso")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.status.suspenso
+                  ? _c("strong", { staticClass: "text-danger" }, [
+                      _vm._v("| Suspenso")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.status.excluido
+                  ? _c("strong", { staticClass: "text-danger" }, [
+                      _vm._v("| Excluido")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.status.denunciado
+                  ? _c("strong", { staticClass: "text-danger" }, [
+                      _vm._v("| Sub Judice")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.status.fardamento
+                  ? _c("strong", { staticClass: "text-danger" }, [
+                      _vm._v("| Rest. Fardamento")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.status.arma
+                  ? _c("strong", { staticClass: "text-danger" }, [
+                      _vm._v("| Rest. Armamento")
+                    ])
+                  : _vm._e()
+              ]
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._m(0)
+        ],
+        2
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "box-body" }, [
@@ -330,11 +291,15 @@ var render = function() {
             _c(
               "p",
               [
-                _vm._v(_vm._s(_vm.pm.CARGO) + " " + _vm._s(_vm.pm.QUADRO)),
+                _vm._v(
+                  _vm._s(_vm.pm.CARGO || _vm.pm.cargo) +
+                    " " +
+                    _vm._s(_vm.pm.QUADRO || _vm.pm.quadro)
+                ),
                 _vm.pm.SUBQUADRO !== "NA"
-                  ? [_vm._v("-" + _vm._s(_vm.pm.SUBQUADRO))]
+                  ? [_vm._v("-" + _vm._s(_vm.pm.SUBQUADRO || _vm.pm.subquadro))]
                   : _vm._e(),
-                _vm._v(" " + _vm._s(_vm.pm.NOME) + " ")
+                _vm._v(" " + _vm._s(_vm.pm.NOME || _vm.pm.nome) + " ")
               ],
               2
             )
@@ -373,11 +338,17 @@ var render = function() {
             _vm._v(" "),
             _c("p", [
               _vm._v(
-                _vm._s(_vm._f("date_br")(_vm.pm.ADMISSAO_REAL)) +
+                _vm._s(
+                  _vm._f("date_br")(
+                    _vm.pm.ADMISSAO_REAL || _vm.pm.admissao_real
+                  )
+                ) +
                   " (" +
                   _vm._s(
                     _vm._f("tempo_em_anos_e_meses")(
-                      _vm._f("date_bd")(_vm.pm.ADMISSAO_REAL)
+                      _vm._f("date_bd")(
+                        _vm.pm.ADMISSAO_REAL || _vm.pm.admissao_real
+                      )
                     )
                   ) +
                   ")"
@@ -391,9 +362,9 @@ var render = function() {
             _c(
               "p",
               [
-                _vm._v(_vm._s(_vm.pm.CIDADE) + " "),
+                _vm._v(_vm._s(_vm.pm.CIDADE || _vm.pm.cidade) + " "),
                 _vm.pm.STATUS == "Inativo"
-                  ? [_vm._v("- " + _vm._s(_vm.pm.END_BAIRRO))]
+                  ? [_vm._v("- " + _vm._s(_vm.pm.END_BAIRRO || _vm.pm.bairro))]
                   : _vm._e()
               ],
               2
@@ -405,7 +376,9 @@ var render = function() {
             _vm._v(" "),
             _c("p", [
               _vm._v(
-                _vm._s(_vm._f("date_br")(_vm.pm.NASCIMENTO)) +
+                _vm._s(
+                  _vm._f("date_br")(_vm.pm.NASCIMENTO || _vm.pm.nascimento)
+                ) +
                   " (" +
                   _vm._s(_vm.pm.IDADE) +
                   " Anos)"
@@ -416,13 +389,15 @@ var render = function() {
           _c("div", { staticClass: "col-md-5 border" }, [
             _vm._m(6),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.pm.OPM_DESCRICAO))])
+            _c("p", [
+              _vm._v(_vm._s(_vm.pm.OPM_DESCRICAO || _vm.pm.opm_descricao))
+            ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-5 border" }, [
             _vm._m(7),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.pm.EMAIL_META4))])
+            _c("p", [_vm._v(_vm._s(_vm.pm.EMAIL_META4 || _vm.pm.email_meta4))])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-5 border" }, [

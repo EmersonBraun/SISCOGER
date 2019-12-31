@@ -166,8 +166,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.rg.length > 5) {
                 axios.get(searchUrl).then(function (response) {
                     if (response.data.success) {
-                        _this.nome = response.data['pm'].NOME;
-                        _this.cargo = response.data['pm'].CARGO;
+                        _this.nome = response.data['pm'].NOME || response.data['pm'].nome;
+                        _this.cargo = response.data['pm'].CARGO || response.data['pm'].cargo;
                         _this.finded = true;
                     } else {
                         _this.nome = '';
@@ -197,8 +197,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         createPM: function createPM() {
             var urlCreate = this.$root.baseUrl + 'api/acusado/store';
 
-            var formData = document.getElementById('formData');
-            var data = new FormData(formData);
+            var formAcusadoUnico = document.getElementById('formAcusadoUnico');
+            var data = new FormData(formAcusadoUnico);
 
             axios.post(urlCreate, data).then(this.listPM()).catch(function (error) {
                 return console.log(error);
@@ -344,265 +344,275 @@ var render = function() {
             ]
           : _c("div", [
               _c("div", { staticClass: "row", attrs: { id: "ligacaoForm1" } }, [
-                _c("form", { attrs: { id: "formData", name: "formData" } }, [
-                  _c("input", {
-                    attrs: { type: "hidden", name: "id_" + _vm.dproc },
-                    domProps: { value: _vm.idp }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-lg-3 col-md-3 col-xs-3" },
-                    [
-                      _c("label", { attrs: { for: "rg" } }, [_vm._v("RG")]),
+                _c(
+                  "form",
+                  {
+                    attrs: { id: "formAcusadoUnico", name: "formAcusadoUnico" }
+                  },
+                  [
+                    _c("input", {
+                      attrs: { type: "hidden", name: "id_" + _vm.dproc },
+                      domProps: { value: _vm.idp }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-lg-3 col-md-3 col-xs-3" },
+                      [
+                        _c("label", { attrs: { for: "rg" } }, [_vm._v("RG")]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("the-mask", {
+                          staticClass: "form-control",
+                          attrs: {
+                            mask: "############",
+                            type: "text",
+                            maxlength: "12",
+                            name: "rg",
+                            placeholder: "Nº"
+                          },
+                          model: {
+                            value: _vm.rg,
+                            callback: function($$v) {
+                              _vm.rg = $$v
+                            },
+                            expression: "rg"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-lg-3 col-md-3 col-xs-3" }, [
+                      _c("label", { attrs: { for: "nome" } }, [_vm._v("Nome")]),
                       _c("br"),
                       _vm._v(" "),
-                      _c("the-mask", {
-                        staticClass: "form-control",
-                        attrs: {
-                          mask: "############",
-                          type: "text",
-                          maxlength: "12",
-                          name: "rg",
-                          placeholder: "Nº"
-                        },
-                        model: {
-                          value: _vm.rg,
-                          callback: function($$v) {
-                            _vm.rg = $$v
-                          },
-                          expression: "rg"
-                        }
+                      _c("input", {
+                        staticClass: "numero form-control",
+                        attrs: { type: "text", name: "nome", readonly: "" },
+                        domProps: { value: _vm.nome }
                       })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-lg-3 col-md-3 col-xs-3" }, [
-                    _c("label", { attrs: { for: "nome" } }, [_vm._v("Nome")]),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "numero form-control",
-                      attrs: { type: "text", name: "nome", readonly: "" },
-                      domProps: { value: _vm.nome }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-lg-2 col-md-2 col-xs-2" }, [
-                    _c("label", { attrs: { for: "cargo" } }, [
-                      _vm._v("Posto/Graduação")
                     ]),
-                    _c("br"),
                     _vm._v(" "),
-                    _c("input", {
-                      staticClass: "numero form-control",
-                      attrs: { type: "text", name: "cargo", readonly: "" },
-                      domProps: { value: _vm.cargo }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-lg-2 col-md-2 col-xs-2" },
-                    [
-                      _c("label", { attrs: { for: "resultado" } }, [
-                        _vm._v("Resultado")
+                    _c("div", { staticClass: "col-lg-2 col-md-2 col-xs-2" }, [
+                      _c("label", { attrs: { for: "cargo" } }, [
+                        _vm._v("Posto/Graduação")
                       ]),
                       _c("br"),
                       _vm._v(" "),
-                      _vm.situacao
-                        ? [
-                            _c("input", {
-                              staticClass: "numero form-control",
-                              attrs: {
-                                type: "text",
-                                name: "situacao",
-                                readonly: ""
-                              },
-                              domProps: { value: _vm.situacao }
-                            })
-                          ]
-                        : [
-                            _c(
-                              "select",
-                              {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.resultado,
-                                    expression: "resultado"
-                                  }
-                                ],
-                                staticClass: "form-control",
+                      _c("input", {
+                        staticClass: "numero form-control",
+                        attrs: { type: "text", name: "cargo", readonly: "" },
+                        domProps: { value: _vm.cargo }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-lg-2 col-md-2 col-xs-2" },
+                      [
+                        _c("label", { attrs: { for: "resultado" } }, [
+                          _vm._v("Resultado")
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm.situacao
+                          ? [
+                              _c("input", {
+                                staticClass: "numero form-control",
                                 attrs: {
-                                  name: "resultado",
-                                  disabled: !_vm.finded,
-                                  required: ""
+                                  type: "text",
+                                  name: "situacao",
+                                  readonly: ""
                                 },
-                                on: {
-                                  change: function($event) {
-                                    var $$selectedVal = Array.prototype.filter
-                                      .call($event.target.options, function(o) {
-                                        return o.selected
-                                      })
-                                      .map(function(o) {
-                                        var val =
-                                          "_value" in o ? o._value : o.value
-                                        return val
-                                      })
-                                    _vm.resultado = $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  }
-                                }
-                              },
-                              [
-                                _c("option", { attrs: { value: "" } }, [
-                                  _vm._v("Selecione")
-                                ]),
-                                _vm._v(" "),
-                                _c("option", { attrs: { value: "Excluído" } }, [
-                                  _vm._v("Excluído")
-                                ]),
-                                _vm._v(" "),
-                                _c("option", { attrs: { value: "Punido" } }, [
-                                  _vm._v("Punido")
-                                ]),
-                                _vm._v(" "),
-                                _c(
-                                  "option",
-                                  { attrs: { value: "Absolvido" } },
-                                  [_vm._v("Absolvido")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "option",
-                                  { attrs: { value: "Perda objeto" } },
-                                  [_vm._v("Perda objeto")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "option",
-                                  { attrs: { value: "Prescricao" } },
-                                  [_vm._v("Prescricao")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "option",
-                                  {
-                                    attrs: { value: "Reintegrado/Reinserido" }
+                                domProps: { value: _vm.situacao }
+                              })
+                            ]
+                          : [
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.resultado,
+                                      expression: "resultado"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    name: "resultado",
+                                    disabled: !_vm.finded,
+                                    required: ""
                                   },
-                                  [_vm._v("Reintegrado/Reinserido")]
-                                )
-                              ]
-                            )
-                          ]
-                    ],
-                    2
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-lg-1 col-md-1 col-xs-1" },
-                    [
-                      !_vm.edit
-                        ? [
-                            _c("label", [_vm._v("Cancelar")]),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-danger btn-block",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.clear(true)
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.resultado = $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    }
                                   }
-                                }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-times",
-                                  staticStyle: { color: "white" }
-                                })
-                              ]
-                            )
-                          ]
-                        : [
-                            _c("label", [_vm._v("Cancelar")]),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-danger btn-block",
-                                on: {
-                                  click: function($event) {
-                                    _vm.hasPM = !_vm.hasPM
+                                },
+                                [
+                                  _c("option", { attrs: { value: "" } }, [
+                                    _vm._v("Selecione")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "Excluído" } },
+                                    [_vm._v("Excluído")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "Punido" } }, [
+                                    _vm._v("Punido")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "Absolvido" } },
+                                    [_vm._v("Absolvido")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "Perda objeto" } },
+                                    [_vm._v("Perda objeto")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "Prescricao" } },
+                                    [_vm._v("Prescricao")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    {
+                                      attrs: { value: "Reintegrado/Reinserido" }
+                                    },
+                                    [_vm._v("Reintegrado/Reinserido")]
+                                  )
+                                ]
+                              )
+                            ]
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-lg-1 col-md-1 col-xs-1" },
+                      [
+                        !_vm.edit
+                          ? [
+                              _c("label", [_vm._v("Cancelar")]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-danger btn-block",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.clear(true)
+                                    }
                                   }
-                                }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-times",
-                                  staticStyle: { color: "white" }
-                                })
-                              ]
-                            )
-                          ]
-                    ],
-                    2
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-lg-1 col-md-1 col-xs-1" },
-                    [
-                      !_vm.edit
-                        ? [
-                            _c("label", [_vm._v("Editar")]),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-success btn-block",
-                                attrs: { disabled: !_vm.resultado },
-                                on: { click: _vm.editPM }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-plus",
-                                  staticStyle: { color: "white" }
-                                })
-                              ]
-                            )
-                          ]
-                        : [
-                            _c("label", [_vm._v("Adicionar")]),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "btn btn-success btn-block",
-                                attrs: { disabled: !_vm.resultado },
-                                on: { click: _vm.createPM }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-plus",
-                                  staticStyle: { color: "white" }
-                                })
-                              ]
-                            )
-                          ]
-                    ],
-                    2
-                  )
-                ])
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fa fa-times",
+                                    staticStyle: { color: "white" }
+                                  })
+                                ]
+                              )
+                            ]
+                          : [
+                              _c("label", [_vm._v("Cancelar")]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-danger btn-block",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.hasPM = !_vm.hasPM
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fa fa-times",
+                                    staticStyle: { color: "white" }
+                                  })
+                                ]
+                              )
+                            ]
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-lg-1 col-md-1 col-xs-1" },
+                      [
+                        !_vm.edit
+                          ? [
+                              _c("label", [_vm._v("Editar")]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-success btn-block",
+                                  attrs: { disabled: !_vm.resultado },
+                                  on: { click: _vm.editPM }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fa fa-plus",
+                                    staticStyle: { color: "white" }
+                                  })
+                                ]
+                              )
+                            ]
+                          : [
+                              _c("label", [_vm._v("Adicionar")]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-success btn-block",
+                                  attrs: { disabled: !_vm.resultado },
+                                  on: { click: _vm.createPM }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fa fa-plus",
+                                    staticStyle: { color: "white" }
+                                  })
+                                ]
+                              )
+                            ]
+                      ],
+                      2
+                    )
+                  ]
+                )
               ])
             ])
       ],

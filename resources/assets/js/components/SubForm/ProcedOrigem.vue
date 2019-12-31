@@ -9,7 +9,7 @@
             </div>
             <div v-else>
                 <div id="ligacaoForm1" class="row">
-                    <form id="formData" name="formData">
+                    <form id="formProcOrigem" name="formProcOrigem">
                         <input type="hidden" :name="id_proc" :value="idp">
                         <input type="hidden" name="origem_proc" :value="origin">
                         <input type="hidden" name="destino_proc" :value="dproc">
@@ -124,6 +124,7 @@
         mixins: [mixin],
         props: {
             unique: {type: Boolean, default: false},
+            idp: {type: String, default: ''},
             dproc: {type: String, default: ''},
             dref: {type: String, default: ''},
             dano: {type: String, default: ''},
@@ -146,13 +147,14 @@
             }
         },
         // depois de montado
-        beforeMount(){
+        mounted(){
             this.listProc()
             this.verifyOnly()
         },
         filters: {
             uppercase: function(v) {
-            return v.toUpperCase();
+                if(!v) return ''
+                return v.toUpperCase();
             }
         },
         computed: {
@@ -183,8 +185,8 @@
             createProc(){
                 let urlCreate = `${this.$root.baseUrl}api/ligacao/store`
 
-                let formData = document.getElementById('formData');
-                let data = new FormData(formData);
+                let formProcOrigem = document.getElementById('formProcOrigem');
+                let data = new FormData(formProcOrigem);
 
                 axios.post( urlCreate,data)
                 .then(this.listProc)
@@ -195,9 +197,10 @@
             },
             // listagem dos arquivos existentes
             listProc(){
-                const urlIndex = (this.dano) 
-                ? `${this.$root.baseUrl}api/ligacao/list/${this.dproc}/${this.dref}/${this.dano}`
-                : `${this.$root.baseUrl}api/ligacao/list/${this.dproc}/${this.dref}`
+                const urlIndex = (this.idp) 
+                ? `${this.$root.baseUrl}api/ligacao/list/${this.dproc}/${this.idp}`
+                : `${this.$root.baseUrl}api/ligacao/list/${this.dproc}/${this.dref}/${this.dano}`
+                console.log(urlIndex)
                 axios
                 .get(urlIndex)
                 .then((response) => {

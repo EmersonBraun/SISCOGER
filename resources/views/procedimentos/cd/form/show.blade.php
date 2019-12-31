@@ -67,7 +67,7 @@
                 </v-label>
             </v-tab>
             <v-tab header="Envolvidos">
-                <v-proced-origem></v-proced-origem><br>           
+                <v-proced-origem dproc="cd" idp="{{$proc['id_cd']}}"></v-proced-origem><br>           
                 <v-acusado idp="{{$proc['id_cd']}}" situacao="{{sistema('procSituacao','cd')}}" ></v-acusado><br>
                 <v-vitima idp="{{$proc['id_cd']}}" ></v-vitima><br>
             </v-tab>
@@ -114,19 +114,19 @@
                 </file-upload>
             </v-tab>
             <v-tab header="Membros">
-                <v-membro idp="{{$proc['id_cd']}}"></v-membro>
+                <v-membro dproc="cd" idp="{{$proc['id_cd']}}"></v-membro>
             </v-tab>
             <v-tab header="Movimentos">
-                <v-movimento idp="{{$proc['id_cd']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento dproc="cd" idp="{{$proc['id_cd']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
             </v-tab>
             <v-tab header="Sobrestamentos">
-                <v-sobrestamento idp="{{$proc['id_cd']}}" ></v-sobrestamento>
+                <v-sobrestamento dproc="cd" idp="{{$proc['id_cd']}}" ></v-sobrestamento>
             </v-tab>
             <v-tab header="Encaminhamentos">
                 Encaminhamentos
             </v-tab>
             <v-tab header="Arquivo">
-                <v-arquivo idp="{{$proc['id_cd']}}" ></v-arquivo>
+                <v-arquivo dproc="cd" idp="{{$proc['id_cd']}}" ></v-arquivo>
             </v-tab>
         </v-tabs>
         </div>

@@ -198,8 +198,8 @@
             },
             editReu(){
                 let urledit = `${this.$root.baseUrl}api/acusado/edit/${this.idedit}`;
-                let formData = document.getElementById('formReus');
-                let data = new FormData(formData);
+                let formReus = document.getElementById('formReus');
+                let data = new FormData(formReus);
                 
                 axios.post( urledit,data)
                 .then(() => {

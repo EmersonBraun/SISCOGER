@@ -162,8 +162,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         createMovimento: function createMovimento() {
             var urlCreate = this.$root.baseUrl + 'api/movimento/store';
 
-            var formData = document.getElementById('formData');
-            var data = new FormData(formData);
+            var formMovimento = document.getElementById('formMovimento');
+            var data = new FormData(formMovimento);
 
             axios.post(urlCreate, data).then(this.listMovimento()).catch(function (error) {
                 return console.log(error);
@@ -634,7 +634,9 @@ var render = function() {
                     [
                       _c(
                         "form",
-                        { attrs: { id: "formData", name: "formData" } },
+                        {
+                          attrs: { id: "formMovimento", name: "formMovimento" }
+                        },
                         [
                           _c("input", {
                             attrs: { type: "hidden", name: "id_" + _vm.dproc },

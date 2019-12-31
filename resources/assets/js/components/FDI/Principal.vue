@@ -7,12 +7,14 @@
                 <i v-if="pm.STATUS == 'Inativo'" class="fa fa-circle text-warning"></i>
                 <i v-if="pm.STATUS == 'Reserva'" class="fa fa-circle text-info"></i>
                 <strong>{{ pm.STATUS }}</strong>
-                <strong v-if="preso" class="text-danger">| Preso</strong>
-                <strong v-if="suspenso > 0" class="text-danger">| Suspenso</strong>
-                <strong v-if="excluido" class="text-danger">| Excluido</strong>
-                <strong v-if="subJudice > 0" class="text-danger">| Sub Judice</strong>
-                <strong v-if="restricao.fardamento" class="text-danger">| Rest. Fardamento</strong>
-                <strong v-if="restricao.arma" class="text-danger">| Rest. Armamento</strong>
+                <template v-if="status">
+                    <strong v-if="status.preso" class="text-danger">| Preso</strong>
+                    <strong v-if="status.suspenso" class="text-danger">| Suspenso</strong>
+                    <strong v-if="status.excluido" class="text-danger">| Excluido</strong>
+                    <strong v-if="status.denunciado" class="text-danger">| Sub Judice</strong>
+                    <strong v-if="status.fardamento" class="text-danger">| Rest. Fardamento</strong>
+                    <strong v-if="status.arma" class="text-danger">| Rest. Armamento</strong>
+                </template>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse">
                     <i class="fa fa-minus"></i>
                 </button> 
@@ -26,7 +28,7 @@
                     </div>
                     <div class="col-md-5 border" >
                         <p><strong>Nome:</strong><br></p>
-                        <p>{{ pm.CARGO }} {{ pm.QUADRO }}<template v-if="pm.SUBQUADRO !== 'NA'">-{{ pm.SUBQUADRO }}</template> {{ pm.NOME }} </p>
+                        <p>{{ pm.CARGO || pm.cargo }} {{ pm.QUADRO || pm.quadro}}<template v-if="pm.SUBQUADRO !== 'NA'">-{{ pm.SUBQUADRO || pm.subquadro}}</template> {{ pm.NOME || pm.nome }} </p>
                     </div>
                     <div class="col-md-5 border">
                         <p><strong>RG:</strong></p>
@@ -42,23 +44,23 @@
                             <template v-if="pm.STATUS == 'Inativo'"><b>Data Inatividade:</b></template>
                             <template v-if="pm.STATUS == 'Reserva'"><b>Data Reserva:</b></template>
                         </p>
-                        <p>{{ pm.ADMISSAO_REAL | date_br }} ({{ pm.ADMISSAO_REAL | date_bd | tempo_em_anos_e_meses }})</p>
+                        <p>{{ pm.ADMISSAO_REAL || pm.admissao_real| date_br }} ({{ pm.ADMISSAO_REAL || pm.admissao_real | date_bd | tempo_em_anos_e_meses }})</p>
                     </div>
                     <div class="col-md-5 border">
                         <p><strong>Cidade:</strong></p>
-                        <p>{{ pm.CIDADE }} <template v-if="pm.STATUS == 'Inativo'">- {{ pm.END_BAIRRO }}</template></p>
+                        <p>{{ pm.CIDADE || pm.cidade }} <template v-if="pm.STATUS == 'Inativo'">- {{ pm.END_BAIRRO || pm.bairro}}</template></p>
                     </div>
                     <div class="col-md-5 border">
                         <p><strong>Data de nascimento:</strong></p>
-                        <p>{{ pm.NASCIMENTO | date_br }} ({{ pm.IDADE }} Anos)</p>
+                        <p>{{ pm.NASCIMENTO || pm.nascimento | date_br }} ({{ pm.IDADE }} Anos)</p>
                     </div>
                     <div class="col-md-5 border">
                         <p><strong>Classificacao Meta4:</strong></p>
-                        <p>{{ pm.OPM_DESCRICAO }}</p>
+                        <p>{{ pm.OPM_DESCRICAO || pm.opm_descricao }}</p>
                     </div>
                     <div class="col-md-5 border">
                         <p><strong>Email funcional:</strong></p>
-                        <p>{{ pm.EMAIL_META4 }}</p>
+                        <p>{{ pm.EMAIL_META4 || pm.email_meta4}}</p>
                     </div>
                     <!-- \principal -->
                     <!-- Adicionais -->
@@ -104,22 +106,14 @@
             return {
                 adc: '',
                 comportamento: '',
-                preso: '',
-                suspenso: '',
-                excluido: '',
-                subJudice: false,
-                restricao: ''
+                estatuspm: [],
             }
         },
         mounted(){
             // this.listDadosGerais()
             this.listDadosAdicionais()
             this.listComportamento()
-            this.estaPreso()
-            this.estaSuspenso()
-            this.estaExcluido()
-            this.estaSubJudice()
-            this.restricoes()
+            this.estatuspm()
         },
         computed: {
             foto(){
@@ -160,61 +154,17 @@
                     .catch(error => console.log(error));
                 }
             },
-            estaPreso(){
-                let urlIndex = `${this.$root.baseUrl}api/preso/estaPreso/${this.pm.RG}`;
+            estatuspm(){
+                let urlIndex = `${this.$root.baseUrl}api/estatuspm/${this.pm.RG}`;
                 if(this.pm.RG){
                     axios
                     .get(urlIndex)
                     .then((response) => {
-                        this.preso = response.data.preso
+                        this.status = response.data
                     })
                     .catch(error => console.log(error));
                 }
             },
-            estaSuspenso(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/suspenso/${this.pm.RG}`;
-                if(this.pm.RG){
-                    axios
-                    .get(urlIndex)
-                    .then((response) => {
-                        this.suspenso = response.data
-                    })
-                    .catch(error => console.log(error));
-                }
-            },
-            estaExcluido(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/excluido/${this.pm.RG}`;
-                if(this.pm.RG){
-                    axios
-                    .get(urlIndex)
-                    .then((response) => {
-                        this.excluido = response.data
-                    })
-                    .catch(error => console.log(error));
-                }
-            },
-            estaSubJudice(){
-                let urlIndex = `${this.$root.baseUrl}api/denuncia/estaDenunciado/${this.pm.RG}`;
-                if(this.pm.RG){
-                    axios
-                    .get(urlIndex)
-                    .then((response) => {
-                        this.subJudice = response.data.denunciado
-                    })
-                    .catch(error => console.log(error));
-                }
-            },
-            restricoes(){
-                let urlIndex = `${this.$root.baseUrl}api/restricao/restricoes/${this.pm.RG}`;
-                if(this.pm.RG){
-                    axios
-                    .get(urlIndex)
-                    .then((response) => {
-                        this.restricao = response.data
-                    })
-                    .catch(error => console.log(error));
-                }
-            }
         }
     }
 </script>

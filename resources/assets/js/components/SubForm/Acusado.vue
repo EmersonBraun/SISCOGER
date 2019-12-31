@@ -26,8 +26,8 @@
                 <button @click="add = !add" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Adicionar acusado</button>
             </div>
             <div v-if="add">
-                <div id="ligacaoForm1" class="row">
-                    <form id="formData" name="formData">
+                <div class="row">
+                    <form id="formAcusado" name="formAcusado">
                         <input type="hidden" :name="'id_'+dproc" :value="idp">
                         <input type="hidden" name="situacao" :value="situacao">
                         <div class="col-xs-3">
@@ -352,8 +352,8 @@
                     .get(searchUrl)
                     .then((response) => {
                         if(response.data.success){
-                            this.nome = response.data['pm'].NOME
-                            this.cargo = response.data['pm'].CARGO
+                            this.nome = response.data['pm'].NOME || response.data['pm'].nome
+                            this.cargo = response.data['pm'].CARGO || response.data['pm'].cargo
                             this.finded = true
                         }
                         else{
@@ -382,8 +382,8 @@
             },
             createPM(){
                 let urlCreate = `${this.$root.baseUrl}api/acusado/store`;
-                let formData = document.getElementById('formData');
-                let data = new FormData(formData);
+                let formAcusado = document.getElementById('formAcusado');
+                let data = new FormData(formAcusado);
                 axios.post( urlCreate,data)
                 .then((response) => this.transation(response.data.success, 'create'))
                 .catch((error) => console.log(error));

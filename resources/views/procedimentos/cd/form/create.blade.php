@@ -45,13 +45,13 @@
                     {!! Form::select('id_andamentocoger',config('sistema.andamentocogerCD'),null, ['class' => 'form-control ']) !!}
                 </v-label>
                 <v-label label="id_motivoconselho" title="Motivo CD (Lei nº 16.544/2010)" link="https://goo.gl/L1m5Ps" icon="fa fa-link text-info">
-                    {!! Form::select('id_motivoconselho', config('sistema.motivoConselho'),null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
+                    {!! Form::select('id_motivoconselho', config('sistema.motivoConselho'),null, ['class' => 'form-control select2']) !!}
                 </v-label>
                 <v-label label="id_situacaoconselho" title="Situação">
-                    {!! Form::select('id_situacaoconselho',config('sistema.situacaoConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+                    {!! Form::select('id_situacaoconselho',config('sistema.situacaoConselho'),null, ['class' => 'form-control ']) !!}
                 </v-label>
                 <v-label label="id_decorrenciaconselho" title="Em decorrência de">
-                    {!! Form::select('id_decorrenciaconselho',config('sistema.decorrenciaConselho'),null, ['class' => 'form-control ', 'id' => 'descricao']) !!}
+                    {!! Form::select('id_decorrenciaconselho',config('sistema.decorrenciaConselho'),null, ['class' => 'form-control ']) !!}
                 </v-label>
                 <v-label label="outromotivo" title="Especificar (no caso de outros motivos)">
                     {{ Form::text('outromotivo', null, ['class' => 'form-control ']) }}

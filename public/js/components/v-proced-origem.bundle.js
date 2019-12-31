@@ -134,6 +134,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_js__["a" /* default */]],
     props: {
         unique: { type: Boolean, default: false },
+        idp: { type: String, default: '' },
         dproc: { type: String, default: '' },
         dref: { type: String, default: '' },
         dano: { type: String, default: '' }
@@ -152,13 +153,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
 
     // depois de montado
-    beforeMount: function beforeMount() {
+    mounted: function mounted() {
         this.listProc();
         this.verifyOnly();
     },
 
     filters: {
         uppercase: function uppercase(v) {
+            if (!v) return '';
             return v.toUpperCase();
         }
     },
@@ -194,8 +196,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             var urlCreate = this.$root.baseUrl + 'api/ligacao/store';
 
-            var formData = document.getElementById('formData');
-            var data = new FormData(formData);
+            var formProcOrigem = document.getElementById('formProcOrigem');
+            var data = new FormData(formProcOrigem);
 
             axios.post(urlCreate, data).then(this.listProc).catch(function (error) {
                 console.log(error);
@@ -207,7 +209,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         listProc: function listProc() {
             var _this3 = this;
 
-            var urlIndex = this.dano ? this.$root.baseUrl + 'api/ligacao/list/' + this.dproc + '/' + this.dref + '/' + this.dano : this.$root.baseUrl + 'api/ligacao/list/' + this.dproc + '/' + this.dref;
+            var urlIndex = this.idp ? this.$root.baseUrl + 'api/ligacao/list/' + this.dproc + '/' + this.idp : this.$root.baseUrl + 'api/ligacao/list/' + this.dproc + '/' + this.dref + '/' + this.dano;
+            console.log(urlIndex);
             axios.get(urlIndex).then(function (response) {
                 _this3.procedimentos = response.data;
             }).then(this.clear) //limpa a busca
@@ -268,7 +271,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -315,7 +318,12 @@ var render = function() {
                     [
                       _c(
                         "form",
-                        { attrs: { id: "formData", name: "formData" } },
+                        {
+                          attrs: {
+                            id: "formProcOrigem",
+                            name: "formProcOrigem"
+                          }
+                        },
                         [
                           _c("input", {
                             attrs: { type: "hidden", name: _vm.id_proc },

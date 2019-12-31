@@ -80,8 +80,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.prg.length > 5) {
                 axios.get(searchUrl).then(function (response) {
                     if (response.data.success) {
-                        _this.pnome = response.data['pm'].NOME;
-                        _this.pcargo = response.data['pm'].CARGO;
+                        _this.pnome = response.data['pm'].NOME || response.data['pm'].nome;
+                        _this.pcargo = response.data['pm'].CARGO || response.data['pm'].cargo;
                         _this.finded = true;
                     } else {
                         _this.pnome = '';
@@ -128,7 +128,7 @@ var render = function() {
   return _c("div", { staticClass: "col-lg-12 col-md-12 col-xs-12 card" }, [
     _c("div", { staticClass: "card-body" }, [
       _c("div", { staticClass: "row", attrs: { id: "ligacaoForm1" } }, [
-        _c("form", { attrs: { id: "formData", name: "formData" } }, [
+        _c("form", { attrs: { id: "formAcusadoRG", name: "formAcusadoRG" } }, [
           _c(
             "div",
             { staticClass: "col-lg-3 col-md-3 col-xs-3" },

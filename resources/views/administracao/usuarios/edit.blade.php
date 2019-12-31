@@ -32,6 +32,9 @@
         {{ Form::label('email', 'Email') }}
         {{ Form::email('email', null, array('class' => 'form-control')) }}
     </div>
+    <v-label label="cdopm" title="OPM" lg="12" md="12" error="{{$errors->first('cdopm')}}">
+        <v-opm cdopm="{{corta_zeros($user['cdopm']) ?? ''}}"></v-opm>
+    </v-label>
     <h5><b>Permissões</b></h5>
     <div class="form-group col-lg-12 @if ($errors->has('roles')) has-error @endif">
         @foreach ($roles as $role)
@@ -49,7 +52,5 @@
 @stop
 
 @section('js')
-<script>
-    $('')
-</script>
+@include('vendor.adminlte.includes.vue')
 @stop

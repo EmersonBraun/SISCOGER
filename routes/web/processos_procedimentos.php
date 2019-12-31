@@ -261,7 +261,7 @@ Route::group(['as'=>'sindicancia.','prefix' =>'sindicancia'],function(){
 });
 
 /* -------------- ROTAS SAI -------------- */
-Route::group(['as'=>'sai.','prefix' =>'sai','middleware' => ['permission:sai']],function(){
+Route::group(['as'=>'sai.','prefix' =>'sai'],function(){
     Route::get('',['as' =>'index','uses'=>'Policiais\SaiController@index','middleware' => ['permission:listar-sai']]);
     //listagem
     Route::get('lista/{ano}',['as' =>'lista','uses'=>'Policiais\SaiController@lista','middleware' => ['permission:listar-sai']]);
