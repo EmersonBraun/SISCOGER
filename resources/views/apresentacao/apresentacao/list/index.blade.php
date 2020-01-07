@@ -3,7 +3,7 @@
 @section('title', 'apresentacao')
 
 @section('content_header')
-@include('apresentacao.apresentacao.list.menu', ['title' => 'Consultas','page' => 'index','cdopm' => $cdopm, 'ano' => $ano])
+@include('apresentacao.apresentacao.list.menu', ['title' => 'Consultas','page' => 'index','cdopm' => $cdopm, 'ano' => $ano, $mes => 'mes'])
 @stop
 
 @section('content')

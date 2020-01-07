@@ -65,10 +65,8 @@ class TermosController extends Controller
         if($temosalvo) {
             $this->repository->clearCache();
             toast()->success('Atualizado!', 'Termo!');
-            return redirect()->route('home');
+            return view('administracao.usuarios.reset', compact('user'));
         }
-        toast()->warning('Não Atualizado!', 'ERRO!');
-        return redirect()->route('home');
     }
 
 }

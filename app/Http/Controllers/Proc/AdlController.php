@@ -30,6 +30,7 @@ class AdlController extends Controller
     public function andamento()
     {
         $registros = $this->repository->andamento();
+        // dd($registros->first());
         return view('procedimentos.adl.list.andamento',compact('registros'));
     }
 

@@ -25,6 +25,15 @@
                         </span>
                         @endif
                     </div>
+                    <div
+                        class="@if(hasPermissionTo('todas-unidades')) col-md-4 @else col-md-12 @endif col-xs-12 form-group @if ($errors->has('opm')) has-error @endif">
+                        {{ Form::select('mes', array_meses(2008), date('m'), ['class'=>'form-control ', 'id' => 'mes']) }}
+                        @if ($errors->has('mes'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('mes') }}</strong>
+                        </span>
+                        @endif
+                    </div>
                     @if(hasPermissionTo('todas-unidades'))
                     <div class="col-md-4 col-xs-12 form-group @if ($errors->has('opm')) has-error @endif">
                         {{ Form::select('cdopm', opms_sjd(), session('cdopm'), ['class'=>'form-control ', 'id' => 'opm']) }}

@@ -156,7 +156,7 @@ class CjRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('cj')->remember('julgamento_cj'.$this->unidade, self::$expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')
+                return $this->model->where('cj.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_cj', '=', 'cj.id_cj')
                                 ->where('envolvido.id_cj', '<>', 0);
@@ -245,7 +245,7 @@ class CjRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('adl.cdopm','like',$this->unidade.'%')
+                    ->where('cj.cdopm','like',$this->unidade.'%')
                     ->get();
 
             });   

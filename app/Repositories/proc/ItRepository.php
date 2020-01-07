@@ -59,7 +59,7 @@ class ItRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('it')->remember('todos_it:'.$this->unidade, self::$expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')->get();
+                return $this->model->where('it.cdopm','like',$this->unidade.'%')->get();
             });
         }
 
@@ -77,7 +77,7 @@ class ItRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('it')->remember('todos_it:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
-                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+                return $this->model->where('it.cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         return $registros;
@@ -95,7 +95,7 @@ class ItRepository extends BaseRepository
         {
             $registros = Cache::tags('it')->remember('viaturas_it:'.$this->unidade, self::$expiration, function()  {
                 return $this->model->where('objetoprocedimento','=','viatura')
-                ->where('cdopm','like',$this->unidade.'%')->get();
+                ->where('it.cdopm','like',$this->unidade.'%')->get();
             });
         }
 
@@ -114,7 +114,7 @@ class ItRepository extends BaseRepository
         {
             $registros = Cache::tags('it')->remember('viaturas_it:'.$this->unidade.':'.$ano, self::$expiration, function() use ($ano) {
                 return $this->model->where('objetoprocedimento','=','viatura')
-                ->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+                ->where('it.cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
 
@@ -137,7 +137,7 @@ class ItRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('it')->remember('andamento_it:'.$this->unidade, self::$expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')
+                return $this->model->where('it.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_it', '=', 'it.id_it')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -165,7 +165,7 @@ class ItRepository extends BaseRepository
         {
             $registros = Cache::tags('it')->remember('andamento_it:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$this->unidade.'%')
+                    ->where('it.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_it', '=', 'it.id_it')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -194,7 +194,7 @@ class ItRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('it')->remember('julgamento_it:'.$this->unidade, self::$expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')
+                return $this->model->where('it.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_it', '=', 'it.id_it')
                                 ->where('envolvido.id_it', '<>', 0);
@@ -227,7 +227,7 @@ class ItRepository extends BaseRepository
         {
             $registros = Cache::tags('it')->remember('julgamento_it:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model
-                    ->where('cdopm','like',$this->unidade.'%')
+                    ->where('it.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_it', '=', 'it.id_it')
                                 ->where('envolvido.id_it', '<>', 0);

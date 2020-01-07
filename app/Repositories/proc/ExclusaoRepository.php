@@ -51,18 +51,9 @@ class ExclusaoRepository extends BaseRepository
     
     public function all()
 	{
-        if($this->verTodasUnidades)
-        {
-            $registros = Cache::tags('exclusao')->remember('todos_exclusao', self::$expiration, function() {
-                return $this->model->all();
-            });
-        }
-        else 
-        {
-            $registros = Cache::tags('exclusao')->remember('todos_exclusao:'.$this->unidade, self::$expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')->get();
-            });
-        }
+        $registros = Cache::tags('exclusao')->remember('todos_exclusao', self::$expiration, function() {
+            return $this->model->all();
+        });
 
         return $registros;
     }
@@ -78,7 +69,7 @@ class ExclusaoRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('exclusao')->remember('todos_exclusao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
-                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+                return $this->model->where('exclusaojudicial.cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         return $registros;
@@ -100,9 +91,9 @@ class ExclusaoRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('exclusao')->remember('andamento_exclusao:'.$this->unidade, self::$expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')
+                return $this->model->where('exclusaojudicial.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
-                    $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
+                    $join->on('envolvido.id_exclusaojudicial', '=', 'exclusaojudicial.id_exclusaojudicial')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
                     })->get();
@@ -118,7 +109,7 @@ class ExclusaoRepository extends BaseRepository
             $registros = Cache::tags('exclusao')->remember('andamento_exclusao:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join){
-                    $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
+                    $join->on('envolvido.id_exclusaojudicial', '=', 'exclusaojudicial.id_exclusaojudicial')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
                     })->get();
@@ -128,9 +119,9 @@ class ExclusaoRepository extends BaseRepository
         {
             $registros = Cache::tags('exclusao')->remember('andamento_exclusao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$this->unidade.'%')
+                    ->where('exclusaojudicial.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
-                    $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
+                    $join->on('envolvido.id_exclusaojudicial', '=', 'exclusaojudicial.id_exclusaojudicial')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
                     })->get();
@@ -146,8 +137,8 @@ class ExclusaoRepository extends BaseRepository
             $registros = Cache::tags('exclusao')->remember('julgamento_exclusao', self::$expiration, function() {
                 return $this->model
                     ->leftJoin('envolvido', function ($join) {
-                        $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
-                                ->where('envolvido.id_exclusao', '<>', 0);
+                        $join->on('envolvido.id_exclusaojudicial', '=', 'exclusaojudicial.id_exclusaojudicial')
+                                ->where('envolvido.id_exclusaojudicial', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','exclusao'))
@@ -157,10 +148,10 @@ class ExclusaoRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('exclusao')->remember('julgamento_exclusao:'.$this->unidade, self::$expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')
+                return $this->model->where('exclusaojudicial.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
-                                ->where('envolvido.id_exclusao', '<>', 0);
+                        $join->on('envolvido.id_exclusaojudicial', '=', 'exclusaojudicial.id_exclusaojudicial')
+                                ->where('envolvido.id_exclusaojudicial', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','exclusao'))
@@ -177,8 +168,8 @@ class ExclusaoRepository extends BaseRepository
             $registros = Cache::tags('exclusao')->remember('julgamento_exclusao:'.$ano, self::$expiration, function() use ($ano){
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
                     ->leftJoin('envolvido', function ($join) {
-                        $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
-                                ->where('envolvido.id_exclusao', '<>', 0);
+                        $join->on('envolvido.id_exclusaojudicial', '=', 'exclusaojudicial.id_exclusaojudicial')
+                                ->where('envolvido.id_exclusaojudicial', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','exclusao'))
@@ -189,10 +180,10 @@ class ExclusaoRepository extends BaseRepository
         {
             $registros = Cache::tags('exclusao')->remember('julgamento_exclusao:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$this->unidade.'%')
+                    ->where('exclusaojudicial.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
-                                ->where('envolvido.id_exclusao', '<>', 0);
+                        $join->on('envolvido.id_exclusaojudicial', '=', 'exclusaojudicial.id_exclusaojudicial')
+                                ->where('envolvido.id_exclusaojudicial', '<>', 0);
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','exclusao'))
@@ -209,17 +200,17 @@ class ExclusaoRepository extends BaseRepository
 
             $registros = Cache::tags('exclusao')->remember('prazo_exclusao', self::$expiration, function() {
                 return $this->model
-                    ->selectRaw('exclusao.*, 
-                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
-                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_exclusao=exclusao.id_exclusao ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
+                    ->selectRaw('exclusaojudicial.*, 
+                    (SELECT  motivo FROM sobrestamento WHERE sobrestamento.id_exclusaojudicial=exclusaojudicial.id_exclusaojudicial ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo,  
+                    (SELECT  motivo_outros FROM sobrestamento WHERE   sobrestamento.id_exclusaojudicial=exclusaojudicial.id_exclusaojudicial ORDER BY sobrestamento.id_sobrestamento DESC LIMIT 1) AS motivo_outros, 
                     envolvido.cargo, envolvido.nome, DIASUTEIS(abertura_data,DATE(NOW())) AS dutotal, 
                     b.dusobrestado, (DIASUTEIS(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis')
                     ->leftJoin(
-                        DB::raw("(SELECT id_exclusao, SUM(DIASUTEIS(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
-                        WHERE termino_data != '0000-00-00' AND id_exclusao != '' GROUP BY id_exclusao ORDER BY sobrestamento.id_exclusao ASC LIMIT 1) b"),
-                        'b.id_exclusao', '=', 'exclusao.id_exclusao')
+                        DB::raw("(SELECT id_exclusaojudicial, SUM(DIASUTEIS(inicio_data, termino_data)+1) AS dusobrestado FROM sobrestamento
+                        WHERE termino_data != '0000-00-00' AND id_exclusaojudicial != '' GROUP BY id_exclusaojudicial ORDER BY sobrestamento.id_exclusaojudicial ASC LIMIT 1) b"),
+                        'b.id_exclusaojudicial', '=', 'exclusaojudicial.id_exclusaojudicial')
                     ->leftJoin('envolvido', function ($join){
-                        $join->on('envolvido.id_exclusao', '=', 'exclusao.id_exclusao')
+                        $join->on('envolvido.id_exclusaojudicial', '=', 'exclusaojudicial.id_exclusaojudicial')
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
@@ -245,7 +236,7 @@ class ExclusaoRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('adl.cdopm','like',$this->unidade.'%')
+                    ->where('exclusaojudicial.cdopm','like',$this->unidade.'%')
                     ->get(); 
 
             });   
@@ -274,7 +265,7 @@ class ExclusaoRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('adl.sjd_ref_ano','=',$ano)
+                    ->where('exclusaojudicial.sjd_ref_ano','=',$ano)
                     ->get();
             });
                     
@@ -297,8 +288,8 @@ class ExclusaoRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
-                    ->where('adl.cdopm','like',$this->unidade.'%')
-                    ->where('adl.sjd_ref_ano','=',$ano)
+                    ->where('exclusaojudicial.cdopm','like',$this->unidade.'%')
+                    ->where('exclusaojudicial.sjd_ref_ano','=',$ano)
                     ->get();
 
             });   

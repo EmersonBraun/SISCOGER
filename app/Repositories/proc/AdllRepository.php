@@ -164,7 +164,7 @@ class AdllRepository extends BaseRepository
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','adl'))
-                    ->where('cdopm','like',$this->unidade.'%')
+                    ->where('adl.cdopm','like',$this->unidade.'%')
                     ->get();
             });
         }

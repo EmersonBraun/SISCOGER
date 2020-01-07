@@ -123,7 +123,7 @@
         <li class=""><a href="<?php echo e(route('notacoger.index',date('Y'))); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Notas COGER</span></a></li>
         <?php endif; ?>
         <?php if(hasPermissionTo('listar-apresentacao')): ?>
-        <li class=""><a href="<?php echo e(route('apresentacao.index',['ano' => date('Y'), 'cdopm' => session('cdopmbase')])); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Lista apresentações</span></a></li>
+        <li class=""><a href="<?php echo e(route('apresentacao.index',['ano' => date('Y'), 'mes' => num_dois_digitos((int) date('m'), true), 'cdopm' => session('cdopmbase')])); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Lista apresentações</span></a></li>
         <?php endif; ?>
         
         <?php if(hasPermissionTo('listar-locais')): ?>

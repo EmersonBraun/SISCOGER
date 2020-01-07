@@ -77,7 +77,7 @@
                 {!! Form::close() !!}
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento dproc="desercao" idp="{{$proc['id_desercao']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento dproc="desercao" idp="{{$proc['id_desercao']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" ></v-movimento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos

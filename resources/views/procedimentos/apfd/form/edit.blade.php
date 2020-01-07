@@ -79,7 +79,7 @@
                 <v-membro dproc="apfd" idp="{{$proc['id_apfd']}}"></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento dproc="apfd" idp="{{$proc['id_apfd']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento dproc="apfd" idp="{{$proc['id_apfd']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" ></v-movimento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos

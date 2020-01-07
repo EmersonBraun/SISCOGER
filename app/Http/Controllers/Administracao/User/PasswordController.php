@@ -47,8 +47,7 @@ class PasswordController extends Controller
     public function passedit($id) //formulário para atualizar senha
     {
         $user = $this->user->findOrFail($id);
-        if ($user->termos == 0) return view('administracao.usuarios.reset', compact('user'));
-        else return view('administracao.usuarios.pass', compact('user'));  
+        return view('administracao.usuarios.pass', compact('user'));  
 
 
     }
@@ -65,8 +64,7 @@ class PasswordController extends Controller
 
         if($update) {
             toast()->success('atualizado com sucesso!', 'Usuário');
-            if ($user->termos == 0) return redirect()->route('user.termocriar',$user->id);
-            else return redirect()->route('home');
+            return redirect()->route('home');
         }
 
         toast()->warning('Não Atualizado!', 'ERRO!');

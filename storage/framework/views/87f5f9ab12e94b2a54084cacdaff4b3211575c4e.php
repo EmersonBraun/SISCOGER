@@ -1,14 +1,7 @@
 <!-- Messagens-->
-<v-messages></v-messages>
-
-
-<!-- Notificações -->
+<!-- <v-messages></v-messages>
 <v-notifications></v-notifications>
-
-
-<!-- Tasks: style can be found in dropdown.less -->
-<v-tasks></v-tasks>
-
+<v-tasks></v-tasks> -->
 
 <li>
     <?php if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') &&

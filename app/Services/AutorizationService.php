@@ -41,6 +41,7 @@ class AutorizationService
         
         // atribuições
         $this->nivel = $this->getCorrectNivel();
+        // dd(session('nivel'));
         $this->name = $name;
         try {
             $this->cdopm = $data['CDOPM'];
@@ -102,6 +103,11 @@ class AutorizationService
         return false;
     }
 
+    public function isCRPM()
+    {
+        if(strlen(session('cdopmbase')) == 1) return true;
+    }
+
     /* se pode ver todas unidades já passa */
     public function verTodasOPM()
     {
@@ -111,6 +117,9 @@ class AutorizationService
 
     public function isTheSameOPM()
     {
+        /* comparativo por CRPM */
+        $sammeCRPM = $this->comparateByCRPM();
+        if($sammeCRPM) return true;
         /* comparativo por código base */
         $equalCodeBase = $this->comparateByCodeBase();
         if($equalCodeBase) return true;
@@ -123,6 +132,12 @@ class AutorizationService
             if($equalName) return true;
         }
         return false;  
+    }
+
+    public function comparateByCRPM()
+    {
+        if($this->isCRPM() && session('cdopmbase') == substr($this->cdopm,0,1)) return true;
+        return false;
     }
  
     public function comparateByCodeBase()

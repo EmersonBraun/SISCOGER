@@ -156,7 +156,7 @@ class FatdRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('fatd')->remember('julgamento_fatd:'.$this->unidade, $this->expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')
+                return $this->model->where('fatd.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
                                 ->where('envolvido.id_fatd', '<>', 0);
@@ -188,7 +188,7 @@ class FatdRepository extends BaseRepository
         {
             $registros = Cache::tags('fatd')->remember('julgamento_fatd:'.$ano.':'.$this->unidade, $this->expiration, function() use ($ano) {
                 return $this->model->where('fatd.sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$this->unidade.'%')
+                    ->where('fatd.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_fatd', '=', 'fatd.id_fatd')
                                 ->where('envolvido.id_fatd', '<>', 0);
@@ -351,7 +351,7 @@ class FatdRepository extends BaseRepository
         {
             $registros = Cache::tags('fatd')->remember('fora_prazo_fatd:'.$this->unidade, 60, function() {
                 return DB::connection('sjd')->select('SELECT * FROM
-                (SELECT fatd.id_fatd, envolvido.cargo, envolvido.nome, cdopm, 
+                (SELECT fatd.id_fatd, envolvido.cargo, envolvido.nome, fatd.cdopm, 
                     sjd_ref, sjd_ref_ano, abertura_data, 
                     DIASUTEIS(abertura_data,DATE(NOW()))+1 AS dutotal,
                     b.dusobrestado,

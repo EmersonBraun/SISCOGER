@@ -156,7 +156,7 @@ class ApfdRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('apfd')->remember('julgamento_apfd:'.$this->unidade, self::$expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')
+                return $this->model->where('apfd.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_apfd', '=', 'apfd.id_apfd')
                                 ->where('envolvido.id_apfd', '<>', 0);

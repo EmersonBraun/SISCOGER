@@ -156,7 +156,7 @@ class CdRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('cd')->remember('julgamento_cd:'.$this->unidade, self::$expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')
+                return $this->model->where('cd.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_cd', '=', 'cd.id_cd')
                                 ->where('envolvido.id_cd', '<>', 0);

@@ -23,13 +23,14 @@ class ApresentacaoController extends Controller
         $this->pm = $pm;
     }
 
-    public function index($ano="",$cdopm="")
+    public function index($ano="",$mes="", $cdopm="")
     {
         if(!$ano) $ano = (int) date('Y');
+        if(!$mes) $mes = num_dois_digitos((int) date('m'), true);
         if(!$cdopm) $cdopm = session('cdopmbase');
-        $registros = $this->repository->opmAno($cdopm, $ano);
+        $registros = $this->repository->opmAnoMes($ano, $mes, $cdopm);
 
-        return view('apresentacao.apresentacao.list.index', compact('registros','ano','cdopm'));
+        return view('apresentacao.apresentacao.list.index', compact('registros','ano','mes','cdopm'));
     }
 
     public function apagados($ano="",$cdopm="")
@@ -45,9 +46,10 @@ class ApresentacaoController extends Controller
     {
         $dados = $request->all();
         if(!$dados['ano']) $dados['ano'] = (int) date('Y');
-        if(!$dados['cdopm']) $dados['cdopm'] = session('cdopmbase');
+        if(!$dados['mes']) $dados['mes'] = num_dois_digitos((int) date('m'), true);
+        $dados['cdopm'] = !$dados['cdopm'] ? session('cdopmbase'): corta_zeros($dados['cdopm']);
         
-        return redirect()->route('apresentacao.index',['ano' => $dados['ano'], 'cdopm' => corta_zeros($dados['cdopm'])]);
+        return redirect()->route('apresentacao.index',['ano' => $dados['ano'], 'mes' => $dados['mes'], 'cdopm' => $dados['cdopm']]);
     }
 
     public function memorando($id)

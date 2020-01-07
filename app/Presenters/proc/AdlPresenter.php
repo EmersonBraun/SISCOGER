@@ -13,7 +13,8 @@ class AdlPresenter extends Presenter {
 
     public function andamentocoger()
     {
-        return array_get(config('sistema.andamento','Não Há'), $this->id_andamentocoger);
+        if($this->id_andamentocoger) return array_get(config('sistema.andamento','Não Há'), $this->id_andamentocoger);
+        return '';
     }
 
     public function motivoconselho()

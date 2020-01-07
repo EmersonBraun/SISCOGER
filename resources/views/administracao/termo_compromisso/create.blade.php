@@ -27,10 +27,4 @@
 @stop
 
 @section('js')
-<script type="text/javascript">
-$('body').scrollspy({ target: '#list-example' })
-    $('[data-spy="scroll"]').each(function () {
-  var $spy = $(this).scrollspy('refresh')
-})
-</script>
 @stop

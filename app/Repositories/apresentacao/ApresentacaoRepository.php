@@ -68,6 +68,13 @@ class ApresentacaoRepository extends BaseRepository
         return $registros;
     }
 
+    public function opmAnoMes($ano, $mes, $cdopm)
+	{
+        if(hasPermissionTo('listar-apresentacoes-reservadas')) $registros = $this->reservadosMes($ano, $mes, $cdopm);
+        else $registros = $this->publicosMes($ano, $mes, $cdopm);
+        return $registros;
+    }
+
     public function publicos($cdopm, $ano)
 	{
         $registros = Cache::tags('apresentacao')->remember('apresentacao:publico:'.$cdopm.$ano, self::$expiration, function() use($cdopm, $ano){
@@ -92,6 +99,36 @@ class ApresentacaoRepository extends BaseRepository
             ->orWhere('pessoa_opm_codigo','like',"$cdopm%")
             ->orWhere('pessoa_unidade_lotacao_codigo','like',"$cdopm%")
             ->where('comparecimento_data','like',"$ano-%")
+            ->get();
+        });
+
+        return $registros;
+    } 
+
+    public function publicosMes($ano, $mes, $cdopm)
+	{
+        $registros = Cache::tags('apresentacao')->remember('apresentacao:publico:'.$cdopm.$ano.$mes, self::$expiration, function() use($ano, $mes, $cdopm){
+            return $this->model
+            ->orWhere('pessoa_opm_codigo','like',"$cdopm%")
+            ->orWhere('pessoa_unidade_lotacao_codigo','like',"$cdopm%")
+            ->where([
+                ['id_apresentacaoclassificacaosigilo','<=','2'],
+                ['comparecimento_data','like',"$ano-$mes-%"]
+            ])
+            ->get();
+            // dd($registros);
+        });
+
+        return $registros;
+    } 
+
+    public function reservadosMes($ano, $mes, $cdopm)
+	{
+        $registros = Cache::tags('apresentacao')->remember('apresentacao:reservados:'.$cdopm.$ano.$mes, self::$expiration, function() use($ano, $mes, $cdopm){
+            return $this->model
+            ->orWhere('pessoa_opm_codigo','like',"$cdopm%")
+            ->orWhere('pessoa_unidade_lotacao_codigo','like',"$cdopm%")
+            ->where('comparecimento_data','like',"$ano-$mes-%")
             ->get();
         });
 

@@ -59,7 +59,7 @@ class SindicanciaRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('sindicancia')->remember('todos_sindicancia'.$this->unidade, $this->expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')->get();
+                return $this->model->where('sindicancia.cdopm','like',$this->unidade.'%')->get();
             });
         }
 
@@ -77,7 +77,7 @@ class SindicanciaRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('sindicancia')->remember('todos_sindicancia'.$ano.$this->unidade, $this->expiration, function() use ($ano) {
-                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+                return $this->model->where('sindicancia.cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
             });
         }
         return $registros;
@@ -99,7 +99,7 @@ class SindicanciaRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('sindicancia')->remember('andamento_sindicancia'.$this->unidade, $this->expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')
+                return $this->model->where('sindicancia.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -127,7 +127,7 @@ class SindicanciaRepository extends BaseRepository
         {
             $registros = Cache::tags('sindicancia')->remember('andamento_sindicancia'.$ano.$this->unidade, $this->expiration, function() use ($ano) {
                 return $this->model->where('sjd_ref_ano', '=' ,$ano)
-                    ->where('cdopm','like',$this->unidade.'%')
+                    ->where('sindicancia.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                         ->where('envolvido.situacao', '=', 'Presidente')
@@ -156,7 +156,7 @@ class SindicanciaRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('sindicancia')->remember('julgamento_sindicancia'.$this->unidade, $this->expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')
+                return $this->model->where('sindicancia.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                                 ->where('envolvido.id_sindicancia', '<>', 0);
@@ -189,7 +189,7 @@ class SindicanciaRepository extends BaseRepository
         {
             $registros = Cache::tags('sindicancia')->remember('julgamento_sindicancia'.$ano.$this->unidade, $this->expiration, function() use ($ano) {
                 return $this->model
-                    ->where('cdopm','like',$this->unidade.'%')
+                    ->where('sindicancia.cdopm','like',$this->unidade.'%')
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                                 ->where('envolvido.id_sindicancia', '<>', 0);
@@ -314,7 +314,7 @@ class SindicanciaRepository extends BaseRepository
          return DB::connection('sjd')
          ->select('SELECT * FROM (
              SELECT sindicancia.id_sindicancia, andamento, envolvido.cargo, 
-             envolvido.nome, cdopm, sjd_ref, sjd_ref_ano, abertura_data, 
+             envolvido.nome, sindicancia.cdopm, sjd_ref, sjd_ref_ano, abertura_data, 
              DIASUTEIS(abertura_data,DATE(NOW())) AS dutotal,
              b.dusobrestado,
              (DIASUTEIS(abertura_data,DATE(NOW()))-IFNULL(b.dusobrestado,0)) AS diasuteis 

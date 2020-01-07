@@ -127,7 +127,7 @@
                 <v-membro dproc="ipm" idp="{{$proc['id_ipm']}}"></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento dproc="ipm" idp="{{$proc['id_ipm']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento dproc="ipm" idp="{{$proc['id_ipm']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" ></v-movimento>
             </v-tab-item>
             <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
                 <v-sobrestamento dproc="ipm" idp="{{$proc['id_ipm']}}" ></v-sobrestamento>

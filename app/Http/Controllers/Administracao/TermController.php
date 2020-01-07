@@ -50,9 +50,9 @@ class TermController extends Controller
         if($store) {
             $this->user->clearCache();
             toast()->success('Criado com sucesso','Termo');
-            return redirect()->route('home'); 
+            return view('administracao.usuarios.reset', compact('user')); 
         }
         toast()->warning('Erro ao criar','Termo');
-        return redirect()->route('home');
+        return redirect()->route('user.senha');
     }
 }

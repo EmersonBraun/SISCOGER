@@ -25,18 +25,18 @@
         </div>
         @endif
         <div class='col-md-2 col-xs-6  pull-right'>
-            <div class="pull-right">
-                <label for="navegaco">Listar ano: </label>
-                <select class="" id="navegacao" data-toggle="tooltip" data-placement="bottom" 
-                title="O ano apenas modifica a listagem,os dados continuam sendo inseridos em {{date('Y')}}"> 
-                    <option selected='selected'> {{ $ano }} </option>
-                    @for ($i = date('Y'); $i >= 2008; $i--)
-                        @if($i != $ano)
-                        <option onclick="javascript:location.href='{{route('it.'.$page,['ano' => $i])}}'"> {{ $i }} </option>
-                        @endif
-                    @endfor  
-                </select> 
-            </div>
+            <button type="button" class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" >
+                Listar ano:
+                <span class="caret" data-toggle="tooltip" data-placement="bottom" 
+                title="O ano apenas modifica a listagem,os dados continuam sendo inseridos em {{date('Y')}}"></span>
+            </button>
+            <ul class="dropdown-menu">
+                @for ($i = date('Y'); $i >= 2008; $i--)
+                    @if($i != $ano)
+                    <li><a href="{{route('it.'.$page,['ano' => $i])}}">{{ $i }}</a></li>
+                    @endif
+                @endfor 
+            </ul>
         </div>
     <div>
 </section>

@@ -49,7 +49,7 @@ class UserController extends Controller
 
     public function apagados()
     {
-        $users =  $this->user->onlyTrashed();        
+        $users =  $this->user->where('deleted_at','<>','')->get();        
         return view('administracao.usuarios.apagados',compact('users'));
     }
 
@@ -113,7 +113,7 @@ class UserController extends Controller
         if(!$subquadro) $subquadro = '';
         $opm_descricao = isset($pm['OPM_DESCRICAO']) ? $pm['OPM_DESCRICAO']: $pm['opm_descricao']; //nome unidade
         if(!$opm_descricao) $opm_descricao = '';
-        $cdopm = isset($pm['CDOPM']) ? $pm['CDOPM']: $pm['cdopm']; //código da unidade
+        $cdopm = isset($pm['CDOPM']) ? corta_zeros($pm['CDOPM']): corta_zeros($pm['cdopm']); //código da unidade
         if(!$cdopm) array_push($validated['msg'],'CDOPM');
 
         if($validated['msg']){
@@ -123,7 +123,7 @@ class UserController extends Controller
             $validated['pm'] = [
                 'rg' => $this->rg,
                 'nome' => $nome,
-                'email' => $email,
+                'email' => strtolower($email),
                 'classe' => $classe,
                 'cargo' => $cargo, //graduação
                 'quadro' => $quadro,
@@ -162,7 +162,9 @@ class UserController extends Controller
         ]);
         
         $user = $this->user->findOrFail($id);
-        $input = $request->only(['rg', 'email']); //Recupere os campos rg, email
+        $input = $request->only(['rg', 'email', 'cdopm']); //Recupere os campos rg, email
+        $input['email'] = strtolower($request['email']);
+        $input['opm_descricao'] = opm($request['cdopm']);
         $update = $user->fill($input)->save();
         
         if($update) {
