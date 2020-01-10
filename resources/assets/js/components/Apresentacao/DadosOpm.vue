@@ -25,6 +25,7 @@
                                 <option value="6">5CRPM</option>
                                 <option value="7">6CRPM</option>
                                 <option value="9">CCB</option>
+                                <option value="90000008">GOST</option>
                             </select>
                         </v-label>
                         <v-label lg="6" md="6" label="opm_intermediaria_nome_por_extenso" title="Nome da Unidade Intermediaria por extenso">

@@ -51,7 +51,7 @@
                                     @endif
                                     @if(hasPermissionTo('apagar-pad')) 
                                     <a class="btn btn-danger" href="{{route('pad.destroy',$registro['id_pad'])}}"
-                                        onclick="return  confirmApagar('pad',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
+                                    onclick="return confirm('Tem certeza que quer apagar?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
                                 </span>

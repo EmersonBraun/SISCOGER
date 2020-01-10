@@ -14,7 +14,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="registro in registros" :key="registro.id_punicao">
-                            <td>{{ registro.data }}</td>
+                            <td>{{ registro.punicao_data }}</td>
                             <td>{{ registro.classpunicao || 'Não cadastrado' }}</td>
                             <td>{{ registro.gradacao || 'Não cadastrado' }}</td>
                             <td>{{ registro.descricao_txt }}</td>

@@ -2631,3 +2631,26 @@ be a descendant of the grid when it is being dragged.
 	padding-right: 2px !important;
 }
 
+.label-primary {
+    background-color: 
+    #337ab7;
+}
+
+.label-success {
+    background-color: 
+    #5cb85c;
+}
+
+.label-error {
+    color: #5bc0de;
+}
+
+.label-warning {
+    background-color: #f0ad4e;
+}
+
+.label-danger {
+    background-color: #d9534f;
+}
+
+

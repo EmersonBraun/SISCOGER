@@ -131,12 +131,10 @@
                         name="relatorio1_file"
                         dproc="proc_outros" idp="{{$proc['id_proc_outros']}}"
                         :ext="['pdf']" 
-                        ></file-upload>--alterar para vários--
-                --nome documento--
-                --data documento--
+                        ></file-upload>
             </v-tab-item>
             <v-tab-item title="Resultado" idp="resultado">
-               --procedimento resultante--
+                <v-proced-origem dproc="proc_outros" destino dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
                 <v-membro dproc="proc_outros" idp="{{$proc['id_proc_outros']}}"></v-membro>
@@ -145,7 +143,7 @@
                 <v-movimento dproc="proc_outros" idp="{{$proc['id_proc_outros']}}"></v-movimento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
-                Encaminhamentos
+                --Encaminhamentos, em desenvolvimento--
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
                 <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="proc_outros" idp="{{$proc['id_proc_outros']}}" ></v-arquivo>

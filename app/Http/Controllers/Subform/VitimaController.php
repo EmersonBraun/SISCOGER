@@ -25,6 +25,7 @@ class VitimaController extends Controller
         $dados = $request->all();
         $create = $this->repository->create($dados);
         if($create->exists) {
+            $this->repository->clearCache();
             return response()->json(['success' => true], 200);
         }
         return response()->json(['success' => false], 200);
@@ -36,6 +37,7 @@ class VitimaController extends Controller
         $edit = $this->repository->findAndUpdate($id, $dados);
 
         if($edit) {
+            $this->repository->clearCache();
             return response()->json(['success' => true], 200);
         }
         return response()->json(['success' => false], 200);
@@ -45,6 +47,7 @@ class VitimaController extends Controller
     {
         $destroy = $this->repository->findAndDelete($id);
         if($destroy) {
+            $this->repository->clearCache();
             return response()->json(['success' => true], 200);
         }
         return response()->json(['success' => false], 200);

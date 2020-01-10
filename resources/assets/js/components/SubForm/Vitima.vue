@@ -9,7 +9,7 @@
             </div>
             <div v-else>
                 <div class="row">
-                    <form id="formSobrestamento" name="formSobrestamento">
+                    <form id="formVitima" name="formVitima">
 
                         <input type="hidden" :name="'id_'+dproc" :value="idp">
 
@@ -207,6 +207,7 @@
         methods: {
              listVitima(){
                 let urlIndex = `${this.$root.baseUrl}api/vitima/list/${this.dproc}/${this.idp}`;
+                console.log(urlIndex)
                 if(this.dproc && this.idp){
                     axios
                     .get(urlIndex)
@@ -221,8 +222,8 @@
             createVitima(){
                 let urlCreate = `${this.$root.baseUrl}api/vitima/store`
 
-                let formSobrestamento = document.getElementById('formSobrestamento');
-                let data = new FormData(formSobrestamento);
+                let formVitima = document.getElementById('formVitima');
+                let data = new FormData(formVitima);
 
                 axios.post( urlCreate,data)
                 .then(this.listVitima())
@@ -247,7 +248,7 @@
             editVitima(){
                 let urledit = `${this.$root.baseUrl}api/vitima/edit/${this.toEdit}`
 
-                let formData = document.getElementById('formData');
+                let formData = document.getElementById('formVitima');
                 let data = new FormData(formData);
                 
                 axios.post( urledit,data)

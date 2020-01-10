@@ -61,10 +61,10 @@ class Sobrestamento extends Eloquent
 		'id_proc_outros' => 'int'
 	];
 
-	protected $dates = [
-		'inicio_data',
-		'termino_data'
-	];
+	// protected $dates = [
+	// 	'inicio_data',
+	// 	'termino_data'
+	// ];
 
 	protected $fillable = [
 		'rg',

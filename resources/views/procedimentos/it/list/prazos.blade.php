@@ -63,7 +63,7 @@
                             @endif
                             @else
                             <td class='col-xs-2 col-md-2'>
-                                <span class='label label-error'>S/Data abertura</span>
+                                S/Data abertura
                             </td>
                             @endif
                             @elseif ( sistema('andamentocd',$registro["id_andamento"]) == 'CONCLUÍDO')
@@ -72,11 +72,11 @@
                             </td>
                             @elseif (sistema('andamentocd',$registro['id_andamento']) == '')
                             <td class='col-xs-2 col-md-2'>
-                                <span class='label label-danger'>S/Andamento</span>
+                                S/Andamento
                             </td>
                             @elseif ( sistema('andamentocd',$registro['id_andamento']) == 'SOBRESTADO')
                             <td class='col-xs-2 col-md-2'>
-                                <span class='label label-error'>Sobrestado</span>
+                                Sobrestado
                             </td>
                             @endif
                         </tr>

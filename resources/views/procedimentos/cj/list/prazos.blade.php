@@ -66,7 +66,7 @@
                             @endif
                             @else
                             <td>
-                                <span class='label label-error'>S/Data abertura</span>
+                                S/Data abertura
                             </td>
                             @endif
                             @elseif ( sistema('andamentocj',$registro["id_andamento"]) == 'CONCLUÍDO')
@@ -75,11 +75,11 @@
                             </td>
                             @elseif (sistema('andamentocj',$registro['id_andamento']) == '')
                             <td>
-                                <span class='label label-danger'>S/Andamento</span>
+                                S/Andamento
                             </td>
                             @elseif ( sistema('andamentocj',$registro['id_andamento']) == 'SOBRESTADO')
                             <td>
-                                <span class='label label-error'>Sobrestado</span>
+                                Sobrestado
                             </td>
                             @endif
                         </tr>

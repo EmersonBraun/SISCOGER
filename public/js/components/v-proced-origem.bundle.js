@@ -1,1 +1,1035 @@
-webpackJsonp([24],{WK5o:function(t,o,e){var a=e("VU/8")(e("a5QF"),e("hvet"),!1,function(t){e("ksZf")},"data-v-06ee4aaa",null);t.exports=a.exports},a5QF:function(t,o,e){"use strict";Object.defineProperty(o,"__esModule",{value:!0});var a=e("s9Db");function s(t,o,e){return o in t?Object.defineProperty(t,o,{value:e,enumerable:!0,configurable:!0,writable:!0}):t[o]=e,t}o.default={mixins:[a.a],props:{unique:{type:Boolean,default:!1},idp:{type:String,default:""},dproc:{type:String,default:""},dref:{type:String,default:""},dano:{type:String,default:""}},data:function(){var t;return s(t={proc:"",ref:"",ano:"",opm:"",action:"editar",procedimentos:[]},"action","proc"),s(t,"params",""),s(t,"finded",!1),s(t,"counter",0),s(t,"id_proc",""),s(t,"origin",""),s(t,"only",!1),t},mounted:function(){this.listProc(),this.verifyOnly()},filters:{uppercase:function(t){return t?t.toUpperCase():""}},computed:{years:function(){var t=(new Date).getFullYear();return Array.from({length:t-2008},function(t,o){return 2009+o})},canDelete:function(){return this.$root.hasPermission("apagar-procedimento-origem")}},methods:{searchProc:function(){var t=this;this.opm="";var o=this.$root.baseUrl+"api/dados/proc/"+this.proc+"/"+this.ref+"/"+this.ano;this.proc&&this.ref&&this.ano&&axios.get(o).then(function(o){t.opm=o.data.opm,t.idp=o.data.id,t.finded=o.data.success}).catch(function(t){return console.log(t)})},createProc:function(){var t=this,o=this.$root.baseUrl+"api/ligacao/store",e=document.getElementById("formProcOrigem"),a=new FormData(e);axios.post(o,a).then(this.listProc).catch(function(o){console.log(o),t.erro="Erro ao enviar arquivo"})},listProc:function(){var t=this,o=this.idp?this.$root.baseUrl+"api/ligacao/list/"+this.dproc+"/"+this.idp:this.$root.baseUrl+"api/ligacao/list/"+this.dproc+"/"+this.dref+"/"+this.dano;console.log(o),axios.get(o).then(function(o){t.procedimentos=o.data}).then(this.clear).catch(function(t){return console.log(t)})},showProc:function(t,o,e){var a=""+this.$root.baseUrl+t+"/"+this.action+"/"+o+"/"+e;window.open(a,"_blank")},removeProc:function(t){var o=this.$root.baseUrl+"api/ligacao/destroy/"+t;axios.delete(o).then(this.listProc).catch(function(t){return console.log(t)})},verifyOnly:function(){1==this.unique?this.only=!0:this.only=!1},cancel:function(){this.add=!1,this.proc="",this.ref="",this.ano="",this.opm=""},clear:function(){this.proc="",this.ref="",this.ano="",this.opm=""}},watch:{proc:function(){var t="apfdc"==this.proc||"apfdm"==this.proc?"apfd":this.proc;this.id_proc="id_"+t,this.origin=t}}}},hvet:function(t,o){t.exports={render:function(){var t=this,o=t.$createElement,e=t._self._c||o;return e("div",{staticClass:"col-lg-12 col-md-12 col-xs-12 card"},[t._m(0),t._v(" "),t.only?t._e():e("div",{staticClass:"card-body",class:t.add?"bordaform":""},[t.add?e("div",[e("div",{staticClass:"row",attrs:{id:"ligacaoForm1"}},[e("form",{attrs:{id:"formProcOrigem",name:"formProcOrigem"}},[e("input",{attrs:{type:"hidden",name:t.id_proc},domProps:{value:t.idp}}),t._v(" "),e("input",{attrs:{type:"hidden",name:"origem_proc"},domProps:{value:t.origin}}),t._v(" "),e("input",{attrs:{type:"hidden",name:"destino_proc"},domProps:{value:t.dproc}}),t._v(" "),e("input",{attrs:{type:"hidden",name:"destino_sjd_ref"},domProps:{value:t.dref}}),t._v(" "),e("input",{attrs:{type:"hidden",name:"destino_sjd_ref_ano"},domProps:{value:t.dano}}),t._v(" "),e("div",{staticClass:"col-lg-3 col-md-3 col-xs-3 form-group"},[e("label",{attrs:{for:"origem_proc"}},[t._v("Processo/Procedimento")]),e("br"),t._v(" "),e("select",{directives:[{name:"model",rawName:"v-model",value:t.proc,expression:"proc"}],staticClass:"form-control",attrs:{name:"origem_proc"},on:{change:function(o){var e=Array.prototype.filter.call(o.target.options,function(t){return t.selected}).map(function(t){return"_value"in t?t._value:t.value});t.proc=o.target.multiple?e:e[0]}}},[e("option",{attrs:{value:""}},[t._v("Escolha")]),t._v(" "),e("option",{attrs:{value:"ipm"}},[t._v("IPM")]),t._v(" "),e("option",{attrs:{value:"sindicancia"}},[t._v("SINDICÂNCIA")]),t._v(" "),e("option",{attrs:{value:"cd"}},[t._v("CD")]),t._v(" "),e("option",{attrs:{value:"cj"}},[t._v("CJ")]),t._v(" "),e("option",{attrs:{value:"apfdc"}},[t._v("APFDC")]),t._v(" "),e("option",{attrs:{value:"apfdm"}},[t._v("APFDM")]),t._v(" "),e("option",{attrs:{value:"fatd"}},[t._v("FATD")]),t._v(" "),e("option",{attrs:{value:"iso"}},[t._v("ISO")]),t._v(" "),e("option",{attrs:{value:"desercao"}},[t._v("DESERÇÃO")]),t._v(" "),e("option",{attrs:{value:"it"}},[t._v("IT")]),t._v(" "),e("option",{attrs:{value:"adl"}},[t._v("ADL")]),t._v(" "),e("option",{attrs:{value:"pad"}},[t._v("PAD")]),t._v(" "),e("option",{attrs:{value:"sai"}},[t._v("SAI")]),t._v(" "),e("option",{attrs:{value:"proc_outros"}},[t._v("PROC. OUTROS")])])]),t._v(" "),e("div",{staticClass:"col-lg-2 col-md-2 col-xs 2"},[e("label",{attrs:{for:"origem_sjd_ref"}},[t._v("Referência")]),e("br"),t._v(" "),e("input",{directives:[{name:"model",rawName:"v-model",value:t.ref,expression:"ref"}],staticClass:"numero form-control",attrs:{type:"text",maxlength:"4",name:"origem_sjd_ref",placeholder:"Nº",value:""},domProps:{value:t.ref},on:{input:function(o){o.target.composing||(t.ref=o.target.value)}}})]),t._v(" "),e("div",{staticClass:"col-lg-2 col-md-2 col-xs 2"},[e("label",{attrs:{for:"origem_sjd_ref_ano"}},[t._v("Ano")]),e("br"),t._v(" "),e("select",{directives:[{name:"model",rawName:"v-model",value:t.ano,expression:"ano"}],staticClass:"form-control",attrs:{name:"origem_sjd_ref_ano"},on:{change:function(o){var e=Array.prototype.filter.call(o.target.options,function(t){return t.selected}).map(function(t){return"_value"in t?t._value:t.value});t.ano=o.target.multiple?e:e[0]}}},t._l(t.years,function(o){return e("option",{key:o,domProps:{value:o}},[t._v(t._s(o))])}),0)]),t._v(" "),e("div",{staticClass:"col-lg-1 col-md-1 col-xs 1"},[e("label",[t._v("Buscar")]),e("br"),t._v(" "),e("a",{staticClass:"btn btn-info btn-block",on:{click:function(o){return t.searchProc()}}},[e("i",{staticClass:"fa fa-search",staticStyle:{color:"white"}})])]),t._v(" "),e("div",{staticClass:"col-lg-2 col-md-2 col-xs 2"},[e("label",[t._v("OM")]),e("br"),t._v(" "),e("input",{staticClass:"form-control",attrs:{readonly:"",type:"text",size:"35",name:"origem_opm",placeholder:"Apenas para conferência"},domProps:{value:t.opm}})]),t._v(" "),e("div",{staticClass:"col-lg-1 col-md-1 col-xs 1"},[e("label",[t._v("Cancelar")]),e("br"),t._v(" "),e("a",{staticClass:"btn btn-danger btn-block",on:{click:t.cancel}},[e("i",{staticClass:"fa fa-times",staticStyle:{color:"white"}})])]),t._v(" "),e("div",{staticClass:"col-lg-1 col-md-1 col-xs 1"},[e("label",[t._v("Adicionar")]),e("br"),t._v(" "),e("a",{staticClass:"btn btn-success btn-block",attrs:{disabled:!t.finded},on:{click:t.createProc}},[e("i",{staticClass:"fa fa-plus",staticStyle:{color:"white"}})])])])])]):e("div",[e("button",{staticClass:"btn btn-success btn-block",on:{click:function(o){t.add=!t.add}}},[e("i",{staticClass:"fa fa-plus"}),t._v(" Adicionar documento de origem")])])]),t._v(" "),e("div",{staticClass:"card-footer"},[t.procedimentos.length?e("div",{staticClass:"row bordaform"},[e("div",{staticClass:"col-sm-12"},[e("table",{staticClass:"table table-hover"},[t._m(1),t._v(" "),e("tbody",t._l(t.procedimentos,function(o,a){return e("tr",{key:a},[e("td",[t._v("\n                                "+t._s(a+1)+"\n                            ")]),t._v(" "),e("td",[t._v("\n                                "+t._s(t._f("uppercase")(o.origem_proc))+" \n                            ")]),t._v(" "),e("td",[t._v("\n                                "+t._s(o.origem_sjd_ref)+"\n                            ")]),t._v(" "),e("td",[t._v("\n                                "+t._s(o.origem_sjd_ref_ano)+"\n                            ")]),t._v(" "),e("td",[e("div",{staticClass:"btn-group",attrs:{role:"group","aria-label":"First group"}},[e("a",{staticClass:"btn btn-primary",staticStyle:{color:"white"},attrs:{type:"button",target:"_blanck"},on:{click:function(e){return t.showProc(o.origem_proc,o.origem_sjd_ref,o.origem_sjd_ref_ano)}}},[e("i",{staticClass:"fa fa-eye"})]),t._v(" "),t.canDelete?e("a",{staticClass:"btn btn-danger",staticStyle:{color:"white"},attrs:{type:"button"},on:{click:function(e){return t.removeProc(o.id_ligacao)}}},[e("i",{staticClass:"fa fa-trash"})]):t._e()])])])}),0)])])]):!t.procedimentos.length&&t.only?e("div",[t._m(2)]):t._e()])])},staticRenderFns:[function(){var t=this.$createElement,o=this._self._c||t;return o("div",{staticClass:"card-header"},[o("h5",[o("b",[this._v("Procedimento(s) de Origem (apenas se houver)")])])])},function(){var t=this,o=t.$createElement,e=t._self._c||o;return e("thead",[e("tr",[e("th",{staticClass:"col-sm-2"},[t._v("#")]),t._v(" "),e("th",{staticClass:"col-sm-2"},[t._v("Proc")]),t._v(" "),e("th",{staticClass:"col-sm-3"},[t._v("Ref.")]),t._v(" "),e("th",{staticClass:"col-sm-3"},[t._v("Ano")]),t._v(" "),e("th",{staticClass:"col-sm-2"},[t._v("Ver/Apagar Ligação")])])])},function(){var t=this.$createElement,o=this._self._c||t;return o("h5",[o("b",[this._v("Não há registtros")])])}]}},ksZf:function(t,o,e){var a=e("pUPd");"string"==typeof a&&(a=[[t.i,a,""]]),a.locals&&(t.exports=a.locals);e("rjj0")("4c589474",a,!0,{})},pUPd:function(t,o,e){(t.exports=e("FZ+f")(!1)).push([t.i,"",""])},s9Db:function(t,o,e){"use strict";o.a={data:function(){return{add:!1}},methods:{list:function(){var t=this,o=this.$root.baseUrl+"api/"+this.module+"/list/"+this.rg;this.rg&&axios.get(o).then(function(o){t.registros=o.data}).catch(function(t){return console.log(t)})},create:function(){var t=this,o=this.$root.baseUrl+"api/"+this.module+"/store";axios.post(o,this.registro).then(function(o){t.transation(o.data.success,"create")}).catch(function(t){return console.log(t)}),this.showModal=!1},edit:function(t){this.registro=t,this.showModal=!0},update:function(t){var o=this,e=this.$root.baseUrl+"api/"+this.module+"/update/"+t;axios.put(e,this.registro).then(function(t){o.transation(t.data.success,"edit")}).catch(function(t){return console.log(t)})},destroy:function(t){var o=this;if(confirm("Você tem certeza?")){var e=this.$root.baseUrl+"api/"+this.module+"/destroy/"+t;axios.delete(e).then(function(t){o.transation(t.data.success,"delete")}).catch(function(t){return console.log(t)})}},transation:function(t,o){var e=this.words(o);this.showModal=!1,t?(this.list(),this.$root.msg(e.success,"success"),this.registro=[]):this.$root.msg(e.fail,"danger")},words:function(t){return"create"==t?{success:"Inserido com sucesso",fail:"Erro ao inserir"}:"edit"==t?{success:"Editado com sucesso",fail:"Erro ao editar"}:"delete"==t?{success:"Apagado com sucesso",fail:"Erro ao apagar"}:void 0}}}}});
+webpackJsonp([25],{
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/ProcedOrigem.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_js__ = __webpack_require__("./resources/assets/js/mixins.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_js__["a" /* default */]],
+    props: {
+        unique: { type: Boolean, default: false },
+        destino: { type: Boolean, default: false },
+        idp: { type: String, default: '' },
+        dproc: { type: String, default: '' },
+        dref: { type: String, default: '' },
+        dano: { type: String, default: '' }
+    },
+    data: function data() {
+        var _ref;
+
+        return _ref = {
+            proc: '',
+            ref: '',
+            ano: '',
+            opm: '',
+            action: 'editar',
+            procedimentos: []
+        }, _defineProperty(_ref, 'action', 'proc'), _defineProperty(_ref, 'params', ''), _defineProperty(_ref, 'finded', false), _defineProperty(_ref, 'counter', 0), _defineProperty(_ref, 'id_proc', ''), _defineProperty(_ref, 'origin', ''), _defineProperty(_ref, 'only', false), _ref;
+    },
+
+    // depois de montado
+    mounted: function mounted() {
+        this.listProc();
+        this.verifyOnly();
+    },
+
+    filters: {
+        uppercase: function uppercase(v) {
+            if (!v) return '';
+            return v.toUpperCase();
+        }
+    },
+    computed: {
+        years: function years() {
+            var year = new Date().getFullYear();
+            return Array.from({ length: year - 2008 }, function (value, index) {
+                return 2009 + index;
+            });
+        },
+        canDelete: function canDelete() {
+            return this.$root.hasPermission('apagar-procedimento-origem');
+        }
+    },
+    methods: {
+        searchProc: function searchProc() {
+            var _this = this;
+
+            this.opm = '';
+            var searchUrl = this.$root.baseUrl + 'api/dados/proc/' + this.proc + '/' + this.ref + '/' + this.ano;
+            if (this.proc && this.ref && this.ano) {
+                axios.get(searchUrl).then(function (response) {
+                    _this.opm = response.data.opm;
+                    _this.idp = response.data.id;
+                    _this.finded = response.data.success;
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        createProc: function createProc() {
+            var _this2 = this;
+
+            var urlCreate = this.$root.baseUrl + 'api/ligacao/store';
+
+            var formProcDestino = document.getElementById('formProcDestino');
+            var data = new FormData(formProcDestino);
+
+            axios.post(urlCreate, data).then(this.listProc).catch(function (error) {
+                console.log(error);
+                _this2.erro = "Erro ao enviar arquivo";
+            });
+        },
+
+        // listagem dos arquivos existentes
+        listProc: function listProc() {
+            var _this3 = this;
+
+            var urlIndex = this.idp ? this.$root.baseUrl + 'api/ligacao/list/' + this.dproc + '/' + this.idp : this.$root.baseUrl + 'api/ligacao/list/' + this.dproc + '/' + this.dref + '/' + this.dano;
+            console.log(urlIndex);
+            axios.get(urlIndex).then(function (response) {
+                _this3.procedimentos = response.data;
+            }).then(this.clear) //limpa a busca
+            .catch(function (error) {
+                return console.log(error);
+            });
+        },
+        showProc: function showProc(proc, ref, ano) {
+            var urlIndex = '' + this.$root.baseUrl + proc + '/' + this.action + '/' + ref + '/' + ano;
+            window.open(urlIndex, "_blank");
+        },
+
+        // apagar arquivo
+        removeProc: function removeProc(id) {
+            var urlDelete = this.$root.baseUrl + 'api/ligacao/destroy/' + id;
+            axios.delete(urlDelete).then(this.listProc) //chama list para atualizar
+            .catch(function (error) {
+                return console.log(error);
+            });
+        },
+        verifyOnly: function verifyOnly() {
+            if (this.unique == true) {
+                this.only = true;
+            } else {
+                this.only = false;
+            }
+        },
+        cancel: function cancel() {
+            this.add = false;
+            this.proc = '';
+            this.ref = '';
+            this.ano = '';
+            this.opm = '';
+        },
+        clear: function clear() {
+            this.proc = '';
+            this.ref = '';
+            this.ano = '';
+            this.opm = '';
+        }
+    },
+    watch: {
+        proc: function proc() {
+            var name = this.proc == 'apfdc' || this.proc == 'apfdm' ? 'apfd' : this.proc;
+            this.id_proc = 'id_' + name;
+            this.origin = name;
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-205688e0\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubForm/ProcedOrigem.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-205688e0\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubForm/ProcedOrigem.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-lg-12 col-md-12 col-xs-12 card" }, [
+    _c(
+      "div",
+      { staticClass: "card-header" },
+      [_vm.destino ? [_vm._m(0)] : [_vm._m(1)]],
+      2
+    ),
+    _vm._v(" "),
+    !_vm.only
+      ? _c(
+          "div",
+          { staticClass: "card-body", class: _vm.add ? "bordaform" : "" },
+          [
+            !_vm.add
+              ? _c(
+                  "div",
+                  [
+                    _vm.destino
+                      ? [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success btn-block",
+                              on: {
+                                click: function($event) {
+                                  _vm.add = !_vm.add
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "fa fa-plus" }),
+                              _vm._v(" Adicionar procedimento resultante")
+                            ]
+                          )
+                        ]
+                      : [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success btn-block",
+                              on: {
+                                click: function($event) {
+                                  _vm.add = !_vm.add
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "fa fa-plus" }),
+                              _vm._v(" Adicionar documento de origem")
+                            ]
+                          )
+                        ]
+                  ],
+                  2
+                )
+              : _c("div", [
+                  _c(
+                    "div",
+                    { staticClass: "row", attrs: { id: "ligacaoForm1" } },
+                    [
+                      _c(
+                        "form",
+                        {
+                          attrs: {
+                            id: "formProcDestino",
+                            name: "formProcDestino"
+                          }
+                        },
+                        [
+                          _c("input", {
+                            attrs: { type: "hidden", name: _vm.id_proc },
+                            domProps: { value: _vm.idp }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: { type: "hidden", name: "origem_proc" },
+                            domProps: { value: _vm.origin }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: { type: "hidden", name: "destino_proc" },
+                            domProps: { value: _vm.dproc }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: { type: "hidden", name: "destino_sjd_ref" },
+                            domProps: { value: _vm.dref }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: {
+                              type: "hidden",
+                              name: "destino_sjd_ref_ano"
+                            },
+                            domProps: { value: _vm.dano }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "col-lg-3 col-md-3 col-xs-3 form-group"
+                            },
+                            [
+                              _c("label", { attrs: { for: "origem_proc" } }, [
+                                _vm._v("Processo/Procedimento")
+                              ]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.proc,
+                                      expression: "proc"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { name: "origem_proc" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.proc = $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("option", { attrs: { value: "" } }, [
+                                    _vm._v("Escolha")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "ipm" } }, [
+                                    _vm._v("IPM")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "sindicancia" } },
+                                    [_vm._v("SINDICÂNCIA")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "cd" } }, [
+                                    _vm._v("CD")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "cj" } }, [
+                                    _vm._v("CJ")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "apfdc" } }, [
+                                    _vm._v("APFDC")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "apfdm" } }, [
+                                    _vm._v("APFDM")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "fatd" } }, [
+                                    _vm._v("FATD")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "iso" } }, [
+                                    _vm._v("ISO")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "desercao" } },
+                                    [_vm._v("DESERÇÃO")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "it" } }, [
+                                    _vm._v("IT")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "adl" } }, [
+                                    _vm._v("ADL")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "pad" } }, [
+                                    _vm._v("PAD")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "sai" } }, [
+                                    _vm._v("SAI")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "proc_outros" } },
+                                    [_vm._v("PROC. OUTROS")]
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "col-lg-2 col-md-2 col-xs 2" },
+                            [
+                              _c(
+                                "label",
+                                { attrs: { for: "origem_sjd_ref" } },
+                                [_vm._v("Referência")]
+                              ),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.ref,
+                                    expression: "ref"
+                                  }
+                                ],
+                                staticClass: "numero form-control",
+                                attrs: {
+                                  type: "text",
+                                  maxlength: "4",
+                                  name: "origem_sjd_ref",
+                                  placeholder: "Nº",
+                                  value: ""
+                                },
+                                domProps: { value: _vm.ref },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.ref = $event.target.value
+                                  }
+                                }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "col-lg-2 col-md-2 col-xs 2" },
+                            [
+                              _c(
+                                "label",
+                                { attrs: { for: "origem_sjd_ref_ano" } },
+                                [_vm._v("Ano")]
+                              ),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.ano,
+                                      expression: "ano"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: { name: "origem_sjd_ref_ano" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.ano = $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    }
+                                  }
+                                },
+                                _vm._l(_vm.years, function(year) {
+                                  return _c(
+                                    "option",
+                                    { key: year, domProps: { value: year } },
+                                    [_vm._v(_vm._s(year))]
+                                  )
+                                }),
+                                0
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "col-lg-1 col-md-1 col-xs 1" },
+                            [
+                              _c("label", [_vm._v("Buscar")]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-info btn-block",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.searchProc()
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fa fa-search",
+                                    staticStyle: { color: "white" }
+                                  })
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "col-lg-2 col-md-2 col-xs 2" },
+                            [
+                              _c("label", [_vm._v("OM")]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("input", {
+                                staticClass: "form-control",
+                                attrs: {
+                                  readonly: "",
+                                  type: "text",
+                                  size: "35",
+                                  name: "origem_opm",
+                                  placeholder: "Apenas para conferência"
+                                },
+                                domProps: { value: _vm.opm }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "col-lg-1 col-md-1 col-xs 1" },
+                            [
+                              _c("label", [_vm._v("Cancelar")]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-danger btn-block",
+                                  on: { click: _vm.cancel }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fa fa-times",
+                                    staticStyle: { color: "white" }
+                                  })
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "col-lg-1 col-md-1 col-xs 1" },
+                            [
+                              _c("label", [_vm._v("Adicionar")]),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "btn btn-success btn-block",
+                                  attrs: { disabled: !_vm.finded },
+                                  on: { click: _vm.createProc }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fa fa-plus",
+                                    staticStyle: { color: "white" }
+                                  })
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ])
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-footer" }, [
+      _vm.procedimentos.length
+        ? _c("div", { staticClass: "row bordaform" }, [
+            _c("div", { staticClass: "col-sm-12" }, [
+              _c("table", { staticClass: "table table-hover" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.procedimentos, function(procedimento, index) {
+                    return _c("tr", { key: index }, [
+                      _c("td", [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(index + 1) +
+                            "\n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(
+                              _vm._f("uppercase")(procedimento.origem_proc)
+                            ) +
+                            " \n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(procedimento.origem_sjd_ref) +
+                            "\n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(procedimento.origem_sjd_ref_ano) +
+                            "\n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "btn-group",
+                            attrs: {
+                              role: "group",
+                              "aria-label": "First group"
+                            }
+                          },
+                          [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-primary",
+                                staticStyle: { color: "white" },
+                                attrs: { type: "button", target: "_blanck" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.showProc(
+                                      procedimento.origem_proc,
+                                      procedimento.origem_sjd_ref,
+                                      procedimento.origem_sjd_ref_ano
+                                    )
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-eye" })]
+                            ),
+                            _vm._v(" "),
+                            _vm.canDelete
+                              ? _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-danger",
+                                    staticStyle: { color: "white" },
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.removeProc(
+                                          procedimento.id_ligacao
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash" })]
+                                )
+                              : _vm._e()
+                          ]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              ])
+            ])
+          ])
+        : !_vm.procedimentos.length && _vm.only
+        ? _c("div", [_vm._m(3)])
+        : _vm._e()
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", [
+      _c("b", [_vm._v("Procedimento(s) de Resultante (apenas se houver)")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", [
+      _c("b", [_vm._v("Procedimento(s) de Origem (apenas se houver)")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Proc")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-3" }, [_vm._v("Ref.")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-3" }, [_vm._v("Ano")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ver/Apagar Ligação")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", [_c("b", [_vm._v("Não há registtros")])])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-205688e0", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-205688e0\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubForm/ProcedOrigem.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-205688e0\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubForm/ProcedOrigem.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("92cb2390", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-205688e0\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ProcedOrigem.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-205688e0\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ProcedOrigem.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/SubForm/ProcedOrigem.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-205688e0\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubForm/ProcedOrigem.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/ProcedOrigem.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-205688e0\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubForm/ProcedOrigem.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-205688e0"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/SubForm/ProcedOrigem.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-205688e0", Component.options)
+  } else {
+    hotAPI.reload("data-v-205688e0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/mixins.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            add: false
+        };
+    },
+
+    methods: {
+        list: function list() {
+            var _this = this;
+
+            var urlIndex = this.$root.baseUrl + 'api/' + this.module + '/list/' + this.rg;
+            if (this.rg) {
+                axios.get(urlIndex).then(function (response) {
+                    _this.registros = response.data;
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        create: function create() {
+            var _this2 = this;
+
+            var urlCreate = this.$root.baseUrl + 'api/' + this.module + '/store';
+            axios.post(urlCreate, this.registro).then(function (response) {
+                _this2.transation(response.data.success, 'create');
+            }).catch(function (error) {
+                return console.log(error);
+            });
+            this.showModal = false;
+        },
+        edit: function edit(registro) {
+            this.registro = registro;
+            this.showModal = true;
+        },
+        update: function update(id) {
+            var _this3 = this;
+
+            var urlUpdate = this.$root.baseUrl + 'api/' + this.module + '/update/' + id;
+            axios.put(urlUpdate, this.registro).then(function (response) {
+                _this3.transation(response.data.success, 'edit');
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
+        destroy: function destroy(id) {
+            var _this4 = this;
+
+            if (confirm('Você tem certeza?')) {
+                var urlDelete = this.$root.baseUrl + 'api/' + this.module + '/destroy/' + id;
+                axios.delete(urlDelete).then(function (response) {
+                    _this4.transation(response.data.success, 'delete');
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        transation: function transation(happen, type) {
+            var msg = this.words(type);
+            this.showModal = false;
+            if (happen) {
+                // se deu certo
+                this.list();
+                this.$root.msg(msg.success, 'success');
+                this.registro = [];
+            } else {
+                // se falhou
+                this.$root.msg(msg.fail, 'danger');
+            }
+        },
+        words: function words(type) {
+            if (type == 'create') return { success: 'Inserido com sucesso', fail: 'Erro ao inserir' };
+            if (type == 'edit') return { success: 'Editado com sucesso', fail: 'Erro ao editar' };
+            if (type == 'delete') return { success: 'Apagado com sucesso', fail: 'Erro ao apagar' };
+        }
+    }
+});
+
+/***/ })
+
+});

@@ -1,1 +1,496 @@
-webpackJsonp([27],{"1/ZX":function(t,o,e){var a=e("VU/8")(e("g09L"),e("7to2"),!1,function(t){e("bFzH")},"data-v-2c90979e",null);t.exports=a.exports},"6K/U":function(t,o,e){(t.exports=e("FZ+f")(!1)).push([t.i,"",""])},"7to2":function(t,o){t.exports={render:function(){var t=this,o=t.$createElement,e=t._self._c||o;return e("div",{staticClass:"col-lg-12 col-md-12 col-xs-12 card"},[e("div",{staticClass:"card-body"},[e("div",{staticClass:"row",attrs:{id:"ligacaoForm1"}},[e("form",{attrs:{id:"formAcusadoRG",name:"formAcusadoRG"}},[e("div",{staticClass:"col-lg-3 col-md-3 col-xs-3"},[e("label",{attrs:{for:"rg"}},[t._v("RG")]),e("br"),t._v(" "),e("the-mask",{staticClass:"form-control",attrs:{mask:"############",type:"text",maxlength:"12",name:"rg",placeholder:"Nº"},on:{change:t.searchPM},model:{value:t.prg,callback:function(o){t.prg=o},expression:"prg"}})],1),t._v(" "),e("div",{staticClass:"col-lg-3 col-md-3 col-xs-3"},[e("label",{attrs:{for:"nome"}},[t._v("Nome")]),e("br"),t._v(" "),e("input",{directives:[{name:"model",rawName:"v-model",value:t.pnome,expression:"pnome"}],staticClass:"numero form-control",attrs:{type:"text",name:"nome",readonly:""},domProps:{value:t.pnome},on:{input:function(o){o.target.composing||(t.pnome=o.target.value)}}})]),t._v(" "),e("div",{staticClass:"col-lg-3 col-md-3 col-xs-3"},[e("label",{attrs:{for:"cargo"}},[t._v("Posto/Graduação")]),e("br"),t._v(" "),e("input",{directives:[{name:"model",rawName:"v-model",value:t.pcargo,expression:"pcargo"}],staticClass:"numero form-control",attrs:{type:"text",name:"cargo",readonly:""},domProps:{value:t.pcargo},on:{input:function(o){o.target.composing||(t.pcargo=o.target.value)}}})]),t._v(" "),e("div",{staticClass:"col-lg-3 col-md-3 col-xs-3"},[e("label",{attrs:{for:"resultado"}},[t._v("Resultado")]),e("br"),t._v(" "),t.situacao?[e("input",{directives:[{name:"model",rawName:"v-model",value:t.situacao,expression:"situacao"}],staticClass:"numero form-control",attrs:{type:"text",name:"situacao",readonly:""},domProps:{value:t.situacao},on:{input:function(o){o.target.composing||(t.situacao=o.target.value)}}})]:[e("select",{directives:[{name:"model",rawName:"v-model",value:t.resultado,expression:"resultado"}],staticClass:"form-control",attrs:{name:"resultado",disabled:!t.finded,required:""},on:{change:function(o){var e=Array.prototype.filter.call(o.target.options,function(t){return t.selected}).map(function(t){return"_value"in t?t._value:t.value});t.resultado=o.target.multiple?e:e[0]}}},[e("option",{attrs:{value:""}},[t._v("Selecione")]),t._v(" "),e("option",{attrs:{value:"Excluído"}},[t._v("Excluído")]),t._v(" "),e("option",{attrs:{value:"Punido"}},[t._v("Punido")]),t._v(" "),e("option",{attrs:{value:"Absolvido"}},[t._v("Absolvido")]),t._v(" "),e("option",{attrs:{value:"Perda objeto"}},[t._v("Perda objeto")]),t._v(" "),e("option",{attrs:{value:"Prescricao"}},[t._v("Prescricao")]),t._v(" "),e("option",{attrs:{value:"Reintegrado/Reinserido"}},[t._v("Reintegrado/Reinserido")])])]],2)])])])])},staticRenderFns:[]}},bFzH:function(t,o,e){var a=e("6K/U");"string"==typeof a&&(a=[[t.i,a,""]]),a.locals&&(t.exports=a.locals);e("rjj0")("76de582b",a,!0,{})},g09L:function(t,o,e){"use strict";Object.defineProperty(o,"__esModule",{value:!0});var a=e("s9Db"),s=e("hlPV");e.n(s);o.default={mixins:[a.a],components:{TheMask:s.TheMask},props:{situacao:{type:String,default:""},idp:{type:String,default:""},dproc:{type:String,default:""},rg:{type:String},cargo:{type:String},nome:{type:String}},data:function(){return{prg:this.rg,pnome:this.nome,pcargo:this.cargo,finded:!1}},computed:{},methods:{searchPM:function(){var t=this,o=this.$root.baseUrl+"api/dados/pm/"+this.rg;this.prg.length>5&&axios.get(o).then(function(o){o.data.success?(t.pnome=o.data.pm.NOME||o.data.pm.nome,t.pcargo=o.data.pm.CARGO||o.data.pm.cargo,t.finded=!0):(t.pnome="",t.pcargo="",t.finded=!1)}).catch(function(t){return console.log(t)})},clear:function(){this.pnome="",this.pcargo="",this.finded=!1}}}},s9Db:function(t,o,e){"use strict";o.a={data:function(){return{add:!1}},methods:{list:function(){var t=this,o=this.$root.baseUrl+"api/"+this.module+"/list/"+this.rg;this.rg&&axios.get(o).then(function(o){t.registros=o.data}).catch(function(t){return console.log(t)})},create:function(){var t=this,o=this.$root.baseUrl+"api/"+this.module+"/store";axios.post(o,this.registro).then(function(o){t.transation(o.data.success,"create")}).catch(function(t){return console.log(t)}),this.showModal=!1},edit:function(t){this.registro=t,this.showModal=!0},update:function(t){var o=this,e=this.$root.baseUrl+"api/"+this.module+"/update/"+t;axios.put(e,this.registro).then(function(t){o.transation(t.data.success,"edit")}).catch(function(t){return console.log(t)})},destroy:function(t){var o=this;if(confirm("Você tem certeza?")){var e=this.$root.baseUrl+"api/"+this.module+"/destroy/"+t;axios.delete(e).then(function(t){o.transation(t.data.success,"delete")}).catch(function(t){return console.log(t)})}},transation:function(t,o){var e=this.words(o);this.showModal=!1,t?(this.list(),this.$root.msg(e.success,"success"),this.registro=[]):this.$root.msg(e.fail,"danger")},words:function(t){return"create"==t?{success:"Inserido com sucesso",fail:"Erro ao inserir"}:"edit"==t?{success:"Editado com sucesso",fail:"Erro ao editar"}:"delete"==t?{success:"Apagado com sucesso",fail:"Erro ao apagar"}:void 0}}}}});
+webpackJsonp([28],{
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/AcusadoRg.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_js__ = __webpack_require__("./resources/assets/js/mixins.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_the_mask__ = __webpack_require__("./node_modules/vue-the-mask/dist/vue-the-mask.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_the_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_the_mask__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_js__["a" /* default */]],
+    components: { TheMask: __WEBPACK_IMPORTED_MODULE_1_vue_the_mask__["TheMask"] },
+    props: {
+        situacao: { type: String, default: '' },
+        idp: { type: String, default: '' },
+        dproc: { type: String, default: '' },
+        rg: { type: String },
+        cargo: { type: String },
+        nome: { type: String }
+    },
+    data: function data() {
+        return {
+            prg: this.rg,
+            pnome: this.nome,
+            pcargo: this.cargo,
+            finded: false
+        };
+    },
+
+    computed: {},
+    methods: {
+        searchPM: function searchPM() {
+            var _this = this;
+
+            var searchUrl = this.$root.baseUrl + 'api/dados/pm/' + this.rg;
+            if (this.prg.length > 5) {
+                axios.get(searchUrl).then(function (response) {
+                    if (response.data.success) {
+                        _this.pnome = response.data['pm'].NOME || response.data['pm'].nome;
+                        _this.pcargo = response.data['pm'].CARGO || response.data['pm'].cargo;
+                        _this.finded = true;
+                    } else {
+                        _this.pnome = '';
+                        _this.pcargo = '';
+                        _this.finded = false;
+                    }
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        clear: function clear() {
+            this.pnome = '';
+            this.pcargo = '';
+            this.finded = false;
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5293004f\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubForm/AcusadoRg.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-5293004f\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubForm/AcusadoRg.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-lg-12 col-md-12 col-xs-12 card" }, [
+    _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "row", attrs: { id: "ligacaoForm1" } }, [
+        _c("form", { attrs: { id: "formAcusadoRG", name: "formAcusadoRG" } }, [
+          _c(
+            "div",
+            { staticClass: "col-lg-3 col-md-3 col-xs-3" },
+            [
+              _c("label", { attrs: { for: "rg" } }, [_vm._v("RG")]),
+              _c("br"),
+              _vm._v(" "),
+              _c("the-mask", {
+                staticClass: "form-control",
+                attrs: {
+                  mask: "############",
+                  type: "text",
+                  maxlength: "12",
+                  name: "rg",
+                  placeholder: "Nº"
+                },
+                on: { change: _vm.searchPM },
+                model: {
+                  value: _vm.prg,
+                  callback: function($$v) {
+                    _vm.prg = $$v
+                  },
+                  expression: "prg"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-lg-3 col-md-3 col-xs-3" }, [
+            _c("label", { attrs: { for: "nome" } }, [_vm._v("Nome")]),
+            _c("br"),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.pnome,
+                  expression: "pnome"
+                }
+              ],
+              staticClass: "numero form-control",
+              attrs: { type: "text", name: "nome", readonly: "" },
+              domProps: { value: _vm.pnome },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.pnome = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-lg-3 col-md-3 col-xs-3" }, [
+            _c("label", { attrs: { for: "cargo" } }, [
+              _vm._v("Posto/Graduação")
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.pcargo,
+                  expression: "pcargo"
+                }
+              ],
+              staticClass: "numero form-control",
+              attrs: { type: "text", name: "cargo", readonly: "" },
+              domProps: { value: _vm.pcargo },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.pcargo = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-lg-3 col-md-3 col-xs-3" },
+            [
+              _c("label", { attrs: { for: "resultado" } }, [
+                _vm._v("Resultado")
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _vm.situacao
+                ? [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.situacao,
+                          expression: "situacao"
+                        }
+                      ],
+                      staticClass: "numero form-control",
+                      attrs: { type: "text", name: "situacao", readonly: "" },
+                      domProps: { value: _vm.situacao },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.situacao = $event.target.value
+                        }
+                      }
+                    })
+                  ]
+                : [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.resultado,
+                            expression: "resultado"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "resultado", disabled: !_vm.finded },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.resultado = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Selecione")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "Excluído" } }, [
+                          _vm._v("Excluído")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "Punido" } }, [
+                          _vm._v("Punido")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "Absolvido" } }, [
+                          _vm._v("Absolvido")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "Perda objeto" } }, [
+                          _vm._v("Perda objeto")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "Prescricao" } }, [
+                          _vm._v("Prescricao")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "option",
+                          { attrs: { value: "Reintegrado/Reinserido" } },
+                          [_vm._v("Reintegrado/Reinserido")]
+                        )
+                      ]
+                    )
+                  ]
+            ],
+            2
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5293004f", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5293004f\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubForm/AcusadoRg.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5293004f\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubForm/AcusadoRg.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("47a260cf", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5293004f\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AcusadoRg.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5293004f\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AcusadoRg.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/SubForm/AcusadoRg.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5293004f\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/SubForm/AcusadoRg.vue")
+}
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/AcusadoRg.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-5293004f\",\"hasScoped\":true,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/SubForm/AcusadoRg.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-5293004f"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/SubForm/AcusadoRg.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5293004f", Component.options)
+  } else {
+    hotAPI.reload("data-v-5293004f", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/mixins.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            add: false
+        };
+    },
+
+    methods: {
+        list: function list() {
+            var _this = this;
+
+            var urlIndex = this.$root.baseUrl + 'api/' + this.module + '/list/' + this.rg;
+            if (this.rg) {
+                axios.get(urlIndex).then(function (response) {
+                    _this.registros = response.data;
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        create: function create() {
+            var _this2 = this;
+
+            var urlCreate = this.$root.baseUrl + 'api/' + this.module + '/store';
+            axios.post(urlCreate, this.registro).then(function (response) {
+                _this2.transation(response.data.success, 'create');
+            }).catch(function (error) {
+                return console.log(error);
+            });
+            this.showModal = false;
+        },
+        edit: function edit(registro) {
+            this.registro = registro;
+            this.showModal = true;
+        },
+        update: function update(id) {
+            var _this3 = this;
+
+            var urlUpdate = this.$root.baseUrl + 'api/' + this.module + '/update/' + id;
+            axios.put(urlUpdate, this.registro).then(function (response) {
+                _this3.transation(response.data.success, 'edit');
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
+        destroy: function destroy(id) {
+            var _this4 = this;
+
+            if (confirm('Você tem certeza?')) {
+                var urlDelete = this.$root.baseUrl + 'api/' + this.module + '/destroy/' + id;
+                axios.delete(urlDelete).then(function (response) {
+                    _this4.transation(response.data.success, 'delete');
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        transation: function transation(happen, type) {
+            var msg = this.words(type);
+            this.showModal = false;
+            if (happen) {
+                // se deu certo
+                this.list();
+                this.$root.msg(msg.success, 'success');
+                this.registro = [];
+            } else {
+                // se falhou
+                this.$root.msg(msg.fail, 'danger');
+            }
+        },
+        words: function words(type) {
+            if (type == 'create') return { success: 'Inserido com sucesso', fail: 'Erro ao inserir' };
+            if (type == 'edit') return { success: 'Editado com sucesso', fail: 'Erro ao editar' };
+            if (type == 'delete') return { success: 'Apagado com sucesso', fail: 'Erro ao apagar' };
+        }
+    }
+});
+
+/***/ })
+
+});

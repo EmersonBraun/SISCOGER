@@ -48,7 +48,8 @@
                                     @endif
                                     @if(hasPermissionTo('apagar-sindicancia')) 
                                     <a class="btn btn-danger"
-                                        href="{{route('sindicancia.destroy',$registro['id_sindicancia'])}}"><i
+                                        href="{{route('sindicancia.destroy',$registro['id_sindicancia'])}}"
+                                        onclick="return confirm('Tem certeza que quer apagar?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
                                 </span>

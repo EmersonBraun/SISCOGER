@@ -38,7 +38,7 @@
                                     <a class="btn btn-info" href="{{route('sindicancia.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-edit "></i></a>
                                 @endif
                                 @if(hasPermissionTo('apagar-sindicancia'))
-                                    <a class="btn btn-danger"  href="{{route('sindicancia.destroy',$registro['id_sindicancia'])}}" onclick="confirmApagar('SINDICÂNCIA',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i class="fa fa-fw fa-trash-o "></i></a>
+                                    <a class="btn btn-danger"  href="{{route('sindicancia.destroy',$registro['id_sindicancia'])}}" onclick="return confirm('Tem certeza que quer apagar?')"><i class="fa fa-fw fa-trash-o "></i></a>
                                 @endif
                             </span>
                         </td>   

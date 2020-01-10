@@ -209,7 +209,7 @@
             editArquivo(){
                 let urledit = `${this.$root.baseUrl}api/arquivo/edit/${this.toEdit}`;
 
-                let formData = document.getElementById('formData');
+                let formData = document.getElementById('formArquivo');
                 let data = new FormData(formData);
                 
                 axios.post( urledit,data)

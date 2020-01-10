@@ -56,7 +56,7 @@ class SobrestamentoRepository extends BaseRepository
         }
     }
 
-    public function update(array $data, $id)
+    public function findAndUpdate($id, array $data)
     {
         $fim_sobrestamento = ($data['termino_data']) ? true : false;
         try {

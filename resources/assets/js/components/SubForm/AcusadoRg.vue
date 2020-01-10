@@ -21,7 +21,7 @@
                             <input class="numero form-control" v-model="situacao" type="text" name="situacao" readonly>
                         </template>
                         <template v-else>
-                            <select class="form-control" name="resultado" :disabled="!finded" required v-model="resultado">
+                            <select class="form-control" name="resultado" :disabled="!finded" v-model="resultado">
                                 <option value="">Selecione</option>
                                 <option value="Excluído">Excluído</option>
                                 <option value="Punido">Punido</option>

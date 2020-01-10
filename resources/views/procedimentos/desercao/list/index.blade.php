@@ -51,7 +51,7 @@
                                     @if(hasPermissionTo('apagar-desercao'))
                                     <a class="btn btn-danger"
                                         href="{{route('desercao.destroy',$registro['id_desercao'])}}"
-                                        onclick="return confirmApagar('desercao',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
+                                        onclick="return confirm('Tem certeza que quer apagar?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
                                 </span>

@@ -24,3 +24,28 @@
 	padding-right: 2px !important;
 }
 
+.label-primary {
+    background-color: 
+    #337ab7;
+}
+
+.label-success {
+    background-color: 
+    #5cb85c;
+}
+
+.label-error {
+    background-color: 
+    #5bc0de;
+}
+
+.label-warning {
+    background-color: 
+    #f0ad4e;
+}
+
+.label-danger {
+    background-color: 
+    #d9534f;
+}
+

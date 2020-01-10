@@ -45,7 +45,10 @@
                 {!! Form::select('id_andamentocoger',config('sistema.andamentocogerAPFD'),null, ['class' => 'form-control ']) !!}
             </v-label>
             <v-label label="tipo" title="Tipo" error="{{$errors->first('tipo')}}">
-                {!! Form::select('tipo', ['Crime comum','Crime militar'],null, ['class' => 'form-control select2']) !!}
+                {!! Form::select('tipo', [
+                    'Crime comum' => 'Crime comum',
+                    'Crime militar' => 'Crime militar',
+                    ],null, ['class' => 'form-control select2']) !!}
             </v-label>
             <v-label label="fato_data" title="Data do fato">
                 <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>

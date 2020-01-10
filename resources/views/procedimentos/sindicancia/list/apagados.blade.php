@@ -33,7 +33,7 @@
                             <span>
                                 {{-- <a class="btn btn-default" href="{{route('sindicancia.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-eye "></i></a> --}}
                                 <a class="btn btn-info" href="{{route('sindicancia.restore',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-recycle "></i></a>
-                                <a class="btn btn-danger"  href="{{route('sindicancia.forceDelete',$registro['id_sindicancia'])}}" onclick="return confirmApagar('SINDICÂNCIA',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i class="fa fa-fw fa-trash-o "></i></a>
+                                <a class="btn btn-danger"  href="{{route('sindicancia.forceDelete',$registro['id_sindicancia'])}}" onclick="return confirm('Tem certeza que quer apagar DEFINITIVAMENTE a sindicância?')"><i class="fa fa-fw fa-trash-o "></i></a>
                             </span>
                             </td>   
                         </tr>

@@ -21,25 +21,27 @@ class ApfdController extends Controller
 
     public function index()
     {
-        return redirect()->route('apfd.lista');
+        return redirect()->route('apfdm.lista');
     }
 
     public function lista()
     {
-        $this->repository->cleanCache();
-        $registros = $this->repository->all();
+        $registros = $this->repository->militar();
+        $tipo = 'militar';
         return view('procedimentos.apfd.list.index',compact('registros'));
     }
 
     public function rel_situacao()
     {
-        $registros = $this->repository->all();
+        $registros = $this->repository->militar();
+        $tipo = 'militar';
         return view('procedimentos.apfd.list.rel_situacao',compact('registros'));
     }
 
     public function apagados()
     {
         $registros = $this->repository->apagados();
+        $tipo = 'militar';
         return view('procedimentos.apfd.list.apagados',compact('registros'));
     }
 
@@ -58,13 +60,13 @@ class ApfdController extends Controller
             ]);
        
         //dados do formulário
-        $dados = $this->repository->datesToCreate($request->all()); 
+        $dados = $this->repository->datesToCreate($request->all(),'militar'); 
         $create = $this->repository->create($dados);
 
         if($create)
         {
             $this->repository->cleanCache();
-            toast()->success('N° '.$dados['sjd_ref'].'/'.'APFD Inserido');
+            toast()->success('N° '.$dados['sjd_ref'].'/'.'APFD MIlitar Inserido');
             return redirect()->route('apfd.lista');
         }
 
@@ -75,13 +77,13 @@ class ApfdController extends Controller
     
     public function show($ref, $ano='')
     {
-        $proc = $this->repository->procRefAno($ref,$ano,'apfd');
+        $proc = $this->repository->procRefAno($ref,$ano,'apfdm');
         return view('procedimentos.apfd.form.show', compact('proc'));
     }
 
     public function edit($ref, $ano='')
     {
-        $proc = $this->repository->procRefAno($ref,$ano,'apfd');
+        $proc = $this->repository->procRefAno($ref,$ano,'apfdm');
          return view('procedimentos.apfd.form.edit', compact('proc'));
 
     }
@@ -99,7 +101,7 @@ class ApfdController extends Controller
         if($update)
         {
             $this->repository->cleanCache();
-            toast()->success('APFD atualizado!');
+            toast()->success('APFD Militar atualizado!');
             return redirect()->route('apfd.lista');
         }
 
@@ -114,7 +116,7 @@ class ApfdController extends Controller
 
         if($destroy) {
             $this->repository->cleanCache();
-            toast()->success('APFD Apagado');
+            toast()->success('APFD Militar Apagado');
             return redirect()->route('apfd.lista');
         }
 
@@ -129,7 +131,7 @@ class ApfdController extends Controller
     
         if($restore){
             $this->repository->cleanCache();
-            toast()->success('APFD Recuperado!');
+            toast()->success('APFD Militar Recuperado!');
             return redirect()->route('apfd.lista');  
         }
 
@@ -143,7 +145,7 @@ class ApfdController extends Controller
     
         if($forceDelete){
             $this->repository->cleanCache();
-            toast()->success('APFD apagado DEFINITIVO!');
+            toast()->success('APFD Militar apagado DEFINITIVO!');
             return redirect()->route('apfd.lista');  
         }
 

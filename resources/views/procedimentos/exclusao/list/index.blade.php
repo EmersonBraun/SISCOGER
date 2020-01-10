@@ -57,7 +57,7 @@
                                     @if(hasPermissionTo('apagar-exclusao'))
                                     <a class="btn btn-danger"
                                         href="{{route('exclusao.destroy',$registro->id_exclusaojudicial)}}"
-                                        onclick="return  confirmApagar('exclusao',$registro->id_exclusaojudicial)"><i
+                                        onclick="return confirm('Tem certeza que quer apagar?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
                                 </span>

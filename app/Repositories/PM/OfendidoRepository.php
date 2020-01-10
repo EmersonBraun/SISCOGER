@@ -19,7 +19,7 @@ class OfendidoRepository extends BaseRepository
         $this->model = $model;      
     }
 
-    public function cleanCache()
+    public function clearCache()
 	{
         Cache::tags('ofendido')->flush();
     }

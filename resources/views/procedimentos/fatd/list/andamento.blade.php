@@ -46,7 +46,8 @@
                                             class="fa fa-fw fa-edit "></i></a>
                                     @endif
                                     @if(hasPermissionTo('apagar-fatd')) 
-                                    <a class="btn btn-danger" href="{{route('fatd.destroy',$registro['id_fatd'])}}"><i
+                                    <a class="btn btn-danger" href="{{route('fatd.destroy',$registro['id_fatd'])}}"
+                                    onclick="return confirm('Tem certeza que quer apagar?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
                                 </span>

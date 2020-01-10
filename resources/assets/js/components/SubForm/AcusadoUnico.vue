@@ -54,7 +54,7 @@
                                 <input class="numero form-control" :value="situacao" type="text" name="situacao" readonly>
                             </template>
                             <template v-else>
-                                <select class="form-control" name="resultado" :disabled="!finded" required v-model="resultado">
+                                <select class="form-control" name="resultado" :disabled="!finded" v-model="resultado">
                                     <option value="">Selecione</option>
                                     <option value="Excluído">Excluído</option>
                                     <option value="Punido">Punido</option>
@@ -208,7 +208,7 @@
             editPM(){
                 let urledit = `${this.$root.baseUrl}api/acusado/edit/${this.edit}`;
 
-                let formData = document.getElementById('formData');
+                let formData = document.getElementById('formAcusadoUnico');
                 let data = new FormData(formData);
                 
                 axios.post( urledit,data)

@@ -1,15 +1,25 @@
 <template>
     <div class="col-lg-12 col-md-12 col-xs-12 card">
         <div class="card-header">
-            <h5><b>Procedimento(s) de Origem (apenas se houver)</b></h5> 
+            <template v-if="destino">
+                <h5><b>Procedimento(s) de Resultante (apenas se houver)</b></h5> 
+            </template>
+            <template v-else>
+                <h5><b>Procedimento(s) de Origem (apenas se houver)</b></h5> 
+            </template>
         </div>
         <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only">
             <div v-if="!add">
-                <button @click="add = !add" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Adicionar documento de origem</button>
+                <template v-if="destino">
+                    <button @click="add = !add" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Adicionar procedimento resultante</button>
+                </template>
+                <template v-else>
+                    <button @click="add = !add" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Adicionar documento de origem</button>
+                </template>
             </div>
             <div v-else>
                 <div id="ligacaoForm1" class="row">
-                    <form id="formProcOrigem" name="formProcOrigem">
+                    <form id="formProcDestino" name="formProcDestino">
                         <input type="hidden" :name="id_proc" :value="idp">
                         <input type="hidden" name="origem_proc" :value="origin">
                         <input type="hidden" name="destino_proc" :value="dproc">
@@ -124,6 +134,7 @@
         mixins: [mixin],
         props: {
             unique: {type: Boolean, default: false},
+            destino: {type: Boolean, default: false},
             idp: {type: String, default: ''},
             dproc: {type: String, default: ''},
             dref: {type: String, default: ''},
@@ -185,8 +196,8 @@
             createProc(){
                 let urlCreate = `${this.$root.baseUrl}api/ligacao/store`
 
-                let formProcOrigem = document.getElementById('formProcOrigem');
-                let data = new FormData(formProcOrigem);
+                let formProcDestino = document.getElementById('formProcDestino');
+                let data = new FormData(formProcDestino);
 
                 axios.post( urlCreate,data)
                 .then(this.listProc)

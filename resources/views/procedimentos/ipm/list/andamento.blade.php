@@ -50,7 +50,8 @@
                                             class="fa fa-fw fa-edit "></i></a>
                                     @endif
                                     @if(hasPermissionTo('apagar-ipm'))
-                                    <a class="btn btn-danger" href="{{route('ipm.destroy',$registro['id_ipm'])}}"><i
+                                    <a class="btn btn-danger" href="{{route('ipm.destroy',$registro['id_ipm'])}}"
+                                    onclick="return confirm('Tem certeza que quer apagar?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
                                 </span>

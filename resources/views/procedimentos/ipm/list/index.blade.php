@@ -29,7 +29,7 @@
                         <tr>
                             <td style="display: none">{{$registro['id_ipm']}}</td>
                             <td class='col-xs-2 col-md-2'>{{$registro['sjd_ref']}}/{{$registro['sjd_ref_ano']}}</td>
-                            <td class='col-xs-2 col-md-2'>{{opm($registro['ipmopm'])}}</td>
+                            <td class='col-xs-2 col-md-2'>{{opm($registro['cdopm'])}}</td>
                             <td class='col-xs-6 col-md-6'>{{$registro['sintese_txt']}}</td>
                             <td class='col-xs-3 col-md-3'>
                                 <span>
@@ -45,7 +45,7 @@
                                     @endif
                                     @if(hasPermissionTo('apagar-ipm')) 
                                     <a class="btn btn-danger" href="{{route('ipm.destroy',$registro['id_ipm'])}}"
-                                        onclick="return  confirmApagar('ipm',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
+                                    onclick="return confirm('Tem certeza que quer apagar?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
                                 </span>

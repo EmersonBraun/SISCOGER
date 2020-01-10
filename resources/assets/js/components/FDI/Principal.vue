@@ -106,7 +106,7 @@
             return {
                 adc: '',
                 comportamento: '',
-                estatuspm: [],
+                status: [],
             }
         },
         mounted(){

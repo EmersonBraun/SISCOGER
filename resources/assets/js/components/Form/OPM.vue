@@ -30,16 +30,21 @@
                 <option value="106">PM6</option>
                 <option value="110">DP</option>
                 <option value="11000009">DP/SESP</option>
-                <option value="111">APMG</option>
-                <option value="11105403">APMG/ESO</option>
-                <option value="11105404">APMG/1ESFAEP</option>
-                <option value="11105405">APMG/2ESFAEP</option>
-                <option value="11108">2COLEGIO/PMPR</option>
                 <option value="112">DAL</option>
                 <option value="113">DF</option>
                 <option value="114">DDTQ</option>
                 <option value="115">DS</option>
                 <option value="11502">HPM</option>
+            </optgroup>
+            <optgroup label="APMG">
+                <option value="111">APMG (sede)</option>
+                <option value="11105403">ESO</option>
+                <option value="11105404">1ESFAEP</option>
+                <option value="11105405">2ESFAEP</option>
+                <option value="11107">COLEGIO/PMPR</option>
+                <option value="11108">2COLEGIO/PMPR</option>
+                <option value="11109">3COLEGIO/PMPR</option>
+                <option value="11120">4COLEGIO/PMPR</option>
             </optgroup>
             <optgroup label="1CRPM">
                 <option value="2">1CRPM (sede)</option>
@@ -105,16 +110,31 @@
             <optgroup label="CCB">
                 <option value="9">CCB (sede)</option>
                 <option value="90000008">GOST</option>
+            </optgroup>
+            <optgroup label="1CRBM">
+                <option value="9000000401">1CRBM (sede)</option>
                 <option value="901">1GB</option>
                 <option value="902">2GB</option>
-                <option value="903">3GB</option>
-                <option value="904">4GB</option>
-                <option value="905">5GB</option>
                 <option value="906">6GB</option>
                 <option value="907">7GB</option>
                 <option value="908">8GB</option>
-                <option value="909">9GB</option>
+            </optgroup>
+            <optgroup label="2CRBM">
+                <option value="9000000501">2CRBM (sede)</option>
+                <option value="903">3GB</option>
+                <option value="905">5GB</option>
+                <option value="9002">11GB</option>
                 <option value="921">1SGBI</option>
+                <option value="9004">7SGBI</option>
+                <option value="9005">8SGBI</option>
+                <option value="9006">9SGBI</option>
+            </optgroup>
+            <optgroup label="3CRBM">
+                <option value="9000000601">3CRBM (sede)</option>
+                <option value="904">4GB</option>
+                <option value="909">9GB</option>
+                <option value="9001">10GB</option>
+                <option value="9003">12GB</option>
                 <option value="922">2SGBI</option>
                 <option value="926">6SGBI</option>
             </optgroup>

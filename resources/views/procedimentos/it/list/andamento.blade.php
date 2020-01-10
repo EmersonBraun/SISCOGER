@@ -50,7 +50,8 @@
                                             class="fa fa-fw fa-edit "></i></a>
                                     @endif
                                     @if(hasPermissionTo('apagar-it')) 
-                                    <a class="btn btn-danger" href="{{route('it.destroy',$registro['id_it'])}}"><i
+                                    <a class="btn btn-danger" href="{{route('it.destroy',$registro['id_it'])}}"
+                                    onclick="return confirm('Tem certeza que quer apagar?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
                                 </span>

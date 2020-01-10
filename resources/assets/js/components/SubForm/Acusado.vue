@@ -45,14 +45,38 @@
                         </div>
                         <div :class="reu ? 'col-xs-3' : 'col-xs-2'">
                             <label for="resultado">Resultado</label><br>
-                            <select class="form-control" name="resultado" :disabled="!nome" required v-model="resultado">
+                            <select class="form-control" name="resultado"  v-model="resultado">
                                 <option value="">Selecione</option>
+                                <option value="Em andamento">Em andamento</option>
                                 <option value="Excluído">Excluído</option>
                                 <option value="Punido">Punido</option>
                                 <option value="Absolvido">Absolvido</option>
                                 <option value="Perda objeto">Perda objeto</option>
-                                <option value="Prescricao">Prescricao</option>
+                                <option value="Prescrição">Prescrição</option>
                                 <option value="Reintegrado/Reinserido">Reintegrado/Reinserido</option>
+                                <option value="FATD">FATD</option>
+                                <option value="Conselho Just.">Conselho Just.</option>
+                                <option value="Conselho Disc.">Conselho Disc.</option>
+                                <option value="Arquivamento">Arquivamento</option>
+                                <option value="IPM">IPM</option>
+                                <option value="Sindicância">Sindicância</option>
+                                <option value="ADL">ADL</option>
+                                <option value="Ind. Crime">Ind. Crime</option>
+                                <option value="Ind. Crime/FATD">Ind. Crime/FATD</option>
+                                <option value="At. Origem">At. Origem</option>
+                                <option value="Outros">Outros</option>
+                                <option value="CPP">CPP</option>
+                                <option value="CPO">CPO</option>
+                                <option value="Com. Mérito">Com. Mérito</option>
+                                <option value="Não há indícios">Não há indícios</option>
+                                <option value="Indícios de crime">Indícios de crime</option>
+                                <option value="Indícios de transgressão">Indícios de transgressão</option>
+                                <option value="Indícios de crime e transgressão">Indícios de crime e transgressão</option>
+                                <option value="Punido">Punido</option>
+                                <option value="Absolvido">Absolvido</option>
+                                <option value="Outra medida">Outra medida</option>
+                                <option value="Anulado">Anulado</option>
+
                             </select>
                         </div>
                         <!-- REUS para IPM, desercao e APFD -->
@@ -403,7 +427,7 @@
             },
             editPM(){
                 let urledit = `${this.$root.baseUrl}api/acusado/edit/${this.toEdit}`;
-                let formData = document.getElementById('formData');
+                let formData = document.getElementById('formAcusado');
                 let data = new FormData(formData);
                 
                 axios.post( urledit,data)

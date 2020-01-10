@@ -95,7 +95,6 @@ class IpmController extends Controller
         //dados do formulário
         $dados = $this->repository->datesToCreate($request->all()); 
         $create = $this->repository->create($dados);
-
         if($create)
         {
             $this->repository->cleanCache();

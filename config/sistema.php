@@ -282,7 +282,16 @@ return [
         "30" => "IPM",
         "31" => "CD",
         "32" => "ADL",
-        "33" => "CJ"
+        "33" => "CJ",
+        "34" => "ANÁLISE DO CMT",
+        "35" => "ANÁLISE DO CMT",
+        "36" => "ANÁLISE DO CMT",
+        "37" => "ANÁLISE DO CMT",
+        "38" => "ANÁLISE DO CMT",
+        "39" => "ANÁLISE DO CMT",
+        "40" => "ANÁLISE DO CMT",
+        "41" => "ANÁLISE DO CMT",
+        "42" => "ANÁLISE DO CMT"
     ],
 
     'andamentoUnico' =>
@@ -306,14 +315,16 @@ return [
     [
         "1" => "ANDAMENTO",
         "2" => "CONCLUÍDO",
-        "3" => "SOBRESTADO"
+        "3" => "SOBRESTADO",
+        "34" => "ANÁLISE DO CMT"
     ],
 
     'andamentoIPM' =>
     [
         ""  => "SELECIONE",
         "4" => "ANDAMENTO",
-        "5" => "CONCLUÍDO"
+        "5" => "CONCLUÍDO",
+        "35" => "ANÁLISE DO CMT"
     ],
 
     'andamentoSindicancia' =>
@@ -321,7 +332,8 @@ return [
         ""  => "SELECIONE",
         "6" => "ANDAMENTO",
         "7" => "CONCLUÍDO",
-        "8" => "SOBRESTADO"
+        "8" => "SOBRESTADO",
+        "36" => "ANÁLISE DO CMT"
     ],
 
     'andamentoCD' =>
@@ -329,7 +341,8 @@ return [
         ""  => "SELECIONE",
         "9" => "ANDAMENTO",
         "10" => "CONCLUÍDO",
-        "11" => "SOBRESTADO"
+        "11" => "SOBRESTADO",
+        "37" => "ANÁLISE DO CMT"
     ],
 
     'andamentoCJ' =>
@@ -337,7 +350,8 @@ return [
         ""  => "SELECIONE",
         "12" => "ANDAMENTO",
         "13" => "CONCLUÍDO",
-        "14" => "SOBRESTADO"
+        "14" => "SOBRESTADO",
+        "38" => "ANÁLISE DO CMT"
     ],
 
     'andamentoADL' =>
@@ -345,7 +359,8 @@ return [
         ""  => "SELECIONE",
         "15" => "ANDAMENTO",
         "16" => "CONCLUÍDO",
-        "17" => "SOBRESTADO"
+        "17" => "SOBRESTADO",
+        "39" => "ANÁLISE DO CMT"
     ],
 
     'andamentoISO' =>
@@ -353,7 +368,8 @@ return [
         ""  => "SELECIONE",
         "18" => "ANDAMENTO",
         "19" => "CONCLUÍDO",
-        "20" => "SOBRESTADO"
+        "20" => "SOBRESTADO",
+        "40" => "ANÁLISE DO CMT"
     ],
 
     'andamentoIT' =>
@@ -361,14 +377,16 @@ return [
         ""  => "SELECIONE",
         "21" => "ANDAMENTO",
         "22" => "CONCLUÍDO",
-        "23" => "SOBRESTADO"
+        "23" => "SOBRESTADO",
+        "41" => "ANÁLISE DO CMT"
     ],
 
     'andamentoPAD' =>
     [
         ""  => "SELECIONE",
         "24" => "ANDAMENTO",
-        "25" => "CONCLUIDO"
+        "25" => "CONCLUIDO",
+        "42" => "ANÁLISE DO CMT"
     ],
 
     'andamentoSAI' =>

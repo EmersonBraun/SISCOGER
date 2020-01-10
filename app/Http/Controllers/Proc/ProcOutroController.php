@@ -93,9 +93,7 @@ class ProcOutroController extends Controller
     {
         $proc = $this->repository->procRefAno($ref,$ano,'proc_outros');
         if(!$proc) abort('404');
-
         return view('procedimentos.procoutros.form.edit', compact('proc'));
-
     }
 
     public function update(Request $request, $id)

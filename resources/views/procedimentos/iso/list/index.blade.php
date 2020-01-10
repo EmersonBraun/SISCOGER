@@ -45,7 +45,7 @@
                                     @endif
                                     @if(hasPermissionTo('apagar-iso')) 
                                     <a class="btn btn-danger" href="{{route('iso.destroy',$registro['id_iso'])}}"
-                                        onclick="return  confirmApagar('iso',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
+                                    onclick="return confirm('Tem certeza que quer apagar?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
                                 </span>

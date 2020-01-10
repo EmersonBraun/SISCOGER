@@ -34,25 +34,25 @@
                         <tr>
                             <td style="display: none">{{$registro['id_apfd']}}</td>
                             <td>{{$registro['sjd_ref']}}/{{$registro['sjd_ref_ano']}}</td>
-                            <td>{{opm($registro['cdopm'])}}</td>
                             <td>{{$registro['tipo']}}</td>
                             <td>{{$registro['tipo_penal']}}/{{$registro['tipo_penal_novo']}}</td>
+                            <td>{{opm($registro['cdopm'])}}</td>
                             <td>{{$registro['sintese_txt']}}</td>
                             <td>
                                 <span>
                                     @if(hasPermissionTo('ver-apfd'))
                                     <a class="btn btn-default"
-                                        href="{{route('apfd.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
+                                        href="{{route('apfd.show',['ref' => $registro['id_apfd']])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
                                     @endif
                                     @if(hasPermissionTo('editar-apfd'))
                                     <a class="btn btn-info"
-                                        href="{{route('apfd.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
+                                        href="{{route('apfd.edit',['ref' => $registro['id_apfd']])}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
                                     @endif
                                     @if(hasPermissionTo('apagar-apfd'))
                                     <a class="btn btn-danger" href="{{route('apfd.destroy',$registro['id_apfd'])}}"
-                                        onclick="return  confirmApagar('apfd',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
+                                    onclick="return confirm('Tem certeza que quer apagar?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
                                 </span>

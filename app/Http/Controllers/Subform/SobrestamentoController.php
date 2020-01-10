@@ -41,7 +41,7 @@ class SobrestamentoController extends Controller
 
     public function destroy($id)
     {
-        $destroy = Sobrestamento::findAndDelete($id);
+        $destroy = $this->repository->findAndDelete($id);
         if($destroy) return response()->json(['success' => true,], 200);
         return response()->json([ 'success' => false,], 200);
     }

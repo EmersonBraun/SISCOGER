@@ -27,7 +27,7 @@
                         <!-- linha início -->
                         <div class="col-lg-4 col-md-4 col-xs-4">
                             <label for="inicio_data">Data de início</label><br>
-                            <v-datepicker name="inicio_data" v-model="inicio_data" placeholder="dd/mm/aaaa" clear-button></v-datepicker>
+                            <v-datepicker name="inicio_data" v-model="inicio_data" placeholder="dd/mm/aaaa" clear-button required></v-datepicker>
                         </div>
                         <div class="col-lg-4 col-md-4 col-xs-4">
                             <label for="doc_controle_inicio">N° Documento</label><br>
@@ -195,23 +195,11 @@
                 let data = new FormData(formSobrestamento);
                 
                 axios.post( urlCreate,data)
-                .then(() => {
-                    this.sobrestamentos.push({
-                        motivo: data.get('motivo'),
-                        motivo_outros: data.get('motivo_outros'),
-                        inicio_data: data.get('inicio_data'),
-                        doc_controle_inicio: data.get('doc_controle_inicio'),
-                        publicacao_inicio: data.get('publicacao_inicio'),
-                        termino_data: data.get('termino_data'),
-                        doc_controle_termino: data.get('doc_controle_termino'),
-                        publicacao_termino: data.get('publicacao_termino'),
-                        rg: this.rg,
-                    })
-                    this.clear(false)
-                })
+                .then((response) => this.transation(response.data.success, 'create'))
                 .catch((error) => console.log(error));
             },
             replaceSobrestamento(sobrestamento){
+                console.table(sobrestamento)
                 this.motivo = sobrestamento.motivo,
                 this.motivo_outros = sobrestamento.motivo_outros,
                 this.inicio_data = sobrestamento.inicio_data,
@@ -228,22 +216,18 @@
             editSobrestamento(){
                 let urledit = `${this.$root.baseUrl}api/sobrestamento/edit/${this.toEdit}`
 
-                let formData = document.getElementById('formData');
+                let formData = document.getElementById('formSobrestamento');
                 let data = new FormData(formData);
                 
                 axios.post( urledit,data)
-                .then(() => {
-                    this.listSobrestamento()
-                    this.clear(false)
-                })
+                .then((response) => this.transation(response.data.success, 'edit'))
                 .catch((error) => console.log(error));
             },
             removeSobrestamento(id, index){
                 let urlDelete = `${this.$root.baseUrl}api/sobrestamento/destroy/${id}`
                 axios
                 .delete(urlDelete)
-                .then(this.sobrestamentos.splice(index,1))
-                .then(this.clear(false))
+                .then((response) => this.transation(response.data.success, 'delete'))
                 .catch(error => console.log(error));
             },
             clear(add){
@@ -258,6 +242,22 @@
                 this.publicacao_termino = '',
                 this.toEdit = ''
             },
+            transation(happen,type) {
+                let msg = this.words(type)
+                if(happen) { // se deu certo
+                        this.listSobrestamento()
+                        this.$root.msg(msg.success,'success')
+                        this.registro = null
+                        this.clear(false)
+                } else { // se falhou
+                    this.$root.msg(msg.fail,'danger')
+                }
+            },
+            words(type) {
+                if(type == 'create') return { success : 'Inserido com sucesso', fail: 'Erro ao inserir'}
+                if(type == 'edit') return { success : 'Editado com sucesso', fail: 'Erro ao editar'}
+                if(type == 'delete') return { success : 'Apagado com sucesso', fail: 'Erro ao apagar'}
+            }
         },
     }
 </script>

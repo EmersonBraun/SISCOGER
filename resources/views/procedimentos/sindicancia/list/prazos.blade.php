@@ -69,14 +69,14 @@
                                 {{$registro['diasuteis']}}
                                 @endif
                                 @else 
-                                <span class='label label-error'>S/Data abertura</span>
+                                S/Data abertura
                                 @endif
                             @elseif ( sistema('andamento',$registro["id_andamento"]) == 'CONCLUÍDO')
                                 <span class='label label-success'>Concluido</span>
                             @elseif (sistema('andamento',$registro['id_andamento']) == '') 
-                                <span class='label label-danger'>S/Andamento</span>
+                                S/Andamento
                             @elseif ( sistema('andamento',$registro['id_andamento']) == 'SOBRESTADO') 
-                                <span class='label label-error'>Sobrestado</span>
+                                Sobrestado
                             @endif 
                             </td>
                         </tr>

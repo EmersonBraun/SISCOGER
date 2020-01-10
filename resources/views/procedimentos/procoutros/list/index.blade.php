@@ -50,7 +50,7 @@
                                     @if(hasPermissionTo('apagar-proc-outros'))
                                     <a class="btn btn-danger"
                                         href="{{route('procoutro.destroy',$registro['id_proc_outros'])}}"
-                                        onclick="return  confirmApagar('procoutros',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
+                                        onclick="return confirm('Tem certeza que quer apagar?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
                                 </span>

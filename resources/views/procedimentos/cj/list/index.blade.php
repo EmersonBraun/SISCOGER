@@ -49,7 +49,7 @@
                                     @endif
                                     @if(hasPermissionTo('apagar-cj')) 
                                     <a class="btn btn-danger" href="{{route('cj.destroy',$registro['id_cj'])}}"
-                                        onclick="return  confirmApagar('cj',$registro['sjd_ref'],$registro['sjd_ref_ano'])"><i
+                                    onclick="return confirm('Tem certeza que quer apagar?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
                                 </span>
