@@ -34,20 +34,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['rg'],
@@ -60,6 +46,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.listDenuncias();
     },
 
+    computed: {
+        urlBase: function urlBase() {
+            return this.$root.baseUrl;
+        }
+    },
     methods: {
         listDenuncias: function listDenuncias() {
             var _this = this;
@@ -68,14 +59,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.rg) {
                 axios.get(urlIndex).then(function (response) {
                     _this.denuncias = response.data;
+                    console.log(_this.denuncias);
                 }).catch(function (error) {
                     return console.log(error);
                 });
             }
         },
         urlProc: function urlProc(proc, ref, ano) {
-            var baseUrl = this.$root.baseUrl;
-            return '' + baseUrl + proc + '/show/' + id + '/' + ano;
+            var urlBase = this.$root.baseUrl;
+            window.open('' + urlBase + proc + '/' + ref + '/' + ano);
+            console.log('Open');
         }
     }
 });
@@ -90,7 +83,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -106,115 +99,65 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-tab",
-    { attrs: { header: "Denúncias", badge: _vm.denuncias.lenght } },
+    { attrs: { header: "Denúncias", badge: _vm.denuncias.length } },
     [
       _c("table", { staticClass: "table table-striped" }, [
         _c(
           "tbody",
           [
-            _vm.denuncias.lenght
+            _vm.denuncias.length
               ? _vm._l(_vm.denuncias, function(denuncia, index) {
-                  return _c(
-                    "tr",
-                    { key: index },
-                    [
-                      denuncia.id_ipm !== 0
-                        ? [
-                            _c("td", [
-                              _c(
-                                "a",
-                                {
-                                  attrs: {
-                                    href:
-                                      "urlProc('ipm', denuncia.sjd_ref, denuncia.sjd_ref_ano)"
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                        IPM N°" +
-                                      _vm._s(denuncia.sjd_ref) +
-                                      "/" +
-                                      _vm._s(denuncia.sjd_ref_ano)
-                                  )
-                                ]
-                              )
-                            ])
-                          ]
-                        : _vm._e(),
-                      _vm._v(" "),
-                      denuncia.id_apfd !== 0
-                        ? [
-                            _c("td", [
-                              _c(
-                                "a",
-                                {
-                                  attrs: {
-                                    href:
-                                      "urlProc('apfd', denuncia.sjd_ref, denuncia.sjd_ref_ano)"
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                        APFD N°" +
-                                      _vm._s(denuncia.sjd_ref) +
-                                      "/" +
-                                      _vm._s(denuncia.sjd_ref_ano)
-                                  )
-                                ]
-                              )
-                            ])
-                          ]
-                        : _vm._e(),
-                      _vm._v(" "),
-                      denuncia.id_desercao !== 0
-                        ? [
-                            _c("td", [
-                              _c(
-                                "a",
-                                {
-                                  attrs: {
-                                    href:
-                                      "urlProc('desercao', denuncia.sjd_ref, denuncia.sjd_ref_ano)"
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                        Desercao N°" +
-                                      _vm._s(denuncia.sjd_ref) +
-                                      "/" +
-                                      _vm._s(denuncia.sjd_ref_ano)
-                                  )
-                                ]
-                              )
-                            ])
-                          ]
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v("Processo crime: "),
-                        _c("b", [_vm._v(_vm._s(denuncia.ipm_processocrime))])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v("Julgamento:  \n                        "),
-                        denuncia.ipm_julgamento
-                          ? _c("b", [
-                              _vm._v(" " + _vm._s(denuncia.ipm_processocrime))
-                            ])
-                          : _c("b", [_vm._v(" Não cadastrado ")])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          "Trânsito em julgado:  \n                        "
-                        ),
-                        denuncia.ipm_julgamento == "Condenado"
-                          ? _c("b", [_vm._v(" Sim")])
-                          : _c("b", [_vm._v(" Não ")])
-                      ])
-                    ],
-                    2
-                  )
+                  return _c("tr", { key: index }, [
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href:
+                              "" +
+                              _vm.urlBase +
+                              denuncia.proc_clean +
+                              "/editar/" +
+                              denuncia.sjd_ref +
+                              "/" +
+                              denuncia.sjd_ref_ano,
+                            target: "_blanck"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(denuncia.proc) +
+                              " N°" +
+                              _vm._s(denuncia.sjd_ref) +
+                              "/" +
+                              _vm._s(denuncia.sjd_ref_ano)
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v("Processo crime: "),
+                      _c("b", [_vm._v(_vm._s(denuncia.ipm_processocrime))])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v("Julgamento:  \n                "),
+                      denuncia.ipm_julgamento
+                        ? _c("b", [
+                            _vm._v(" " + _vm._s(denuncia.ipm_processocrime))
+                          ])
+                        : _c("b", [_vm._v(" Não cadastrado ")])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v("Trânsito em julgado:  \n                "),
+                      denuncia.ipm_julgamento == "Condenado"
+                        ? _c("b", [_vm._v(" Sim")])
+                        : _c("b", [_vm._v(" Não ")])
+                    ])
+                  ])
                 })
               : [_c("tr", [_c("td", [_vm._v("Nada encontrado")])])]
           ],

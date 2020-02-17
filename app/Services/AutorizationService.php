@@ -113,7 +113,9 @@ class AutorizationService
     {
         if(hasPermissionTo('todas-unidades')) return true;
         return false;
+       
     }
+   
 
     public function isTheSameOPM()
     {
@@ -176,7 +178,7 @@ class AutorizationService
     public function getAutorizationByUser()
     {
         // aqui pode ser colocada alguma regra que seja criada para dar autorização a usuários
-        return false;
+       
     }
 
     public function atualEncaminhamentoIsThisOPM($data)
@@ -229,7 +231,6 @@ class AutorizationService
         $cargo = isset($data['CARGO']) ? $data['CARGO'] : $data['cargo'];
         $nivel_ficha = sistema('posto', $cargo);
         if($nivel_ficha >= $this->nivel) return true;
-
         return false;
     }
 
@@ -274,6 +275,13 @@ class AutorizationService
 
         return ($proc == 'api') ? true : false;
     }
+
+    //função para comparar OPM de abertura e apuração
+
+   // public function ProcOpenOrDetermination() {
+
+        
+   // }
  
 }
 

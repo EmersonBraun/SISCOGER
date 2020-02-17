@@ -145,7 +145,7 @@ class EnvolvidoRepository extends BaseRepository
     public function membroAtual($proc, $id)
     {
         return $this->model->where('id_'.$proc,'=',$id)
-                    ->whereIn('situacao', ['Acusador', 'Encarregado','Escrivão','Membro','Presidente'])
+                    ->whereIn('situacao', ['Acusador', 'Encarregado','Escrivao','Membro','Presidente'])
                     ->where('rg_substituto','')
                     ->get();
     }
@@ -153,7 +153,7 @@ class EnvolvidoRepository extends BaseRepository
     public function membroSubstituido($proc, $id)
     {
         return $this->model->where('id_'.$proc,'=',$id)
-                    ->whereIn('situacao', ['Acusador', 'Encarregado','Escrivão','Membro','Presidente'])
+                    ->whereIn('situacao', ['Acusador', 'Encarregado','Escrivao','Membro','Presidente'])
                     ->where('rg_substituto','<>','')
                     ->get();
     }
@@ -187,17 +187,43 @@ class EnvolvidoRepository extends BaseRepository
 
     public function estaSubjudice($rg)
     {
-        $registros = Cache::tags('envolvido')->remember('envolvido:subjudice:rg'.$rg, $this->expiration, function() use($rg){
-            return DB::table('envolvido')
-                    ->join('ipm','ipm.id_ipm','=','envolvido.id_ipm')
-                    ->join('apfd','apfd.id_apfd','=','envolvido.id_apfd')
-                    ->join('desercao','desercao.id_desercao','=','envolvido.id_desercao')
+        // $registros = Cache::tags('envolvido')->remember('envolvido:subjudice:rg'.$rg, $this->expiration, function() use($rg){
+            $registros = [];
+            $i = 0;
+            $envolvidos = DB::table('envolvido')
                     ->where('ipm_processocrime','=', 'Denunciado')
                     ->where('rg','=', $rg)
                     ->get();
-        });
+        // });
 
-        $registros = (is_null($registros) || !count($registros)) ? false : (object) $registros;
+        foreach ($envolvidos as $envolvido) {
+            $registros[$i] = $envolvido;
+            if($envolvido['id_ipm']) {
+                $registros[$i]['proc'] = 'IPM';
+                $registros[$i]['proc_clean'] = 'ipm';
+                $data = refAno('ipm',$envolvido['id_ipm'], true);
+                $registros[$i]['sjd_ref'] = $data['ref'];
+                $registros[$i]['sjd_ref_ano'] = $data['ano'];
+            }
+            // dd($envolvido);
+            if($envolvido['id_apfd']) {
+                $registros[$i]['proc'] = 'APFD';
+                $registros[$i]['proc_clean'] = 'apfd';
+                $data = refAno('apfd',$envolvido['id_apfd'], true);
+                $registros[$i]['sjd_ref'] = $data['ref'];
+                $registros[$i]['sjd_ref_ano'] = $data['ano'];
+            }
+            if($envolvido['id_desercao']) {
+                $registros[$i]['proc'] = 'DESERÇÃO';
+                $registros[$i]['proc_clean'] = 'desercao';
+                $data = refAno('desercao',$envolvido['id_desercao'], true);
+                $registros[$i]['sjd_ref'] = $data['ref'];
+                $registros[$i]['sjd_ref_ano'] = $data['ano'];
+            }
+            $i++;
+        }
+        
+        $registros = (is_null($registros) || !count($registros)) ? false : $registros;
         return $registros;
         
     }
@@ -258,6 +284,7 @@ class EnvolvidoRepository extends BaseRepository
                     'id_andamento' => $proc['id_andamento'],
                     'id_andamentocoger' => $proc['id_andamentocoger'],
                     'cdopm' => $proc['cdopm']
+                
                 ];
                 $i++;     
             }
@@ -269,7 +296,7 @@ class EnvolvidoRepository extends BaseRepository
 
     public function membros($rg)
     {
-        $situacao = ['Encarregado', 'Presidente', 'Acusador'];
+        $situacao = ['Encarregado', 'Presidente', 'Acusador', 'Escrivao'];
         $envolvido = $this->envolvidos($rg, $situacao);
         $membros = array();
         if(count($envolvido) > 0){

@@ -156,11 +156,12 @@ class SobrestamentoRepository extends BaseRepository
                         opm.CODIGOBASE=".$proc.".cdopm
                 WHERE s.termino_data ='0000-00-00' AND 
                 ".$proc.".id_andamento=".$andamento." ORDER BY ".$proc.".id_".$proc." DESC");
+                
             });
         }
         else 
         {
-            $registros = Cache::tags('sobrestamento')->remember('sobrestament:'.$proc.':'.$this->unidade, 60, function() use ($proc, $andamento){
+            $registros = Cache::tags('sobrestamento')->remember('sobrestament:'.$proc.':'.$unidade = $this->unidade, 60, function() use ($proc, $andamento, $unidade){
                 return DB::connection('sjd')->select("SELECT DISTINCT s.*, ".$proc.".* , opm.ABREVIATURA,
                 DIASUTEIS(".$proc.".abertura_data,DATE(NOW()))+1 
                 AS dutotal,
@@ -174,11 +175,13 @@ class SobrestamentoRepository extends BaseRepository
                         s.id_".$proc."=".$proc.".id_".$proc." 
                 LEFT JOIN RHPARANA.opmPMPR AS opm ON opm.CODIGOBASE=".$proc.".cdopm
                 WHERE s.termino_data ='0000-00-00' 
-                AND ".$proc.".cdopm LIKE ".$this->unidade."%
+                AND ".$proc.".cdopm LIKE ".$unidade."%
                 AND ".$proc.".id_andamento=".$andamento." ORDER BY ".$proc.".id_".$proc." DESC");
             });
+            
         }
-
+       
+  
         return $registros;
     } 
 }

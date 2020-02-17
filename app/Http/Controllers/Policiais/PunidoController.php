@@ -60,6 +60,7 @@ class PunidoController extends Controller
         
         $dados = $request->all();
         $dados['opm_abreviatura'] = opm($dados['cdopm']);
+    
 
         $create = $this->repository->create($dados);
 
@@ -161,6 +162,7 @@ class PunidoController extends Controller
         
         $dados = $request->all();
         $dados['opm_abreviatura'] = opm($dados['cdopm']);
+
         $create = $this->repository->create($dados);
 
         if($create)

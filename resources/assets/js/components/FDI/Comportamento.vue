@@ -76,7 +76,10 @@
                 </v-label>
                 <v-label lg="6" label="motivo" title="Motivo" >
                     <select v-model="registro.motivo" v-if="registro.id_comportamento !== 0" class="form-control">
+                        <option value="Selecione">Selecione</option>
                         <option value="Inclusao na PMPR">Inclusão na PMPR</option>
+                        <option value="Punição Disciplinar">Punição Disciplinar</option>
+                        <option value="Condenação">Condenação</option>
                         <option value='Alt. de comportamento - ART. 51 RDE. §7º I- do "Mau" para o "Insuficiente"'>Alt. de comportamento - ART. 51 RDE. §7º I- do "Mau" para o "Insuficiente"</option>
                         <option value='Alt. de comportamento - ART. 51 RDE. §7º II- do "Insuficiente" para o "Bom"'>Alt. de comportamento - ART. 51 RDE. §7º II- do "Insuficiente" para o "Bom"</option>
                         <option value='Alt. de comportamento - ART. 51 RDE. §7º III- do "Bom" para o "Otimo"'>Alt. de comportamento - ART. 51 RDE. §7º III- do "Bom" para o "Ótimo"</option>

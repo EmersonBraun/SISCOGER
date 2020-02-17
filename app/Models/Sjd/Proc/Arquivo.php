@@ -101,8 +101,7 @@ class Arquivo extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getArquivoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -114,8 +113,7 @@ class Arquivo extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getRetornoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutators (para alterar na hora de salvar no banco)

@@ -203,6 +203,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.registro.rg = this.pm.RG;
             this.registro.cargo = this.pm.CARGO;
             this.registro.nome = this.pm.NOME;
+            this.registro.cdopm = this.pm.CDOPM;
             this.registro.rg_cadastro = this.$root.dadoSession('rg');
             this.registro.opm_abreviatura = this.$root.dadoSession('opm_abreviatura');
             this.registro.digitador = this.$root.dadoSession('nome');
@@ -333,12 +334,12 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [
                         _vm._v(
-                          _vm._s(registro.classpunicao || "Não cadastrado")
+                          _vm._s(registro.id_classpunicao || "Não cadastrado")
                         )
                       ]),
                       _vm._v(" "),
                       _c("td", [
-                        _vm._v(_vm._s(registro.gradacao || "Não cadastrado"))
+                        _vm._v(_vm._s(registro.id_gradacao || "Não cadastrado"))
                       ]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(registro.descricao_txt))]),

@@ -34,7 +34,7 @@
                         proc="notacomparecimento"
                         idp="{{$proc['id_notacomparecimento']}}"
                         :ext="['pdf']" 
-                        :candelete="{{session('is_admin')}}"
+                        
                         ></file-upload>
             <v-label label="observacao_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('observacao_txt')}}">
                 {!! Form::textarea('observacao_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}

@@ -62,8 +62,8 @@
                 <v-label label="nome" title="Digitador">
                     <input class="form-control" type="text" size="40" readonly v-model="registro.digitador">
                 </v-label>
-                <v-label label="descricao_txt" title="Descrição" lg="12" md="12" >
-                    <textarea  v-model="registro.descricao_txt" id="foco" rows="6" cols="105" width="100%"></textarea>
+                <v-label label="descricao_txt" title="Descrição">
+                    <textarea  v-model="registro.descricao_txt" class="form-control" rows="3" ></textarea>
                 </v-label>
             </div>
             <div slot="modal-footer" class="modal-footer">
@@ -124,7 +124,7 @@ export default {
                 .then((response) => {
                     this.registros = response.data
                 })
-                .catch(error => console.log(error));
+                .catch(error => console.log("error"));
             }
         },
         toCreate(){
@@ -136,6 +136,7 @@ export default {
             this.registro.cdopm = this.$root.dadoSession('cdopm')
             this.registro.opm_abreviatura = this.$root.dadoSession('opm_abreviatura')
             this.registro.digitador = this.$root.dadoSession('nome')
+            
         },
         create(){
             if(!this.requireds){
@@ -146,8 +147,9 @@ export default {
                 .then((response) => {
                     this.transation(response.data.success, 'create')
                 })
-                .catch(error => console.log(error));
+                .catch(error => console.log("error"));
                 this.showModal = false
+                
             }
         },
         edit(registro){
@@ -173,7 +175,7 @@ export default {
                 .then((response) => {
                     this.transation(response.data.success, 'delete')
                 })
-                .catch(error => console.log(error));
+                .catch(error => console.log("error"));
             }
         },
         transation(happen,type) {
@@ -186,6 +188,7 @@ export default {
                     this.registro = {}
             } else { // se falhou
                 this.$root.msg(msg.fail,'danger')
+                .catch(error => console.log("error"));
             }
         },
         words(type) {

@@ -132,7 +132,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 axios.get(urlIndex).then(function (response) {
                     _this.registros = response.data;
                 }).catch(function (error) {
-                    return console.log(error);
+                    return console.log("error");
                 });
             }
         },
@@ -155,7 +155,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 axios.post(urlCreate, this.registro).then(function (response) {
                     _this2.transation(response.data.success, 'create');
                 }).catch(function (error) {
-                    return console.log(error);
+                    return console.log("error");
                 });
                 this.showModal = false;
             }
@@ -184,7 +184,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 axios.delete(urlDelete).then(function (response) {
                     _this4.transation(response.data.success, 'delete');
                 }).catch(function (error) {
-                    return console.log(error);
+                    return console.log("error");
                 });
             }
         },
@@ -199,7 +199,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.registro = {};
             } else {
                 // se falhou
-                this.$root.msg(msg.fail, 'danger');
+                this.$root.msg(msg.fail, 'danger').catch(function (error) {
+                    return console.log("error");
+                });
             }
         },
         words: function words(type) {
@@ -541,14 +543,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-label",
-                {
-                  attrs: {
-                    label: "descricao_txt",
-                    title: "Descrição",
-                    lg: "12",
-                    md: "12"
-                  }
-                },
+                { attrs: { label: "descricao_txt", title: "Descrição" } },
                 [
                   _c("textarea", {
                     directives: [
@@ -559,12 +554,8 @@ var render = function() {
                         expression: "registro.descricao_txt"
                       }
                     ],
-                    attrs: {
-                      id: "foco",
-                      rows: "6",
-                      cols: "105",
-                      width: "100%"
-                    },
+                    staticClass: "form-control",
+                    attrs: { rows: "3" },
                     domProps: { value: _vm.registro.descricao_txt },
                     on: {
                       input: function($event) {

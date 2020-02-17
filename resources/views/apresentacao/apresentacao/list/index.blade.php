@@ -18,6 +18,7 @@
                     <thead>
                         <tr>
                             <th style="display: none">#</th>
+                            <th class='col-xs-1'>Data de criação</th>
                             <th class='col-xs-1'>N°/Ano</th>
                             <th class='col-xs-1'>Situação</th>
                             <th class='col-xs-1'>Local</th>
@@ -26,15 +27,18 @@
                             <th class='col-xs-1'>Nome</th>
                             <th class='col-xs-1'>Tipo Processo</th>
                             <th class='col-xs-1'>Autos</th>
-                            <th class='col-xs-1'>Data</th>
+                            <th class='col-xs-1'>N°/Of.</th>
+                            <th class='col-xs-1'>Data de comparecimento</th>
                             <th class='col-xs-1'>Acusados</th>
-                            <th class='col-xs-2'>Ações</th>
+                            <th class='col-xs-1'>OPM</th>
+                            <th class='col-xs-1'>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($registros as $registro)
                         <tr>
                             <td style="display: none">{{$registro->id_apresentacao}}</td>
+                            <td>{{$registro->present()->criacao_dh}}</td>
                             <td>{{$registro->present()->refAno}}</td>
                             <td>{{$registro->present()->situacao}}</td>
                             <td>{{$registro->comparecimento_local_txt}}</td>
@@ -43,8 +47,11 @@
                             <td>{{$registro->pessoa_nome}}</td>
                             <td>{{$registro->present()->tipoProcesso}}</td>
                             <td>{{$registro->autos_numero}}</td>
-                            <td>{{$registro->comparecimento_data}}</td>
+                            <td>{{$registro->documento_de_origem}}</td>
+                            <td>{{$registro->comparecimento_dh}}</td>
                             <td>{{$registro->acusados}}</td>
+                            <td>{{$registro->pessoa_unidade_lotacao_sigla}}</td>
+                           
                             <td>
                                 <span>
                                     {{-- @if(hasPermissionTo('ver-apresentacao'))
@@ -74,6 +81,7 @@
                     <tfoot>
                         <tr>
                             <th style="display: none">#</th>
+                            <th class='col-xs-1'>Data de criação</th>
                             <th class='col-xs-1'>N°/Ano</th>
                             <th class='col-xs-1'>Situação</th>
                             <th class='col-xs-1'>Local</th>
@@ -82,9 +90,11 @@
                             <th class='col-xs-1'>Nome</th>
                             <th class='col-xs-1'>Tipo Processo</th>
                             <th class='col-xs-1'>Autos</th>
-                            <th class='col-xs-1'>Data</th>
+                            <th class='col-xs-2'>N°/Of.</th>
+                            <th class='col-xs-1'>Data de comparecimento</th>
                             <th class='col-xs-1'>Acusados</th>
-                            <th class='col-xs-2'>Ações</th>
+                            <th class='col-xs-2'>OPM</th>
+                            <th class='col-xs-1'>Ações</th>
                         </tr>
                     </tfoot>
                 </table>

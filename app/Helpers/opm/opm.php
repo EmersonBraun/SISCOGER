@@ -1,5 +1,5 @@
 <?php
-use Illuminate\Support\Facades\DB;
+use App\Repositories\OPM\OPMRepository;
 //para acessar as variáveis do config/sistema enviando chave e retornando o valor 
 if (! function_exists('opm')) 
 {
@@ -13,7 +13,7 @@ if (! function_exists('opm'))
         //caso não exista
        if(!$opm)
         {
-            return "OPM NOVA";
+            return OPMRepository::abreviatura($chave);
         }
         else
         {

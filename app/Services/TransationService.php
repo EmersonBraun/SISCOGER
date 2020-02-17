@@ -14,7 +14,7 @@ class TransationService
 
     public function transation($repository, $data, $type)
     {
-        dd($data);
+        //dd($data);
         if(Route::prefix('api')) $this->transationApi($repository, $data);
         $msg = $this->words($type);
         if($data){

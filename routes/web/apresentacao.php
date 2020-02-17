@@ -21,7 +21,7 @@ Route::group(['as'=>'memorando.','prefix' =>'memorando'],function(){
 	// Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Apresentacao\MemorandoController@destroy','middleware' => ['permission:apagar-memorando-apresentacao']]);
 });
 //Rotas do módulo Locais de apresentação
-Route::group(['as'=>'local.','prefix' =>'local','middleware' => ['permission:']],function(){
+Route::group(['as'=>'local.','prefix' =>'local'],function(){
     Route::get('',['as' =>'index','uses'=>'Apresentacao\LocalController@index','middleware' => ['permission:listar-locais']]);
     Route::get('apagados',['as' =>'apagados','uses'=>'Apresentacao\LocalController@apagados','middleware' => ['permission:listar-locais']]);
 	Route::get('criar',['as' =>'create','uses'=>'Apresentacao\LocalController@create','middleware' => ['permission:criar-locais']]);

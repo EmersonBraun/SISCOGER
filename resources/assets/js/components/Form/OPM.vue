@@ -1,6 +1,6 @@
 <template>
     <div>
-        <select :name="name" :value="cdopm" class="form-control" @click="$emit('input', $event.target.value)">
+        <select :name="name" v-model="cdopm" class="form-control" @click="$emit('input', $event.target.value)">
             <option v-if='todas' value="">Todas as OPM</option>
             <optgroup label="CG">
                 <option value="0">CG (sede)</option>
@@ -37,7 +37,7 @@
                 <option value="11502">HPM</option>
             </optgroup>
             <optgroup label="APMG">
-                <option value="111">APMG (sede)</option>
+                <option value="1110500000">APMG (sede)</option>
                 <option value="11105403">ESO</option>
                 <option value="11105404">1ESFAEP</option>
                 <option value="11105405">2ESFAEP</option>
@@ -146,9 +146,16 @@
 
     export default {
         props: {
-            cdopm: {type: String, default: ''},
             name: {type: String, default: 'cdopm'},
             todas: {type: Boolean, default: false}
+        },
+        mounted(){
+            this.cdopm = this.$root.dadoSession('cdopm')
+        },
+        data() {
+           return {
+               cdopm: ''
+           } 
         },
     }
 </script>

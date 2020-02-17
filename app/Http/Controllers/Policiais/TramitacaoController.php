@@ -25,9 +25,8 @@ class TramitacaoController extends Controller
     public function store(Request $request)
     {
         $dados = $request->all();
-        $dados['data'] = data_bd($dados['data']);
         $create = $this->repository->create($dados);
-
+    
         if($create)
         {
             $this->repository->cleanCache();
@@ -39,7 +38,6 @@ class TramitacaoController extends Controller
     public function update(Request $request, $id)
     {
         $dados = $request->all();
-        $dados['data'] = data_bd($dados['data']);
         $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)

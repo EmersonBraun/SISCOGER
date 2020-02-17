@@ -28,11 +28,11 @@
                     <tbody>
                     @foreach($registros as $registro)
                     <tr>
-                        <td class='col-xs-2 col-md-2'>{{$registro['id_SINDICÂNCIA']}}</td>
+                        <td class='col-xs-2 col-md-2'>{{$registro['id_sindicancia']}}</td>
                         <td class='col-xs-2 col-md-2'>{{$registro['sjd_ref']}} / {{$registro['sjd_ref_ano']}}</td>
-                        <td class='col-xs-2 col-md-2'>{{opm($registro['SINDICÂNCIAopm'])}}</td>
+                        <td class='col-xs-2 col-md-2'>{{opm($registro['cdopm'])}}</td>
                         <td class='col-xs-2 col-md-2'>{{$registro['cargo']}} {{$registro['nome']}}</td>
-                        <td class='col-xs-2 col-md-2'>{{sistema('andamentoSINDICÂNCIA',$registro['id_andamento'])}}</td> 
+                        <td class='col-xs-2 col-md-2'>{{sistema('andamentoSindicancia',$registro['id_andamento'])}}</td> 
                         <td class='col-xs-2 col-md-2'>
                         @if ($registro['resultado'] == "Punido")
                             @if (!$registro['id_punicao'])

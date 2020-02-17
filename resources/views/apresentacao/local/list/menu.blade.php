@@ -10,11 +10,11 @@
             <a class="btn @if($page == 'index') btn-success @else btn-default @endif col-md-6 col-xs-6" href="{{route('local.index')}}">Consulta</a>
             <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-6 col-xs-6" href="{{route('local.apagados')}}">Apagados</a>
         </div>
-        @if(hasPermissionTo('criar-locais'))  
+        {{--@if(hasPermissionTo('criar-locais'))--}}
             <div class="col-md-4 col-xs-12 litlepadding">
                 <a class="btn btn-block btn-primary" href="{{route('local.create')}}">
                 <i class="fa fa-plus"></i> Adicionar Locais</a>
             </div>
-        @endif
+        {{--@endif--}}
     <div>
 </section>

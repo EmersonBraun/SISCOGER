@@ -53,6 +53,7 @@ class BaseRepository
         } catch (\Throwable $th) {
             toast()->error($th->getMessage(),'ERRO');
             return false;
+            //return $th->getMessage();
         }
     }
 
@@ -64,6 +65,7 @@ class BaseRepository
         } catch (\Throwable $th) {
             toast()->error($th->getMessage(),'ERRO');
             return false;
+        
         }
     }
 
@@ -131,6 +133,15 @@ class BaseRepository
         return $data;
     }
 
+    public function datesToCreate_other(array $data) {// para Nota COGER
+        $ref = $this->maxRef_other();
+        //referência e ano
+        $data['sjd_ref'] = $ref;
+        $data['sjd_ref_ano'] = (int) date('Y');
+        
+        return $data;
+    }
+
     public function refAno($ref, $ano='')
     {
         if(!$ano) return $this->model->findOrFail($ref);
@@ -149,6 +160,13 @@ class BaseRepository
     {
         $sjd_ref = $this->model->where('sjd_ref_ano','=',date('Y'))->max('sjd_ref');
         $maxRef = (!$sjd_ref) ? 1 : $sjd_ref;
+        return $maxRef;
+    }
+
+    public function maxRef_other()  // para Nota COGER
+    {
+        $sjd_ref = $this->model->where('sjd_ref_ano','=',date('Y'))->max('sjd_ref');
+        $maxRef = (!$sjd_ref) ? 1 : $sjd_ref+1;
         return $maxRef;
     }
 

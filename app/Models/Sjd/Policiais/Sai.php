@@ -148,8 +148,7 @@ class Sai extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutator para alterar na hora de salvar no bd
@@ -161,8 +160,7 @@ class Sai extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getAberturaDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutator para alterar na hora de salvar no bd
@@ -174,8 +172,7 @@ class Sai extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getRelatorio1DataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutator para alterar na hora de salvar no bd
@@ -187,8 +184,7 @@ class Sai extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getRelatorio2DataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutator para alterar na hora de salvar no bd
@@ -200,8 +196,7 @@ class Sai extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getRelatorio3DataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutator para alterar na hora de salvar no bd

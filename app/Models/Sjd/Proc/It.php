@@ -133,8 +133,7 @@ class It extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getFatoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -146,8 +145,7 @@ class It extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getAberturaDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -159,8 +157,7 @@ class It extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getBoletiminternoDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -172,8 +169,7 @@ class It extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getRelatorioDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -185,8 +181,7 @@ class It extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getSolucaoUnidadeDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutators (para alterar na hora de salvar no banco)
@@ -198,8 +193,7 @@ class It extends Eloquent
     //mutators (para alterar na hora da exibição)
     public function getSolucaoComplementarDataAttribute($value)
     {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
     }
 
     //mutators (para alterar na hora de salvar no banco)

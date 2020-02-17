@@ -48,7 +48,9 @@
             </v-label> 
             <v-label label="autoridade_funcao" title="Função" lg="2" md="2" error="{{$errors->first('autoridade_funcao')}}">
                 {{ Form::text('autoridade_funcao', 'Corregedor-Geral', ['class' => 'form-control ','readonly','id' => 'funcao']) }}
-            </v-label>      
+            </v-label>
+
+                  
             {!! Form::submit('Inserir Nota COGER',['class' => 'btn btn-primary btn-block']) !!}
             {!! Form::close() !!}
         </v-tab-item>

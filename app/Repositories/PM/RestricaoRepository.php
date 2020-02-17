@@ -73,6 +73,7 @@ class RestricaoRepository extends BaseRepository
                 ['fim_data','0000-00-00']
             ])->count();
         });
+        
 
         if($registros) return true;
         return false;

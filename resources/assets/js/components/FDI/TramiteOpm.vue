@@ -12,7 +12,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="registro in registros" :key="registro.id_tramitacaoopm">
-                            <td>{{registro.data | date_br}}</td>
+                            <td>{{registro.data}}</td>
                             <td>{{registro.descricao_txt}}</td>
                             <td>{{registro.digitador}}</td>
                             <td>
@@ -63,7 +63,7 @@
                     <input class="form-control" type="text" size="40" readonly v-model="registro.digitador">
                 </v-label>
                 <v-label label="descricao_txt" title="Descrição" lg="12" md="12" >
-                    <textarea  v-model="registro.descricao_txt" id="foco" rows="6" cols="105" width="100%"></textarea>
+                    <textarea  v-model="registro.descricao_txt" class="form-control" rows="3"></textarea>
                 </v-label>
             </div>
             <div slot="modal-footer" class="modal-footer">

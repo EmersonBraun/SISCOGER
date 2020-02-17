@@ -73,6 +73,7 @@ class ComportamentoController extends Controller
         if($destroy) {
             $this->repository->cleanCache();
             return response()->json(['success' => true,200]);
+           
         }
 
         return response()->json(['success' => false,200]);

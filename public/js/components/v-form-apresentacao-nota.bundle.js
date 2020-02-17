@@ -167,6 +167,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -178,6 +202,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             module: 'apresentacao',
             registros: null,
+            apCondicao: [{ id: 1, name: "Testemunha" }, { id: 2, name: "Juiz Militar - Conselho Permanente" }, { id: 3, name: "Juiz Militar - Conselho Especial" }, { id: 4, name: "Réu" }, { id: 5, name: "Testemunha de Defesa" }, { id: 6, name: "Testemunha da Denúncia" }, { id: 7, name: "Testemunha de Acusação" }, { id: 8, name: "Testemunha do Juízo" }, { id: 9, name: "Outro" }, { id: 10, name: "Não informado" }],
             registro: {
                 pessoa_rg: '',
                 pessoa_nome: '',
@@ -197,17 +222,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         buscaLocal: function buscaLocal() {
-            return this.$root.baseUrl + 'api/localapresentacao/';
+            return this.$root.baseUrl + "api/localapresentacao/";
         },
         buscaPM: function buscaPM() {
-            return this.$root.baseUrl + 'api/dados/showsugest/' + this.type + '/';
+            return this.$root.baseUrl + "api/dados/showsugest/" + this.type + "/";
         },
         requireds: function requireds() {
             if (this.registro.autos_numero && this.registro.comparecimento_data && this.registro.comparecimento_hora && this.registro.comparecimento_local_txt && this.registro.pessoa_rg && this.registro.pessoa_nome && this.registro.pessoa_posto && this.registro.pessoa_quadro && this.registro.id_apresentacaocondicao) return false;
             return true;
         },
         msgRequired: function msgRequired() {
-            return 'Para liberar este bot\xE3o os campos: AUTOS, DATA DO COMPARECIMENTO, HORA, DESCRI\xC7\xC3O DO LOCAL, E OS DADOS DO PM/BM deve estar preenchidos';
+            return "Para liberar este bot\xE3o os campos: AUTOS, DATA DO COMPARECIMENTO, HORA, DESCRI\xC7\xC3O DO LOCAL, E OS DADOS DO PM/BM deve estar preenchidos";
         },
         canEdit: function canEdit() {
             return this.$root.hasPermission('editar-apresentacao');
@@ -229,7 +254,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         list: function list() {
             var _this = this;
 
-            var urlIndex = this.$root.baseUrl + 'api/' + this.module + '/listnota/' + this.id_notacomparecimento;
+            var urlIndex = this.$root.baseUrl + "api/" + this.module + "/listnota/" + this.id_notacomparecimento;
             if (this.id_notacomparecimento) {
                 axios.get(urlIndex).then(function (response) {
                     _this.registros = response.data;
@@ -251,7 +276,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         selectLocal: function selectLocal(item) {
-            var localapresentacao = item.localdeapresentacao + '.' + item.logradouro + ', ' + item.numero + ' - ' + item.bairro + ' - ' + item.municipio + '/' + item.uf + '. Tel.: ' + item.telefone + '. CEP: ' + item.cep + '.';
+            var localapresentacao = item.localdeapresentacao + "." + item.logradouro + ", " + item.numero + " - " + item.bairro + " - " + item.municipio + "/" + item.uf + ". Tel.: " + item.telefone + ". CEP: " + item.cep + ".";
             this.registro.comparecimento_local_txt = localapresentacao;
             this.registro.id_localdeapresentacao = item.id_localdeapresentacao;
             return localapresentacao;
@@ -282,8 +307,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         dadosApresentacao: function dadosApresentacao() {
             var _this2 = this;
 
-            var refAno = this.ano ? this.reference + '/' + this.ano : this.reference;
-            var urlData = this.$root.baseUrl + 'api/' + this.module + '/' + refAno;
+            var refAno = this.ano ? this.reference + "/" + this.ano : this.reference;
+            var urlData = this.$root.baseUrl + "api/" + this.module + "/" + refAno;
             axios.get(urlData).then(function (response) {
                 _this2.registro = response.data;
             }).catch(function (error) {
@@ -309,14 +334,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var reg = this.registro;
             var cleanData = reg.comparecimento_data.split('/').reverse().join('-');
             this.registro.comparecimento_hora = this.registro.comparecimento_hora;
-            this.registro.comparecimento_dh = cleanData + ' ' + reg.comparecimento_hora;
+            this.registro.comparecimento_dh = cleanData + " " + reg.comparecimento_hora;
         },
         create: function create() {
             var _this3 = this;
 
             if (!this.requireds) {
                 this.additionalData();
-                var urlCreate = this.$root.baseUrl + 'api/' + this.module + '/store';
+                var urlCreate = this.$root.baseUrl + "api/" + this.module + "/store";
                 axios.post(urlCreate, this.registro).then(function (response) {
                     _this3.transation(response.data.success, 'create');
                 }).catch(function (error) {
@@ -331,7 +356,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this4 = this;
 
             if (!this.requireds) {
-                var urlUpdate = this.$root.baseUrl + 'api/' + this.module + '/update/' + id;
+                var urlUpdate = this.$root.baseUrl + "api/" + this.module + "/update/" + id;
                 axios.put(urlUpdate, this.registro).then(function (response) {
                     _this4.transation(response.data.success, 'edit');
                 }).catch(function (error) {
@@ -343,13 +368,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this5 = this;
 
             if (confirm('Você tem certeza?')) {
-                var urlDelete = this.$root.baseUrl + 'api/' + this.module + '/destroyApi/' + id;
+                var urlDelete = this.$root.baseUrl + "api/" + this.module + "/destroyApi/" + id;
                 axios.delete(urlDelete).then(function (response) {
                     _this5.transation(response.data.success, 'delete');
                 }).catch(function (error) {
                     return console.log(error);
                 });
             }
+        },
+        condicao: function condicao(id) {
+            var search = this.apCondicao[id - 1];
+            return search.name;
         },
         transation: function transation(happen, type) {
             var msg = this.words(type);
@@ -382,7 +411,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -399,6 +428,45 @@ var render = function() {
   return _c(
     "div",
     [
+      _c(
+        "v-label",
+        {
+          attrs: {
+            lg: "2",
+            md: "2",
+            title: "Of. Nº",
+            error: _vm.error.documento_de_origem
+          }
+        },
+        [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.registro.documento_de_origem,
+                expression: "registro.documento_de_origem"
+              }
+            ],
+            staticClass: "form-control ",
+            attrs: { type: "text" },
+            domProps: { value: _vm.registro.documento_de_origem },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.registro,
+                  "documento_de_origem",
+                  $event.target.value
+                )
+              }
+            }
+          })
+        ]
+      ),
+      _vm._v(" "),
       _c(
         "v-label",
         {
@@ -446,6 +514,7 @@ var render = function() {
         },
         [
           _c("v-ano", {
+            attrs: { selecione: true },
             model: {
               value: _vm.registro.autos_ano,
               callback: function($$v) {
@@ -561,8 +630,8 @@ var render = function() {
         "v-label",
         {
           attrs: {
-            lg: "2",
-            md: "2",
+            lg: "12",
+            md: "12",
             title: "Observações",
             error: _vm.error.observacao_txt
           }
@@ -950,6 +1019,86 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _c(
+        "v-label",
+        {
+          attrs: {
+            lg: "2",
+            md: "2",
+            title: "Condição",
+            error: _vm.error.id_apresentacaocondicao
+          }
+        },
+        [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.registro.id_apresentacaocondicao,
+                  expression: "registro.id_apresentacaocondicao"
+                }
+              ],
+              staticClass: "form-control",
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.registro,
+                    "id_apresentacaocondicao",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "1" } }, [_vm._v("Testemunha")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "2" } }, [
+                _vm._v("Juiz Militar - Conselho Permanente")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "3" } }, [
+                _vm._v("Juiz Militar - Conselho Especial")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "4" } }, [_vm._v("Réu")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "5" } }, [
+                _vm._v("Testemunha de Defesa")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "6" } }, [
+                _vm._v("Testemunha da Denúncia")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "7" } }, [
+                _vm._v("Testemunha de Acusação")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "8" } }, [
+                _vm._v("Testemunha do Juízo")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "9" } }, [_vm._v("Outro")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "10" } }, [
+                _vm._v("Não informado")
+              ])
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
       _c("div", { staticClass: "col-xs-12" }, [
         _c(
           "div",
@@ -1022,17 +1171,13 @@ var render = function() {
                       return _c("tr", { key: index }, [
                         _c("td", [_vm._v(_vm._s(registro.autos_numero))]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(registro.autos_ano))]),
+                        _c("td", [
+                          _vm._v(_vm._s(registro.documento_de_origem))
+                        ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(registro.acusados))]),
                         _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(registro.comparecimento_data))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(registro.comparecimento_hora))
-                        ]),
+                        _c("td", [_vm._v(_vm._s(registro.comparecimento_dh))]),
                         _vm._v(" "),
                         _c("td", [
                           _vm._v(_vm._s(registro.comparecimento_local_txt))
@@ -1046,6 +1191,14 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [
                           _vm._v(_vm._s(registro.pessoa_unidade_lotacao_sigla))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(
+                              _vm.condicao(registro.id_apresentacaocondicao)
+                            )
+                          )
                         ]),
                         _vm._v(" "),
                         _c("td", [
@@ -1122,15 +1275,13 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("N° Autos")])]),
         _vm._v(" "),
-        _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("Autos ano")])]),
+        _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("Of. N°")])]),
         _vm._v(" "),
         _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("Acusados")])]),
         _vm._v(" "),
         _c("th", { staticClass: "col-xs-1" }, [
           _c("b", [_vm._v("Data comparecimento")])
         ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("Hora")])]),
         _vm._v(" "),
         _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("Local")])]),
         _vm._v(" "),
@@ -1143,6 +1294,8 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("OPM")])]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-xs-1" }, [_c("b", [_vm._v("Condição")])]),
         _vm._v(" "),
         _c("th", { staticClass: "col-xs-2" }, [_c("b", [_vm._v("Ações")])])
       ])

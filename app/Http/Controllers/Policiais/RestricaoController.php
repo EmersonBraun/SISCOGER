@@ -38,6 +38,7 @@ class RestricaoController extends Controller
         $dados = $request->all();
         $dados['cadastro_data'] = date('Y-m-d');
         $create = $this->repository->create($dados);
+        
 
         if($create)
         {
@@ -141,13 +142,14 @@ class RestricaoController extends Controller
     {
         $dados = $request->all();
         $create = $this->repository->create($dados);
-
+        //dd($create);
         if($create)
         {
             $this->repository->cleanCache();
             return response()->json(['success' => true,200]);
         }
         return response()->json(['success' => false,200]);
+      
     }
 
     public function updateAPI(Request $request, $id)

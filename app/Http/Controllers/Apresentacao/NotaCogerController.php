@@ -30,7 +30,7 @@ class NotaCogerController extends Controller
 
     public function create()
     {
-        $ref = $this->repository->maxRef();
+        $ref = $this->repository->maxRef_other();
         return view('apresentacao.notacoger.form.create',compact('ref'));
     }
 
@@ -41,7 +41,7 @@ class NotaCogerController extends Controller
             'status' => 'required',
         ]);
 
-        $dados = $this->repository->datesToCreate($request->all()); 
+        $dados = $this->repository->datesToCreate_other($request->all()); 
         $create = $this->repository->create($dados);
 
         if($create)
@@ -49,6 +49,8 @@ class NotaCogerController extends Controller
             $this->repository->cleanCache();
             toast()->success('N° '.$dados['sjd_ref'].'/'.'Nota COGER Inserido');
             return redirect()->route('notacoger.edit', ['ref' => $create->sjd_ref, 'ano' => $create->sjd_ref_ano]);
+            
+            
         }
 
         toast()->warning('Houve um erro na inserção');

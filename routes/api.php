@@ -99,6 +99,7 @@ Route::group(['as'=>'fdi.','prefix' =>'fdi'],function(){
     Route::get('dependentes/{rg}',['as' =>'dependentes','uses'=>'FDI\FDIListController@dependentes']);
     Route::get('sai/{rg}',['as' =>'sai','uses'=>'FDI\FDIListController@sai']);
     Route::get('objetos/{rg}',['as' =>'objetos','uses'=>'FDI\FDIListController@objetos']);
+    Route::get('objetos2/{rg}',['as' =>'objetos2','uses'=>'FDI\FDIListController@objetos2']);
     Route::get('membros/{rg}',['as' =>'membros','uses'=>'FDI\FDIListController@membros']);
     Route::get('punicoes/{rg}',['as' =>'punicoes','uses'=>'FDI\FDIListController@punicoes']);
     Route::get('apresentacoes/{rg}',['as' =>'apresentacoes','uses'=>'FDI\FDIListController@apresentacoes']);

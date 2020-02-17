@@ -3,8 +3,8 @@
 if (! function_exists('data_br')) 
 {
     function data_br($date,$h=0){
-        if($date == "0000-00-00")return '';
-        if($date == "null" || $date == null || !$date)return '';
+        $errados = ['1970-01-01 00:00:00','1970-01-01','0000-00-00'];
+        if(in_array($date, $errados) || !$date) return '';
         if($h !== 0) {
             return date( 'd/m/Y H:i:s' , strtotime($date));
         }

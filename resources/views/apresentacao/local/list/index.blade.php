@@ -39,17 +39,17 @@
                             <td>{{$registro->telefone}}</td>
                             <td>
                                 <span>
-                                    @if(hasPermissionTo('editar-locais'))
+                                   {{--@if(hasPermissionTo('editar-locais'))--}} 
                                     <a class="btn btn-info"
                                         href="{{route('local.edit',$registro->id_localdeapresentacao)}}"><i
                                             class="fa fa-fw fa-edit "></i></a>
-                                    @endif
-                                    @if(hasPermissionTo('apagar-locais'))
+                                    {{--@endif--}}
+                                   {{--@if(hasPermissionTo('apagar-locais'))--}}
                                     <a class="btn btn-danger"
                                         href="{{route('local.destroy',$registro->id_localdeapresentacao)}}"
                                         onclick="return confirm('Tem certeza que quer apagar o local?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
-                                    @endif
+                                    {{--@endif--}}
                                 </span>
                             </td>
                         </tr>

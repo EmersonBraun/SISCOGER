@@ -38,6 +38,7 @@ class TramitacaoRepository extends BaseRepository
                 ->where('rg','=', $rg)
                 ->orderByRaw('data - id_tramitacao DESC')
                 ->get();
+            
         });
 
         return $registros;

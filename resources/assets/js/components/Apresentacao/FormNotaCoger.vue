@@ -1,10 +1,13 @@
 <template>
     <div >
+        <v-label lg="2" md="2" title="Of. Nº" :error="error.documento_de_origem">
+            <input v-model="registro.documento_de_origem" type="text" class="form-control ">
+        </v-label>
         <v-label lg="2" md="2" title="Autos Nº" :error="error.autos_numero">
             <input v-model="registro.autos_numero" type="text" class="form-control ">
         </v-label>
         <v-label lg="2" md="2" title="Autos Ano" :error="error.autos_ano">
-            <v-ano v-model="registro.autos_ano"></v-ano>
+            <v-ano :selecione="true" v-model="registro.autos_ano"></v-ano>
         </v-label>
         <v-label lg="2" md="2" title="Acusados" :error="error.acusados">
             <input v-model="registro.acusados" type="text" class="form-control ">
@@ -15,7 +18,7 @@
         <v-label lg="2" md="2" title="Hora" :error="error.comparecimento_hora">
             <input type="time" v-model="registro.comparecimento_hora" class="form-control" placeholder="00:00" required>
         </v-label>
-        <v-label lg="2" md="2" title="Observações" :error="error.observacao_txt">
+        <v-label lg="12" md="12" title="Observações" :error="error.observacao_txt">
             <input v-model="registro.observacao_txt" class="form-control">
         </v-label>
         <v-label lg="12" md="12" title="Descrição do local" :error="error.comparecimento_local_txt">
@@ -43,6 +46,7 @@
                 <input v-model="registro.pessoa_rg" type="text" class="form-control " placeholder="Busca PM/BM ativos" @click.prevent="changeMode('rg')">       
             </template>
         </v-label>
+
         <v-label lg="2" md="2" title="Nome" :error="error.pessoa_nome" >
             <template v-if="onSearch && type == 'nome'">  
                 <v-typeahead
@@ -58,6 +62,7 @@
                 <input v-model="registro.pessoa_nome" type="text" class="form-control " placeholder="Busca PM/BM ativos" @click.prevent="changeMode('nome')">       
             </template>
         </v-label>
+
         <v-label lg="2" md="2" title="Posto/Grad" :error="error.pessoa_posto">
             <select v-model="registro.pessoa_posto" class="form-control">
                 <option value="CELAGREG">CELAGREG</option>
@@ -82,6 +87,7 @@
                 <option value="null">Nâo encontrado</option>
             </select>
         </v-label>
+
         <v-label lg="2" md="2" title="Quadro" :error="error.pessoa_quadro">
             <select v-model="registro.pessoa_quadro" class="form-control">
                 <option value="QPMG1">QPMG1</option> 
@@ -95,8 +101,24 @@
                 <option value="null">Nâo encontrado</option>
             </select>
         </v-label>
+
         <v-label lg="2" md="2" title="OPM" :error="error.pessoa_opm_codigo">
             <v-opm :cdopm="registro.pessoa_opm_codigo" v-model="registro.pessoa_opm_codigo"></v-opm>
+        </v-label>
+
+        <v-label lg="2" md="2" title="Condição" :error="error.id_apresentacaocondicao">
+            <select v-model="registro.id_apresentacaocondicao" class="form-control">
+                <option value="1">Testemunha</option>
+                <option value="2">Juiz Militar - Conselho Permanente</option>
+                <option value="3">Juiz Militar - Conselho Especial</option>
+                <option value="4">Réu</option>
+                <option value="5">Testemunha de Defesa</option>
+                <option value="6">Testemunha da Denúncia</option>
+                <option value="7">Testemunha de Acusação</option>
+                <option value="8">Testemunha do Juízo</option>
+                <option value="9">Outro</option>
+                <option value="10">Não informado</option>
+            </select>
         </v-label>
         <div class="col-xs-12">
             <div class="col-md-8 col-xs-12">
@@ -115,30 +137,32 @@
                     <thead>
                         <tr>
                             <th class="col-xs-1"><b>N° Autos</b></th>
-                            <th class="col-xs-1"><b>Autos ano</b></th>
+                            <th class="col-xs-1"><b>Of. N°</b></th>
                             <th class="col-xs-1"><b>Acusados</b></th>
                             <th class="col-xs-1"><b>Data comparecimento</b></th>
-                            <th class="col-xs-1"><b>Hora</b></th>
+                            <!--<th class="col-xs-1"><b>Hora</b></th>-->
                             <th class="col-xs-1"><b>Local</b></th>
                             <th class="col-xs-1"><b>RG</b></th>
                             <th class="col-xs-1"><b>Nome</b></th>
                             <th class="col-xs-1"><b>Posto/grad.</b></th>
                             <th class="col-xs-1"><b>OPM</b></th>
+                            <th class="col-xs-1"><b>Condição</b></th>
                             <th class="col-xs-2"><b>Ações</b></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(registro, index) in registros" :key="index">
                             <td>{{ registro.autos_numero }}</td>
-                            <td>{{ registro.autos_ano }}</td>
+                            <td>{{ registro.documento_de_origem }}</td>
                             <td>{{ registro.acusados }}</td>
-                            <td>{{ registro.comparecimento_data }}</td>
-                            <td>{{ registro.comparecimento_hora }}</td>
+                            <td>{{ registro.comparecimento_dh}}</td>
+                            <!--<td>{{ registro.comparecimento_hora }}</td>-->
                             <td>{{ registro.comparecimento_local_txt }}</td>
                             <td>{{ registro.pessoa_rg }}</td>
                             <td>{{ registro.pessoa_nome }}</td>
                             <td>{{ registro.pessoa_quadro }}</td>
                             <td>{{ registro.pessoa_unidade_lotacao_sigla }}</td>
+                            <td>{{ condicao(registro.id_apresentacaocondicao) }}</td>
                             <td>
                                 <span>
                                     <template v-if="canEdit">
@@ -171,6 +195,19 @@
             return {
                 module: 'apresentacao',
                 registros: null,
+                 apCondicao:
+                [
+                    { id: 1, name: "Testemunha"},
+                    { id: 2, name: "Juiz Militar - Conselho Permanente"},
+                    { id: 3, name: "Juiz Militar - Conselho Especial"},
+                    { id: 4, name: "Réu"},
+                    { id: 5, name: "Testemunha de Defesa"},
+                    { id: 6, name: "Testemunha da Denúncia"},
+                    { id: 7, name: "Testemunha de Acusação"},
+                    { id: 8, name: "Testemunha do Juízo"},
+                    { id: 9, name: "Outro"},
+                    { id: 10, name: "Não informado"}
+                ],
                 registro: {
                     pessoa_rg: '',
                     pessoa_nome: '',
@@ -339,6 +376,10 @@
                     .catch(error => console.log(error));
                 }
             },
+             condicao(id){
+                let search = this.apCondicao[id-1]
+                return search.name  
+            },
             transation(happen,type) {
                 let msg = this.words(type)
                 if(happen) { // se deu certo
@@ -346,9 +387,12 @@
                         this.$root.msg(msg.success,'success')
                         this.registro = null
                         this.cleanRegister()
+                        
+
                 } else { // se falhou
                     this.$root.msg(msg.fail,'danger')
                 }
+                
             },
             words(type) {
                 if(type == 'create') return { success : 'Inserido com sucesso', fail: 'Erro ao inserir'}

@@ -53,7 +53,7 @@
                                 {{$registro['motivo']}}
                                 @endif
                                 @else
-                                <span class='label label-success'>Não Sobrest.</span>
+                                <span class='label label-warning'>Não Sobrest.</span>
                                 @endif
                             </td>
                             {{--andamento--}}

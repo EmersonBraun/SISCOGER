@@ -57,6 +57,8 @@ class UserController extends Controller
     {
         $roles = $this->role->all();
         return view('administracao.usuarios.create', compact('roles'));
+        dd($roles);
+
     }
 
     public function store(User $user, Request $request)
@@ -82,7 +84,6 @@ class UserController extends Controller
         if($create) {
             $roles = $request['roles'];
             if ($roles) $this->assignRoles($roles, $create->id);
-    
             toast()->success('adicionado com sucesso!', 'Usuário');
             return redirect()->route('user.index');
         }
@@ -162,10 +163,11 @@ class UserController extends Controller
         ]);
         
         $user = $this->user->findOrFail($id);
-        $input = $request->only(['rg', 'email', 'cdopm']); //Recupere os campos rg, email
+        $input = $request->only(['rg', 'email', 'cdopm', 'opm_descricao']); //Recupere os campos rg, email
         $input['email'] = strtolower($request['email']);
         $input['opm_descricao'] = opm($request['cdopm']);
         $update = $user->fill($input)->save();
+        
         
         if($update) {
             if (isset($request['roles'])) $user->roles()->sync($request['roles']);  //If one or more role is selected associate user to roles                 

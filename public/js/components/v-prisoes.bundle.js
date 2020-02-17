@@ -522,9 +522,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
-        cdopm: { type: String, default: '' },
         name: { type: String, default: 'cdopm' },
         todas: { type: Boolean, default: false }
+    },
+    mounted: function mounted() {
+        this.cdopm = this.$root.dadoSession('cdopm');
+    },
+    data: function data() {
+        return {
+            cdopm: ''
+        };
     }
 });
 
@@ -1138,7 +1145,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -2688,12 +2695,32 @@ var render = function() {
     _c(
       "select",
       {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.cdopm,
+            expression: "cdopm"
+          }
+        ],
         staticClass: "form-control",
         attrs: { name: _vm.name },
-        domProps: { value: _vm.cdopm },
         on: {
           click: function($event) {
             return _vm.$emit("input", $event.target.value)
+          },
+          change: function($event) {
+            var $$selectedVal = Array.prototype.filter
+              .call($event.target.options, function(o) {
+                return o.selected
+              })
+              .map(function(o) {
+                var val = "_value" in o ? o._value : o.value
+                return val
+              })
+            _vm.cdopm = $event.target.multiple
+              ? $$selectedVal
+              : $$selectedVal[0]
           }
         }
       },
@@ -2813,7 +2840,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("optgroup", { attrs: { label: "APMG" } }, [
-      _c("option", { attrs: { value: "111" } }, [_vm._v("APMG (sede)")]),
+      _c("option", { attrs: { value: "1110500000" } }, [_vm._v("APMG (sede)")]),
       _vm._v(" "),
       _c("option", { attrs: { value: "11105403" } }, [_vm._v("ESO")]),
       _vm._v(" "),

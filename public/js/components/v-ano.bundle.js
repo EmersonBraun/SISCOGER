@@ -14,6 +14,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     created: function created() {
@@ -35,7 +36,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         inicio: { type: Number, default: 2007 },
         fim: { type: Number, default: function _default() {
                 return new Date().getFullYear();
-            } }
+            } },
+        selecione: { type: Boolean, default: false }
     },
     data: function data() {
         return {
@@ -54,7 +56,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -100,6 +102,10 @@ var render = function() {
         }
       },
       [
+        _vm.selecione
+          ? _c("option", { attrs: { value: "" } }, [_vm._v("Selecione")])
+          : _vm._e(),
+        _vm._v(" "),
         _vm.todos
           ? _c("option", { attrs: { value: "" } }, [_vm._v("Todos")])
           : _vm._e(),

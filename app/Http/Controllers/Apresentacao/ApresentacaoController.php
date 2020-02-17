@@ -23,11 +23,13 @@ class ApresentacaoController extends Controller
         $this->pm = $pm;
     }
 
+
     public function index($ano="",$mes="", $cdopm="")
     {
+    
         if(!$ano) $ano = (int) date('Y');
         if(!$mes) $mes = num_dois_digitos((int) date('m'), true);
-        if(!$cdopm) $cdopm = session('cdopmbase');
+        if(!$cdopm) $cdopm =  session('cdopmbase');
         $registros = $this->repository->opmAnoMes($ano, $mes, $cdopm);
 
         return view('apresentacao.apresentacao.list.index', compact('registros','ano','mes','cdopm'));

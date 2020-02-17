@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Apresentacao;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\ICOService;
 // use App\Repositories\apresentacao\ApresentacaoRepository;
 
 class MemorandoController extends Controller

@@ -43,9 +43,9 @@ class MovimentoRepository extends BaseRepository
     public function allProc($id, $proc)
 	{
 
-        $registros = Cache::tags('movimento')->remember('movimentos:'.$proc.':'.$id, 1, function() use($id, $proc) {
+        // $registros = Cache::tags('movimento')->remember('movimentos:'.$proc.':'.$id, 1, function() use($id, $proc) {
             return $this->model->where('id_'.$proc,'=',$id)->get();
-        });
+        // });
 
         return $registros;
     }

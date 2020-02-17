@@ -120,6 +120,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['pm'],
@@ -519,6 +522,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -542,6 +546,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.tam = value;
         }
     }
+
 });
 
 /***/ }),
@@ -569,7 +574,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1015,11 +1020,25 @@ var render = function() {
                           }
                         },
                         [
+                          _c("option", { attrs: { value: "Selecione" } }, [
+                            _vm._v("Selecione")
+                          ]),
+                          _vm._v(" "),
                           _c(
                             "option",
                             { attrs: { value: "Inclusao na PMPR" } },
                             [_vm._v("Inclusão na PMPR")]
                           ),
+                          _vm._v(" "),
+                          _c(
+                            "option",
+                            { attrs: { value: "Punição Disciplinar" } },
+                            [_vm._v("Punição Disciplinar")]
+                          ),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Condenação" } }, [
+                            _vm._v("Condenação")
+                          ]),
                           _vm._v(" "),
                           _c(
                             "option",

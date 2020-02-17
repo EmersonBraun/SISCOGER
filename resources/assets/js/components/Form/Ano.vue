@@ -1,6 +1,7 @@
 <template>
     <div>
         <select :name="name" v-model="year" class="form-control" @click="$emit('input', $event.target.value)">
+            <option v-if="selecione" value="">Selecione</option>
             <option v-if="todos" value="">Todos</option>
             <option v-for="y in years" :value="y" :key="y">{{ y }}</option>
         </select>
@@ -23,7 +24,8 @@
             todos: {type: Boolean, default: false},
             ano: {type: String, default: ''},
             inicio: {type: Number, default: 2007},
-            fim: {type: Number, default: () => new Date().getFullYear()}
+            fim: {type: Number, default: () => new Date().getFullYear()},
+            selecione: {type: Boolean, default: false}
         },
         data(){
             return {

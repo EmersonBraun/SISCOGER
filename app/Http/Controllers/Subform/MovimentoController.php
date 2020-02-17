@@ -50,7 +50,6 @@ class MovimentoController extends Controller
     public function store(Request $request)
     {
         $dados = $request->all();
-        $dados['data'] = data_bd($dados['data']);
         $create = $this->repository->create($dados);
         if($create)
         {

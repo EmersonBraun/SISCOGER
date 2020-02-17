@@ -18,7 +18,7 @@
                             </td>
                             <td>{{ registro.inicio_data }}</td>
                             <td>
-                                <template v-if="registro.fim_data == '0000-00-00' || !registro.fim_data">
+                                <template v-if="registro.fim_data == '' || !registro.retirada_data">
                                     <b style="color: red">Vigente</b>
                                 </template>
                                 <template v-else>
@@ -80,8 +80,8 @@
                         <option value='Disciplinar/Criminal'>Sit. Disciplinar/Criminal</option>
                         <option value='Disparo'>Disparo Imprudente/Negligente</option>
                         <option value='Sob efeito alcool'>Porte sob efeito de alcool ou outra subst.</option>
-                        <option value='Condenacao Punicao Disciplinar'>Condenaçãoo ou Punição Disciplinar</option>
-                        <option value='Inapto Psicologico'>Inapto Avaliaçãoo Psicológica</option>
+                        <option value='Condenacao Punicao Disciplinar'>Condenação ou Punição Disciplinar</option>
+                        <option value='Inapto Psicologico'>Inapto Avaliação Psicológica</option>
                     </select>
                 </v-label>
                 <v-label label="inicio_data" title="Início da restrição" icon="fa fa-calendar">
@@ -93,11 +93,11 @@
                 <v-label label="obs_txt" title="Observações" lg="12" md="12" >
                     <textarea  v-model="registro.obs_txt" id="foco" rows="6" cols="105" width="100%"></textarea>
                 </v-label>
-                <v-label label="" title="Data de cadastro" lg="6" md="6">
-                    <v-show :dado="registro.cadastro_data"></v-show> 
+                <v-label label="cadastro_data" title="Data de cadastro" lg="6" md="6">
+                    <v-datepicker name="cadastro_data" :placeholder="registro.cadastro_data" clear-button v-model="registro.cadastro_data"></v-datepicker> 
                 </v-label>
-                <v-label label="" title="Data de retirada das restrições" lg="6" md="6">
-                    <v-show :dado="registro.retirada_data"></v-show> 
+                <v-label label="retirada_data" title="Data de retirada das restrições" lg="6" md="6">
+                    <v-datepicker name="retirada_data" :placeholder="registro.retirada_data" clear-button v-model="registro.retirada_data"></v-datepicker> 
                 </v-label>
             </div>
             <div slot="modal-footer" class="modal-footer">
@@ -170,13 +170,16 @@ export default {
             this.registro.rg = this.pm.RG
             this.registro.cargo = this.pm.CARGO
             this.registro.nome = this.pm.NOME
+            this.registro.fim_data = this.pm.FIM_DATA; 
+            //this.registro.cadastro_data = '';
+            //this.registro.retirada_data = '';
+
+            
         },
+        
         create(){
             if(!this.requireds){
-
-                let urlCreate = `${this.$root.baseUrl}api/${this.module}/store`;
-                this.registro.cadastro_data = new Date()
-                this.registro.fim_data = '0000-00-00'
+                let urlCreate = `${this.$root.baseUrl}api/${this.module}/store`;  
                 axios
                 .post(urlCreate, this.registro)
                 .then((response) => {

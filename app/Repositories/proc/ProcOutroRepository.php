@@ -26,8 +26,10 @@ class ProcOutroRepository extends BaseRepository
         $isapi = $this->service->isApi();
         $verTodasUnidades = $this->service->verTodasOPM();
 
+
         $this->verTodasUnidades = ($verTodasUnidades || $isapi) ? 1 : 0;
         $this->unidade = ($isapi) ? '0' : session('cdopmbase');
+        
     }
 
     public function cleanCache()

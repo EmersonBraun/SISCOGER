@@ -11,6 +11,7 @@
     </v-tab>
 </template>
 
+
 <script>
 import Comportamento from './Comportamento.vue'
 import Elogios from './Elogios.vue'
@@ -32,7 +33,11 @@ import Elogios from './Elogios.vue'
             elogiosLenght(value) {
                 this.tam = value
             }
-        }
+        },
+
+       
+     
+     
     }
 </script>
 

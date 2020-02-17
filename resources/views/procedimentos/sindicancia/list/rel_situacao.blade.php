@@ -30,13 +30,9 @@
                     <tr>
                         <td class='col-xs-2 col-md-2'>{{$registro['sjd_ref']}} / {{$registro['sjd_ref_ano']}}</td>
                         <td class='col-xs-2 col-md-2'>{{opm($registro['cdopm'])}}</td>
-                        <td class='col-xs-2 col-md-2'>{{date('d/m/Y',strtotime($registro['fato_data'])) }}</td> 
-                        <td class='col-xs-2 col-md-2'>
-                            {{date('d/m/Y',strtotime($registro['portaria_data']))}}
-                        </td> 
-                        <td class='col-xs-2 col-md-2'>
-                            {{date('d/m/Y',strtotime($registro['abertura_data']))}}
-                        </td> 
+                        <td class='col-xs-2 col-md-2'>{{$registro['fato_data'] }}</td> 
+                        <td class='col-xs-2 col-md-2'>{{$registro['portaria_data']}}</td> 
+                        <td class='col-xs-2 col-md-2'>{{$registro['abertura_data']}}</td> 
                         <td class='col-xs-2 col-md-2'>
                             <span>
                             @if ($registro['fato_file'])

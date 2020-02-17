@@ -1,5 +1,6 @@
 @extends('adminlte::page')
 
+
 @section('title_postfix', '| FDI')
 
 @section('content_header')
@@ -95,9 +96,9 @@
             @endif   
         </div> 
     </div>      
-    {{-- <div>
-        <input type="button" onclick="cont();" value="Imprimir">
-    </div> --}}
+     <div>
+            
+    </div> 
 </section>
 @stop
 

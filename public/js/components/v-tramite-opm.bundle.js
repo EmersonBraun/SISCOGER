@@ -264,9 +264,7 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.registros, function(registro) {
                     return _c("tr", { key: registro.id_tramitacaoopm }, [
-                      _c("td", [
-                        _vm._v(_vm._s(_vm._f("date_br")(registro.data)))
-                      ]),
+                      _c("td", [_vm._v(_vm._s(registro.data))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(registro.descricao_txt))]),
                       _vm._v(" "),
@@ -565,12 +563,8 @@ var render = function() {
                         expression: "registro.descricao_txt"
                       }
                     ],
-                    attrs: {
-                      id: "foco",
-                      rows: "6",
-                      cols: "105",
-                      width: "100%"
-                    },
+                    staticClass: "form-control",
+                    attrs: { rows: "3" },
                     domProps: { value: _vm.registro.descricao_txt },
                     on: {
                       input: function($event) {

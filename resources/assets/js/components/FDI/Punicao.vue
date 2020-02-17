@@ -15,8 +15,8 @@
                     <tbody>
                         <tr v-for="registro in registros" :key="registro.id_punicao">
                             <td>{{ registro.punicao_data }}</td>
-                            <td>{{ registro.classpunicao || 'Não cadastrado' }}</td>
-                            <td>{{ registro.gradacao || 'Não cadastrado' }}</td>
+                            <td>{{ registro.id_classpunicao || 'Não cadastrado' }}</td>
+                            <td>{{ registro.id_gradacao || 'Não cadastrado' }}</td>
                             <td>{{ registro.descricao_txt }}</td>
                             <td>{{ registro.opm_abreviatura }}</td>
                             <td>
@@ -199,6 +199,7 @@ export default {
             this.registro.rg = this.pm.RG
             this.registro.cargo = this.pm.CARGO
             this.registro.nome = this.pm.NOME
+            this.registro.cdopm = this.pm.CDOPM
             this.registro.rg_cadastro = this.$root.dadoSession('rg')
             this.registro.opm_abreviatura = this.$root.dadoSession('opm_abreviatura')
             this.registro.digitador = this.$root.dadoSession('nome')

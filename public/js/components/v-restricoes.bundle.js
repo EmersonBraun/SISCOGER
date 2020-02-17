@@ -183,15 +183,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.registro.rg = this.pm.RG;
             this.registro.cargo = this.pm.CARGO;
             this.registro.nome = this.pm.NOME;
+            this.registro.fim_data = this.pm.FIM_DATA;
+            //this.registro.cadastro_data = '';
+            //this.registro.retirada_data = '';
+
         },
         create: function create() {
             var _this2 = this;
 
             if (!this.requireds) {
-
                 var urlCreate = this.$root.baseUrl + 'api/' + this.module + '/store';
-                this.registro.cadastro_data = new Date();
-                this.registro.fim_data = '0000-00-00';
                 axios.post(urlCreate, this.registro).then(function (response) {
                     _this2.transation(response.data.success, 'create');
                 }).catch(function (error) {
@@ -451,8 +452,7 @@ var render = function() {
                       _c(
                         "td",
                         [
-                          registro.fim_data == "0000-00-00" ||
-                          !registro.fim_data
+                          registro.fim_data == "" || !registro.retirada_data
                             ? [
                                 _c("b", { staticStyle: { color: "red" } }, [
                                   _vm._v("Vigente")
@@ -785,11 +785,11 @@ var render = function() {
                     _c(
                       "option",
                       { attrs: { value: "Condenacao Punicao Disciplinar" } },
-                      [_vm._v("Condenaçãoo ou Punição Disciplinar")]
+                      [_vm._v("Condenação ou Punição Disciplinar")]
                     ),
                     _vm._v(" "),
                     _c("option", { attrs: { value: "Inapto Psicologico" } }, [
-                      _vm._v("Inapto Avaliaçãoo Psicológica")
+                      _vm._v("Inapto Avaliação Psicológica")
                     ])
                   ]
                 )
@@ -894,13 +894,28 @@ var render = function() {
                 "v-label",
                 {
                   attrs: {
-                    label: "",
+                    label: "cadastro_data",
                     title: "Data de cadastro",
                     lg: "6",
                     md: "6"
                   }
                 },
-                [_c("v-show", { attrs: { dado: _vm.registro.cadastro_data } })],
+                [
+                  _c("v-datepicker", {
+                    attrs: {
+                      name: "cadastro_data",
+                      placeholder: _vm.registro.cadastro_data,
+                      "clear-button": ""
+                    },
+                    model: {
+                      value: _vm.registro.cadastro_data,
+                      callback: function($$v) {
+                        _vm.$set(_vm.registro, "cadastro_data", $$v)
+                      },
+                      expression: "registro.cadastro_data"
+                    }
+                  })
+                ],
                 1
               ),
               _vm._v(" "),
@@ -908,13 +923,28 @@ var render = function() {
                 "v-label",
                 {
                   attrs: {
-                    label: "",
+                    label: "retirada_data",
                     title: "Data de retirada das restrições",
                     lg: "6",
                     md: "6"
                   }
                 },
-                [_c("v-show", { attrs: { dado: _vm.registro.retirada_data } })],
+                [
+                  _c("v-datepicker", {
+                    attrs: {
+                      name: "retirada_data",
+                      placeholder: _vm.registro.retirada_data,
+                      "clear-button": ""
+                    },
+                    model: {
+                      value: _vm.registro.retirada_data,
+                      callback: function($$v) {
+                        _vm.$set(_vm.registro, "retirada_data", $$v)
+                      },
+                      expression: "registro.retirada_data"
+                    }
+                  })
+                ],
                 1
               )
             ],
