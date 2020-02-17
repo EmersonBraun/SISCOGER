@@ -191,9 +191,12 @@ class EnvolvidoRepository extends BaseRepository
             $registros = [];
             $i = 0;
             $envolvidos = DB::table('envolvido')
-                    ->where('ipm_processocrime','=', 'Denunciado')
-                    ->where('rg','=', $rg)
-                    ->get();
+                ->where('rg','=', $rg)
+                ->where(function ($query) {
+                    $query->where('ipm_processocrime', '=', 'Denunciado')
+                        ->orWhere('situacao', '=', 'Desertor');
+                })
+                ->get();
         // });
 
         foreach ($envolvidos as $envolvido) {

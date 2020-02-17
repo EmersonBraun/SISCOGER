@@ -59,16 +59,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.rg) {
                 axios.get(urlIndex).then(function (response) {
                     _this.denuncias = response.data;
-                    console.log(_this.denuncias);
                 }).catch(function (error) {
                     return console.log(error);
                 });
             }
-        },
-        urlProc: function urlProc(proc, ref, ano) {
-            var urlBase = this.$root.baseUrl;
-            window.open('' + urlBase + proc + '/' + ref + '/' + ano);
-            console.log('Open');
         }
     }
 });
@@ -83,7 +77,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -126,7 +120,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                " +
+                            "\n                    " +
                               _vm._s(denuncia.proc) +
                               " N°" +
                               _vm._s(denuncia.sjd_ref) +
@@ -143,7 +137,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("td", [
-                      _vm._v("Julgamento:  \n                "),
+                      _vm._v("Julgamento:  \n                    "),
                       denuncia.ipm_julgamento
                         ? _c("b", [
                             _vm._v(" " + _vm._s(denuncia.ipm_processocrime))
@@ -152,7 +146,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("td", [
-                      _vm._v("Trânsito em julgado:  \n                "),
+                      _vm._v("Trânsito em julgado:  \n                    "),
                       denuncia.ipm_julgamento == "Condenado"
                         ? _c("b", [_vm._v(" Sim")])
                         : _c("b", [_vm._v(" Não ")])
