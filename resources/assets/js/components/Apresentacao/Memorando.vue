@@ -139,44 +139,45 @@
                 check: null,
             }
         },
-        created() {
+        mounted() {
             this.list()
         },
-        watch: {
-            registro() {
-                this.getPm()
-                this.getAutoridade()
-            }
-        },
         methods: {
-            list() {
-                let urlIndex = `${this.$root.baseUrl}api/${this.module}/memorando/${this.idp}`;
+            async list() {
                 if(this.idp){
-                    axios
-                    .get(urlIndex)
-                    .then((response) => {
-                        this.registro = response.data
-                    })
-                    .catch(error => console.log(error));
+                    let urlIndex = `${this.$root.baseUrl}api/${this.module}/memorando/${this.idp}`;
+                    try {
+                        const response = await axios.get(urlIndex)
+                        if (response) {
+                            this.registro = response.data
+                            this.getPm(response.data.pessoa_rg)
+                            this.getAutoridade()
+                        }
+                    } catch (e) {
+                        console.error(e)
+                    }
                 }
             },
-            getPm(){
-                let searchUrl = `${this.$root.baseUrl}api/dados/pm/${this.registro.pessoa_rg}` ;
-                axios
-                .get(searchUrl)
-                .then((response) => {
-                    this.pm = response.data.pm
-                    this.registro.pm = response.data.pm
-                })
-                .catch(error => console.log(error));
+            async getPm(rg) {
+                let searchUrl = `${this.$root.baseUrl}api/dados/pm/${rg}` ;
+                try {
+                    const response = await axios.get(searchUrl)
+                    if (response) {
+                        this.pm = response.data.pm
+                        this.registro.pm = response.data.pm
+                    }
+                } catch (e) {
+                    console.error(e)
+                }
             },
-            getAutoridade(){
+            async getAutoridade() {
                 let opm = this.$root.dadoSession('cdopmbase')
+                if (!opm) this.login()
                 let urlIndex = `${this.$root.baseUrl}api/cadastroopm/get/${opm}`;
-                
-                axios
-                    .get(urlIndex)
-                    .then((response) => {
+
+                try {
+                    const response = await axios.get(urlIndex)
+                    if (response) {
                         let res = response.data[0]
 
                         this.id_cadastroopmcoger = res.id_cadastroopmcoger
@@ -186,14 +187,17 @@
                             nome: res.opm_autoridade_nome,
                             funcao: res.opm_autoridade_funcao
                         })
-                    })
-                    .catch(error => console.log(error));   
+                    }
+                } catch (e) {
+                    console.error(e)
+                }
             },
-            getOtherAutoridade(id) {
+            async getOtherAutoridade(id) {
                 let urlIndex = `${this.$root.baseUrl}api/cadastroopmautoridade/list/${id}`;
-                axios
-                    .get(urlIndex)
-                    .then((response) => {
+
+                try {
+                    const response = await axios.get(urlIndex)
+                    if (response) {
                         let res = response.data[0]
                         res.forEach(e => {
                             this.autoridades.push({
@@ -201,12 +205,17 @@
                                 funcao: e.funcao
                             })
                         });
-                    })
-                    .catch(error => console.log(error));
+                    }
+                } catch (e) {
+                    console.error(e)
+                }
             },
             changeAutoridade(autoridade) {
                 this.autoridade = autoridade
                 this.registro.autoridade = autoridade
+            },
+            login() {
+                window.location.href = `${this.$root.baseUrl}login`
             },
             print() {
                 let nome = this.autoridade.nome.replace(/\s/g , "-");

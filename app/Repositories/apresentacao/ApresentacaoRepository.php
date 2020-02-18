@@ -52,7 +52,7 @@ class ApresentacaoRepository extends BaseRepository
         $registro = $this->model->findOrFail($id);
         $registro['condicao'] = sistema('apresentacaoCondicao',$registro['id_apresentacaocondicao']);
         $registro['data_ico'] = $this->ico->data(date('Y-m-d'));
-        $registro['comparecimento_data_ico'] = $this->ico->data($registro['comparecimento_data']);
+        $registro['comparecimento_data_ico'] = ($registro['comparecimento_data'] !== "01/01/1970") ? $this->ico->data($registro['comparecimento_data']) : '';
         $registro['comparecimento_hora_ico'] = $this->ico->hora($registro['comparecimento_hora']);
         $registro['cod_notificacao'] = $this->ico->cod_notificacao($registro['sjd_ref']);
         $registro['memorando_opm_intermediaria'] = $this->opm->opm_intermediaria($registro['cdopm']);

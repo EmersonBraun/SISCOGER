@@ -10,6 +10,7 @@ if (! function_exists('data_bd'))
                 $ex = explode('/', $date);
                 $data = "$ex[2]-$ex[1]-$ex[0]";
             }     
+            $data = $date;
         }
         else
         {
