@@ -1,10 +1,10 @@
 <?php
 namespace App\Presenters\proc;
 
-use Laracasts\Presenter\Presenter;
-
-class SobrestamentoPresenter extends Presenter {
-	
+// use Laracasts\Presenter\Presenter;
+use App\Presenters\BasePresenter;
+class SobrestamentoPresenter extends BasePresenter {
+    
     public function createdAt()
     {
         return $this->created_at->format('d/m/Y');

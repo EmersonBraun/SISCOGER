@@ -1,4 +1,4 @@
-webpackJsonp([10,37],{
+webpackJsonp([10,38],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Movimento.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -170,14 +170,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         removeMovimento: function removeMovimento(movimento, index) {
-            var id = movimento.id_movimento ? movimento.id_movimento : false;
-            if (id) {
-                var urlDelete = this.$root.baseUrl + 'api/movimento/destroy/' + id;
-                axios.delete(urlDelete).then(this.movimentos.splice(index, 1)).catch(function (error) {
-                    return console.log(error);
-                });
-            } else {
-                console.log('movimento sem ID');
+            if (confirm('Você tem certeza?')) {
+                var id = movimento.id_movimento ? movimento.id_movimento : false;
+                if (id) {
+                    var urlDelete = this.$root.baseUrl + 'api/movimento/destroy/' + id;
+                    axios.delete(urlDelete).then(this.movimentos.splice(index, 1)).catch(function (error) {
+                        return console.log(error);
+                    });
+                } else {
+                    console.log('movimento sem ID');
+                }
             }
         },
         clear: function clear(add) {
@@ -572,7 +574,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

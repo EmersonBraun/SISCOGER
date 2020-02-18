@@ -30,7 +30,7 @@
                     <tbody>
                         @foreach ($users as $user)
                         <tr>
-                            <td>{{ $user->rg }}</td>
+                            <td><a href="http://10.47.1.8/pm/mostrapm.php?rg={{ $user->rg }}" target="_blank">{{ $user->rg }}</a></td>
                             <td>{{ $user->nome }}</td>
                             <td>{{ $user->cargo }}</td>
                             <td>{{ $user->quadro }}</td>

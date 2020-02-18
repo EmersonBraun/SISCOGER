@@ -28,7 +28,7 @@
                     <tbody>
                         <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
-                            <td><?php echo e($user->rg); ?></td>
+                            <td><a href="http://10.47.1.8/pm/mostrapm.php?rg=<?php echo e($user->rg); ?>" target="_blank"><?php echo e($user->rg); ?></a></td>
                             <td><?php echo e($user->nome); ?></td>
                             <td><?php echo e($user->cargo); ?></td>
                             <td><?php echo e($user->quadro); ?></td>

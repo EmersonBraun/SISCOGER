@@ -26,7 +26,7 @@ class SobrestamentoController extends Controller
     public function store(Request $request)
     {
         $dados = $request->all();
-        $create =  $this->repository->create($dados);
+        $create =  $this->repository->createSobrestamento($dados);
         if($create) return response()->json([ 'success' => true,], 200);
         return response()->json([ 'success' => false,], 200);
     }
@@ -34,7 +34,7 @@ class SobrestamentoController extends Controller
     public function edit(Request $request, $id)
     {
         $dados = $request->all();
-        $edit = $this->repository->findAndUpdate($id, $dados);
+        $edit = $this->repository->findAndUpdateSobrestamento($id, $dados);
         if($edit) return response()->json([ 'success' => true,], 200);
         return response()->json([ 'success' => false,], 200);
     }

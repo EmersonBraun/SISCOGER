@@ -299,7 +299,7 @@ class EnvolvidoRepository extends BaseRepository
 
     public function membros($rg)
     {
-        $situacao = ['Encarregado', 'Presidente', 'Acusador', 'Escrivao'];
+        $situacao = ['Encarregado', 'Presidente', 'Acusador', 'Escrivao', 'Membro', 'Defensor'];
         $envolvido = $this->envolvidos($rg, $situacao);
         $membros = array();
         if(count($envolvido) > 0){

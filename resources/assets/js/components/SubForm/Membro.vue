@@ -295,14 +295,16 @@
                 window.open(urlIndex, "_blank")
             },
             removePM(id, situacao, index){
-                this.clear(false)//limpa a busca
-                
-                let urlDelete = `${this.$root.baseUrl}api/membros/destroy/${id}`
-                axios
-                .delete(urlDelete)
-                .then(this.updateSituacao(situacao,'remove'))
-                .then(this.pms.splice(index,1))
-                .catch(error => console.log(error));
+                if(confirm('Você tem certeza?')){
+                    this.clear(false)//limpa a busca
+                    
+                    let urlDelete = `${this.$root.baseUrl}api/membros/destroy/${id}`
+                    axios
+                    .delete(urlDelete)
+                    .then(this.updateSituacao(situacao,'remove'))
+                    .then(this.pms.splice(index,1))
+                    .catch(error => console.log(error));
+                }
             },
             updateSituacao(situacao, tipo){
                 if(tipo == 'add'){

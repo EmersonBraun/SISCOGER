@@ -224,11 +224,13 @@
                 .catch((error) => console.log(error));
             },
             removeSobrestamento(id, index){
-                let urlDelete = `${this.$root.baseUrl}api/sobrestamento/destroy/${id}`
-                axios
-                .delete(urlDelete)
-                .then((response) => this.transation(response.data.success, 'delete'))
-                .catch(error => console.log(error));
+                if(confirm('Você tem certeza?')){
+                    let urlDelete = `${this.$root.baseUrl}api/sobrestamento/destroy/${id}`
+                    axios
+                    .delete(urlDelete)
+                    .then((response) => this.transation(response.data.success, 'delete'))
+                    .catch(error => console.log(error));
+                }
             },
             clear(add){
                 this.add = add

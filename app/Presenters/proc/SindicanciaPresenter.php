@@ -1,13 +1,46 @@
 <?php
 namespace App\Presenters\proc;
 
-use Laracasts\Presenter\Presenter;
+// use Laracasts\Presenter\Presenter;
+use App\Presenters\BasePresenter;
 
-class SindicanciaPresenter extends Presenter {
-	
+class SindicanciaPresenter extends BasePresenter {
+    
+    public function refAno()
+    {
+        if($this->sjd_ref == null || $this->sjd_ref == '')
+        {
+            return $this->id_sobrestamento;
+        }
+        else 
+        {
+            return $this->sjd_ref.'/'.$this->sjd_ref_ano;
+        }
+    }
+
     public function createdAt()
     {
         return $this->created_at->format('d/m/Y');
+    }
+
+    public function dusobrestado()
+    {
+        if(!$this->dusobrestado) {
+            return "<span class='label label-success'>0</span>";
+        } 
+        return "<span class='label label-info'>$this->dusobrestado'</span>";
+    }
+
+    public function motivo()
+    {
+        if ( sistema('andamento',$this->id_andamento) == 'SOBRESTADO') {
+            if (!$this->motivo || $this->motivo =='outros') {
+                if($this->motivo_outros) return $this->motivo_outros;
+                return "Não definido";
+            }
+            return $this->motivo;
+        }
+        return "<span class='label label-success'>Não Sobrest.</span>";
     }
 
     public function statusPriorityColor()

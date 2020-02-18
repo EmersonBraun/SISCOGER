@@ -57,7 +57,6 @@ class UserController extends Controller
     {
         $roles = $this->role->all();
         return view('administracao.usuarios.create', compact('roles'));
-        dd($roles);
 
     }
 

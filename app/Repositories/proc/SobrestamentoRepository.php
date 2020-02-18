@@ -42,7 +42,7 @@ class SobrestamentoRepository extends BaseRepository
         Cache::tags('sobrestamento')->flush();
     }
 
-    public function create(array $data)
+    public function createSobrestamento(array $data)
     {
         try {
             $exec = $this->model->create($data);
@@ -56,7 +56,7 @@ class SobrestamentoRepository extends BaseRepository
         }
     }
 
-    public function findAndUpdate($id, array $data)
+    public function findAndUpdateSobrestamento($id, array $data)
     {
         $fim_sobrestamento = ($data['termino_data']) ? true : false;
         try {
@@ -72,7 +72,7 @@ class SobrestamentoRepository extends BaseRepository
                 return true;
             }
         } catch (\Throwable $th) {
-            //dd($th)
+            // dd($th);
             return false;
         }
     }

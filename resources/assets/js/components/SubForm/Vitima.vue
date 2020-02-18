@@ -259,11 +259,13 @@
                 .catch((error) => console.log(error));
             },
             removeVitima(id, index){
-                let urlDelete = `${this.$root.baseUrl}api/vitima/destroy/${id}`
-                axios
-                .delete(urlDelete)
-                .then(this.vitimas.splice(index,1))
-                .catch(error => console.log(error));
+                if(confirm('Você tem certeza?')){
+                    let urlDelete = `${this.$root.baseUrl}api/vitima/destroy/${id}`
+                    axios
+                    .delete(urlDelete)
+                    .then(this.vitimas.splice(index,1))
+                    .catch(error => console.log(error));
+                }
             },
             clear(add){
                 this.add = add

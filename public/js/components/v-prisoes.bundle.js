@@ -1,4 +1,4 @@
-webpackJsonp([0,6,16,32,37,48],{
+webpackJsonp([0,6,17,33,38,49],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FDI/Prisoes.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -198,6 +198,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             canDelete: false,
             showModal: false
         };
+    },
+
+    filters: {
+        fimPrisao: function fimPrisao(value) {
+            if (!value) return 'Está preso';
+        }
     },
     created: function created() {
         this.list();
@@ -1193,12 +1199,10 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.registros, function(registro) {
                     return _c("tr", { key: registro.id_preso }, [
-                      _c("td", [
-                        _vm._v(_vm._s(_vm._f("date_br")(registro.inicio_data)))
-                      ]),
+                      _c("td", [_vm._v(_vm._s(registro.inicio_data))]),
                       _vm._v(" "),
                       _c("td", [
-                        _vm._v(_vm._s(_vm._f("date_br")(registro.fim_data)))
+                        _vm._v(_vm._s(_vm._f("fimPrisao")(registro.fim_data)))
                       ]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(registro.processo))]),

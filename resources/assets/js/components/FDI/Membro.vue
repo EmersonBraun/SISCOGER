@@ -1,6 +1,6 @@
 <template>
     <v-tab header="Membro" :badge="membros.length">
-    <h4 class="text-center text-bold">Marcado em procedimentos como Encarregado, Presidente ou Acusador</h4>
+    <h4 class="text-center text-bold">Marcado em procedimentos como Encarregado, Presidente, Acusador, Membro ou Defensor</h4>
         <table class="table table-striped">
         <tbody>
             <template v-if="membros.length">

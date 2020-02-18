@@ -158,15 +158,17 @@
                 .catch((error) => console.log(error));
             },
             removeMovimento(movimento, index){
-                let id = movimento.id_movimento ? movimento.id_movimento : false
-                if(id){
-                    let urlDelete = `${this.$root.baseUrl}api/movimento/destroy/${id}`
-                    axios
-                    .delete(urlDelete)
-                    .then(this.movimentos.splice(index,1))
-                    .catch(error => console.log(error));
-                }else{
-                    console.log('movimento sem ID')
+                if(confirm('Você tem certeza?')){
+                    let id = movimento.id_movimento ? movimento.id_movimento : false
+                    if(id){
+                        let urlDelete = `${this.$root.baseUrl}api/movimento/destroy/${id}`
+                        axios
+                        .delete(urlDelete)
+                        .then(this.movimentos.splice(index,1))
+                        .catch(error => console.log(error));
+                    }else{
+                        console.log('movimento sem ID')
+                    }
                 }
             },
             clear(add){

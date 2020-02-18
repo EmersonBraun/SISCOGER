@@ -15,8 +15,8 @@
                     </thead>
                     <tbody>
                         <tr v-for="registro in registros" :key="registro.id_preso">
-                            <td>{{ registro.inicio_data | date_br }}</td>
-                            <td>{{ registro.fim_data | date_br }}</td>
+                            <td>{{ registro.inicio_data }}</td>
+                            <td>{{ registro.fim_data | fimPrisao}}</td>
                             <td>{{ registro.processo }}</td>
                             <td>{{ registro.complemento }}</td>
                             <td>{{ registro.comarca }}</td>
@@ -178,6 +178,11 @@ export default {
             canEdit: false,
             canDelete: false,
             showModal: false,
+        }
+    },
+    filters: {
+        fimPrisao(value) {
+            if(!value) return 'Está preso'
         }
     },
     created(){

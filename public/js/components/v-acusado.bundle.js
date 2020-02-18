@@ -1,4 +1,4 @@
-webpackJsonp([7,32],{
+webpackJsonp([7,33],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Acusado.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -12,15 +12,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vuestrap_Modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Vuestrap_Modal__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -441,15 +432,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         editPM: function editPM() {
             var _this4 = this;
 
-            var urledit = this.$root.baseUrl + 'api/acusado/edit/' + this.toEdit;
-            var formData = document.getElementById('formAcusado');
-            var data = new FormData(formData);
+            if (this.resultado) {
+                var urledit = this.$root.baseUrl + 'api/acusado/edit/' + this.toEdit;
+                var formData = document.getElementById('formAcusado');
+                var data = new FormData(formData);
 
-            axios.post(urledit, data).then(function (response) {
-                return _this4.transation(response.data.success, 'edit');
-            }).catch(function (error) {
-                return console.log(error);
-            });
+                axios.post(urledit, data).then(function (response) {
+                    return _this4.transation(response.data.success, 'edit');
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            } else {
+                alert('Preencha o resultado para liberar a edição!');
+            }
         },
         removePM: function removePM(id) {
             var _this5 = this;
@@ -636,7 +631,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -773,148 +768,159 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "col-lg-12 col-md-12 col-xs-12 card mt-4" },
-    [
-      _c("br"),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "card-header" },
-        [
-          _vm.reu
-            ? _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-sm-10" }, [
-                  _c("h4", [_vm._v(_vm._s(_vm.verReus ? "Réus" : "Acusados"))])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col align-self-end" }, [
-                  _c("div", { staticClass: "btn-group" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn",
-                        class: !_vm.verReus ? "btn-info" : "btn-default",
-                        attrs: { type: "button", target: "_black" },
-                        on: {
-                          click: function($event) {
-                            _vm.verReus = false
-                          }
+  return _c("div", { staticClass: "col-lg-12 col-md-12 col-xs-12 card mt-4" }, [
+    _c("br"),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card-header" },
+      [
+        _vm.reu
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-sm-10" }, [
+                _c("h4", [_vm._v(_vm._s(_vm.verReus ? "Réus" : "Acusados"))])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col align-self-end" }, [
+                _c("div", { staticClass: "btn-group" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn",
+                      class: !_vm.verReus ? "btn-info" : "btn-default",
+                      attrs: { type: "button", target: "_black" },
+                      on: {
+                        click: function($event) {
+                          _vm.verReus = false
                         }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        Acusados\n                    "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn",
-                        class: _vm.verReus ? "btn-info" : "btn-default",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            _vm.verReus = true
-                          }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Acusados\n                    "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn",
+                      class: _vm.verReus ? "btn-info" : "btn-default",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          _vm.verReus = true
                         }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        Réus\n                    "
-                        )
-                      ]
-                    )
-                  ])
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Réus\n                    "
+                      )
+                    ]
+                  )
                 ])
               ])
-            : [_vm._m(0)]
-        ],
-        2
-      ),
-      _vm._v(" "),
-      !_vm.only
-        ? _c(
-            "div",
-            { staticClass: "card-body", class: _vm.add ? "bordaform" : "" },
-            [
-              !_vm.add && !_vm.verReus
-                ? _c("div", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-success btn-block",
-                        on: {
-                          click: function($event) {
-                            _vm.add = !_vm.add
-                          }
+            ])
+          : [_vm._m(0)]
+      ],
+      2
+    ),
+    _vm._v(" "),
+    !_vm.only
+      ? _c(
+          "div",
+          { staticClass: "card-body", class: _vm.add ? "bordaform" : "" },
+          [
+            !_vm.add && !_vm.verReus
+              ? _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success btn-block",
+                      on: {
+                        click: function($event) {
+                          _vm.add = !_vm.add
                         }
-                      },
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-plus" }),
+                      _vm._v(" Adicionar acusado")
+                    ]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.add
+              ? _c("div", [
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "form",
+                      { attrs: { id: "formAcusado", name: "formAcusado" } },
                       [
-                        _c("i", { staticClass: "fa fa-plus" }),
-                        _vm._v(" Adicionar acusado")
-                      ]
-                    )
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.add
-                ? _c("div", [
-                    _c("div", { staticClass: "row" }, [
-                      _c(
-                        "form",
-                        { attrs: { id: "formAcusado", name: "formAcusado" } },
-                        [
-                          _c("input", {
-                            attrs: { type: "hidden", name: "id_" + _vm.dproc },
-                            domProps: { value: _vm.idp }
-                          }),
+                        _c("input", {
+                          attrs: { type: "hidden", name: "id_" + _vm.dproc },
+                          domProps: { value: _vm.idp }
+                        }),
+                        _vm._v(" "),
+                        _c("input", {
+                          attrs: { type: "hidden", name: "situacao" },
+                          domProps: { value: _vm.situacao }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-xs-3" }, [
+                          _c("label", { attrs: { for: "rg" } }, [_vm._v("RG")]),
+                          _c("br"),
                           _vm._v(" "),
                           _c("input", {
-                            attrs: { type: "hidden", name: "situacao" },
-                            domProps: { value: _vm.situacao }
-                          }),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-xs-3" }, [
-                            _c("label", { attrs: { for: "rg" } }, [
-                              _vm._v("RG")
-                            ]),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.rg,
-                                  expression: "rg"
-                                }
-                              ],
-                              staticClass: "numero form-control",
-                              attrs: {
-                                name: "rg",
-                                type: "text",
-                                maxlength: "12"
-                              },
-                              domProps: { value: _vm.rg },
-                              on: {
-                                keyup: _vm.searchPM,
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.rg = $event.target.value
-                                }
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.rg,
+                                expression: "rg"
                               }
-                            })
+                            ],
+                            staticClass: "numero form-control",
+                            attrs: {
+                              name: "rg",
+                              type: "text",
+                              maxlength: "12"
+                            },
+                            domProps: { value: _vm.rg },
+                            on: {
+                              keyup: _vm.searchPM,
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.rg = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-xs-3" }, [
+                          _c("label", { attrs: { for: "nome" } }, [
+                            _vm._v("Nome")
                           ]),
+                          _c("br"),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-xs-3" }, [
-                            _c("label", { attrs: { for: "nome" } }, [
-                              _vm._v("Nome")
+                          _c("input", {
+                            staticClass: "numero form-control",
+                            attrs: { type: "text", name: "nome", readonly: "" },
+                            domProps: { value: _vm.nome }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { class: _vm.reu ? "col-xs-3" : "col-xs-2" },
+                          [
+                            _c("label", { attrs: { for: "cargo" } }, [
+                              _vm._v("Posto/Graduação")
                             ]),
                             _c("br"),
                             _vm._v(" "),
@@ -922,1049 +928,887 @@ var render = function() {
                               staticClass: "numero form-control",
                               attrs: {
                                 type: "text",
-                                name: "nome",
+                                name: "cargo",
                                 readonly: ""
                               },
-                              domProps: { value: _vm.nome }
+                              domProps: { value: _vm.cargo }
                             })
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { class: _vm.reu ? "col-xs-3" : "col-xs-2" },
-                            [
-                              _c("label", { attrs: { for: "cargo" } }, [
-                                _vm._v("Posto/Graduação")
-                              ]),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "numero form-control",
-                                attrs: {
-                                  type: "text",
-                                  name: "cargo",
-                                  readonly: ""
-                                },
-                                domProps: { value: _vm.cargo }
-                              })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { class: _vm.reu ? "col-xs-3" : "col-xs-2" },
-                            [
-                              _c("label", { attrs: { for: "resultado" } }, [
-                                _vm._v("Resultado")
-                              ]),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "select",
-                                {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.resultado,
-                                      expression: "resultado"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { name: "resultado" },
-                                  on: {
-                                    change: function($event) {
-                                      var $$selectedVal = Array.prototype.filter
-                                        .call($event.target.options, function(
-                                          o
-                                        ) {
-                                          return o.selected
-                                        })
-                                        .map(function(o) {
-                                          var val =
-                                            "_value" in o ? o._value : o.value
-                                          return val
-                                        })
-                                      _vm.resultado = $event.target.multiple
-                                        ? $$selectedVal
-                                        : $$selectedVal[0]
-                                    }
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { class: _vm.reu ? "col-xs-3" : "col-xs-2" },
+                          [
+                            _c("label", { attrs: { for: "resultado" } }, [
+                              _vm._v("Resultado")
+                            ]),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.resultado,
+                                    expression: "resultado"
                                   }
-                                },
+                                ],
+                                staticClass: "form-control",
+                                attrs: { name: "resultado" },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.resultado = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  }
+                                }
+                              },
+                              [
+                                _c("option", { attrs: { value: "" } }, [
+                                  _vm._v("Selecione")
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Em andamento" } },
+                                  [_vm._v("Em andamento")]
+                                ),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "Excluído" } }, [
+                                  _vm._v("Excluído")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "Punido" } }, [
+                                  _vm._v("Punido")
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Absolvido" } },
+                                  [_vm._v("Absolvido")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Perda objeto" } },
+                                  [_vm._v("Perda objeto")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Prescrição" } },
+                                  [_vm._v("Prescrição")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  {
+                                    attrs: { value: "Reintegrado/Reinserido" }
+                                  },
+                                  [_vm._v("Reintegrado/Reinserido")]
+                                ),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "FATD" } }, [
+                                  _vm._v("FATD")
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Conselho Just." } },
+                                  [_vm._v("Conselho Just.")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Conselho Disc." } },
+                                  [_vm._v("Conselho Disc.")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Arquivamento" } },
+                                  [_vm._v("Arquivamento")]
+                                ),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "IPM" } }, [
+                                  _vm._v("IPM")
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Sindicância" } },
+                                  [_vm._v("Sindicância")]
+                                ),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "ADL" } }, [
+                                  _vm._v("ADL")
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Ind. Crime" } },
+                                  [_vm._v("Ind. Crime")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Ind. Crime/FATD" } },
+                                  [_vm._v("Ind. Crime/FATD")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "At. Origem" } },
+                                  [_vm._v("At. Origem")]
+                                ),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "Outros" } }, [
+                                  _vm._v("Outros")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "CPP" } }, [
+                                  _vm._v("CPP")
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "CPO" } }, [
+                                  _vm._v("CPO")
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Com. Mérito" } },
+                                  [_vm._v("Com. Mérito")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Não há indícios" } },
+                                  [_vm._v("Não há indícios")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Indícios de crime" } },
+                                  [_vm._v("Indícios de crime")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  {
+                                    attrs: { value: "Indícios de transgressão" }
+                                  },
+                                  [_vm._v("Indícios de transgressão")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  {
+                                    attrs: {
+                                      value: "Indícios de crime e transgressão"
+                                    }
+                                  },
+                                  [_vm._v("Indícios de crime e transgressão")]
+                                ),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "Punido" } }, [
+                                  _vm._v("Punido")
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Absolvido" } },
+                                  [_vm._v("Absolvido")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "Outra medida" } },
+                                  [_vm._v("Outra medida")]
+                                ),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "Anulado" } }, [
+                                  _vm._v("Anulado")
+                                ])
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm.reu && _vm.toEdit
+                          ? [
+                              _c(
+                                "div",
+                                { staticClass: "col-lg-6 col-md-6 col-xs-6" },
                                 [
-                                  _c("option", { attrs: { value: "" } }, [
-                                    _vm._v("Selecione")
-                                  ]),
-                                  _vm._v(" "),
                                   _c(
-                                    "option",
-                                    { attrs: { value: "Em andamento" } },
-                                    [_vm._v("Em andamento")]
+                                    "label",
+                                    { attrs: { for: "ipm_processocrime" } },
+                                    [_vm._v("Processo crime")]
                                   ),
+                                  _c("br"),
                                   _vm._v(" "),
                                   _c(
-                                    "option",
-                                    { attrs: { value: "Excluído" } },
-                                    [_vm._v("Excluído")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "Punido" } }, [
-                                    _vm._v("Punido")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Absolvido" } },
-                                    [_vm._v("Absolvido")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Perda objeto" } },
-                                    [_vm._v("Perda objeto")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Prescrição" } },
-                                    [_vm._v("Prescrição")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
+                                    "select",
                                     {
-                                      attrs: { value: "Reintegrado/Reinserido" }
-                                    },
-                                    [_vm._v("Reintegrado/Reinserido")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "FATD" } }, [
-                                    _vm._v("FATD")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Conselho Just." } },
-                                    [_vm._v("Conselho Just.")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Conselho Disc." } },
-                                    [_vm._v("Conselho Disc.")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Arquivamento" } },
-                                    [_vm._v("Arquivamento")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "IPM" } }, [
-                                    _vm._v("IPM")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Sindicância" } },
-                                    [_vm._v("Sindicância")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "ADL" } }, [
-                                    _vm._v("ADL")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Ind. Crime" } },
-                                    [_vm._v("Ind. Crime")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Ind. Crime/FATD" } },
-                                    [_vm._v("Ind. Crime/FATD")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "At. Origem" } },
-                                    [_vm._v("At. Origem")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "Outros" } }, [
-                                    _vm._v("Outros")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "CPP" } }, [
-                                    _vm._v("CPP")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "CPO" } }, [
-                                    _vm._v("CPO")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Com. Mérito" } },
-                                    [_vm._v("Com. Mérito")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Não há indícios" } },
-                                    [_vm._v("Não há indícios")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Indícios de crime" } },
-                                    [_vm._v("Indícios de crime")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    {
-                                      attrs: {
-                                        value: "Indícios de transgressão"
-                                      }
-                                    },
-                                    [_vm._v("Indícios de transgressão")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    {
-                                      attrs: {
-                                        value:
-                                          "Indícios de crime e transgressão"
-                                      }
-                                    },
-                                    [_vm._v("Indícios de crime e transgressão")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "Punido" } }, [
-                                    _vm._v("Punido")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Absolvido" } },
-                                    [_vm._v("Absolvido")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Outra medida" } },
-                                    [_vm._v("Outra medida")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Anulado" } },
-                                    [_vm._v("Anulado")]
-                                  )
-                                ]
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _vm.reu && _vm.toEdit
-                            ? [
-                                _c(
-                                  "div",
-                                  { staticClass: "col-lg-6 col-md-6 col-xs-6" },
-                                  [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "ipm_processocrime" } },
-                                      [_vm._v("Processo crime")]
-                                    ),
-                                    _c("br"),
-                                    _vm._v(" "),
-                                    _c(
-                                      "select",
-                                      {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.pm.ipm_processocrime,
-                                            expression: "pm.ipm_processocrime"
-                                          }
-                                        ],
-                                        staticClass: "form-control",
-                                        attrs: { name: "ipm_processocrime" },
-                                        on: {
-                                          change: function($event) {
-                                            var $$selectedVal = Array.prototype.filter
-                                              .call(
-                                                $event.target.options,
-                                                function(o) {
-                                                  return o.selected
-                                                }
-                                              )
-                                              .map(function(o) {
-                                                var val =
-                                                  "_value" in o
-                                                    ? o._value
-                                                    : o.value
-                                                return val
-                                              })
-                                            _vm.$set(
-                                              _vm.pm,
-                                              "ipm_processocrime",
-                                              $event.target.multiple
-                                                ? $$selectedVal
-                                                : $$selectedVal[0]
-                                            )
-                                          }
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.pm.ipm_processocrime,
+                                          expression: "pm.ipm_processocrime"
                                         }
-                                      },
-                                      [
-                                        _c("option", { attrs: { value: "" } }, [
-                                          _vm._v("Selecione")
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "option",
-                                          { attrs: { value: "Denunciado" } },
-                                          [_vm._v("Denunciado")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "option",
-                                          { attrs: { value: "Arquivado" } },
-                                          [_vm._v("Arquivado")]
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  { staticClass: "col-lg-6 col-md-6 col-xs-6" },
-                                  [
-                                    _c(
-                                      "label",
-                                      { attrs: { for: "ipm_julgamento" } },
-                                      [_vm._v("Julgamento")]
-                                    ),
-                                    _c("br"),
-                                    _vm._v(" "),
-                                    _c(
-                                      "select",
-                                      {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.pm.ipm_julgamento,
-                                            expression: "pm.ipm_julgamento"
-                                          }
-                                        ],
-                                        staticClass: "form-control",
-                                        attrs: { name: "ipm_julgamento" },
-                                        on: {
-                                          change: function($event) {
-                                            var $$selectedVal = Array.prototype.filter
-                                              .call(
-                                                $event.target.options,
-                                                function(o) {
-                                                  return o.selected
-                                                }
-                                              )
-                                              .map(function(o) {
-                                                var val =
-                                                  "_value" in o
-                                                    ? o._value
-                                                    : o.value
-                                                return val
-                                              })
-                                            _vm.$set(
-                                              _vm.pm,
-                                              "ipm_julgamento",
-                                              $event.target.multiple
-                                                ? $$selectedVal
-                                                : $$selectedVal[0]
-                                            )
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("option", { attrs: { value: "" } }, [
-                                          _vm._v("Selecione")
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "option",
-                                          { attrs: { value: "Condenado" } },
-                                          [_vm._v("Condenado")]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "option",
-                                          { attrs: { value: "Absolvido" } },
-                                          [_vm._v("Absolvido")]
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _vm.pm.ipm_julgamento == "Condenado"
-                                  ? [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "col-lg-1 col-md-1 col-xs-1"
-                                        },
-                                        [
-                                          _c("label", [_vm._v("Anos")]),
-                                          _c("br"),
-                                          _vm._v(" "),
-                                          _c("the-mask", {
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              mask: "###",
-                                              type: "text",
-                                              maxlength: "3",
-                                              name: "ipm_pena_anos",
-                                              placeholder: "Anos"
-                                            },
-                                            model: {
-                                              value: _vm.pm.ipm_pena_anos,
-                                              callback: function($$v) {
-                                                _vm.$set(
-                                                  _vm.pm,
-                                                  "ipm_pena_anos",
-                                                  $$v
-                                                )
-                                              },
-                                              expression: "pm.ipm_pena_anos"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "col-lg-1 col-md-1 col-xs-1"
-                                        },
-                                        [
-                                          _c("label", [_vm._v("Meses")]),
-                                          _c("br"),
-                                          _vm._v(" "),
-                                          _c("the-mask", {
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              mask: "###",
-                                              type: "text",
-                                              maxlength: "3",
-                                              name: "ipm_pena_meses",
-                                              placeholder: "Meses"
-                                            },
-                                            model: {
-                                              value: _vm.pm.ipm_pena_meses,
-                                              callback: function($$v) {
-                                                _vm.$set(
-                                                  _vm.pm,
-                                                  "ipm_pena_meses",
-                                                  $$v
-                                                )
-                                              },
-                                              expression: "pm.ipm_pena_meses"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "col-lg-1 col-md-1 col-xs-1"
-                                        },
-                                        [
-                                          _c("label", [_vm._v("Dias")]),
-                                          _c("br"),
-                                          _vm._v(" "),
-                                          _c("the-mask", {
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              mask: "###",
-                                              type: "text",
-                                              maxlength: "3",
-                                              name: "ipm_pena_dias",
-                                              placeholder: "Dias"
-                                            },
-                                            model: {
-                                              value: _vm.pm.ipm_pena_dias,
-                                              callback: function($$v) {
-                                                _vm.$set(
-                                                  _vm.pm,
-                                                  "ipm_pena_dias",
-                                                  $$v
-                                                )
-                                              },
-                                              expression: "pm.ipm_pena_dias"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "col-lg-3 col-md-3 col-xs-3"
-                                        },
-                                        [
-                                          _c("label"),
-                                          _c("br"),
-                                          _vm._v(" "),
-                                          _c("v-checkbox", {
-                                            attrs: {
-                                              name: "ipm_transitojulgado_bl",
-                                              "true-value": "S",
-                                              "false-value": "0",
-                                              text: "Transitou em julgado?"
-                                            },
-                                            model: {
-                                              value:
-                                                _vm.pm.ipm_transitojulgado_bl,
-                                              callback: function($$v) {
-                                                _vm.$set(
-                                                  _vm.pm,
-                                                  "ipm_transitojulgado_bl",
-                                                  $$v
-                                                )
-                                              },
-                                              expression:
-                                                "pm.ipm_transitojulgado_bl"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "col-lg-2 col-md-2 col-xs-2"
-                                        },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              attrs: { for: "ipm_tipodapena" }
-                                            },
-                                            [_vm._v("Tipo Pena")]
-                                          ),
-                                          _c("br"),
-                                          _vm._v(" "),
-                                          _c(
-                                            "select",
-                                            {
-                                              directives: [
-                                                {
-                                                  name: "model",
-                                                  rawName: "v-model",
-                                                  value: _vm.pm.ipm_tipodapena,
-                                                  expression:
-                                                    "pm.ipm_tipodapena"
-                                                }
-                                              ],
-                                              staticClass: "form-control",
-                                              attrs: { name: "ipm_tipodapena" },
-                                              on: {
-                                                change: function($event) {
-                                                  var $$selectedVal = Array.prototype.filter
-                                                    .call(
-                                                      $event.target.options,
-                                                      function(o) {
-                                                        return o.selected
-                                                      }
-                                                    )
-                                                    .map(function(o) {
-                                                      var val =
-                                                        "_value" in o
-                                                          ? o._value
-                                                          : o.value
-                                                      return val
-                                                    })
-                                                  _vm.$set(
-                                                    _vm.pm,
-                                                    "ipm_tipodapena",
-                                                    $event.target.multiple
-                                                      ? $$selectedVal
-                                                      : $$selectedVal[0]
-                                                  )
-                                                }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { name: "ipm_processocrime" },
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
                                               }
-                                            },
-                                            [
-                                              _c(
-                                                "option",
-                                                { attrs: { value: "" } },
-                                                [_vm._v("Selecione")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "option",
-                                                {
-                                                  attrs: { value: "Detenção" }
-                                                },
-                                                [_vm._v("Detenção")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "option",
-                                                {
-                                                  attrs: { value: "Reclusão" }
-                                                },
-                                                [_vm._v("Reclusão")]
-                                              )
-                                            ]
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.pm,
+                                            "ipm_processocrime",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
                                           )
-                                        ]
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("option", { attrs: { value: "" } }, [
+                                        _vm._v("Selecione")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "Denunciado" } },
+                                        [_vm._v("Denunciado")]
                                       ),
                                       _vm._v(" "),
                                       _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "col-lg-3 col-md-3 col-xs-3"
-                                        },
-                                        [
-                                          _c("label"),
-                                          _c("br"),
-                                          _vm._v(" "),
-                                          _c("v-checkbox", {
-                                            attrs: {
-                                              name: "ipm_restritiva_bl",
-                                              "true-value": "S",
-                                              "false-value": "0",
-                                              text: "Restritiva de direito?"
-                                            },
-                                            model: {
-                                              value: _vm.pm.ipm_restritiva_bl,
-                                              callback: function($$v) {
-                                                _vm.$set(
-                                                  _vm.pm,
-                                                  "ipm_restritiva_bl",
-                                                  $$v
-                                                )
-                                              },
-                                              expression: "pm.ipm_restritiva_bl"
-                                            }
-                                          })
-                                        ],
-                                        1
+                                        "option",
+                                        { attrs: { value: "Arquivado" } },
+                                        [_vm._v("Arquivado")]
                                       )
                                     ]
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "col-lg-10 col-md-10 col-xs-10"
-                                  },
-                                  [
-                                    _c("label", { attrs: { for: "obs_txt" } }, [
-                                      _vm._v("Observações")
-                                    ]),
-                                    _c("br"),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      staticClass: "numero form-control",
-                                      attrs: { type: "text", name: "obs_txt" },
-                                      domProps: { value: _vm.pm.obs_txt }
-                                    })
-                                  ]
-                                )
-                              ]
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "col-lg-1 col-md-1 col-xs 1" },
-                            [
-                              _c("label", [_vm._v("Cancelar")]),
-                              _c("br"),
+                                  )
+                                ]
+                              ),
                               _vm._v(" "),
                               _c(
-                                "a",
+                                "div",
+                                { staticClass: "col-lg-6 col-md-6 col-xs-6" },
+                                [
+                                  _c(
+                                    "label",
+                                    { attrs: { for: "ipm_julgamento" } },
+                                    [_vm._v("Julgamento")]
+                                  ),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.pm.ipm_julgamento,
+                                          expression: "pm.ipm_julgamento"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { name: "ipm_julgamento" },
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.$set(
+                                            _vm.pm,
+                                            "ipm_julgamento",
+                                            $event.target.multiple
+                                              ? $$selectedVal
+                                              : $$selectedVal[0]
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("option", { attrs: { value: "" } }, [
+                                        _vm._v("Selecione")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "Condenado" } },
+                                        [_vm._v("Condenado")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "Absolvido" } },
+                                        [_vm._v("Absolvido")]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm.pm.ipm_julgamento == "Condenado"
+                                ? [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "col-lg-1 col-md-1 col-xs-1"
+                                      },
+                                      [
+                                        _c("label", [_vm._v("Anos")]),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c("the-mask", {
+                                          staticClass: "form-control",
+                                          attrs: {
+                                            mask: "###",
+                                            type: "text",
+                                            maxlength: "3",
+                                            name: "ipm_pena_anos",
+                                            placeholder: "Anos"
+                                          },
+                                          model: {
+                                            value: _vm.pm.ipm_pena_anos,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.pm,
+                                                "ipm_pena_anos",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "pm.ipm_pena_anos"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "col-lg-1 col-md-1 col-xs-1"
+                                      },
+                                      [
+                                        _c("label", [_vm._v("Meses")]),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c("the-mask", {
+                                          staticClass: "form-control",
+                                          attrs: {
+                                            mask: "###",
+                                            type: "text",
+                                            maxlength: "3",
+                                            name: "ipm_pena_meses",
+                                            placeholder: "Meses"
+                                          },
+                                          model: {
+                                            value: _vm.pm.ipm_pena_meses,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.pm,
+                                                "ipm_pena_meses",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "pm.ipm_pena_meses"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "col-lg-1 col-md-1 col-xs-1"
+                                      },
+                                      [
+                                        _c("label", [_vm._v("Dias")]),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c("the-mask", {
+                                          staticClass: "form-control",
+                                          attrs: {
+                                            mask: "###",
+                                            type: "text",
+                                            maxlength: "3",
+                                            name: "ipm_pena_dias",
+                                            placeholder: "Dias"
+                                          },
+                                          model: {
+                                            value: _vm.pm.ipm_pena_dias,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.pm,
+                                                "ipm_pena_dias",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "pm.ipm_pena_dias"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "col-lg-3 col-md-3 col-xs-3"
+                                      },
+                                      [
+                                        _c("label"),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c("v-checkbox", {
+                                          attrs: {
+                                            name: "ipm_transitojulgado_bl",
+                                            "true-value": "S",
+                                            "false-value": "0",
+                                            text: "Transitou em julgado?"
+                                          },
+                                          model: {
+                                            value:
+                                              _vm.pm.ipm_transitojulgado_bl,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.pm,
+                                                "ipm_transitojulgado_bl",
+                                                $$v
+                                              )
+                                            },
+                                            expression:
+                                              "pm.ipm_transitojulgado_bl"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "col-lg-2 col-md-2 col-xs-2"
+                                      },
+                                      [
+                                        _c(
+                                          "label",
+                                          { attrs: { for: "ipm_tipodapena" } },
+                                          [_vm._v("Tipo Pena")]
+                                        ),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "select",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: _vm.pm.ipm_tipodapena,
+                                                expression: "pm.ipm_tipodapena"
+                                              }
+                                            ],
+                                            staticClass: "form-control",
+                                            attrs: { name: "ipm_tipodapena" },
+                                            on: {
+                                              change: function($event) {
+                                                var $$selectedVal = Array.prototype.filter
+                                                  .call(
+                                                    $event.target.options,
+                                                    function(o) {
+                                                      return o.selected
+                                                    }
+                                                  )
+                                                  .map(function(o) {
+                                                    var val =
+                                                      "_value" in o
+                                                        ? o._value
+                                                        : o.value
+                                                    return val
+                                                  })
+                                                _vm.$set(
+                                                  _vm.pm,
+                                                  "ipm_tipodapena",
+                                                  $event.target.multiple
+                                                    ? $$selectedVal
+                                                    : $$selectedVal[0]
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "option",
+                                              { attrs: { value: "" } },
+                                              [_vm._v("Selecione")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "option",
+                                              { attrs: { value: "Detenção" } },
+                                              [_vm._v("Detenção")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "option",
+                                              { attrs: { value: "Reclusão" } },
+                                              [_vm._v("Reclusão")]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "col-lg-3 col-md-3 col-xs-3"
+                                      },
+                                      [
+                                        _c("label"),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c("v-checkbox", {
+                                          attrs: {
+                                            name: "ipm_restritiva_bl",
+                                            "true-value": "S",
+                                            "false-value": "0",
+                                            text: "Restritiva de direito?"
+                                          },
+                                          model: {
+                                            value: _vm.pm.ipm_restritiva_bl,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.pm,
+                                                "ipm_restritiva_bl",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "pm.ipm_restritiva_bl"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "div",
                                 {
-                                  staticClass: "btn btn-danger btn-block",
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.clear(false)
-                                    }
-                                  }
+                                  staticClass: "col-lg-10 col-md-10 col-xs-10"
                                 },
                                 [
-                                  _c("i", {
-                                    staticClass: "fa fa-times",
-                                    staticStyle: { color: "white" }
+                                  _c("label", { attrs: { for: "obs_txt" } }, [
+                                    _vm._v("Observações")
+                                  ]),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "numero form-control",
+                                    attrs: { type: "text", name: "obs_txt" },
+                                    domProps: { value: _vm.pm.obs_txt }
                                   })
                                 ]
                               )
                             ]
-                          ),
-                          _vm._v(" "),
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-lg-1 col-md-1 col-xs 1" },
+                          [
+                            _c("label", [_vm._v("Cancelar")]),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-danger btn-block",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.clear(false)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fa fa-times",
+                                  staticStyle: { color: "white" }
+                                })
+                              ]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-lg-1 col-md-1 col-xs 1" },
+                          [
+                            _vm.toEdit
+                              ? [
+                                  _c("label", [_vm._v("Editar")]),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "btn btn-success btn-block",
+                                      attrs: { disabled: !_vm.resultado },
+                                      on: { click: _vm.editPM }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fa fa-plus",
+                                        staticStyle: { color: "white" }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              : [
+                                  _c("label", [_vm._v("Adicionar")]),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "btn btn-success btn-block",
+                                      attrs: { disabled: !_vm.resultado },
+                                      on: { click: _vm.createPM }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fa fa-plus",
+                                        staticStyle: { color: "white" }
+                                      })
+                                    ]
+                                  )
+                                ]
+                          ],
+                          2
+                        )
+                      ],
+                      2
+                    )
+                  ])
+                ])
+              : _vm._e()
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card-footer" },
+      [
+        _vm.verReus
+          ? [
+              _vm.pms.length
+                ? _c("div", { staticClass: "row bordaform" }, [
+                    _c("div", { staticClass: "col-sm-12" }, [
+                      _c("table", { staticClass: "table table-hover" }, [
+                        _c("thead", [
                           _c(
-                            "div",
-                            { staticClass: "col-lg-1 col-md-1 col-xs 1" },
+                            "tr",
                             [
-                              _vm.toEdit
+                              _c("th", { staticClass: "col-sm-1" }, [
+                                _vm._v("#")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", { staticClass: "col-sm-1" }, [
+                                _vm._v("RG")
+                              ]),
+                              _vm._v(" "),
+                              _vm.verReus
                                 ? [
-                                    _c("label", [_vm._v("Editar")]),
-                                    _c("br"),
+                                    _c("th", { staticClass: "col-sm-1" }, [
+                                      _vm._v("Processo crime")
+                                    ]),
                                     _vm._v(" "),
-                                    _c(
-                                      "a",
-                                      {
-                                        staticClass:
-                                          "btn btn-success btn-block",
-                                        attrs: { disabled: !_vm.resultado },
-                                        on: { click: _vm.editPM }
-                                      },
-                                      [
-                                        _c("i", {
-                                          staticClass: "fa fa-plus",
-                                          staticStyle: { color: "white" }
-                                        })
-                                      ]
-                                    )
+                                    _c("th", { staticClass: "col-sm-3" }, [
+                                      _vm._v("Julgamento")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("th", { staticClass: "col-sm-2" }, [
+                                      _vm._v("Tipo pena")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("th", { staticClass: "col-sm-2" }, [
+                                      _vm._v("Rest. direito")
+                                    ])
                                   ]
                                 : [
-                                    _c("label", [_vm._v("Adicionar")]),
-                                    _c("br"),
+                                    _c("th", { staticClass: "col-sm-2" }, [
+                                      _vm._v("Nome")
+                                    ]),
                                     _vm._v(" "),
-                                    _c(
-                                      "a",
-                                      {
-                                        staticClass:
-                                          "btn btn-success btn-block",
-                                        attrs: { disabled: !_vm.resultado },
-                                        on: { click: _vm.createPM }
-                                      },
-                                      [
-                                        _c("i", {
-                                          staticClass: "fa fa-plus",
-                                          staticStyle: { color: "white" }
-                                        })
-                                      ]
-                                    )
-                                  ]
+                                    _c("th", { staticClass: "col-sm-2" }, [
+                                      _vm._v("Posto/Grad.")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("th", { staticClass: "col-sm-2" }, [
+                                      _vm._v("Resultado")
+                                    ])
+                                  ],
+                              _vm._v(" "),
+                              _c("th", { staticClass: "col-sm-2" }, [
+                                _vm._v("Ver/Editar/Apagar")
+                              ])
                             ],
                             2
                           )
-                        ],
-                        2
-                      )
-                    ])
-                  ])
-                : _vm._e()
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "card-footer" },
-        [
-          _vm.verReus
-            ? [
-                _vm.pms.length
-                  ? _c("div", { staticClass: "row bordaform" }, [
-                      _c("div", { staticClass: "col-sm-12" }, [
-                        _c("table", { staticClass: "table table-hover" }, [
-                          _c("thead", [
-                            _c(
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.pms, function(pm, index) {
+                            return _c(
                               "tr",
+                              { key: index },
                               [
-                                _c("th", { staticClass: "col-sm-1" }, [
-                                  _vm._v("#")
-                                ]),
-                                _vm._v(" "),
-                                _c("th", { staticClass: "col-sm-1" }, [
-                                  _vm._v("RG")
-                                ]),
-                                _vm._v(" "),
-                                _vm.verReus
-                                  ? [
-                                      _c("th", { staticClass: "col-sm-1" }, [
-                                        _vm._v("Processo crime")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("th", { staticClass: "col-sm-3" }, [
-                                        _vm._v("Julgamento")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("th", { staticClass: "col-sm-2" }, [
-                                        _vm._v("Tipo pena")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("th", { staticClass: "col-sm-2" }, [
-                                        _vm._v("Rest. direito")
-                                      ])
-                                    ]
-                                  : [
-                                      _c("th", { staticClass: "col-sm-2" }, [
-                                        _vm._v("Nome")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("th", { staticClass: "col-sm-2" }, [
-                                        _vm._v("Posto/Grad.")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("th", { staticClass: "col-sm-2" }, [
-                                        _vm._v("Resultado")
-                                      ])
-                                    ],
-                                _vm._v(" "),
-                                _c("th", { staticClass: "col-sm-2" }, [
-                                  _vm._v("Ver/Editar/Apagar")
-                                ])
-                              ],
-                              2
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "tbody",
-                            _vm._l(_vm.pms, function(pm, index) {
-                              return _c(
-                                "tr",
-                                { key: index },
-                                [
-                                  _c("td", [_vm._v(_vm._s(index + 1))]),
-                                  _vm._v(" "),
-                                  _c("td", [_vm._v(_vm._s(pm.rg))]),
-                                  _vm._v(" "),
-                                  _vm.verReus
-                                    ? [
-                                        _c("td", [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm._f("SN")(pm.ipm_processocrime)
-                                            )
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        pm.ipm_julgamento &&
-                                        pm.ipm_julgamento == "Absolvido"
-                                          ? [
-                                              _c("td", [
-                                                _vm._v(
-                                                  _vm._s(pm.ipm_julgamento)
-                                                )
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [_vm._v("-")]),
-                                              _vm._v(" "),
-                                              _c("td", [_vm._v("-")])
-                                            ]
-                                          : [
-                                              _c("td", [
-                                                _vm._v(
-                                                  _vm._s(
-                                                    _vm._f("SN")(
-                                                      pm.ipm_julgamento
-                                                    )
-                                                  ) +
-                                                    ": \n                                            " +
-                                                    _vm._s(pm.ipm_pena_anos)
-                                                ),
-                                                _c("b", [_vm._v("A")]),
-                                                _vm._v(
-                                                  "\n                                            " +
-                                                    _vm._s(pm.ipm_pena_meses)
-                                                ),
-                                                _c("b", [_vm._v("M")]),
-                                                _vm._v(
-                                                  "\n                                            " +
-                                                    _vm._s(pm.ipm_pena_dias)
-                                                ),
-                                                _c("b", [_vm._v("D")]),
-                                                _vm._v(
-                                                  " \n                                            Transitado? "
-                                                ),
-                                                _c("b", [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      _vm._f("SN")(
-                                                        pm.ipm_transitojulgado_bl
-                                                      )
-                                                    )
-                                                  )
-                                                ])
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _vm._v(
-                                                  _vm._s(
-                                                    _vm._f("SN")(
-                                                      pm.ipm_tipodapena
-                                                    )
-                                                  )
-                                                )
-                                              ]),
-                                              _vm._v(" "),
-                                              _c("td", [
-                                                _vm._v(
-                                                  _vm._s(
-                                                    _vm._f("SN")(
-                                                      pm.ipm_restritiva_bl
-                                                    )
-                                                  )
-                                                )
-                                              ])
-                                            ]
-                                      ]
-                                    : [
-                                        _c("td", [_vm._v(_vm._s(pm.nome))]),
-                                        _vm._v(" "),
-                                        _c("td", [_vm._v(_vm._s(pm.cargo))]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm._f("vazio")(pm.resultado)
-                                            )
-                                          )
-                                        ])
-                                      ],
-                                  _vm._v(" "),
-                                  _c("td", [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "btn-group",
-                                        attrs: {
-                                          role: "group",
-                                          "aria-label": "First group"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "a",
-                                          {
-                                            staticClass: "btn btn-primary",
-                                            staticStyle: { color: "white" },
-                                            attrs: {
-                                              type: "button",
-                                              target: "_blanck"
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.showPM(pm.rg)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fa fa-eye"
-                                            })
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "a",
-                                          {
-                                            staticClass: "btn btn-success",
-                                            staticStyle: { color: "white" },
-                                            attrs: {
-                                              type: "button",
-                                              target: "_blanck"
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.replacePM(pm)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fa fa-edit"
-                                            })
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "a",
-                                          {
-                                            staticClass: "btn btn-danger",
-                                            staticStyle: { color: "white" },
-                                            attrs: { type: "button" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.removePM(
-                                                  pm.id_envolvido
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fa fa-trash"
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  ])
-                                ],
-                                2
-                              )
-                            }),
-                            0
-                          )
-                        ])
-                      ])
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                !_vm.pms.length && _vm.only ? _c("div", [_vm._m(1)]) : _vm._e()
-              ]
-            : [
-                _vm.pms.length
-                  ? _c("div", { staticClass: "row bordaform" }, [
-                      _c("div", { staticClass: "col-sm-12" }, [
-                        _c("table", { staticClass: "table table-hover" }, [
-                          _vm._m(2),
-                          _vm._v(" "),
-                          _c(
-                            "tbody",
-                            _vm._l(_vm.pms, function(pm, index) {
-                              return _c("tr", { key: index }, [
                                 _c("td", [_vm._v(_vm._s(index + 1))]),
                                 _vm._v(" "),
                                 _c("td", [_vm._v(_vm._s(pm.rg))]),
                                 _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(
-                                    _vm._s(pm.nome) +
-                                      " " +
-                                      _vm._s(pm.ipm_tipodapena)
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(pm.cargo))]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(_vm._s(_vm._f("vazio")(pm.resultado)))
-                                ]),
+                                _vm.verReus
+                                  ? [
+                                      _c("td", [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm._f("SN")(pm.ipm_processocrime)
+                                          )
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      pm.ipm_julgamento &&
+                                      pm.ipm_julgamento == "Absolvido"
+                                        ? [
+                                            _c("td", [
+                                              _vm._v(_vm._s(pm.ipm_julgamento))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [_vm._v("-")]),
+                                            _vm._v(" "),
+                                            _c("td", [_vm._v("-")])
+                                          ]
+                                        : [
+                                            _c("td", [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm._f("SN")(
+                                                    pm.ipm_julgamento
+                                                  )
+                                                ) +
+                                                  ": \n                                            " +
+                                                  _vm._s(pm.ipm_pena_anos)
+                                              ),
+                                              _c("b", [_vm._v("A")]),
+                                              _vm._v(
+                                                "\n                                            " +
+                                                  _vm._s(pm.ipm_pena_meses)
+                                              ),
+                                              _c("b", [_vm._v("M")]),
+                                              _vm._v(
+                                                "\n                                            " +
+                                                  _vm._s(pm.ipm_pena_dias)
+                                              ),
+                                              _c("b", [_vm._v("D")]),
+                                              _vm._v(
+                                                " \n                                            Transitado? "
+                                              ),
+                                              _c("b", [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm._f("SN")(
+                                                      pm.ipm_transitojulgado_bl
+                                                    )
+                                                  )
+                                                )
+                                              ])
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm._f("SN")(
+                                                    pm.ipm_tipodapena
+                                                  )
+                                                )
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm._f("SN")(
+                                                    pm.ipm_restritiva_bl
+                                                  )
+                                                )
+                                              )
+                                            ])
+                                          ]
+                                    ]
+                                  : [
+                                      _c("td", [_vm._v(_vm._s(pm.nome))]),
+                                      _vm._v(" "),
+                                      _c("td", [_vm._v(_vm._s(pm.cargo))]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _vm._v(
+                                          _vm._s(_vm._f("vazio")(pm.resultado))
+                                        )
+                                      ])
+                                    ],
                                 _vm._v(" "),
                                 _c("td", [
                                   _c(
@@ -1995,129 +1839,183 @@ var render = function() {
                                         [_c("i", { staticClass: "fa fa-eye" })]
                                       ),
                                       _vm._v(" "),
-                                      _vm.canEdit
-                                        ? _c(
-                                            "a",
-                                            {
-                                              staticClass: "btn btn-success",
-                                              staticStyle: { color: "white" },
-                                              attrs: {
-                                                type: "button",
-                                                target: "_blanck"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.replacePM(pm)
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("i", {
-                                                staticClass: "fa fa-edit"
-                                              })
-                                            ]
-                                          )
-                                        : _vm._e(),
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "btn btn-success",
+                                          staticStyle: { color: "white" },
+                                          attrs: {
+                                            type: "button",
+                                            target: "_blanck"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.replacePM(pm)
+                                            }
+                                          }
+                                        },
+                                        [_c("i", { staticClass: "fa fa-edit" })]
+                                      ),
                                       _vm._v(" "),
-                                      _vm.canDelete
-                                        ? _c(
-                                            "a",
-                                            {
-                                              staticClass: "btn btn-danger",
-                                              staticStyle: { color: "white" },
-                                              attrs: { type: "button" },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.removePM(
-                                                    pm.id_envolvido,
-                                                    index
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("i", {
-                                                staticClass: "fa fa-trash"
-                                              })
-                                            ]
-                                          )
-                                        : _vm._e()
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass: "btn btn-danger",
+                                          staticStyle: { color: "white" },
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.removePM(
+                                                pm.id_envolvido
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fa fa-trash"
+                                          })
+                                        ]
+                                      )
                                     ]
                                   )
                                 ])
-                              ])
-                            }),
-                            0
-                          )
-                        ])
+                              ],
+                              2
+                            )
+                          }),
+                          0
+                        )
                       ])
                     ])
-                  : !_vm.pms.length && _vm.only
-                  ? _c("div", [_vm._m(3)])
-                  : _vm._e()
-              ]
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _vm.confirmModal
-        ? _c("v-modal", { attrs: { effect: "fade", width: "400" } }, [
-            _c(
-              "div",
-              {
-                staticClass: "modal-header",
-                attrs: { slot: "modal-header" },
-                slot: "modal-header"
-              },
-              [
-                _c("h4", { staticClass: "modal-title" }, [
-                  _vm._v("Você tem certeza?")
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "modal-footer",
-                attrs: { slot: "modal-footer" },
-                slot: "modal-footer"
-              },
-              [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-success",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        _vm.respModal = true
-                      }
-                    }
-                  },
-                  [_vm._v("Sim")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        _vm.confirmModal = false
-                      }
-                    }
-                  },
-                  [_vm._v("Não")]
-                )
-              ]
-            )
-          ])
-        : _vm._e()
-    ],
-    1
-  )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.pms.length && _vm.only ? _c("div", [_vm._m(1)]) : _vm._e()
+            ]
+          : [
+              _vm.pms.length
+                ? _c("div", { staticClass: "row bordaform" }, [
+                    _c("div", { staticClass: "col-sm-12" }, [
+                      _c("table", { staticClass: "table table-hover" }, [
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.pms, function(pm, index) {
+                            return _c("tr", { key: index }, [
+                              _c("td", [_vm._v(_vm._s(index + 1))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(pm.rg))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(pm.nome) +
+                                    " " +
+                                    _vm._s(pm.ipm_tipodapena)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(pm.cargo))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(_vm._f("vazio")(pm.resultado)))
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "btn-group",
+                                    attrs: {
+                                      role: "group",
+                                      "aria-label": "First group"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-primary",
+                                        staticStyle: { color: "white" },
+                                        attrs: {
+                                          type: "button",
+                                          target: "_blanck"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.showPM(pm.rg)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-eye" })]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.canEdit
+                                      ? _c(
+                                          "a",
+                                          {
+                                            staticClass: "btn btn-success",
+                                            staticStyle: { color: "white" },
+                                            attrs: {
+                                              type: "button",
+                                              target: "_blanck"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.replacePM(pm)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-edit"
+                                            })
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.canDelete
+                                      ? _c(
+                                          "a",
+                                          {
+                                            staticClass: "btn btn-danger",
+                                            staticStyle: { color: "white" },
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.removePM(
+                                                  pm.id_envolvido,
+                                                  index
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-trash"
+                                            })
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]
+                                )
+                              ])
+                            ])
+                          }),
+                          0
+                        )
+                      ])
+                    ])
+                  ])
+                : !_vm.pms.length && _vm.only
+                ? _c("div", [_vm._m(3)])
+                : _vm._e()
+            ]
+      ],
+      2
+    )
+  ])
 }
 var staticRenderFns = [
   function() {

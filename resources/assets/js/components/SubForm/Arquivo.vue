@@ -220,13 +220,15 @@
                 .catch((error) => console.log(error));
             },
             removeArquivo(id, index){
-                let urlDelete = `${this.$root.baseUrl}api/arquivo/destroy/${id}`;
-                // console.log(urlDelete)
-                axios
-                .delete(urlDelete)
-                .then(this.arquivos.splice(index,1))
-                .then(this.clear(false))
-                .catch(error => console.log(error));
+                if(confirm('Você tem certeza?')){
+                    let urlDelete = `${this.$root.baseUrl}api/arquivo/destroy/${id}`;
+                    // console.log(urlDelete)
+                    axios
+                    .delete(urlDelete)
+                    .then(this.arquivos.splice(index,1))
+                    .then(this.clear(false))
+                    .catch(error => console.log(error));
+                }
             },
             clear(add){
                 this.add = add

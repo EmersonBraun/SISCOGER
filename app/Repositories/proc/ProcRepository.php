@@ -173,15 +173,18 @@ class ProcRepository
         return $registros;
     }
 
-    public function changeAndamento(Array $dados, $type)
+    public function changeAndamento(array $dados, $type)
     {
         $proc = $dados['procc'];
         $id = $dados['id_'.$proc];
-
         $search = array_search(strtoupper($type),config('sistema.andamento'.strtoupper($proc)),true);
-        $andamento = DB::table($proc)->where('id_'.$proc,$id)->update(['id_andamento' => $search]);
-        if($andamento) return true;
-        return false;
+        try {
+            DB::table($proc)->where('id_'.$proc,$id)->update(['id_andamento' => $search]);
+            return true;
+        } catch (\Throwable $th) {
+            // return $th->getMessage();
+            return false;
+        }
     }
 
     public function dados($proc, $ref, $ano)

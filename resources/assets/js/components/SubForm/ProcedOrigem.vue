@@ -227,11 +227,13 @@
             },
             // apagar arquivo
             removeProc(id){
-                let urlDelete = `${this.$root.baseUrl}api/ligacao/destroy/${id}`
-                axios
-                .delete(urlDelete)
-                .then(this.listProc)//chama list para atualizar
-                .catch(error => console.log(error));
+                if(confirm('Você tem certeza?')){
+                    let urlDelete = `${this.$root.baseUrl}api/ligacao/destroy/${id}`
+                    axios
+                    .delete(urlDelete)
+                    .then(this.listProc)//chama list para atualizar
+                    .catch(error => console.log(error));
+                }
             },
             verifyOnly(){     
                 if(this.unique == true){

@@ -278,15 +278,6 @@
                 </div> 
             </template>
         </div>
-        <v-modal v-if="confirmModal" effect="fade" width="400">
-            <div slot="modal-header" class="modal-header">
-                <h4 class="modal-title">Você tem certeza?</h4>
-            </div>
-            <div slot="modal-footer" class="modal-footer">
-                <button type="button" class="btn btn-success" @click="respModal = true">Sim</button>
-                <button type="button" class="btn btn-danger" @click="confirmModal = false">Não</button>
-            </div>
-        </v-modal>
     </div>
 </template>
 
@@ -426,13 +417,17 @@
                 this.add = true
             },
             editPM(){
-                let urledit = `${this.$root.baseUrl}api/acusado/edit/${this.toEdit}`;
-                let formData = document.getElementById('formAcusado');
-                let data = new FormData(formData);
-                
-                axios.post( urledit,data)
-                .then((response) => this.transation(response.data.success, 'edit'))
-                .catch((error) => console.log(error));
+                if(this.resultado) {
+                    let urledit = `${this.$root.baseUrl}api/acusado/edit/${this.toEdit}`;
+                    let formData = document.getElementById('formAcusado');
+                    let data = new FormData(formData);
+                    
+                    axios.post( urledit,data)
+                    .then((response) => this.transation(response.data.success, 'edit'))
+                    .catch((error) => console.log(error));
+                } else {
+                    alert('Preencha o resultado para liberar a edição!')
+                }
             },
             removePM(id){
                 if(confirm('Você tem certeza?')){
