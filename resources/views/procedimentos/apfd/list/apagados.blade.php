@@ -40,7 +40,7 @@
                             <td>{{$registro['sintese_txt']}}</td>
                             <td>
                                 <span>
-                                    {{-- <a class="btn btn-default" href="{{route('apfd.show',$registro['id_apfd'])}}"><i
+                                    {{-- <a class="btn btn-default2" href="{{route('apfd.show',$registro['id_apfd'])}}"><i
                                         class="fa fa-fw fa-eye "></i></a> --}}
                                     <a class="btn btn-info"
                                     href="{{route('apfd.restore',$registro['id_apfd'])}}"><i

@@ -40,7 +40,7 @@
                             <td class='col-xs-6 col-md-6'>{{$registro['sintese_txt']}}</td>
                             <td class='col-xs-3 col-md-3'>
                                 <span>
-                                    {{-- <a class="btn btn-default" href="{{route('cj.show',$registro['id_cj'])}}"><i
+                                    {{-- <a class="btn btn-default2" href="{{route('cj.show',$registro['id_cj'])}}"><i
                                         class="fa fa-fw fa-eye "></i></a> --}}
                                     <a class="btn btn-info"
                                     href="{{route('cj.restore',$registro['id_cj'])}}"><i

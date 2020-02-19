@@ -32,7 +32,7 @@
                         <td>
                             <span>
                                 @if(hasPermissionTo('ver-sindicancia'))
-                                    <a class="btn btn-default" href="{{route('sindicancia.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-eye "></i></a>
+                                    <a class="btn btn-default2" href="{{route('sindicancia.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-eye "></i></a>
                                 @endif
                                 @if(hasPermissionTo('editar-sindicancia'))
                                     <a class="btn btn-info" href="{{route('sindicancia.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-edit "></i></a>

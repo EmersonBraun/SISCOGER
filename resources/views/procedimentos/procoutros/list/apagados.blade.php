@@ -37,7 +37,7 @@
                             <td>{{$registro['motivo_abertura']}}</td>
                             <td>
                                 <span>
-                                    {{-- <a class="btn btn-default" href="{{route('procoutro.show',$registro['id_proc_outros'])}}"><i
+                                    {{-- <a class="btn btn-default2" href="{{route('procoutro.show',$registro['id_proc_outros'])}}"><i
                                         class="fa fa-fw fa-eye "></i></a> --}}
                                     <a class="btn btn-info"
                                     href="{{route('procoutro.restore',$registro['id_proc_outros'])}}"><i

@@ -172,6 +172,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var urlIndex = this.$root.baseUrl + 'api/' + this.module + '/list/' + this.pm.RG;
             if (this.pm.RG) {
                 axios.get(urlIndex).then(function (response) {
+                    console.log(response.data);
                     _this.registros = response.data;
                 }).catch(function (error) {
                     return console.log(error);
@@ -210,7 +211,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (!this.requireds) {
                 var urlUpdate = this.$root.baseUrl + 'api/' + this.module + '/update/' + id;
-                console.log('registro', this.registro.fim_data);
                 axios.put(urlUpdate, this.registro).then(function (response) {
                     _this3.transation(response.data.success, 'edit');
                 }).catch(function (error) {

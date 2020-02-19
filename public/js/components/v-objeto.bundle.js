@@ -104,7 +104,7 @@ var render = function() {
     [
       _c("h4", { staticClass: "text-center text-bold" }, [
         _vm._v(
-          "Marcado em procedimentos como Acusado, Indiciado, Sindicado ou Paciente"
+          "Marcado em procedimentos como Acusado, Indiciado, Sindicado, Paciente ou Justificante"
         )
       ]),
       _vm._v(" "),

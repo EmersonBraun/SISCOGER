@@ -262,7 +262,7 @@ class EnvolvidoRepository extends BaseRepository
 
     public function objetos($rg)
     {
-        $situacao = ['Acusado', 'Indiciado', 'Sindicado','Paciente'];
+        $situacao = ['Acusado', 'Indiciado', 'Sindicado','Paciente', 'Justificante'];
         $envolvido = $this->envolvidos($rg, $situacao);
                 
         $objetos = array();
@@ -301,6 +301,7 @@ class EnvolvidoRepository extends BaseRepository
     {
         $situacao = ['Encarregado', 'Presidente', 'Acusador', 'Escrivao', 'Membro', 'Defensor'];
         $envolvido = $this->envolvidos($rg, $situacao);
+        dd($envolvido);
         $membros = array();
         if(count($envolvido) > 0){
         $i=0;
@@ -335,7 +336,7 @@ class EnvolvidoRepository extends BaseRepository
 
     public function envolvidos($rg, $situacao)
     {
-        return DB::table('envolvido')
+        return $this->model
                 ->whereIn('situacao', $situacao)
                 ->where('rg','=', $rg)
                 ->get();

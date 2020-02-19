@@ -41,7 +41,7 @@
                             <td>
                                 <span>
                                     @if(hasPermissionTo('ver-apfd'))
-                                    <a class="btn btn-default"
+                                    <a class="btn btn-default2"
                                         href="{{route('apfd.show',['ref' => $registro['id_apfd']])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
                                     @endif

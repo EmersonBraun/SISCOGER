@@ -129,17 +129,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        // listDadosGerais(){
-        //     let urlIndex = `${this.$root.baseUrl}api/fdi/dadosGerais/${this.pm.RG}`;
-        //     if(this.pm.RG){
-        //         axios
-        //         .get(urlIndex)
-        //         .then((response) => {
-        //             this.pm = response.data
-        //         })
-        //         .catch(error => console.log(error));
-        //     }
-        // },
         listDadosAdicionais: function listDadosAdicionais() {
             var _this = this;
 
@@ -251,13 +240,13 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.status.fardamento
+                _vm.status.restricao_fardamento
                   ? _c("strong", { staticClass: "text-danger" }, [
                       _vm._v("| Rest. Fardamento")
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.status.arma
+                _vm.status.restricao_arma
                   ? _c("strong", { staticClass: "text-danger" }, [
                       _vm._v("| Rest. Armamento")
                     ])

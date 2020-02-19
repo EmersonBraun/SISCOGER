@@ -38,7 +38,7 @@
                             <td>{{$registro['sintese_txt']}}</td>
                             <td>
                                 <span>
-                                    {{-- <a class="btn btn-default" href="{{route('it.show',$registro['id_it'])}}"><i
+                                    {{-- <a class="btn btn-default2" href="{{route('it.show',$registro['id_it'])}}"><i
                                         class="fa fa-fw fa-eye "></i></a> --}}
                                     <a class="btn btn-info"
                                     href="{{route('it.restore',$registro['id_it'])}}"><i

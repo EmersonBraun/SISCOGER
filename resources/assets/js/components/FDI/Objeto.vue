@@ -1,6 +1,6 @@
 <template>
     <v-tab header="Acusado" :badge="objetos.length">
-    <h4 class="text-center text-bold">Marcado em procedimentos como Acusado, Indiciado, Sindicado ou Paciente</h4>
+    <h4 class="text-center text-bold">Marcado em procedimentos como Acusado, Indiciado, Sindicado, Paciente ou Justificante</h4>
         <table class="table table-striped">
         <tbody>
             <template v-if="objetos.length">

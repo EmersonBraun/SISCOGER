@@ -42,7 +42,7 @@
                             <td>
                                 <span>
                                     @if(hasPermissionTo('ver-cj')) 
-                                    <a class="btn btn-default"
+                                    <a class="btn btn-default2"
                                         href="{{route('cj.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-eye "></i>
                                     </a>

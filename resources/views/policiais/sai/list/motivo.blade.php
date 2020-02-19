@@ -47,7 +47,7 @@
                             <td>
                                 <span>
                                     @if(hasPermissionTo('ver-sai'))
-                                    <a class="btn btn-default"
+                                    <a class="btn btn-default2"
                                         href="{{route('sai.show',$registro->id_sai)}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
                                     @endif

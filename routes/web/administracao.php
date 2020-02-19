@@ -8,6 +8,8 @@ Route::group(['as'=>'user.','prefix' =>'usuario'],function(){
 	Route::get('editar/{id}',['as' =>'edit','uses'=>'Administracao\User\UserController@edit']);
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Administracao\User\UserController@update']);
 	Route::get('remover/{id}',['as' =>'destroy','uses'=>'Administracao\User\UserController@destroy']);
+	Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Administracao\User\UserController@restore','middleware' => ['role:admin']]);
+    Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Administracao\User\UserController@forceDelete','middleware' => ['role:admin']]);
 	//Alterar senha
 	Route::get('{id}/senha',['as' =>'pass','uses'=>'Administracao\User\PasswordController@passedit']);
 	Route::put('{id}/senhaatualizar',['as' =>'passupdate','uses'=>'Administracao\User\PasswordController@passupdate']);

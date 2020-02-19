@@ -41,7 +41,7 @@
                             <td>{{$registro['doc_tipo']}} Nº {{$registro['doc_numero']}}</td>
                             <td>
                                 <span>
-                                    {{-- <a class="btn btn-default" href="{{route('desercao.show',$registro['id_desercao'])}}"><i
+                                    {{-- <a class="btn btn-default2" href="{{route('desercao.show',$registro['id_desercao'])}}"><i
                                         class="fa fa-fw fa-eye "></i></a> --}}
                                     <a class="btn btn-info"
                                     href="{{route('desercao.restore',$registro['id_desercao'])}}"><i

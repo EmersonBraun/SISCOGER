@@ -11030,6 +11030,16 @@ html {
     border-bottom-right-radius: 0.25rem; */
 }
 
+.btn-default2 {
+    background-color: #C0C0C0;
+    color: #444;
+    border-color: #ddd;
+}
+.btn-default2:hover, .btn-default2:active, .btn-default2.hover {
+    background-color: 
+    #A9A9A9;
+}
+
 .btn-secondary {
     color: #fff;
     background-color: #6c757d;

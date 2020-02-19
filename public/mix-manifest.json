@@ -12,7 +12,7 @@
     "/js/components/v-movimento.bundle.js": "/js/components/v-movimento.bundle.js?id=560bc3e1fcedffeeb7c8",
     "/js/components/v-arquivo.bundle.js": "/js/components/v-arquivo.bundle.js?id=f2e7244cab4b03a192b4",
     "/js/components/v-prioritario.bundle.js": "/js/components/v-prioritario.bundle.js?id=fd97000857d7afb885db",
-    "/js/components/v-restricoes.bundle.js": "/js/components/v-restricoes.bundle.js?id=0b241199c811611d6438",
+    "/js/components/v-restricoes.bundle.js": "/js/components/v-restricoes.bundle.js?id=fa930358251defeb3b3a",
     "/js/components/v-memorando.bundle.js": "/js/components/v-memorando.bundle.js?id=1617e35d670ef5d1cba3",
     "/js/components/v-input.bundle.js": "/js/components/v-input.bundle.js?id=6fa8a48fa65d6aa6ba5e",
     "/js/components/v-aside.bundle.js": "/js/components/v-aside.bundle.js?id=0330c5929de3e49e8b47",
@@ -61,8 +61,8 @@
     "/js/components/v-punicao.bundle.js": "/js/components/v-punicao.bundle.js?id=7bf82ff98f7f35d55b54",
     "/js/components/v-protocolo.bundle.js": "/js/components/v-protocolo.bundle.js?id=e5d12d6668e544db8445",
     "/js/components/v-proc-outros.bundle.js": "/js/components/v-proc-outros.bundle.js?id=c377a26254a5b4c3ff4f",
-    "/js/components/v-principal.bundle.js": "/js/components/v-principal.bundle.js?id=f85b271b8b5293c5548d",
-    "/js/components/v-objeto.bundle.js": "/js/components/v-objeto.bundle.js?id=1a6a54277ef51836f876",
+    "/js/components/v-principal.bundle.js": "/js/components/v-principal.bundle.js?id=45735ad2a566eaa2251b",
+    "/js/components/v-objeto.bundle.js": "/js/components/v-objeto.bundle.js?id=dd28f6f57ab45b40b501",
     "/js/components/v-membro-fdi.bundle.js": "/js/components/v-membro-fdi.bundle.js?id=e35c27379d389e2246b9",
     "/js/components/v-medalha.bundle.js": "/js/components/v-medalha.bundle.js?id=3a22110cb791a82ac59a",
     "/js/components/v-log-fdi.bundle.js": "/js/components/v-log-fdi.bundle.js?id=2ce55264aff9149e48db",
@@ -86,5 +86,5 @@
     "/js/components/v-option.bundle.js": "/js/components/v-option.bundle.js?id=125d367c3335ee18ab10",
     "/js/components/v-accordion.bundle.js": "/js/components/v-accordion.bundle.js?id=3f4b88ec887f5b708f9e",
     "/js/components/v-tab-menu.bundle.js": "/js/components/v-tab-menu.bundle.js?id=9a9383c47f4791aafc34",
-    "/js/app.js": "/js/app.js?id=de0526c93388dd2dbb76"
+    "/js/app.js": "/js/app.js?id=3f2e299e1cd45309d0b6"
 }

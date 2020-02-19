@@ -39,33 +39,12 @@
                             <td>{{ $user->roles()->pluck('name')->implode('/') }}</td>
                             <td>
                                 <div class="btn-group">
-                                    @if(hasPermissionTo('editar-usuarios'))
-                                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-info">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    @endif
-                                    @if(hasPermissionTo('apagar-usuarios'))
-                                        <a href="{{ route('user.destroy', $user->id) }}" class="btn btn-danger" onclick='return confirm("Você tem certeza?");'>
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    @endif
-                                   
-                                    @if($user->block == 0)
-                                        @if(hasPermissionTo('bloquear-usuarios'))     
-                                        <a href="{{ route('user.block', $user->id) }}" class="btn btn-warning">
-                                            <i class="fa fa-unlock"></i>
-                                        </a>
-                                        @endif
-                                    @else
-                                        @if(hasPermissionTo('desbloquear-usuarios'))
-                                        <a href="{{ route('user.unblock', $user->id) }}" class="btn btn-secondary">
-                                            <i class="fa fa-lock"></i>
-                                        </a>
-                                        @endif
-                                    @endif
-                                        <a href="{{ route('user.sendMail', ['id' =>$user->id, 'resend' => true]) }}" class="btn btn-success">
-                                            <i class="fa fa-envelope"></i>
-                                        </a>
+                                    <a href="{{ route('user.restore', $user->id) }}" class="btn btn-info">
+                                        <i class="fa fa-recycle"></i>
+                                    </a>
+                                    <a href="{{ route('user.forceDelete', $user->id) }}" class="btn btn-danger" onclick='return confirm("Você tem certeza?");'>
+                                        <i class="fa fa-trash"></i>
+                                    </a>
                                 </div>
                             </td>
                         </tr>

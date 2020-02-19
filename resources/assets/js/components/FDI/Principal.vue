@@ -12,8 +12,8 @@
                     <strong v-if="status.suspenso" class="text-danger">| Suspenso</strong>
                     <strong v-if="status.excluido" class="text-danger">| Excluido</strong>
                     <strong v-if="status.denunciado" class="text-danger">| Sub Judice</strong>
-                    <strong v-if="status.fardamento" class="text-danger">| Rest. Fardamento</strong>
-                    <strong v-if="status.arma" class="text-danger">| Rest. Armamento</strong>
+                    <strong v-if="status.restricao_fardamento" class="text-danger">| Rest. Fardamento</strong>
+                    <strong v-if="status.restricao_arma" class="text-danger">| Rest. Armamento</strong>
                 </template>
                 <button type="button" class="btn btn-box-tool" data-widget="collapse">
                     <i class="fa fa-minus"></i>
@@ -121,17 +121,6 @@
             }
         },
         methods: {
-            // listDadosGerais(){
-            //     let urlIndex = `${this.$root.baseUrl}api/fdi/dadosGerais/${this.pm.RG}`;
-            //     if(this.pm.RG){
-            //         axios
-            //         .get(urlIndex)
-            //         .then((response) => {
-            //             this.pm = response.data
-            //         })
-            //         .catch(error => console.log(error));
-            //     }
-            // },
             listDadosAdicionais(){
                 let urlIndex = `${this.$root.baseUrl}api/fdi/dadosAdicionais/${this.pm.RG}`;
                 if(this.pm.RG){

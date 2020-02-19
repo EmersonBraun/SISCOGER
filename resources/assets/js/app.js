@@ -6,6 +6,16 @@ require ('./components')
 // the mask
 import VueTheMask from 'vue-the-mask'
 Vue.use(VueTheMask)
+// money
+import money from 'v-money'
+Vue.use(money, {
+    decimal: ',',
+    thousands: '.',
+    prefix: 'R$ ',
+    precision: 2,
+    masked: false
+});
+
 // html to pdf
 import VueHtmlToPaper from 'vue-html-to-paper';
 const options = {

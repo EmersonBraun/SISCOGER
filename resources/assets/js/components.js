@@ -1,6 +1,7 @@
 Vue.component('v-app', require('./components/App.vue'));
 // upload de arquivos
 Vue.component('file-upload', () => import(/* webpackChunkName: "file-upload" */'./components/Arquivos/FileUpload.vue'));
+// Vue.component('v-money', () => import(/* webpackChunkName: "v-money" */'v-money'));
 // formularios
 Vue.component('v-label', () => import(/* webpackChunkName: "v-label" */'./components/Form/Label.vue'));
 Vue.component('v-toogle', () => import(/* webpackChunkName: "v-toogle" */'./components/Form/ToogleForm.vue'));

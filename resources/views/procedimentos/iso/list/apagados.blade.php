@@ -36,7 +36,7 @@
                             <td>{{$registro['sintese_txt']}}</td>
                             <td>
                                 <span>
-                                    {{-- <a class="btn btn-default" href="{{route('iso.show',$registro['id_iso'])}}"><i
+                                    {{-- <a class="btn btn-default2" href="{{route('iso.show',$registro['id_iso'])}}"><i
                                         class="fa fa-fw fa-eye "></i></a> --}}
                                     <a class="btn btn-info"
                                     href="{{route('iso.restore',$registro['id_iso'])}}"><i

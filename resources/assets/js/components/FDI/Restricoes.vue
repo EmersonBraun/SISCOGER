@@ -160,6 +160,7 @@ export default {
                 axios
                 .get(urlIndex)
                 .then((response) => {
+                    console.log(response.data)
                     this.registros = response.data
                 })
                 .catch(error => console.log(error));
@@ -196,7 +197,6 @@ export default {
         update(id){
             if(!this.requireds){
                 let urlUpdate = `${this.$root.baseUrl}api/${this.module}/update/${id}`;
-                console.log('registro',this.registro.fim_data)
                 axios
                 .put(urlUpdate, this.registro)
                 .then((response) => {

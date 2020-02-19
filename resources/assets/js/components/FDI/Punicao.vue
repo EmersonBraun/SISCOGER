@@ -1,41 +1,41 @@
 <template>
     <v-tab header="Histórico Funcional" :badge="lenght">
-            <table class="table table-striped">
-                <template v-if="lenght">
-                    <thead>
-                        <tr>
-                            <th class="col-xs-1">Data</th>
-                            <th class="col-xs-1">Classificação</th>
-                            <th class="col-xs-1">Gradação</th>
-                            <th class="col-xs-5">Descrição</th>
-                            <th class="col-xs-2">OPM</th>
-                            <th class="col-xs-2">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="registro in registros" :key="registro.id_punicao">
-                            <td>{{ registro.punicao_data }}</td>
-                            <td>{{ registro.id_classpunicao || 'Não cadastrado' }}</td>
-                            <td>{{ registro.id_gradacao || 'Não cadastrado' }}</td>
-                            <td>{{ registro.descricao_txt }}</td>
-                            <td>{{ registro.opm_abreviatura }}</td>
-                            <td>
-                                <span>
-                                    <template v-if="canEdit">
-                                        <a class="btn btn-info" @click="edit(registro)"><i class="fa fa-fw fa-edit "></i></a>
-                                    </template>
-                                    <template v-if="canDelete">
-                                        <a class="btn btn-danger" @click="destroy(registro.id_punicao)"><i class="fa fa-fw fa-trash-o "></i></a>
-                                    </template>
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </template>
-                <template v-else>
-                    <tr><td>Nada encontrado</td></tr>
-                </template>
-            </table>
+        <table class="table table-striped">
+            <template v-if="lenght">
+                <thead>
+                    <tr>
+                        <th class="col-xs-1">Data</th>
+                        <th class="col-xs-1">Classificação</th>
+                        <th class="col-xs-1">Gradação</th>
+                        <th class="col-xs-5">Descrição</th>
+                        <th class="col-xs-2">OPM</th>
+                        <th class="col-xs-2">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="registro in registros" :key="registro.id_punicao">
+                        <td>{{ registro.punicao_data }}</td>
+                        <td>{{ registro.id_classpunicao || 'Não cadastrado' }}</td>
+                        <td>{{ registro.id_gradacao || 'Não cadastrado' }}</td>
+                        <td>{{ registro.descricao_txt }}</td>
+                        <td>{{ registro.opm_abreviatura }}</td>
+                        <td>
+                            <span>
+                                <template v-if="canEdit">
+                                    <a class="btn btn-info" @click="edit(registro)"><i class="fa fa-fw fa-edit "></i></a>
+                                </template>
+                                <template v-if="canDelete">
+                                    <a class="btn btn-danger" @click="destroy(registro.id_punicao)"><i class="fa fa-fw fa-trash-o "></i></a>
+                                </template>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </template>
+            <template v-else>
+                <tr><td>Nada encontrado</td></tr>
+            </template>
+        </table>
         <template v-if="canCreate">
             <a class="btn btn-primary btn-block" @click="toCreate('create')">
                 <i class="fa fa-plus"></i>Adicionar Punição
@@ -132,7 +132,7 @@
                     </v-tooltip>
                 </div>
             </div>
-        </v-modal>   
+        </v-modal>  
     </v-tab>
 </template>
 

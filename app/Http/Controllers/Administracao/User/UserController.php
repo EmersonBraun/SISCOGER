@@ -49,7 +49,7 @@ class UserController extends Controller
 
     public function apagados()
     {
-        $users =  $this->user->where('deleted_at','<>','')->get();        
+        $users =  $this->user->onlyTrashed()->get();        
         return view('administracao.usuarios.apagados',compact('users'));
     }
 
@@ -232,6 +232,33 @@ class UserController extends Controller
             return redirect()->route('user.index');
         }
         return true;
+    }
+
+    public function restore($id)
+    {
+        $restore = $this->user->findOrFail($id)->restore();
+    
+        if($restore){
+            toast()->success('Usuário Recuperado!');
+            return redirect()->route('user.index');  
+        }
+
+        toast()->warning('Houve um erro ao recuperar!');
+        return redirect()->route('user.index'); 
+    }
+
+    public function forceDelete($id)
+    {
+        // dd($id);
+        $forceDelete = $this->user->findOrFail($id)->forceDelete();
+    
+        if($forceDelete){
+            toast()->success('Usuário apagado DEFINITIVO!');
+            return redirect()->route('user.index');  
+        }
+
+        toast()->warning('Houve um erro ao Apagar definitivo!');
+        return redirect()->route('user.index');
     }
 
     public function manual()

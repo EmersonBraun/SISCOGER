@@ -45,7 +45,6 @@ class RestricaoRepository extends BaseRepository
 
     public function list($rg)
 	{
-
         $registros = Cache::tags('restricao')->remember('restricao:rg'.$rg, $this->expiration, function() use ($rg){
             return $this->model->where('rg','=', $rg)->get();
         });
@@ -65,14 +64,14 @@ class RestricaoRepository extends BaseRepository
 
     public function arma($rg)
     {
-        $registros = Cache::tags('restricao')->remember('restricao:arma'.$rg, $this->expiration, function() use ($rg){
+        // $registros = Cache::tags('restricao')->remember('restricao:arma'.$rg, $this->expiration, function() use ($rg){
             return $this->model->where([
                 ['arma_bl', 'S'],
                 ['rg', $rg],
                 ['retirada_data','0000-00-00'],
                 ['fim_data','0000-00-00']
             ])->count();
-        });
+        // });
         
 
         if($registros) return true;

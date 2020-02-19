@@ -36,7 +36,7 @@
                             <td class='col-xs-6 col-md-6'>{{$registro['sintese_txt']}}</td>
                             <td class='col-xs-3 col-md-3'>
                                 <span>
-                                    {{-- <a class="btn btn-default" href="{{route('ipm.show',$registro['id_ipm'])}}"><i
+                                    {{-- <a class="btn btn-default2" href="{{route('ipm.show',$registro['id_ipm'])}}"><i
                                     class="fa fa-fw fa-eye "></i></a> --}}
                                     <a class="btn btn-info"
                                     href="{{route('ipm.restore',$registro['id_ipm'])}}"><i

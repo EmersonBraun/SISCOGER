@@ -38,7 +38,7 @@
                             <td>{{date( 'd/m/Y H:i:s' , strtotime($registro['datahora']))}}</td>
                             <td>
                                 <span>
-                                    {{-- <a class="btn btn-default" href="{{route('recurso.show',$registro['id_recurso'])}}"><i
+                                    {{-- <a class="btn btn-default2" href="{{route('recurso.show',$registro['id_recurso'])}}"><i
                                         class="fa fa-fw fa-eye "></i></a> --}}
                                     <a class="btn btn-info"
                                     href="{{route('recurso.restore',$registro['id_recurso'])}}"><i

@@ -60,7 +60,7 @@ class PunidoController extends Controller
         
         $dados = $request->all();
         $dados['opm_abreviatura'] = opm($dados['cdopm']);
-    
+        if(in_array($dados['id_gradacao'],[1,3])) $dados['ultimodia_data'] = date('Y-m-d');
 
         $create = $this->repository->create($dados);
 
@@ -94,6 +94,7 @@ class PunidoController extends Controller
 
         $dados = $request->all();
         $dados['opm_abreviatura'] = opm($dados['cdopm']);
+        if(in_array($dados['id_gradacao'],[1,3])) $dados['ultimodia_data'] = date('Y-m-d');
         $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)
@@ -162,9 +163,9 @@ class PunidoController extends Controller
         
         $dados = $request->all();
         $dados['opm_abreviatura'] = opm($dados['cdopm']);
-
+        if(in_array($dados['id_gradacao'],[1,3])) $dados['ultimodia_data'] = date('Y-m-d');
         $create = $this->repository->create($dados);
-
+        
         if($create)
         {
             $this->repository->cleanCache();
@@ -178,6 +179,7 @@ class PunidoController extends Controller
     {
         $dados = $request->all();
         $dados['opm_abreviatura'] = opm($dados['cdopm']);
+        if(in_array($dados['id_gradacao'],[1,3])) $dados['ultimodia_data'] = date('Y-m-d');
         $update = $this->repository->findAndUpdate( $id, $dados);
         
         if($update)

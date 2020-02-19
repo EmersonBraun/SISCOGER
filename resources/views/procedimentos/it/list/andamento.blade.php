@@ -40,7 +40,7 @@
                             <td>
                                 <span>
                                     @if(hasPermissionTo('ver-it')) 
-                                    <a class="btn btn-default"
+                                    <a class="btn btn-default2"
                                         href="{{route('it.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i
                                             class="fa fa-fw fa-eye "></i></a>
                                     @endif

@@ -51,7 +51,7 @@
                     <td>{{$registro['sintese_txt']}}</td>
                     <td>
                         <span>
-                        <a class="btn btn-default" href="{{route('pad.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-eye "></i></a>
+                        <a class="btn btn-default2" href="{{route('pad.show',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-eye "></i></a>
                         <a class="btn btn-info" href="{{route('pad.edit',['ref' => $registro['sjd_ref'], 'ano' => $registro['sjd_ref_ano']])}}"><i class="fa fa-fw fa-edit "></i></a>
                         <a class="btn btn-danger"  href="{{route('pad.forceDelete',$registro['id_pad'])}}" onclick="return confirm('Tem certeza que quer apagar o DEFINITIVO o PAD?')"><i class="fa fa-fw fa-trash-o "></i></a>
                         </span>

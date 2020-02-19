@@ -99,14 +99,17 @@
                         @default
                           <h4>Objeto do procedimento não cadastrado</h4>  
                     @endswitch
-                    <v-label label="boletiminterno_numero" title="N° Boletim">
+                    <v-label label="boletiminterno_numero" title="Boletim Interno da Publicação">
                         {{ Form::text('boletiminterno_numero', null, ['class' => 'form-control ']) }}
                     </v-label>
-                    <v-label label="boletiminterno_data" title="Data boletim">
-                        <v-datepicker name="boletiminterno_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['boletiminterno_data'] ?? ''}}"></v-datepicker>
+                    <v-label label="boletiminterno_data" title="Data da Publicação do Boletim">
+                        <v-datepicker name="boletiminterno_data" placeholder="dd/mm/aaaa" clear-button></v-datepicker>
                     </v-label>
                     <v-label label="br_numero" title="Nº do BR da publicação">
                         {{ Form::text('br_numero', null, ['class' => 'form-control ']) }}
+                    </v-label>
+                    <v-label label="portaria_numero" title="Nº da portaria">
+                        {{ Form::text('portaria_numero', null, ['class' => 'form-control ']) }}
                     </v-label>
                     <v-label label="situacao_objeto" title="Nº do BR da publicação">
                         {{ Form::text('situacao_objeto', null, ['class' => 'form-control ']) }}
@@ -116,6 +119,9 @@
                     </v-label>
                     <v-label label="resp_civil" title="Responsabilidade civil">
                         {!! Form::select('resp_civil', config('sistema.respCivil'),null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
+                    </v-label>
+                    <v-label label="id_causa_acidente" title="Causa acidente" error="{{$errors->first('id_causa_acidente')}}">
+                        {!! Form::select('id_causa_acidente',config('sistema.causaAcidente'),null, ['class' => 'form-control ']) !!}
                     </v-label>
                     <v-label label="arquivo_numero" title="Número do arquivo">
                         {{ Form::text('arquivo_numero', null, ['class' => 'form-control ']) }}
@@ -127,10 +133,10 @@
                         {!! Form::select('acaojudicial', ['-','S','N'],null, ['class' => 'form-control select2', 'id' => 'descricao']) !!}
                     </v-label>
                     <v-label label="danoestimado_rs" title="Valor do dano estimado">
-                        <the-mask mask="###############" class="form-control" type="text" maxlength="15" placeholder="R$" name="danoestimado_rs" value="{{ $proc['danoestimado_rs'] ?? ''}}"/>
+                        <money class="form-control" placeholder="R$" name="danoestimado_rs" value="{{ $proc['danoestimado_rs'] ?? ''}}"/>
                     </v-label>
                     <v-label label="danoreal_rs" title="Valor do dano real">
-                        <the-mask mask="###############" class="form-control" type="text" maxlength="15" placeholder="R$" name="danoreal_rs" value="{{ $proc['danoreal_rs'] ?? ''}}"/>
+                        <money class="form-control" placeholder="R$" name="danoreal_rs" value="{{ $proc['danoreal_rs'] ?? ''}}"/>
                     </v-label>
                     <v-label label="sintese_txt" title="Sintese" lg="12" md="12" error="{{$errors->first('sintese_txt')}}">
                         {!! Form::textarea('sintese_txt',null,['class' => 'form-control ', 'rows' => '5', 'cols' => '50']) !!}

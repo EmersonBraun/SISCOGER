@@ -49,3 +49,13 @@
     #d9534f;
 }
 
+.btn-default2 {
+    background-color: #C0C0C0;
+    color: #444;
+    border-color: #ddd;
+}
+.btn-default2:hover, .btn-default2:active, .btn-default2.hover {
+    background-color: 
+    #A9A9A9;
+}
+

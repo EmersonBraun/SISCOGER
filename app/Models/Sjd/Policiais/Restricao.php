@@ -48,12 +48,12 @@ class Restricao extends Eloquent
 		'sjd_ref_ano' => 'int'
 	];
 
-	protected $dates = [
-		'cadastro_data',
-		'inicio_data',
-		'fim_data',
-		'retirada_data'
-	];
+	// protected $dates = [
+	// 	'cadastro_data',
+	// 	'inicio_data',
+	// 	'fim_data',
+	// 	'retirada_data'
+	// ];
 
 	protected $fillable = [
 		'rg',
@@ -84,10 +84,7 @@ class Restricao extends Eloquent
      //mutators (para alterar na hora da exibição)
      public function getCadastroDataAttribute($value)
      {
-        
-         if($value == '0000-00-00' || $value == null) return '';
-         //else return date( 'd/m/Y' , strtotime($value));
-         //return data_br($value);
+        return data_br($value);
      }
  
      //mutator para alterar na hora de salvar no bd
@@ -99,8 +96,7 @@ class Restricao extends Eloquent
      //mutators (para alterar na hora da exibição)
      public function getInicioDataAttribute($value)
      {
-         if($value == '0000-00-00' || $value == null) return '';
-         else return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
      }
  
      //mutator para alterar na hora de salvar no bd
@@ -112,9 +108,7 @@ class Restricao extends Eloquent
      //mutators (para alterar na hora da exibição)
      public function getFimDataAttribute($value)
      {
-        if($value == '0000-00-00' || $value == null) return '';
-        else return date( 'd/m/Y' , strtotime($value));
-        //return data_br($value);
+        return data_br($value);
      }
  
      //mutator para alterar na hora de salvar no bd
@@ -126,9 +120,7 @@ class Restricao extends Eloquent
      //mutators (para alterar na hora da exibição)
      public function getRetiradaDataAttribute($value)
      {
-         if($value == '0000-00-00' || $value == null) return '';
-         else return date( 'd/m/Y' , strtotime($value));
-         return data_br($value);
+        return data_br($value);
      }
  
      //mutator para alterar na hora de salvar no bd

@@ -44,7 +44,7 @@
                             <td>{{$registro->bg_numero}}/{{$registro->bg_ano}}</td>
                             <td>
                                 <span>
-                                    {{-- <a class="btn btn-default" href="{{route('exclusao.show',$registro['id_exclusao'])}}"><i
+                                    {{-- <a class="btn btn-default2" href="{{route('exclusao.show',$registro['id_exclusao'])}}"><i
                                         class="fa fa-fw fa-eye "></i></a> --}}
                                     <a class="btn btn-info"
                                     href="{{route('exclusao.restore',$registro['id_exclusaojudicial'])}}"><i

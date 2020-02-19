@@ -39,7 +39,7 @@
                             <td>{{$registro->sintese_txt}}</td>
                             <td>
                                 <span>
-                                    {{-- <a class="btn btn-default"
+                                    {{-- <a class="btn btn-default2"
                                         href="{{route('adl.show',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])}}"><i
                                             class="fa fa-fw fa-eye "></i></a> --}}
                                     <a class="btn btn-info" href="{{route('adl.restore',$registro['id_adl'])}}"><i
