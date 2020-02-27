@@ -85,12 +85,12 @@ class Apresentacao extends Eloquent
 		'sjd_ref_ano' => 'int'
 	];
 
-	protected $dates = [
-		'documento_de_origem_data',
-		'comparecimento_data',
-		'comparecimento_dh',
-		'criacao_dh'
-	];
+	// protected $dates = [
+	// 	'documento_de_origem_data',
+	// 	'comparecimento_data',
+	// 	'comparecimento_dh',
+	// 	'criacao_dh'
+	// ];
 
 	protected $fillable = [
 		'chave_de_acesso',
@@ -139,8 +139,7 @@ class Apresentacao extends Eloquent
     //mutators (para alterar na hora da exibição)
 	public function getDocumentoDeOrigemDataAttribute($value)
 	{
-        if($value == '0000-00-00' || !$value) return '';
-        return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
 	}
 
 	public function setDocumentoDeOrigemDataAttribute($value)
@@ -151,14 +150,12 @@ class Apresentacao extends Eloquent
     
     public function getComparecimentoDataAttribute($value)
 	{
-        if($value == '0000-00-00' || !$value) return '';
-        return date( 'd/m/Y' , strtotime($value));
+        return data_br($value);
 	}
 
 	public function setComparecimentoDataAttribute($value)
 	{
-        $data_bd = date( 'Y-m-d' , strtotime($value));
-		$this->attributes['comparecimento_data'] = $data_bd;
+		$this->attributes['comparecimento_data'] = data_bd($value);
     }
     
     public function getComparecimentoDhAttribute($value)

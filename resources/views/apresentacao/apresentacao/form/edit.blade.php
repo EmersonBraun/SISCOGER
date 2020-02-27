@@ -19,7 +19,7 @@
 <section class="">
     <div class="tab-content">
         <v-tab-item title="Formulário principal" idp="principal" cls="active show">
-            <v-form-apresentacao :reference="{{$ref ?? null}}" :ano="{{$ano ?? null}}"></v-form-apresentacao>
+            <v-form-apresentacao :reference="{{$ref ?? null}}" :ano="{{$ano ?? 0}}"></v-form-apresentacao>
         </v-tab-item>
     </div>
 </section>

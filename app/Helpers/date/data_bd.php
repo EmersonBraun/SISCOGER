@@ -9,8 +9,9 @@ if (! function_exists('data_bd'))
             if (substr($date, 2, 1) == '/') {
                 $ex = explode('/', $date);
                 $data = "$ex[2]-$ex[1]-$ex[0]";
-            }     
-            $data = $date;
+            } else {
+                $data = $date;
+            }    
         }
         else
         {

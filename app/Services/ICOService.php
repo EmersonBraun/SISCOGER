@@ -89,7 +89,7 @@ class ICOService
     {
         $data = data_bd($data);
         $dt = explode('-',$data);
-        // dd($dt[2]);
+         //dd($dt[2]);
         $dia = $dt[2];
         $mes_abr = $this->mes_abr($dt[1]);
         $mes = $this->mes($dt[1]);

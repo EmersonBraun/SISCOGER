@@ -70,6 +70,7 @@ class ApresentacaoRepository extends BaseRepository
 
     public function opmAnoMes($ano, $mes, $cdopm)
 	{
+        $this->clearCache();
         if(hasPermissionTo('listar-apresentacoes-reservadas')) $registros = $this->reservadosMes($ano, $mes, $cdopm);
         else $registros = $this->publicosMes($ano, $mes, $cdopm);
         return $registros;
@@ -77,6 +78,7 @@ class ApresentacaoRepository extends BaseRepository
 
     public function publicos($cdopm, $ano)
 	{
+        $this->clearCache();
         $registros = Cache::tags('apresentacao')->remember('apresentacao:publico:'.$cdopm.$ano, self::$expiration, function() use($cdopm, $ano){
             return $this->model
             ->orWhere('pessoa_opm_codigo','like',"$cdopm%")
@@ -85,6 +87,7 @@ class ApresentacaoRepository extends BaseRepository
                 ['id_apresentacaoclassificacaosigilo','<=','2'],
                 ['comparecimento_data','like',"$ano-%"]
             ])
+            ->orderBy('comparecimento_data', 'DESC')
             ->get();
             // dd($registros);
         });
@@ -94,11 +97,13 @@ class ApresentacaoRepository extends BaseRepository
 
     public function reservados($cdopm, $ano)
 	{
+        $this->clearCache();
         $registros = Cache::tags('apresentacao')->remember('apresentacao:reservados:'.$cdopm.$ano, self::$expiration, function() use($cdopm, $ano){
             return $this->model
             ->orWhere('pessoa_opm_codigo','like',"$cdopm%")
             ->orWhere('pessoa_unidade_lotacao_codigo','like',"$cdopm%")
             ->where('comparecimento_data','like',"$ano-%")
+            ->orderBy('comparecimento_data', 'DESC')
             ->get();
         });
 
@@ -107,6 +112,7 @@ class ApresentacaoRepository extends BaseRepository
 
     public function publicosMes($ano, $mes, $cdopm)
 	{
+        $this->clearCache();
         $registros = Cache::tags('apresentacao')->remember('apresentacao:publico:'.$cdopm.$ano.$mes, self::$expiration, function() use($ano, $mes, $cdopm){
             return $this->model
             ->orWhere('pessoa_opm_codigo','like',"$cdopm%")
@@ -115,6 +121,7 @@ class ApresentacaoRepository extends BaseRepository
                 ['id_apresentacaoclassificacaosigilo','<=','2'],
                 ['comparecimento_data','like',"$ano-$mes-%"]
             ])
+            ->orderBy('comparecimento_data', 'DESC')
             ->get();
             // dd($registros);
         });
@@ -124,11 +131,13 @@ class ApresentacaoRepository extends BaseRepository
 
     public function reservadosMes($ano, $mes, $cdopm)
 	{
+        $this->clearCache();
         $registros = Cache::tags('apresentacao')->remember('apresentacao:reservados:'.$cdopm.$ano.$mes, self::$expiration, function() use($ano, $mes, $cdopm){
             return $this->model
             ->orWhere('pessoa_opm_codigo','like',"$cdopm%")
             ->orWhere('pessoa_unidade_lotacao_codigo','like',"$cdopm%")
             ->where('comparecimento_data','like',"$ano-$mes-%")
+            ->orderBy('comparecimento_data', 'DESC')
             ->get();
         });
 
@@ -136,9 +145,11 @@ class ApresentacaoRepository extends BaseRepository
     } 
 
     public function listNota($id) {
+        $this->clearCache();
         $registros = Cache::tags('apresentacao')->remember('apresentacao:notacoger:'.$id, self::$expiration, function() use($id){
             return $this->model
             ->where('id_notacomparecimento',$id)
+            ->orderBy('comparecimento_data', 'DESC')
             ->get();
         });
 
@@ -147,9 +158,11 @@ class ApresentacaoRepository extends BaseRepository
 
     public function ano($ano, $cdopm)
 	{
-
+        $this->clearCache();
         $registros = Cache::tags('apresentacao')->remember('apresentacao:'.$ano.$cdopm, self::$expiration, function() use ($ano, $cdopm) {
-            return $this->model->whereYear('comparecimento_data', $ano)->where('pessoa_opm_codigo','like',"$cdopm%")->get();
+            return $this->model->whereYear('comparecimento_data', $ano)->where('pessoa_opm_codigo','like',"$cdopm%")
+            ->orderBy('comparecimento_data', 'DESC')
+            ->get();
         });
 
         return $registros;
@@ -158,8 +171,11 @@ class ApresentacaoRepository extends BaseRepository
 
     public function apresentacoesPM($rg)
     {
+        $this->clearCache();
         $registros = Cache::tags('apresentacao')->remember('apresentacao:rg'.$rg, self::$expiration, function() use ($rg) {
-            return $this->model->where('pessoa_rg','=', $rg)->get();
+            return $this->model->where('pessoa_rg','=', $rg)
+            ->orderBy('comparecimento_data', 'DESC')
+            ->get();
         });
 
         return $registros;

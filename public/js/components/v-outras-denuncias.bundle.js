@@ -329,6 +329,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var xs = 'col-xs-' + this.xs;
             var error = this.error.length > 0 ? 'has-error' : '';
             return form + ' ' + lg + ' ' + md + ' ' + xs + ' ' + error;
+        },
+        errorMsg: function errorMsg() {
+            return this.error;
         }
     }
 });
@@ -817,9 +820,9 @@ var render = function() {
       _vm._v(" "),
       _vm._t("default"),
       _vm._v(" "),
-      _vm.error
+      _vm.errorMsg
         ? _c("span", { staticClass: "help-block" }, [
-            _c("strong", [_vm._v(_vm._s(_vm.error))])
+            _c("strong", [_vm._v(_vm._s(_vm.errorMsg))])
           ])
         : _vm._e()
     ],

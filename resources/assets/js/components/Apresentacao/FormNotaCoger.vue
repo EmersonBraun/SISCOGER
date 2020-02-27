@@ -7,7 +7,7 @@
             <input v-model="registro.autos_numero" type="text" class="form-control ">
         </v-label>
         <v-label lg="2" md="2" title="Autos Ano" :error="error.autos_ano">
-            <v-ano :selecione="true" v-model="registro.autos_ano"></v-ano>
+            <the-mask v-model="val" mask="####" class="form-control" type="text" />
         </v-label>
         <v-label lg="2" md="2" title="Acusados" :error="error.acusados">
             <input v-model="registro.acusados" type="text" class="form-control ">
@@ -46,7 +46,6 @@
                 <input v-model="registro.pessoa_rg" type="text" class="form-control " placeholder="Busca PM/BM ativos" @click.prevent="changeMode('rg')">       
             </template>
         </v-label>
-
         <v-label lg="2" md="2" title="Nome" :error="error.pessoa_nome" >
             <template v-if="onSearch && type == 'nome'">  
                 <v-typeahead
@@ -87,7 +86,6 @@
                 <option value="null">Nâo encontrado</option>
             </select>
         </v-label>
-
         <v-label lg="2" md="2" title="Quadro" :error="error.pessoa_quadro">
             <select v-model="registro.pessoa_quadro" class="form-control">
                 <option value="QPMG1">QPMG1</option> 
@@ -215,7 +213,7 @@
                     id_apresentacaosituacao: '1',
                     id_apresentacaoclassificacaosigilo: '1',
                     id_apresentacaotipoprocesso: '3',
-                    id_apresentacaocondicao: '1'
+                    id_apresentacaocondicao: '1',
                 },
                 error: {},
                 type: null,
@@ -319,19 +317,26 @@
                     .catch(error => console.log(error));
             },
             cleanRegister(){
-                this.registro = {
-                    pessoa_rg: '',
-                    pessoa_nome: '',
-                    id_apresentacaonotificacao: '1',
-                    id_apresentacaosituacao: '1',
-                    id_apresentacaoclassificacaosigilo: '1',
-                    id_apresentacaotipoprocesso: '3',
-                    id_apresentacaocondicao: '1',
-                    id_notacomparecimento: this.id_notacomparecimento,
-                    cdopm: this.$root.dadoSession('cdopmbase'),
-                    usuario_rg: this.$root.dadoSession('rg'),
-                    autos_ano: new Date().getFullYear()
-                }
+                this.registro.id_apresentacao = null
+                this.registro.pessoa_rg = null
+                this.registro.pessoa_nome = null
+                this.registro.pessoa_posto = null
+                this.registro.pessoa_quadro = null
+                this.registro.pessoa_opm_codigo = null
+                this.registro.id_apresentacaocondicao = null
+                // this.registro = {
+                //     pessoa_rg: '',
+                //     pessoa_nome: '',
+                //     id_apresentacaonotificacao: '1',
+                //     id_apresentacaosituacao: '1',
+                //     id_apresentacaoclassificacaosigilo: '1',
+                //     id_apresentacaotipoprocesso: '3',
+                //     id_apresentacaocondicao: '1',
+                //     id_notacomparecimento: this.id_notacomparecimento,
+                //     cdopm: this.$root.dadoSession('cdopmbase'),
+                //     usuario_rg: this.$root.dadoSession('rg'),
+                //     autos_ano: new Date().getFullYear()
+                // }
             },
             additionalData(){
                 let reg = this.registro
@@ -385,10 +390,7 @@
                 if(happen) { // se deu certo
                         this.list()
                         this.$root.msg(msg.success,'success')
-                        this.registro = null
                         this.cleanRegister()
-                        
-
                 } else { // se falhou
                     this.$root.msg(msg.fail,'danger')
                 }

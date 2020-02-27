@@ -20,8 +20,6 @@ use App\Repositories\administracao\UserRepository;
 class TermosController extends Controller
 {
     protected $user;
-    protected $role;
-    protected $pm;
     protected $repository;
 
     protected $mail;
@@ -30,19 +28,9 @@ class TermosController extends Controller
     
     public function __construct(
         User $user,
-        Role $role,
-        Policial $pm,
-        MailService $mail,
-        LogService $log,
-        BlockUserService $block,
         UserRepository $repository
     ) {
         $this->user = $user;
-        $this->role = $role;
-        $this->pm = $pm;
-        $this->mail = $mail;
-        $this->log = $log;
-        $this->block = $block;
         $this->repository = $repository;
     }
 
@@ -59,14 +47,10 @@ class TermosController extends Controller
             'termos' =>'required'
         ]);
 
-        $user = $this->user->findOrFail($id);
-        $user->termos = $request->termos;
-        $temosalvo = $user->save();
-        if($temosalvo) {
-            $this->repository->clearCache();
-            toast()->success('Atualizado!', 'Termo!');
-            return view('administracao.usuarios.reset', compact('user'));
-        }
+        $store = $this->user->findOrFail($id)->update(['termos' => $request->termos]);
+        $this->repository->clearCache();
+        toast()->success('Atualizado!', 'Termo!');
+        return redirect()->route('user.newpass',$id);
     }
 
 }

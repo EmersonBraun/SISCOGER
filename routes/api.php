@@ -148,6 +148,7 @@ Route::group(['as'=>'vitima.','prefix' =>'vitima'],function(){
 Route::group(['as'=>'movimento.','prefix' =>'movimento'],function(){
     Route::get('list/{proc}/{id}',['as' =>'index','uses'=>'Subform\MovimentoController@list']);
     Route::post('store',['as' =>'store','uses'=>'Subform\MovimentoController@store']);
+    Route::post('update/{id}',['as' =>'update','uses'=>'Subform\MovimentoController@update']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\MovimentoController@destroy']);
 });
 // rotas componente SubForm/Sobrestamento.vue
@@ -192,6 +193,10 @@ Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
     Route::put('update/{id}',['as' =>'update','uses'=>'Apresentacao\ApresentacaoController@update']);
     Route::delete('destroyApi/{id}',['as' =>'destroyApi','uses'=>'Apresentacao\ApresentacaoController@destroyApi']);
     Route::get('{ref}/{ano?}',['as' =>'dadosApresentacao','uses'=>'Apresentacao\ApresentacaoController@dadosApresentacao']);
+});
+Route::group(['as'=>'ipm.','prefix' =>'ipm'],function(){
+	Route::post('store',['as' =>'store','uses'=>'Proc\IpmController@store','middleware' => ['permission:criar-ipm']]);
+	Route::put('update/{id}',['as' =>'update','uses'=>'Proc\IpmController@update','middleware' => ['permission:editar-ipm']]);
 });
 // Estatus Policial
 Route::group(['as'=>'estatuspm.','prefix' =>'estatuspm'],function(){

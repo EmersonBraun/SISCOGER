@@ -8,8 +8,8 @@
         </tooltip>
         <br>
         <slot></slot>
-        <span v-if="error" class="help-block">
-            <strong>{{ error }}</strong>
+        <span v-if="errorMsg" class="help-block">
+            <strong>{{ errorMsg }}</strong>
         </span>
     </div>
 </template>
@@ -38,6 +38,9 @@
                 let xs = `col-xs-${this.xs}`
                 let error = this.error.length > 0 ? 'has-error' : ''
                 return `${form} ${lg} ${md} ${xs} ${error}`
+            },
+            errorMsg () {
+                return this.error
             }
         }
     }

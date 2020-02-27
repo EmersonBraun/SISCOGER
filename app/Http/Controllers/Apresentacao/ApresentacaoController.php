@@ -62,6 +62,10 @@ class ApresentacaoController extends Controller
     public function memorando_generate($id,$nome,$funcao)
     {
         $registro = $this->repository->get($id);
+        if(!$registro['comparecimento_data'] || $registro['comparecimento_data'] == '01/01/1970') {
+            toast()->warning('Preencha a data de comparecimento');
+            return redirect()->route('apresentacao.edit',['sjd_ref'=>$registro['id_apresentacao'], 'ano' => $registro['sjd_ref_ano']]);
+        }
         $registro['pm'] = $this->pm->get($registro['pessoa_rg']);
         $registro['autoridade_nome'] = preg_replace('~-~' , ' ' , $nome);
         $registro['autoridade_funcao'] = preg_replace('~-~' , ' ' , $funcao);
@@ -112,7 +116,7 @@ class ApresentacaoController extends Controller
         return response()->json($search, 200);
     }
 
-    public function edit($ref,$ano="")
+    public function edit($ref,$ano=0)
     {       
         return view('apresentacao.apresentacao.form.edit', compact('ref','ano'));
     }

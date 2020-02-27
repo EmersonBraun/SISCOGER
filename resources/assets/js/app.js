@@ -3,6 +3,14 @@ require('./bootstrap');
 window.Vue = require('vue');
 // componentes
 require ('./components')
+
+// import vuetify from './plugins/vuetify' // path to vuetify export
+// import Vuetify from 'vuetify/lib'
+import Vuetify from 'vuetify'
+import 'vuetify/src/stylus/app.styl'
+import 'vuetify/dist/vuetify.min.css';
+Vue.use(Vuetify,{})
+
 // the mask
 import VueTheMask from 'vue-the-mask'
 Vue.use(VueTheMask)
@@ -38,6 +46,7 @@ import functions from './functions'
 
 new Vue({
     store, 
+    // vuetify,
     el: '#app',
     mixins: [functions],
 });

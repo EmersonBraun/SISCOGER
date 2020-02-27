@@ -36,7 +36,7 @@
                             <td>
                                 <span>
                                     <?php if(hasPermissionTo('ver-adl')): ?>
-                                    <a class="btn btn-default"
+                                    <a class="btn btn-default2"
                                         href="<?php echo e(route('adl.show',['ref' => $registro->sjd_ref, 'ano' => $registro->sjd_ref_ano])); ?>"><i
                                             class="fa fa-fw fa-eye "></i></a>
                                     <?php endif; ?>

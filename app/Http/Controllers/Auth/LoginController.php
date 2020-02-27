@@ -74,37 +74,25 @@ class LoginController extends Controller
         $credentials = $request->only('rg', 'password');
         $this->rg = $request['rg'];
         $this->ip = $_SERVER["REMOTE_ADDR"];
-        
-        //traz os dados do usuário
         $this->getUser($this->rg);
-
-        //salva dados usuário na sessão
         $this->session->user($this->user);
-
         if (Auth::attempt($credentials)) 
         {
-            //mensagens
-            toast()->success('Bem vindo '.$this->user->nome, 'Login!');
-            
-            //zera as tentativas
             $this->user->tentativas = 0;
             $this->user->save();
-            
             $this->logAcesso();
             
             //verifica se o usuário concordou com os termos de uso
-            if ((int)$this->user->termos == 0) return redirect()->route('user.termocriar',$this->user->id); 
-            else
-            {
-                //remove sessão antiga
-                // session()->forget($this->user->id_sessao);
-                // atualiza o id da sessão
-                $this->user->id_sessao = session()->getId();
-                $this->user->save();
-                // dd(session()->all());
+            if (!$this->user->termos) return redirect()->route('user.termocriar',$this->user->id); 
+            toast()->success('Bem vindo '.$this->user->nome, 'Login!');
+            //remove sessão antiga
+            // session()->forget($this->user->id_sessao);
+            // atualiza o id da sessão
+            $this->user->id_sessao = session()->getId();
+            $this->user->save();
+            // dd(session()->all());
 
-                return redirect()->route('home');
-            }
+            return redirect()->route('home');
             
         }
 

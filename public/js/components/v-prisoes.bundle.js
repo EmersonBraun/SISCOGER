@@ -1,4 +1,4 @@
-webpackJsonp([0,6,17,33,38,49],{
+webpackJsonp([0,6,17,33,38,52],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FDI/Prisoes.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -369,6 +369,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var xs = 'col-xs-' + this.xs;
             var error = this.error.length > 0 ? 'has-error' : '';
             return form + ' ' + lg + ' ' + md + ' ' + xs + ' ' + error;
+        },
+        errorMsg: function errorMsg() {
+            return this.error;
         }
     }
 });
@@ -2260,9 +2263,9 @@ var render = function() {
       _vm._v(" "),
       _vm._t("default"),
       _vm._v(" "),
-      _vm.error
+      _vm.errorMsg
         ? _c("span", { staticClass: "help-block" }, [
-            _c("strong", [_vm._v(_vm._s(_vm.error))])
+            _c("strong", [_vm._v(_vm._s(_vm.errorMsg))])
           ])
         : _vm._e()
     ],

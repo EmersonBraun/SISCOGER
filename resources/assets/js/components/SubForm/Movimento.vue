@@ -31,8 +31,14 @@
                             <a class="btn btn-danger btn-block" @click="clear(false)"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-6 col-md-6 col-xs-6">
+                        <template v-if="toEdit">
+                                <label>Editar</label><br>
+                                <a class="btn btn-success btn-block" :disabled="requireds" @click="editMovimento"><i class="fa fa-plus" style="color: white"></i></a>
+                            </template>
+                            <template v-else>
                             <label>Adicionar</label><br>
-                            <a class="btn btn-success btn-block" :disabled="!data.length && !descricao.length" @click="createMovimento"><i class="fa fa-plus" style="color: white"></i></a>
+                            <a class="btn btn-success btn-block" :disabled="requireds" @click="createMovimento"><i class="fa fa-plus" style="color: white"></i></a>
+                        </template>
                         </div>
                     </form>
                 </div>
@@ -58,7 +64,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(movimento, index) in movimentos" :key="index">
+                            <tr v-for="(movimento, index) in movimentos" :key="movimento.id_movimento">
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ movimento.data}}</td>
                                 <td>{{ movimento.descricao }}</td>
@@ -66,7 +72,10 @@
                                 <td>{{ movimento.rg }}</td>
                                 <td v-if="canDelete">
                                     <div class="btn-group" role="group" aria-label="First group">
-                                        <a type="button"  @click="removeMovimento(movimento, index)" class="btn btn-danger" style="color: white">
+                                        <a type="button"  @click="replaceMovimento(movimento)" class="btn btn-success" style="color: white">
+                                            <i class="fa fa-edit"></i> 
+                                        </a>
+                                        <a type="button"  @click="removeMovimento(movimento)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
                                         </a>
                                     </div>
@@ -103,6 +112,7 @@
                 descricao: '',
                 movimentos: [],
                 only: false,
+                toEdit: '',
             }
         },
         mounted(){
@@ -112,6 +122,10 @@
             this.listMovimento()
         },
         computed:{
+            requireds(){
+              if (this.data && this.descricao) return false
+              return true      
+            },
             today() {
                 let today = new Date();
                 let dd = String(today.getDate()).padStart(2, '0');
@@ -148,29 +162,68 @@
                 }
             },
             createMovimento(){
-                let urlCreate = `${this.$root.baseUrl}api/movimento/store`
+                if(!this.requireds) {
+                    let urlCreate = `${this.$root.baseUrl}api/movimento/store`
+                    let formData = document.getElementById('formMovimento');
+                    let data = new FormData(formData);
+                    axios.post( urlCreate,data)
+                    .then((response) => this.transation(response.data.success, 'create'))
+                    .catch((error) => console.log(error));
+                }
 
-                let formMovimento = document.getElementById('formMovimento');
-                let data = new FormData(formMovimento);
-                
-                axios.post( urlCreate,data)
-                .then(this.listMovimento())
-                .catch((error) => console.log(error));
             },
-            removeMovimento(movimento, index){
+            replaceMovimento(movimento){
+                console.table(movimento)
+                this.data = movimento.data,
+                this.descricao = movimento.descricao,
+                this.toEdit = movimento.id_movimento
+
+                // this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
+                this.add = true
+            },
+            editMovimento(){
+                if(!this.requireds) {
+                let urledit = `${this.$root.baseUrl}api/movimento/update/${this.toEdit}`
+
+                let formData = document.getElementById('formMovimento');
+                let data = new FormData(formData);
+                
+                axios.post( urledit,data)
+                .then((response) => this.transation(response.data.success, 'edit'))
+                .catch((error) => console.log(error));
+                }
+                
+            },
+            removeMovimento(movimento){
                 if(confirm('Você tem certeza?')){
                     let id = movimento.id_movimento ? movimento.id_movimento : false
                     if(id){
                         let urlDelete = `${this.$root.baseUrl}api/movimento/destroy/${id}`
                         axios
                         .delete(urlDelete)
-                        .then(this.movimentos.splice(index,1))
+                        .then((response) => this.transation(response.data.success, 'delete'))
                         .catch(error => console.log(error));
                     }else{
                         console.log('movimento sem ID')
                     }
                 }
             },
+            transation(happen,type) {
+                let msg = this.words(type)
+                if(happen) { // se deu certo
+                        this.listMovimento()
+                        this.$root.msg(msg.success,'success')
+                        this.clear(false)
+                } else { // se falhou
+                    this.$root.msg(msg.fail,'danger')
+                }
+            },
+            words(type) {
+                if(type == 'create') return { success : 'Inserido com sucesso', fail: 'Erro ao inserir'}
+                if(type == 'edit') return { success : 'Editado com sucesso', fail: 'Erro ao editar'}
+                if(type == 'delete') return { success : 'Apagado com sucesso', fail: 'Erro ao apagar'}
+            },
+            
             clear(add){
                 this.add = add
                 this.data = ''

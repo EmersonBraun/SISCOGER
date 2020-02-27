@@ -94,6 +94,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -112,7 +121,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             data: '',
             descricao: '',
             movimentos: [],
-            only: false
+            only: false,
+            toEdit: ''
         };
     },
     mounted: function mounted() {
@@ -123,6 +133,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
+        requireds: function requireds() {
+            if (this.data && this.descricao) return false;
+            return true;
+        },
         today: function today() {
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
@@ -160,27 +174,75 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         createMovimento: function createMovimento() {
-            var urlCreate = this.$root.baseUrl + 'api/movimento/store';
+            var _this2 = this;
 
-            var formMovimento = document.getElementById('formMovimento');
-            var data = new FormData(formMovimento);
-
-            axios.post(urlCreate, data).then(this.listMovimento()).catch(function (error) {
-                return console.log(error);
-            });
+            if (!this.requireds) {
+                var urlCreate = this.$root.baseUrl + 'api/movimento/store';
+                var formData = document.getElementById('formMovimento');
+                var data = new FormData(formData);
+                axios.post(urlCreate, data).then(function (response) {
+                    return _this2.transation(response.data.success, 'create');
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
         },
-        removeMovimento: function removeMovimento(movimento, index) {
+        replaceMovimento: function replaceMovimento(movimento) {
+            console.table(movimento);
+            this.data = movimento.data, this.descricao = movimento.descricao, this.toEdit = movimento.id_movimento;
+
+            // this.titleSubstitute=" - Substituição do "+pm.situacao+" "+pm.nome
+            this.add = true;
+        },
+        editMovimento: function editMovimento() {
+            var _this3 = this;
+
+            if (!this.requireds) {
+                var urledit = this.$root.baseUrl + 'api/movimento/update/' + this.toEdit;
+
+                var formData = document.getElementById('formMovimento');
+                var data = new FormData(formData);
+
+                axios.post(urledit, data).then(function (response) {
+                    return _this3.transation(response.data.success, 'edit');
+                }).catch(function (error) {
+                    return console.log(error);
+                });
+            }
+        },
+        removeMovimento: function removeMovimento(movimento) {
+            var _this4 = this;
+
             if (confirm('Você tem certeza?')) {
                 var id = movimento.id_movimento ? movimento.id_movimento : false;
                 if (id) {
                     var urlDelete = this.$root.baseUrl + 'api/movimento/destroy/' + id;
-                    axios.delete(urlDelete).then(this.movimentos.splice(index, 1)).catch(function (error) {
+                    axios.delete(urlDelete).then(function (response) {
+                        return _this4.transation(response.data.success, 'delete');
+                    }).catch(function (error) {
                         return console.log(error);
                     });
                 } else {
                     console.log('movimento sem ID');
                 }
             }
+        },
+        transation: function transation(happen, type) {
+            var msg = this.words(type);
+            if (happen) {
+                // se deu certo
+                this.listMovimento();
+                this.$root.msg(msg.success, 'success');
+                this.clear(false);
+            } else {
+                // se falhou
+                this.$root.msg(msg.fail, 'danger');
+            }
+        },
+        words: function words(type) {
+            if (type == 'create') return { success: 'Inserido com sucesso', fail: 'Erro ao inserir' };
+            if (type == 'edit') return { success: 'Editado com sucesso', fail: 'Erro ao editar' };
+            if (type == 'delete') return { success: 'Apagado com sucesso', fail: 'Erro ao apagar' };
         },
         clear: function clear(add) {
             this.add = add;
@@ -574,7 +636,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -750,27 +812,49 @@ var render = function() {
                             "div",
                             { staticClass: "col-lg-6 col-md-6 col-xs-6" },
                             [
-                              _c("label", [_vm._v("Adicionar")]),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "btn btn-success btn-block",
-                                  attrs: {
-                                    disabled:
-                                      !_vm.data.length && !_vm.descricao.length
-                                  },
-                                  on: { click: _vm.createMovimento }
-                                },
-                                [
-                                  _c("i", {
-                                    staticClass: "fa fa-plus",
-                                    staticStyle: { color: "white" }
-                                  })
-                                ]
-                              )
-                            ]
+                              _vm.toEdit
+                                ? [
+                                    _c("label", [_vm._v("Editar")]),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-block",
+                                        attrs: { disabled: _vm.requireds },
+                                        on: { click: _vm.editMovimento }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: { color: "white" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                : [
+                                    _c("label", [_vm._v("Adicionar")]),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-block",
+                                        attrs: { disabled: _vm.requireds },
+                                        on: { click: _vm.createMovimento }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: { color: "white" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                            ],
+                            2
                           )
                         ]
                       )
@@ -823,7 +907,7 @@ var render = function() {
                 _c(
                   "tbody",
                   _vm._l(_vm.movimentos, function(movimento, index) {
-                    return _c("tr", { key: index }, [
+                    return _c("tr", { key: movimento.id_movimento }, [
                       _c("td", [_vm._v(_vm._s(index + 1))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(movimento.data))]),
@@ -849,15 +933,27 @@ var render = function() {
                                 _c(
                                   "a",
                                   {
+                                    staticClass: "btn btn-success",
+                                    staticStyle: { color: "white" },
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.replaceMovimento(movimento)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-edit" })]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
                                     staticClass: "btn btn-danger",
                                     staticStyle: { color: "white" },
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
-                                        return _vm.removeMovimento(
-                                          movimento,
-                                          index
-                                        )
+                                        return _vm.removeMovimento(movimento)
                                       }
                                     }
                                   },

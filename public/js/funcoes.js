@@ -152,11 +152,11 @@ $(document).ready(function () {
         'paging'      : true,
         'lengthChange': false,
         'searching'   : true,
-        'ordering'    : true,
+        'ordering'    : false,
         'info'        : true,
-        'autoWidth'   : true,
+        // 'autoWidth'   : true,
         "language": lang,
-        "order": [[ 0, "desc" ]],
+        // "order": [[ 0, "desc" ]],
         "dom": 'Bflrtip',
         "buttons": [
             'copy', 'excel', 'pdf', 'print'

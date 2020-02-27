@@ -157,7 +157,10 @@ Route::group(['as'=>'ipm.','prefix' =>'ipm'],function(){
     Route::get('resultado/{ano}',['as' =>'resultado','uses'=>'Proc\IpmController@resultado','middleware' => ['permission:listar-ipm']]);
     Route::get('apagados/{ano}',['as' =>'apagados','uses'=>'Proc\IpmController@apagados','middleware' => ['role:admin']]);
 	//formulários
-	Route::get('criar',['as' =>'create','uses'=>'Proc\IpmController@create','middleware' => ['permission:criar-ipm']]);
+    Route::get('criar',['as' =>'create','uses'=>'Proc\IpmController@create','middleware' => ['permission:criar-ipm']]);
+    // provisório
+    Route::get('create2',['as' =>'create2','uses'=>'Proc\IpmController@create2','middleware' => ['permission:criar-ipm']]);
+    // remover essa bodega depois
 	Route::post('salvar',['as' =>'store','uses'=>'Proc\IpmController@store','middleware' => ['permission:criar-ipm']]);
 	Route::get('ver/{ref}/{ano?}',['as' =>'show','uses'=>'Proc\IpmController@show','middleware' => ['permission:ver-ipm']]);
 	Route::get('editar/{ref}/{ano?}',['as' =>'edit','uses'=>'Proc\IpmController@edit','middleware' => ['permission:editar-ipm']]);

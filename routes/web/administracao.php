@@ -11,8 +11,9 @@ Route::group(['as'=>'user.','prefix' =>'usuario'],function(){
 	Route::get('recuperar/{id}',['as' =>'restore','uses'=>'Administracao\User\UserController@restore','middleware' => ['role:admin']]);
     Route::get('apagar/{id}',['as' =>'forceDelete','uses'=>'Administracao\User\UserController@forceDelete','middleware' => ['role:admin']]);
 	//Alterar senha
+	Route::get('{id}/novasenha',['as' =>'newpass','uses'=>'Administracao\User\PasswordController@newpass']);
 	Route::get('{id}/senha',['as' =>'pass','uses'=>'Administracao\User\PasswordController@passedit']);
-	Route::put('{id}/senhaatualizar',['as' =>'passupdate','uses'=>'Administracao\User\PasswordController@passupdate']);
+	Route::post('{id}/senhaatualizar',['as' =>'passupdate','uses'=>'Administracao\User\PasswordController@passupdate']);
 	//bloqueio e desbloqueio
 	Route::get('{id}/bloquear',['as' =>'block','uses'=>'Administracao\User\UserController@block']);
 	Route::get('{id}/desbloquear',['as' =>'unblock','uses'=>'Administracao\User\UserController@unblock']);

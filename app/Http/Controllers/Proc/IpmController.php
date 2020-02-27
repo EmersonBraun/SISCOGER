@@ -77,6 +77,12 @@ class IpmController extends Controller
         return view('procedimentos.ipm.form.create');
     }
 
+    // provisório
+    public function create2()
+    {
+        return view('procedimentos.ipm.form.edit2');
+    }
+
     public function store(Request $request)
     {
         //andamento (concluído) alguns campos ficam obrigatórios

@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,6 +12,22 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js').version();
+
+mix.webpackConfig({
+    module: {
+        rules: [
+            {
+                test: /\.styl$/,
+                loader: ['style-loader', 'css-loader', 'stylus-loader', {
+                    loader: 'vuetify-loader',
+                    options: {
+                        theme: path.resolve('./node_modules/vuetify/src/stylus/theme.styl')
+                    }
+                }]
+            }
+        ]
+    }
+})
 
 // Override mix internal webpack output configuration 
 mix.config.webpackConfig.output = {

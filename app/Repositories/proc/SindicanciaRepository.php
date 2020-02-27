@@ -59,7 +59,7 @@ class SindicanciaRepository extends BaseRepository
         else 
         {
             $registros = Cache::tags('sindicancia')->remember('todos_sindicancia'.$this->unidade, $this->expiration, function()  {
-                return $this->model->where('sindicancia.cdopm','like',$this->unidade.'%')->get();
+                return $this->model->where('sindicancia.cdopm','like',$this->unidade.'%')->orderBy($this->model->getKeyName(),'DESC')->get();
             });
         }
 
@@ -71,13 +71,13 @@ class SindicanciaRepository extends BaseRepository
         if($this->verTodasUnidades)
         {
             $registros = Cache::tags('sindicancia')->remember('todos_sindicancia'.$ano, $this->expiration, function() use ($ano) {
-                return $this->model->where('sjd_ref_ano','=',$ano)->get();
+                return $this->model->where('sjd_ref_ano','=',$ano)->orderBy($this->model->getKeyName(),'DESC')->get();
             });
         }
         else 
         {
             $registros = Cache::tags('sindicancia')->remember('todos_sindicancia'.$ano.$this->unidade, $this->expiration, function() use ($ano) {
-                return $this->model->where('sindicancia.cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+                return $this->model->where('sindicancia.cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->orderBy($this->model->getKeyName(),'DESC')->get();
             });
         }
         return $registros;
@@ -93,7 +93,9 @@ class SindicanciaRepository extends BaseRepository
                     $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
-                    })->get();
+                    })
+                    ->orderBy($this->model->getKeyName(),'DESC')
+                    ->get();
             });
         }
         else 
@@ -104,7 +106,9 @@ class SindicanciaRepository extends BaseRepository
                     $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
-                    })->get();
+                    })
+                    ->orderBy($this->model->getKeyName(),'DESC')
+                    ->get();
             });
         }
         return $registros;
@@ -120,7 +124,9 @@ class SindicanciaRepository extends BaseRepository
                     $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
-                    })->get();
+                    })
+                    ->orderBy($this->model->getKeyName(),'DESC')
+                    ->get();
             });
         }
         else 
@@ -132,7 +138,9 @@ class SindicanciaRepository extends BaseRepository
                     $join->on('envolvido.id_sindicancia', '=', 'sindicancia.id_sindicancia')
                         ->where('envolvido.situacao', '=', 'Presidente')
                         ->where('envolvido.rg_substituto', '=', ''); 
-                    })->get();
+                    })
+                    ->orderBy($this->model->getKeyName(),'DESC')
+                    ->get();
             });
         }
         return $registros;
@@ -150,6 +158,7 @@ class SindicanciaRepository extends BaseRepository
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','sindicancia'))
+                    ->orderBy($this->model->getKeyName(),'DESC')
                     ->get();
             });
         }
@@ -163,6 +172,7 @@ class SindicanciaRepository extends BaseRepository
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','sindicancia'))
+                    ->orderBy($this->model->getKeyName(),'DESC')
                     ->get();
             });
         }
@@ -182,6 +192,7 @@ class SindicanciaRepository extends BaseRepository
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','sindicancia'))
                     ->where('sindicancia.sjd_ref_ano', '=' ,$ano)
+                    ->orderBy($this->model->getKeyName(),'DESC')
                     ->get();
             });
         }
@@ -197,6 +208,7 @@ class SindicanciaRepository extends BaseRepository
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','sindicancia'))
                     ->where('sindicancia.sjd_ref_ano', '=' ,$ano)
+                    ->orderBy($this->model->getKeyName(),'DESC')
                     ->get();
             });
         }
@@ -224,6 +236,7 @@ class SindicanciaRepository extends BaseRepository
                             ->where('envolvido.situacao', '=', 'Presidente')
                             ->where('envolvido.rg_substituto', '=', '');
                     })
+                    ->orderBy($this->model->getKeyName(),'DESC')
                     ->get();
             });                    
         }
@@ -246,6 +259,7 @@ class SindicanciaRepository extends BaseRepository
                         ->where('envolvido.rg_substituto', '=', '');
                 })
                 ->where('sindicancia.cdopm','like',$this->unidade.'%')
+                ->orderBy($this->model->getKeyName(),'DESC')
                 ->get();
 
             });   
@@ -275,6 +289,7 @@ class SindicanciaRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('sindicancia.sjd_ref_ano','=',$ano)
+                    ->orderBy($this->model->getKeyName(),'DESC')
                     ->get(); 
                 });
                     
@@ -299,6 +314,7 @@ class SindicanciaRepository extends BaseRepository
                     })
                     ->where('sindicancia.cdopm','like',$this->unidade.'%')
                     ->where('sindicancia.sjd_ref_ano','=',$ano)
+                    ->orderBy($this->model->getKeyName(),'DESC')
                     ->get(); 
 
             });   

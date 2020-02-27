@@ -1,7 +1,15 @@
 <template>
     <div class="body">
+        <div class="col-xs-12" v-if="errors.lenght">
+            <h4>Por favor adicione os dados informados para gerar o memorando:</h4>
+            <v-alert type="danger" dismissable v-for="error in errors" :key="error">
+                <span class="icon-ok-circled alert-icon-float-left"></span>
+                {{error}}
+            </v-alert>
+            <a class="btn btn-success btn-block" :href="`${baseUrl}/apresentacao/editar/${registro.id_apresentacao}`">Editar apresentação</a>
+        </div>
         <!-- form -->
-        <div class="col-xs-12">
+        <div class="col-xs-12" v-if="!errors.lenght">
             <v-label lg='6' md='6' title="Número memorando">
                 <input type="text" v-model="registro.sjd_ref" class="form-control">
             </v-label>
@@ -13,14 +21,14 @@
                     <input type="radio" :value="index" @click="changeAutoridade(autoridade)" v-model="check"> {{ autoridade.nome}} <b> {{ autoridade.funcao }} </b>
                 </div>
             </v-label>
-            <div class="col-xs-12">
+            <div class="col-xs-12" >
                 <v-tooltip effect="scale" placement="top" content="Deve selecionar o Fecho">
                     <a v-if="registro.id_apresentacao" class="btn btn-success btn-block" :disabled="autoridade.nome == null" @click.prevent="print()">Imprimir</a>
                 </v-tooltip>
             </div>
         </div>
         <!-- /form -->
-        <section id="printpage">
+        <section id="printpage" v-if="!errors.lenght">
             <div class="a4 col-xs-6" v-for="(via, index) in vias" :key="index"> 
                 <div class="header">
                     <div class="text-bold-g">ESTADO DO PARANÁ</div>
@@ -29,20 +37,25 @@
                     <div class="text-bold-m">{{ registro.pessoa_unidade_lotacao_descricao }}</div>
                 </div>
                 <div class="content-mem">
-                    <div class="col-xs-6 text-bold-m nopadding">Memorando nº {{ registro.sjd_ref }}/{{registro.sigla}}</div>
-                    <div class="col-xs-6 text-bold-m text-right nopadding">Em {{registro.data_ico.dia}} de {{registro.data_ico.mes_abr}} de {{registro.data_ico.ano}}.</div>
+                    <div class="col-xs-6 text-bold-m nopadding">Memorando nº {{ registro.sjd_ref }}/{{registro.sigla }}</div>
+                    <div v-if="registro.data_ico" class="col-xs-6 text-bold-m text-right nopadding">Em {{registro.data_ico.dia}} de {{registro.data_ico.mes_abr}} de {{registro.data_ico.ano}}.</div>
+                    <div v-else class="col-xs-6 text-bold-m text-right nopadding text-red">DATA DE COMPARECIMENTO NÃO DEFINIDA</div>
                     <div v-if="pm" class="col-xs-12 text-bold-m nopadding" style="padding-top: 10px !important;">Ao {{ pm.cargo_ico }} {{ pm.quadro_ico }} {{ pm.nome_ico }}</div>
                     <div class="col-xs-12 nopadding" style="padding-bottom: 10px !important;"><span class="text-bold-m">Assunto:</span>  Determinação para comparecimento.</div>
                     <div class="col-xs-12 nopadding" style="padding-bottom: 25px !important;"><span class="text-bold-m">Referência:</span>  {{ registro.documento_de_origem }}.</div>
                     <p>
                         Com fundamento no artigo 288,§ 3º do CPPM, 
                         determino o comparecimento de <span v-if="pm">{{ pm.tratamento_ico }}</span> em data de 
-                        {{registro.comparecimento_data_ico.dia}} 
-                        {{registro.comparecimento_data_ico.mes}}. 
-                        {{registro.comparecimento_data_ico.ano_abr}}, 
-                        às {{registro.comparecimento_hora_ico}}, 
-                        no(a) {{registro.comparecimento_local_txt}}, a fim de prestar depoimento em autos n°
-                        {{registro.autos_numero}} na condição de {{registro.condicao}}.
+                        <span v-if="registro.comparecimento_data">
+                            {{registro.comparecimento_data_ico.dia }}
+                            {{registro.comparecimento_data_ico.mes}}. 
+                            {{registro.comparecimento_data_ico.ano_abr}}, 
+                        </span>
+                        <span v-else class="text-red">DATA DE COMPARECIMENTO NÃO DEFINIDA</span>
+                        às {{registro.comparecimento_hora_ico}},
+                        no(a) {{registro.comparecimento_local_txt}},
+                        a fim de prestar depoimento em autos n° {{registro.autos_numero}}
+                        na condição de {{registro.condicao}}.
                     </p>
                     <div v-if="registro.acusados">Acusado(s): {{registro.acusados}}</div>
                 </div>
@@ -52,7 +65,7 @@
                 </div>
                 <div class="row cert" >
                     <div class="col-xs-6">
-                        <table class="table-mem border">
+                        <table class="table-mem border" v-if="registro.cod_notificacao">
                             <tr>
                                 <td colspan="2" class="border text-bold-s center">USO DO SJD ({{registro.cod_notificacao.base}}/{{registro.data_ico.ano}})</td>
                             </tr>
@@ -131,6 +144,7 @@
                 registro: {},
                 opm_intermediaria: null,
                 date: {},
+                errors: [],
                 pm: null,
                 autoridades: [],
                 autoridade: {},
@@ -142,6 +156,11 @@
         mounted() {
             this.list()
         },
+        computed: {
+            baseUrl() {
+                return this.$root.baseUrl
+            }
+        },
         methods: {
             async list() {
                 if(this.idp){
@@ -150,13 +169,22 @@
                         const response = await axios.get(urlIndex)
                         if (response) {
                             this.registro = response.data
-                            this.getPm(response.data.pessoa_rg)
-                            this.getAutoridade()
+                            this.checkErrors(response.data)
                         }
                     } catch (e) {
                         console.error(e)
                     }
                 }
+            },
+            checkErrors(register) {
+                if(!register.pessoa_unidade_lotacao_descricao) this.errors.push('UNIDADE LOTAÇÃO NÃO DEFINIDA')
+                if(!register.comparecimento_data) this.errors.push('DATA DE COMPARECIMENTO NÃO DEFINIDA')
+                if(!register.comparecimento_hora) this.errors.push('HORA DE COMPARECIMENTO NÃO DEFINIDA')
+                if(!this.errors.lenght) {
+                    this.getPm(register.pessoa_rg)
+                    this.getAutoridade()
+                }
+                
             },
             async getPm(rg) {
                 let searchUrl = `${this.$root.baseUrl}api/dados/pm/${rg}` ;
@@ -309,5 +337,10 @@
         text-align: left;
         text-indent: 5px;
         padding: 0 10px 0 10px;
+    }
+    .text-red {
+        font-size:12px;
+        font-weight:bold;
+        color: red;
     }
 </style>

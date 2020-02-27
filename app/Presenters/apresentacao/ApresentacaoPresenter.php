@@ -13,7 +13,8 @@ class ApresentacaoPresenter extends Presenter {
 
     public function situacao()
     {
-        return array_get(config('sistema.apresentacaoSituacao','Não Há'), $this->id_apresentacaosituacao);
+		if($this->id_apresentacaosituacao) return array_get(config('sistema.apresentacaoSituacao','Não Há'), $this->id_apresentacaosituacao);
+		return '';
     }
 
     public function notificacao()
@@ -23,7 +24,8 @@ class ApresentacaoPresenter extends Presenter {
 
     public function tipoProcesso()
     {
-        return array_get(config('sistema.apresentacaoTipoProcesso','Não Há'), $this->id_apresentacaotipoprocesso);
+		if($this->id_apresentacaotipoprocesso) return array_get(config('sistema.apresentacaoTipoProcesso','Não Há'), $this->id_apresentacaotipoprocesso);
+		return '';
     }
 
     public function refAno()

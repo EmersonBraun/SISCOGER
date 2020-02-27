@@ -301,7 +301,6 @@ class EnvolvidoRepository extends BaseRepository
     {
         $situacao = ['Encarregado', 'Presidente', 'Acusador', 'Escrivao', 'Membro', 'Defensor'];
         $envolvido = $this->envolvidos($rg, $situacao);
-        dd($envolvido);
         $membros = array();
         if(count($envolvido) > 0){
         $i=0;

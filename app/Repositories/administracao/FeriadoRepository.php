@@ -26,8 +26,11 @@ class FeriadoRepository extends BaseRepository
     public function all()
 	{
 
+        $this->cleanCache();
         $registros = Cache::tags('feriado')->remember('todos_feriado', $this->expiration, function() {
-            return $this->model->all();
+            return $this->model
+            ->orderBy('id_feriado', 'DESC')
+            ->get();
         });
 
         return $registros;
@@ -37,7 +40,9 @@ class FeriadoRepository extends BaseRepository
 	{
 
         $registros = Cache::tags('feriado')->remember('todos_feriado:'.$ano, $this->expiration, function() use ($ano) {
-            return $this->model->whereYear('data', $ano)->get();
+            return $this->model->whereYear('data', $ano)
+            ->orderBy('id_feriado', 'DESC')
+            ->get();
         });
 
         return $registros;
@@ -47,7 +52,9 @@ class FeriadoRepository extends BaseRepository
 	{
 
         $registros = Cache::tags('feriado')->remember('todos_feriado:'.$mes, $this->expiration, function() use ($mes) {
-            return $this->model->whereMonth('data', $mes)->get();
+            return $this->model->whereMonth('data', $mes)
+            ->orderBy('id_feriado', 'DESC')
+            ->get();
         });
 
         return $registros;
@@ -57,7 +64,9 @@ class FeriadoRepository extends BaseRepository
 	{
 
         $registros = Cache::tags('feriado')->remember('todos_feriado:'.$date, $this->expiration, function() use ($date) {
-            return $this->model->whereDate('data', $date)->get();
+            return $this->model->whereDate('data', $date)
+            ->orderBy('id_feriado', 'DESC')
+            ->get();
         });
 
         return $registros;

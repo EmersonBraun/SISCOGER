@@ -51,16 +51,22 @@ class AdllRepository extends BaseRepository
 
     public function all()
 	{
+        $this->cleanCache();
         if($this->verTodasUnidades)
-        {
+        { 
+            
             $registros = Cache::tags('adl')->remember('todos_adl', self::$expiration, function() {
-                return $this->model->all();
+                return $this->model
+                ->orderBy('id_adl','DESC')
+                ->get();
             });
         }
         else 
         {
             $registros = Cache::tags('adl')->remember('todos_adl:'.$this->unidade, self::$expiration, function()  {
-                return $this->model->where('cdopm','like',$this->unidade.'%')->get();
+                return $this->model->where('cdopm','like',$this->unidade.'%')
+                ->orderBy('id_adl','DESC')
+                ->get();
             });
         }
 
@@ -69,16 +75,22 @@ class AdllRepository extends BaseRepository
 
     public function ano($ano)
 	{
+        
         if($this->verTodasUnidades)
         {
+            
             $registros = Cache::tags('adl')->remember('todos_adl:'.$ano, self::$expiration, function() use ($ano) {
-                return $this->model->where('sjd_ref_ano','=',$ano)->get();
+                return $this->model->where('sjd_ref_ano','=',$ano)
+                ->orderBy('id_adl','DESC')
+                ->get();
             });
         }
         else 
         {
             $registros = Cache::tags('adl')->remember('todos_adl:'.$ano.':'.$this->unidade, self::$expiration, function() use ($ano) {
-                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)
+                ->orderBy('id_adl','DESC')
+                ->get();
             });
         }
         return $registros;
@@ -93,7 +105,8 @@ class AdllRepository extends BaseRepository
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_adl', '=', 'adl.id_adl')
                         ->where('envolvido.situacao', '=', 'Presidente')
-                        ->where('envolvido.rg_substituto', '=', ''); 
+                        ->where('envolvido.rg_substituto', '=', '')
+                        ->orderBy('id_adl','DESC');     
                     })->get();
             });
         }
@@ -104,7 +117,8 @@ class AdllRepository extends BaseRepository
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_adl', '=', 'adl.id_adl')
                         ->where('envolvido.situacao', '=', 'Presidente')
-                        ->where('envolvido.rg_substituto', '=', ''); 
+                        ->where('envolvido.rg_substituto', '=', '')
+                        ->orderBy('id_adl','DESC');
                     })->get();
             });
         }
@@ -120,7 +134,8 @@ class AdllRepository extends BaseRepository
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_adl', '=', 'adl.id_adl')
                         ->where('envolvido.situacao', '=', 'Presidente')
-                        ->where('envolvido.rg_substituto', '=', ''); 
+                        ->where('envolvido.rg_substituto', '=', '')
+                        ->orderBy('id_adl','DESC'); 
                     })->get();
             });
         }
@@ -132,7 +147,8 @@ class AdllRepository extends BaseRepository
                     ->leftJoin('envolvido', function ($join){
                     $join->on('envolvido.id_adl', '=', 'adl.id_adl')
                         ->where('envolvido.situacao', '=', 'Presidente')
-                        ->where('envolvido.rg_substituto', '=', ''); 
+                        ->where('envolvido.rg_substituto', '=', '')
+                        ->orderBy('id_adl','DESC'); 
                     })->get();
             });
         }
@@ -151,6 +167,7 @@ class AdllRepository extends BaseRepository
                     })
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','adl'))
+                    ->orderBy('id_adl','DESC')
                     ->get();
             });
         }
@@ -165,6 +182,7 @@ class AdllRepository extends BaseRepository
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','adl'))
                     ->where('adl.cdopm','like',$this->unidade.'%')
+                    ->orderBy('id_adl','DESC')
                     ->get();
             });
         }
@@ -184,6 +202,7 @@ class AdllRepository extends BaseRepository
                     ->leftJoin('punicao', 'punicao.id_punicao', '=', 'envolvido.id_punicao')
                     ->where('envolvido.situacao','=',sistema('procSituacao','adl'))
                     ->where('sjd_ref_ano', '=' ,$ano)
+                    ->orderBy('id_adl','DESC')
                     ->get();
             });
         }
@@ -199,6 +218,7 @@ class AdllRepository extends BaseRepository
                     ->where('envolvido.situacao','=',sistema('procSituacao','adl'))
                     ->where('sjd_ref_ano', '=' ,$ano)
                     ->where('cdopm','like',$this->unidade.'%')
+                    ->orderBy('id_adl','DESC')
                     ->get();
             });
         }
@@ -224,7 +244,8 @@ class AdllRepository extends BaseRepository
                     ->leftJoin('envolvido', function ($join){
                         $join->on('envolvido.id_adl', '=', 'adl.id_adl')
                             ->where('envolvido.situacao', '=', 'Presidente')
-                            ->where('envolvido.rg_substituto', '=', '');
+                            ->where('envolvido.rg_substituto', '=', '')
+                            ->orderBy('id_adl','DESC');
                     })
                     ->get();
             });
@@ -249,6 +270,7 @@ class AdllRepository extends BaseRepository
                         ->where('envolvido.rg_substituto', '=', '');
                 })
                 ->where('adl.cdopm','like',$this->unidade.'%')
+                ->orderBy('id_adl','DESC')
                 ->get();
 
             });   
@@ -278,6 +300,7 @@ class AdllRepository extends BaseRepository
                             ->where('envolvido.rg_substituto', '=', '');
                     })
                     ->where('adl.sjd_ref_ano','=',$ano)
+                    ->orderBy('id_adl','DESC')
                     ->get();
 
             });             
@@ -302,6 +325,7 @@ class AdllRepository extends BaseRepository
                     })
                     ->where('adl.sjd_ref_ano','=',$ano)
                     ->where('adl.cdopm','like',$this->unidade.'%')
+                    ->orderBy('id_adl','DESC')
                     ->get();
 
             });   

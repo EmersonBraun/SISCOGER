@@ -28,8 +28,11 @@ class NotaCogerRepository extends BaseRepository
     
     public function all()
 	{
+        $this->cleanCache(); 
         $registros = Cache::tags('nota_comparecimento')->remember('todos_nota_comparecimento', self::$expiration, function() {
-            return $this->model->all();
+            return $this->model
+            ->orderBy('id_notacomparecimento', 'DESC')
+            ->get();
         });
 
 
@@ -38,9 +41,11 @@ class NotaCogerRepository extends BaseRepository
 
     public function ano($ano)
 	{
-
+        $this->cleanCache(); 
         $registros = Cache::tags('nota_comparecimento')->remember('todos_nota_comparecimento:'.$ano, self::$expiration, function() use ($ano) {
-            return $this->model->where('sjd_ref_ano','=',$ano)->get();
+            return $this->model->where('sjd_ref_ano','=',$ano)
+            ->orderBy('id_notacomparecimento', 'DESC')
+            ->get();
         });
 
         return $registros;
@@ -51,7 +56,9 @@ class NotaCogerRepository extends BaseRepository
 	{
 
         $registros = Cache::tags('nota_comparecimento')->remember('todos_nota_comparecimento:apagadas'.$ano, self::$expiration, function() use ($ano) {
-            return $this->model->where('sjd_ref_ano',$ano)->onlyTrashed()->get();
+            return $this->model->where('sjd_ref_ano',$ano)->onlyTrashed()
+            ->orderBy('id_notacomparecimento', 'DESC')
+            ->get();
         });
 
         return $registros;

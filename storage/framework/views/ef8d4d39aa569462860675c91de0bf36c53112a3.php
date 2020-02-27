@@ -18,6 +18,7 @@
     <!-- Font Awesome -->
     
     <link rel="stylesheet" href="<?php echo e(asset('public/fonts/font-awesome/css/font-awesome.css')); ?>">
+    
     <!-- Ionicons -->
     
     <link rel="stylesheet" href="<?php echo e(asset('public/fonts/Ionicons/css/ionicons.min.css')); ?>">

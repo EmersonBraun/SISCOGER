@@ -192,11 +192,7 @@
 
 <script>
     export default {
-        props: {
-            reference: {type: Number, default: null},
-            ano: {type: Number, default: null},
-            id_notacomparecimento: {type: Number, default: null},
-        },
+        props: ['reference','ano','id_notacomparecimento'],
         data() {
             return {
                 module: 'apresentacao',
@@ -281,6 +277,7 @@
             dadosApresentacao(){
                 let refAno = this.ano ? `${this.reference}/${this.ano}` : this.reference
                 let urlData = `${this.$root.baseUrl}api/${this.module}/${refAno}`;
+                console.log(refAno)
                     axios
                     .get(urlData)
                     .then((response) => {
@@ -324,6 +321,7 @@
             edit(registro){
                 this.registro = registro
                 this.cleanRegister()
+                window.location.href = `${this.$root.baseUrl}/apresentacao/criar`
             },
             update(id){
                 if(!this.requireds){
@@ -351,7 +349,7 @@
                 let msg = this.words(type)
                 if(happen) { // se deu certo
                         this.$root.msg(msg.success,'success')
-                        this.registro = null
+                        this.registro = {}
                         this.cleanRegister()
                 } else { // se falhou
                     this.$root.msg(msg.fail,'danger')

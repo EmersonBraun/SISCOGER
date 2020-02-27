@@ -423,7 +423,7 @@
             <ul class="treeview-menu">
                 <li class=""><a href="<?php echo e(route('log.created','notacoger')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Notas COGER</span></a></li>
                 <li class=""><a href="<?php echo e(route('log.created','apresentacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Apresentação</span></a></li>
-                <li class=""><a href="<?php echo e(route('log.created','locaisapresentacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Locais</span></a></li>
+                <li class=""><a href="<?php echo e(route('log.created','localdeapresentacao')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Locais</span></a></li>
                 <li class=""><a href="<?php echo e(route('log.created','email')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Email</span></a></li>
             </ul></li>
         <li class="treeview"><a href="#"><i class="fa fa-fw fa-bug "></i><span>Administração</span>

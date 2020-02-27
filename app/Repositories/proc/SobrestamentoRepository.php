@@ -128,7 +128,7 @@ class SobrestamentoRepository extends BaseRepository
     public function listProc($proc, $id)
     {
         $registros = Cache::tags('sobrestamento')->remember('sobrestamento:'.$proc.$id, $this->expiration, function() use ($proc, $id){
-            return $this->model->where('id_'.$proc,'=',$id)->get();;
+            return $this->model->where('id_sobrestamento','=',$id)->orderBy('id_sobrestamento','DESC')->get();
         });
 
         return $registros;
