@@ -67,70 +67,69 @@
                 </v-label>
             </v-tab>
             <v-tab header="Envolvidos">
-                <v-proced-origem dproc="cd" idp="{{$proc['id_cd']}}"></v-proced-origem><br>           
-                <v-acusado idp="{{$proc['id_cd']}}" situacao="{{sistema('procSituacao','cd')}}" ></v-acusado><br>
-                <v-vitima idp="{{$proc['id_cd']}}" ></v-vitima><br>
+                <v-proced-origem dproc="cd" idp="{{$proc['id_cd']}}" show></v-proced-origem><br>           
+                <v-acusado idp="{{$proc['id_cd']}}" situacao="{{sistema('procSituacao','cd')}}" show ></v-acusado><br>
+                <v-vitima idp="{{$proc['id_cd']}}" show ></v-vitima><br>
             </v-tab>
             <v-tab header="Acórdãos">
                 <file-upload 
                     title="TJ-PR:"
                     name="tjpr_file"
-                    proc="cd"
-                    idp="{{$proc['id_cd']}}"
-                    :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
-                        >
-                </file-upload>
+                    dproc="cd" idp="{{$proc['id_cd']}}"
+                    :ext="['pdf']"
+                    show 
+                    ></file-upload>
 
                 <file-upload 
                     title="STJ/STF:"
                     name="stj_file"
-                    proc="cd"
-                    idp="{{$proc['id_cd']}}"
+                    dproc="cd" idp="{{$proc['id_cd']}}"
                     :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
-                    >
-                </file-upload>
+                    show
+                    ></file-upload>
             </v-tab>
             <v-tab header="Recursos">
                 <file-upload 
                     title="Reconsideração de ato (solução):"
                     name="rec_ato_file"
-                    proc="cd"
-                    idp="{{$proc['id_cd']}}"
+                    dproc="cd" idp="{{$proc['id_cd']}}"
                     :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
+                    show
                     >
                 </file-upload>
 
                 <file-upload 
                     title="Recurso ao Governador (solução):"
                     name="rec_gov_file"
-                    proc="cd"
-                    idp="{{$proc['id_cd']}}"
-                    :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
+                    dproc="cd" idp="{{$proc['id_cd']}}"
+                    :ext="['pdf']"
+                    show 
                     >
                 </file-upload>
             </v-tab>
             <v-tab header="Membros">
-                <v-membro dproc="cd" idp="{{$proc['id_cd']}}"></v-membro>
+                <v-membro dproc="cd" idp="{{$proc['id_cd']}}" show></v-membro>
             </v-tab>
             <v-tab header="Movimentos">
-                <v-movimento dproc="cd" idp="{{$proc['id_cd']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento dproc="cd" idp="{{$proc['id_cd']}}" show></v-movimento>
             </v-tab>
             <v-tab header="Sobrestamentos">
-                <v-sobrestamento dproc="cd" idp="{{$proc['id_cd']}}" ></v-sobrestamento>
+                <v-sobrestamento dproc="cd" idp="{{$proc['id_cd']}}" show ></v-sobrestamento>
             </v-tab>
             <v-tab header="Encaminhamentos">
                 Encaminhamentos
             </v-tab>
             <v-tab header="Arquivo">
-                <v-arquivo dproc="cd" idp="{{$proc['id_cd']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="cd" idp="{{$proc['id_cd']}}" show></v-arquivo>
             </v-tab>
-        </v-tabs>
         </div>
     </div>
+
+    <div class="content-footer">
+        <br>
+        
+    </div>
+
 </section>
 @stop
 
@@ -140,4 +139,3 @@
 @section('js')
 @include('vendor.adminlte.includes.vue')
 @stop
-

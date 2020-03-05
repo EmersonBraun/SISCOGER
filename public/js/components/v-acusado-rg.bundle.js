@@ -1,4 +1,4 @@
-webpackJsonp([29],{
+webpackJsonp([31],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/AcusadoRg.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -48,6 +48,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -55,6 +75,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_js__["a" /* default */]],
     components: { TheMask: __WEBPACK_IMPORTED_MODULE_1_vue_the_mask__["TheMask"] },
     props: {
+        show: { type: Boolean, default: false },
         situacao: { type: String, default: '' },
         idp: { type: String, default: '' },
         dproc: { type: String, default: '' },
@@ -111,7 +132,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -127,194 +148,264 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-lg-12 col-md-12 col-xs-12 card" }, [
     _c("div", { staticClass: "card-body" }, [
-      _c("div", { staticClass: "row", attrs: { id: "ligacaoForm1" } }, [
-        _c("form", { attrs: { id: "formAcusadoRG", name: "formAcusadoRG" } }, [
-          _c(
-            "div",
-            { staticClass: "col-lg-3 col-md-3 col-xs-3" },
-            [
-              _c("label", { attrs: { for: "rg" } }, [_vm._v("RG")]),
-              _c("br"),
-              _vm._v(" "),
-              _c("the-mask", {
-                staticClass: "form-control",
-                attrs: {
-                  mask: "############",
-                  type: "text",
-                  maxlength: "12",
-                  name: "rg",
-                  placeholder: "Nº"
-                },
-                on: { change: _vm.searchPM },
-                model: {
-                  value: _vm.prg,
-                  callback: function($$v) {
-                    _vm.prg = $$v
-                  },
-                  expression: "prg"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-lg-3 col-md-3 col-xs-3" }, [
-            _c("label", { attrs: { for: "nome" } }, [_vm._v("Nome")]),
-            _c("br"),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.pnome,
-                  expression: "pnome"
-                }
-              ],
-              staticClass: "numero form-control",
-              attrs: { type: "text", name: "nome", readonly: "" },
-              domProps: { value: _vm.pnome },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.pnome = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-lg-3 col-md-3 col-xs-3" }, [
-            _c("label", { attrs: { for: "cargo" } }, [
-              _vm._v("Posto/Graduação")
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.pcargo,
-                  expression: "pcargo"
-                }
-              ],
-              staticClass: "numero form-control",
-              attrs: { type: "text", name: "cargo", readonly: "" },
-              domProps: { value: _vm.pcargo },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.pcargo = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "col-lg-3 col-md-3 col-xs-3" },
-            [
-              _c("label", { attrs: { for: "resultado" } }, [
-                _vm._v("Resultado")
-              ]),
-              _c("br"),
-              _vm._v(" "),
-              _vm.situacao
-                ? [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.situacao,
-                          expression: "situacao"
-                        }
-                      ],
-                      staticClass: "numero form-control",
-                      attrs: { type: "text", name: "situacao", readonly: "" },
-                      domProps: { value: _vm.situacao },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.situacao = $event.target.value
-                        }
+      !_vm.show
+        ? _c("div", { staticClass: "row", attrs: { id: "ligacaoForm1" } }, [
+            _c(
+              "form",
+              { attrs: { id: "formAcusadoRG", name: "formAcusadoRG" } },
+              [
+                _c(
+                  "div",
+                  { staticClass: "col-lg-3 col-md-3 col-xs-3" },
+                  [
+                    _c("label", { attrs: { for: "rg" } }, [_vm._v("RG")]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("the-mask", {
+                      staticClass: "form-control",
+                      attrs: {
+                        mask: "############",
+                        type: "text",
+                        maxlength: "12",
+                        name: "rg",
+                        placeholder: "Nº"
+                      },
+                      on: { change: _vm.searchPM },
+                      model: {
+                        value: _vm.prg,
+                        callback: function($$v) {
+                          _vm.prg = $$v
+                        },
+                        expression: "prg"
                       }
                     })
-                  ]
-                : [
-                    _c(
-                      "select",
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-3 col-md-3 col-xs-3" }, [
+                  _c("label", { attrs: { for: "nome" } }, [_vm._v("Nome")]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
                       {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.resultado,
-                            expression: "resultado"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { name: "resultado", disabled: !_vm.finded },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.resultado = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          }
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.pnome,
+                        expression: "pnome"
+                      }
+                    ],
+                    staticClass: "numero form-control",
+                    attrs: { type: "text", name: "nome", readonly: "" },
+                    domProps: { value: _vm.pnome },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
                         }
-                      },
-                      [
-                        _c("option", { attrs: { value: "" } }, [
-                          _vm._v("Selecione")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "Excluído" } }, [
-                          _vm._v("Excluído")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "Punido" } }, [
-                          _vm._v("Punido")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "Absolvido" } }, [
-                          _vm._v("Absolvido")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "Perda objeto" } }, [
-                          _vm._v("Perda objeto")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "Prescricao" } }, [
-                          _vm._v("Prescricao")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "option",
-                          { attrs: { value: "Reintegrado/Reinserido" } },
-                          [_vm._v("Reintegrado/Reinserido")]
-                        )
-                      ]
-                    )
-                  ]
-            ],
-            2
-          )
-        ])
-      ])
+                        _vm.pnome = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-3 col-md-3 col-xs-3" }, [
+                  _c("label", { attrs: { for: "cargo" } }, [
+                    _vm._v("Posto/Graduação")
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.pcargo,
+                        expression: "pcargo"
+                      }
+                    ],
+                    staticClass: "numero form-control",
+                    attrs: { type: "text", name: "cargo", readonly: "" },
+                    domProps: { value: _vm.pcargo },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.pcargo = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-lg-3 col-md-3 col-xs-3" },
+                  [
+                    _c("label", { attrs: { for: "resultado" } }, [
+                      _vm._v("Resultado")
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _vm.situacao
+                      ? [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.situacao,
+                                expression: "situacao"
+                              }
+                            ],
+                            staticClass: "numero form-control",
+                            attrs: {
+                              type: "text",
+                              name: "situacao",
+                              readonly: ""
+                            },
+                            domProps: { value: _vm.situacao },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.situacao = $event.target.value
+                              }
+                            }
+                          })
+                        ]
+                      : [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.resultado,
+                                  expression: "resultado"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                name: "resultado",
+                                disabled: !_vm.finded
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.resultado = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("Selecione")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "Excluído" } }, [
+                                _vm._v("Excluído")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "Punido" } }, [
+                                _vm._v("Punido")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "Absolvido" } }, [
+                                _vm._v("Absolvido")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { attrs: { value: "Perda objeto" } },
+                                [_vm._v("Perda objeto")]
+                              ),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "Prescricao" } }, [
+                                _vm._v("Prescricao")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { attrs: { value: "Reintegrado/Reinserido" } },
+                                [_vm._v("Reintegrado/Reinserido")]
+                              )
+                            ]
+                          )
+                        ]
+                  ],
+                  2
+                )
+              ]
+            )
+          ])
+        : _c("div", { staticClass: "row" }, [
+            _c("form", { attrs: { name: "formAcusadoRG" } }, [
+              _c(
+                "div",
+                { staticClass: "col-lg-3 col-md-3 col-xs-3" },
+                [
+                  _c("label", { attrs: { for: "rg" } }, [_vm._v("RG")]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("v-show", { attrs: { dado: _vm.prg } })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-lg-3 col-md-3 col-xs-3" },
+                [
+                  _c("label", { attrs: { for: "nome" } }, [_vm._v("Nome")]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("v-show", { attrs: { dado: _vm.pnome } })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-lg-3 col-md-3 col-xs-3" },
+                [
+                  _c("label", { attrs: { for: "cargo" } }, [
+                    _vm._v("Posto/Graduação")
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("v-show", { attrs: { dado: _vm.pcargo } })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-lg-3 col-md-3 col-xs-3" },
+                [
+                  _c("label", { attrs: { for: "resultado" } }, [
+                    _vm._v("Resultado")
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("v-show", { attrs: { dado: _vm.situacao } })
+                ],
+                1
+              )
+            ])
+          ])
     ])
   ])
 }

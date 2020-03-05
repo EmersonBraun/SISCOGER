@@ -1,7 +1,7 @@
 <template>
     <div class="col-lg-12 col-md-12 col-xs-12 card">
         <div class="card-body">
-            <div id="ligacaoForm1" class="row">
+            <div v-if="!show" id="ligacaoForm1" class="row">
                 <form id="formAcusadoRG" name="formAcusadoRG">
                     <div class="col-lg-3 col-md-3 col-xs-3">
                         <label for="rg">RG</label><br>
@@ -34,6 +34,26 @@
                     </div>
                 </form>
             </div>
+            <div v-else class="row">
+                <form name="formAcusadoRG">
+                    <div class="col-lg-3 col-md-3 col-xs-3">
+                        <label for="rg">RG</label><br>
+                         <v-show :dado="prg"></v-show>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-xs-3">
+                        <label for="nome">Nome</label><br>
+                         <v-show :dado="pnome"></v-show>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-xs-3">
+                        <label for="cargo">Posto/Graduação</label><br>
+                         <v-show :dado="pcargo"></v-show>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-xs-3">
+                        <label for="resultado">Resultado</label><br>
+                         <v-show :dado="situacao"></v-show>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </template>
@@ -45,6 +65,7 @@
         mixins: [mixin],
         components: {TheMask},
         props: {
+            show: {type: Boolean, default: false},
             situacao: {type: String, default: ''},
             idp: {type: String, default: ''},
             dproc: {type: String, default: ''},

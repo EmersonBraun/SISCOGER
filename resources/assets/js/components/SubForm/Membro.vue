@@ -18,7 +18,7 @@
             </div>
         </div>
         <br>
-        <div class="card-body " :class="add ? 'bordaform' : ''" v-if="mode == 'atuais' && !only">
+        <div class="card-body " :class="add ? 'bordaform' : ''" v-if="mode == 'atuais' && !only && !show">
             <div v-if="!add">
                 <button @click="add = !add" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Adicionar membro</button>
             </div>
@@ -87,7 +87,7 @@
                                     <th class="col-sm-2">Nome</th>
                                     <th class="col-sm-2">Posto/Grad.</th>
                                     <th class="col-sm-2">Situação</th>
-                                    <th class="col-sm-2">Ver/Substituir/Apagar</th>
+                                    <th  v-if="!show" class="col-sm-2">Ver/Substituir/Apagar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -97,7 +97,7 @@
                                     <td>{{ pm.nome }}</td>
                                     <td>{{ pm.cargo }}</td>
                                     <td>{{ pm.situacao }}</td>
-                                    <td>
+                                    <td  v-if="!show">
                                         <div class="btn-group" role="group" aria-label="First group">
                                             <a type="button" @click="showPM(pm.rg)" target="_blanck" class="btn btn-primary" style="color: white">
                                                 <i class="fa fa-eye"></i>
@@ -179,6 +179,7 @@
             unique: {type: Boolean, default: false},
             idp: {type: String, default: ''},
             dproc: {type: String, default: ''},
+            show: {type: Boolean, default: false},
         },
         data() {
             return {  

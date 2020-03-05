@@ -73,46 +73,49 @@
                 </v-label>
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">
-                <v-proced-origem unique dproc="sindicancia" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>           
-                <v-acusado unique dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" situacao="{{sistema('procSituacao','sindicancia')}}" ></v-acusado><br>
-                <v-vitima unique dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" ></v-vitima><br>
+                <v-proced-origem dproc="sindicancia" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" show></v-proced-origem><br>           
+                <v-acusado dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" situacao="{{sistema('procSituacao','sindicancia')}}" show></v-acusado><br>
+                <v-vitima dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" show></v-vitima><br>
             </v-tab-item>
             <v-tab-item title="Documentos" idp="documentos">
                 <file-upload 
                 title="Relatório do Encarregado:"
                 name="relatorio_file"
-                unique dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"
-                :ext="['pdf']" 
+                dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"
+                :ext="['pdf']"
+                show 
                 ></file-upload>
 
                 <file-upload 
                 title="Solução do Comandante:"
                 name="sol_cmt_file"
-                unique dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"
-                :ext="['pdf']" 
+                dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"
+                :ext="['pdf']"
+                show 
                 ></file-upload>
 
                 <file-upload 
                 title="Solução CMT Geral:"
                 name="sol_cmtgeral_file"
-                unique dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"
-                :ext="['pdf']" 
+                dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"
+                :ext="['pdf']"
+                show 
                 ></file-upload>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                <v-membro unique dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"></v-membro>
+                <v-membro dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" show></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento unique dproc="sindicancia" idp="{{$proc['id_sindicancia']}}"></v-movimento>
+                <v-movimento dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" show></v-movimento>
             </v-tab-item>
             <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
-                <v-sobrestamento unique dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" ></v-sobrestamento>
+                <v-sobrestamento dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" show></v-sobrestamento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" unique dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="sindicancia" idp="{{$proc['id_sindicancia']}}" show></v-arquivo>
             </v-tab-item>
         </div>
     </div>

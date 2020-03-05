@@ -89,9 +89,9 @@ class RecursoRepository extends BaseRepository
 
     public function proc($proc)
     {
-        $registros = Cache::tags('recurso')->remember('recurso:'.$proc, self::$expiration, function() use ($proc) {
-            return $this->model->where('procedimento',$proc)->get(['procedimento']);
-        });
+        // $registros = Cache::tags('recurso')->remember('recurso:'.$proc, self::$expiration, function() use ($proc) {
+            return $this->model->where('procedimento',$proc)->get();
+        // });
         return $registros;
     }
 

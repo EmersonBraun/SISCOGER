@@ -63,20 +63,20 @@
                 </v-label>
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">      
-                <v-acusado unique dproc="apfd" idp="{{$proc['id_apfd']}}" situacao="{{sistema('procSituacao','apfd')}}" ></v-acusado><br>
+                <v-acusado unique dproc="apfd" idp="{{$proc['id_apfd']}}" situacao="{{sistema('procSituacao','apfd')}}" show ></v-acusado><br>
                 <v-vitima unique dproc="apfd" idp="{{$proc['id_apfd']}}" ></v-vitima><br>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                <v-membro unique dproc="apfd" idp="{{$proc['id_apfd']}}"></v-membro>
+                <v-membro unique dproc="apfd" idp="{{$proc['id_apfd']}}" show></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento unique dproc="apfd" idp="{{$proc['id_apfd']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento unique dproc="apfd" idp="{{$proc['id_apfd']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" show ></v-movimento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" unique dproc="apfd" idp="{{$proc['id_apfd']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" unique dproc="apfd" idp="{{$proc['id_apfd']}}" show></v-arquivo>
             </v-tab-item>
         </div>
     </div>

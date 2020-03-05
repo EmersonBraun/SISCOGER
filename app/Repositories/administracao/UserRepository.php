@@ -39,7 +39,17 @@ class UserRepository extends BaseRepository
         });
 
         return $registros;
-    }  
+    } 
+    
+    public function notAdmin()
+	{
+
+        $registros = Cache::tags('user')->remember('not_admin', $this->expiration, function() {
+            return $this->model->whereNotIn('id',[18,22,23,24,30,39,482])->get();
+        });
+
+        return $registros;
+    } 
 
     public function getRg($rg)
 	{

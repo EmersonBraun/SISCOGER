@@ -26,11 +26,9 @@
                         <tr>
                             <th style="display: none">#</th>
                             <th class='col-xs-2 col-md-2'>Nome</th>
-                            <th class='col-xs-2 col-md-2'>OPM atual</th>
                             <th class='col-xs-2 col-md-2'>Procedimento</th>
                             <th class='col-xs-1 col-md-1'>Proc Crime</th>
-                            <th class='col-xs-1 col-md-1'>Motivo</th>
-                            <th class='col-xs-1 col-md-1'>Outro Motivo</th>
+                            <th class='col-xs-3 col-md-3'>Observações</th>
                             <th class='col-xs-1 col-md-1'>Julgamento</th>
                             <th class='col-xs-1 col-md-1'>T. julgado</th>
                             <th class='col-xs-1 col-md-1'>Pena</th>
@@ -40,14 +38,12 @@
                         @foreach($registros as $registro)
                         <tr>
                             <td style="display: none">{{$registro['rg']}}</td>
-                            <td><a href="route('fdi.show',$registro['rg'])" target="_blanck">{{$registro['cargo']}} {{$registro['nome']}}</a></td>
-                            <td>{{$registro['ABREVIATURA']}}</td>
-                            @php $proc = $registro['proc'] @endphp
-                            <td>{{$proc}} nº {{$registro[$proc."_ref"]}} / {{$registro[$proc."_ano"]}}</td>
+                            <td><a href="{{route('fdi.show',$registro['rg'])}}" target="_blanck">{{$registro['cargo']}} {{$registro['nome']}}</a></td>
+                            @if($registro['id_ipm'])<td>IPM</td>@endif
+                            @if($registro['id_apfd'])<td>APFD</td>@endif
+                            @if($registro['id_desercao'])<td>Deserção</td>@endif
                             <td>{{$registro['ipm_processocrime']}}</td>
-
-                            <td>{{$registro[$proc.'_motivo'] ?? '-'}}</td>
-                            <td>{{$registro[$proc.'_outro'] ?? '-'}}</td>
+                            <td>{{$registro['obs_txt']}}</td>
                             <td>{{$registro['ipm_julgamento']}}</td>
                             <td>
                             {{-- Coluna de transito julgado se aplica apenas para Condenado --}}
@@ -69,18 +65,16 @@
                         @endforeach
                     </tbody>
                     <tfoot>
-                        <tr>
-                            <th style="display: none">#</th>
-                            <th class='col-xs-2 col-md-2'>Nome</th>
-                            <th class='col-xs-2 col-md-2'>OPM atual</th>
-                            <th class='col-xs-2 col-md-2'>Procedimento</th>
-                            <th class='col-xs-1 col-md-1'>Proc Crime</th>
-                            <th class='col-xs-1 col-md-1'>Motivo</th>
-                            <th class='col-xs-1 col-md-1'>Outro Motivo</th>
-                            <th class='col-xs-1 col-md-1'>Julgamento</th>
-                            <th class='col-xs-1 col-md-1'>T. julgado</th>
-                            <th class='col-xs-1 col-md-1'>Pena</th>
-                        </tr>
+                            <tr>
+                                <th style="display: none">#</th>
+                                <th class='col-xs-2 col-md-2'>Nome</th>
+                                <th class='col-xs-2 col-md-2'>Procedimento</th>
+                                <th class='col-xs-1 col-md-1'>Proc Crime</th>
+                                <th class='col-xs-3 col-md-3'>Observações</th>
+                                <th class='col-xs-1 col-md-1'>Julgamento</th>
+                                <th class='col-xs-1 col-md-1'>T. julgado</th>
+                                <th class='col-xs-1 col-md-1'>Pena</th>
+                            </tr>
                     </tfoot>
                 </table>
             </div>

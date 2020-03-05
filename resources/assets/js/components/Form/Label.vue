@@ -6,11 +6,10 @@
         <tooltip v-if="tooltip" effect="scale" placement="top" :content="tooltip">
             <i class="fa fa-question-circle"></i>
         </tooltip>
-        <br>
+        <tooltip v-if="errorMsg" effect="scale" placement="top" :content="errorMsg">
+            <i class="fa fa-question-circle error"></i>
+        </tooltip>
         <slot></slot>
-        <span v-if="errorMsg" class="help-block">
-            <strong>{{ errorMsg }}</strong>
-        </span>
     </div>
 </template>
 
@@ -49,6 +48,8 @@
 <style scoped>
 .form-group2 {
     margin-bottom: 2px;
+}.error {
+    color: red;
 }
 </style>
 

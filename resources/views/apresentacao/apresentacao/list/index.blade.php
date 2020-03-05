@@ -66,9 +66,11 @@
                                         onclick="return confirm('Tem certeza que quer apagar o apresentacao?')"><i
                                             class="fa fa-fw fa-trash-o "></i></a>
                                     @endif
+                                    @if(hasPermissionTo('criar-memorando-apresentacao'))
                                     <a class="btn btn-success" href="{{route('apresentacao.memorando',$registro['id_apresentacao'])}}">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
+                                    @endif
                                 </span>
                             </td>
                         </tr>

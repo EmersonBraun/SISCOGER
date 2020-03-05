@@ -475,7 +475,7 @@ class FatdRepository extends BaseRepository
                 ->groupBy('sjd_ref_ano')
                 ->first();
                 //insere no array para ficar 'ano' => 'qtd'
-                $registros = array_add($registros,$i, $qtd_ano['qtd']);
+                $registros = array_add($registros,$i, $qtd_ano['qtd'] ?? 1);
             }
         }
         

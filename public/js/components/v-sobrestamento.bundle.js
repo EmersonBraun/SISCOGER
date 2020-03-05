@@ -1,4 +1,4 @@
-webpackJsonp([9,38],{
+webpackJsonp([9,40],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Sobrestamento.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -126,6 +126,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -133,6 +135,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_js__["a" /* default */]],
     components: { Datepicker: __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Datepicker__["Datepicker"] },
     props: {
+        show: { type: Boolean, default: false },
         unique: { type: Boolean, default: false },
         idp: { type: String, default: '' },
         dproc: { type: String, default: '' }
@@ -648,7 +651,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -680,7 +683,7 @@ var render = function() {
   return _c("div", { staticClass: "col-lg-12 col-md-12 col-xs-12 card" }, [
     _vm._m(0),
     _vm._v(" "),
-    !_vm.only
+    !_vm.only && !_vm.show
       ? _c(
           "div",
           { staticClass: "card-body", class: _vm.add ? "bordaform" : "" },
@@ -1133,31 +1136,41 @@ var render = function() {
             _c("div", { staticClass: "col-sm-12" }, [
               _c("table", { staticClass: "table table-hover" }, [
                 _c("thead", [
-                  _c("tr", [
-                    _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
-                    _vm._v(" "),
-                    _c("th", { staticClass: "col-sm-1" }, [_vm._v("Início")]),
-                    _vm._v(" "),
-                    _c("th", { staticClass: "col-sm-2" }, [
-                      _vm._v("Doc.Início")
-                    ]),
-                    _vm._v(" "),
-                    _c("th", { staticClass: "col-sm-1" }, [_vm._v("Término")]),
-                    _vm._v(" "),
-                    _c("th", { staticClass: "col-sm-2" }, [
-                      _vm._v("Doc.Término")
-                    ]),
-                    _vm._v(" "),
-                    _c("th", { staticClass: "col-sm-2" }, [_vm._v("Motivo")]),
-                    _vm._v(" "),
-                    _vm.isAdmin
-                      ? _c("th", { staticClass: "col-sm-2" }, [
-                          _vm._v("Editar/Apagar")
-                        ])
-                      : _c("th", { staticClass: "col-sm-2" }, [
-                          _vm._v("Editar")
-                        ])
-                  ])
+                  _c(
+                    "tr",
+                    [
+                      _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "col-sm-1" }, [_vm._v("Início")]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "col-sm-2" }, [
+                        _vm._v("Doc.Início")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "col-sm-1" }, [
+                        _vm._v("Término")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "col-sm-2" }, [
+                        _vm._v("Doc.Término")
+                      ]),
+                      _vm._v(" "),
+                      _c("th", { staticClass: "col-sm-2" }, [_vm._v("Motivo")]),
+                      _vm._v(" "),
+                      !_vm.show
+                        ? [
+                            _vm.isAdmin
+                              ? _c("th", { staticClass: "col-sm-2" }, [
+                                  _vm._v("Editar/Apagar")
+                                ])
+                              : _c("th", { staticClass: "col-sm-2" }, [
+                                  _vm._v("Editar")
+                                ])
+                          ]
+                        : _vm._e()
+                    ],
+                    2
+                  )
                 ]),
                 _vm._v(" "),
                 _c(
@@ -1184,56 +1197,58 @@ var render = function() {
                             _vm._v(_vm._s(sobrestamento.motivo_outros))
                           ]),
                       _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "btn-group",
-                            attrs: {
-                              role: "group",
-                              "aria-label": "First group"
-                            }
-                          },
-                          [
+                      !_vm.show
+                        ? _c("td", [
                             _c(
-                              "a",
+                              "div",
                               {
-                                staticClass: "btn btn-success",
-                                staticStyle: { color: "white" },
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.replaceSobrestamento(
-                                      sobrestamento
-                                    )
-                                  }
+                                staticClass: "btn-group",
+                                attrs: {
+                                  role: "group",
+                                  "aria-label": "First group"
                                 }
                               },
-                              [_c("i", { staticClass: "fa fa-edit" })]
-                            ),
-                            _vm._v(" "),
-                            _vm.isAdmin
-                              ? _c(
+                              [
+                                _c(
                                   "a",
                                   {
-                                    staticClass: "btn btn-danger",
+                                    staticClass: "btn btn-success",
                                     staticStyle: { color: "white" },
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
-                                        return _vm.removeSobrestamento(
-                                          sobrestamento.id_sobrestamento,
-                                          index
+                                        return _vm.replaceSobrestamento(
+                                          sobrestamento
                                         )
                                       }
                                     }
                                   },
-                                  [_c("i", { staticClass: "fa fa-trash" })]
-                                )
-                              : _vm._e()
-                          ]
-                        )
-                      ])
+                                  [_c("i", { staticClass: "fa fa-edit" })]
+                                ),
+                                _vm._v(" "),
+                                _vm.isAdmin
+                                  ? _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-danger",
+                                        staticStyle: { color: "white" },
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.removeSobrestamento(
+                                              sobrestamento.id_sobrestamento,
+                                              index
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-trash" })]
+                                    )
+                                  : _vm._e()
+                              ]
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   }),
                   0

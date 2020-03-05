@@ -5,6 +5,17 @@ export default{
             baseUrl: 'http://10.47.1.90/siscoger/',
         }
     },
+    computed: {
+        today() {
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            let yyyy = today.getFullYear();
+
+            today = `${dd}/${mm}/${yyyy}`;
+            return today
+        },
+    },
     methods: {
         ...mapActions('dashboard',['changeAlert','toogleSpinner']),
         getSessionData() {
@@ -71,6 +82,6 @@ export default{
             let str = value.toLowerCase()
             let re = /(^([a-zA-Z\p{M}]))|([ -][a-zA-Z\p{M}])/g
             return str.replace(re, s => s.toUpperCase())
-        },
+        }
     }
 }

@@ -353,9 +353,7 @@
         <?php if(hasPermissionTo('listar-sjds')): ?>
         <li class=""><a href="<?php echo e(route('sjd.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Controle SJD</span></a></li>
         <?php endif; ?>
-        <?php if(hasPermissionTo('listar-termos')): ?>
-        <li class=""><a href="<?php echo e(route('term.index')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Termos de compromisso</span></a></li>
-        <?php endif; ?>
+        
         <?php if(hasPermissionTo('listar-dados-unidade')): ?>
         <li class=""><a href="<?php echo e(route('autoridadeom.comando')); ?>"><i class="fa fa-fw fa-circle-o "></i><span>Unidades</span></a></li>
         <?php endif; ?>

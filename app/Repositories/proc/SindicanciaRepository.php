@@ -76,9 +76,9 @@ class SindicanciaRepository extends BaseRepository
         }
         else 
         {
-            $registros = Cache::tags('sindicancia')->remember('todos_sindicancia'.$ano.$this->unidade, $this->expiration, function() use ($ano) {
-                return $this->model->where('sindicancia.cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->orderBy($this->model->getKeyName(),'DESC')->get();
-            });
+            // $registros = Cache::tags('sindicancia')->remember('sindicancia'.$ano.':'.$this->unidade, $this->expiration, function() use ($ano) {
+                return $this->model->where([['sindicancia.cdopm','like',$this->unidade.'%'],['sjd_ref_ano','=',$ano]])->orderBy($this->model->getKeyName(),'DESC')->get();
+            // });
         }
         return $registros;
     } 
@@ -406,7 +406,7 @@ class SindicanciaRepository extends BaseRepository
                 ->groupBy('sjd_ref_ano')
                 ->first();
                 //insere no array para ficar 'ano' => 'qtd'
-                $sindicancia_ano = array_add($sindicancia_ano,$i, $qtd_sindicancia_ano['qtd']);
+                $sindicancia_ano = array_add($sindicancia_ano,$i, $qtd_sindicancia_ano['qtd'] ?? 0);
             }
         }
         

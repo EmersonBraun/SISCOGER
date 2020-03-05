@@ -97,6 +97,7 @@ class User extends Authenticatable
 		'id_sessao'
 
     ];
+    
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));

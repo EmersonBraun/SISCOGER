@@ -83,60 +83,60 @@
                     </v-label>
                 </v-tab-item>
                 <v-tab-item title="Envolvidos" idp="envolvidos">
-                    <v-proced-origem unique dproc="cj" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>           
-                    <v-acusado unique dproc="cj" idp="{{$proc['id_cj']}}" situacao="{{sistema('procSituacao','cj')}}" ></v-acusado><br>
-                    <v-vitima unique dproc="cj" idp="{{$proc['id_cj']}}" ></v-vitima><br>
+                    <v-proced-origem dproc="cj" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" show></v-proced-origem><br>           
+                    <v-acusado dproc="cj" idp="{{$proc['id_cj']}}" situacao="{{sistema('procSituacao','cj')}}" show ></v-acusado><br>
+                    <v-vitima dproc="cj" idp="{{$proc['id_cj']}}" show ></v-vitima><br>
                 </v-tab-item>
                 <v-tab-item title="Acórdãos" idp="acordaos">
                     <file-upload 
-                        unique
                         title="TJ-PR:"
                         name="tjpr_file"
                         dproc="cj" idp="{{$proc['id_cj']}}"
-                        :ext="['pdf']" 
+                        :ext="['pdf']"
+                        show 
                         ></file-upload>
     
                     <file-upload 
-                        unique
                         title="STJ/STF:"
                         name="stj_file"
                         dproc="cj" idp="{{$proc['id_cj']}}"
-                        :ext="['pdf']" 
+                        :ext="['pdf']"
+                        show 
                         ></file-upload>
                 </v-tab-item>
                 <v-tab-item title="Recursos" idp="recursos">
                     <file-upload 
-                        unique
                         title="Reconsideração de ato (solução):"
                         name="rec_ato_file"
                         dproc="cj" idp="{{$proc['id_cj']}}"
-                        :ext="['pdf']" 
+                        :ext="['pdf']"
+                        show 
                         >
                     </file-upload>
     
                     <file-upload 
-                        unique
                         title="Recurso ao Governador (solução):"
                         name="rec_gov_file"
                         dproc="cj" idp="{{$proc['id_cj']}}"
-                        :ext="['pdf']" 
+                        :ext="['pdf']"
+                        show 
                         >
                     </file-upload>
                 </v-tab-item>
                 <v-tab-item title="Membros" idp="membros">
-                    <v-membro unique dproc="cj" idp="{{$proc['id_cj']}}"></v-membro>
+                    <v-membro dproc="cj" idp="{{$proc['id_cj']}}" show></v-membro>
                 </v-tab-item>
                 <v-tab-item title="Movimentos" idp="movimentos">
-                    <v-movimento unique dproc="cj" idp="{{$proc['id_cj']}}"></v-movimento>
+                    <v-movimento dproc="cj" idp="{{$proc['id_cj']}}" show></v-movimento>
                 </v-tab-item>
-                <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
-                    <v-sobrestamento unique dproc="cj" idp="{{$proc['id_cj']}}" ></v-sobrestamento>
+                <v-tab-item title="Sobrestamentos" idp="sobrestamentos" show>
+                    <v-sobrestamento dproc="cj" idp="{{$proc['id_cj']}}" show ></v-sobrestamento>
                 </v-tab-item>
                 <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                     Encaminhamentos
                 </v-tab-item>
                 <v-tab-item title="Arquivo" idp="arquivo">
-                    <v-arquivo unique dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="cj" idp="{{$proc['id_cj']}}" ></v-arquivo>
+                    <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="cj" idp="{{$proc['id_cj']}}" show ></v-arquivo>
                 </v-tab-item>
             </div>
         </div>

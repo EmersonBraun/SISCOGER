@@ -80,63 +80,67 @@
                 </v-label>
             </v-tab-item>
             <v-tab-item title="Indiciados" idp="indiciados">
-                <v-proced-origem unique dproc="ipm" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>           
-                <v-acusado unique dproc="ipm" idp="{{$proc['id_ipm']}}" situacao="{{sistema('procSituacao','ipm')}}" reu></v-acusado><br>
+                <v-proced-origem dproc="ipm" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" show></v-proced-origem><br>           
+                <v-acusado dproc="ipm" idp="{{$proc['id_ipm']}}" situacao="{{sistema('procSituacao','ipm')}}" reu show></v-acusado><br>
             </v-tab-item>
             <v-tab-item title="Documentos" idp="documentos">
                 <file-upload 
                 title="PDF - Conclusão do encarregado:"
                 name="relato_enc_file"
-                unique dproc="ipm" idp="{{$proc['id_ipm']}}"
-                :ext="['pdf']" 
+                dproc="ipm" idp="{{$proc['id_ipm']}}"
+                :ext="['pdf']"
+                show 
                 ></file-upload>
-                <v-item-unique title="Data" proc="ipm" unique dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_enc_data"></v-item-unique>
-                <v-item-unique title="Conclusão do encarregado" proc="ipm" unique dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_enc"></v-item-unique>
+                <v-item-unique title="Data" proc="ipm" dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_enc_data" show></v-item-unique>
+                <v-item-unique title="Conclusão do encarregado" proc="ipm" dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_enc" show></v-item-unique>
                 <file-upload 
                 title="PDF - Solução do Cmt OPM:"
                 name="relato_cmtopm_file"
-                unique dproc="ipm" idp="{{$proc['id_ipm']}}"
-                :ext="['pdf']" 
+                dproc="ipm" idp="{{$proc['id_ipm']}}"
+                :ext="['pdf']"
+                show 
                 ></file-upload>
-                <v-item-unique title="Data" proc="ipm" unique dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtopm_data"></v-item-unique>
-                <v-item-unique title="Conclusão do Cmt. OPM" proc="ipm" unique dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtopm"></v-item-unique>
+                <v-item-unique title="Data" proc="ipm" dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtopm_data" show></v-item-unique>
+                <v-item-unique title="Conclusão do Cmt. OPM" proc="ipm" dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtopm" show></v-item-unique>
                 <file-upload 
                 title="PDF - Decisão do Cmt Geral:"
                 name="relato_cmtgeral_file"
-                unique dproc="ipm" idp="{{$proc['id_ipm']}}"
-                :ext="['pdf']" 
+                dproc="ipm" idp="{{$proc['id_ipm']}}"
+                :ext="['pdf']"
+                show 
                 ></file-upload>
-                <v-item-unique title="Data" proc="ipm" unique dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtgeral_data"></v-item-unique>
-                <v-item-unique title="Conclusão do Cmt. Geral" proc="ipm" unique dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtgeral"></v-item-unique>
+                <v-item-unique title="Data" proc="ipm" dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtgeral_data" show></v-item-unique>
+                <v-item-unique title="Conclusão do Cmt. Geral" proc="ipm" dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtgeral" show></v-item-unique>
                 
                 <file-upload 
                     title="Relatório complementar"
                     name="relcomplemtentar_file"
-                    unique dproc="ipm" idp="{{$proc['id_ipm']}}"
-                    :ext="['pdf']" 
+                    dproc="ipm" idp="{{$proc['id_ipm']}}"
+                    :ext="['pdf']"
+                    show 
 
                     >
                 </file-upload>
-                <v-item-unique title="Data" proc="ipm" unique dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtgeral_data"></v-item-unique>
+                <v-item-unique title="Data" proc="ipm" dproc="ipm" idp="{{$proc['id_ipm']}}" name="relato_cmtgeral_data" show></v-item-unique>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                <v-membro unique dproc="ipm" idp="{{$proc['id_ipm']}}"></v-membro>
+                <v-membro dproc="ipm" idp="{{$proc['id_ipm']}}" show></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento unique dproc="ipm" idp="{{$proc['id_ipm']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" ></v-movimento>
+                <v-movimento dproc="ipm" idp="{{$proc['id_ipm']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" show></v-movimento>
             </v-tab-item>
             <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
-                <v-sobrestamento unique dproc="ipm" idp="{{$proc['id_ipm']}}" ></v-sobrestamento>
+                <v-sobrestamento dproc="ipm" idp="{{$proc['id_ipm']}}" show></v-sobrestamento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Vajme" idp="vajme">
-                <v-item-unique title="Referência da Vajme (Nº do processo, vara)" unique dproc="ipm" idp="{{$proc['id_ipm']}}" name="vajme_ref"></v-item-unique>
-                <v-item-unique title="Referência da Justiça Comum (Nº do processo, vara)" unique dproc="ipm" idp="{{$proc['id_ipm']}}" name="justicacomum_ref"></v-item-unique>
+                <v-item-unique title="Referência da Vajme (Nº do processo, vara)" dproc="ipm" idp="{{$proc['id_ipm']}}" name="vajme_ref" show></v-item-unique>
+                <v-item-unique title="Referência da Justiça Comum (Nº do processo, vara)" dproc="ipm" idp="{{$proc['id_ipm']}}" name="justicacomum_ref" show></v-item-unique>
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" unique dproc="ipm" idp="{{$proc['id_ipm']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="ipm" idp="{{$proc['id_ipm']}}" show></v-arquivo>
             </v-tab-item>
         </div>
     </div>

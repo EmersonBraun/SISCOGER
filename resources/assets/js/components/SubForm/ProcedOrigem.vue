@@ -8,7 +8,7 @@
                 <h5><b>Procedimento(s) de Origem (apenas se houver)</b></h5> 
             </template>
         </div>
-        <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only">
+        <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only && !show">
             <div v-if="!add">
                 <template v-if="destino">
                     <button @click="add = !add" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Adicionar procedimento resultante</button>
@@ -86,7 +86,7 @@
                                 <th class="col-sm-2">Proc</th>
                                 <th class="col-sm-3">Ref.</th>
                                 <th class="col-sm-3">Ano</th>
-                                <th class="col-sm-2">Ver/Apagar Ligação</th>
+                                <th v-if="!show" class="col-sm-2">Ver/Apagar Ligação</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -103,7 +103,7 @@
                                 <td>
                                     {{ procedimento.origem_sjd_ref_ano }}
                                 </td>
-                                <td>
+                                <td v-if="!show">
                                     <div class="btn-group" role="group" aria-label="First group">
                                         <a type="button" @click="showProc(procedimento.origem_proc, procedimento.origem_sjd_ref, procedimento.origem_sjd_ref_ano)" target="_blanck" class="btn btn-primary" style="color: white">
                                             <i class="fa fa-eye"></i>
@@ -133,6 +133,7 @@
     export default {
         mixins: [mixin],
         props: {
+            show: {type: Boolean, default: false},
             unique: {type: Boolean, default: false},
             destino: {type: Boolean, default: false},
             idp: {type: String, default: ''},

@@ -53,12 +53,6 @@ Route::group(['as'=>'sjd.','prefix' =>'sjd','middleware' => ['role:admin']],func
 	Route::put('atualizar/{id}',['as' =>'update','uses'=>'Administracao\SjdController@update']);
 	Route::delete('remover/{id}',['as' =>'destroy','uses'=>'Administracao\SjdController@destroy']);
 });
-//Rotas do módulo Terms
-Route::group(['as'=>'term.','prefix' =>'termo'],function(){
-    Route::get('',['as' =>'index','uses'=>'Administracao\TermController@index']);
-	Route::get('criar/{id}',['as' =>'create','uses'=>'Administracao\TermController@create']);
-	Route::post('salvar/{id}',['as' =>'store','uses'=>'Administracao\TermController@store']);
-});
 //Rotas do módulo feriado
 Route::group(['as'=>'feriado.','prefix' =>'feriado'],function(){
 	Route::get('',['as' =>'index','uses'=>'Administracao\FeriadoController@index','middleware' => ['permission:listar-feriados']]);

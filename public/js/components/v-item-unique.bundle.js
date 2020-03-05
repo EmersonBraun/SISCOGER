@@ -1,4 +1,4 @@
-webpackJsonp([54],{
+webpackJsonp([55],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Form/ItemUnique.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -24,9 +24,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
+        show: { type: Boolean, default: false },
         title: { type: String, default: '' }, //titulo
         label: { type: String, default: '' },
         name: { type: String, default: '' },
@@ -130,73 +132,82 @@ var render = function() {
     _c("br"),
     _vm._v(" "),
     !_vm.view
-      ? _c("div", { staticClass: "input-group " }, [
-          _vm.status
-            ? _c("div", { staticClass: "input-group-prepend" }, [
-                _vm.status == "ok"
-                  ? _c("span", {
-                      staticClass: "input-group-text fa fa-check",
-                      staticStyle: { color: "green" }
-                    })
-                  : _c("span", {
-                      staticClass: "input-group-text fa fa-times",
-                      staticStyle: { color: "red" }
-                    })
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.input,
-                expression: "input"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { name: _vm.name, type: "text" },
-            domProps: { value: _vm.input },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.input = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "input-group-append" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-success",
-                attrs: { disabled: !_vm.input.length },
-                on: {
-                  click: function($event) {
-                    return _vm.insert()
-                  }
-                }
-              },
-              [_vm._v("Inserir/ Alterar")]
-            ),
+      ? _c(
+          "div",
+          { staticClass: "input-group " },
+          [
+            _vm.status && !_vm.show
+              ? _c("div", { staticClass: "input-group-prepend" }, [
+                  _vm.status == "ok"
+                    ? _c("span", {
+                        staticClass: "input-group-text fa fa-check",
+                        staticStyle: { color: "green" }
+                      })
+                    : _c("span", {
+                        staticClass: "input-group-text fa fa-times",
+                        staticStyle: { color: "red" }
+                      })
+                ])
+              : _vm._e(),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-danger",
-                attrs: { disabled: !_vm.input.length },
-                on: {
-                  click: function($event) {
-                    return _vm.remove()
+            _vm.show
+              ? _c("v-show", { attrs: { dado: _vm.input } })
+              : _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.input,
+                      expression: "input"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: _vm.name, type: "text" },
+                  domProps: { value: _vm.input },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.input = $event.target.value
+                    }
                   }
-                }
-              },
-              [_vm._v("Apagar")]
-            )
-          ])
-        ])
+                }),
+            _vm._v(" "),
+            !_vm.show
+              ? _c("div", { staticClass: "input-group-append" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      attrs: { disabled: !_vm.input.length },
+                      on: {
+                        click: function($event) {
+                          return _vm.insert()
+                        }
+                      }
+                    },
+                    [_vm._v("Inserir/ Alterar")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { disabled: !_vm.input.length },
+                      on: {
+                        click: function($event) {
+                          return _vm.remove()
+                        }
+                      }
+                    },
+                    [_vm._v("Apagar")]
+                  )
+                ])
+              : _vm._e()
+          ],
+          1
+        )
       : _vm._e(),
     _vm._v(" "),
     _c("p", [_vm._v(_vm._s(_vm.input || "Não Há "))])

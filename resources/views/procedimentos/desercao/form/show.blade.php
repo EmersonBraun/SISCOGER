@@ -15,29 +15,18 @@
 @stop
 
 @section('content')
-     <!-- Content Wrapper. Contains page content -->
-  <div class="">
-    <!-- Content Header (Page header) -->
-<section class="">
-    <div class="row">
-
-        <div class="col-xs-12">
-
-        <div class="box">{{-- formulário principal --}}
-            <div class="box-header">
-                {{-- sjd_ref / sjd_ref_ano --}}
-                <h4 class="box-title">N° * / {{date('Y')}} - Formulário principal</h4>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                        <i class="fa fa-plus"></i>
-                    </button> 
-                </div>             
-            </div>
-
-            <div class="box-body">
-
-            {!! Form::open(['url' => route('desercao.store')]) !!}
-                <v-acusado-unico unico dproc="desercao" idp="{{$proc['id_desercao'] ?? ''}}" situacao="{{sistema('procSituacao','desercao')}}" ></v-acusado-unico><br>
+<section>
+    <div class="nav-tabs-custom">
+        <v-tab-menu
+        :itens="[
+            {idp: 'principal',name: 'Principal', cls: 'active'},
+            {idp: 'movimentos',name: 'Movimentos'},
+            {idp: 'arquivo',name: 'Arquivo'},
+        ]">
+        </v-tab-menu>
+        <div class="tab-content">
+            <v-tab-item title="N° {{ $proc['sjd_ref'] }} / {{ $proc['sjd_ref_ano'] }} - Formulário principal" idp="principal" cls="active show">
+                <v-acusado-unico unico dproc="desercao" idp="{{$proc['id_desercao'] ?? ''}}" situacao="{{sistema('procSituacao','desercao')}}" show></v-acusado-unico><br>
                 <v-label label="cdopm" title="OPM">
                     <v-show dado="{{$proc['cdopm']}}"></v-show>
                 </v-label>
@@ -80,12 +69,21 @@
                 <v-label label="referenciavajme" title="Referencia VAJME (Nº do processo, vara)">
                     <v-show dado="{{$proc['referenciavajme']}}"></v-show>
                 </v-label>
-            </div>
+            </v-tab-item>
+            <v-tab-item title="Movimentos" idp="movimentos">
+                <v-movimento dproc="desercao" idp="{{$proc['id_desercao']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" show></v-movimento>
+            </v-tab-item>
+            <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
+                Encaminhamentos
+            </v-tab-item>
+            <v-tab-item title="Arquivo" idp="arquivo">
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="desercao" idp="{{$proc['id_desercao']}}" show></v-arquivo>
+            </v-tab-item>
         </div>
     </div>
-
-    </div>{{-- procedimento principal --}}
-  
+    <div class="content-footer">
+        <br>
+    </div>
 </section>
 @stop
 

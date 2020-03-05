@@ -3,7 +3,7 @@
         <div class="card-header">
             <h5><b>Arquivos</b></h5> 
         </div>
-        <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only">
+        <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only && !show">
             <div v-if="!add">
                 <button @click="add = !add" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Adicionar arquivo</button>
             </div>
@@ -73,7 +73,7 @@
                                 <th class="col-sm-1">N°/Letra</th>
                                 <th class="col-sm-3">Obs</th>
                                 <th class="col-sm-2">RG</th>
-                                <th class="col-sm-2">Ações</th>
+                                <th class="col-sm-2" v-if="!show">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -84,7 +84,7 @@
                                 <td>{{ arquivo.numero }}/{{ arquivo.letra }}</td>
                                 <td>{{ arquivo.obs }}</td>
                                 <td>{{ arquivo.rg }}</td>
-                                <td>
+                                <td v-if="!show">
                                     <div class="btn-group" role="group" aria-label="First group">
                                         <a v-if="canEdit" type="button"  @click="replaceArquivo(arquivo)" class="btn btn-success" style="color: white">
                                             <i class="fa fa-edit"></i>
@@ -113,6 +113,7 @@
         mixins: [mixin],
         components: {Datepicker},
         props: {
+            show: {type: Boolean, default: false},
             unique: {type: Boolean, default: false},
             idp: {type: String, default: ''},
             dproc: {type: String, default: ''},

@@ -3,7 +3,7 @@
         <div class="card-header">
             <h5><b>Vítima (apenas se houver)</b></h5> 
         </div>
-        <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only">
+        <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only && !show">
             <div v-if="!add">
                 <button @click="add = !add" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Adicionar vítima</button>
             </div>
@@ -118,7 +118,7 @@
                                 <th class="col-sm-1">Idade</th>
                                 <th class="col-sm-2">Escolaridade</th>
                                 <th class="col-sm-2" v-if="dproc == 'sai' || dproc == 'proc_outros'">Envolv.</th>
-                                <th class="col-sm-1">Apagar Vítima</th>
+                                <th v-if="!show" class="col-sm-1">Apagar Vítima</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -132,7 +132,7 @@
                                 <td>{{ vitima.idade }}</td>
                                 <td>{{ vitima.escolaridade }}</td>
                                 <td v-if="dproc == 'sai' || dproc == 'proc_outros'">{{ vitima.envolvimento }}</td>
-                                <td>
+                                <td v-if="!show">
                                     <div class="btn-group" role="group" aria-label="First group">
                                         <a type="button" @click="replaceVitima(vitima)" target="_blanck" class="btn btn-success" style="color: white">
                                             <i class="fa fa-edit"></i>
@@ -164,6 +164,7 @@
         mixins: [mixin],
         components: {TheMask},
         props: {
+            show: {type: Boolean, default: false},
             unique: {type: Boolean, default: false},
             idp: {type: String, default: ''},
             dproc: {type: String, default: ''},

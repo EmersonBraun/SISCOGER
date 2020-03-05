@@ -1,4 +1,4 @@
-webpackJsonp([7,33],{
+webpackJsonp([7,35],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Acusado.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -303,6 +303,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_js__["a" /* default */]],
     components: { TheMask: __WEBPACK_IMPORTED_MODULE_1_vue_the_mask__["TheMask"], Modal: __WEBPACK_IMPORTED_MODULE_2__Vuestrap_Modal__["Modal"] },
     props: {
+        show: { type: Boolean, default: false },
         unique: { type: Boolean, default: false },
         situacao: { type: String, default: '' },
         idp: { type: String, default: '' },
@@ -631,7 +632,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -828,7 +829,7 @@ var render = function() {
       2
     ),
     _vm._v(" "),
-    !_vm.only
+    !_vm.only && !_vm.show
       ? _c(
           "div",
           { staticClass: "card-body", class: _vm.add ? "bordaform" : "" },
@@ -1701,9 +1702,11 @@ var render = function() {
                                     ])
                                   ],
                               _vm._v(" "),
-                              _c("th", { staticClass: "col-sm-2" }, [
-                                _vm._v("Ver/Editar/Apagar")
-                              ])
+                              !_vm.show
+                                ? _c("th", { staticClass: "col-sm-2" }, [
+                                    _vm._v("Ver/Editar/Apagar")
+                                  ])
+                                : _vm._e()
                             ],
                             2
                           )
@@ -1810,76 +1813,86 @@ var render = function() {
                                       ])
                                     ],
                                 _vm._v(" "),
-                                _c("td", [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass: "btn-group",
-                                      attrs: {
-                                        role: "group",
-                                        "aria-label": "First group"
-                                      }
-                                    },
-                                    [
+                                !_vm.show
+                                  ? _c("td", [
                                       _c(
-                                        "a",
+                                        "div",
                                         {
-                                          staticClass: "btn btn-primary",
-                                          staticStyle: { color: "white" },
+                                          staticClass: "btn-group",
                                           attrs: {
-                                            type: "button",
-                                            target: "_blanck"
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.showPM(pm.rg)
-                                            }
-                                          }
-                                        },
-                                        [_c("i", { staticClass: "fa fa-eye" })]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass: "btn btn-success",
-                                          staticStyle: { color: "white" },
-                                          attrs: {
-                                            type: "button",
-                                            target: "_blanck"
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.replacePM(pm)
-                                            }
-                                          }
-                                        },
-                                        [_c("i", { staticClass: "fa fa-edit" })]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "a",
-                                        {
-                                          staticClass: "btn btn-danger",
-                                          staticStyle: { color: "white" },
-                                          attrs: { type: "button" },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.removePM(
-                                                pm.id_envolvido
-                                              )
-                                            }
+                                            role: "group",
+                                            "aria-label": "First group"
                                           }
                                         },
                                         [
-                                          _c("i", {
-                                            staticClass: "fa fa-trash"
-                                          })
+                                          _c(
+                                            "a",
+                                            {
+                                              staticClass: "btn btn-primary",
+                                              staticStyle: { color: "white" },
+                                              attrs: {
+                                                type: "button",
+                                                target: "_blanck"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.showPM(pm.rg)
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fa fa-eye"
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "a",
+                                            {
+                                              staticClass: "btn btn-success",
+                                              staticStyle: { color: "white" },
+                                              attrs: {
+                                                type: "button",
+                                                target: "_blanck"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.replacePM(pm)
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fa fa-edit"
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "a",
+                                            {
+                                              staticClass: "btn btn-danger",
+                                              staticStyle: { color: "white" },
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.removePM(
+                                                    pm.id_envolvido
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("i", {
+                                                staticClass: "fa fa-trash"
+                                              })
+                                            ]
+                                          )
                                         ]
                                       )
-                                    ]
-                                  )
-                                ])
+                                    ])
+                                  : _vm._e()
                               ],
                               2
                             )
@@ -1898,7 +1911,35 @@ var render = function() {
                 ? _c("div", { staticClass: "row bordaform" }, [
                     _c("div", { staticClass: "col-sm-12" }, [
                       _c("table", { staticClass: "table table-hover" }, [
-                        _vm._m(2),
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", { staticClass: "col-sm-2" }, [
+                              _vm._v("#")
+                            ]),
+                            _vm._v(" "),
+                            _c("th", { staticClass: "col-sm-2" }, [
+                              _vm._v("RG")
+                            ]),
+                            _vm._v(" "),
+                            _c("th", { staticClass: "col-sm-2" }, [
+                              _vm._v("Nome")
+                            ]),
+                            _vm._v(" "),
+                            _c("th", { staticClass: "col-sm-2" }, [
+                              _vm._v("Posto/Grad.")
+                            ]),
+                            _vm._v(" "),
+                            _c("th", { staticClass: "col-sm-2" }, [
+                              _vm._v("Resultado")
+                            ]),
+                            _vm._v(" "),
+                            !_vm.show
+                              ? _c("th", { staticClass: "col-sm-2" }, [
+                                  _vm._v("Ver/Editar/Apagar")
+                                ])
+                              : _vm._e()
+                          ])
+                        ]),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -1922,40 +1963,22 @@ var render = function() {
                                 _vm._v(_vm._s(_vm._f("vazio")(pm.resultado)))
                               ]),
                               _vm._v(" "),
-                              _c("td", [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "btn-group",
-                                    attrs: {
-                                      role: "group",
-                                      "aria-label": "First group"
-                                    }
-                                  },
-                                  [
+                              !_vm.show
+                                ? _c("td", [
                                     _c(
-                                      "a",
+                                      "div",
                                       {
-                                        staticClass: "btn btn-primary",
-                                        staticStyle: { color: "white" },
+                                        staticClass: "btn-group",
                                         attrs: {
-                                          type: "button",
-                                          target: "_blanck"
-                                        },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.showPM(pm.rg)
-                                          }
+                                          role: "group",
+                                          "aria-label": "First group"
                                         }
                                       },
-                                      [_c("i", { staticClass: "fa fa-eye" })]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm.canEdit
-                                      ? _c(
+                                      [
+                                        _c(
                                           "a",
                                           {
-                                            staticClass: "btn btn-success",
+                                            staticClass: "btn btn-primary",
                                             staticStyle: { color: "white" },
                                             attrs: {
                                               type: "button",
@@ -1963,44 +1986,68 @@ var render = function() {
                                             },
                                             on: {
                                               click: function($event) {
-                                                return _vm.replacePM(pm)
+                                                return _vm.showPM(pm.rg)
                                               }
                                             }
                                           },
                                           [
                                             _c("i", {
-                                              staticClass: "fa fa-edit"
+                                              staticClass: "fa fa-eye"
                                             })
                                           ]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.canDelete
-                                      ? _c(
-                                          "a",
-                                          {
-                                            staticClass: "btn btn-danger",
-                                            staticStyle: { color: "white" },
-                                            attrs: { type: "button" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.removePM(
-                                                  pm.id_envolvido,
-                                                  index
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fa fa-trash"
-                                            })
-                                          ]
-                                        )
-                                      : _vm._e()
-                                  ]
-                                )
-                              ])
+                                        ),
+                                        _vm._v(" "),
+                                        _vm.canEdit
+                                          ? _c(
+                                              "a",
+                                              {
+                                                staticClass: "btn btn-success",
+                                                staticStyle: { color: "white" },
+                                                attrs: {
+                                                  type: "button",
+                                                  target: "_blanck"
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.replacePM(pm)
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass: "fa fa-edit"
+                                                })
+                                              ]
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        _vm.canDelete
+                                          ? _c(
+                                              "a",
+                                              {
+                                                staticClass: "btn btn-danger",
+                                                staticStyle: { color: "white" },
+                                                attrs: { type: "button" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.removePM(
+                                                      pm.id_envolvido,
+                                                      index
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass: "fa fa-trash"
+                                                })
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  ])
+                                : _vm._e()
                             ])
                           }),
                           0
@@ -2009,7 +2056,7 @@ var render = function() {
                     ])
                   ])
                 : !_vm.pms.length && _vm.only
-                ? _c("div", [_vm._m(3)])
+                ? _c("div", [_vm._m(2)])
                 : _vm._e()
             ]
       ],
@@ -2029,26 +2076,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("h5", [_c("b", [_vm._v("Não há registros")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("RG")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Nome")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Posto/Grad.")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Resultado")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ver/Editar/Apagar")])
-      ])
-    ])
   },
   function() {
     var _vm = this

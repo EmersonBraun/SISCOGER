@@ -3,7 +3,7 @@
         <div class="card-header">
             <h5><b>Sobrestamento</b></h5> 
         </div>
-        <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only">
+        <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only && !show">
             <div v-if="!add">
                 <button @click="add = !add" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Adicionar sobrestamento</button>
             </div>
@@ -81,8 +81,10 @@
                                 <th class="col-sm-1">Término</th>
                                 <th class="col-sm-2">Doc.Término</th>
                                 <th class="col-sm-2">Motivo</th>
-                                <th v-if="isAdmin" class="col-sm-2">Editar/Apagar</th>
-                                <th v-else class="col-sm-2">Editar</th>
+                                <template v-if="!show">
+                                    <th v-if="isAdmin" class="col-sm-2">Editar/Apagar</th>
+                                    <th v-else class="col-sm-2">Editar</th>
+                                </template>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,7 +96,7 @@
                                 <td>{{ sobrestamento.doc_controle_termino}}</td>
                                 <td v-if="sobrestamento.motivo !== 'outros'">{{ sobrestamento.motivo }}</td>
                                 <td v-else>{{ sobrestamento.motivo_outros }}</td>
-                                <td>
+                                <td v-if="!show">
                                     <div class="btn-group" role="group" aria-label="First group">
                                         <a type="button"  @click="replaceSobrestamento(sobrestamento)" class="btn btn-success" style="color: white">
                                             <i class="fa fa-edit"></i> 
@@ -123,6 +125,7 @@
         mixins: [mixin],
         components: {Datepicker},
         props: {
+            show: {type: Boolean, default: false},
             unique: {type: Boolean, default: false},
             idp: {type: String, default: ''},
             dproc: {type: String, default: ''},

@@ -84,14 +84,14 @@
                 </v-label>
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">
-                <v-proced-origem unique dproc="exclusaojudicial" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>           
-                <v-acusado unique dproc="exclusaojudicial" idp="{{$proc['id_exclusaojudicail']}}" situacao="{{sistema('procSituacao','exclusaojudicail')}}" ></v-acusado><br>
+                <v-proced-origem dproc="exclusaojudicial" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" show></v-proced-origem><br>           
+                <v-acusado dproc="exclusaojudicial" idp="{{$proc['id_exclusaojudicail']}}" situacao="{{sistema('procSituacao','exclusaojudicail')}}" show></v-acusado><br>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo unique dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="exclusaojudicial" idp="{{$proc['id_exclusaojudicail']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="exclusaojudicial" idp="{{$proc['id_exclusaojudicail']}}" show></v-arquivo>
             </v-tab-item>
         </div>
     </div>

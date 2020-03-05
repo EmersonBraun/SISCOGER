@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-prisoes","1":"v-outras-denuncias","2":"v-classificacao","3":"v-toogle","4":"v-fdi","5":"file-upload","6":"v-label","7":"v-acusado","8":"v-tabs","9":"v-sobrestamento","10":"v-movimento","11":"v-arquivo","12":"v-prioritario","13":"v-restricoes","14":"v-memorando","15":"v-input","16":"v-aside","17":"v-tooltip","18":"v-popover","19":"v-select","20":"v-carousel","21":"crpms-chart","22":"procedimentos-chart","23":"efetivo-chart","24":"v-vitima","25":"v-reus","26":"v-proced-origem","27":"v-membro","28":"v-acusado-unico","29":"v-acusado-rg","30":"v-typeahead","31":"v-spinner","32":"v-alert","33":"v-modal","34":"v-dropdown","35":"v-tab-group","36":"v-radio","37":"v-panel","38":"v-datepicker","39":"v-checkbox","40":"v-alterar-password","41":"v-defensor","42":"form-ipm","43":"create-ipm","44":"v-tasks","45":"v-notifications","46":"v-messages","47":"v-tab-item","48":"v-info-box","49":"vue-simple-suggest","50":"v-show","51":"v-search-rg","52":"v-opm","53":"v-municipio","54":"v-item-unique","55":"v-it-objeto-procedimento","56":"v-hora","57":"v-estado","58":"v-ano","59":"v-tramite-opm","60":"v-tramite-coger","61":"v-sai","62":"v-punicao","63":"v-protocolo","64":"v-proc-outros","65":"v-principal","66":"v-objeto","67":"v-membro-fdi","68":"v-medalha","69":"v-log-fdi","70":"v-dependentes","71":"v-denuncias","72":"v-cautelas","73":"v-apresentacoes","74":"v-afastamentos","75":"v-outras-autoridades","76":"v-form-apresentacao-nota","77":"v-form-apresentacao","78":"v-dados-opm","79":"v-navbar","80":"v-form-validator","81":"v-form-group","82":"v-toggle-button","83":"v-progressbar","84":"v-affix","85":"v-tab","86":"v-slider","87":"v-option","88":"v-accordion","89":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
+/******/ 		script.src = __webpack_require__.p + "js/components/" + ({"0":"v-prisoes","1":"v-outras-denuncias","2":"file-upload","3":"v-classificacao","4":"v-toogle","5":"v-fdi","6":"v-label","7":"v-acusado","8":"v-tabs","9":"v-sobrestamento","10":"v-movimento","11":"v-arquivo","12":"v-prioritario","13":"v-restricoes","14":"create-ipm","15":"v-denuncias","16":"v-memorando","17":"v-input","18":"v-aside","19":"v-tooltip","20":"v-popover","21":"v-select","22":"v-carousel","23":"crpms-chart","24":"procedimentos-chart","25":"efetivo-chart","26":"v-vitima","27":"v-reus","28":"v-proced-origem","29":"v-membro","30":"v-acusado-unico","31":"v-acusado-rg","32":"v-typeahead","33":"v-spinner","34":"v-alert","35":"v-modal","36":"v-dropdown","37":"v-tab-group","38":"v-radio","39":"v-panel","40":"v-datepicker","41":"v-checkbox","42":"v-alterar-password","43":"v-defensor","44":"form-ipm","45":"v-tasks","46":"v-notifications","47":"v-messages","48":"v-tab-item","49":"v-info-box","50":"vue-simple-suggest","51":"v-show","52":"v-search-rg","53":"v-opm","54":"v-municipio","55":"v-item-unique","56":"v-it-objeto-procedimento","57":"v-hora","58":"v-estado","59":"v-ano","60":"v-tramite-opm","61":"v-tramite-coger","62":"v-sai","63":"v-punicao","64":"v-protocolo","65":"v-proc-outros","66":"v-principal","67":"v-objeto","68":"v-membro-fdi","69":"v-medalha","70":"v-log-fdi","71":"v-dependentes","72":"v-cautelas","73":"v-apresentacoes","74":"v-afastamentos","75":"v-outras-autoridades","76":"v-form-apresentacao-nota","77":"v-form-apresentacao","78":"v-dados-opm","79":"v-navbar","80":"v-form-validator","81":"v-form-group","82":"v-toggle-button","83":"v-progressbar","84":"v-affix","85":"v-tab","86":"v-slider","87":"v-option","88":"v-accordion","89":"v-tab-menu"}[chunkId]||chunkId) + ".bundle.js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -94474,83 +94474,83 @@ if (localStorage.getItem("session") == null) {
 Vue.component('v-app', __webpack_require__("./resources/assets/js/components/App.vue"));
 // IPM
 Vue.component('form-ipm', function () {
-  return __webpack_require__.e/* import() */(42).then(__webpack_require__.bind(null, "./resources/assets/js/components/Procedimentos/IPM/Form.vue"));
+  return __webpack_require__.e/* import() */(44).then(__webpack_require__.bind(null, "./resources/assets/js/components/Procedimentos/IPM/Form.vue"));
 });
 Vue.component('create-ipm', function () {
-  return __webpack_require__.e/* import() */(43).then(__webpack_require__.bind(null, "./resources/assets/js/components/Procedimentos/IPM/Create.vue"));
+  return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/components/Procedimentos/IPM/Create.vue"));
 });
 // upload de arquivos
 Vue.component('file-upload', function () {
-  return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/Arquivos/FileUpload.vue"));
+  return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/Arquivos/FileUpload.vue"));
 });
 // Usuários
 Vue.component('v-alterar-password', function () {
-  return __webpack_require__.e/* import() */(40).then(__webpack_require__.bind(null, "./resources/assets/js/components/User/AlterarPassword.vue"));
+  return __webpack_require__.e/* import() */(42).then(__webpack_require__.bind(null, "./resources/assets/js/components/User/AlterarPassword.vue"));
 });
 // formularios
 Vue.component('v-label', function () {
   return __webpack_require__.e/* import() */(6).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Label.vue"));
 });
 Vue.component('v-toogle', function () {
-  return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/ToogleForm.vue"));
+  return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/ToogleForm.vue"));
 });
 Vue.component('v-opm', function () {
-  return __webpack_require__.e/* import() */(52).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/OPM.vue"));
+  return __webpack_require__.e/* import() */(53).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/OPM.vue"));
 });
 Vue.component('v-estado', function () {
-  return __webpack_require__.e/* import() */(57).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Estados.vue"));
+  return __webpack_require__.e/* import() */(58).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Estados.vue"));
 });
 Vue.component('v-it-objeto-procedimento', function () {
-  return __webpack_require__.e/* import() */(55).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/ItObjetoProcedimento.vue"));
+  return __webpack_require__.e/* import() */(56).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/ItObjetoProcedimento.vue"));
 });
 Vue.component('v-prioritario', function () {
   return __webpack_require__.e/* import() */(12).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Prioritario.vue"));
 });
 Vue.component('v-municipio', function () {
-  return __webpack_require__.e/* import() */(53).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Municipio.vue"));
+  return __webpack_require__.e/* import() */(54).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Municipio.vue"));
 });
 Vue.component('v-ano', function () {
-  return __webpack_require__.e/* import() */(58).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Ano.vue"));
+  return __webpack_require__.e/* import() */(59).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Ano.vue"));
 });
 Vue.component('v-hora', function () {
-  return __webpack_require__.e/* import() */(56).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Hora.vue"));
+  return __webpack_require__.e/* import() */(57).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Hora.vue"));
 });
 Vue.component('v-show', function () {
-  return __webpack_require__.e/* import() */(50).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Show.vue"));
+  return __webpack_require__.e/* import() */(51).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/Show.vue"));
 });
 Vue.component('v-item-unique', function () {
-  return __webpack_require__.e/* import() */(54).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/ItemUnique.vue"));
+  return __webpack_require__.e/* import() */(55).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/ItemUnique.vue"));
 });
 Vue.component('vue-simple-suggest', function () {
-  return __webpack_require__.e/* import() */(49).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/SugestRg.vue"));
+  return __webpack_require__.e/* import() */(50).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/SugestRg.vue"));
 });
 Vue.component('v-search-rg', function () {
-  return __webpack_require__.e/* import() */(51).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/SearchRg.vue"));
+  return __webpack_require__.e/* import() */(52).then(__webpack_require__.bind(null, "./resources/assets/js/components/Form/SearchRg.vue"));
 });
 // subformulários
 Vue.component('v-proced-origem', function () {
-  return __webpack_require__.e/* import() */(26).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/ProcedOrigem.vue"));
+  return __webpack_require__.e/* import() */(28).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/ProcedOrigem.vue"));
 });
 Vue.component('v-reus', function () {
-  return __webpack_require__.e/* import() */(25).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Reus.vue"));
+  return __webpack_require__.e/* import() */(27).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Reus.vue"));
 });
 Vue.component('v-acusado', function () {
   return __webpack_require__.e/* import() */(7).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Acusado.vue"));
 });
 Vue.component('v-acusado-rg', function () {
-  return __webpack_require__.e/* import() */(29).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/AcusadoRg.vue"));
+  return __webpack_require__.e/* import() */(31).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/AcusadoRg.vue"));
 });
 Vue.component('v-acusado-unico', function () {
-  return __webpack_require__.e/* import() */(28).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/AcusadoUnico.vue"));
+  return __webpack_require__.e/* import() */(30).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/AcusadoUnico.vue"));
 });
 Vue.component('v-vitima', function () {
-  return __webpack_require__.e/* import() */(24).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Vitima.vue"));
+  return __webpack_require__.e/* import() */(26).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Vitima.vue"));
 });
 Vue.component('v-membro', function () {
-  return __webpack_require__.e/* import() */(27).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Membro.vue"));
+  return __webpack_require__.e/* import() */(29).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Membro.vue"));
 });
 Vue.component('v-defensor', function () {
-  return __webpack_require__.e/* import() */(41).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Defensor.vue"));
+  return __webpack_require__.e/* import() */(43).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Defensor.vue"));
 });
 Vue.component('v-movimento', function () {
   return __webpack_require__.e/* import() */(10).then(__webpack_require__.bind(null, "./resources/assets/js/components/SubForm/Movimento.vue"));
@@ -94563,13 +94563,13 @@ Vue.component('v-arquivo', function () {
 });
 // gráficos
 Vue.component('efetivo-chart', function () {
-  return __webpack_require__.e/* import() */(23).then(__webpack_require__.bind(null, "./resources/assets/js/components/Charts/Home/Efetivo.vue"));
+  return __webpack_require__.e/* import() */(25).then(__webpack_require__.bind(null, "./resources/assets/js/components/Charts/Home/Efetivo.vue"));
 });
 Vue.component('procedimentos-chart', function () {
-  return __webpack_require__.e/* import() */(22).then(__webpack_require__.bind(null, "./resources/assets/js/components/Charts/Home/Procedimentos.vue"));
+  return __webpack_require__.e/* import() */(24).then(__webpack_require__.bind(null, "./resources/assets/js/components/Charts/Home/Procedimentos.vue"));
 });
 Vue.component('crpms-chart', function () {
-  return __webpack_require__.e/* import() */(21).then(__webpack_require__.bind(null, "./resources/assets/js/components/Charts/Pendencias/Crpms.vue"));
+  return __webpack_require__.e/* import() */(23).then(__webpack_require__.bind(null, "./resources/assets/js/components/Charts/Pendencias/Crpms.vue"));
 });
 // FDI
 Vue.component('v-afastamentos', function () {
@@ -94582,55 +94582,55 @@ Vue.component('v-cautelas', function () {
   return __webpack_require__.e/* import() */(72).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Cautelas.vue"));
 });
 Vue.component('v-denuncias', function () {
-  return __webpack_require__.e/* import() */(71).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Denuncias.vue"));
+  return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Denuncias.vue"));
 });
 Vue.component('v-dependentes', function () {
-  return __webpack_require__.e/* import() */(70).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Dependentes.vue"));
+  return __webpack_require__.e/* import() */(71).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Dependentes.vue"));
 });
 Vue.component('v-fdi', function () {
-  return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/FDI.vue"));
+  return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/FDI.vue"));
 });
 Vue.component('v-punicao', function () {
-  return __webpack_require__.e/* import() */(62).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Punicao.vue"));
+  return __webpack_require__.e/* import() */(63).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Punicao.vue"));
 });
 Vue.component('v-log-fdi', function () {
-  return __webpack_require__.e/* import() */(69).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Log.vue"));
+  return __webpack_require__.e/* import() */(70).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Log.vue"));
 });
 Vue.component('v-membro-fdi', function () {
-  return __webpack_require__.e/* import() */(67).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Membro.vue"));
+  return __webpack_require__.e/* import() */(68).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Membro.vue"));
 });
 Vue.component('v-medalha', function () {
-  return __webpack_require__.e/* import() */(68).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Medalha.vue"));
+  return __webpack_require__.e/* import() */(69).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Medalha.vue"));
 });
 Vue.component('v-objeto', function () {
-  return __webpack_require__.e/* import() */(66).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Objeto.vue"));
+  return __webpack_require__.e/* import() */(67).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Objeto.vue"));
 });
 Vue.component('v-outras-denuncias', function () {
   return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/OutrasDenuncias.vue"));
 });
 Vue.component('v-principal', function () {
-  return __webpack_require__.e/* import() */(65).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Principal.vue"));
+  return __webpack_require__.e/* import() */(66).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Principal.vue"));
 });
 Vue.component('v-prisoes', function () {
   return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Prisoes.vue"));
 });
 Vue.component('v-protocolo', function () {
-  return __webpack_require__.e/* import() */(63).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Protocolo.vue"));
+  return __webpack_require__.e/* import() */(64).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Protocolo.vue"));
 });
 Vue.component('v-proc-outros', function () {
-  return __webpack_require__.e/* import() */(64).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/ProcOutros.vue"));
+  return __webpack_require__.e/* import() */(65).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/ProcOutros.vue"));
 });
 Vue.component('v-restricoes', function () {
   return __webpack_require__.e/* import() */(13).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Restricoes.vue"));
 });
 Vue.component('v-sai', function () {
-  return __webpack_require__.e/* import() */(61).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Sai.vue"));
+  return __webpack_require__.e/* import() */(62).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Sai.vue"));
 });
 Vue.component('v-tramite-coger', function () {
-  return __webpack_require__.e/* import() */(60).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/TramiteCoger.vue"));
+  return __webpack_require__.e/* import() */(61).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/TramiteCoger.vue"));
 });
 Vue.component('v-tramite-opm', function () {
-  return __webpack_require__.e/* import() */(59).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/TramiteOpm.vue"));
+  return __webpack_require__.e/* import() */(60).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/TramiteOpm.vue"));
 });
 // Apresentação
 Vue.component('v-dados-opm', function () {
@@ -94646,47 +94646,47 @@ Vue.component('v-form-apresentacao', function () {
   return __webpack_require__.e/* import() */(77).then(__webpack_require__.bind(null, "./resources/assets/js/components/Apresentacao/Form.vue"));
 });
 Vue.component('v-memorando', function () {
-  return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/components/Apresentacao/Memorando.vue"));
+  return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/Apresentacao/Memorando.vue"));
 });
 // Layout
 Vue.component('v-tab-item', function () {
-  return __webpack_require__.e/* import() */(47).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabItem.vue"));
+  return __webpack_require__.e/* import() */(48).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabItem.vue"));
 });
 Vue.component('v-tab-menu', function () {
   return __webpack_require__.e/* import() */(89).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TabMenu.vue"));
 });
 Vue.component('v-info-box', function () {
-  return __webpack_require__.e/* import() */(48).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/Home/InfoBox.vue"));
+  return __webpack_require__.e/* import() */(49).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/Home/InfoBox.vue"));
 });
 Vue.component('v-messages', function () {
-  return __webpack_require__.e/* import() */(46).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TopMenu/Messages.vue"));
+  return __webpack_require__.e/* import() */(47).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TopMenu/Messages.vue"));
 });
 Vue.component('v-notifications', function () {
-  return __webpack_require__.e/* import() */(45).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TopMenu/Notifications.vue"));
+  return __webpack_require__.e/* import() */(46).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TopMenu/Notifications.vue"));
 });
 Vue.component('v-tasks', function () {
-  return __webpack_require__.e/* import() */(44).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TopMenu/Tasks.vue"));
+  return __webpack_require__.e/* import() */(45).then(__webpack_require__.bind(null, "./resources/assets/js/components/Layout/TopMenu/Tasks.vue"));
 });
 // Punicao
 Vue.component('v-classificacao', function () {
-  return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/components/Punicao/Classificacao.vue"));
+  return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/components/Punicao/Classificacao.vue"));
 });
 //VUESTRAP
 // Revisados
 Vue.component('v-datepicker', function () {
-  return __webpack_require__.e/* import() */(38).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Datepicker.vue"));
+  return __webpack_require__.e/* import() */(40).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Datepicker.vue"));
 });
 Vue.component('v-select', function () {
-  return __webpack_require__.e/* import() */(19).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Select.vue"));
+  return __webpack_require__.e/* import() */(21).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Select.vue"));
 });
 Vue.component('v-checkbox', function () {
-  return __webpack_require__.e/* import() */(39).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Checkbox.vue"));
+  return __webpack_require__.e/* import() */(41).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Checkbox.vue"));
 });
 Vue.component('v-tab', function () {
   return __webpack_require__.e/* import() */(85).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Tab.vue"));
 });
 Vue.component('v-tab-group', function () {
-  return __webpack_require__.e/* import() */(35).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/TabGroup.vue"));
+  return __webpack_require__.e/* import() */(37).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/TabGroup.vue"));
 });
 Vue.component('v-tabs', function () {
   return __webpack_require__.e/* import() */(8).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Tabs.vue"));
@@ -94699,17 +94699,17 @@ Vue.component('v-affix', function () {
   return __webpack_require__.e/* import() */(84).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Affix.vue"));
 });
 Vue.component('v-alert', function () {
-  return __webpack_require__.e/* import() */(32).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Alert.vue"));
+  return __webpack_require__.e/* import() */(34).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Alert.vue"));
 });
 Vue.component('v-aside', function () {
-  return __webpack_require__.e/* import() */(16).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Aside.vue"));
+  return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Aside.vue"));
 });
 // Vue.component('v-button-group', () => import(/* webpackChunkName: "v-button-group" */'./components/Vuestrap/ButtonGroup.vue'));
 Vue.component('v-carousel', function () {
-  return __webpack_require__.e/* import() */(20).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Carousel.vue"));
+  return __webpack_require__.e/* import() */(22).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Carousel.vue"));
 });
 Vue.component('v-dropdown', function () {
-  return __webpack_require__.e/* import() */(34).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Dropdown.vue"));
+  return __webpack_require__.e/* import() */(36).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Dropdown.vue"));
 });
 Vue.component('v-form-group', function () {
   return __webpack_require__.e/* import() */(81).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/FormGroup.vue"));
@@ -94718,10 +94718,10 @@ Vue.component('v-form-validator', function () {
   return __webpack_require__.e/* import() */(80).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/FormValidator.vue"));
 });
 Vue.component('v-input', function () {
-  return __webpack_require__.e/* import() */(15).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Input.vue"));
+  return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Input.vue"));
 });
 Vue.component('v-modal', function () {
-  return __webpack_require__.e/* import() */(33).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Modal.vue"));
+  return __webpack_require__.e/* import() */(35).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Modal.vue"));
 });
 Vue.component('v-navbar', function () {
   return __webpack_require__.e/* import() */(79).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Navbar.vue"));
@@ -94730,31 +94730,31 @@ Vue.component('v-option', function () {
   return __webpack_require__.e/* import() */(87).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Option.vue"));
 });
 Vue.component('v-panel', function () {
-  return __webpack_require__.e/* import() */(37).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Panel.vue"));
+  return __webpack_require__.e/* import() */(39).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Panel.vue"));
 });
 Vue.component('v-popover', function () {
-  return __webpack_require__.e/* import() */(18).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Popover.vue"));
+  return __webpack_require__.e/* import() */(20).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Popover.vue"));
 });
 Vue.component('v-progressbar', function () {
   return __webpack_require__.e/* import() */(83).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Progressbar.vue"));
 });
 Vue.component('v-radio', function () {
-  return __webpack_require__.e/* import() */(36).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Radio.vue"));
+  return __webpack_require__.e/* import() */(38).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Radio.vue"));
 });
 Vue.component('v-slider', function () {
   return __webpack_require__.e/* import() */(86).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Slider.vue"));
 });
 Vue.component('v-spinner', function () {
-  return __webpack_require__.e/* import() */(31).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Spinner.vue"));
+  return __webpack_require__.e/* import() */(33).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Spinner.vue"));
 });
 Vue.component('v-toggle-button', function () {
   return __webpack_require__.e/* import() */(82).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/ToggleButton.vue"));
 });
 Vue.component('v-tooltip', function () {
-  return __webpack_require__.e/* import() */(17).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Tooltip.vue"));
+  return __webpack_require__.e/* import() */(19).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Tooltip.vue"));
 });
 Vue.component('v-typeahead', function () {
-  return __webpack_require__.e/* import() */(30).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Typeahead.vue"));
+  return __webpack_require__.e/* import() */(32).then(__webpack_require__.bind(null, "./resources/assets/js/components/Vuestrap/Typeahead.vue"));
 });
 
 /***/ }),
@@ -94822,13 +94822,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 Vue.filter('date_br', function (value) {
     if (value) {
-        return __WEBPACK_IMPORTED_MODULE_0_moment___default()(String(value)).format('MM/DD/YYYY');
+        return __WEBPACK_IMPORTED_MODULE_0_moment___default()(String(value)).format('DD/MM/YYYY');
     }
 });
 
 Vue.filter('date_br_hr', function (value) {
     if (value) {
-        return __WEBPACK_IMPORTED_MODULE_0_moment___default()(String(value)).format('MM/DD/YYYY H:mm:ss');
+        return __WEBPACK_IMPORTED_MODULE_0_moment___default()(String(value)).format('DD/MM/YYYY H:mm:ss');
     }
 });
 
@@ -94906,6 +94906,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         };
     },
 
+    computed: {
+        today: function today() {
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+
+            today = dd + '/' + mm + '/' + yyyy;
+            return today;
+        }
+    },
     methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapActions */])('dashboard', ['changeAlert', 'toogleSpinner']), {
         getSessionData: function getSessionData() {
             return JSON.parse(sessionStorage.getItem("session"));

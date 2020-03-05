@@ -381,9 +381,9 @@
         @if(hasPermissionTo('listar-sjds'))
         <li class=""><a href="{{ route('sjd.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Controle SJD</span></a></li>
         @endif
-        @if(hasPermissionTo('listar-termos'))
+        {{-- @if(hasPermissionTo('listar-termos'))
         <li class=""><a href="{{ route('term.index')}}"><i class="fa fa-fw fa-circle-o "></i><span>Termos de compromisso</span></a></li>
-        @endif
+        @endif --}}
         @if(hasPermissionTo('listar-dados-unidade'))
         <li class=""><a href="{{ route('autoridadeom.comando')}}"><i class="fa fa-fw fa-circle-o "></i><span>Unidades</span></a></li>
         @endif

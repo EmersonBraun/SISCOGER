@@ -1,4 +1,4 @@
-webpackJsonp([26],{
+webpackJsonp([28],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/ProcedOrigem.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -143,6 +143,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_js__["a" /* default */]],
     props: {
+        show: { type: Boolean, default: false },
         unique: { type: Boolean, default: false },
         destino: { type: Boolean, default: false },
         idp: { type: String, default: '' },
@@ -284,7 +285,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -306,7 +307,7 @@ var render = function() {
       2
     ),
     _vm._v(" "),
-    !_vm.only
+    !_vm.only && !_vm.show
       ? _c(
           "div",
           { staticClass: "card-body", class: _vm.add ? "bordaform" : "" },
@@ -714,7 +715,23 @@ var render = function() {
         ? _c("div", { staticClass: "row bordaform" }, [
             _c("div", { staticClass: "col-sm-12" }, [
               _c("table", { staticClass: "table table-hover" }, [
-                _vm._m(2),
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-2" }, [_vm._v("Proc")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-3" }, [_vm._v("Ref.")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-3" }, [_vm._v("Ano")]),
+                    _vm._v(" "),
+                    !_vm.show
+                      ? _c("th", { staticClass: "col-sm-2" }, [
+                          _vm._v("Ver/Apagar Ligação")
+                        ])
+                      : _vm._e()
+                  ])
+                ]),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -754,57 +771,62 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "btn-group",
-                            attrs: {
-                              role: "group",
-                              "aria-label": "First group"
-                            }
-                          },
-                          [
+                      !_vm.show
+                        ? _c("td", [
                             _c(
-                              "a",
+                              "div",
                               {
-                                staticClass: "btn btn-primary",
-                                staticStyle: { color: "white" },
-                                attrs: { type: "button", target: "_blanck" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.showProc(
-                                      procedimento.origem_proc,
-                                      procedimento.origem_sjd_ref,
-                                      procedimento.origem_sjd_ref_ano
-                                    )
-                                  }
+                                staticClass: "btn-group",
+                                attrs: {
+                                  role: "group",
+                                  "aria-label": "First group"
                                 }
                               },
-                              [_c("i", { staticClass: "fa fa-eye" })]
-                            ),
-                            _vm._v(" "),
-                            _vm.canDelete
-                              ? _c(
+                              [
+                                _c(
                                   "a",
                                   {
-                                    staticClass: "btn btn-danger",
+                                    staticClass: "btn btn-primary",
                                     staticStyle: { color: "white" },
-                                    attrs: { type: "button" },
+                                    attrs: {
+                                      type: "button",
+                                      target: "_blanck"
+                                    },
                                     on: {
                                       click: function($event) {
-                                        return _vm.removeProc(
-                                          procedimento.id_ligacao
+                                        return _vm.showProc(
+                                          procedimento.origem_proc,
+                                          procedimento.origem_sjd_ref,
+                                          procedimento.origem_sjd_ref_ano
                                         )
                                       }
                                     }
                                   },
-                                  [_c("i", { staticClass: "fa fa-trash" })]
-                                )
-                              : _vm._e()
-                          ]
-                        )
-                      ])
+                                  [_c("i", { staticClass: "fa fa-eye" })]
+                                ),
+                                _vm._v(" "),
+                                _vm.canDelete
+                                  ? _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-danger",
+                                        staticStyle: { color: "white" },
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.removeProc(
+                                              procedimento.id_ligacao
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-trash" })]
+                                    )
+                                  : _vm._e()
+                              ]
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   }),
                   0
@@ -813,7 +835,7 @@ var render = function() {
             ])
           ])
         : !_vm.procedimentos.length && _vm.only
-        ? _c("div", [_vm._m(3)])
+        ? _c("div", [_vm._m(2)])
         : _vm._e()
     ])
   ])
@@ -833,24 +855,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("h5", [
       _c("b", [_vm._v("Procedimento(s) de Origem (apenas se houver)")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Proc")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-3" }, [_vm._v("Ref.")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-3" }, [_vm._v("Ano")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ver/Apagar Ligação")])
-      ])
     ])
   },
   function() {

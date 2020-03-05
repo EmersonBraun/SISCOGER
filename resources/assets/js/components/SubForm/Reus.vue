@@ -137,6 +137,7 @@
         mixins: [mixin],
         components: {TheMask},
         props: {
+            show: {type: Boolean, default: false},
             unique: {type: Boolean, default: false},
             situacao: {type: String, default: ''},
             idp: {type: String, default: ''},

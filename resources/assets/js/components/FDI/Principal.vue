@@ -52,7 +52,7 @@
                     </div>
                     <div class="col-md-5 border">
                         <p><strong>Data de nascimento:</strong></p>
-                        <p>{{ pm.NASCIMENTO || pm.nascimento | date_br }} ({{ pm.IDADE }} Anos)</p>
+                        <p>{{ pm.NASCIMENTO || pm.nascimento| date_br }} ({{ pm.IDADE }} Anos)</p>
                     </div>
                     <div class="col-md-5 border">
                         <p><strong>Classificacao Meta4:</strong></p>
@@ -120,6 +120,7 @@
                 return `http://10.47.1.8/sispics/fotos/${this.pm.RG}.JPG`
             }
         },
+        
         methods: {
             listDadosAdicionais(){
                 let urlIndex = `${this.$root.baseUrl}api/fdi/dadosAdicionais/${this.pm.RG}`;

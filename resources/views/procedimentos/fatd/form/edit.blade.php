@@ -50,7 +50,7 @@
                     <v-label label="doc_origem_txt" title="Documentos de origem">
                         {{ Form::text('doc_origem_txt', null, ['class' => 'form-control ']) }}
                     </v-label>
-                    <v-label label="fato_data" title="Data da fato" icon="fa fa-calendar">
+                    <v-label label="fato_data" title="Data do fato" icon="fa fa-calendar">
                         <v-datepicker name="fato_data" placeholder="dd/mm/aaaa" clear-button value="{{$proc['fato_data'] ?? ''}}"></v-datepicker>
                     </v-label>
                     <v-label label="cdopm" title="OPM" error="{{$errors->first('cdopm')}}">

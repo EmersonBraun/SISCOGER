@@ -36,7 +36,7 @@
             }
         },
         mounted(){
-            this.listDenuncias()
+            this.list()
         },
         computed: {
             urlBase() {
@@ -44,15 +44,15 @@
             }
         },
         methods: {
-            listDenuncias(){
-                let urlIndex = `${this.$root.baseUrl}api/fdi/subJudice/${this.rg}`;
+            async list(){
+                const urlIndex = `${this.$root.baseUrl}api/fdi/subJudice/${this.rg}`;
                 if(this.rg){
-                    axios
-                    .get(urlIndex)
-                    .then((response) => {
+                     try {
+                        const response = await axios.get(urlIndex)
                         this.denuncias = response.data
-                    })
-                    .catch(error => console.log(error));
+                    } catch (error) {
+                        console.log(error)
+                    }
                 }
             }
         }

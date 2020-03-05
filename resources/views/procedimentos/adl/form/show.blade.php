@@ -92,102 +92,100 @@
                 </v-label>
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">
-                <v-proced-origem unique></v-proced-origem><br>           
+                <v-proced-origem dproc="adl" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" show></v-proced-origem><br>           
                 <v-acusado unique idp="{{$proc['id_adl']}}" situacao="{{sistema('procSituacao','adl')}}" ></v-acusado><br>
                 <v-vitima unique idp="{{$proc['id_adl']}}" ></v-vitima><br>
             </v-tab-item>
+            <v-tab-item title="Envolvidos" idp="envolvidos">
+                <v-proced-origem dproc="adl" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>           
+                <v-acusado dproc="adl" idp="{{$proc['id_adl']}}" situacao="{{sistema('procSituacao','adl')}}" ></v-acusado><br>
+                <v-vitima dproc="adl" idp="{{$proc['id_adl']}}" ></v-vitima><br>
+            </v-tab-item>
             <v-tab-item title="Documentos" idp="documentos">
                 <file-upload 
-                unique
-                title="Libelo:"
-                name="libelo_file"
-                proc="adl"
-                idp="{{$proc['id_adl']}}"
-                :ext="['pdf']" 
-                :candelete="{{session('is_admin')}}"
-                ></file-upload>
+                        title="Libelo:"
+                        name="libelo_file"
+                        dproc="adl"
+                        idp="{{$proc['id_adl']}}"
+                        :ext="['pdf']"
+                        show 
+                        ></file-upload>
 
                 <file-upload 
-                    unique
                     title="Parecer:"
                     name="parecer_file"
-                    proc="adl"
+                    dproc="adl"
                     idp="{{$proc['id_adl']}}"
-                    :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
+                    :ext="['pdf']"
+                    show
                     ></file-upload>
-                <v-item-unique title="Parecer comissão" proc="adl" idp="{{$proc['id_adl']}}" name="parecer_comissao"></v-item-unique>
+                <v-item-unique title="Parecer comissão" dproc="adl" idp="{{$proc['id_adl']}}" name="parecer_comissao"></v-item-unique>
 
                 <file-upload 
-                    unique
                     title="Parecer CMT Geral:"
                     name="decisao_file"
-                    proc="adl"
+                    dproc="adl"
                     idp="{{$proc['id_adl']}}"
-                    :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
+                    :ext="['pdf']"
+                    show
                     ></file-upload>
-                <v-item-unique title="Parecer CMT Geral" proc="adl" idp="{{$proc['id_adl']}}" name="parecer_cmtgeral"></v-item-unique>
+                <v-item-unique title="Parecer CMT Geral" dproc="adl" idp="{{$proc['id_adl']}}" name="parecer_cmtgeral"></v-item-unique>
             </v-tab-item>
             <v-tab-item title="Recursos" idp="recursos">
                 <file-upload 
-                    unique
                     title="Reconsideração de ato (solução):"
                     name="rec_ato_file"
-                    proc="adl"
+                    dproc="adl"
                     idp="{{$proc['id_adl']}}"
-                    :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
+                    :ext="['pdf']"
+                    show
                     >
                 </file-upload>
 
                 <file-upload 
-                    unique
                     title="Recurso CMT OPM:"
                     name="rec_cmt_file"
-                    proc="adl"
+                    dproc="adl"
                     idp="{{$proc['id_adl']}}"
-                    :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
+                    :ext="['pdf']"
+                    show
                     >
                 </file-upload>
 
                 <file-upload 
-                    unique
                     title="Recurso CMT CRPM:"
                     name="rec_crpm_file"
-                    proc="adl"
+                    dproc="adl"
                     idp="{{$proc['id_adl']}}"
-                    :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
+                    :ext="['pdf']"
+                    show
                     >
                 </file-upload>
 
                 <file-upload 
-                    unique
                     title="Recurso CMT Geral:"
                     name="rec_cg_file"
-                    proc="adl"
+                    dproc="adl"
                     idp="{{$proc['id_adl']}}"
-                    :ext="['pdf']" 
-                    :candelete="{{session('is_admin')}}"
+                    :ext="['pdf']"
+                    show
                     >
                 </file-upload>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                <v-membro unique idp="{{$proc['id_adl']}}"></v-membro>
+                <v-membro dproc='adl' idp="{{$proc['id_adl']}}" show></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento unique idp="{{$proc['id_adl']}}" opm="{{session('opm_descricao')}}" rg="{{session('rg')}}" :admin="{{session('is_admin')}}"></v-movimento>
+                <v-movimento dproc='adl' idp="{{$proc['id_adl']}}" show></v-movimento>
             </v-tab-item>
-            <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
-                <v-sobrestamento unique idp="{{$proc['id_adl']}}" ></v-sobrestamento>
+            <v-tab-item title="Sobrestamentos" idp="sobrestamentos" >
+                <v-sobrestamento dproc='adl' idp="{{$proc['id_adl']}}" show ></v-sobrestamento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo unique idp="{{$proc['id_adl']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc='adl' idp="{{$proc['id_adl']}}" show ></v-arquivo>
             </v-tab-item>
         </div>
     </div>
@@ -206,4 +204,3 @@
 @section('js')
 @include('vendor.adminlte.includes.vue')
 @stop
-

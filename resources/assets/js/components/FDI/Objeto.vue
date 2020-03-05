@@ -15,7 +15,7 @@
                     <td>{{ objeto.procedimento | toUpper }} {{ objeto.sjd_ref }} / {{ objeto.sjd_ref_ano }}</td>
                     <td>{{ objeto.cdopm }}</td>
                     <td>{{ objeto.situacao }} <template v-if="objeto.rg_sustituto">Substituído</template></td>
-                    <td>{{ objeto.id_andamento }}</td>
+                    <td>{{ objeto.id_andamentocoger }}</td>
                     <td>
                         <span>
                             <a class="btn btn-info" :href="urlEdit(objeto.procedimento, objeto.sjd_ref, objeto.sjd_ref_ano)">
@@ -60,7 +60,7 @@
             },
             urlEdit(proc, ref, ano) {
                 let urlBase = this.$root.baseUrl
-                return `${urlBase}${proc}/editar/${ref}/${ano}`
+                return `${urlBase}${proc}/editar/${ref}`
             }
         }
     }

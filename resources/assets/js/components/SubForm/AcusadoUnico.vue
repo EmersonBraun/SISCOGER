@@ -23,7 +23,7 @@
                             <label for="resultado">Resultado</label><br>
                             <p>{{ pm.situacao }}</p>
                         </div>
-                        <div v-if="!only" class="col-lg-2 col-md-2 col-xs-2">
+                        <div v-if="!only && !show" class="col-lg-2 col-md-2 col-xs-2">
                             <label>Editar</label><br>
                             <a class="btn btn-success btn-block" @click="replacePM(pm)"><i class="fa fa-edit" style="color: white"></i></a>
                         </div>
@@ -38,19 +38,23 @@
                         <input type="hidden" :name="'id_'+dproc" :value="idp">
                         <div class="col-lg-3 col-md-3 col-xs-3">
                             <label for="rg">RG</label><br>
-                            <the-mask mask="############" class="form-control" v-model="rg" type="text" maxlength="12" name="rg" placeholder="Nº"/>
+                            <v-show v-if="show" :dado="rg"></v-show>
+                            <the-mask v-else mask="############" class="form-control" v-model="rg" type="text" maxlength="12" name="rg" placeholder="Nº"/>
                         </div>
                         <div class="col-lg-3 col-md-3 col-xs-3">
                             <label for="nome">Nome</label><br>
-                            <input class="numero form-control" :value="nome" type="text" name="nome" readonly>
+                            <v-show v-if="show" :dado="nome"></v-show>
+                            <input v-else class="numero form-control" :value="nome" type="text" name="nome" readonly>
                         </div>
                         <div class="col-lg-2 col-md-2 col-xs-2">
                             <label for="cargo">Posto/Graduação</label><br>
-                            <input class="numero form-control" :value="cargo" type="text" name="cargo" readonly>
+                            <v-show v-if="show" :dado="cargo"></v-show>
+                            <input v-else class="numero form-control" :value="cargo" type="text" name="cargo" readonly>
                         </div>
                         <div class="col-lg-2 col-md-2 col-xs-2">
                             <label for="resultado">Resultado</label><br>
-                            <template v-if="situacao">
+                            <v-show v-if="show" :dado="situacao"></v-show>
+                            <template v-if="situacao && !show">
                                 <input class="numero form-control" :value="situacao" type="text" name="situacao" readonly>
                             </template>
                             <template v-else>
@@ -66,7 +70,7 @@
                             </template>
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs-1">
-                            <template v-if="!edit">
+                            <template v-if="!edit && !show">
                                 <label>Cancelar</label><br>
                                 <a class="btn btn-danger btn-block" @click="clear(true)"><i class="fa fa-times" style="color: white"></i></a>
                             </template>
@@ -76,7 +80,7 @@
                             </template>
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs-1">
-                             <template v-if="!edit">
+                             <template v-if="!edit && !show">
                                 <label>Editar</label><br>
                                 <a class="btn btn-success btn-block" :disabled="!resultado" @click="editPM"><i class="fa fa-plus" style="color: white"></i></a>
                             </template>
@@ -100,6 +104,7 @@
         components: {TheMask},
         props: {
             unique: {type: Boolean, default: false},
+            show: {type: Boolean, default: false},
             situacao: {type: String, default: ''},
             idp: {type: String, default: ''},
             dproc: {type: String, default: ''},

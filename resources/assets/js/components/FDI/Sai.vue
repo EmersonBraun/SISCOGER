@@ -1,8 +1,8 @@
 <template>
-    <v-tab header="SAI" :badge="sai.lenght">
+    <v-tab header="SAI" :badge="sai.length">
         <table class="table table-striped">
         <tbody>
-            <template v-if="sai.lenght">
+            <template v-if="sai.length">
                 <tr>
                     <th>N° SAI</th>
                     <th>Motivo abertura</th>

@@ -1,4 +1,4 @@
-webpackJsonp([28],{
+webpackJsonp([30],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/AcusadoUnico.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -102,6 +102,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -110,6 +114,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { TheMask: __WEBPACK_IMPORTED_MODULE_1_vue_the_mask__["TheMask"] },
     props: {
         unique: { type: Boolean, default: false },
+        show: { type: Boolean, default: false },
         situacao: { type: String, default: '' },
         idp: { type: String, default: '' },
         dproc: { type: String, default: '' }
@@ -250,7 +255,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -310,7 +315,7 @@ var render = function() {
                         _c("p", [_vm._v(_vm._s(pm.situacao))])
                       ]),
                       _vm._v(" "),
-                      !_vm.only
+                      !_vm.only && !_vm.show
                         ? _c(
                             "div",
                             { staticClass: "col-lg-2 col-md-2 col-xs-2" },
@@ -362,50 +367,76 @@ var render = function() {
                         _c("label", { attrs: { for: "rg" } }, [_vm._v("RG")]),
                         _c("br"),
                         _vm._v(" "),
-                        _c("the-mask", {
-                          staticClass: "form-control",
-                          attrs: {
-                            mask: "############",
-                            type: "text",
-                            maxlength: "12",
-                            name: "rg",
-                            placeholder: "Nº"
-                          },
-                          model: {
-                            value: _vm.rg,
-                            callback: function($$v) {
-                              _vm.rg = $$v
-                            },
-                            expression: "rg"
-                          }
-                        })
+                        _vm.show
+                          ? _c("v-show", { attrs: { dado: _vm.rg } })
+                          : _c("the-mask", {
+                              staticClass: "form-control",
+                              attrs: {
+                                mask: "############",
+                                type: "text",
+                                maxlength: "12",
+                                name: "rg",
+                                placeholder: "Nº"
+                              },
+                              model: {
+                                value: _vm.rg,
+                                callback: function($$v) {
+                                  _vm.rg = $$v
+                                },
+                                expression: "rg"
+                              }
+                            })
                       ],
                       1
                     ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-lg-3 col-md-3 col-xs-3" }, [
-                      _c("label", { attrs: { for: "nome" } }, [_vm._v("Nome")]),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "numero form-control",
-                        attrs: { type: "text", name: "nome", readonly: "" },
-                        domProps: { value: _vm.nome }
-                      })
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "col-lg-3 col-md-3 col-xs-3" },
+                      [
+                        _c("label", { attrs: { for: "nome" } }, [
+                          _vm._v("Nome")
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm.show
+                          ? _c("v-show", { attrs: { dado: _vm.nome } })
+                          : _c("input", {
+                              staticClass: "numero form-control",
+                              attrs: {
+                                type: "text",
+                                name: "nome",
+                                readonly: ""
+                              },
+                              domProps: { value: _vm.nome }
+                            })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-lg-2 col-md-2 col-xs-2" }, [
-                      _c("label", { attrs: { for: "cargo" } }, [
-                        _vm._v("Posto/Graduação")
-                      ]),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("input", {
-                        staticClass: "numero form-control",
-                        attrs: { type: "text", name: "cargo", readonly: "" },
-                        domProps: { value: _vm.cargo }
-                      })
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "col-lg-2 col-md-2 col-xs-2" },
+                      [
+                        _c("label", { attrs: { for: "cargo" } }, [
+                          _vm._v("Posto/Graduação")
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm.show
+                          ? _c("v-show", { attrs: { dado: _vm.cargo } })
+                          : _c("input", {
+                              staticClass: "numero form-control",
+                              attrs: {
+                                type: "text",
+                                name: "cargo",
+                                readonly: ""
+                              },
+                              domProps: { value: _vm.cargo }
+                            })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -416,7 +447,11 @@ var render = function() {
                         ]),
                         _c("br"),
                         _vm._v(" "),
-                        _vm.situacao
+                        _vm.show
+                          ? _c("v-show", { attrs: { dado: _vm.situacao } })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.situacao && !_vm.show
                           ? [
                               _c("input", {
                                 staticClass: "numero form-control",
@@ -515,7 +550,7 @@ var render = function() {
                       "div",
                       { staticClass: "col-lg-1 col-md-1 col-xs-1" },
                       [
-                        !_vm.edit
+                        !_vm.edit && !_vm.show
                           ? [
                               _c("label", [_vm._v("Cancelar")]),
                               _c("br"),
@@ -568,7 +603,7 @@ var render = function() {
                       "div",
                       { staticClass: "col-lg-1 col-md-1 col-xs-1" },
                       [
-                        !_vm.edit
+                        !_vm.edit && !_vm.show
                           ? [
                               _c("label", [_vm._v("Editar")]),
                               _c("br"),

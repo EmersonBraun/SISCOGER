@@ -3,7 +3,7 @@
         <div class="card-header">
             <h5><b>Movimentos</b></h5> 
         </div>
-        <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only">
+        <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only && !show">
             <div v-if="!add">
                 <button @click="add = !add" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Adicionar movimento</button>
             </div>
@@ -31,7 +31,7 @@
                             <a class="btn btn-danger btn-block" @click="clear(false)"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-6 col-md-6 col-xs-6">
-                        <template v-if="toEdit">
+                        <template v-if="toEdit && !show">
                                 <label>Editar</label><br>
                                 <a class="btn btn-success btn-block" :disabled="requireds" @click="editMovimento"><i class="fa fa-plus" style="color: white"></i></a>
                             </template>
@@ -60,7 +60,7 @@
                                 </template>
                                 <th class="col-sm-2">OPM</th>
                                 <th class="col-sm-2">RG</th>
-                                <th v-if="canDelete" class="col-sm-2">Ações</th>
+                                <th v-if="canDelete && !show" class="col-sm-2">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,7 +70,7 @@
                                 <td>{{ movimento.descricao }}</td>
                                 <td>{{ movimento.opm }}</td>
                                 <td>{{ movimento.rg }}</td>
-                                <td v-if="canDelete">
+                                <td v-if="canDelete && !show">
                                     <div class="btn-group" role="group" aria-label="First group">
                                         <a type="button"  @click="replaceMovimento(movimento)" class="btn btn-success" style="color: white">
                                             <i class="fa fa-edit"></i> 
@@ -100,6 +100,7 @@
         mixins: [mixin],
         components: {Datepicker},
         props: {
+            show: {type: Boolean, default: false},
             unique: {type: Boolean, default: false},
             // opm: {type: String, default: ''},
             idp: {type: String, default: ''},

@@ -1,4 +1,4 @@
-webpackJsonp([27],{
+webpackJsonp([29],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Membro.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -188,7 +188,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: {
         unique: { type: Boolean, default: false },
         idp: { type: String, default: '' },
-        dproc: { type: String, default: '' }
+        dproc: { type: String, default: '' },
+        show: { type: Boolean, default: false }
     },
     data: function data() {
         return {
@@ -368,7 +369,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -432,7 +433,7 @@ var render = function() {
     _vm._v(" "),
     _c("br"),
     _vm._v(" "),
-    _vm.mode == "atuais" && !_vm.only
+    _vm.mode == "atuais" && !_vm.only && !_vm.show
       ? _c(
           "div",
           { staticClass: "card-body ", class: _vm.add ? "bordaform" : "" },
@@ -743,7 +744,35 @@ var render = function() {
                 ? _c("div", { staticClass: "row bordaform" }, [
                     _c("div", { staticClass: "col-sm-12" }, [
                       _c("table", { staticClass: "table table-hover" }, [
-                        _vm._m(1),
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", { staticClass: "col-sm-2" }, [
+                              _vm._v("#")
+                            ]),
+                            _vm._v(" "),
+                            _c("th", { staticClass: "col-sm-2" }, [
+                              _vm._v("RG")
+                            ]),
+                            _vm._v(" "),
+                            _c("th", { staticClass: "col-sm-2" }, [
+                              _vm._v("Nome")
+                            ]),
+                            _vm._v(" "),
+                            _c("th", { staticClass: "col-sm-2" }, [
+                              _vm._v("Posto/Grad.")
+                            ]),
+                            _vm._v(" "),
+                            _c("th", { staticClass: "col-sm-2" }, [
+                              _vm._v("Situação")
+                            ]),
+                            _vm._v(" "),
+                            !_vm.show
+                              ? _c("th", { staticClass: "col-sm-2" }, [
+                                  _vm._v("Ver/Substituir/Apagar")
+                                ])
+                              : _vm._e()
+                          ])
+                        ]),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -759,83 +788,92 @@ var render = function() {
                               _vm._v(" "),
                               _c("td", [_vm._v(_vm._s(pm.situacao))]),
                               _vm._v(" "),
-                              _c("td", [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "btn-group",
-                                    attrs: {
-                                      role: "group",
-                                      "aria-label": "First group"
-                                    }
-                                  },
-                                  [
+                              !_vm.show
+                                ? _c("td", [
                                     _c(
-                                      "a",
+                                      "div",
                                       {
-                                        staticClass: "btn btn-primary",
-                                        staticStyle: { color: "white" },
+                                        staticClass: "btn-group",
                                         attrs: {
-                                          type: "button",
-                                          target: "_blanck"
-                                        },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.showPM(pm.rg)
-                                          }
+                                          role: "group",
+                                          "aria-label": "First group"
                                         }
                                       },
-                                      [_c("i", { staticClass: "fa fa-eye" })]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm.canReplace
-                                      ? _c(
+                                      [
+                                        _c(
                                           "a",
                                           {
-                                            staticClass: "btn btn-success",
+                                            staticClass: "btn btn-primary",
                                             staticStyle: { color: "white" },
-                                            attrs: { type: "button" },
+                                            attrs: {
+                                              type: "button",
+                                              target: "_blanck"
+                                            },
                                             on: {
                                               click: function($event) {
-                                                return _vm.replacePM(pm, index)
+                                                return _vm.showPM(pm.rg)
                                               }
                                             }
                                           },
                                           [
                                             _c("i", {
-                                              staticClass: "fa fa-retweet"
+                                              staticClass: "fa fa-eye"
                                             })
                                           ]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.canDelete
-                                      ? _c(
-                                          "a",
-                                          {
-                                            staticClass: "btn btn-danger",
-                                            staticStyle: { color: "white" },
-                                            attrs: { type: "button" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.removePM(
-                                                  pm.id_envolvido,
-                                                  pm.situacao,
-                                                  index
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fa fa-trash"
-                                            })
-                                          ]
-                                        )
-                                      : _vm._e()
-                                  ]
-                                )
-                              ])
+                                        ),
+                                        _vm._v(" "),
+                                        _vm.canReplace
+                                          ? _c(
+                                              "a",
+                                              {
+                                                staticClass: "btn btn-success",
+                                                staticStyle: { color: "white" },
+                                                attrs: { type: "button" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.replacePM(
+                                                      pm,
+                                                      index
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass: "fa fa-retweet"
+                                                })
+                                              ]
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        _vm.canDelete
+                                          ? _c(
+                                              "a",
+                                              {
+                                                staticClass: "btn btn-danger",
+                                                staticStyle: { color: "white" },
+                                                attrs: { type: "button" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.removePM(
+                                                      pm.id_envolvido,
+                                                      pm.situacao,
+                                                      index
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass: "fa fa-trash"
+                                                })
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  ])
+                                : _vm._e()
                             ])
                           }),
                           0
@@ -852,13 +890,13 @@ var render = function() {
                   ])
             ]
           : [
-              _vm._m(2),
+              _vm._m(1),
               _vm._v(" "),
               _vm.subs.length
                 ? _c("div", { staticClass: "row bordaform" }, [
                     _c("div", { staticClass: "col-sm-12" }, [
                       _c("table", { staticClass: "table table-hover" }, [
-                        _vm._m(3),
+                        _vm._m(2),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -947,26 +985,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("h5", [_c("b", [_vm._v("Atuais")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("RG")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Nome")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Posto/Grad.")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Situação")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ver/Substituir/Apagar")])
-      ])
-    ])
   },
   function() {
     var _vm = this

@@ -80,34 +80,33 @@
                 </v-label>
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">
-                <v-proced-origem unique dproc="proc_outros" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>           
-                <v-acusado unique dproc="proc_outros" idp="{{$proc['id_proc_outros']}}" situacao="{{sistema('procSituacao','proc_outros')}}" ></v-acusado><br>
-                <v-vitima unique dproc="proc_outros" idp="{{$proc['id_proc_outros']}}" ></v-vitima><br>
+                <v-proced-origem dproc="proc_outros" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" show></v-proced-origem><br>           
+                <v-acusado dproc="proc_outros" idp="{{$proc['id_proc_outros']}}" situacao="{{sistema('procSituacao','proc_outros')}}" show></v-acusado><br>
+                <v-vitima dproc="proc_outros" idp="{{$proc['id_proc_outros']}}" show></v-vitima><br>
             </v-tab-item>
             <v-tab-item title="Documentos" idp="documentos">
                 <file-upload 
                         title="Documento Juntado:"
                         name="relatorio1_file"
-                        unique dproc="proc_outros" idp="{{$proc['id_proc_outros']}}"
-                        :ext="['pdf']" 
-                        ></file-upload>--alterar para vários--
-                --nome documento--
-                --data documento--
+                        dproc="proc_outros" idp="{{$proc['id_proc_outros']}}"
+                        :ext="['pdf']"
+                        show 
+                        ></file-upload>
             </v-tab-item>
             <v-tab-item title="Resultado" idp="resultado">
-               --procedimento resultante--
+                <v-proced-origem dproc="proc_outros" destino dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" show></v-proced-origem><br>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                <v-membro unique dproc="proc_outros" idp="{{$proc['id_proc_outros']}}"></v-membro>
+                <v-membro dproc="proc_outros" idp="{{$proc['id_proc_outros']}}" show></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento unique dproc="proc_outros" idp="{{$proc['id_proc_outros']}}"></v-movimento>
+                <v-movimento dproc="proc_outros" idp="{{$proc['id_proc_outros']}}" show></v-movimento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
-                Encaminhamentos
+                --Encaminhamentos, em desenvolvimento--
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" unique dproc="proc_outros" idp="{{$proc['id_proc_outros']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="proc_outros" idp="{{$proc['id_proc_outros']}}" show></v-arquivo>
             </v-tab-item>
         </div>
     </div>

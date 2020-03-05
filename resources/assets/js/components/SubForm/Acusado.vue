@@ -21,7 +21,7 @@
                 <h4><b>Acusado</b></h4> 
             </template>
         </div>
-        <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only">
+        <div class="card-body" :class="add ? 'bordaform' : ''" v-if="!only && !show">
             <div v-if="!add && !verReus">
                 <button @click="add = !add" class="btn btn-success btn-block"><i class="fa fa-plus"></i> Adicionar acusado</button>
             </div>
@@ -177,7 +177,7 @@
                                             <th class="col-sm-2">Posto/Grad.</th>
                                             <th class="col-sm-2">Resultado</th>
                                         </template>
-                                        <th class="col-sm-2">Ver/Editar/Apagar</th>
+                                        <th v-if="!show" class="col-sm-2">Ver/Editar/Apagar</th>
                                     </tr>
                             </thead>
                             <tbody>
@@ -207,7 +207,7 @@
                                         <td>{{ pm.cargo }}</td>
                                         <td>{{ pm.resultado | vazio}}</td>
                                     </template>
-                                    <td>
+                                    <td v-if="!show">
                                         <div class="btn-group" role="group" aria-label="First group">
                                             <a type="button" @click="showPM(pm.rg)" target="_blanck" class="btn btn-primary" style="color: white">
                                                 <i class="fa fa-eye"></i>
@@ -242,7 +242,7 @@
                                     <th class="col-sm-2">Nome</th>
                                     <th class="col-sm-2">Posto/Grad.</th>
                                     <th class="col-sm-2">Resultado</th>
-                                    <th class="col-sm-2">Ver/Editar/Apagar</th>
+                                    <th v-if="!show" class="col-sm-2">Ver/Editar/Apagar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -252,7 +252,7 @@
                                     <td>{{ pm.nome }} {{pm.ipm_tipodapena}}</td>
                                     <td>{{ pm.cargo }}</td>
                                     <td>{{ pm.resultado | vazio}}</td>
-                                    <td>
+                                    <td v-if="!show">
                                         <div class="btn-group" role="group" aria-label="First group">
                                             <a type="button" @click="showPM(pm.rg)" target="_blanck" class="btn btn-primary" style="color: white">
                                                 <i class="fa fa-eye"></i>
@@ -289,6 +289,7 @@
         mixins: [mixin],
         components: {TheMask, Modal},
         props: {
+            show: {type: Boolean, default: false},
             unique: {type: Boolean, default: false},
             situacao: {type: String, default: ''},
             idp: {type: String, default: ''},

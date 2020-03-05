@@ -78,100 +78,100 @@
                 </v-label>
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">
-                <v-proced-origem unique dproc="fatd" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}"></v-proced-origem><br>           
-                <v-acusado unique dproc="fatd" idp="{{$proc['id_fatd']}}" situacao="{{sistema('procSituacao','fatd')}}" ></v-acusado><br>
-                <v-vitima unique dproc="fatd" idp="{{$proc['id_fatd']}}" ></v-vitima><br>
+                <v-proced-origem dproc="fatd" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" show></v-proced-origem><br>           
+                <v-acusado dproc="fatd" idp="{{$proc['id_fatd']}}" situacao="{{sistema('procSituacao','fatd')}}" show></v-acusado><br>
+                <v-vitima dproc="fatd" idp="{{$proc['id_fatd']}}" show></v-vitima><br>
             </v-tab-item>
             <v-tab-item title="Documentos" idp="documentos">
                 <file-upload 
-                unique
                 title="Relato do fato imputado:"
                 name="fato_file"
                 dproc="fatd" idp="{{$proc['id_fatd']}}"
-                :ext="['pdf']" 
+                :ext="['pdf']"
+                show 
                 ></file-upload>
 
                 <file-upload 
-                unique
                 title="Relatório:"
                 name="relatorio_file"
                 dproc="fatd" idp="{{$proc['id_fatd']}}"
-                :ext="['pdf']" 
+                :ext="['pdf']"
+                show 
                 ></file-upload>
 
                 <file-upload 
-                unique
                 title="Solução do Comandante:"
                 name="sol_cmt_file"
                 dproc="fatd" idp="{{$proc['id_fatd']}}"
                 :ext="['pdf']" 
+                show
                 ></file-upload>
 
                 <file-upload 
-                unique
                 title="Solução do Cmt Geral:"
                 name="sol_cg_file"
                 dproc="fatd" idp="{{$proc['id_fatd']}}"
-                :ext="['pdf']" 
+                :ext="['pdf']"
+                show 
                 ></file-upload>
 
                 <file-upload 
-                unique
                 title="Nota de punição:"
                 name="notapunicao_file"
                 dproc="fatd" idp="{{$proc['id_fatd']}}"
-                :ext="['pdf']" 
+                :ext="['pdf']"
+                show 
                 ></file-upload>
 
-                <v-item-unique unique title="Publicação da nota de punição (Ex: BI nº 12/2011)" proc="fatd" dproc="fatd" idp="{{$proc['id_fatd']}}" name="publicacaonp"></v-item-unique>
+                <v-item-unique title="Publicação da nota de punição (Ex: BI nº 12/2011)" proc="fatd" dproc="fatd" idp="{{$proc['id_fatd']}}" name="publicacaonp" show></v-item-unique>
             </v-tab-item>
             <v-tab-item title="Recursos" idp="recursos">
                 <file-upload 
-                    unique
                     title="Reconsideração de ato (solução):"
                     name="rec_ato_file"
                     dproc="fatd" idp="{{$proc['id_fatd']}}"
-                    :ext="['pdf']" 
+                    :ext="['pdf']"
+                    show 
                     ></file-upload>
 
                 <file-upload 
-                    unique
                     title="Recurso CMT OPM:"
                     name="rec_cmt_file"
                     dproc="fatd" idp="{{$proc['id_fatd']}}"
-                    :ext="['pdf']" 
+                    :ext="['pdf']"
+                    show 
                     ></file-upload>
 
                 <file-upload 
-                    unique
                     title="Recurso CMT CRPM:"
                     name="rec_crpm_file"
                     dproc="fatd" idp="{{$proc['id_fatd']}}"
-                    :ext="['pdf']" 
+                    :ext="['pdf']"
+                    show 
                     ></file-upload>
 
-                <file-upload
-                    unique 
+                <file-upload 
                     title="Recurso CMT Geral:"
                     name="rec_cg_file"
                     dproc="fatd" idp="{{$proc['id_fatd']}}"
-                    :ext="['pdf']" 
+                    :ext="['pdf']"
+                    show 
                     ></file-upload>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                <v-membro unique dproc="fatd" idp="{{$proc['id_fatd']}}"></v-membro>
+                <v-membro dproc="fatd" idp="{{$proc['id_fatd']}}" show></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento unique dproc="fatd" idp="{{$proc['id_fatd']}}"></v-movimento>
+                <v-movimento dproc="fatd" idp="{{$proc['id_fatd']}}" show></v-movimento>
             </v-tab-item>
             <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
-                <v-sobrestamento unique dproc="fatd" idp="{{$proc['id_fatd']}}" ></v-sobrestamento>
+                <v-sobrestamento dproc="fatd" idp="{{$proc['id_fatd']}}" show></v-sobrestamento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo unique dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="fatd" idp="{{$proc['id_fatd']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="fatd" idp="{{$proc['id_fatd']}}" show></v-arquivo>
             </v-tab-item>
         </div>
     </div>

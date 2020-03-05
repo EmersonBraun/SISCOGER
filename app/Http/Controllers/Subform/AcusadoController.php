@@ -21,6 +21,7 @@ class AcusadoController extends Controller
     {
         $dados = $request->all();
         $create = Envolvido::create($dados);
+      
         if($create)
         {
             return response()->json([
@@ -30,6 +31,7 @@ class AcusadoController extends Controller
         return response()->json([
             'success' => false,
         ], 400);
+        
     }
     public function edit(Request $request, $id)
     {

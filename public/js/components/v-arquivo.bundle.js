@@ -1,4 +1,4 @@
-webpackJsonp([11,38],{
+webpackJsonp([11,40],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/SubForm/Arquivo.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -125,6 +125,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_js__["a" /* default */]],
     components: { Datepicker: __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Datepicker__["Datepicker"] },
     props: {
+        show: { type: Boolean, default: false },
         unique: { type: Boolean, default: false },
         idp: { type: String, default: '' },
         dproc: { type: String, default: '' },
@@ -629,7 +630,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -661,7 +662,7 @@ var render = function() {
   return _c("div", { staticClass: "col-lg-12 col-md-12 col-xs-12 card" }, [
     _vm._m(0),
     _vm._v(" "),
-    !_vm.only
+    !_vm.only && !_vm.show
       ? _c(
           "div",
           { staticClass: "card-body", class: _vm.add ? "bordaform" : "" },
@@ -1016,7 +1017,25 @@ var render = function() {
         ? _c("div", { staticClass: "row bordaform" }, [
             _c("div", { staticClass: "col-sm-12" }, [
               _c("table", { staticClass: "table table-hover" }, [
-                _vm._m(1),
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", { staticClass: "col-sm-1" }, [_vm._v("#")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-1" }, [_vm._v("Data")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-2" }, [_vm._v("Local")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-1" }, [_vm._v("N°/Letra")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-3" }, [_vm._v("Obs")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "col-sm-2" }, [_vm._v("RG")]),
+                    _vm._v(" "),
+                    !_vm.show
+                      ? _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ações")])
+                      : _vm._e()
+                  ])
+                ]),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -1040,56 +1059,58 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(arquivo.rg))]),
                       _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "btn-group",
-                            attrs: {
-                              role: "group",
-                              "aria-label": "First group"
-                            }
-                          },
-                          [
-                            _vm.canEdit
-                              ? _c(
-                                  "a",
-                                  {
-                                    staticClass: "btn btn-success",
-                                    staticStyle: { color: "white" },
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.replaceArquivo(arquivo)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-edit" })]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.canDelete
-                              ? _c(
-                                  "a",
-                                  {
-                                    staticClass: "btn btn-danger",
-                                    staticStyle: { color: "white" },
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.removeArquivo(
-                                          arquivo.id_arquivo,
-                                          index
-                                        )
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-trash" })]
-                                )
-                              : _vm._e()
-                          ]
-                        )
-                      ])
+                      !_vm.show
+                        ? _c("td", [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "btn-group",
+                                attrs: {
+                                  role: "group",
+                                  "aria-label": "First group"
+                                }
+                              },
+                              [
+                                _vm.canEdit
+                                  ? _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-success",
+                                        staticStyle: { color: "white" },
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.replaceArquivo(arquivo)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-edit" })]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.canDelete
+                                  ? _c(
+                                      "a",
+                                      {
+                                        staticClass: "btn btn-danger",
+                                        staticStyle: { color: "white" },
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.removeArquivo(
+                                              arquivo.id_arquivo,
+                                              index
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-trash" })]
+                                    )
+                                  : _vm._e()
+                              ]
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   }),
                   0
@@ -1112,28 +1133,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h5", [_c("b", [_vm._v("Arquivos")])])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "col-sm-1" }, [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-1" }, [_vm._v("Data")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Local")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-1" }, [_vm._v("N°/Letra")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-3" }, [_vm._v("Obs")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("RG")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-sm-2" }, [_vm._v("Ações")])
-      ])
     ])
   }
 ]

@@ -32,6 +32,11 @@ class FileUploadRepository extends BaseRepository
 
         return $registros;
     }
+
+    public function newFiles()
+	{
+        return $this->model->where('is_old_file','0')->get();
+    }
     
     public function active($proc, $id, $campo)
 	{

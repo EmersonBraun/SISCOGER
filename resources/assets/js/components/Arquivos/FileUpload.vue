@@ -24,9 +24,9 @@
                 </div>
             </div>
             <!-- form -->
-            <div v-if="!only" class="card-body">
+            <div v-if="!only && !show" class="card-body">
                 <!-- botão arquivo -->
-                <label v-if="!forUpload && !view" class="btn btn-primary bgicon" :for="name">
+                <label v-if="!forUpload && !show" class="btn btn-primary btn-block bgicon" :for="name">
                     Selecionar arquivo
                     <input @change="verifyFile" :id="name" :name="name" ref="file" type='file' style="display:none">
                 </label>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-sm-3">
                         <label for="data">Nome Original:</label>
-                        <span v-if="file.name">{{ file.name }}</span>
+                        <input name="obs" type="text" v-model="registro.name" class="form-control">
                     </div>
                     <div class="col-sm-3">
                         <label for="data">Ações</label><br>
@@ -75,7 +75,7 @@
                                         <th class="col-sm-2">Tamanho - Ext.</th>
                                         <th class="col-sm-1">Data</th>
                                         <th class="col-sm-3">Obs.</th>
-                                        <th class="col-sm-2">Ações</th>
+                                        <th v-if="!show" class="col-sm-2">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -85,7 +85,7 @@
                                         <td>{{ o.size | toMB}} MB - {{ o.mime}}</td>
                                         <td>{{ o.data_arquivo}}</td>
                                         <td>{{ o.obs | hasObs}}</td>
-                                        <td>
+                                        <td  v-if="!show">
                                             <div class="btn-group" role="group" aria-label="First group">
                                                 <a type="button" :href="o.path" target="_black" class="btn btn-primary" style="color: white">
                                                     <i class="fa fa-eye"></i> Ver
@@ -119,7 +119,7 @@
                                         <th class="col-sm-2">Tamanho - Ext.</th>
                                         <th class="col-sm-1">Data</th>
                                         <th class="col-sm-3">Obs.</th>
-                                        <th class="col-sm-2">Ações</th>
+                                        <th  v-if="!show" class="col-sm-2">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -130,7 +130,7 @@
                                         <td>{{ u.size | toMB}} MB - {{ u.mime}}</td>
                                         <td>{{ u.data_arquivo}}</td>
                                         <td>{{ u.obs | hasObs}}</td>
-                                        <td>
+                                        <td v-if="!show">
                                             <div class="btn-group" role="group" aria-label="First group">
                                                 <a type="button" @click="showFile(u.hash)" target="_black" class="btn btn-primary" style="color: white">
                                                     <i class="fa fa-eye"></i> Ver
@@ -138,7 +138,7 @@
                                                 <a type="button" @click="downloadFile(u.id)" target="_black" class="btn btn-success" style="color: white">
                                                     <i class="fa fa-download"></i> Download
                                                 </a>
-                                                <a  v-if="u.deleted_at == null" type="button" @click="deleteFile(u.id)" class="btn btn-danger" style="color: white">
+                                                <a  v-if="u.deleted_at == null" type="button" @click="deleteFile(u.id, false)" class="btn btn-danger" style="color: white">
                                                     <i class="fa fa-trash"></i> Apagar
                                                 </a>
                                             </div>
@@ -186,10 +186,10 @@
                                                 <a type="button" @click="showFile(a.hash)" target="_black" class="btn btn-primary" style="color: white">
                                                     <i class="fa fa-eye"></i> Ver
                                                 </a>
-                                                <a type="button" @click="downloadFile(u.id)" target="_black" class="btn btn-success" style="color: white">
+                                                <a v-if="!show" type="button" @click="downloadFile(u.id)" target="_black" class="btn btn-success" style="color: white">
                                                     <i class="fa fa-download"></i> Download
                                                 </a>
-                                                <a type="button" @click="removeFile(a.id)" class="btn btn-danger" style="color: white">
+                                                <a v-if="!show" type="button" @click="deleteFile(a.id, true)" class="btn btn-danger" style="color: white">
                                                     <i class="fa fa-trash"></i> Destruir
                                                 </a>
                                             </div>
@@ -226,10 +226,11 @@
         idp: {type: String},
         ext: {type: Array, default: ['pdf']},
         unique: {type: Boolean, default: true},
-        view: {type: Boolean, default: false},
+        show: {type: Boolean, default: false},
     },
     data() {
         return {
+            registro: {},
             file: '',
             uploaded: [],
             old: [],
@@ -252,8 +253,8 @@
         }  
     },
     beforeMount(){
-        this.listFile(); 
-        this.data_arquivo = this.today
+        this.list(); 
+        this.data_arquivo = this.$root.today
     },
     watch: {
         countup() {
@@ -263,8 +264,7 @@
     filters:{
         toMB(value){
             if (!value) return ''
-            let MB = 1048576
-            value = value / MB
+            value = value / 1048576
             return  value.toFixed(2)
         },
         hasObs(value){
@@ -292,18 +292,9 @@
                 return false
             }else{return true}    
         },
-        today() {
-            let today = new Date();
-            let dd = String(today.getDate()).padStart(2, '0');
-            let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            let yyyy = today.getFullYear();
-
-            today = `${dd}/${mm}/${yyyy}`;
-            return today
-        },
         canDelete() {
             return this.$root.hasRole('admin')
-        }
+        },
     },
     methods: {
         verifyFile(){
@@ -311,10 +302,18 @@
             this.file = this.$refs.file.files[0]
             let type = this.verifyType
             let size = this.verifySize
+            this.registro.name = this.file.name
             this.forUpload = (type && size) ? true : false
             if(!this.forUpload) this.file = ''
         },
-        createFile(){
+        validateProps() {
+            if(!this.name) console.warn('File: ???', 'Falta o nome do arquivo')
+            else {
+                if(!this.dproc) console.warn(`File: ${name}`, 'Falta o procedimento (dproc)')
+                if(!this.idp) console.warn(`File: ${name}`, 'Falta o id do procedimento (idp)')
+            }
+        },
+        async createFile(){
             let urlCreate = `${this.$root.baseUrl}api/${this.action}/store`;
             
             let formData = new FormData();
@@ -328,32 +327,39 @@
             formData.append('data_arquivo', this.data_arquivo);
             formData.append('obs', this.obs);
 
-            axios.post( urlCreate,formData,{headers: this.headers})
-            .then(this.progress())
-            .catch((error) => {
+            const url = `${this.$root.baseUrl}api/${this.module}/create`;
+            try { 
+                const response = await axios.post( urlCreate,formData,{headers: this.headers})
+                this.progress()
+                this.transation(response.data.success,'create')
+            } catch (error) {
                 console.log(error)
-                this.erro = "Erro ao enviar arquivo"
-            });
-        },
-        listFile(){
-            if(!this.name) console.warn('File: ???', 'Falta o nome do arquivo')
-            else {
-                if(!this.dproc) console.warn(`File: ${name}`, 'Falta o procedimento (dproc)')
-                if(!this.idp) console.warn(`File: ${name}`, 'Falta o id do procedimento (idp)')
             }
+        },
+        async create() {
+            const url = `${this.$root.baseUrl}api/${this.module}/create`;
+            try { 
+                const response = await axios.post(url, this.registro)
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async list(){
+            this.validateProps()
             if(this.dproc && this.idp && this.name) {
-                let urlIndex = `${this.$root.baseUrl}api/${this.action}/list/${this.dproc}/${this.idp}/${this.name}`;
-                // console.log(urlIndex)
-                axios
-                .get(urlIndex)
-                .then((response) => {
-                    this.uploaded = response.data.list
-                    this.old = response.data.old
-                    this.apagados = response.data.apagados
-                    this.countup = response.data.list.length
-                    this.countap = response.data.list.length
-                })
-                .catch(error => console.log(error));
+                const url = `${this.$root.baseUrl}api/${this.action}/list/${this.dproc}/${this.idp}/${this.name}`;
+                try { 
+                    const response = await axios.get(url)
+                    if(response) {
+                        this.uploaded = response.data.list
+                        this.old = response.data.old
+                        this.apagados = response.data.apagados
+                        this.countup = response.data.list.length
+                        this.countap = response.data.list.length
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
             }
         },
         showFile(hash){
@@ -364,23 +370,34 @@
             let urlIndex = `${this.$root.baseUrl}api/${this.action}/download/${id}`;
             window.open(urlIndex, "_blank")
         },
-        deleteFile(id){
-            let urlDelete = `${this.$root.baseUrl}api/${this.action}/delete/${id}`;
-            axios
-            .delete(urlDelete)
-            .then((response) => this.listFile())//chama list para atualizar
-            .catch(error => console.log(error));
-        },
-        removeFile(id){
-            let urlDelete = `${this.$root.baseUrl}api/${this.action}/destroy/${id}`;
-            axios
-            .delete(urlDelete)
-            .then((response) => this.listFile())//chama list para atualizar
-            .catch(error => console.log(error));
+        async deleteFile(id, forceDelete=false){
+            if(confirm('Tem certeza?')) {
+                const action = forceDelete ? 'destroy' : 'delete'
+                const url = `${this.$root.baseUrl}api/${this.action}/${action}/${id}`;
+                try {
+                    const response = await axios.delete(url)
+                    if(response) this.transation(response.data.success,'delete')
+                } catch (error) {
+                     console.log(error)
+                }
+            }
         },
         cancelFile(){
             this.file ='';
             this.forUpload = false;
+        },
+        transation(happen,type) {
+            const msg = this.words(type)
+            if(happen) { // se deu certo
+                    this.list()
+                    this.$root.msg(msg.success,'success')
+            } else { // se falhou
+                this.$root.msg(msg.fail,'danger')
+            }
+        },
+        words(type) {
+            if(type == 'create') return { success : 'Inserido com sucesso', fail: 'Erro ao inserir'}
+            if(type == 'delete') return { success : 'Apagado com sucesso', fail: 'Erro ao apagar'}
         },
         progress(){
             this.progressBar = true;
@@ -390,7 +407,6 @@
                         this.progress();
                     }else{
                         this.width = 0;
-                        this.listFile();
                         this.cancelFile(); 
                         this.progressBar = false;
                     }

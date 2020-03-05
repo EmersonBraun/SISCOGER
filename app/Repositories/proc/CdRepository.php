@@ -380,7 +380,7 @@ class CdRepository extends BaseRepository
                 ->groupBy('sjd_ref_ano')
                 ->first();
                 //insere no array para ficar 'ano' => 'qtd'
-                $cd_ano = array_add($cd_ano,$i, $qtd_cd_ano['qtd']);
+                $cd_ano = array_add($cd_ano,$i, $qtd_cd_ano['qtd'] ?? 0);
             }
         }
         

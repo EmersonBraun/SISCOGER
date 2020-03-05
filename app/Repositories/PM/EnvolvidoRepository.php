@@ -233,14 +233,9 @@ class EnvolvidoRepository extends BaseRepository
 
     public function subJudice()
     {
-        $registros = Cache::tags('envolvido')->remember('envolvido:subjudice', $this->expiration, function() {
-            return DB::table('envolvido')
-                    ->join('ipm','ipm.id_ipm','=','envolvido.id_ipm')
-                    ->join('apfd','apfd.id_apfd','=','envolvido.id_apfd')
-                    ->join('desercao','desercao.id_desercao','=','envolvido.id_desercao')
-                    ->where('ipm_processocrime','=', 'Denunciado')
-                    ->get();
-        });
+        // $registros = Cache::tags('envolvido')->remember('envolvido:subjudice', $this->expiration, function() {
+            return $this->model->where('ipm_processocrime','=', 'Denunciado')->get();
+        // });
 
         if(!count($registros)) return [];
         return $registros;
@@ -284,9 +279,11 @@ class EnvolvidoRepository extends BaseRepository
                     'sjd_ref' => $proc['sjd_ref'],
                     'sjd_ref_ano' => $proc['sjd_ref_ano'],
                     'sintese_txt' => $proc['sintese_txt'],
-                    'id_andamento' => $proc['id_andamento'],
-                    'id_andamentocoger' => $proc['id_andamentocoger'],
-                    'cdopm' => $proc['cdopm']
+                    'id_andamento' => sistema('andamento',$proc['id_andamento']),
+                    'id_andamentocoger' => sistema('andamentocoger',$proc['id_andamentocoger']),
+                    'cdopm' => $proc['cdopm'],
+                    //'tipo' => $proc['tipo'],
+                    
                 
                 ];
                 $i++;     

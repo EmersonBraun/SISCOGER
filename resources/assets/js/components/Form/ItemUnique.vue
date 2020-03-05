@@ -3,12 +3,13 @@
     <div class="mb-12 form-group " > 
         <label :for="label">{{ title }}</label><br>
         <div class="input-group " v-if="!view">
-            <div v-if="status" class="input-group-prepend">
+            <div v-if="status && !show" class="input-group-prepend">
                 <span v-if="status == 'ok'" class="input-group-text fa fa-check" style="color: green"></span>
                 <span v-else class="input-group-text fa fa-times" style="color: red"></span>
             </div>
-            <input v-model="input" :name="name" type="text" class="form-control">
-            <div class="input-group-append">
+            <v-show v-if="show" :dado="input"></v-show>
+            <input  v-else v-model="input" :name="name" type="text" class="form-control">
+            <div v-if="!show" class="input-group-append">
                 <button class="btn btn-success" :disabled="!input.length" @click="insert()">Inserir/ Alterar</button>
                 <button class="btn btn-danger" :disabled="!input.length" @click="remove()">Apagar</button>
             </div>
@@ -20,6 +21,7 @@
 <script>
     export default {
         props:{
+            show: {type: Boolean, default: false},
             title: {type: String, default: ''}, //titulo
             label: {type: String, default: ''},
             name: {type: String, default: ''},

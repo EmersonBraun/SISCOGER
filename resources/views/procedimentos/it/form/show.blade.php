@@ -135,45 +135,48 @@
                 </v-label>
             </v-tab-item>
             <v-tab-item title="Envolvidos" idp="envolvidos">          
-                <v-acusado unique dproc="it" idp="{{$proc['id_it']}}" situacao="{{sistema('procSituacao','it')}}" ></v-acusado><br>
-                <v-vitima unique dproc="it" idp="{{$proc['id_it']}}" ></v-vitima><br>
+                <v-acusado dproc="it" idp="{{$proc['id_it']}}" situacao="{{sistema('procSituacao','it')}}" show></v-acusado><br>
+                <v-vitima dproc="it" idp="{{$proc['id_it']}}" show></v-vitima><br>
             </v-tab-item>
             <v-tab-item title="Documentos" idp="documentos">
                 <file-upload 
                     title="Relatório do Oficial Encarregado:"
                     name="relatorio_file"
-                    unique dproc="it" idp="{{$proc['id_it']}}"
-                    :ext="['pdf']" 
+                    dproc="it" idp="{{$proc['id_it']}}"
+                    :ext="['pdf']"
+                    show 
                     ></file-upload>
 
                 <file-upload 
                     title="Solução Unidade:"
                     name="solucao_unidade_file"
-                    unique dproc="it" idp="{{$proc['id_it']}}"
-                    :ext="['pdf']" 
+                    dproc="it" idp="{{$proc['id_it']}}"
+                    :ext="['pdf']"
+                    show 
                     ></file-upload>
 
                 <file-upload 
                     title="Solução Complementar:"
                     name="solucao_complementar_file"
-                    unique dproc="it" idp="{{$proc['id_it']}}"
-                    :ext="['pdf']" 
+                    dproc="it" idp="{{$proc['id_it']}}"
+                    :ext="['pdf']"
+                    show 
                     ></file-upload>
             </v-tab-item>
             <v-tab-item title="Membros" idp="membros">
-                <v-membro unique dproc="it" idp="{{$proc['id_it']}}"></v-membro>
+                <v-membro dproc="it" idp="{{$proc['id_it']}}" show></v-membro>
             </v-tab-item>
             <v-tab-item title="Movimentos" idp="movimentos">
-                <v-movimento unique dproc="it" idp="{{$proc['id_it']}}"></v-movimento>
+                <v-movimento dproc="it" idp="{{$proc['id_it']}}" show></v-movimento>
             </v-tab-item>
             <v-tab-item title="Sobrestamentos" idp="sobrestamentos">
-                <v-sobrestamento unique dproc="it" idp="{{$proc['id_it']}}" ></v-sobrestamento>
+                <v-sobrestamento dproc="it" idp="{{$proc['id_it']}}" show></v-sobrestamento>
             </v-tab-item>
             <v-tab-item title="Encaminhamentos" idp="encaminhamentos">
                 Encaminhamentos
             </v-tab-item>
             <v-tab-item title="Arquivo" idp="arquivo">
-                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" unique dproc="it" idp="{{$proc['id_it']}}" ></v-arquivo>
+                <v-arquivo dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" dproc="it" idp="{{$proc['id_it']}}" show></v-arquivo>
             </v-tab-item>
         </div>
     </div>

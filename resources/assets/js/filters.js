@@ -2,13 +2,13 @@ import moment, { months } from 'moment'
 
 Vue.filter('date_br', function(value) {
   if (value) {
-    return moment(String(value)).format('MM/DD/YYYY')
+    return moment(String(value)).format('DD/MM/YYYY')
   }
 })
 
 Vue.filter('date_br_hr', function(value) {
     if (value) {
-      return moment(String(value)).format('MM/DD/YYYY H:mm:ss')
+      return moment(String(value)).format('DD/MM/YYYY H:mm:ss')
     }
   })
  

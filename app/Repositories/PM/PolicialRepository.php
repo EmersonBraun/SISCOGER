@@ -221,9 +221,9 @@ class PolicialRepository extends BaseRepository
             $quadro = isset($pm->QUADRO) ? $pm->QUADRO : $pm->quadro;
             $subquadro = isset($pm->SUBQUADRO) ? $pm->SUBQUADRO : $pm->subquadro;
             $pm->quadro_ico = $this->ico->quadro_sub($quadro, $subquadro);
-            
             return $pm;
 
+            dd($pm);
         // });
         // // dd($militar_estadual);
 

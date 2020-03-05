@@ -1,4 +1,4 @@
-webpackJsonp([0,6,17,33,38,52],{
+webpackJsonp([0,6,19,35,40,53],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/FDI/Prisoes.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -329,7 +329,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Vuestrap_Tooltip__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Tooltip.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Vuestrap_Tooltip___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Vuestrap_Tooltip__);
-//
 //
 //
 //
@@ -1109,7 +1108,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.form-group2[data-v-438bfec0] {\n    margin-bottom: 2px;\n}\n", ""]);
+exports.push([module.i, "\n.form-group2[data-v-438bfec0] {\n    margin-bottom: 2px;\n}\n.error[data-v-438bfec0] {\n    color: red;\n}\n", ""]);
 
 // exports
 
@@ -2259,15 +2258,21 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _vm._t("default"),
-      _vm._v(" "),
       _vm.errorMsg
-        ? _c("span", { staticClass: "help-block" }, [
-            _c("strong", [_vm._v(_vm._s(_vm.errorMsg))])
-          ])
-        : _vm._e()
+        ? _c(
+            "tooltip",
+            {
+              attrs: {
+                effect: "scale",
+                placement: "top",
+                content: _vm.errorMsg
+              }
+            },
+            [_c("i", { staticClass: "fa fa-question-circle error" })]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._t("default")
     ],
     2
   )
