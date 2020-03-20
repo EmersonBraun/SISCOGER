@@ -95580,7 +95580,7 @@ Vue.component('v-principal', function () {
   return __webpack_require__.e/* import() */(66).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Principal.vue"));
 });
 Vue.component('v-prisoes', function () {
-  return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Prisoes.vue"));
+  return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Prisoes/Prisoes.vue"));
 });
 Vue.component('v-protocolo', function () {
   return __webpack_require__.e/* import() */(64).then(__webpack_require__.bind(null, "./resources/assets/js/components/FDI/Protocolo.vue"));

@@ -3,7 +3,6 @@ const alert = {
     // level: show, success, info, error
     msg(type, happen, fullWidth=false) {
         const levelMsg = this.getLevelMsg(happen);
-        console.log('levelMsg', levelMsg);
         const msg = this.getWord(type, levelMsg.level);
         Vue.toasted[levelMsg.level](msg, { 
             theme: 'toasted-primary', 
