@@ -3,7 +3,11 @@ require('./bootstrap');
 window.Vue = require('vue');
 // componentes
 require ('./components')
+import Toasted from 'vue-toasted';
+Vue.use(Toasted);
 
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
 // import vuetify from './plugins/vuetify' // path to vuetify export
 // import Vuetify from 'vuetify/lib'
 import Vuetify from 'vuetify'

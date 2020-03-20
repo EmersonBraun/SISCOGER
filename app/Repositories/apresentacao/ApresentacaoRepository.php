@@ -46,6 +46,36 @@ class ApresentacaoRepository extends BaseRepository
         return $dados;
     }
 
+    public function previstas()
+	{
+        if ($this->verTodasUnidades) 
+        { 
+            
+            $registros = Cache::tags('apresentacao')->remember('apresentacao:previstas', self::$expiration, function() {
+                return $this->model
+                ->where([
+                    ['comparecimento_dh','>=',date("Y-m-d 00:00:00")]
+                ])
+                ->orderBy('comparecimento_dh', 'ASC')
+                ->get();
+            });
+        }
+        else 
+        {
+            $registros = Cache::tags('apresentacao')->remember('apresentacao:previstas:'.$this->unidade, self::$expiration, function()  {
+                return $this->model
+                ->where([
+                    ['comparecimento_dh','>=',date("Y-m-d 00:00:00")],
+                    ['cdopm', 'like',$this->unidade.'%']
+                ])
+                ->orderBy('comparecimento_dh', 'ASC')
+                ->get();
+            });
+        }
+
+        return $registros;
+    } 
+
     public function get($id)
 	{
         // usado para o memorando apresentacao

@@ -62,10 +62,10 @@
                 <Label label="nome" title="Nome">
                     <input class="form-control" type="text" size="40" readonly="" v-model="registro.nome">
                 </Label>
-                <v-label label="cdopm_quandopreso" title="OPM">
-                    <Opm name='cdopm_quandopreso' required :cdopm="registro.cdopm_quandopreso" v-model="registro.cdopm_quandopreso"></Opm>
+                <v-label label="cdopm_quandopreso" title="OPM" :error="$v.cdopm_quandopreso.$error ? 'Campo obrigatório' : ''">
+                    <Opm name='cdopm_quandopreso' required :cdopm.sync="registro.cdopm_quandopreso"></Opm>
                 </v-label>
-                <v-label label="local" title="Local de reclusão/detenção">
+                <v-label label="local" title="Local de reclusão/detenção" :error="$v.local.$error ? 'Campo obrigatório' : ''">
                     <select class="form-control" v-model="registro.local" required>
                         <option value="quartel">Quartel</option>
                         <option value="civil">Órgãos civis</option>
@@ -133,7 +133,7 @@
                 <v-label label="comarca" title="Comarca" tooltip="Ex: Curitiba">
                     <input class="form-control" type="text" v-model="registro.comarca">
                 </v-label>
-                <v-label label="inicio_data" title="Data de entrada na prisão" icon="fa fa-calendar">
+                <v-label label="inicio_data" title="Data de entrada na prisão" icon="fa fa-calendar" :error="$v.inicio_data.$error ? 'Campo obrigatório' : ''">
                     <Datepicker :placeholder="registro.inicio_data" clear-button v-model="registro.inicio_data"></Datepicker>
                 </v-label>
                 <v-label label="fim_data" title="Data da saída da prisão" icon="fa fa-calendar">
@@ -148,10 +148,8 @@
                     <a class="btn btn-default btn-block" @click="showModal = false">Cancelar</a>
                 </div>
                 <div class="col-xs-6">
-                    <v-tooltip effect="scale" placement="top" :content="msgRequired">
-                        <a v-if="registro.id_preso" class="btn btn-success btn-block" :disabled="requireds" @click.prevent="update(registro.id_preso)">Editar</a>
-                        <a v-else class="btn btn-success btn-block" :disabled="requireds" @click="create">Inserir</a>
-                    </v-tooltip>
+                    <a v-if="registro.id_preso" class="btn btn-success btn-block" :disabled="$v.$anyError" @click.prevent="update(registro.id_preso)">Editar</a>
+                    <a v-else class="btn btn-success btn-block" :disabled="$v.$anyError" @click="create">Inserir</a>
                 </div>
             </div>
         </Modal>   
@@ -159,6 +157,8 @@
 </template>
 
 <script>
+import CRUD from '../../utils/CRUD'
+import { required } from 'vuelidate/lib/validators'
 import {TheMask} from 'vue-the-mask'
 import Modal from '../Vuestrap/Modal.vue'
 import Tooltip from '../Vuestrap/Tooltip.vue'
@@ -180,6 +180,11 @@ export default {
             showModal: false,
         }
     },
+    validations: {
+        local : {required},
+        cdopm_quandopreso : {required},
+        inicio_data: {required},
+    },
     filters: {
         fimPrisao(value) {
             if(!value) return 'Está preso'
@@ -192,102 +197,66 @@ export default {
         this.canDelete = this.$root.hasPermission('apagar-prisoes')
     },
     computed:{
-        requireds(){
-            if(this.registro.local && this.registro.cdopm_quandopreso && this.registro.inicio_data) return false
-            return true
-        },
+        local() { return this.registro.local },
+        cdopm_quandopreso() { return this.registro.cdopm_quandopreso },
+        inicio_data() { return this.registro.inicio_data },
         lenght(){
             if(this.registros) return Object.keys(this.registros).length
             return 0 
         },
-        msgRequired(){
-            return `Para liberar este botão os campos: LOCAL, QUARTEL ONDE ESTÁ PRESO e DATA DE INÍCIO deve estar preenchidos`           
-        }
     },
     methods: {
-        list(){
-            let urlIndex = `${this.$root.baseUrl}api/${this.module}/list/${this.pm.RG}`;
-            if(this.pm.RG){
-                axios
-                .get(urlIndex)
-                .then((response) => {
-                    this.registros = response.data
-                })
-                .catch(error => console.log(error));
-            }
+        async list(){
+            const rg = this.$root.dadoSession('rg')
+            const URL = `${this.$root.baseUrl}api/${this.module}/list/${rg}`;
+            const response = await CRUD.list(URL)
+            this.registros = response.data
         },
         toCreate(){
             this.showModal = true
-            this.registro.rg = this.pm.RG
-            this.registro.cargo = this.pm.CARGO
-            this.registro.nome = this.pm.NOME
+            this.registro.rg = this.$root.dadoSession('rg')
+            this.registro.origem_opm = this.$root.dadoSession('opm_descricao')
+            this.registro.cargo = this.$root.dadoSession('cargo')
+            this.registro.nome = this.$root.dadoSession('nome')
         },
-        create(){
-            if(!this.requireds){
-                
-                let urlCreate = `${this.$root.baseUrl}api/${this.module}/store`;
-                axios
-                .post(urlCreate, this.registro)
-                .then((response) => {
-                    this.transation(response.data.success, 'create')
-                })
-                .catch(error => console.log(error));
-                this.showModal = false
+        async create(){
+            if(!this.validations()){
+                const URL = `${this.$root.baseUrl}api/${this.module}/store`;
+                const response = await CRUD.create(URL, this.registro)
+                if(response) this.transation()
             }
-            
         },
         edit(registro){
             this.registro = registro
             this.showModal = true
         },
-        update(id){
-            if(!this.requireds){
-                let urlUpdate = `${this.$root.baseUrl}api/${this.module}/update/${id}`;
-                axios
-                .put(urlUpdate, this.registro)
-                .then((response) => {
-                    this.transation(response.data.success, 'edit')
-                })
-                .catch(error => console.log(error));
+        async update(id){
+            if(!this.validations()){
+                let URL = `${this.$root.baseUrl}api/${this.module}/update/${id}`;
+                const response = await CRUD.update(URL, this.registro);
+                if(response) this.transation()
             }
         },
-        destroy(id){
-            if(confirm('Você tem certeza?')){
-                let urlDelete = `${this.$root.baseUrl}api/${this.module}/destroy/${id}`;
-                axios
-                .delete(urlDelete)
-                .then((response) => {
-                    this.transation(response.data.success, 'delete')
-                })
-                .catch(error => console.log(error));
-            }
+        async destroy(id){
+            let URL = `${this.$root.baseUrl}api/${this.module}/destroy/${id}`;
+            const response = await CRUD.destroy(URL, id);
+            if(response) this.transation()
         },
-        transation(happen,type) {
-            let msg = this.words(type)
+        validations() {
+            this.$v.$touch()
+            return this.$v.$invalid
+        },
+        transation() {
             this.showModal = false
-            if(happen) { // se deu certo
-                    this.list()
-                    this.$root.msg(msg.success,'success')
-                    this.registro = {}
-            } else { // se falhou
-                this.$root.msg(msg.fail,'danger')
-            }
+            this.list()
+            this.registro = {}
         },
-        words(type) {
-            if(type == 'create') return { success : 'Inserido com sucesso', fail: 'Erro ao inserir'}
-            if(type == 'edit') return { success : 'Editado com sucesso', fail: 'Erro ao editar'}
-            if(type == 'delete') return { success : 'Apagado com sucesso', fail: 'Erro ao apagar'}
-        },
-        searchProc(){
+        async searchProc(){
             if(this.registro.origem_proc && this.registro.origem_sjd_ref && this.registro.origem_sjd_ref_ano){
                 let proc = this.registro
-                let urlSearch = `${this.$root.baseUrl}api/dados/proc/${proc.origem_proc}/${proc.origem_sjd_ref}/${proc.origem_sjd_ref_ano}`;
-                axios
-                .get(urlSearch)
-                .then((response) => {
-                    this.registro.origem_opm = response.data.opm
-                })
-                .catch(error => console.log(error));
+                const URL = `${this.$root.baseUrl}api/dados/proc/${proc.origem_proc}/${proc.origem_sjd_ref}/${proc.origem_sjd_ref_ano}`;
+                const response = await CRUD.list(URL)
+                this.registro.origem_opm = response.data.opm
             }
         }
     }

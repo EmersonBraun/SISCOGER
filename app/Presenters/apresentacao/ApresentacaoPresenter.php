@@ -19,7 +19,20 @@ class ApresentacaoPresenter extends Presenter {
 
     public function notificacao()
     {
-        return array_get(config('sistema.apresentacaoNotificacao','Não Há'), $this->id_apresentacaonotificacao);
+        $notificacao = array_get(config('sistema.apresentacaoNotificacao','Não Há'), $this->id_apresentacaonotificacao);
+        if($notificacao == 'Não notificado') $type = 'danger';
+        if($notificacao == 'Pendente') $type = 'warning';
+        if($notificacao == 'Notificado') $type = 'success';
+
+        try {
+            $data1 = \Carbon\Carbon::createFromFormat('d/m/Y',$this->comparecimento_data);
+        } catch (\Throwable $th) {
+            $data1 = \Carbon\Carbon::now();
+        }
+        $data2 = \Carbon\Carbon::now();
+        $intervalo = $data1->diffInDays($data2);
+        $pulse = ($intervalo <= config('sistema.tempo_alerta_apresentacao') && $notificacao == 'Não notificado') ? 'pulse' : '';
+        return "<span class='label label-$type $pulse' data-time='$intervalo'>$notificacao</span>";
     }
 
     public function tipoProcesso()

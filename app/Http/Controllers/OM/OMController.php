@@ -18,7 +18,7 @@ class OMController extends Controller
 
     public function index()
     {
-        $registros = $this->repository->all();
+        $registros = $this->repository->getAll();
         return view('OM.index', compact('registros'));
     }
 }

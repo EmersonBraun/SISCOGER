@@ -1,6 +1,6 @@
 <template>
     <div>
-        <select :name="name" v-model="cdopm" class="form-control" @click="$emit('input', $event.target.value)">
+        <select :name="name" :value="cdopm" class="form-control" @click="$emit('update:cdopm', $event.target.value)">
             <option v-if='todas' value="">Todas as OPM</option>
             <optgroup label="CG">
                 <option value="0">CG (sede)</option>

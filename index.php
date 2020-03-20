@@ -6,7 +6,7 @@
  * @package  Laravel
  * @author   Taylor Otwell <taylor@laravel.com>
  */
-$ip = $_SERVER["REMOTE_ADDR"];
+/*$ip = $_SERVER["REMOTE_ADDR"];
 //echo $ip; die;
 $ipCoger = '10.147.214';
 $ips_com_acesso = [
@@ -20,7 +20,7 @@ $ips_com_acesso = [
 	"$ipCoger.31", // Ten. Titão.
 ];
 // if(!in_array($ip, $ips_com_acesso)) header('Location: http://10.22.9.210/sjd/');
-if(!in_array($ip, $ips_com_acesso)) die("Temporariamente fora do ar. Vide notícias na Intranet.");
+if(!in_array($ip, $ips_com_acesso)) die("Temporariamente fora do ar. Vide notícias na Intranet.");*/
 $uri = urldecode(
     parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
 );

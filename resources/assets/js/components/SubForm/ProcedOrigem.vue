@@ -69,8 +69,14 @@
                             <a class="btn btn-danger btn-block" @click="cancel"><i class="fa fa-times" style="color: white"></i></a>
                         </div>
                         <div class="col-lg-1 col-md-1 col-xs 1">
+                        <template v-if="toEdit && !show">
+                                <label>Editar</label><br>
+                                <a class="btn btn-success btn-block"  @click="editProcedOrigem"><i class="fa fa-plus" style="color: white"></i></a>
+                            </template>
+                             <template v-else>
                             <label>Adicionar</label><br>
                             <a class="btn btn-success btn-block" :disabled="!finded" @click="createProc"><i class="fa fa-plus" style="color: white"></i></a>
+                            </template>
                         </div>
                     </form>
                 </div>
@@ -105,8 +111,8 @@
                                 </td>
                                 <td v-if="!show">
                                     <div class="btn-group" role="group" aria-label="First group">
-                                        <a type="button" @click="showProc(procedimento.origem_proc, procedimento.origem_sjd_ref, procedimento.origem_sjd_ref_ano)" target="_blanck" class="btn btn-primary" style="color: white">
-                                            <i class="fa fa-eye"></i>
+                                        <a type="button" @click="replaceProcedOrigem(procedimento)" target="_blanck" class="btn btn-success" style="color: white">
+                                            <i class="fa fa-edit"></i>
                                         </a>
                                         <a v-if="canDelete" type="button"  @click="removeProc(procedimento.id_ligacao)" class="btn btn-danger" style="color: white">
                                             <i class="fa fa-trash"></i> 
@@ -143,6 +149,7 @@
         },
         data() {
             return {
+                add: false,
                 proc: '',
                 ref: '',
                 ano: '',
@@ -156,10 +163,13 @@
                 id_proc: '',
                 origin: '',
                 only: false,
+                toEdit: '',
+                edit_proc: this.idp,
             }
         },
         // depois de montado
         mounted(){
+            this.verifyOnly
             this.listProc()
             this.verifyOnly()
         },
@@ -174,6 +184,7 @@
                 const year = new Date().getFullYear()
                 return Array.from({length: year - 2008}, (value, index) => 2009 + index)
             },
+
             canDelete(){
                 return this.$root.hasPermission('apagar-procedimento-origem')
             },
@@ -206,6 +217,26 @@
                     console.log(error)
                     this.erro = "Erro ao enviar arquivo"
                 });
+            },
+            replaceProcedOrigem(procedimento){
+               console.table(procedimento)
+               this.proc = procedimento.proc,
+               this.ref = procedimento.ref,
+               this.ano = procedimento.ano,
+               this.opm = procedimento.opm,
+               this.toEdit = procedimento.id_ligacao,
+
+               this.add = true   
+            },
+            editProcedOrigem(){
+              let urledit = `${this.$root.baseUrl}api/ligacao/update/${this.toEdit}`
+              
+              let formData = document.getElementById('formProcDestino');
+              let data = new FormData(formData);
+
+              axios.post( urledit,data)
+              .then(this.listProc)
+              .catch((error) => console.log(error));
             },
             // listagem dos arquivos existentes
             listProc(){
@@ -250,7 +281,23 @@
                 this.ano = ''
                 this.opm = ''
             },
-            clear(){
+            transation(happen,type) {
+                let msg = this.words(type)
+                if(happen) { // se deu certo
+                        this.listProc()
+                        this.$root.msg(msg.success,'success')
+                        this.clear(false)
+                } else { // se falhou
+                    this.$root.msg(msg.fail,'danger')
+                }
+            },
+            words(type) {
+                if(type == 'create') return { success : 'Inserido com sucesso', fail: 'Erro ao inserir'}
+                if(type == 'edit') return { success : 'Editado com sucesso', fail: 'Erro ao editar'}
+                if(type == 'delete') return { success : 'Apagado com sucesso', fail: 'Erro ao apagar'}
+            },
+            clear(add){
+                this.add = add
                 this.proc = ''
                 this.ref = ''
                 this.ano = ''

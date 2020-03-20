@@ -22,6 +22,7 @@
             :itens="[
                 {idp: 'principal',name: 'Principal', cls: 'active'},
                 {idp: 'envolvidos',name: 'Envolvidos'},
+                {idp: 'documentos',name: 'Documentos'},
                 {idp: 'acordaos',name: 'Acórdãos'},
                 {idp: 'recursos',name: 'Recursos'},
                 {idp: 'membros',name: 'Membros'},
@@ -86,6 +87,45 @@
                     <v-proced-origem dproc="cj" dref="{{$proc['sjd_ref']}}" dano="{{$proc['sjd_ref_ano']}}" show></v-proced-origem><br>           
                     <v-acusado dproc="cj" idp="{{$proc['id_cj']}}" situacao="{{sistema('procSituacao','cj')}}" show ></v-acusado><br>
                     <v-vitima dproc="cj" idp="{{$proc['id_cj']}}" show ></v-vitima><br>
+                </v-tab-item>
+                <v-tab-item title="Documentos" idp="documentos">
+                <file-upload 
+                        title="Documento Juntado:"
+                        name="relato_enc_file"
+                        dproc="cj" idp="{{$proc['id_cj']}}"
+                        :ext="['pdf']"
+                        show 
+                        ></file-upload>
+                        <v-item-unique title="Data" proc="cj" dproc="cj" idp="{{$proc['id_cj']}}" name="relato_enc_data" show></v-item-unique>
+                <v-item-unique title="Conclusão do encarregado" proc="cj" dproc="cj" idp="{{$proc['id_cj']}}" name="relato_enc" show></v-item-unique>
+                <file-upload 
+                title="PDF - Solução do Cmt OPM:"
+                name="relato_cmtopm_file"
+                dproc="cj" idp="{{$proc['id_cj']}}"
+                :ext="['pdf']"
+                show 
+                ></file-upload>
+                <v-item-unique title="Data" proc="cj" dproc="cj" idp="{{$proc['id_cj']}}" name="relato_cmtopm_data" show></v-item-unique>
+                <v-item-unique title="Conclusão do Cmt. OPM" proc="cj" dproc="cj" idp="{{$proc['id_cj']}}" name="relato_cmtopm" show></v-item-unique>
+                <file-upload 
+                title="PDF - Decisão do Cmt Geral:"
+                name="relato_cmtgeral_file"
+                dproc="cj" idp="{{$proc['id_cj']}}"
+                :ext="['pdf']"
+                show 
+                ></file-upload>
+                <v-item-unique title="Data" proc="cj" dproc="cj" idp="{{$proc['id_cj']}}" name="relato_cmtgeral_data" show></v-item-unique>
+                <v-item-unique title="Conclusão do Cmt. Geral" proc="cj" dproc="cj" idp="{{$proc['id_cj']}}" name="relato_cmtgeral" show></v-item-unique>
+                
+                <file-upload 
+                    title="Relatório complementar"
+                    name="relcomplemtentar_file"
+                    dproc="cj" idp="{{$proc['id_cj']}}"
+                    :ext="['pdf']"
+                    show 
+
+                    >
+                </file-upload>
                 </v-tab-item>
                 <v-tab-item title="Acórdãos" idp="acordaos">
                     <file-upload 

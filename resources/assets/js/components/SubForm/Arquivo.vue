@@ -79,7 +79,7 @@
                         <tbody>
                             <tr v-for="(arquivo, index) in arquivos" :key="index">
                                 <td>{{ index + 1 }}</td>
-                                <td>{{ arquivo.arquivo_data | date_br}}</td>
+                                <td>{{ arquivo.arquivo_data}}</td>
                                 <td>{{ arquivo.local_atual }}</td>
                                 <td>{{ arquivo.numero }}/{{ arquivo.letra }}</td>
                                 <td>{{ arquivo.obs }}</td>
@@ -179,7 +179,7 @@
                     .get(urlIndex)
                     .then((response) => {
                         this.arquivos = response.data
-                        // console.log(response.data)
+                         //console.log(response.data)
                     })
                     .then(this.clear)//limpa a busca
                     .catch(error => console.log(error));

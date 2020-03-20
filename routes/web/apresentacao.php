@@ -5,7 +5,8 @@ Route::group(['as'=>'apresentacao.','prefix' =>'apresentacao'],function(){
     Route::post('',['as' =>'search','uses'=>'Apresentacao\ApresentacaoController@search','middleware' => ['permission:listar-apresentacao']]);
 	Route::get('criar',['as' =>'create','uses'=>'Apresentacao\ApresentacaoController@create','middleware' => ['permission:criar-apresentacao']]);
 	Route::get('editar/{ref}/{ano?}',['as' =>'edit','uses'=>'Apresentacao\ApresentacaoController@edit','middleware' => ['permission:editar-apresentacao']]);
-	Route::get('memorando/{id}',['as' =>'memorando','uses'=>'Apresentacao\ApresentacaoController@memorando']);
+    Route::get('memorando/{id}',['as' =>'memorando','uses'=>'Apresentacao\ApresentacaoController@memorando']);
+    Route::get('previstas',['as' =>'previstas','uses'=>'Apresentacao\ApresentacaoController@previstas','middleware' => ['permission:listar-apresentacao']]);
     Route::get('list/{ano?}/{mes?}/{cdopm?}',['as' =>'index','uses'=>'Apresentacao\ApresentacaoController@index','middleware' => ['permission:listar-apresentacao']]);
     Route::get('destroy/{id}',['as' =>'destroy','uses'=>'Apresentacao\ApresentacaoController@destroy','middleware' => ['permission:apagar-apresentacao']]);
     Route::get('restore/{id}',['as' =>'restore','uses'=>'Apresentacao\ApresentacaoController@restore','middleware' => ['role:admin']]);

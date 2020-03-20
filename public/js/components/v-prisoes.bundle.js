@@ -5,18 +5,27 @@ webpackJsonp([0,6,19,35,40,53],{
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_the_mask__ = __webpack_require__("./node_modules/vue-the-mask/dist/vue-the-mask.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_the_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_the_mask__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Modal_vue__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Modal.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Vuestrap_Modal_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vuestrap_Tooltip_vue__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Tooltip.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vuestrap_Tooltip_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Vuestrap_Tooltip_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Vuestrap_Datepicker_vue__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Datepicker.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Vuestrap_Datepicker_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Vuestrap_Datepicker_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Form_Label_vue__ = __webpack_require__("./resources/assets/js/components/Form/Label.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Form_Label_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Form_Label_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Form_OPM_vue__ = __webpack_require__("./resources/assets/js/components/Form/OPM.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Form_OPM_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Form_OPM_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_CRUD__ = __webpack_require__("./resources/assets/js/utils/CRUD.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__ = __webpack_require__("./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_the_mask__ = __webpack_require__("./node_modules/vue-the-mask/dist/vue-the-mask.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_the_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_the_mask__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Vuestrap_Modal_vue__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Modal.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Vuestrap_Modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Vuestrap_Modal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Vuestrap_Tooltip_vue__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Tooltip.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Vuestrap_Tooltip_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Vuestrap_Tooltip_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Vuestrap_Datepicker_vue__ = __webpack_require__("./resources/assets/js/components/Vuestrap/Datepicker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Vuestrap_Datepicker_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Vuestrap_Datepicker_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Form_Label_vue__ = __webpack_require__("./resources/assets/js/components/Form/Label.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Form_Label_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__Form_Label_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Form_OPM_vue__ = __webpack_require__("./resources/assets/js/components/Form/OPM.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Form_OPM_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__Form_OPM_vue__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 //
 //
 //
@@ -175,8 +184,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
+
+
 
 
 
@@ -186,7 +195,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { TheMask: __WEBPACK_IMPORTED_MODULE_0_vue_the_mask__["TheMask"], Modal: __WEBPACK_IMPORTED_MODULE_1__Vuestrap_Modal_vue___default.a, Label: __WEBPACK_IMPORTED_MODULE_4__Form_Label_vue___default.a, Tooltip: __WEBPACK_IMPORTED_MODULE_2__Vuestrap_Tooltip_vue___default.a, Datepicker: __WEBPACK_IMPORTED_MODULE_3__Vuestrap_Datepicker_vue___default.a, Opm: __WEBPACK_IMPORTED_MODULE_5__Form_OPM_vue___default.a },
+    components: { TheMask: __WEBPACK_IMPORTED_MODULE_3_vue_the_mask__["TheMask"], Modal: __WEBPACK_IMPORTED_MODULE_4__Vuestrap_Modal_vue___default.a, Label: __WEBPACK_IMPORTED_MODULE_7__Form_Label_vue___default.a, Tooltip: __WEBPACK_IMPORTED_MODULE_5__Vuestrap_Tooltip_vue___default.a, Datepicker: __WEBPACK_IMPORTED_MODULE_6__Vuestrap_Datepicker_vue___default.a, Opm: __WEBPACK_IMPORTED_MODULE_8__Form_OPM_vue___default.a },
     props: ['pm'],
     data: function data() {
         return {
@@ -200,6 +209,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
+    validations: {
+        local: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+        cdopm_quandopreso: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] },
+        inicio_data: { required: __WEBPACK_IMPORTED_MODULE_2_vuelidate_lib_validators__["required"] }
+    },
     filters: {
         fimPrisao: function fimPrisao(value) {
             if (!value) return 'Está preso';
@@ -213,110 +227,208 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
-        requireds: function requireds() {
-            if (this.registro.local && this.registro.cdopm_quandopreso && this.registro.inicio_data) return false;
-            return true;
+        local: function local() {
+            return this.registro.local;
+        },
+        cdopm_quandopreso: function cdopm_quandopreso() {
+            return this.registro.cdopm_quandopreso;
+        },
+        inicio_data: function inicio_data() {
+            return this.registro.inicio_data;
         },
         lenght: function lenght() {
             if (this.registros) return Object.keys(this.registros).length;
             return 0;
-        },
-        msgRequired: function msgRequired() {
-            return 'Para liberar este bot\xE3o os campos: LOCAL, QUARTEL ONDE EST\xC1 PRESO e DATA DE IN\xCDCIO deve estar preenchidos';
         }
     },
     methods: {
-        list: function list() {
-            var _this = this;
+        list: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+                var rg, URL, response;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                rg = this.$root.dadoSession('rg');
+                                URL = this.$root.baseUrl + 'api/' + this.module + '/list/' + rg;
+                                _context.next = 4;
+                                return __WEBPACK_IMPORTED_MODULE_1__utils_CRUD__["a" /* default */].list(URL);
 
-            var urlIndex = this.$root.baseUrl + 'api/' + this.module + '/list/' + this.pm.RG;
-            if (this.pm.RG) {
-                axios.get(urlIndex).then(function (response) {
-                    _this.registros = response.data;
-                }).catch(function (error) {
-                    return console.log(error);
-                });
+                            case 4:
+                                response = _context.sent;
+
+                                this.registros = response.data;
+
+                            case 6:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function list() {
+                return _ref.apply(this, arguments);
             }
-        },
+
+            return list;
+        }(),
         toCreate: function toCreate() {
             this.showModal = true;
-            this.registro.rg = this.pm.RG;
-            this.registro.cargo = this.pm.CARGO;
-            this.registro.nome = this.pm.NOME;
+            this.registro.rg = this.$root.dadoSession('rg');
+            this.registro.origem_opm = this.$root.dadoSession('opm_descricao');
+            this.registro.cargo = this.$root.dadoSession('cargo');
+            this.registro.nome = this.$root.dadoSession('nome');
         },
-        create: function create() {
-            var _this2 = this;
+        create: function () {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var URL, response;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                if (this.validations()) {
+                                    _context2.next = 6;
+                                    break;
+                                }
 
-            if (!this.requireds) {
+                                URL = this.$root.baseUrl + 'api/' + this.module + '/store';
+                                _context2.next = 4;
+                                return __WEBPACK_IMPORTED_MODULE_1__utils_CRUD__["a" /* default */].create(URL, this.registro);
 
-                var urlCreate = this.$root.baseUrl + 'api/' + this.module + '/store';
-                axios.post(urlCreate, this.registro).then(function (response) {
-                    _this2.transation(response.data.success, 'create');
-                }).catch(function (error) {
-                    return console.log(error);
-                });
-                this.showModal = false;
+                            case 4:
+                                response = _context2.sent;
+
+                                if (response) this.transation();
+
+                            case 6:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function create() {
+                return _ref2.apply(this, arguments);
             }
-        },
+
+            return create;
+        }(),
         edit: function edit(registro) {
             this.registro = registro;
             this.showModal = true;
         },
-        update: function update(id) {
-            var _this3 = this;
+        update: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3(id) {
+                var URL, response;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                if (this.validations()) {
+                                    _context3.next = 6;
+                                    break;
+                                }
 
-            if (!this.requireds) {
-                var urlUpdate = this.$root.baseUrl + 'api/' + this.module + '/update/' + id;
-                axios.put(urlUpdate, this.registro).then(function (response) {
-                    _this3.transation(response.data.success, 'edit');
-                }).catch(function (error) {
-                    return console.log(error);
-                });
-            }
-        },
-        destroy: function destroy(id) {
-            var _this4 = this;
+                                URL = this.$root.baseUrl + 'api/' + this.module + '/update/' + id;
+                                _context3.next = 4;
+                                return __WEBPACK_IMPORTED_MODULE_1__utils_CRUD__["a" /* default */].update(URL, this.registro);
 
-            if (confirm('Você tem certeza?')) {
-                var urlDelete = this.$root.baseUrl + 'api/' + this.module + '/destroy/' + id;
-                axios.delete(urlDelete).then(function (response) {
-                    _this4.transation(response.data.success, 'delete');
-                }).catch(function (error) {
-                    return console.log(error);
-                });
+                            case 4:
+                                response = _context3.sent;
+
+                                if (response) this.transation();
+
+                            case 6:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this);
+            }));
+
+            function update(_x) {
+                return _ref3.apply(this, arguments);
             }
+
+            return update;
+        }(),
+        destroy: function () {
+            var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4(id) {
+                var URL, response;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                URL = this.$root.baseUrl + 'api/' + this.module + '/destroy/' + id;
+                                _context4.next = 3;
+                                return __WEBPACK_IMPORTED_MODULE_1__utils_CRUD__["a" /* default */].destroy(URL, id);
+
+                            case 3:
+                                response = _context4.sent;
+
+                                if (response) this.transation();
+
+                            case 5:
+                            case 'end':
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this);
+            }));
+
+            function destroy(_x2) {
+                return _ref4.apply(this, arguments);
+            }
+
+            return destroy;
+        }(),
+        validations: function validations() {
+            this.$v.$touch();
+            return this.$v.$invalid;
         },
-        transation: function transation(happen, type) {
-            var msg = this.words(type);
+        transation: function transation() {
             this.showModal = false;
-            if (happen) {
-                // se deu certo
-                this.list();
-                this.$root.msg(msg.success, 'success');
-                this.registro = {};
-            } else {
-                // se falhou
-                this.$root.msg(msg.fail, 'danger');
-            }
+            this.list();
+            this.registro = {};
         },
-        words: function words(type) {
-            if (type == 'create') return { success: 'Inserido com sucesso', fail: 'Erro ao inserir' };
-            if (type == 'edit') return { success: 'Editado com sucesso', fail: 'Erro ao editar' };
-            if (type == 'delete') return { success: 'Apagado com sucesso', fail: 'Erro ao apagar' };
-        },
-        searchProc: function searchProc() {
-            var _this5 = this;
+        searchProc: function () {
+            var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee5() {
+                var proc, URL, response;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+                    while (1) {
+                        switch (_context5.prev = _context5.next) {
+                            case 0:
+                                if (!(this.registro.origem_proc && this.registro.origem_sjd_ref && this.registro.origem_sjd_ref_ano)) {
+                                    _context5.next = 7;
+                                    break;
+                                }
 
-            if (this.registro.origem_proc && this.registro.origem_sjd_ref && this.registro.origem_sjd_ref_ano) {
-                var proc = this.registro;
-                var urlSearch = this.$root.baseUrl + 'api/dados/proc/' + proc.origem_proc + '/' + proc.origem_sjd_ref + '/' + proc.origem_sjd_ref_ano;
-                axios.get(urlSearch).then(function (response) {
-                    _this5.registro.origem_opm = response.data.opm;
-                }).catch(function (error) {
-                    return console.log(error);
-                });
+                                proc = this.registro;
+                                URL = this.$root.baseUrl + 'api/dados/proc/' + proc.origem_proc + '/' + proc.origem_sjd_ref + '/' + proc.origem_sjd_ref_ano;
+                                _context5.next = 5;
+                                return __WEBPACK_IMPORTED_MODULE_1__utils_CRUD__["a" /* default */].list(URL);
+
+                            case 5:
+                                response = _context5.sent;
+
+                                this.registro.origem_opm = response.data.opm;
+
+                            case 7:
+                            case 'end':
+                                return _context5.stop();
+                        }
+                    }
+                }, _callee5, this);
+            }));
+
+            function searchProc() {
+                return _ref5.apply(this, arguments);
             }
-        }
+
+            return searchProc;
+        }()
     }
 });
 
@@ -684,11 +796,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     changeToToday: function changeToToday() {
       this.val = this.today();
-      this.value = this.val;
     },
     cleanVal: function cleanVal() {
       this.val = '';
-      this.value = this.val;
     },
     today: function today() {
       var today = new Date();
@@ -1070,6 +1180,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-runtime/regenerator/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("./node_modules/regenerator-runtime/runtime-module.js");
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-32e23186\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/FDI/Prisoes.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1156,6 +1274,782 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
+
+
+/***/ }),
+
+/***/ "./node_modules/regenerator-runtime/runtime-module.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+// This method of obtaining a reference to the global object needs to be
+// kept identical to the way it is obtained in runtime.js
+var g = (function() { return this })() || Function("return this")();
+
+// Use `getOwnPropertyNames` because not all browsers support calling
+// `hasOwnProperty` on the global `self` object in a worker. See #183.
+var hadRuntime = g.regeneratorRuntime &&
+  Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
+
+// Save the old regeneratorRuntime in case it needs to be restored later.
+var oldRuntime = hadRuntime && g.regeneratorRuntime;
+
+// Force reevalutation of runtime.js.
+g.regeneratorRuntime = undefined;
+
+module.exports = __webpack_require__("./node_modules/regenerator-runtime/runtime.js");
+
+if (hadRuntime) {
+  // Restore the original runtime.
+  g.regeneratorRuntime = oldRuntime;
+} else {
+  // Remove the global property added by runtime.js.
+  try {
+    delete g.regeneratorRuntime;
+  } catch(e) {
+    g.regeneratorRuntime = undefined;
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/***/ (function(module, exports) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+!(function(global) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  var inModule = typeof module === "object";
+  var runtime = global.regeneratorRuntime;
+  if (runtime) {
+    if (inModule) {
+      // If regeneratorRuntime is defined globally and we're in a module,
+      // make the exports object identical to regeneratorRuntime.
+      module.exports = runtime;
+    }
+    // Don't bother evaluating the rest of this file if the runtime was
+    // already defined globally.
+    return;
+  }
+
+  // Define the runtime globally (as expected by generated code) as either
+  // module.exports (if we're in a module) or a new, empty object.
+  runtime = global.regeneratorRuntime = inModule ? module.exports : {};
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  runtime.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    });
+  }
+
+  runtime.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  runtime.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  runtime.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return Promise.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return Promise.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration. If the Promise is rejected, however, the
+          // result for this iteration will be rejected with the same
+          // reason. Note that rejections of yielded Promises are not
+          // thrown back into the generator function, as is the case
+          // when an awaited Promise is rejected. This difference in
+          // behavior between yield and await is important, because it
+          // allows the consumer to decide what to do with the yielded
+          // rejection (swallow it and continue, manually .throw it back
+          // into the generator, abandon iteration, whatever). With
+          // await, by contrast, there is no opportunity to examine the
+          // rejection reason outside the generator function, so the
+          // only option is to throw it from the await expression, and
+          // let the generator function handle the exception.
+          result.value = unwrapped;
+          resolve(result);
+        }, reject);
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new Promise(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  runtime.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList)
+    );
+
+    return runtime.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        if (delegate.iterator.return) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  runtime.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  runtime.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+})(
+  // In sloppy mode, unbound `this` refers to the global object, fallback to
+  // Function constructor if we're in global strict mode. That is sadly a form
+  // of indirect eval which violates Content Security Policy.
+  (function() { return this })() || Function("return this")()
+);
 
 
 /***/ }),
@@ -1428,7 +2322,15 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-label",
-                { attrs: { label: "cdopm_quandopreso", title: "OPM" } },
+                {
+                  attrs: {
+                    label: "cdopm_quandopreso",
+                    title: "OPM",
+                    error: _vm.$v.cdopm_quandopreso.$error
+                      ? "Campo obrigatório"
+                      : ""
+                  }
+                },
                 [
                   _c("Opm", {
                     attrs: {
@@ -1436,12 +2338,14 @@ var render = function() {
                       required: "",
                       cdopm: _vm.registro.cdopm_quandopreso
                     },
-                    model: {
-                      value: _vm.registro.cdopm_quandopreso,
-                      callback: function($$v) {
-                        _vm.$set(_vm.registro, "cdopm_quandopreso", $$v)
-                      },
-                      expression: "registro.cdopm_quandopreso"
+                    on: {
+                      "update:cdopm": function($event) {
+                        return _vm.$set(
+                          _vm.registro,
+                          "cdopm_quandopreso",
+                          $event
+                        )
+                      }
                     }
                   })
                 ],
@@ -1451,7 +2355,11 @@ var render = function() {
               _c(
                 "v-label",
                 {
-                  attrs: { label: "local", title: "Local de reclusão/detenção" }
+                  attrs: {
+                    label: "local",
+                    title: "Local de reclusão/detenção",
+                    error: _vm.$v.local.$error ? "Campo obrigatório" : ""
+                  }
                 },
                 [
                   _c(
@@ -2004,7 +2912,8 @@ var render = function() {
                   attrs: {
                     label: "inicio_data",
                     title: "Data de entrada na prisão",
-                    icon: "fa fa-calendar"
+                    icon: "fa fa-calendar",
+                    error: _vm.$v.inicio_data.$error ? "Campo obrigatório" : ""
                   }
                 },
                 [
@@ -2117,49 +3026,32 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-xs-6" },
-                [
-                  _c(
-                    "v-tooltip",
-                    {
-                      attrs: {
-                        effect: "scale",
-                        placement: "top",
-                        content: _vm.msgRequired
-                      }
-                    },
-                    [
-                      _vm.registro.id_preso
-                        ? _c(
-                            "a",
-                            {
-                              staticClass: "btn btn-success btn-block",
-                              attrs: { disabled: _vm.requireds },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.update(_vm.registro.id_preso)
-                                }
-                              }
-                            },
-                            [_vm._v("Editar")]
-                          )
-                        : _c(
-                            "a",
-                            {
-                              staticClass: "btn btn-success btn-block",
-                              attrs: { disabled: _vm.requireds },
-                              on: { click: _vm.create }
-                            },
-                            [_vm._v("Inserir")]
-                          )
-                    ]
-                  )
-                ],
-                1
-              )
+              _c("div", { staticClass: "col-xs-6" }, [
+                _vm.registro.id_preso
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-success btn-block",
+                        attrs: { disabled: _vm.$v.$anyError },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.update(_vm.registro.id_preso)
+                          }
+                        }
+                      },
+                      [_vm._v("Editar")]
+                    )
+                  : _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-success btn-block",
+                        attrs: { disabled: _vm.$v.$anyError },
+                        on: { click: _vm.create }
+                      },
+                      [_vm._v("Inserir")]
+                    )
+              ])
             ]
           )
         ]
@@ -2431,17 +3323,17 @@ var render = function() {
           readonly: "",
           name: _vm.name
         },
-        domProps: { value: _vm.val || _vm.value },
+        domProps: { value: _vm.val },
         on: {
           click: _vm.inputClick,
           input: function($event) {
-            return this.$emit("input", $event.target.val)
+            return this.$emit("update:" + _vm.name, $event.target.val)
           }
         }
       }),
       _vm._v(" "),
       _c("div", { staticClass: "append" }, [
-        !_vm.value
+        !_vm.val
           ? _c(
               "span",
               { staticClass: "btne", on: { click: _vm.changeToToday } },
@@ -2449,7 +3341,7 @@ var render = function() {
             )
           : _vm._e(),
         _vm._v(" "),
-        _vm.clearButton && _vm.value
+        _vm.clearButton && _vm.val
           ? _c("span", { staticClass: "btne", on: { click: _vm.cleanVal } }, [
               _vm._v("   X   ")
             ])
@@ -2707,32 +3599,12 @@ var render = function() {
     _c(
       "select",
       {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.cdopm,
-            expression: "cdopm"
-          }
-        ],
         staticClass: "form-control",
         attrs: { name: _vm.name },
+        domProps: { value: _vm.cdopm },
         on: {
           click: function($event) {
-            return _vm.$emit("input", $event.target.value)
-          },
-          change: function($event) {
-            var $$selectedVal = Array.prototype.filter
-              .call($event.target.options, function(o) {
-                return o.selected
-              })
-              .map(function(o) {
-                var val = "_value" in o ? o._value : o.value
-                return val
-              })
-            _vm.cdopm = $event.target.multiple
-              ? $$selectedVal
-              : $$selectedVal[0]
+            return _vm.$emit("update:cdopm", $event.target.value)
           }
         }
       },
@@ -3250,6 +4122,885 @@ if(false) {
  // When the module is disposed, remove the <style> tags
  module.hot.dispose(function() { update(); });
 }
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/alpha.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('alpha', /^[a-zA-Z]*$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/alphaNum.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('alphaNum', /^[a-zA-Z0-9]*$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/and.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default() {
+  for (var _len = arguments.length, validators = new Array(_len), _key = 0; _key < _len; _key++) {
+    validators[_key] = arguments[_key];
+  }
+
+  return (0, _common.withParams)({
+    type: 'and'
+  }, function () {
+    var _this = this;
+
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return validators.length > 0 && validators.reduce(function (valid, fn) {
+      return valid && fn.apply(_this, args);
+    }, true);
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/between.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(min, max) {
+  return (0, _common.withParams)({
+    type: 'between',
+    min: min,
+    max: max
+  }, function (value) {
+    return !(0, _common.req)(value) || (!/\s/.test(value) || value instanceof Date) && +min <= +value && +max >= +value;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/common.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "withParams", {
+  enumerable: true,
+  get: function get() {
+    return _withParams.default;
+  }
+});
+exports.regex = exports.ref = exports.len = exports.req = void 0;
+
+var _withParams = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/withParams.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var req = function req(value) {
+  if (Array.isArray(value)) return !!value.length;
+
+  if (value === undefined || value === null) {
+    return false;
+  }
+
+  if (value === false) {
+    return true;
+  }
+
+  if (value instanceof Date) {
+    return !isNaN(value.getTime());
+  }
+
+  if (_typeof(value) === 'object') {
+    for (var _ in value) {
+      return true;
+    }
+
+    return false;
+  }
+
+  return !!String(value).length;
+};
+
+exports.req = req;
+
+var len = function len(value) {
+  if (Array.isArray(value)) return value.length;
+
+  if (_typeof(value) === 'object') {
+    return Object.keys(value).length;
+  }
+
+  return String(value).length;
+};
+
+exports.len = len;
+
+var ref = function ref(reference, vm, parentVm) {
+  return typeof reference === 'function' ? reference.call(vm, parentVm) : parentVm[reference];
+};
+
+exports.ref = ref;
+
+var regex = function regex(type, expr) {
+  return (0, _withParams.default)({
+    type: type
+  }, function (value) {
+    return !req(value) || expr.test(value);
+  });
+};
+
+exports.regex = regex;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/decimal.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('decimal', /^[-]?\d*(\.\d+)?$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/email.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var emailRegex = /(^$|^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
+
+var _default = (0, _common.regex)('email', emailRegex);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "alpha", {
+  enumerable: true,
+  get: function get() {
+    return _alpha.default;
+  }
+});
+Object.defineProperty(exports, "alphaNum", {
+  enumerable: true,
+  get: function get() {
+    return _alphaNum.default;
+  }
+});
+Object.defineProperty(exports, "numeric", {
+  enumerable: true,
+  get: function get() {
+    return _numeric.default;
+  }
+});
+Object.defineProperty(exports, "between", {
+  enumerable: true,
+  get: function get() {
+    return _between.default;
+  }
+});
+Object.defineProperty(exports, "email", {
+  enumerable: true,
+  get: function get() {
+    return _email.default;
+  }
+});
+Object.defineProperty(exports, "ipAddress", {
+  enumerable: true,
+  get: function get() {
+    return _ipAddress.default;
+  }
+});
+Object.defineProperty(exports, "macAddress", {
+  enumerable: true,
+  get: function get() {
+    return _macAddress.default;
+  }
+});
+Object.defineProperty(exports, "maxLength", {
+  enumerable: true,
+  get: function get() {
+    return _maxLength.default;
+  }
+});
+Object.defineProperty(exports, "minLength", {
+  enumerable: true,
+  get: function get() {
+    return _minLength.default;
+  }
+});
+Object.defineProperty(exports, "required", {
+  enumerable: true,
+  get: function get() {
+    return _required.default;
+  }
+});
+Object.defineProperty(exports, "requiredIf", {
+  enumerable: true,
+  get: function get() {
+    return _requiredIf.default;
+  }
+});
+Object.defineProperty(exports, "requiredUnless", {
+  enumerable: true,
+  get: function get() {
+    return _requiredUnless.default;
+  }
+});
+Object.defineProperty(exports, "sameAs", {
+  enumerable: true,
+  get: function get() {
+    return _sameAs.default;
+  }
+});
+Object.defineProperty(exports, "url", {
+  enumerable: true,
+  get: function get() {
+    return _url.default;
+  }
+});
+Object.defineProperty(exports, "or", {
+  enumerable: true,
+  get: function get() {
+    return _or.default;
+  }
+});
+Object.defineProperty(exports, "and", {
+  enumerable: true,
+  get: function get() {
+    return _and.default;
+  }
+});
+Object.defineProperty(exports, "not", {
+  enumerable: true,
+  get: function get() {
+    return _not.default;
+  }
+});
+Object.defineProperty(exports, "minValue", {
+  enumerable: true,
+  get: function get() {
+    return _minValue.default;
+  }
+});
+Object.defineProperty(exports, "maxValue", {
+  enumerable: true,
+  get: function get() {
+    return _maxValue.default;
+  }
+});
+Object.defineProperty(exports, "integer", {
+  enumerable: true,
+  get: function get() {
+    return _integer.default;
+  }
+});
+Object.defineProperty(exports, "decimal", {
+  enumerable: true,
+  get: function get() {
+    return _decimal.default;
+  }
+});
+exports.helpers = void 0;
+
+var _alpha = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/alpha.js"));
+
+var _alphaNum = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/alphaNum.js"));
+
+var _numeric = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/numeric.js"));
+
+var _between = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/between.js"));
+
+var _email = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/email.js"));
+
+var _ipAddress = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/ipAddress.js"));
+
+var _macAddress = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/macAddress.js"));
+
+var _maxLength = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/maxLength.js"));
+
+var _minLength = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/minLength.js"));
+
+var _required = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/required.js"));
+
+var _requiredIf = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/requiredIf.js"));
+
+var _requiredUnless = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/requiredUnless.js"));
+
+var _sameAs = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/sameAs.js"));
+
+var _url = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/url.js"));
+
+var _or = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/or.js"));
+
+var _and = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/and.js"));
+
+var _not = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/not.js"));
+
+var _minValue = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/minValue.js"));
+
+var _maxValue = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/maxValue.js"));
+
+var _integer = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/integer.js"));
+
+var _decimal = _interopRequireDefault(__webpack_require__("./node_modules/vuelidate/lib/validators/decimal.js"));
+
+var helpers = _interopRequireWildcard(__webpack_require__("./node_modules/vuelidate/lib/validators/common.js"));
+
+exports.helpers = helpers;
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/integer.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('integer', /(^[0-9]*$)|(^-[0-9]+$)/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/ipAddress.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.withParams)({
+  type: 'ipAddress'
+}, function (value) {
+  if (!(0, _common.req)(value)) {
+    return true;
+  }
+
+  if (typeof value !== 'string') {
+    return false;
+  }
+
+  var nibbles = value.split('.');
+  return nibbles.length === 4 && nibbles.every(nibbleValid);
+});
+
+exports.default = _default;
+
+var nibbleValid = function nibbleValid(nibble) {
+  if (nibble.length > 3 || nibble.length === 0) {
+    return false;
+  }
+
+  if (nibble[0] === '0' && nibble !== '0') {
+    return false;
+  }
+
+  if (!nibble.match(/^\d+$/)) {
+    return false;
+  }
+
+  var numeric = +nibble | 0;
+  return numeric >= 0 && numeric <= 255;
+};
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/macAddress.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default() {
+  var separator = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ':';
+  return (0, _common.withParams)({
+    type: 'macAddress'
+  }, function (value) {
+    if (!(0, _common.req)(value)) {
+      return true;
+    }
+
+    if (typeof value !== 'string') {
+      return false;
+    }
+
+    var parts = typeof separator === 'string' && separator !== '' ? value.split(separator) : value.length === 12 || value.length === 16 ? value.match(/.{2}/g) : null;
+    return parts !== null && (parts.length === 6 || parts.length === 8) && parts.every(hexValid);
+  });
+};
+
+exports.default = _default;
+
+var hexValid = function hexValid(hex) {
+  return hex.toLowerCase().match(/^[0-9a-f]{2}$/);
+};
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/maxLength.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(length) {
+  return (0, _common.withParams)({
+    type: 'maxLength',
+    max: length
+  }, function (value) {
+    return !(0, _common.req)(value) || (0, _common.len)(value) <= length;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/maxValue.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(max) {
+  return (0, _common.withParams)({
+    type: 'maxValue',
+    max: max
+  }, function (value) {
+    return !(0, _common.req)(value) || (!/\s/.test(value) || value instanceof Date) && +value <= +max;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/minLength.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(length) {
+  return (0, _common.withParams)({
+    type: 'minLength',
+    min: length
+  }, function (value) {
+    return !(0, _common.req)(value) || (0, _common.len)(value) >= length;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/minValue.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(min) {
+  return (0, _common.withParams)({
+    type: 'minValue',
+    min: min
+  }, function (value) {
+    return !(0, _common.req)(value) || (!/\s/.test(value) || value instanceof Date) && +value >= +min;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/not.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(validator) {
+  return (0, _common.withParams)({
+    type: 'not'
+  }, function (value, vm) {
+    return !(0, _common.req)(value) || !validator.call(this, value, vm);
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/numeric.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.regex)('numeric', /^[0-9]*$/);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/or.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default() {
+  for (var _len = arguments.length, validators = new Array(_len), _key = 0; _key < _len; _key++) {
+    validators[_key] = arguments[_key];
+  }
+
+  return (0, _common.withParams)({
+    type: 'or'
+  }, function () {
+    var _this = this;
+
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return validators.length > 0 && validators.reduce(function (valid, fn) {
+      return valid || fn.apply(_this, args);
+    }, false);
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/required.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = (0, _common.withParams)({
+  type: 'required'
+}, function (value) {
+  if (typeof value === 'string') {
+    return (0, _common.req)(value.trim());
+  }
+
+  return (0, _common.req)(value);
+});
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/requiredIf.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(prop) {
+  return (0, _common.withParams)({
+    type: 'requiredIf',
+    prop: prop
+  }, function (value, parentVm) {
+    return (0, _common.ref)(prop, this, parentVm) ? (0, _common.req)(value) : true;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/requiredUnless.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(prop) {
+  return (0, _common.withParams)({
+    type: 'requiredUnless',
+    prop: prop
+  }, function (value, parentVm) {
+    return !(0, _common.ref)(prop, this, parentVm) ? (0, _common.req)(value) : true;
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/sameAs.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var _default = function _default(equalTo) {
+  return (0, _common.withParams)({
+    type: 'sameAs',
+    eq: equalTo
+  }, function (value, parentVm) {
+    return value === (0, _common.ref)(equalTo, this, parentVm);
+  });
+};
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/validators/url.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _common = __webpack_require__("./node_modules/vuelidate/lib/validators/common.js");
+
+var urlRegex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+
+var _default = (0, _common.regex)('url', urlRegex);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/withParams.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var withParams = Object({"MIX_PUSHER_APP_KEY":"","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).BUILD === 'web' ? __webpack_require__("./node_modules/vuelidate/lib/withParamsBrowser.js").withParams : __webpack_require__("./node_modules/vuelidate/lib/params.js").withParams;
+var _default = withParams;
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/vuelidate/lib/withParamsBrowser.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.withParams = void 0;
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var root = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+
+var fakeWithParams = function fakeWithParams(paramsOrClosure, maybeValidator) {
+  if (_typeof(paramsOrClosure) === 'object' && maybeValidator !== undefined) {
+    return maybeValidator;
+  }
+
+  return paramsOrClosure(function () {});
+};
+
+var withParams = root.vuelidate ? root.vuelidate.withParams : fakeWithParams;
+exports.withParams = withParams;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -4637,6 +6388,393 @@ if ("document" in self) {
     if (this._trigger) Object(__WEBPACK_IMPORTED_MODULE_0__NodeList_js__["a" /* default */])(this._trigger).off();
   }
 });
+
+/***/ }),
+
+/***/ "./resources/assets/js/utils/CRUD.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__alert__ = __webpack_require__("./resources/assets/js/utils/alert.js");
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+var crud = {
+    list: function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(URL) {
+            var debug = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+            var res, response;
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            res = [];
+
+                            if (debug) console.log('URL list', URL);
+                            _context.prev = 2;
+                            _context.next = 5;
+                            return axios.get(URL);
+
+                        case 5:
+                            response = _context.sent;
+
+                            if (debug) console.log('response list', response);
+                            res = response;
+                            // alert.msg('list',true);
+                            _context.next = 15;
+                            break;
+
+                        case 10:
+                            _context.prev = 10;
+                            _context.t0 = _context['catch'](2);
+
+                            console.error(_context.t0);
+                            res = false;
+                            __WEBPACK_IMPORTED_MODULE_1__alert__["a" /* default */].msg('list', false);
+
+                        case 15:
+                            return _context.abrupt('return', res);
+
+                        case 16:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, this, [[2, 10]]);
+        }));
+
+        function list(_x2) {
+            return _ref.apply(this, arguments);
+        }
+
+        return list;
+    }(),
+    create: function () {
+        var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2(URL, data) {
+            var debug = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+            var res, response;
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                while (1) {
+                    switch (_context2.prev = _context2.next) {
+                        case 0:
+                            res = [];
+
+                            if (debug) {
+                                console.log('URL create', URL);
+                                console.log('data create', data);
+                            }
+                            _context2.prev = 2;
+                            _context2.next = 5;
+                            return axios.post(URL, data);
+
+                        case 5:
+                            response = _context2.sent;
+
+                            if (debug) console.log('response create', response);
+                            res = response;
+                            __WEBPACK_IMPORTED_MODULE_1__alert__["a" /* default */].msg('create', true);
+                            _context2.next = 16;
+                            break;
+
+                        case 11:
+                            _context2.prev = 11;
+                            _context2.t0 = _context2['catch'](2);
+
+                            console.error(_context2.t0);
+                            res = false;
+                            __WEBPACK_IMPORTED_MODULE_1__alert__["a" /* default */].msg('create', false);
+
+                        case 16:
+                            return _context2.abrupt('return', res);
+
+                        case 17:
+                        case 'end':
+                            return _context2.stop();
+                    }
+                }
+            }, _callee2, this, [[2, 11]]);
+        }));
+
+        function create(_x4, _x5) {
+            return _ref2.apply(this, arguments);
+        }
+
+        return create;
+    }(),
+    update: function () {
+        var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3(URL, data) {
+            var debug = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+            var res, response;
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                while (1) {
+                    switch (_context3.prev = _context3.next) {
+                        case 0:
+                            res = [];
+
+                            if (debug) {
+                                console.log('URL update', URL);
+                                console.log('data update', data);
+                            }
+                            _context3.prev = 2;
+                            _context3.next = 5;
+                            return axios.put(URL, data);
+
+                        case 5:
+                            response = _context3.sent;
+
+                            if (debug) console.log('response update', response);
+                            res = response;
+                            __WEBPACK_IMPORTED_MODULE_1__alert__["a" /* default */].msg('edit', true);
+                            _context3.next = 16;
+                            break;
+
+                        case 11:
+                            _context3.prev = 11;
+                            _context3.t0 = _context3['catch'](2);
+
+                            console.error(_context3.t0);
+                            res = false;
+                            __WEBPACK_IMPORTED_MODULE_1__alert__["a" /* default */].msg('edit', false);
+
+                        case 16:
+                            return _context3.abrupt('return', res);
+
+                        case 17:
+                        case 'end':
+                            return _context3.stop();
+                    }
+                }
+            }, _callee3, this, [[2, 11]]);
+        }));
+
+        function update(_x7, _x8) {
+            return _ref3.apply(this, arguments);
+        }
+
+        return update;
+    }(),
+    destroy: function () {
+        var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee4(URL, id) {
+            var debug = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+            var res, response;
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee4$(_context4) {
+                while (1) {
+                    switch (_context4.prev = _context4.next) {
+                        case 0:
+                            res = [];
+
+                            if (debug) {
+                                console.log('URL destroy', URL);
+                                console.log('id destroy', id);
+                            }
+
+                            if (!confirm('Você tem certeza?')) {
+                                _context4.next = 17;
+                                break;
+                            }
+
+                            _context4.prev = 3;
+                            _context4.next = 6;
+                            return axios.delete(URL, id);
+
+                        case 6:
+                            response = _context4.sent;
+
+                            if (debug) console.log('response destroy', response);
+                            res = response;
+                            __WEBPACK_IMPORTED_MODULE_1__alert__["a" /* default */].msg('delete', true);
+                            _context4.next = 17;
+                            break;
+
+                        case 12:
+                            _context4.prev = 12;
+                            _context4.t0 = _context4['catch'](3);
+
+                            console.error(_context4.t0);
+                            res = false;
+                            __WEBPACK_IMPORTED_MODULE_1__alert__["a" /* default */].msg('delete', false);
+
+                        case 17:
+                            return _context4.abrupt('return', res);
+
+                        case 18:
+                        case 'end':
+                            return _context4.stop();
+                    }
+                }
+            }, _callee4, this, [[3, 12]]);
+        }));
+
+        function destroy(_x10, _x11) {
+            return _ref4.apply(this, arguments);
+        }
+
+        return destroy;
+    }(),
+    restore: function () {
+        var _ref5 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee5(URL, id) {
+            var debug = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+            var res, response;
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee5$(_context5) {
+                while (1) {
+                    switch (_context5.prev = _context5.next) {
+                        case 0:
+                            res = [];
+
+                            if (debug) {
+                                console.log('URL restore', URL);
+                                console.log('id restore', id);
+                            }
+                            _context5.prev = 2;
+                            _context5.next = 5;
+                            return axios.post(URL, id);
+
+                        case 5:
+                            response = _context5.sent;
+
+                            if (debug) console.log('response restore', response);
+                            res = response;
+                            __WEBPACK_IMPORTED_MODULE_1__alert__["a" /* default */].msg('restore', true);
+                            _context5.next = 16;
+                            break;
+
+                        case 11:
+                            _context5.prev = 11;
+                            _context5.t0 = _context5['catch'](2);
+
+                            console.error(_context5.t0);
+                            res = false;
+                            __WEBPACK_IMPORTED_MODULE_1__alert__["a" /* default */].msg('restore', false);
+
+                        case 16:
+                            return _context5.abrupt('return', res);
+
+                        case 17:
+                        case 'end':
+                            return _context5.stop();
+                    }
+                }
+            }, _callee5, this, [[2, 11]]);
+        }));
+
+        function restore(_x13, _x14) {
+            return _ref5.apply(this, arguments);
+        }
+
+        return restore;
+    }(),
+    forceDelete: function () {
+        var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee6(URL, id) {
+            var debug = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+            var res, response;
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
+                while (1) {
+                    switch (_context6.prev = _context6.next) {
+                        case 0:
+                            res = [];
+
+                            if (debug) {
+                                console.log('URL foreceDelete', URL);
+                                console.log('id foreceDelete', id);
+                            }
+
+                            if (!confirm('Você tem certeza?')) {
+                                _context6.next = 17;
+                                break;
+                            }
+
+                            _context6.prev = 3;
+                            _context6.next = 6;
+                            return axios.delete(URL, id);
+
+                        case 6:
+                            response = _context6.sent;
+
+                            if (debug) console.log('response foreceDelete', response);
+                            res = response;
+                            __WEBPACK_IMPORTED_MODULE_1__alert__["a" /* default */].msg('forceDelete', true);
+                            _context6.next = 17;
+                            break;
+
+                        case 12:
+                            _context6.prev = 12;
+                            _context6.t0 = _context6['catch'](3);
+
+                            console.error(_context6.t0);
+                            res = false;
+                            __WEBPACK_IMPORTED_MODULE_1__alert__["a" /* default */].msg('forceDelete', false);
+
+                        case 17:
+                            return _context6.abrupt('return', res);
+
+                        case 18:
+                        case 'end':
+                            return _context6.stop();
+                    }
+                }
+            }, _callee6, this, [[3, 12]]);
+        }));
+
+        function forceDelete(_x16, _x17) {
+            return _ref6.apply(this, arguments);
+        }
+
+        return forceDelete;
+    }()
+};
+/* harmony default export */ __webpack_exports__["a"] = (crud);
+
+/***/ }),
+
+/***/ "./resources/assets/js/utils/alert.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+
+var alert = {
+    // level: show, success, info, error
+    msg: function msg(type, happen) {
+        var fullWidth = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+        var levelMsg = this.getLevelMsg(happen);
+        console.log('levelMsg', levelMsg);
+        var msg = this.getWord(type, levelMsg.level);
+        __WEBPACK_IMPORTED_MODULE_0_vue___default.a.toasted[levelMsg.level](msg, {
+            theme: 'toasted-primary',
+            // iconPack: 'fontawesome',
+            // icon : { name: levelMsg.icon},
+            keepOnHover: true,
+            fullWidth: fullWidth,
+            position: "top-right",
+            duration: 5000
+        });
+    },
+    getLevelMsg: function getLevelMsg(happen) {
+        if (happen) return { level: 'success', icon: 'fa fa-check' };
+        return { level: 'error', icon: 'fa fa-exclamation-triangle' };
+    },
+    getWord: function getWord(type, level) {
+        var typeMsg = this.words[type] ? this.words[type] : type;
+        if (typeMsg !== type) return typeMsg[level];
+        return type;
+    },
+
+    words: {
+        list: { success: 'Carregado com sucesso', error: 'Erro ao carregar' },
+        create: { success: 'Inserido com sucesso', error: 'Erro ao inserir' },
+        edit: { success: 'Editado com sucesso', error: 'Erro ao editar' },
+        delete: { success: 'Apagadado com sucesso', error: 'Erro ao apagar' },
+        restore: { success: 'Restaurado com sucesso', error: 'Erro ao restaurar' },
+        forceDelete: { success: 'Apagado definitivamente com sucesso', error: 'Erro ao apagagar definitivamente' }
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = (alert);
 
 /***/ })
 

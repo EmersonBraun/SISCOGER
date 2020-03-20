@@ -821,11 +821,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     changeToToday: function changeToToday() {
       this.val = this.today();
-      this.value = this.val;
     },
     cleanVal: function cleanVal() {
       this.val = '';
-      this.value = this.val;
     },
     today: function today() {
       var today = new Date();
@@ -2745,17 +2743,17 @@ var render = function() {
           readonly: "",
           name: _vm.name
         },
-        domProps: { value: _vm.val || _vm.value },
+        domProps: { value: _vm.val },
         on: {
           click: _vm.inputClick,
           input: function($event) {
-            return this.$emit("input", $event.target.val)
+            return this.$emit("update:" + _vm.name, $event.target.val)
           }
         }
       }),
       _vm._v(" "),
       _c("div", { staticClass: "append" }, [
-        !_vm.value
+        !_vm.val
           ? _c(
               "span",
               { staticClass: "btne", on: { click: _vm.changeToToday } },
@@ -2763,7 +2761,7 @@ var render = function() {
             )
           : _vm._e(),
         _vm._v(" "),
-        _vm.clearButton && _vm.value
+        _vm.clearButton && _vm.val
           ? _c("span", { staticClass: "btne", on: { click: _vm.cleanVal } }, [
               _vm._v("   X   ")
             ])

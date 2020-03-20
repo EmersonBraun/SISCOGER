@@ -53,7 +53,8 @@ class ProcOutroRepository extends BaseRepository
         if($this->verTodasUnidades)
         {
             $registros = Cache::tags('proc_outro')->remember('todos_proc_outro', self::$expiration, function() {
-                return $this->model->all();
+                return $this->model
+                ->all();
             });
         }
         else 
@@ -71,13 +72,15 @@ class ProcOutroRepository extends BaseRepository
          if($this->verTodasUnidades)
         {
             $registros = Cache::tags('proc_outro')->remember('todos_proc_outro'.$ano, self::$expiration, function() use ($ano) {
-                return $this->model->where('sjd_ref_ano','=',$ano)->get();
+                return $this->model->where('sjd_ref_ano','=',$ano)
+                ->get();
             });
         }
         else 
         {
             $registros = Cache::tags('proc_outro')->remember('todos_proc_outro'.$ano.$this->unidade, self::$expiration, function() use ($ano) {
-                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)->get();
+                return $this->model->where('cdopm','like',$this->unidade.'%')->where('sjd_ref_ano','=',$ano)
+                ->get();
             });
         }
         return $registros;

@@ -52,10 +52,9 @@
             </div>
         </div>
         <div class="btn-group col-md-8 col-xs-12 ">
-            <a class="btn @if($page == 'index') btn-success @else btn-default @endif col-md-6 col-xs-6"
-                href="{{route('apresentacao.index',['ano' => $ano])}}">Consulta</a>
-            <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-6 col-xs-6"
-                href="{{route('apresentacao.apagados',['ano' => $ano])}}">Apagados</a>
+            <a class="btn @if($page == 'previstas') btn-success @else btn-default @endif col-md-4 col-xs-4" href="{{route('apresentacao.previstas')}}">Previstas</a>
+            <a class="btn @if($page == 'index') btn-success @else btn-default @endif col-md-4 col-xs-4" href="{{route('apresentacao.index',['ano' => $ano])}}">Consulta</a>
+            <a class="btn @if($page == 'apagados') btn-success @else btn-default @endif col-md-4 col-xs-4" href="{{route('apresentacao.apagados',['ano' => $ano])}}">Apagados</a>
         </div>
         @if(hasPermissionTo('criar-apresentacao'))
         <div class="col-md-4 col-xs-12">

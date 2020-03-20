@@ -37,6 +37,17 @@ class OPMRepository
         Cache::tags('opm')->flush();
     }
 
+    public function getAll()
+    {
+        try {
+            return $this->model->all();
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->model2->all();
+        }
+    
+    }
+
     public function opmIntermediaria($cdopm)
     {
         $opms_intermediarias = [

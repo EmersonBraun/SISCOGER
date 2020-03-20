@@ -37,8 +37,7 @@ class SessionService
 
     public function isAdmin()
     {
-        $data = session('roles');
-        return in_array('admin',$data->toArray());
+        return in_array('admin',session('roles')->toArray());
     }
 }
 

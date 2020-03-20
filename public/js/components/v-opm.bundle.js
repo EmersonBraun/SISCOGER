@@ -194,32 +194,12 @@ var render = function() {
     _c(
       "select",
       {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.cdopm,
-            expression: "cdopm"
-          }
-        ],
         staticClass: "form-control",
         attrs: { name: _vm.name },
+        domProps: { value: _vm.cdopm },
         on: {
           click: function($event) {
-            return _vm.$emit("input", $event.target.value)
-          },
-          change: function($event) {
-            var $$selectedVal = Array.prototype.filter
-              .call($event.target.options, function(o) {
-                return o.selected
-              })
-              .map(function(o) {
-                var val = "_value" in o ? o._value : o.value
-                return val
-              })
-            _vm.cdopm = $event.target.multiple
-              ? $$selectedVal
-              : $$selectedVal[0]
+            return _vm.$emit("update:cdopm", $event.target.value)
           }
         }
       },

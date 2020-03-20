@@ -122,6 +122,7 @@ Route::group(['as'=>'fileupload.','prefix' =>'fileupload'],function(){
 Route::group(['as'=>'ligacao.','prefix' =>'ligacao'],function(){
     Route::get('list/{proc}/{ref}/{ano?}',['as' =>'index.refano','uses'=>'Subform\LigacaoController@list']);
     Route::post('store',['as' =>'store','uses'=>'Subform\LigacaoController@store']);
+    Route::post('update/{id}',['as' =>'update','uses'=>'Subform\LigacaoController@update']);
     Route::delete('destroy/{id}',['as' =>'destroy','uses'=>'Subform\LigacaoController@destroy']);
 });
 // rotas componente SubForm/Acusado.vue

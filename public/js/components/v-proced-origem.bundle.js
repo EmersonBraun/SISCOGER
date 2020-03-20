@@ -138,6 +138,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -155,17 +161,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var _ref;
 
         return _ref = {
+            add: false,
             proc: '',
             ref: '',
             ano: '',
             opm: '',
             action: 'editar',
             procedimentos: []
-        }, _defineProperty(_ref, 'action', 'proc'), _defineProperty(_ref, 'params', ''), _defineProperty(_ref, 'finded', false), _defineProperty(_ref, 'counter', 0), _defineProperty(_ref, 'id_proc', ''), _defineProperty(_ref, 'origin', ''), _defineProperty(_ref, 'only', false), _ref;
+        }, _defineProperty(_ref, 'action', 'proc'), _defineProperty(_ref, 'params', ''), _defineProperty(_ref, 'finded', false), _defineProperty(_ref, 'counter', 0), _defineProperty(_ref, 'id_proc', ''), _defineProperty(_ref, 'origin', ''), _defineProperty(_ref, 'only', false), _defineProperty(_ref, 'toEdit', ''), _defineProperty(_ref, 'edit_proc', this.idp), _ref;
     },
 
     // depois de montado
     mounted: function mounted() {
+        this.verifyOnly;
         this.listProc();
         this.verifyOnly();
     },
@@ -216,6 +224,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _this2.erro = "Erro ao enviar arquivo";
             });
         },
+        replaceProcedOrigem: function replaceProcedOrigem(procedimento) {
+            console.table(procedimento);
+            this.proc = procedimento.proc, this.ref = procedimento.ref, this.ano = procedimento.ano, this.opm = procedimento.opm, this.toEdit = procedimento.id_ligacao, this.add = true;
+        },
+        editProcedOrigem: function editProcedOrigem() {
+            var urledit = this.$root.baseUrl + 'api/ligacao/update/' + this.toEdit;
+
+            var formData = document.getElementById('formProcDestino');
+            var data = new FormData(formData);
+
+            axios.post(urledit, data).then(this.listProc).catch(function (error) {
+                return console.log(error);
+            });
+        },
 
         // listagem dos arquivos existentes
         listProc: function listProc() {
@@ -259,7 +281,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.ano = '';
             this.opm = '';
         },
-        clear: function clear() {
+        transation: function transation(happen, type) {
+            var msg = this.words(type);
+            if (happen) {
+                // se deu certo
+                this.listProc();
+                this.$root.msg(msg.success, 'success');
+                this.clear(false);
+            } else {
+                // se falhou
+                this.$root.msg(msg.fail, 'danger');
+            }
+        },
+        words: function words(type) {
+            if (type == 'create') return { success: 'Inserido com sucesso', fail: 'Erro ao inserir' };
+            if (type == 'edit') return { success: 'Editado com sucesso', fail: 'Erro ao editar' };
+            if (type == 'delete') return { success: 'Apagado com sucesso', fail: 'Erro ao apagar' };
+        },
+        clear: function clear(add) {
+            this.add = add;
             this.proc = '';
             this.ref = '';
             this.ano = '';
@@ -285,7 +325,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -682,24 +722,48 @@ var render = function() {
                             "div",
                             { staticClass: "col-lg-1 col-md-1 col-xs 1" },
                             [
-                              _c("label", [_vm._v("Adicionar")]),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "btn btn-success btn-block",
-                                  attrs: { disabled: !_vm.finded },
-                                  on: { click: _vm.createProc }
-                                },
-                                [
-                                  _c("i", {
-                                    staticClass: "fa fa-plus",
-                                    staticStyle: { color: "white" }
-                                  })
-                                ]
-                              )
-                            ]
+                              _vm.toEdit && !_vm.show
+                                ? [
+                                    _c("label", [_vm._v("Editar")]),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-block",
+                                        on: { click: _vm.editProcedOrigem }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: { color: "white" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                : [
+                                    _c("label", [_vm._v("Adicionar")]),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "btn btn-success btn-block",
+                                        attrs: { disabled: !_vm.finded },
+                                        on: { click: _vm.createProc }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-plus",
+                                          staticStyle: { color: "white" }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                            ],
+                            2
                           )
                         ]
                       )
@@ -786,7 +850,7 @@ var render = function() {
                                 _c(
                                   "a",
                                   {
-                                    staticClass: "btn btn-primary",
+                                    staticClass: "btn btn-success",
                                     staticStyle: { color: "white" },
                                     attrs: {
                                       type: "button",
@@ -794,15 +858,13 @@ var render = function() {
                                     },
                                     on: {
                                       click: function($event) {
-                                        return _vm.showProc(
-                                          procedimento.origem_proc,
-                                          procedimento.origem_sjd_ref,
-                                          procedimento.origem_sjd_ref_ano
+                                        return _vm.replaceProcedOrigem(
+                                          procedimento
                                         )
                                       }
                                     }
                                   },
-                                  [_c("i", { staticClass: "fa fa-eye" })]
+                                  [_c("i", { staticClass: "fa fa-edit" })]
                                 ),
                                 _vm._v(" "),
                                 _vm.canDelete

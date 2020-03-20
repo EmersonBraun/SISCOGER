@@ -3,13 +3,13 @@
         <div class="input-group caixa">
             <!-- <the-mask mask="##/##/####" /> -->
             <input class="form-control" :class="{'with-reset-button': clearButton}" style="width: 100%;" type="text" :placeholder="placeholder" readonly
-                :value="val || value"
+                :value="val"
                 :name="name"
                 @click="inputClick"
-                @input="this.$emit('input',$event.target.val)" />
+                @input="this.$emit(`update:${name}`,$event.target.val)" />
             <div class="append">
-                <span v-if="!value" class="btne" @click="changeToToday">Hoje&nbsp;</span>
-                <span v-if="clearButton && value" class="btne" @click="cleanVal">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>
+                <span v-if="!val" class="btne" @click="changeToToday">Hoje&nbsp;</span>
+                <span v-if="clearButton && val" class="btne" @click="cleanVal">&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;</span>
             </div>
         </div>
         <div class="datepicker-popup" v-show="displayDayView">
@@ -126,11 +126,9 @@ export default {
     },
     changeToToday(){
         this.val = this.today()
-        this.value = this.val
     },
     cleanVal(){
         this.val = ''
-        this.value = this.val
     },
     today() {
         let today = new Date();

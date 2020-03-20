@@ -86,7 +86,6 @@ class DependenteRepository extends BaseRepository
     public function dependentes($rg)
     {
         $dependentes = $this->ativaPM($rg);
-        
         if(is_null($dependentes))
         {
             $dependentes = $this->inativoPM($rg);

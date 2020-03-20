@@ -980,6 +980,8 @@ return [
 
     // ---- APRESENTAÇÃO ---------------------------------------------------------------------------------------
 
+    'tempo_alerta_apresentacao' => 7, // quantidade de dias para ficar em estado de alerta por causa da apresentação
+
     'apresentacaoClassificacaoSigilo' =>
     [
         "1" => "Publico",

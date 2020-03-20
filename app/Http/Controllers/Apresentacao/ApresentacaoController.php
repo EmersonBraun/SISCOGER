@@ -24,6 +24,12 @@ class ApresentacaoController extends Controller
     }
 
 
+    public function previstas()
+    {
+        $registros = $this->repository->previstas();
+        return view('apresentacao.apresentacao.list.previstas', compact('registros'));
+    }
+
     public function index($ano="",$mes="", $cdopm="")
     {
     
